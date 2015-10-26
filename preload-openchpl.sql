@@ -1,6 +1,6 @@
 insert into openchpl.practice_type (name, description, last_modified_user) values ('Ambulatory', 'Ambulatory', -1), ('Inpatient', 'Inpatient', -1);
 insert into openchpl.product_classification_type (name, description, last_modified_user) values ('Modular EHR', 'Modular EHR', -1), ('Complete EHR', 'Complete EHR', -1);
-insert into openchpl.certification_edition (year, last_modified_user) values (2011, -1), (2014,-1);
+insert into openchpl.certification_edition (year, last_modified_user) values (2011, -1), (2014, -1), (2015, -1);
 insert into openchpl.cqm_criterion_type (name, description, last_modified_user) values ('Ambulatory', 'Ambulatory', -1), ('Inpatient','Inpatient',-1);
 insert into openchpl.certification_body (name, last_modified_user) values ('InfoGard', -1), ('CCHIT', -1), ('Drummond Group Inc.', -1), ('SLI Global', -1), ('Surescripts LLC', -1), ('ICSA Labs', -1), ('Pending', -1);
 insert into openchpl.event_type (name, description, last_modified_user) values ('Certification','Product is certified', -1), ('Active', 'Product moved from Pending to Active', -1);
@@ -8,111 +8,170 @@ insert into openchpl.cqm_version (version, last_modified_user) values ('v0', -1)
 insert into openchpl.certification_status (certification_status, last_modified_user) values ('Active', -1), ('Retired', -1), ('Withdrawn', -1), ('Decertified', -1), ('Pending', -1);
 
 INSERT INTO openchpl.certification_criterion (certification_edition_id, number, title, last_modified_user) VALUES
-(1, '170.302(a)', 'Drug-drug, drug-allergy', -1),
-(1, '170.302(b)', 'Drug formulary checks', -1),
-(1, '170.302(c)', 'Maintain up-to-date prob', -1),
-(1, '170.302(d)', 'Maintain active med list', -1),
-(1, '170.302(e)', 'Maintain active allergy list', -1),
-(1, '170.302(f)', 'Record and Chart Vital Signs', -1),
-(1, '170.302(f)(1)', 'Record and Chart Vital', -1),
-(1, '170.302(f)(2)', 'Calculate BMI', -1),
-(1, '170.302(f)(3)', 'Plot and display growth', -1),
-(1, '170.302(g)', 'Smoking status', -1),
-(1, '170.302(h)', 'Incorporate lab test results', -1),
-(1, '170.302(i)', 'Generate patient lists', -1),
-(1, '170.302(j)', 'Medication Reconciliation', -1),
-(1, '170.302(k)', 'Submission to immun', -1),
-(1, '170.302(l)', 'Public Health Surveillance', -1),
-(1, '170.302(m)', 'Patient Specific Education', -1),
-(1, '170.302(n)', 'Automated measure calc', -1),
-(1, '170.302(o)', 'Access Control', -1),
-(1, '170.302(p)', 'Emergency Access', -1),
-(1, '170.302(q)', 'Automatic log-off', -1),
-(1, '170.302(r)', 'Audit Log', -1),
-(1, '170.302(s)', 'Integrity', -1),
-(1, '170.302(t)', 'Authentication', -1),
-(1, '170.302(u)', 'General Encryption', -1),
-(1, '170.302(v)', 'Encryption when exchanging', -1),
-(1, '170.302(w)', 'Accounting of disclosures', -1),
-(1, '170.304(a)', 'Computerized provider OE', -1),
-(1, '170.304(b)', 'Electronic Prescribing', -1),
-(1, '170.304(c)', 'Record Demographics', -1),
-(1, '170.304(d)', 'Patient Reminders', -1),
-(1, '170.304(e)', 'Clinical Decision Support', -1),
-(1, '170.304(f)', 'Electronic Copy of Health', -1),
-(1, '170.304(g)', 'Timely Access', -1),
-(1, '170.304(h)', 'Clinical Summaries', -1),
-(1, '170.304(i)', 'Exchange Clinical Info', -1),
-(1, '170.304(j)', 'Calculate and Submit Clinical', -1),
-(1, '170.306(a)', 'Computerized Provider OE', -1),
-(1, '170.306(b)', 'Record Demographics', -1),
-(1, '170.306(c)', 'Clinical Decision Support', -1),
-(1, '170.306(d)', 'Electronic copy of Health Inf', -1),
-(1, '170.306(d)(1)', 'Electronic copy of health', -1),
-(1, '170.306(d)(2)', 'E-copy of health info', -1),
-(1, '170.306(e)', 'Electronic copy of discharge', -1),
-(1, '170.306(f)', 'Exchange Clinical Info', -1),
-(1, '170.306(g)', 'Reportable Lab Results', -1),
-(1, '170.306(h)', 'Advance Directives', -1),
-(1, '170.306(i)', 'Calculate and Submit Clinical', -1),
-(2, '170.314(a)(1)', 'Computerized provider OE', -1),
-(2, '170.314(a)(2)', 'Drug-drug, drug-allergy', -1),
-(2, '170.314(a)(3)', 'Demographics', -1),
-(2, '170.314(a)(4)', 'Vital signs, body mass ind', -1),
-(2, '170.314(a)(5)', 'Problem List', -1),
-(2, '170.314(a)(6)', 'Medication List', -1),
-(2, '170.314(a)(7)', 'Medication Allergy List', -1),
-(2, '170.314(a)(8)', 'Clinical Decision Support', -1),
-(2, '170.314(a)(9)', 'Electronic Notes', -1),
-(2, '170.314(a)(10)', 'Drug-Formulary Checks', -1),
-(2, '170.314(a)(11)', 'Smoking Status', -1),
-(2, '170.314(a)(12)', 'Image Results', -1),
-(2, '170.314(a)(13)', 'Family Health History', -1),
-(2, '170.314(a)(14)', 'Patient List Creation', -1),
-(2, '170.314(a)(15)', 'Patient-Specific Educatio', -1),
-(2, '170.314(a)(16)', 'Electronic Medication Adm', -1),
-(2, '170.314(a)(17)', 'Advance Directives', -1),
-(2, '170.314(a)(18)', 'Cmp pvdr order entry-med', -1),
-(2, '170.314(a)(19)', 'Cmp pvdr order entry-lab', -1),
-(2, '170.314(a)(20)', 'Cmp pvdr order entry-DI', -1),
-(2, '170.314(b)(1)', 'Transitions of Care - rece', -1),
-(2, '170.314(b)(2)', 'Transitions of Care - crea', -1),
-(2, '170.314(b)(3)', 'Electronic Prescribing', -1),
-(2, '170.314(b)(4)', 'Clinical Information Recon', -1),
-(2, '170.314(b)(5)', 'Incorporate Laboratory Tes', -1),
-(2, '170.314(b)(6)', 'Transmission of Electronic', -1),
-(2, '170.314(b)(7)', 'Data Portability', -1),
-(2, '170.314(b)(8)', 'Transitions of care', -1),
-(2, '170.314(b)(9)', 'Clinic info recon and inc', -1),
-(2, '170.314(c)(1)', 'Clinical Quality Measures', -1),
-(2, '170.314(c)(2)', 'Clinical Quality Measures', -1),
-(2, '170.314(c)(3)', 'Clinical Quality Measures', -1),
-(2, '170.314(d)(1)', 'Authentication, access con', -1),
-(2, '170.314(d)(2)', 'Auditable Events and Tampe', -1),
-(2, '170.314(d)(3)', 'Audit Report(s)', -1),
-(2, '170.314(d)(4)', 'Amendments', -1),
-(2, '170.314(d)(5)', 'Automatic log-off', -1),
-(2, '170.314(d)(6)', 'Emergency access', -1),
-(2, '170.314(d)(7)', 'End-User Device Encryption', -1),
-(2, '170.314(d)(8)', 'Integrity', -1),
-(2, '170.314(d)(9)', 'Accounting of Disclosures', -1),
-(2, '170.314(e)(1)', 'View, Download, and Transm', -1),
-(2, '170.314(e)(2)', 'Clinical Summary', -1),
-(2, '170.314(e)(3)', 'Secure Messaging', -1),
-(2, '170.314(f)(1)', 'Immunization Information', -1),
-(2, '170.314(f)(2)', 'Transmission to Immunizati', -1),
-(2, '170.314(f)(3)', 'Transmission to Public Hea', -1),
-(2, '170.314(f)(4)', 'Transmission of Reportable', -1),
-(2, '170.314(f)(5)', 'Cancer Case Information', -1),
-(2, '170.314(f)(6)', 'Transmission to Cancer Reg', -1),
-(2, '170.314(f)(7)', 'Transm to agencies-syndrom', -1),
-(2, '170.314(g)(1)', 'Automated Numerator Record', -1),
-(2, '170.314(g)(2)', 'Automated Measure Calculat', -1),
-(2, '170.314(g)(3)', 'Safety-Enhanced Design', -1),
-(2, '170.314(g)(4)', 'Quality Management System', -1),
-(2, '170.314(h)(1)', 'App Stmt Sec Hlth Trans', -1),
-(2, '170.314(h)(2)', 'Trnsprt Direct Msg', -1),
-(2, '170.314(h)(3)', 'SOAP Trnsprt Direct', -1);
+(3, '170.315 (a)(1)', 'Computerized Provider Order Entry (CPOE) - Medications', -1),
+(3, '170.315 (a)(2)', 'CPOE - Laboratory', -1),
+(3, '170.315 (a)(3)', 'CPOE - Diagnostic Imaging', -1),
+(3, '170.315 (a)(4)', 'Drug-Drug, Drug-Allergy Interaction Checks for CPOE', -1),
+(3, '170.315 (a)(5)', 'Demographics', -1),
+(3, '170.315 (a)(6)', 'Problem List', -1),
+(3, '170.315 (a)(7)', 'Medication List', -1),
+(3, '170.315 (a)(8)', 'Medication Allergy List', -1),
+(3, '170.315 (a)(9)', 'Clinical Decision Support', -1),
+(3, '170.315 (a)(10)', 'Drug-Formulary and Preferred Drug List Checks', -1),
+(3, '170.315 (a)(11)', 'Smoking Status', -1),
+(3, '170.315 (a)(12)', 'Family Health History', -1),
+(3, '170.315 (a)(13)', 'Patient-Specific Education Resources', -1),
+(3, '170.315 (a)(14)', 'Implantable Device List', -1),
+(3, '170.315 (a)(15)', 'Social, Psychological, and Behavioral Determinants Data', -1),
+(3, '170.315 (b)(1)', 'Transitions of Care', -1),
+(3, '170.315 (b)(2)', 'Clinical Information Reconciliation and Incorporation', -1),
+(3, '170.315 (b)(3)', 'Electronic Prescribing', -1),
+(3, '170.315 (b)(4)', 'Common Clinical Data Set Summary Record - Create', -1),
+(3, '170.315 (b)(5)', 'Common Clinical Data Set Summary Record - Receive', -1),
+(3, '170.315 (b)(6)', 'Data Export', -1),
+(3, '170.315 (b)(7)', 'Data Segmentation for Privacy - Send', -1),
+(3, '170.315 (b)(8)', 'Data Segmentation for Privacy - Receive', -1),
+(3, '170.315 (b)(9)', 'Care Plan', -1),
+(3, '170.315 (c)(1)', 'Clinical Quality Measures - Record and Export', -1),
+(3, '170.315 (c)(2)', 'Clinical Quality Measures - Import and Calculate', -1),
+(3, '170.315 (c)(3)', 'Clinical Quality Measures - Report', -1),
+(3, '170.315 (c)(4)', 'Clinical Quality Measures - Filter', -1),
+(3, '170.315 (d)(1)', 'Authentication, Access Control, Authorization', -1),
+(3, '170.315 (d)(2)', 'Auditable Events and Tamper-Resistance', -1),
+(3, '170.315 (d)(3)', 'Audit Report(s)', -1),
+(3, '170.315 (d)(4)', 'Amendments', -1),
+(3, '170.315 (d)(5)', 'Automatic Access Time-out', -1),
+(3, '170.315 (d)(6)', 'Emergency Access', -1),
+(3, '170.315 (d)(7)', 'End-User Device Encryption', -1),
+(3, '170.315 (d)(8)', 'Integrity', -1),
+(3, '170.315 (d)(9)', 'Trusted Connection', -1),
+(3, '170.315 (d)(10)', 'Auditing Actions on Health Information', -1),
+(3, '170.315 (d)(11)', 'Accounting of Disclosures', -1),
+(3, '170.315 (e)(1)', 'View, Download, and Transmit to 3rd Party', -1),
+(3, '170.315 (e)(2)', 'Secure Messaging', -1),
+(3, '170.315 (e)(3)', 'Patient Health Information Capture', -1),
+(3, '170.315 (f)(1)', 'Transmission to Immunization Registries', -1),
+(3, '170.315 (f)(2)', 'Transmission to Public Health Agencies - Syndromic Surveillance', -1),
+(3, '170.315 (f)(3)', 'Transmission to Public Health Agencies - Reportable Laboratory Tests and Values/Results', -1),
+(3, '170.315 (f)(4)', 'Transmission to Cancer Registries', -1),
+(3, '170.315 (f)(5)', 'Transmission to Public Health Agencies - Electronic Case Reporting', -1),
+(3, '170.315 (f)(6)', 'Transmission to Public Health Agencies - Antimicrobial Use and Resistance Reporting', -1),
+(3, '170.315 (f)(7)', 'Transmission to Public Health Agencies - Health Care Surveys', -1),
+(3, '170.315 (g)(1)', 'Automated Numerator Recording', -1),
+(3, '170.315 (g)(2)', 'Automated Measure Calculation', -1),
+(3, '170.315 (g)(3)', 'Safety-Enhanced Design', -1),
+(3, '170.315 (g)(4)', 'Quality Management System', -1),
+(3, '170.315 (g)(5)', 'Accessibility-Centered Design', -1),
+(3, '170.315 (g)(6)', 'Consolidated CDA Creation', -1),
+(3, '170.315 (g)(7)', 'Application Access - Patient Selection', -1),
+(3, '170.315 (g)(8)', 'Application Access - Data Category Request', -1),
+(3, '170.315 (g)(9)', 'Application Access - All Data Request', -1),
+(3, '170.315 (h)(1)', 'Direct Project', -1),
+(3, '170.315 (h)(2)', 'Direct Project, Edge Protocol, and XDR/XDM', -1),
+(2, '170.314 (a)(1)', 'Computerized provider order entry', -1),
+(2, '170.314 (a)(2)', 'Drug-drug, drug-allergy interactions checks', -1),
+(2, '170.314 (a)(3)', 'Demographics', -1),
+(2, '170.314 (a)(4)', 'Vital signs, body mass index, and growth Charts', -1),
+(2, '170.314 (a)(5)', 'Problem list', -1),
+(2, '170.314 (a)(6)', 'Medication list', -1),
+(2, '170.314 (a)(7)', 'Medication allergy list', -1),
+(2, '170.314 (a)(8)', 'Clinical decision support', -1),
+(2, '170.314 (a)(9)', 'Electronic notes', -1),
+(2, '170.314 (a)(10)', 'Drug formulary checks', -1),
+(2, '170.314 (a)(11)', 'Smoking status', -1),
+(2, '170.314 (a)(12)', 'Image results', -1),
+(2, '170.314 (a)(13)', 'Family health history', -1),
+(2, '170.314 (a)(14)', 'Patient list creation', -1),
+(2, '170.314 (a)(15)', 'Patient-specific education resources', -1),
+(2, '170.314 (a)(16)', 'Inpatient setting only - electronic medication administration record', -1),
+(2, '170.314 (a)(17)', 'Advance directives', -1),
+(2, '170.314 (a)(18)', 'Optional - computerized provider order entry - medications', -1),
+(2, '170.314 (a)(19)', 'Optional - computerized provider order entry - laboratory', -1),
+(2, '170.314 (a)(20)', 'Optional - computerized provider order entry - diagnostic imaging', -1),
+(2, '170.314 (b)(1)', 'Transitions of care - receive, display and incorporate transition of care/referral summaries', -1),
+(2, '170.314 (b)(2)', 'Transitions of care - create and transmit transition of care/referral summaries', -1),
+(2, '170.314 (b)(3)', 'Electronic prescribing', -1),
+(2, '170.314 (b)(4)', 'Clinical information reconciliation', -1),
+(2, '170.314 (b)(5)(A)', 'Incorporate laboratory tests and values/results', -1),
+(2, '170.314 (b)(5)(B)', 'Incorporate laboratory tests and values/results', -1),
+(2, '170.314 (b)(6)', 'Inpatient setting only - transmission of electronic laboratory tests and values/results to ambulatory providers', -1),
+(2, '170.314 (b)(7)', 'Data portability', -1),
+(2, '170.314 (b)(8)', 'Optional - transitions of care', -1),
+(2, '170.314 (b)(9)', 'Optional - clinical information reconciliation and incorporation (CIRI)', -1),
+(2, '170.314 (c)(1)', 'Clinical quality measures - capture and export', -1),
+(2, '170.314 (c)(2)', 'Clinical quality measures - import and calculate', -1),
+(2, '170.314 (c)(3)', 'Clinical quality measures - electronic submission', -1),
+(2, '170.314 (d)(1)', 'Authentication, access, control, and authorization', -1),
+(2, '170.314 (d)(2)', 'Auditable events and tamper-resistance', -1),
+(2, '170.314 (d)(3)', 'Audit report(s)', -1),
+(2, '170.314 (d)(4)', 'Amendments', -1),
+(2, '170.314 (d)(5)', 'Automatic log-off', -1),
+(2, '170.314 (d)(6)', 'Emergency access', -1),
+(2, '170.314 (d)(7)', 'End-user device encryption', -1),
+(2, '170.314 (d)(8)', 'Integrity', -1),
+(2, '170.314 (d)(9)', 'Optional - accounting of disclosures', -1),
+(2, '170.314 (e)(1)', 'View, download, and transmit to a 3rd party with edge protocol testing', -1),
+(2, '170.314 (e)(2)', 'Ambulatory setting only -clinical summary', -1),
+(2, '170.314 (e)(3)', 'Ambulatory setting only - secure messaging', -1),
+(2, '170.314 (f)(1)', 'Immunization information', -1),
+(2, '170.314 (f)(2)', 'Transmission to immunization registries', -1),
+(2, '170.314 (f)(3)', 'Transmission to public health agencies - syndromic surveillance', -1),
+(2, '170.314 (f)(4)', 'Inpatient setting only - transmission of reportable laboratory tests and values/results', -1),
+(2, '170.314 (f)(5)', 'Optional - ambulatory setting only - cancer case information', -1),
+(2, '170.314 (f)(6)', 'Optional - ambulatory setting only - transmission to cancer registries', -1),
+(2, '170.314 (f)(7)', 'Optional - ambulatory setting only - transmission to public health agencies - syndromic surveillance', -1),
+(2, '170.314 (g)(1)', 'Automated numerator recording', -1),
+(2, '170.314 (g)(2)', 'Automated measure calculation', -1),
+(2, '170.314 (g)(3)', 'Safety-enhanced design', -1),
+(2, '170.314 (g)(4)', 'Quality management system', -1),
+(2, '170.314 (h)(1)', 'Optional - Transmit - Applicability Statement for Secure Health', -1),
+(2, '170.314 (h)(2)', 'Optional - Transmit - Applicability Statement for Secure Health Transport and XDR/XDM for Direct Messaging', -1),
+(2, '170.314 (h)(3)', 'Optional - Transmit - SOAP Transport and Security Specification and XDR/XDM for Direct Messaging', -1),
+(1, '170.302 (a)', 'Drug-drug, drug-allergy interaction checks', -1),
+(1, '170.302 (b)', 'Drug formulary checks', -1),
+(1, '170.302 (c)', 'Maintain up-to-date problem list', -1),
+(1, '170.302 (d)', 'Maintain active medication list', -1),
+(1, '170.302 (e)', 'Maintain active medication allergy list', -1),
+(1, '170.302 (f)(1)', 'Vital signs', -1),
+(1, '170.302 (f)(2)', 'Calculate body mass index', -1),
+(1, '170.302 (f)(3)', 'Plot and display growth charts', -1),
+(1, '170.302 (g)', 'Smoking status', -1),
+(1, '170.302 (h)', 'Incorporate laboratory test results', -1),
+(1, '170.302 (i)', 'Generate patient lists', -1),
+(1, '170.302 (j)', 'Medication reconciliation', -1),
+(1, '170.302 (k)', 'Submission to immunization registries', -1),
+(1, '170.302 (l)', 'Public health surveillance', -1),
+(1, '170.302 (m)', 'Patient specific education resources', -1),
+(1, '170.302 (n)', 'Automated measure calculation', -1),
+(1, '170.302 (o)', 'Access control', -1),
+(1, '170.302 (p)', 'Emergency access', -1),
+(1, '170.302 (q)', 'Automatic log-off', -1),
+(1, '170.302 (r)', 'Audit log', -1),
+(1, '170.302 (s)', 'Integrity', -1),
+(1, '170.302 (t)', 'Authentication', -1),
+(1, '170.302 (u)', 'General encryption', -1),
+(1, '170.302 (v)', 'Encryption when exchanging electronic health information', -1),
+(1, '170.302 (w)', 'Accounting of disclosures (optional)', -1),
+(1, '170.304 (a)', 'Computerized provider order entry', -1),
+(1, '170.304 (b)', 'Electronic Prescribing', -1),
+(1, '170.304 (c)', 'Record demographics', -1),
+(1, '170.304 (d)', 'Patient reminders', -1),
+(1, '170.304 (e)', 'Clinical decision support', -1),
+(1, '170.304 (f)', 'Electronic copy of health information', -1),
+(1, '170.304 (g)', 'Timely access', -1),
+(1, '170.304 (h)', 'Clinical summaries', -1),
+(1, '170.304 (i)', 'Exchange clinical information and patient summary record', -1),
+(1, '170.304 (j)', 'Calculate and submit clinical quality measures', -1),
+(1, '170.306 (a)', 'Computerized provider order entry', -1),
+(1, '170.306 (b)', 'Record demographics', -1),
+(1, '170.306 (c)', 'Clinical decision support', -1),
+(1, '170.306 (d)(1)', 'Electronic copy of health information', -1),
+(1, '170.306 (d)(2)', 'Electronic copy of health information', -1),
+(1, '170.306 (e)', 'Electronic copy of discharge instructions', -1),
+(1, '170.306 (f)', 'Exchange clinical information and patient summary record', -1),
+(1, '170.306 (g)', 'Reportable lab results', -1),
+(1, '170.306 (h)', 'Advance directives', -1),
+(1, '170.306 (i)', 'Calculate and submit clinical quality measures', -1);
 
 INSERT INTO openchpl.cqm_criterion (cqm_criterion_type_id, number, title, last_modified_user) VALUES
 (1, 'NQF 0001(A)', 'Asthma Assessment', -1),
@@ -270,8 +329,6 @@ INSERT INTO openchpl.cqm_criterion (cqm_criterion_type_id, cqm_version_id, numbe
 (1, 1, 'CMS91', 'Stroke-4 Ischemic stroke - Throm', -1), (1, 2, 'CMS91', 'Stroke-4 Ischemic stroke - Throm', -1), (1, 3, 'CMS91', 'Stroke-4 Ischemic stroke - Throm', -1), (1, 4, 'CMS91', 'Stroke-4 Ischemic stroke - Throm', -1), (1, 5, 'CMS91', 'Stroke-4 Ischemic stroke - Throm', -1),
 (1, 1, 'CMS9V1', 'Exclusive Breast Milk Feeding', -1), (1, 2, 'CMS9V1', 'Exclusive Breast Milk Feeding', -1), (1, 3, 'CMS9V1', 'Exclusive Breast Milk Feeding', -1), (1, 4, 'CMS9V1', 'Exclusive Breast Milk Feeding', -1), (1, 5, 'CMS9V1', 'Exclusive Breast Milk Feeding', -1);
 
-
-
 INSERT INTO openchpl.activity_concept (activity_concept_id, concept, last_modified_user) VALUES
 (1, 'CERTIFIED_PRODUCT', -1),
 (2, 'PRODUCT', -1),
@@ -281,9 +338,8 @@ INSERT INTO openchpl.activity_concept (activity_concept_id, concept, last_modifi
 (6, 'CERTIFICATION_BODY', -1),
 (7, 'VERSION', -1),
 (8, 'USER', -1),
-(9, 'ATL', -1);
+(9, 'ATL', -1),
 (10, 'PENDING_CERTIFIED_PRODUCT', -1);
-
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -295,7 +351,6 @@ SET search_path = openchpl, pg_catalog;
 
 INSERT INTO acl_class VALUES (1, 'gov.healthit.chpl.auth.dto.UserDTO'), (2, 'gov.healthit.chpl.dto.CertificationBodyDTO'),
 							 (3, 'gov.healthit.chpl.dto.PendingCertifiedProductDTO');
-							 
 SELECT pg_catalog.setval('acl_class_id_seq', 3, true);
 
 --inserts users that can have acls
@@ -308,10 +363,10 @@ INSERT INTO acl_sid VALUES
 (-7, true, 'surescripts'),
 (-8, true, 'icsa'),
 (-9, true, 'pending'),
-(1, true, 'scott'); 
+(1, true, 'scott');
 
 --insert user objects
-INSERT INTO acl_object_identity VALUES 
+INSERT INTO acl_object_identity VALUES
 (-2, 1, -2, NULL, -2, true),
 (-3, 1, -3, NULL, -3, true),
 (-4, 1, -4, NULL, -4, true),
@@ -323,7 +378,7 @@ INSERT INTO acl_object_identity VALUES
 (1, 1, 1, NULL, 1, true);
 
 --insert acb objects
-INSERT INTO acl_object_identity VALUES 
+INSERT INTO acl_object_identity VALUES
 (2, 2, 1, NULL, -2, true),
 (3, 2, 2, NULL, -2, true),
 (4, 2, 3, NULL, -2, true),
@@ -345,7 +400,7 @@ INSERT INTO acl_entry VALUES
 (9, 1, 0, 1, 16, true, false, false);
 
 --insert acls for acbs
-INSERT INTO acl_entry VALUES 
+INSERT INTO acl_entry VALUES
 (10, 2, 0, -2, 16, true, false, false),
 (11, 2, 1, 1, 16, true, false, false),
 (12, 2, 2, -3, 16, true, false, false),
@@ -378,9 +433,9 @@ SELECT pg_catalog.setval('acl_entry_id_seq', 31, true);
 SELECT pg_catalog.setval('acl_object_identity_id_seq', 9, true);
 SELECT pg_catalog.setval('acl_sid_id_seq', 2, true);
 
---user contacts. 
+--user contacts.
 -- one contact for each user that's getting pre-loaded. there are 2 chpl admins and 7 acb admins
-INSERT INTO contact (contact_id, first_name, last_name, email, phone_number, signature_date, last_modified_user) VALUES 
+INSERT INTO contact (contact_id, first_name, last_name, email, phone_number, signature_date, last_modified_user) VALUES
 (-2, 'Administrator', 'Administrator', 'info@ainq.com', '(301) 560-6999', CURRENT_DATE, -1),
 (-3, 'InfoGard', 'Administrator', 'noreply@ainq.com', '(xxx) xxx-xxxx', CURRENT_DATE, -1),
 (-4, 'CCHIT', 'Administrator', 'noreply@ainq.com', '(xxx) xxx-xxxx', CURRENT_DATE, -1),
@@ -392,7 +447,7 @@ INSERT INTO contact (contact_id, first_name, last_name, email, phone_number, sig
 (1, 'Scott', 'Purnell-Saunders', 'Scott.Purnell-Saunders@hhs.gov', '(xxx) xxx-xxxx', CURRENT_DATE, -1);
 SELECT pg_catalog.setval('contact_contact_id_seq', 2, true);
 
-INSERT INTO "user" (user_id, user_name, password, account_expired, account_locked, credentials_expired, account_enabled, last_modified_user, contact_id) VALUES 
+INSERT INTO "user" (user_id, user_name, password, account_expired, account_locked, credentials_expired, account_enabled, last_modified_user, contact_id) VALUES
 (-2, 'admin', '$2a$10$vVXOupd9DckGsQPtZ5h9seYCGzqYb3A35r/GNuP/rRbK2eq2KxtA2', false, false, false, true, -1, -2),
 (1, 'scott', '$2a$10$cdKTeuhg3xpsysEtHkOV3eXQIfZpi13E.bm3aaGghwo/mLZhDPlpm', false, false, false, true, -1, 1),
 (-4, 'cchit', '$2a$10$LLS3sT.jIr5jhSK4b28eHe9dwFuQvlkpnM5qSRfPrTgbrlH02GqWq', false, false, false, true, -1, -4),
@@ -405,14 +460,14 @@ INSERT INTO "user" (user_id, user_name, password, account_expired, account_locke
 SELECT pg_catalog.setval('user_user_id_seq', 2, true);
 
 
-INSERT INTO user_permission (user_permission_id, "name", description, authority, last_modified_user) VALUES 
+INSERT INTO user_permission (user_permission_id, "name", description, authority, last_modified_user) VALUES
 (-2, 'ADMIN', 'This permission confers administrative privileges to its owner.', 'ROLE_ADMIN', -1),
 (1, 'USER_CREATOR' ,'This permission allows a user to create other users',	'ROLE_USER_CREATOR' , -1),
 (2, 'ACB_ADMIN' ,'This permission gives a user write access to their ACBs.',	'ROLE_ACB_ADMIN' , -1),
 (3, 'ACB_STAFF' ,'This permission gives a user read access to their ACBs',	'ROLE_ACB_STAFF' , -1);
 SELECT pg_catalog.setval('user_permission_user_permission_id_seq', 4, true);
 
-INSERT INTO global_user_permission_map (user_id, user_permission_id_user_permission, last_modified_user) VALUES 
+INSERT INTO global_user_permission_map (user_id, user_permission_id_user_permission, last_modified_user) VALUES
 (-2, -2, -1),
 (-3, 2, -1),
 (-4, 2, -1),
@@ -423,4 +478,3 @@ INSERT INTO global_user_permission_map (user_id, user_permission_id_user_permiss
 (-9, 2, -1),
 (1, -2, -1);
 SELECT pg_catalog.setval('global_user_permission_map_global_user_permission_id_seq', 10, true);
-

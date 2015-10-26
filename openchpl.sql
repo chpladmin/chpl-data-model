@@ -192,7 +192,7 @@ ALTER TABLE openchpl.certification_edition OWNER TO openchpl;
 CREATE TABLE openchpl.certification_criterion(
 	certification_criterion_id bigserial NOT NULL,
 	certification_edition_id bigint NOT NULL,
-	number varchar(15),
+	number varchar(30),
 	title varchar(250),
 	description varchar(1000),
 	automated_numerator_capable bool,
