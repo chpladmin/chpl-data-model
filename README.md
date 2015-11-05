@@ -11,7 +11,7 @@ The data flow diagram is here: ![data flow diagram](data-flow.png)
 ## Getting the code
 
 ```sh
-$ git clone https://github.com/andlar/chpl-api.git
+$ git clone https://github.com/chpladmin/chpl-data-model.git
 $ cd openchpl-sql
 ```
 
