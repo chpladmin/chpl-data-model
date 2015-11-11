@@ -134,6 +134,7 @@ CREATE TABLE openchpl.certified_product(
 	report_file_location varchar(255),
 	quality_management_system_att text,
 	acb_certification_id varchar(250),
+	privacy_attestation boolean not null default false,
 	creation_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_user bigint NOT NULL,
