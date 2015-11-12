@@ -83,7 +83,6 @@ ON DELETE RESTRICT ON UPDATE CASCADE;
 
 ALTER TABLE openchpl.surveillance_certification_result ADD CONSTRAINT certification_criterion_fk FOREIGN KEY (certification_criterion_id)
 REFERENCES openchpl.certification_criterion (certification_criterion_id) MATCH FULL
+ON DELETE RESTRICT ON UPDATE CASCADE;
 
 ALTER TABLE openchpl.surveillance_certification_result OWNER TO openchpl;
-
-ON DELETE RESTRICT ON UPDATE CASCADE;
