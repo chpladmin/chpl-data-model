@@ -15,7 +15,8 @@ b.cqm_domain,
 b.nqf_number,
 b.cqm_criterion_type_id,
 c.cqm_version_id,
-c.version
+c.version,
+COALESCE(b.cms_id, b.nqf_number) as cqm_id
 
 FROM openchpl.cqm_result a
 

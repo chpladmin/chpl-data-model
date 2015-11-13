@@ -134,6 +134,7 @@ CREATE TABLE openchpl.certified_product(
 	report_file_location varchar(255),
 	quality_management_system_att text,
 	acb_certification_id varchar(250),
+	privacy_attestation boolean not null default false,
 	creation_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_user bigint NOT NULL,
@@ -192,7 +193,7 @@ ALTER TABLE openchpl.certification_edition OWNER TO openchpl;
 CREATE TABLE openchpl.certification_criterion(
 	certification_criterion_id bigserial NOT NULL,
 	certification_edition_id bigint NOT NULL,
-	number varchar(15),
+	number varchar(30),
 	title varchar(250),
 	description varchar(1000),
 	automated_numerator_capable bool,

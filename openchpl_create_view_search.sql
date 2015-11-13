@@ -15,6 +15,7 @@ a.practice_type_id,
 a.product_classification_type_id,
 a.other_acb,
 a.certification_status_id,
+a.privacy_attestation,
 a.deleted,
 a.visible_on_chpl,
 b.year,
@@ -29,6 +30,7 @@ h.vendor_name,
 i.certification_date,
 COALESCE(k.count_certifications, 0) as "count_certifications",
 COALESCE(m.count_cqms, 0) as "count_cqms",
+COALESCE(o.count_corrective_action_plans, 0) as "count_corrective_action_plans",
 a.last_modified_date,
 n.certification_status_name
 
@@ -55,6 +57,8 @@ LEFT JOIN (SELECT DISTINCT ON (certified_product_id) certified_product_id, event
 LEFT JOIN (SELECT certified_product_id, count(*) as "count_certifications" FROM (SELECT * FROM openchpl.certification_result WHERE success = true AND deleted <> true) j GROUP BY certified_product_id) k ON a.certified_product_id = k.certified_product_id
 
 LEFT JOIN (SELECT certified_product_id, count(*) as "count_cqms" FROM (SELECT DISTINCT ON (number, certified_product_id) * FROM openchpl.cqm_result_details WHERE success = true AND deleted <> true) l GROUP BY certified_product_id ORDER BY certified_product_id) m ON a.certified_product_id = m.certified_product_id
+
+LEFT JOIN (SELECT certified_product_id, count(*) as "count_corrective_action_plans" FROM (SELECT * FROM openchpl.corrective_action_plan WHERE deleted <> true) n GROUP BY certified_product_id) o ON a.certified_product_id = o.certified_product_id
 ;
 
 ALTER VIEW openchpl.certified_product_details OWNER TO openchpl;
