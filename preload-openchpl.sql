@@ -3,7 +3,7 @@ insert into openchpl.product_classification_type (name, description, last_modifi
 insert into openchpl.certification_edition (year, retired, last_modified_user) values (2011, true, -1), (2014, false, -1), (2015, false, -1);
 insert into openchpl.cqm_criterion_type (name, description, last_modified_user) values ('Ambulatory', 'Ambulatory', -1), ('Inpatient','Inpatient',-1);
 insert into openchpl.certification_body (name, last_modified_user) values ('InfoGard', -1), ('CCHIT', -1), ('Drummond Group Inc.', -1), ('SLI Global', -1), ('Surescripts LLC', -1), ('ICSA Labs', -1), ('Pending', -1);
-insert into openchpl.event_type (name, description, last_modified_user) values ('Certification','Product is certified', -1), ('Active', 'Product moved from Pending to Active', -1)
+insert into openchpl.event_type (name, description, last_modified_user) values ('Certification','Product is certified', -1), ('Active', 'Product moved from Pending to Active', -1);
 insert into openchpl.cqm_version (version, last_modified_user) values ('v0', -1), ('v1', -1), ('v2', -1), ('v3', -1), ('v4', -1), ('v5', -1);
 insert into openchpl.certification_status (certification_status, last_modified_user) values ('Active', -1), ('Retired', -1), ('Withdrawn', -1), ('Decertified', -1), ('Pending', -1);
 
@@ -190,7 +190,7 @@ INSERT INTO openchpl.cqm_criterion (title, nqf_number, description, cqm_criterio
 ('Colorectal Cancer Screening', '0034', 'Percentage of adults 50-75 years of age who had appropriate screening for colorectal cancer.', 1, -1, true),
 ('Use of Appropriate Medications for Asthma', '0036', 'Percentage of patients 5-50 years of age who were identified as having persistent asthma and were appropriately prescribed medication during the measurement year. Report three age stratifications (5-11 years, 12-50 years, and total).', 1, -1, true),
 ('Childhood Immunization Status', '0038', 'Percentage of children 2 years of age who had four diphtheria, tetanus and acellular pertussis (DTaP); three polio (IPV); one measles, mumps and rubella (MMR); two H influenza type B (HiB); three hepatitis B (Hep B); one chicken pox (VZV); four pneumococcal conjugate (PCV); two hepatitis A (Hep A); two or three rotavirus (RV); and two influenza (flu) vaccines by their second birthday. The measure calculates a rate for each vaccine and two separate combination rates.', 1, -1, true),
-('Preventive Care and Screening: Influenza Immunization for Patients ≥ 50 Years Old', '0041', 'Percentage of patients aged 50 years and older who received an influenza immunization during the flu season (September through February).', 1, -1, true),
+('Preventive Care and Screening: Influenza Immunization for Patients >= 50 Years Old', '0041', 'Percentage of patients aged 50 years and older who received an influenza immunization during the flu season (September through February).', 1, -1, true),
 ('Pneumonia Vaccination Status for Older Adults', '0043', 'Percentage of patients 65 years of age and older who have ever received a pneumococcal vaccine.', 1, -1, true),
 ('Asthma Pharmacologic Therapy', '0047', 'Percentage of patients aged 5 through 40 years with a diagnosis of mild, moderate, or severe persistent asthma who were prescribed either the preferred long-term control medication (inhaled corticosteroid) or an acceptable alternative treatment.', 1, -1, true),
 ('Low Back Pain: Use of Imaging Studies', '0052', 'Percentage of patients with a primary diagnosis of low back pain who did not have an imaging study (plain x-ray, MRI, CT scan) within 28 days of diagnosis.', 1, -1, true),
