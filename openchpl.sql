@@ -177,6 +177,7 @@ ALTER TABLE openchpl.product_version OWNER TO openchpl;
 CREATE TABLE openchpl.certification_edition(
 	certification_edition_id bigserial NOT NULL,
 	year varchar(10),
+	retired BOOLEAN NOT NULL DEFAULT FALSE,
 	creation_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_user bigint NOT NULL,
@@ -510,6 +511,7 @@ CREATE TABLE openchpl.cqm_criterion(
 	deleted bool NOT NULL DEFAULT false,
 	cqm_version_id bigint,
 	cqm_criterion_type_id bigint NOT NULL,
+	retired BOOLEAN NOT NULL DEFAULT FALSE,
 	CONSTRAINT cqm_criterion_pk PRIMARY KEY (cqm_criterion_id)
 
 );
