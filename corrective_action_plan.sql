@@ -7,6 +7,7 @@ CREATE TABLE openchpl.corrective_action_plan(
 	effective_date timestamp, -- the date corrective action began
 	completion_date_estimated timestamp, -- the date corrective action must be completed
 	completion_date_actual timestamp, -- the date corrective action was completed
+	noncompliance_determination_date timestamp, -- the date noncompliance was determined by an ACB
 	resolution text,
 	creation_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
