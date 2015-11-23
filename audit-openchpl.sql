@@ -95,10 +95,18 @@ CREATE TRIGGER acl_class_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.acl_
 CREATE TRIGGER acl_entry_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.acl_entry FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER acl_object_identity_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.acl_object_identity FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER acl_sid_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.acl_sid FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+CREATE TRIGGER activity_timestamp BEFORE UPDATE on openchpl.activity FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
+CREATE TRIGGER activity_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.activity FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+CREATE TRIGGER activity_concept_timestamp BEFORE UPDATE on openchpl.activity_concept FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
+CREATE TRIGGER activity_concept_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.activity_concept FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER additional_software_timestamp BEFORE UPDATE on openchpl.additional_software FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER additional_software_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.additional_software FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER address_timestamp BEFORE UPDATE on openchpl.address FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER address_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.address FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+CREATE TRIGGER api_key_timestamp BEFORE UPDATE on openchpl.api_key FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
+CREATE TRIGGER api_key_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.api_key FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+CREATE TRIGGER api_key_activity_timestamp BEFORE UPDATE on openchpl.api_key_activity FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
+CREATE TRIGGER api_key_activity_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.api_key_activity FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER atl_contact_map_timestamp BEFORE UPDATE on openchpl.atl_contact_map FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER atl_contact_map_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.atl_contact_map FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER certification_body_timestamp BEFORE UPDATE on openchpl.certification_body FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
