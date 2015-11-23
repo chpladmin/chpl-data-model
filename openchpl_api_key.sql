@@ -6,19 +6,26 @@ CREATE TABLE openchpl.api_key
   api_key character varying(32) NOT NULL,
   email character varying(256) NOT NULL,
   name_organization character varying(256),
+  creation_date timestamp without time zone NOT NULL DEFAULT now(),
+  last_modified_date timestamp without time zone NOT NULL DEFAULT now(),
+  last_modified_user bigint NOT NULL,
+  deleted boolean NOT NULL DEFAULT false,
   CONSTRAINT pk_api_key_id PRIMARY KEY (api_key_id)
 );
 
 ALTER TABLE openchpl.api_key
   OWNER TO openchpl;
-
-
+  
 
 CREATE TABLE openchpl.api_key_activity
 (
   api_activity_id bigserial NOT NULL,
   api_key_id bigint NOT NULL,
   api_call_url character varying(2083),
+  creation_date timestamp without time zone NOT NULL DEFAULT now(),
+  last_modified_date timestamp without time zone NOT NULL DEFAULT now(),
+  last_modified_user bigint NOT NULL,
+  deleted boolean NOT NULL DEFAULT false,
   CONSTRAINT api_activity_pk PRIMARY KEY (api_activity_id)
 );
 
