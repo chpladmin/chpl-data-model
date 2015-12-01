@@ -5,7 +5,7 @@ CREATE TABLE openchpl.corrective_action_plan(
 	developer_summary text NOT NULL, -- comes from the vendor/developer
 	approval_date timestamp NOT NULL, -- the date ONC approved a corrective action plan
 	effective_date timestamp NOT NULL, -- the date corrective action began
-	completion_date_estimated  NOT NULL, -- the date corrective action must be completed
+	completion_date_estimated timestamp NOT NULL, -- the date corrective action must be completed
 	completion_date_actual timestamp, -- the date corrective action was completed
 	noncompliance_determination_date timestamp NOT NULL, -- the date noncompliance was determined by an ACB
 	resolution text,
