@@ -1,12 +1,13 @@
 CREATE TABLE openchpl.corrective_action_plan(
 	corrective_action_plan_id bigserial NOT NULL,
 	certified_product_id bigint NOT NULL,
-	acb_summary text, --comes from the developer
-	developer_summary text, -- comes from the vendor/developer
-	approval_date timestamp, -- the date ONC approved a corrective action plan
-	effective_date timestamp, -- the date corrective action began
-	completion_date_estimated timestamp, -- the date corrective action must be completed
+	acb_summary text NOT NULL, --comes from the developer
+	developer_summary text NOT NULL, -- comes from the vendor/developer
+	approval_date timestamp NOT NULL, -- the date ONC approved a corrective action plan
+	effective_date timestamp NOT NULL, -- the date corrective action began
+	completion_date_estimated timestamp NOT NULL, -- the date corrective action must be completed
 	completion_date_actual timestamp, -- the date corrective action was completed
+	noncompliance_determination_date timestamp NOT NULL, -- the date noncompliance was determined by an ACB
 	resolution text,
 	creation_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
@@ -26,8 +27,8 @@ CREATE TABLE openchpl.corrective_action_plan_certification_result (
 	corrective_action_plan_certification_result_id bigserial NOT NULL,
 	certification_criterion_id bigint NOT NULL,
 	corrective_action_plan_id bigint NOT NULL,
-	acb_summary text, --comes from the developer
-	developer_summary text, -- comes from the vendor/developer
+	acb_summary text NOT NULL, --comes from the developer
+	developer_summary text NOT NULL, -- comes from the vendor/developer
 	resolution text,
 	creation_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
@@ -45,6 +46,25 @@ REFERENCES openchpl.corrective_action_plan (corrective_action_plan_id) MATCH FUL
 ON DELETE RESTRICT ON UPDATE CASCADE;
 
 ALTER TABLE openchpl.corrective_action_plan_certification_result OWNER TO openchpl;
+
+CREATE TABLE openchpl.corrective_action_plan_documentation (
+	corrective_action_plan_documentation_id bigserial NOT NULL,
+	corrective_action_plan_id bigint NOT NULL,
+	filename varchar(250) NOT NULL,
+	filetype varchar(250),
+	filedata bytea not null,
+	creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
+	CONSTRAINT corrective_action_plan_documentation_pk PRIMARY KEY (corrective_action_plan_documentation_id)
+);
+
+ALTER TABLE openchpl.corrective_action_plan_documentation ADD CONSTRAINT corrective_action_plan_fk FOREIGN KEY (corrective_action_plan_id)
+REFERENCES openchpl.corrective_action_plan (corrective_action_plan_id) MATCH FULL
+ON DELETE RESTRICT ON UPDATE CASCADE;
+
+ALTER TABLE openchpl.corrective_action_plan_documentation OWNER TO openchpl;
 
 CREATE TABLE openchpl.surveillance (
 	surveillance_id bigserial not null,
