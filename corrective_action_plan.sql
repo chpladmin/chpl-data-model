@@ -69,8 +69,6 @@ ALTER TABLE openchpl.corrective_action_plan_documentation OWNER TO openchpl;
 CREATE TABLE openchpl.surveillance (
 	surveillance_id bigserial not null,
 	certified_product_id bigint not null,
-	site_name varchar(250) not null,
-	surveillance_address bigint not null,
 	start_date timestamp,
 	end_date timestamp,
 	creation_date timestamp NOT NULL DEFAULT NOW(),
@@ -86,15 +84,17 @@ ON DELETE RESTRICT ON UPDATE CASCADE;
 ALTER TABLE openchpl.surveillance OWNER TO openchpl;
 
 CREATE TABLE openchpl.surveillance_certification_result (
-	surveillance_certification_id bigserial not null,
+	surveillance_certification_result_id bigserial not null,
 	surveillance_id bigint not null,
 	certification_criterion_id bigint not null,
-	pass boolean not null default false,
+	num_sites int,
+	pass_rate varchar(100),
+	results text,
 	creation_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_user bigint NOT NULL,
 	deleted bool NOT NULL DEFAULT false,
-	CONSTRAINT surveillance_certification_pk PRIMARY KEY (surveillance_certification_id)
+	CONSTRAINT surveillance_certification_result_pk PRIMARY KEY (surveillance_certification_result_id)
 );
 
 ALTER TABLE openchpl.surveillance_certification_result ADD CONSTRAINT surveillance_fk FOREIGN KEY (surveillance_id)
