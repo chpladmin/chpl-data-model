@@ -1747,9 +1747,9 @@ ALTER TABLE openchpl.api_key
 
 CREATE TABLE openchpl.api_key_activity
 (
-  api_activity_id bigserial NOT NULL,
+  api_key_activity_id bigserial NOT NULL,
   api_key_id bigint NOT NULL,
-  api_call_url character varying(2083),
+  api_call_path character varying(2083),
   creation_date timestamp without time zone NOT NULL DEFAULT now(),
   last_modified_date timestamp without time zone NOT NULL DEFAULT now(),
   last_modified_user bigint NOT NULL,
