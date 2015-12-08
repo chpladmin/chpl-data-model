@@ -1754,7 +1754,7 @@ CREATE TABLE openchpl.api_key_activity
   last_modified_date timestamp without time zone NOT NULL DEFAULT now(),
   last_modified_user bigint NOT NULL,
   deleted boolean NOT NULL DEFAULT false,
-  CONSTRAINT api_activity_pk PRIMARY KEY (api_key_activity_id)
+  CONSTRAINT api_key_activity_pk PRIMARY KEY (api_key_activity_id)
 );
 
 ALTER TABLE openchpl.api_key_activity
