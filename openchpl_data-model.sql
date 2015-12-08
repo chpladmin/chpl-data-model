@@ -69,7 +69,6 @@ ALTER TABLE openchpl.certification_body OWNER TO openchpl;
 CREATE TABLE openchpl.product(
 	product_id bigserial NOT NULL,
 	vendor_id bigint NOT NULL,
-	chpl_id varchar(5),
 	name varchar(300) NOT NULL,
 	report_file_location varchar(255),
 	creation_date timestamp NOT NULL DEFAULT NOW(),
@@ -85,11 +84,17 @@ COMMENT ON TABLE openchpl.product IS 'Table to store products that are submitted
 ALTER TABLE openchpl.product OWNER TO openchpl;
 -- ddl-end --
 
+
+CREATE SEQUENCE openchpl.vendor_vendor_code_seq
+    INCREMENT 1
+    MINVALUE 1000;
+ALTER TABLE openchpl.vendor_vendor_code_seq OWNER TO openchpl;
+
 -- object: openchpl.vendor | type: TABLE --
 -- DROP TABLE IF EXISTS openchpl.vendor CASCADE;
 CREATE TABLE openchpl.vendor(
 	vendor_id bigserial NOT NULL,
-	vendor_code varchar(16),
+	vendor_code varchar(16) DEFAULT nextval('openchpl.vendor_vendor_code_seq'),
 	address_id bigint,
 	name varchar(300),
 	website varchar(300),
@@ -105,7 +110,6 @@ COMMENT ON TABLE openchpl.vendor IS 'Table to store vendors that are entered int
 -- ddl-end --
 ALTER TABLE openchpl.vendor OWNER TO openchpl;
 -- ddl-end --
-
 -- object: openchpl.user_permission | type: TABLE --
 -- DROP TABLE IF EXISTS openchpl.user_permission CASCADE;
 CREATE TABLE openchpl.user_permission(
