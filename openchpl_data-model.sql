@@ -69,7 +69,6 @@ ALTER TABLE openchpl.certification_body OWNER TO openchpl;
 CREATE TABLE openchpl.product(
 	product_id bigserial NOT NULL,
 	vendor_id bigint NOT NULL,
-	chpl_id varchar(5),
 	name varchar(300) NOT NULL,
 	report_file_location varchar(255),
 	creation_date timestamp NOT NULL DEFAULT NOW(),
