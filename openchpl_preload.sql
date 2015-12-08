@@ -848,6 +848,3 @@ INSERT INTO global_user_permission_map (user_id, user_permission_id_user_permiss
 (-9, 2, -1),
 (1, -2, -1);
 SELECT pg_catalog.setval('global_user_permission_map_global_user_permission_id_seq', 10, true);
-
-INSERT INTO api_key (api_key, email, name_organization, last_modified_user) values ('88f231cbf2ae45810b1177f5f4ddf297', 'cwatson@ainq.com', 'Ai', -1);
-
