@@ -49,6 +49,7 @@ ALTER TABLE openchpl.user OWNER TO openchpl;
 -- DROP TABLE IF EXISTS openchpl.certification_body CASCADE;
 CREATE TABLE openchpl.certification_body(
 	certification_body_id bigserial NOT NULL,
+	acb_code varchar(16),
 	address_id bigint,
 	name varchar(250),
 	website varchar(300),
@@ -68,6 +69,7 @@ ALTER TABLE openchpl.certification_body OWNER TO openchpl;
 CREATE TABLE openchpl.product(
 	product_id bigserial NOT NULL,
 	vendor_id bigint NOT NULL,
+	chpl_id varchar(5),
 	name varchar(300) NOT NULL,
 	report_file_location varchar(255),
 	creation_date timestamp NOT NULL DEFAULT NOW(),
@@ -87,6 +89,7 @@ ALTER TABLE openchpl.product OWNER TO openchpl;
 -- DROP TABLE IF EXISTS openchpl.vendor CASCADE;
 CREATE TABLE openchpl.vendor(
 	vendor_id bigserial NOT NULL,
+	vendor_code varchar(16),
 	address_id bigint,
 	name varchar(300),
 	website varchar(300),
@@ -144,6 +147,10 @@ CREATE TABLE openchpl.certified_product(
 	other_acb character varying(64),
 	certification_status_id bigint NOT NULL,
     visible_on_chpl bool NOT NULL DEFAULT true,
+	product_code varchar(16),
+	version_code varchar(16),
+	additional_software_code varchar(16),
+	certified_date_code varchar(16),
 	CONSTRAINT certified_product_pk PRIMARY KEY (certified_product_id)
 
 );
@@ -242,6 +249,7 @@ ALTER TABLE openchpl.certification_result OWNER TO openchpl;
 -- DROP TABLE IF EXISTS openchpl.testing_lab CASCADE;
 CREATE TABLE openchpl.testing_lab(
 	testing_lab_id bigserial NOT NULL,
+	testing_lab_code varchar(16),
 	address_id bigint,
 	name varchar(250) NOT NULL,
 	accredidation_number varchar(25),
