@@ -148,6 +148,7 @@ CREATE TABLE openchpl.certified_product(
     visible_on_chpl bool NOT NULL DEFAULT true,
 	product_code varchar(16),
 	version_code varchar(16),
+	ics_code varchar(16),
 	additional_software_code varchar(16),
 	certified_date_code varchar(16),
 	CONSTRAINT certified_product_pk PRIMARY KEY (certified_product_id)
