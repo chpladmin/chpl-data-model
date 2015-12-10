@@ -84,11 +84,17 @@ COMMENT ON TABLE openchpl.product IS 'Table to store products that are submitted
 ALTER TABLE openchpl.product OWNER TO openchpl;
 -- ddl-end --
 
+
+CREATE SEQUENCE openchpl.vendor_vendor_code_seq
+    INCREMENT 1
+    MINVALUE 1000;
+ALTER TABLE openchpl.vendor_vendor_code_seq OWNER TO openchpl;
+
 -- object: openchpl.vendor | type: TABLE --
 -- DROP TABLE IF EXISTS openchpl.vendor CASCADE;
 CREATE TABLE openchpl.vendor(
 	vendor_id bigserial NOT NULL,
-	vendor_code varchar(16),
+	vendor_code varchar(16) DEFAULT nextval('openchpl.vendor_vendor_code_seq'),
 	address_id bigint,
 	name varchar(300),
 	website varchar(300),
@@ -104,7 +110,6 @@ COMMENT ON TABLE openchpl.vendor IS 'Table to store vendors that are entered int
 -- ddl-end --
 ALTER TABLE openchpl.vendor OWNER TO openchpl;
 -- ddl-end --
-
 -- object: openchpl.user_permission | type: TABLE --
 -- DROP TABLE IF EXISTS openchpl.user_permission CASCADE;
 CREATE TABLE openchpl.user_permission(
@@ -1762,7 +1767,7 @@ CREATE TABLE openchpl.api_key_activity
   last_modified_date timestamp without time zone NOT NULL DEFAULT now(),
   last_modified_user bigint NOT NULL,
   deleted boolean NOT NULL DEFAULT false,
-  CONSTRAINT api_activity_pk PRIMARY KEY (api_key_activity_id)
+  CONSTRAINT api_key_activity_pk PRIMARY KEY (api_key_activity_id)
 );
 
 ALTER TABLE openchpl.api_key_activity
