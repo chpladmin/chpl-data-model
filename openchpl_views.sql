@@ -65,9 +65,15 @@ a.other_acb,
 a.certification_status_id,
 a.privacy_attestation,
 a.deleted,
+a.product_code,
+a.version_code,
+a.ics_code,
+a.additional_software_code,
+a.certified_date_code,
 a.visible_on_chpl,
 b.year,
 c.certification_body_name,
+c.certification_body_code,
 d.product_classification_name,
 e.practice_type_name,
 f.product_version,
@@ -75,6 +81,7 @@ f.product_id,
 g.product_name,
 g.vendor_id,
 h.vendor_name,
+h.vendor_code,
 i.certification_date,
 COALESCE(k.count_certifications, 0) as "count_certifications",
 COALESCE(m.count_cqms, 0) as "count_cqms",
@@ -86,7 +93,7 @@ FROM openchpl.certified_product a
 
 LEFT JOIN (SELECT certification_edition_id, year FROM openchpl.certification_edition) b on a.certification_edition_id = b.certification_edition_id
 
-LEFT JOIN (SELECT certification_body_id, name as "certification_body_name" FROM openchpl.certification_body) c on a.certification_body_id = c.certification_body_id
+LEFT JOIN (SELECT certification_body_id, name as "certification_body_name", acb_code as "certification_body_code" FROM openchpl.certification_body) c on a.certification_body_id = c.certification_body_id
 
 LEFT JOIN (SELECT product_classification_type_id, name as "product_classification_name" FROM openchpl.product_classification_type) d on a.product_classification_type_id = d.product_classification_type_id
 
@@ -96,7 +103,7 @@ LEFT JOIN (SELECT product_version_id, version as "product_version", product_id f
 
 LEFT JOIN (SELECT product_id, vendor_id, name as "product_name" FROM openchpl.product) g ON f.product_id = g.product_id
 
-LEFT JOIN (SELECT vendor_id, name as "vendor_name" from openchpl.vendor) h on g.vendor_id = h.vendor_id
+LEFT JOIN (SELECT vendor_id, name as "vendor_name", vendor_code from openchpl.vendor) h on g.vendor_id = h.vendor_id
 
 LEFT JOIN (SELECT certification_status_id, certification_status as "certification_status_name" FROM openchpl.certification_status) n on a.certification_status_id = n.certification_status_id
 
