@@ -153,7 +153,6 @@ CREATE TABLE openchpl.certified_product(
     visible_on_chpl bool NOT NULL DEFAULT true,
 	terms_of_use_url varchar(1024),
 	api_documentation_url varchar(1024),
-	transparency_disclosure boolean NOT NULL default false,
 	product_code varchar(16),
 	version_code varchar(16),
 	ics_code varchar(16),
