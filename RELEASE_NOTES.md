@@ -3,6 +3,8 @@
 ## Next version
 _Date TBD_
 
+* Added terms of use and api documentation to the certified product data model.
+
 ## Version 0.0.2
 _7 December 2015_
 

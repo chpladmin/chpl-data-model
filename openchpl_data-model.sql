@@ -151,6 +151,8 @@ CREATE TABLE openchpl.certified_product(
 	other_acb character varying(64),
 	certification_status_id bigint NOT NULL,
     visible_on_chpl bool NOT NULL DEFAULT true,
+	terms_of_use_url varchar(1024),
+	api_documentation_url varchar(1024),
 	product_code varchar(16),
 	version_code varchar(16),
 	ics_code varchar(16),
@@ -1471,7 +1473,6 @@ CREATE TABLE openchpl.pending_certified_product(
 	last_modified_date timestamp without time zone NOT NULL DEFAULT now(),
 	last_modified_user bigint NOT NULL,
 	deleted boolean NOT NULL DEFAULT false,
-	--status varchar(250) not null,
 	certification_status_id bigint NOT NULL, -- pending, rejected, active
 	CONSTRAINT pending_certified_product_pk PRIMARY KEY (pending_certified_product_id)
 );
