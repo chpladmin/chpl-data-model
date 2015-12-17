@@ -3,14 +3,17 @@
 ## Next version
 _Date TBD_
 
+New and improved features
 * Added terms of use and api documentation to the certified product data model.
+* Added ATL information
 
 ## Version 0.0.2
 _7 December 2015_
 
-Updated data model to reflect required changes in API
+New and improved features
+* Updated data model to reflect required changes in API
 
-Bugs Fixed:
+Bugs Fixed
 * Fixed bug where incorrect CQM counts were reported
 
 ## Version 0.0.1
