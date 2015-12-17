@@ -110,6 +110,23 @@ COMMENT ON TABLE openchpl.vendor IS 'Table to store vendors that are entered int
 -- ddl-end --
 ALTER TABLE openchpl.vendor OWNER TO openchpl;
 -- ddl-end --
+
+CREATE TABLE openchpl.acb_vendor_map (
+	acb_vendor_map_id bigserial NOT NULL,
+	vendor_id bigint NOT NULL,
+	certification_body_id bigint NOT NULL,
+	transparency_attestation boolean NOT NULL DEFAULT FALSE,
+	creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
+	CONSTRAINT acb_vendor_pk PRIMARY KEY (acb_vendor_map_id),
+	CONSTRAINT acb_vendor_unique UNIQUE (vendor_id, certification_body_id, deleted)
+);
+
+ALTER TABLE openchpl.acb_vendor_map OWNER TO openchpl;
+-- ddl-end --
+
 -- object: openchpl.user_permission | type: TABLE --
 -- DROP TABLE IF EXISTS openchpl.user_permission CASCADE;
 CREATE TABLE openchpl.user_permission(
@@ -399,6 +416,14 @@ ALTER TABLE openchpl.certification_body ADD CONSTRAINT address_fk FOREIGN KEY (a
 REFERENCES openchpl.address (address_id) MATCH FULL
 ON DELETE SET NULL ON UPDATE CASCADE;
 -- ddl-end --
+
+ALTER TABLE openchpl.acb_vendor_map ADD CONSTRAINT vendor_fk FOREIGN KEY (vendor_id)
+REFERENCES openchpl.vendor (vendor_id) MATCH FULL
+ON DELETE RESTRICT ON UPDATE CASCADE;
+
+ALTER TABLE openchpl.acb_vendor_map ADD CONSTRAINT certification_body_fk FOREIGN KEY (certification_body_id)
+REFERENCES openchpl.certification_body (certification_body_id) MATCH FULL
+ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- object: openchpl.contact | type: TABLE --
 -- DROP TABLE IF EXISTS openchpl.contact CASCADE;
