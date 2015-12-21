@@ -90,7 +90,9 @@ COALESCE(m.count_cqms, 0) as "count_cqms",
 COALESCE(o.count_corrective_action_plans, 0) as "count_corrective_action_plans",
 a.last_modified_date,
 n.certification_status_name,
-p.transparency_attestation
+p.transparency_attestation,
+q.testing_lab_name,
+q.testing_lab_code
 
 FROM openchpl.certified_product a
 
@@ -120,6 +122,8 @@ LEFT JOIN (SELECT certified_product_id, count(*) as "count_certifications" FROM 
 LEFT JOIN (SELECT certified_product_id, count(*) as "count_cqms" FROM (SELECT DISTINCT ON (cqm_id, certified_product_id) * FROM openchpl.cqm_result_details WHERE success = true AND deleted <> true) l GROUP BY certified_product_id ORDER BY certified_product_id) m ON a.certified_product_id = m.certified_product_id
 
 LEFT JOIN (SELECT certified_product_id, count(*) as "count_corrective_action_plans" FROM (SELECT * FROM openchpl.corrective_action_plan WHERE deleted <> true) n GROUP BY certified_product_id) o ON a.certified_product_id = o.certified_product_id
+
+LEFT JOIN (SELECT testing_lab_id, name as "testing_lab_name", testing_lab_code from openchpl.testing_lab) q on a.testing_lab_id = q.testing_lab_id
 ;
 
 ALTER VIEW openchpl.certified_product_details OWNER TO openchpl;
