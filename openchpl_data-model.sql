@@ -1610,6 +1610,7 @@ CREATE TABLE openchpl.invited_user(
 	invited_user_id bigserial NOT NULL,
 	email varchar(300) NOT NULL,
 	certification_body_id bigint,
+	testing_lab_id bigint,
 	invite_token varchar(500),
 	confirm_token varchar(500),
 	created_user_id bigint DEFAULT NULL,
