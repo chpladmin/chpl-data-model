@@ -3,7 +3,7 @@
 --
 CREATE schema audit;
 REVOKE CREATE ON schema audit FROM public;
-ALTER schema audit OWNER TO openchpl;
+-- ALTER schema audit OWNER TO openchpl;
 
 CREATE TABLE audit.logged_actions (
     schema_name text NOT NULL,
@@ -16,7 +16,7 @@ CREATE TABLE audit.logged_actions (
     query text
 ) WITH (fillfactor=100);
 
-ALTER TABLE audit.logged_actions OWNER TO openchpl;
+-- ALTER TABLE audit.logged_actions OWNER TO openchpl;
 
 REVOKE ALL ON audit.logged_actions FROM public;
 GRANT SELECT ON audit.logged_actions TO public;
@@ -74,7 +74,7 @@ $body$
 LANGUAGE plpgsql
 SECURITY DEFINER
 SET search_path = pg_catalog, audit;
-ALTER FUNCTION audit.if_modified_func() OWNER TO openchpl;
+-- ALTER FUNCTION audit.if_modified_func() OWNER TO openchpl;
 
 --
 -- Function for updating last_modified_date field on UPDATE
@@ -86,7 +86,7 @@ BEGIN
    RETURN NEW;
 END;
 $$ language 'plpgsql';
-ALTER FUNCTION openchpl.update_last_modified_date_column() OWNER TO openchpl;
+-- ALTER FUNCTION openchpl.update_last_modified_date_column() OWNER TO openchpl;
 
 -- Adding triggers for audit & last_modified_date updates
 CREATE TRIGGER acb_contact_map_timestamp BEFORE UPDATE on openchpl.acb_contact_map FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
