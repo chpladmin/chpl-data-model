@@ -156,7 +156,6 @@ CREATE TABLE openchpl.certified_product(
 	certification_body_id bigint NOT NULL,
 	chpl_product_number varchar(250),
 	report_file_location varchar(255),
-	quality_management_system_att text,
 	acb_certification_id varchar(250),
 	privacy_attestation boolean not null default false,
 	creation_date timestamp NOT NULL DEFAULT NOW(),
@@ -170,6 +169,9 @@ CREATE TABLE openchpl.certified_product(
     visible_on_chpl bool NOT NULL DEFAULT true,
 	terms_of_use_url varchar(1024),
 	api_documentation_url varchar(1024),
+	ics varchar(1024),
+	sed boolean,
+	qms boolean,
 	product_code varchar(16),
 	version_code varchar(16),
 	ics_code varchar(16),
@@ -1481,7 +1483,10 @@ CREATE TABLE openchpl.pending_certified_product(
 	additional_software varchar(500),
 	upload_notes varchar(500), --maps to nothing in our data model??
 	test_report_url varchar(255), -- report_file_location
-
+	ics varchar(1024),
+	sed boolean,
+	qms boolean,
+	
 	-- foreign keys that have meaning if they are not mapped
 	practice_type_id bigint, -- should never be null
 	vendor_id bigint, -- may be null
