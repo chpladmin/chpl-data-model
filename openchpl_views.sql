@@ -16,7 +16,7 @@ LEFT JOIN (SELECT certification_criterion_id, number, title FROM openchpl.certif
 
 ON a.certification_criterion_id = b.certification_criterion_id;
 
-ALTER VIEW openchpl.certification_result_details OWNER TO openchpl;
+-- ALTER VIEW openchpl.certification_result_details OWNER TO openchpl;
 
 CREATE OR REPLACE VIEW openchpl.cqm_result_details AS
 
@@ -44,7 +44,7 @@ LEFT JOIN openchpl.cqm_criterion b ON a.cqm_criterion_id = b.cqm_criterion_id
 
 LEFT JOIN openchpl.cqm_version c ON b.cqm_version_id = c.cqm_version_id;
 
-ALTER VIEW openchpl.cqm_result_details OWNER TO openchpl;
+-- ALTER VIEW openchpl.cqm_result_details OWNER TO openchpl;
 
 CREATE OR REPLACE VIEW openchpl.certified_product_details AS
 
@@ -128,4 +128,4 @@ LEFT JOIN (SELECT certified_product_id, count(*) as "count_corrective_action_pla
 LEFT JOIN (SELECT testing_lab_id, name as "testing_lab_name", testing_lab_code from openchpl.testing_lab) q on a.testing_lab_id = q.testing_lab_id
 ;
 
-ALTER VIEW openchpl.certified_product_details OWNER TO openchpl;
+-- ALTER VIEW openchpl.certified_product_details OWNER TO openchpl;
