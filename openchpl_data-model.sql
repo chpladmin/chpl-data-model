@@ -110,6 +110,23 @@ COMMENT ON TABLE openchpl.vendor IS 'Table to store vendors that are entered int
 -- ddl-end --
 ALTER TABLE openchpl.vendor OWNER TO openchpl;
 -- ddl-end --
+
+CREATE TABLE openchpl.acb_vendor_map (
+	acb_vendor_map_id bigserial NOT NULL,
+	vendor_id bigint NOT NULL,
+	certification_body_id bigint NOT NULL,
+	transparency_attestation boolean NOT NULL DEFAULT FALSE,
+	creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
+	CONSTRAINT acb_vendor_pk PRIMARY KEY (acb_vendor_map_id),
+	CONSTRAINT acb_vendor_unique UNIQUE (vendor_id, certification_body_id, deleted)
+);
+
+ALTER TABLE openchpl.acb_vendor_map OWNER TO openchpl;
+-- ddl-end --
+
 -- object: openchpl.user_permission | type: TABLE --
 -- DROP TABLE IF EXISTS openchpl.user_permission CASCADE;
 CREATE TABLE openchpl.user_permission(
@@ -139,7 +156,6 @@ CREATE TABLE openchpl.certified_product(
 	certification_body_id bigint NOT NULL,
 	chpl_product_number varchar(250),
 	report_file_location varchar(255),
-	quality_management_system_att text,
 	acb_certification_id varchar(250),
 	privacy_attestation boolean not null default false,
 	creation_date timestamp NOT NULL DEFAULT NOW(),
@@ -151,6 +167,11 @@ CREATE TABLE openchpl.certified_product(
 	other_acb character varying(64),
 	certification_status_id bigint NOT NULL,
     visible_on_chpl bool NOT NULL DEFAULT true,
+	terms_of_use_url varchar(1024),
+	api_documentation_url varchar(1024),
+	ics varchar(1024),
+	sed boolean,
+	qms boolean,
 	product_code varchar(16),
 	version_code varchar(16),
 	ics_code varchar(16),
@@ -397,6 +418,14 @@ ALTER TABLE openchpl.certification_body ADD CONSTRAINT address_fk FOREIGN KEY (a
 REFERENCES openchpl.address (address_id) MATCH FULL
 ON DELETE SET NULL ON UPDATE CASCADE;
 -- ddl-end --
+
+ALTER TABLE openchpl.acb_vendor_map ADD CONSTRAINT vendor_fk FOREIGN KEY (vendor_id)
+REFERENCES openchpl.vendor (vendor_id) MATCH FULL
+ON DELETE RESTRICT ON UPDATE CASCADE;
+
+ALTER TABLE openchpl.acb_vendor_map ADD CONSTRAINT certification_body_fk FOREIGN KEY (certification_body_id)
+REFERENCES openchpl.certification_body (certification_body_id) MATCH FULL
+ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- object: openchpl.contact | type: TABLE --
 -- DROP TABLE IF EXISTS openchpl.contact CASCADE;
@@ -1454,7 +1483,10 @@ CREATE TABLE openchpl.pending_certified_product(
 	additional_software varchar(500),
 	upload_notes varchar(500), --maps to nothing in our data model??
 	test_report_url varchar(255), -- report_file_location
-
+	ics varchar(1024),
+	sed boolean,
+	qms boolean,
+	
 	-- foreign keys that have meaning if they are not mapped
 	practice_type_id bigint, -- should never be null
 	vendor_id bigint, -- may be null
@@ -1471,7 +1503,6 @@ CREATE TABLE openchpl.pending_certified_product(
 	last_modified_date timestamp without time zone NOT NULL DEFAULT now(),
 	last_modified_user bigint NOT NULL,
 	deleted boolean NOT NULL DEFAULT false,
-	--status varchar(250) not null,
 	certification_status_id bigint NOT NULL, -- pending, rejected, active
 	CONSTRAINT pending_certified_product_pk PRIMARY KEY (pending_certified_product_id)
 );
@@ -1584,6 +1615,7 @@ CREATE TABLE openchpl.invited_user(
 	invited_user_id bigserial NOT NULL,
 	email varchar(300) NOT NULL,
 	certification_body_id bigint,
+	testing_lab_id bigint,
 	invite_token varchar(500),
 	confirm_token varchar(500),
 	created_user_id bigint DEFAULT NULL,

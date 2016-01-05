@@ -3,6 +3,7 @@ insert into openchpl.product_classification_type (name, description, last_modifi
 insert into openchpl.certification_edition (year, retired, last_modified_user) values (2011, true, -1), (2014, false, -1), (2015, false, -1);
 insert into openchpl.cqm_criterion_type (name, description, last_modified_user) values ('Ambulatory', 'Ambulatory', -1), ('Inpatient','Inpatient',-1);
 insert into openchpl.certification_body (name, acb_code, last_modified_user) values ('InfoGard', '02', -1), ('CCHIT', '03', -1), ('Drummond Group Inc.', '04', -1), ('SLI Global', '05', -1), ('Surescripts LLC', '06', -1), ('ICSA Labs', '07', -1), ('Pending', '08', -1);
+insert into openchpl.testing_lab (name, testing_lab_code, last_modified_user) values ('InfoGard', '02', -1), ('Drummond Group', '04', -1), ('SLI Global', '05', -1), ('ICSA', '07', -1), ('NTS', '09', -1);
 insert into openchpl.event_type (name, description, last_modified_user) values ('Certification','Product is certified', -1), ('Active', 'Product moved from Pending to Active', -1);
 insert into openchpl.cqm_version (version, last_modified_user) values ('v0', -1), ('v1', -1), ('v2', -1), ('v3', -1), ('v4', -1), ('v5', -1);
 insert into openchpl.certification_status (certification_status, last_modified_user) values ('Active', -1), ('Retired', -1), ('Withdrawn', -1), ('Decertified', -1), ('Pending', -1);
@@ -741,8 +742,8 @@ SET client_min_messages = warning;
 SET search_path = openchpl, pg_catalog;
 
 INSERT INTO acl_class VALUES (1, 'gov.healthit.chpl.auth.dto.UserDTO'), (2, 'gov.healthit.chpl.dto.CertificationBodyDTO'),
-							 (3, 'gov.healthit.chpl.dto.PendingCertifiedProductDTO');
-SELECT pg_catalog.setval('acl_class_id_seq', 3, true);
+							 (3, 'gov.healthit.chpl.dto.PendingCertifiedProductDTO'), (4, 'gov.healthit.chpl.dto.TestingLabDTO');
+SELECT pg_catalog.setval('acl_class_id_seq', 5, true);
 
 --inserts users that can have acls
 INSERT INTO acl_sid VALUES
@@ -778,6 +779,14 @@ INSERT INTO acl_object_identity VALUES
 (7, 2, 6, NULL, -2, true),
 (8, 2, 7, NULL, -2, true);
 
+-- insert atl objects
+INSERT INTO acl_object_identity VALUES
+(9, 4, 1, NULL, -2, true),
+(10, 4, 2, NULL, -2, true),
+(11, 4, 3, NULL, -2, true),
+(12, 4, 4, NULL, -2, true),
+(13, 4, 5, NULL, -2, true);
+
 --insert acls for users
 INSERT INTO acl_entry VALUES
 (1, -2, 0, -2, 16, true, false, false),
@@ -800,8 +809,15 @@ INSERT INTO acl_entry VALUES
 (15, 7, 0, -8, 16, true, false, false),
 (16, 8, 0, -9, 16, true, false, false);
 
-SELECT pg_catalog.setval('acl_entry_id_seq', 16, true);
-SELECT pg_catalog.setval('acl_object_identity_id_seq', 9, true);
+-- insert acls for atls
+INSERT INTO acl_entry VALUES
+(17, 9, 0, -3, 16, true, false, false),
+(18, 10, 0, -5, 16, true, false, false),
+(19, 11, 0, -6, 16, true, false, false),
+(20, 12, 0, -8, 16, true, false, false); --no user for NTS yet
+
+SELECT pg_catalog.setval('acl_entry_id_seq', 21, true);
+SELECT pg_catalog.setval('acl_object_identity_id_seq', 13, true);
 SELECT pg_catalog.setval('acl_sid_id_seq', 2, true);
 
 --user contacts.
@@ -835,17 +851,26 @@ INSERT INTO user_permission (user_permission_id, "name", description, authority,
 (-2, 'ADMIN', 'This permission confers administrative privileges to its owner.', 'ROLE_ADMIN', -1),
 (1, 'USER_CREATOR' ,'This permission allows a user to create other users',	'ROLE_USER_CREATOR' , -1),
 (2, 'ACB_ADMIN' ,'This permission gives a user write access to their ACBs.',	'ROLE_ACB_ADMIN' , -1),
-(3, 'ACB_STAFF' ,'This permission gives a user read access to their ACBs',	'ROLE_ACB_STAFF' , -1);
-SELECT pg_catalog.setval('user_permission_user_permission_id_seq', 4, true);
+(3, 'ACB_STAFF' ,'This permission gives a user read access to their ACBs',	'ROLE_ACB_STAFF' , -1),
+(4, 'ATL_ADMIN' ,'This permission gives a user write access to their ATLs.',	'ROLE_ATL_ADMIN' , -1),
+(5, 'ATL_STAFF' ,'This permission gives a user write access to their ATLs.',	'ROLE_ATL_STAFF' , -1);
+
+SELECT pg_catalog.setval('user_permission_user_permission_id_seq', 6, true);
 
 INSERT INTO global_user_permission_map (user_id, user_permission_id_user_permission, last_modified_user) VALUES
 (-2, -2, -1),
 (-3, 2, -1),
+(-3, 4, -1),
 (-4, 2, -1),
+(-4, 4, -1),
 (-5, 2, -1),
+(-5, 4, -1),
 (-6, 2, -1),
+(-6, 4, -1),
 (-7, 2, -1),
+(-7, 4, -1),
 (-8, 2, -1),
+(-8, 4, -1),
 (-9, 2, -1),
 (1, -2, -1);
-SELECT pg_catalog.setval('global_user_permission_map_global_user_permission_id_seq', 10, true);
+SELECT pg_catalog.setval('global_user_permission_map_global_user_permission_id_seq', 16, true);
