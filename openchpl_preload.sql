@@ -723,7 +723,7 @@ INSERT INTO openchpl.cqm_criterion (cms_id, cqm_version_id, title, nqf_number, n
 INSERT INTO openchpl.activity_concept (activity_concept_id, concept, last_modified_user) VALUES
 (1, 'CERTIFIED_PRODUCT', -1),
 (2, 'PRODUCT', -1),
-(3, 'VENDOR', -1),
+(3, 'DEVELOPER', -1),
 (4, 'CERTIFICATION', -1),
 (5, 'CQM', -1),
 (6, 'CERTIFICATION_BODY', -1),
