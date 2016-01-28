@@ -45,6 +45,26 @@ CREATE TABLE openchpl.user(
 -- ALTER TABLE openchpl.user OWNER TO openchpl;
 -- ddl-end --
 
+-- object: openchpl.announcements | type: TABLE --
+-- DROP TABLE IF EXISTS openchpl.announcements CASCADE;
+CREATE TABLE openchpl.announcement(
+	announcement_id bigserial NOT NULL,
+	announcement_title text NOT NULL,
+	announcement_text text,
+	start_date timestamp NOT NULL DEFAULT NOW(),
+	end_date timestamp NOT NULL,
+	isPublic boolean NOT NULL,
+	creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
+	CONSTRAINT announcement_pk PRIMARY KEY (announcement_id)
+
+);
+-- ddl-end --
+-- ALTER TABLE openchpl.announcements OWNER TO openchpl;
+-- ddl-end --
+
 -- object: openchpl.certification_body | type: TABLE --
 -- DROP TABLE IF EXISTS openchpl.certification_body CASCADE;
 CREATE TABLE openchpl.certification_body(
