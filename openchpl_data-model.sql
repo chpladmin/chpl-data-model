@@ -120,8 +120,7 @@ CREATE TABLE openchpl.acb_vendor_map (
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_user bigint NOT NULL,
 	deleted bool NOT NULL DEFAULT false,
-	CONSTRAINT acb_vendor_pk PRIMARY KEY (acb_vendor_map_id),
-	CONSTRAINT acb_vendor_unique UNIQUE (vendor_id, certification_body_id, deleted)
+	CONSTRAINT acb_vendor_pk PRIMARY KEY (acb_vendor_map_id)
 );
 
 ALTER TABLE openchpl.acb_vendor_map OWNER TO openchpl;
@@ -752,11 +751,15 @@ CREATE TABLE openchpl.additional_software(
 	name varchar(500) NOT NULL,
 	version varchar(250) NOT NULL,
 	justification varchar(1000),
+	certified_product_self_id bigint DEFAULT NULL,
 	creation_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_user bigint NOT NULL,
 	deleted bool NOT NULL DEFAULT false,
-	CONSTRAINT additional_software_pk PRIMARY KEY (additional_software_id)
+	CONSTRAINT additional_software_pk PRIMARY KEY (additional_software_id),
+	CONSTRAINT certified_product_self_fk FOREIGN KEY (certified_product_self_id)
+    REFERENCES openchpl.certified_product (certified_product_id) MATCH SIMPLE
+    ON UPDATE NO ACTION ON DELETE NO ACTION
 
 );
 -- ddl-end --
@@ -1801,3 +1804,59 @@ ALTER TABLE openchpl.api_key_activity
   OWNER TO openchpl;
 
 ALTER TABLE openchpl.api_key_activity ADD CONSTRAINT api_key_fk FOREIGN KEY (api_key_id) REFERENCES openchpl.api_key (api_key_id);
+
+
+
+CREATE TABLE openchpl.cqm_result_additional_software_map
+(
+  cqm_result_additional_software_id bigserial,
+  cqm_result_id bigint NOT NULL,
+  additional_software_id bigint NOT NULL,
+  creation_date timestamp without time zone NOT NULL DEFAULT now(),
+  last_modified_date timestamp without time zone NOT NULL DEFAULT now(),
+  last_modified_user bigint NOT NULL,
+  deleted boolean NOT NULL DEFAULT false,
+  CONSTRAINT cqm_result_additional_software_pk PRIMARY KEY (cqm_result_additional_software_id),
+  CONSTRAINT additional_software_fk FOREIGN KEY (additional_software_id)
+      REFERENCES openchpl.additional_software (additional_software_id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT cqm_result_fk FOREIGN KEY (cqm_result_id)
+      REFERENCES openchpl.cqm_result (cqm_result_id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE openchpl.cqm_result_additional_software_map
+  OWNER TO openchpl;
+
+
+  
+  
+  
+CREATE TABLE openchpl.certification_result_additional_software_map
+(
+  certification_result_additional_software_id bigserial,
+  certification_result_id bigint NOT NULL,
+  additional_software_id bigint NOT NULL,
+  creation_date timestamp without time zone NOT NULL DEFAULT now(),
+  last_modified_date timestamp without time zone NOT NULL DEFAULT now(),
+  last_modified_user bigint NOT NULL,
+  deleted boolean NOT NULL DEFAULT false,
+  CONSTRAINT certification_result_additional_software_pk PRIMARY KEY (certification_result_additional_software_id),
+  CONSTRAINT additional_software_fk FOREIGN KEY (additional_software_id)
+      REFERENCES openchpl.additional_software (additional_software_id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT certification_result_fk FOREIGN KEY (certification_result_id)
+      REFERENCES openchpl.certification_result (certification_result_id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE openchpl.certification_result_additional_software_map
+  OWNER TO openchpl;
+  
+  
+
+
