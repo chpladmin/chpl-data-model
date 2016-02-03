@@ -17,7 +17,7 @@
 -- DROP SCHEMA IF EXISTS openchpl CASCADE;
 CREATE SCHEMA openchpl;
 -- ddl-end --
-ALTER SCHEMA openchpl OWNER TO openchpl;
+-- ALTER SCHEMA openchpl OWNER TO openchpl;
 -- ddl-end --
 
 SET search_path TO pg_catalog,public,openchpl;
@@ -42,7 +42,27 @@ CREATE TABLE openchpl.user(
 
 );
 -- ddl-end --
-ALTER TABLE openchpl.user OWNER TO openchpl;
+-- ALTER TABLE openchpl.user OWNER TO openchpl;
+-- ddl-end --
+
+-- object: openchpl.announcements | type: TABLE --
+-- DROP TABLE IF EXISTS openchpl.announcements CASCADE;
+CREATE TABLE openchpl.announcement(
+	announcement_id bigserial NOT NULL,
+	announcement_title text NOT NULL,
+	announcement_text text,
+	start_date timestamp NOT NULL DEFAULT NOW(),
+	end_date timestamp NOT NULL,
+	isPublic boolean NOT NULL,
+	creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
+	CONSTRAINT announcement_pk PRIMARY KEY (announcement_id)
+
+);
+-- ddl-end --
+-- ALTER TABLE openchpl.announcements OWNER TO openchpl;
 -- ddl-end --
 
 -- object: openchpl.certification_body | type: TABLE --
@@ -61,7 +81,7 @@ CREATE TABLE openchpl.certification_body(
 
 );
 -- ddl-end --
-ALTER TABLE openchpl.certification_body OWNER TO openchpl;
+-- ALTER TABLE openchpl.certification_body OWNER TO openchpl;
 -- ddl-end --
 
 -- object: openchpl.product | type: TABLE --
@@ -81,14 +101,14 @@ CREATE TABLE openchpl.product(
 -- ddl-end --
 COMMENT ON TABLE openchpl.product IS 'Table to store products that are submitted for vendors';
 -- ddl-end --
-ALTER TABLE openchpl.product OWNER TO openchpl;
+--A LTER TABLE openchpl.product OWNER TO openchpl;
 -- ddl-end --
 
 
 CREATE SEQUENCE openchpl.vendor_vendor_code_seq
     INCREMENT 1
     MINVALUE 1000;
-ALTER TABLE openchpl.vendor_vendor_code_seq OWNER TO openchpl;
+-- ALTER TABLE openchpl.vendor_vendor_code_seq OWNER TO openchpl;
 
 -- object: openchpl.vendor | type: TABLE --
 -- DROP TABLE IF EXISTS openchpl.vendor CASCADE;
@@ -108,7 +128,7 @@ CREATE TABLE openchpl.vendor(
 -- ddl-end --
 COMMENT ON TABLE openchpl.vendor IS 'Table to store vendors that are entered into the system';
 -- ddl-end --
-ALTER TABLE openchpl.vendor OWNER TO openchpl;
+--A LTER TABLE openchpl.vendor OWNER TO openchpl;
 -- ddl-end --
 
 CREATE TABLE openchpl.acb_vendor_map (
@@ -142,7 +162,7 @@ CREATE TABLE openchpl.user_permission(
 
 );
 -- ddl-end --
-ALTER TABLE openchpl.user_permission OWNER TO openchpl;
+--A LTER TABLE openchpl.user_permission OWNER TO openchpl;
 -- ddl-end --
 
 -- object: openchpl.certified_product | type: TABLE --
@@ -155,7 +175,6 @@ CREATE TABLE openchpl.certified_product(
 	certification_body_id bigint NOT NULL,
 	chpl_product_number varchar(250),
 	report_file_location varchar(255),
-	quality_management_system_att text,
 	acb_certification_id varchar(250),
 	privacy_attestation boolean not null default false,
 	creation_date timestamp NOT NULL DEFAULT NOW(),
@@ -169,6 +188,9 @@ CREATE TABLE openchpl.certified_product(
     visible_on_chpl bool NOT NULL DEFAULT true,
 	terms_of_use_url varchar(1024),
 	api_documentation_url varchar(1024),
+	ics varchar(1024),
+	sed boolean,
+	qms boolean,
 	product_code varchar(16),
 	version_code varchar(16),
 	ics_code varchar(16),
@@ -180,7 +202,7 @@ CREATE TABLE openchpl.certified_product(
 -- ddl-end --
 COMMENT ON TABLE openchpl.certified_product IS 'A product that has been Certified';
 -- ddl-end --
-ALTER TABLE openchpl.certified_product OWNER TO openchpl;
+-- ALTER TABLE openchpl.certified_product OWNER TO openchpl;
 -- ddl-end --
 
 -- object: openchpl.product_version | type: TABLE --
@@ -199,7 +221,7 @@ CREATE TABLE openchpl.product_version(
 -- ddl-end --
 COMMENT ON TABLE openchpl.product_version IS 'Table to store individual versions of a specific product';
 -- ddl-end --
-ALTER TABLE openchpl.product_version OWNER TO openchpl;
+-- ALTER TABLE openchpl.product_version OWNER TO openchpl;
 -- ddl-end --
 
 -- object: openchpl.certification_edition | type: TABLE --
@@ -216,7 +238,7 @@ CREATE TABLE openchpl.certification_edition(
 
 );
 -- ddl-end --
-ALTER TABLE openchpl.certification_edition OWNER TO openchpl;
+--A LTER TABLE openchpl.certification_edition OWNER TO openchpl;
 -- ddl-end --
 
 -- object: openchpl.certification_criterion | type: TABLE --
@@ -239,7 +261,7 @@ CREATE TABLE openchpl.certification_criterion(
 
 );
 -- ddl-end --
-ALTER TABLE openchpl.certification_criterion OWNER TO openchpl;
+-- ALTER TABLE openchpl.certification_criterion OWNER TO openchpl;
 -- ddl-end --
 
 -- object: openchpl.certification_result | type: TABLE --
@@ -265,7 +287,7 @@ CREATE TABLE openchpl.certification_result(
 
 );
 -- ddl-end --
-ALTER TABLE openchpl.certification_result OWNER TO openchpl;
+--A LTER TABLE openchpl.certification_result OWNER TO openchpl;
 -- ddl-end --
 
 -- object: openchpl.testing_lab | type: TABLE --
@@ -285,7 +307,7 @@ CREATE TABLE openchpl.testing_lab(
 
 );
 -- ddl-end --
-ALTER TABLE openchpl.testing_lab OWNER TO openchpl;
+-- ALTER TABLE openchpl.testing_lab OWNER TO openchpl;
 -- ddl-end --
 
 -- object: vendor_fk | type: CONSTRAINT --
@@ -350,7 +372,7 @@ global_user_permission_id bigserial NOT NULL,
 	CONSTRAINT global_user_permission_map_pk PRIMARY KEY (user_id,user_permission_id_user_permission)
 
 );
-ALTER TABLE openchpl.global_user_permission_map OWNER TO openchpl;
+-- ALTER TABLE openchpl.global_user_permission_map OWNER TO openchpl;
 -- ddl-end --
 
 -- object: user_fk | type: CONSTRAINT --
@@ -392,7 +414,7 @@ CREATE TABLE openchpl.address(
 
 );
 -- ddl-end --
-ALTER TABLE openchpl.address OWNER TO openchpl;
+-- ALTER TABLE openchpl.address OWNER TO openchpl;
 -- ddl-end --
 
 -- object: address_fk | type: CONSTRAINT --
@@ -442,7 +464,7 @@ CREATE TABLE openchpl.contact(
 
 );
 -- ddl-end --
-ALTER TABLE openchpl.contact OWNER TO openchpl;
+-- ALTER TABLE openchpl.contact OWNER TO openchpl;
 -- ddl-end --
 
 -- object: openchpl.atl_contact_map | type: TABLE --
@@ -458,7 +480,7 @@ CREATE TABLE openchpl.atl_contact_map(
 	CONSTRAINT atl_contact_map_pk PRIMARY KEY (contact_id,testing_lab_id_testing_lab)
 
 );
-ALTER TABLE openchpl.atl_contact_map OWNER TO openchpl;
+-- ALTER TABLE openchpl.atl_contact_map OWNER TO openchpl;
 -- ddl-end --
 
 -- object: contact_fk | type: CONSTRAINT --
@@ -488,7 +510,7 @@ CREATE TABLE openchpl.acb_contact_map(
 	CONSTRAINT acb_contact_map_pk PRIMARY KEY (contact_id,certification_body_id_certification_body)
 
 );
-ALTER TABLE openchpl.acb_contact_map OWNER TO openchpl;
+-- ALTER TABLE openchpl.acb_contact_map OWNER TO openchpl;
 -- ddl-end --
 
 -- object: contact_fk | type: CONSTRAINT --
@@ -517,7 +539,7 @@ CREATE TABLE openchpl.vendor_contact_map(
 	CONSTRAINT vendor_contact_map_pk PRIMARY KEY (contact_id,vendor_id_vendor)
 
 );
-ALTER TABLE openchpl.vendor_contact_map OWNER TO openchpl;
+-- ALTER TABLE openchpl.vendor_contact_map OWNER TO openchpl;
 -- ddl-end --
 
 -- object: contact_fk | type: CONSTRAINT --
@@ -555,7 +577,7 @@ CREATE TABLE openchpl.cqm_criterion(
 
 );
 -- ddl-end --
-ALTER TABLE openchpl.cqm_criterion OWNER TO openchpl;
+-- ALTER TABLE openchpl.cqm_criterion OWNER TO openchpl;
 -- ddl-end --
 
 -- object: openchpl.cqm_result | type: TABLE --
@@ -573,7 +595,7 @@ CREATE TABLE openchpl.cqm_result(
 
 );
 -- ddl-end --
-ALTER TABLE openchpl.cqm_result OWNER TO openchpl;
+-- ALTER TABLE openchpl.cqm_result OWNER TO openchpl;
 -- ddl-end --
 
 -- object: certification_edition_fk | type: CONSTRAINT --
@@ -604,7 +626,7 @@ CREATE TABLE openchpl.cqm_criterion_type(
 
 );
 -- ddl-end --
-ALTER TABLE openchpl.cqm_criterion_type OWNER TO openchpl;
+-- ALTER TABLE openchpl.cqm_criterion_type OWNER TO openchpl;
 -- ddl-end --
 
 -- object: openchpl.criterion_standard | type: TABLE --
@@ -623,7 +645,7 @@ CREATE TABLE openchpl.criterion_standard(
 
 );
 -- ddl-end --
-ALTER TABLE openchpl.criterion_standard OWNER TO openchpl;
+-- ALTER TABLE openchpl.criterion_standard OWNER TO openchpl;
 -- ddl-end --
 
 -- object: openchpl.criterion_optional_functionality | type: TABLE --
@@ -641,7 +663,7 @@ CREATE TABLE openchpl.criterion_optional_functionality(
 
 );
 -- ddl-end --
-ALTER TABLE openchpl.criterion_optional_functionality OWNER TO openchpl;
+-- ALTER TABLE openchpl.criterion_optional_functionality OWNER TO openchpl;
 -- ddl-end --
 
 -- object: certification_criterion_fk | type: CONSTRAINT --
@@ -675,7 +697,7 @@ CREATE TABLE openchpl.certification_event(
 
 );
 -- ddl-end --
-ALTER TABLE openchpl.certification_event OWNER TO openchpl;
+-- ALTER TABLE openchpl.certification_event OWNER TO openchpl;
 -- ddl-end --
 
 -- object: certified_product_fk | type: CONSTRAINT --
@@ -699,7 +721,7 @@ CREATE TABLE openchpl.event_type(
 
 );
 -- ddl-end --
-ALTER TABLE openchpl.event_type OWNER TO openchpl;
+-- ALTER TABLE openchpl.event_type OWNER TO openchpl;
 -- ddl-end --
 
 -- object: event_type_fk | type: CONSTRAINT --
@@ -723,7 +745,7 @@ CREATE TABLE openchpl.product_classification_type(
 
 );
 -- ddl-end --
-ALTER TABLE openchpl.product_classification_type OWNER TO openchpl;
+-- ALTER TABLE openchpl.product_classification_type OWNER TO openchpl;
 -- ddl-end --
 
 -- object: openchpl.practice_type | type: TABLE --
@@ -740,7 +762,7 @@ CREATE TABLE openchpl.practice_type(
 
 );
 -- ddl-end --
-ALTER TABLE openchpl.practice_type OWNER TO openchpl;
+-- ALTER TABLE openchpl.practice_type OWNER TO openchpl;
 -- ddl-end --
 
 -- object: openchpl.additional_software | type: TABLE --
@@ -763,7 +785,7 @@ CREATE TABLE openchpl.additional_software(
 
 );
 -- ddl-end --
-ALTER TABLE openchpl.additional_software OWNER TO openchpl;
+-- ALTER TABLE openchpl.additional_software OWNER TO openchpl;
 -- ddl-end --
 
 -- object: certified_product_fk | type: CONSTRAINT --
@@ -788,7 +810,7 @@ CREATE TABLE openchpl.test_tool(
 
 );
 -- ddl-end --
-ALTER TABLE openchpl.test_tool OWNER TO openchpl;
+-- ALTER TABLE openchpl.test_tool OWNER TO openchpl;
 -- ddl-end --
 
 -- object: certification_edition_fk | type: CONSTRAINT --
@@ -812,7 +834,7 @@ CREATE TABLE openchpl.test_tool_version(
 
 );
 -- ddl-end --
-ALTER TABLE openchpl.test_tool_version OWNER TO openchpl;
+-- ALTER TABLE openchpl.test_tool_version OWNER TO openchpl;
 -- ddl-end --
 
 -- object: test_tool_fk | type: CONSTRAINT --
@@ -838,7 +860,7 @@ CREATE TABLE openchpl.utilized_test_tool(
 
 );
 -- ddl-end --
-ALTER TABLE openchpl.utilized_test_tool OWNER TO openchpl;
+-- ALTER TABLE openchpl.utilized_test_tool OWNER TO openchpl;
 -- ddl-end --
 
 -- object: certified_product_fk | type: CONSTRAINT --
@@ -877,7 +899,7 @@ CREATE TABLE openchpl.standards_met(
 
 );
 -- ddl-end --
-ALTER TABLE openchpl.standards_met OWNER TO openchpl;
+-- ALTER TABLE openchpl.standards_met OWNER TO openchpl;
 -- ddl-end --
 
 -- object: criterion_standard_fk | type: CONSTRAINT --
@@ -902,7 +924,7 @@ CREATE TABLE openchpl.newer_standards_met(
 
 );
 -- ddl-end --
-ALTER TABLE openchpl.newer_standards_met OWNER TO openchpl;
+-- ALTER TABLE openchpl.newer_standards_met OWNER TO openchpl;
 -- ddl-end --
 
 -- object: certified_product_fk | type: CONSTRAINT --
@@ -934,7 +956,7 @@ CREATE TABLE openchpl.optional_functionality_met(
 
 );
 -- ddl-end --
-ALTER TABLE openchpl.optional_functionality_met OWNER TO openchpl;
+-- ALTER TABLE openchpl.optional_functionality_met OWNER TO openchpl;
 -- ddl-end --
 
 -- object: criterion_optional_functionality_fk | type: CONSTRAINT --
@@ -958,7 +980,7 @@ CREATE TABLE openchpl.test_procedure_version(
 
 );
 -- ddl-end --
-ALTER TABLE openchpl.test_procedure_version OWNER TO openchpl;
+-- ALTER TABLE openchpl.test_procedure_version OWNER TO openchpl;
 -- ddl-end --
 
 -- object: openchpl.test_data_version | type: TABLE --
@@ -975,7 +997,7 @@ CREATE TABLE openchpl.test_data_version(
 
 );
 -- ddl-end --
-ALTER TABLE openchpl.test_data_version OWNER TO openchpl;
+-- ALTER TABLE openchpl.test_data_version OWNER TO openchpl;
 -- ddl-end --
 
 -- object: certification_criterion_fk | type: CONSTRAINT --
@@ -1019,7 +1041,7 @@ CREATE TABLE openchpl.cqm_version(
 
 );
 -- ddl-end --
-ALTER TABLE openchpl.cqm_version OWNER TO openchpl;
+-- ALTER TABLE openchpl.cqm_version OWNER TO openchpl;
 -- ddl-end --
 
 -- object: openchpl.test_data_alteration | type: TABLE --
@@ -1036,7 +1058,7 @@ CREATE TABLE openchpl.test_data_alteration(
 
 );
 -- ddl-end --
-ALTER TABLE openchpl.test_data_alteration OWNER TO openchpl;
+-- ALTER TABLE openchpl.test_data_alteration OWNER TO openchpl;
 -- ddl-end --
 
 -- object: certified_product_fk | type: CONSTRAINT --
@@ -1062,7 +1084,7 @@ CREATE TABLE openchpl.test_result_summary_version(
 
 );
 -- ddl-end --
-ALTER TABLE openchpl.test_result_summary_version OWNER TO openchpl;
+-- ALTER TABLE openchpl.test_result_summary_version OWNER TO openchpl;
 -- ddl-end --
 
 -- object: certified_product_fk | type: CONSTRAINT --
@@ -1093,7 +1115,7 @@ CREATE TABLE openchpl.test_event_details(
 
 );
 -- ddl-end --
-ALTER TABLE openchpl.test_event_details OWNER TO openchpl;
+-- ALTER TABLE openchpl.test_event_details OWNER TO openchpl;
 -- ddl-end --
 
 -- object: openchpl.test_participant | type: TABLE --
@@ -1113,7 +1135,7 @@ CREATE TABLE openchpl.test_participant(
 
 );
 -- ddl-end --
-ALTER TABLE openchpl.test_participant OWNER TO openchpl;
+-- ALTER TABLE openchpl.test_participant OWNER TO openchpl;
 -- ddl-end --
 
 -- object: openchpl.education_type | type: TABLE --
@@ -1130,7 +1152,7 @@ CREATE TABLE openchpl.education_type(
 
 );
 -- ddl-end --
-ALTER TABLE openchpl.education_type OWNER TO openchpl;
+-- ALTER TABLE openchpl.education_type OWNER TO openchpl;
 -- ddl-end --
 
 -- object: openchpl.experience_type | type: TABLE --
@@ -1147,7 +1169,7 @@ CREATE TABLE openchpl.experience_type(
 
 );
 -- ddl-end --
-ALTER TABLE openchpl.experience_type OWNER TO openchpl;
+-- ALTER TABLE openchpl.experience_type OWNER TO openchpl;
 -- ddl-end --
 
 -- object: openchpl.test_task | type: TABLE --
@@ -1167,7 +1189,7 @@ CREATE TABLE openchpl.test_task(
 
 );
 -- ddl-end --
-ALTER TABLE openchpl.test_task OWNER TO openchpl;
+-- ALTER TABLE openchpl.test_task OWNER TO openchpl;
 -- ddl-end --
 
 -- object: openchpl.test_task_result | type: TABLE --
@@ -1191,7 +1213,7 @@ CREATE TABLE openchpl.test_task_result(
 
 );
 -- ddl-end --
-ALTER TABLE openchpl.test_task_result OWNER TO openchpl;
+-- ALTER TABLE openchpl.test_task_result OWNER TO openchpl;
 -- ddl-end --
 
 -- object: test_event_details_fk | type: CONSTRAINT --
@@ -1259,7 +1281,7 @@ CREATE TABLE openchpl.certified_product_checksum(
 
 );
 -- ddl-end --
-ALTER TABLE openchpl.certified_product_checksum OWNER TO openchpl;
+-- ALTER TABLE openchpl.certified_product_checksum OWNER TO openchpl;
 -- ddl-end --
 
 -- object: practice_type_fk | type: CONSTRAINT --
@@ -1300,7 +1322,7 @@ CREATE TABLE openchpl.acl_class(
 
 );
 -- ddl-end --
-ALTER TABLE openchpl.acl_class OWNER TO openchpl;
+-- ALTER TABLE openchpl.acl_class OWNER TO openchpl;
 -- ddl-end --
 
 -- object: openchpl.acl_entry | type: TABLE --
@@ -1318,7 +1340,7 @@ CREATE TABLE openchpl.acl_entry(
 
 );
 -- ddl-end --
-ALTER TABLE openchpl.acl_entry OWNER TO openchpl;
+-- ALTER TABLE openchpl.acl_entry OWNER TO openchpl;
 -- ddl-end --
 
 -- object: openchpl.acl_sid | type: TABLE --
@@ -1332,7 +1354,7 @@ CREATE TABLE openchpl.acl_sid(
 
 );
 -- ddl-end --
-ALTER TABLE openchpl.acl_sid OWNER TO openchpl;
+-- ALTER TABLE openchpl.acl_sid OWNER TO openchpl;
 -- ddl-end --
 
 -- object: openchpl.acl_object_identity | type: TABLE --
@@ -1348,7 +1370,7 @@ CREATE TABLE openchpl.acl_object_identity(
 
 );
 -- ddl-end --
-ALTER TABLE openchpl.acl_object_identity OWNER TO openchpl;
+-- ALTER TABLE openchpl.acl_object_identity OWNER TO openchpl;
 -- ddl-end --
 
 -- object: acl_class_fk | type: CONSTRAINT --
@@ -1418,7 +1440,7 @@ CREATE TABLE openchpl.certification_status(
 
 );
 -- ddl-end --
-ALTER TABLE openchpl.certification_status OWNER TO openchpl;
+-- ALTER TABLE openchpl.certification_status OWNER TO openchpl;
 -- ddl-end --
 
 -- object: certification_status_fk | type: CONSTRAINT --
@@ -1484,7 +1506,10 @@ CREATE TABLE openchpl.pending_certified_product(
 	additional_software varchar(500),
 	upload_notes varchar(500), --maps to nothing in our data model??
 	test_report_url varchar(255), -- report_file_location
-
+	ics varchar(1024),
+	sed boolean,
+	qms boolean,
+	
 	-- foreign keys that have meaning if they are not mapped
 	practice_type_id bigint, -- should never be null
 	vendor_id bigint, -- may be null
@@ -1507,7 +1532,7 @@ CREATE TABLE openchpl.pending_certified_product(
 -- ddl-end --
 COMMENT ON TABLE openchpl.pending_certified_product IS 'A product that has been uploaded but not confirmed by the user';
 -- ddl-end --
-ALTER TABLE openchpl.pending_certified_product OWNER TO openchpl;
+-- ALTER TABLE openchpl.pending_certified_product OWNER TO openchpl;
 -- ddl-end --
 
 -- object: openchpl.pending_certification_criterion | type: TABLE --
@@ -1536,7 +1561,7 @@ CREATE TABLE openchpl.pending_certification_criterion(
 -- ddl-end --
 COMMENT ON TABLE openchpl.pending_certification_criterion IS 'Criterion that has or has not been met for a pending certified product.';
 -- ddl-end --
-ALTER TABLE openchpl.pending_certification_criterion OWNER TO openchpl;
+-- ALTER TABLE openchpl.pending_certification_criterion OWNER TO openchpl;
 -- ddl-end --
 
 -- object: openchpl.pending_cqm_criterion | type: TABLE --
@@ -1563,7 +1588,7 @@ CREATE TABLE openchpl.pending_cqm_criterion(
 -- ddl-end --
 COMMENT ON TABLE openchpl.pending_cqm_criterion IS 'Criterion that has or has not been met for a pending certified product.';
 -- ddl-end --
-ALTER TABLE openchpl.pending_cqm_criterion OWNER TO openchpl;
+-- ALTER TABLE openchpl.pending_cqm_criterion OWNER TO openchpl;
 -- ddl-end --
 
 CREATE TABLE openchpl.activity
@@ -1586,8 +1611,7 @@ WITH (
   OIDS = FALSE
 )
 ;
-ALTER TABLE openchpl.activity
-  OWNER TO openchpl;
+--ALTER TABLE openchpl.activity  OWNER TO openchpl;
 
 CREATE TABLE openchpl.activity_concept
 (
@@ -1602,8 +1626,7 @@ CREATE TABLE openchpl.activity_concept
 WITH (
   OIDS=FALSE
 );
-ALTER TABLE openchpl.activity_concept
-  OWNER TO openchpl;
+-- ALTER TABLE openchpl.activity_concept  OWNER TO openchpl;
 
 ALTER TABLE openchpl.activity ADD CONSTRAINT activity_object_concept_fk FOREIGN KEY (activity_object_concept_id) REFERENCES openchpl.activity_concept (activity_concept_id);
 
@@ -1630,8 +1653,7 @@ CREATE TABLE openchpl.invited_user(
 -- ddl-end --
 COMMENT ON TABLE openchpl.invited_user IS 'A user that has been invited to use the CHPL system.';
 -- ddl-end --
-ALTER TABLE openchpl.invited_user
- OWNER TO openchpl;
+-- ALTER TABLE openchpl.invited_user OWNER TO openchpl;
 -- ddl-end --
 
 -- object: openchpl.invited_user_permission | type: TABLE --
@@ -1660,8 +1682,7 @@ ON DELETE RESTRICT ON UPDATE CASCADE;
 
 COMMENT ON TABLE openchpl.invited_user_permission IS 'A user that has been invited to use the CHPL system.';
 -- ddl-end --
-ALTER TABLE openchpl.invited_user_permission
- OWNER TO openchpl;
+-- ALTER TABLE openchpl.invited_user_permission OWNER TO openchpl;
 -- ddl-end --
 
 CREATE TABLE openchpl.corrective_action_plan(
@@ -1686,7 +1707,7 @@ CREATE TABLE openchpl.corrective_action_plan(
 ALTER TABLE openchpl.corrective_action_plan ADD CONSTRAINT certified_product_fk FOREIGN KEY (certified_product_id)
 REFERENCES openchpl.certified_product (certified_product_id) MATCH FULL
 ON DELETE RESTRICT ON UPDATE CASCADE;
-ALTER TABLE openchpl.corrective_action_plan OWNER TO openchpl;
+-- ALTER TABLE openchpl.corrective_action_plan OWNER TO openchpl;
 
 CREATE TABLE openchpl.corrective_action_plan_certification_result (
 	corrective_action_plan_certification_result_id bigserial NOT NULL,
@@ -1710,7 +1731,7 @@ ALTER TABLE openchpl.corrective_action_plan_certification_result ADD CONSTRAINT 
 REFERENCES openchpl.corrective_action_plan (corrective_action_plan_id) MATCH FULL
 ON DELETE RESTRICT ON UPDATE CASCADE;
 
-ALTER TABLE openchpl.corrective_action_plan_certification_result OWNER TO openchpl;
+-- ALTER TABLE openchpl.corrective_action_plan_certification_result OWNER TO openchpl;
 
 CREATE TABLE openchpl.corrective_action_plan_documentation (
 	corrective_action_plan_documentation_id bigserial NOT NULL,
@@ -1729,7 +1750,7 @@ ALTER TABLE openchpl.corrective_action_plan_documentation ADD CONSTRAINT correct
 REFERENCES openchpl.corrective_action_plan (corrective_action_plan_id) MATCH FULL
 ON DELETE RESTRICT ON UPDATE CASCADE;
 
-ALTER TABLE openchpl.corrective_action_plan_documentation OWNER TO openchpl;
+-- ALTER TABLE openchpl.corrective_action_plan_documentation OWNER TO openchpl;
 
 CREATE TABLE openchpl.surveillance (
 	surveillance_id bigserial not null,
@@ -1746,7 +1767,7 @@ CREATE TABLE openchpl.surveillance (
 ALTER TABLE openchpl.surveillance ADD CONSTRAINT certified_product_fk FOREIGN KEY (certified_product_id)
 REFERENCES openchpl.certified_product (certified_product_id) MATCH FULL
 ON DELETE RESTRICT ON UPDATE CASCADE;
-ALTER TABLE openchpl.surveillance OWNER TO openchpl;
+-- ALTER TABLE openchpl.surveillance OWNER TO openchpl;
 
 CREATE TABLE openchpl.surveillance_certification_result (
 	surveillance_certification_result_id bigserial not null,
@@ -1770,7 +1791,7 @@ ALTER TABLE openchpl.surveillance_certification_result ADD CONSTRAINT certificat
 REFERENCES openchpl.certification_criterion (certification_criterion_id) MATCH FULL
 ON DELETE RESTRICT ON UPDATE CASCADE;
 
-ALTER TABLE openchpl.surveillance_certification_result OWNER TO openchpl;
+-- ALTER TABLE openchpl.surveillance_certification_result OWNER TO openchpl;
 
 CREATE TABLE openchpl.api_key
 (
@@ -1785,8 +1806,7 @@ CREATE TABLE openchpl.api_key
   CONSTRAINT pk_api_key_id PRIMARY KEY (api_key_id)
 );
 
-ALTER TABLE openchpl.api_key
-  OWNER TO openchpl;
+-- ALTER TABLE openchpl.api_key  OWNER TO openchpl;
 
 CREATE TABLE openchpl.api_key_activity
 (
@@ -1800,8 +1820,7 @@ CREATE TABLE openchpl.api_key_activity
   CONSTRAINT api_key_activity_pk PRIMARY KEY (api_key_activity_id)
 );
 
-ALTER TABLE openchpl.api_key_activity
-  OWNER TO openchpl;
+-- ALTER TABLE openchpl.api_key_activity  OWNER TO openchpl;
 
 ALTER TABLE openchpl.api_key_activity ADD CONSTRAINT api_key_fk FOREIGN KEY (api_key_id) REFERENCES openchpl.api_key (api_key_id);
   
@@ -1826,8 +1845,8 @@ CREATE TABLE openchpl.certification_result_additional_software_map
 WITH (
   OIDS=FALSE
 );
-ALTER TABLE openchpl.certification_result_additional_software_map
-  OWNER TO openchpl;
+--ALTER TABLE openchpl.certification_result_additional_software_map
+--  OWNER TO openchpl;
   
   
 

@@ -3,7 +3,7 @@
 --
 CREATE schema audit;
 REVOKE CREATE ON schema audit FROM public;
-ALTER schema audit OWNER TO openchpl;
+-- ALTER schema audit OWNER TO openchpl;
 
 CREATE TABLE audit.logged_actions (
     schema_name text NOT NULL,
@@ -16,7 +16,7 @@ CREATE TABLE audit.logged_actions (
     query text
 ) WITH (fillfactor=100);
 
-ALTER TABLE audit.logged_actions OWNER TO openchpl;
+-- ALTER TABLE audit.logged_actions OWNER TO openchpl;
 
 REVOKE ALL ON audit.logged_actions FROM public;
 GRANT SELECT ON audit.logged_actions TO public;
@@ -74,7 +74,7 @@ $body$
 LANGUAGE plpgsql
 SECURITY DEFINER
 SET search_path = pg_catalog, audit;
-ALTER FUNCTION audit.if_modified_func() OWNER TO openchpl;
+-- ALTER FUNCTION audit.if_modified_func() OWNER TO openchpl;
 
 --
 -- Function for updating last_modified_date field on UPDATE
@@ -86,7 +86,7 @@ BEGIN
    RETURN NEW;
 END;
 $$ language 'plpgsql';
-ALTER FUNCTION openchpl.update_last_modified_date_column() OWNER TO openchpl;
+-- ALTER FUNCTION openchpl.update_last_modified_date_column() OWNER TO openchpl;
 
 -- Adding triggers for audit & last_modified_date updates
 CREATE TRIGGER acb_contact_map_timestamp BEFORE UPDATE on openchpl.acb_contact_map FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
@@ -105,6 +105,8 @@ CREATE TRIGGER additional_software_timestamp BEFORE UPDATE on openchpl.additiona
 CREATE TRIGGER additional_software_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.additional_software FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER address_timestamp BEFORE UPDATE on openchpl.address FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER address_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.address FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+CREATE TRIGGER announcement_timestamp BEFORE UPDATE on openchpl.announcement FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
+CREATE TRIGGER announcement_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.announcement FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER api_key_timestamp BEFORE UPDATE on openchpl.api_key FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER api_key_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.api_key FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER api_key_activity_timestamp BEFORE UPDATE on openchpl.api_key_activity FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();

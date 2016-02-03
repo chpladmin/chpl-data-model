@@ -1,7 +1,17 @@
 # Release Notes
 
-## Next version
-_Date TBD_
+## Version 0.1.1
+_12 January 2016_
+
+No significant data model changes
+
+## Version 0.1.0
+_5 January 2016_
+
+New and improved features
+* Added terms of use and api documentation to the certified product data model.
+* Added ATL information
+* Added vendor-to-ACB mapping to store transparancyAttestation field.
 
 New and improved features
 * Added terms of use and api documentation to the certified product data model.
