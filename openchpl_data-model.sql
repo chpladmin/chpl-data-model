@@ -1602,7 +1602,7 @@ CREATE TABLE openchpl.activity
    activity_object_concept_id bigint NOT NULL,
    creation_date timestamp without time zone NOT NULL DEFAULT now(),
    last_modified_date timestamp without time zone NOT NULL DEFAULT now(),
-   last_modified_user bigint NOT NULL,
+   last_modified_user bigint,
    deleted boolean NOT NULL DEFAULT false,
    CONSTRAINT activity_id_pk PRIMARY KEY (activity_id)
 )
