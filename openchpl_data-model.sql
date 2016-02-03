@@ -33,6 +33,8 @@ CREATE TABLE openchpl.user(
 	account_locked bool NOT NULL,
 	credentials_expired bool NOT NULL,
 	account_enabled bool NOT NULL,
+	compliance_signature timestamp,
+	failed_login_count int not null default 0,
 	creation_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_user bigint NOT NULL,
