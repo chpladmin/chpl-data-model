@@ -86,6 +86,7 @@ g.product_name,
 g.vendor_id,
 h.vendor_name,
 h.vendor_code,
+h.vendor_website,
 i.certification_date,
 COALESCE(k.count_certifications, 0) as "count_certifications",
 COALESCE(m.count_cqms, 0) as "count_cqms",
@@ -110,7 +111,7 @@ LEFT JOIN (SELECT product_version_id, version as "product_version", product_id f
 
 LEFT JOIN (SELECT product_id, vendor_id, name as "product_name" FROM openchpl.product) g ON f.product_id = g.product_id
 
-LEFT JOIN (SELECT vendor_id, name as "vendor_name", vendor_code from openchpl.vendor) h on g.vendor_id = h.vendor_id
+LEFT JOIN (SELECT vendor_id, name as "vendor_name", vendor_code, website as "vendor_website" from openchpl.vendor) h on g.vendor_id = h.vendor_id
 
 LEFT JOIN (SELECT vendor_id, certification_body_id, transparency_attestation from openchpl.acb_vendor_map) p on h.vendor_id = p.vendor_id and a.certification_body_id = p.certification_body_id
 
