@@ -213,3 +213,7 @@ CREATE TRIGGER vendor_timestamp BEFORE UPDATE on openchpl.vendor FOR EACH ROW EX
 CREATE TRIGGER vendor_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.vendor FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER vendor_contact_map_timestamp BEFORE UPDATE on openchpl.vendor_contact_map FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER vendor_contact_map_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.vendor_contact_map FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+
+CREATE TRIGGER certification_result_additional_software_map_timestamp BEFORE UPDATE on openchpl.certification_result_additional_software_map FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
+
+CREATE TRIGGER certification_result_additional_software_map_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.certification_result_additional_software_map FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
