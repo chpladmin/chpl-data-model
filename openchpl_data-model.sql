@@ -1695,12 +1695,14 @@ CREATE TABLE openchpl.corrective_action_plan(
 	completion_date_actual timestamp, -- the date corrective action was completed
 	noncompliance_determination_date timestamp NOT NULL, -- the date noncompliance was determined by an ACB
 	resolution text,
+	surveillance_start timestamp,
+	surveillance_end timestamp,
+	surveillance_site_count int,
 	creation_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_user bigint NOT NULL,
 	deleted bool NOT NULL DEFAULT false,
 	CONSTRAINT corrective_action_plan_pk PRIMARY KEY (corrective_action_plan_id)
-
 );
 
 ALTER TABLE openchpl.corrective_action_plan ADD CONSTRAINT certified_product_fk FOREIGN KEY (certified_product_id)
@@ -1715,6 +1717,8 @@ CREATE TABLE openchpl.corrective_action_plan_certification_result (
 	acb_summary text NOT NULL, --comes from the developer
 	developer_summary text NOT NULL, -- comes from the vendor/developer
 	resolution text,
+	surveillance_pass_rate varchar(100),
+	surveillance_results text,
 	creation_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_user bigint NOT NULL,
@@ -1750,47 +1754,6 @@ REFERENCES openchpl.corrective_action_plan (corrective_action_plan_id) MATCH FUL
 ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- ALTER TABLE openchpl.corrective_action_plan_documentation OWNER TO openchpl;
-
-CREATE TABLE openchpl.surveillance (
-	surveillance_id bigserial not null,
-	certified_product_id bigint not null,
-	start_date timestamp,
-	end_date timestamp,
-	creation_date timestamp NOT NULL DEFAULT NOW(),
-	last_modified_date timestamp NOT NULL DEFAULT NOW(),
-	last_modified_user bigint NOT NULL,
-	deleted bool NOT NULL DEFAULT false,
-	CONSTRAINT surveillance_pk PRIMARY KEY (surveillance_id)
-);
-
-ALTER TABLE openchpl.surveillance ADD CONSTRAINT certified_product_fk FOREIGN KEY (certified_product_id)
-REFERENCES openchpl.certified_product (certified_product_id) MATCH FULL
-ON DELETE RESTRICT ON UPDATE CASCADE;
--- ALTER TABLE openchpl.surveillance OWNER TO openchpl;
-
-CREATE TABLE openchpl.surveillance_certification_result (
-	surveillance_certification_result_id bigserial not null,
-	surveillance_id bigint not null,
-	certification_criterion_id bigint not null,
-	num_sites int,
-	pass_rate varchar(100),
-	results text,
-	creation_date timestamp NOT NULL DEFAULT NOW(),
-	last_modified_date timestamp NOT NULL DEFAULT NOW(),
-	last_modified_user bigint NOT NULL,
-	deleted bool NOT NULL DEFAULT false,
-	CONSTRAINT surveillance_certification_result_pk PRIMARY KEY (surveillance_certification_result_id)
-);
-
-ALTER TABLE openchpl.surveillance_certification_result ADD CONSTRAINT surveillance_fk FOREIGN KEY (surveillance_id)
-REFERENCES openchpl.surveillance (surveillance_id) MATCH FULL
-ON DELETE RESTRICT ON UPDATE CASCADE;
-
-ALTER TABLE openchpl.surveillance_certification_result ADD CONSTRAINT certification_criterion_fk FOREIGN KEY (certification_criterion_id)
-REFERENCES openchpl.certification_criterion (certification_criterion_id) MATCH FULL
-ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- ALTER TABLE openchpl.surveillance_certification_result OWNER TO openchpl;
 
 CREATE TABLE openchpl.api_key
 (
