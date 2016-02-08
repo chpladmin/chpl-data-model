@@ -1,5 +1,10 @@
 # Release Notes
 
+## Version 0.2.0
+_3 February 2016_
+
+No significant data model changes
+
 ## Version 0.1.1
 _12 January 2016_
 

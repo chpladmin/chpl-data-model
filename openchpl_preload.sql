@@ -835,16 +835,16 @@ INSERT INTO contact (contact_id, first_name, last_name, email, phone_number, sig
 (1, 'Scott', 'Purnell-Saunders', 'Scott.Purnell-Saunders@hhs.gov', '(xxx) xxx-xxxx', CURRENT_DATE, -1);
 SELECT pg_catalog.setval('contact_contact_id_seq', 2, true);
 
-INSERT INTO "user" (user_id, user_name, password, account_expired, account_locked, credentials_expired, account_enabled, last_modified_user, contact_id) VALUES
-(-2, 'admin', '$2a$10$vVXOupd9DckGsQPtZ5h9seYCGzqYb3A35r/GNuP/rRbK2eq2KxtA2', false, false, false, true, -1, -2),
-(1, 'scott', '$2a$10$cdKTeuhg3xpsysEtHkOV3eXQIfZpi13E.bm3aaGghwo/mLZhDPlpm', false, false, false, true, -1, 1),
-(-4, 'cchit', '$2a$10$LLS3sT.jIr5jhSK4b28eHe9dwFuQvlkpnM5qSRfPrTgbrlH02GqWq', false, false, false, true, -1, -4),
-(-5, 'drummond', '$2a$10$eYFuQl9CX7dwTnvKc2vfOOip336IW/RPtZNNWYDf0kmjuN7s80yJS', false, false, false, true, -1, -5),
-(-8, 'icsa', '$2a$10$a5RkoNfVZCuOfGTIGTXeS.bIlPR82XyopXUweWX83kgAHPtiAge4m', false, false, false, true, -1, -8),
-(-3, 'infogard', '$2a$10$lKafl5W1.Dv1cyqKEaMBsedRJPLqTT7BLJ5WA14xAOXoeZOmT5dtW', false, false, false, true, -1, -3),
-(-9, 'pending', '$2a$10$rF7/BrC.7vKAmWREF0IYMuH3b696/uFS9zjVoQ3MsZte9CpSMYVdi', false, false, false, true, -1, -9),
-(-6, 'sli', '$2a$10$cHEFAUGhMdzEmBy4Xn2HUeuLST.ZgOc39X6kU8bwH3qD4YCqaa2Na', false, false, false, true, -1, -6),
-(-7, 'surescripts', '$2a$10$mso5r1dD.oWw5FID0Ke5k.ORqUmgSVJacca3vuf0Nf7.mIxbjAubS', false, false, false, true, -1, -7);
+INSERT INTO "user" (user_id, user_name, password, compliance_signature, account_expired, account_locked, credentials_expired, account_enabled, last_modified_user, contact_id) VALUES
+(-2, 'admin', '$2a$10$vVXOupd9DckGsQPtZ5h9seYCGzqYb3A35r/GNuP/rRbK2eq2KxtA2', CURRENT_DATE, false, false, false, true, -1, -2),
+(1, 'scott', '$2a$10$cdKTeuhg3xpsysEtHkOV3eXQIfZpi13E.bm3aaGghwo/mLZhDPlpm', CURRENT_DATE, false, false, false, true, -1, 1),
+(-4, 'cchit', '$2a$10$LLS3sT.jIr5jhSK4b28eHe9dwFuQvlkpnM5qSRfPrTgbrlH02GqWq', CURRENT_DATE, false, false, false, true, -1, -4),
+(-5, 'drummond', '$2a$10$eYFuQl9CX7dwTnvKc2vfOOip336IW/RPtZNNWYDf0kmjuN7s80yJS', CURRENT_DATE, false, false, false, true, -1, -5),
+(-8, 'icsa', '$2a$10$a5RkoNfVZCuOfGTIGTXeS.bIlPR82XyopXUweWX83kgAHPtiAge4m', CURRENT_DATE, false, false, false, true, -1, -8),
+(-3, 'infogard', '$2a$10$lKafl5W1.Dv1cyqKEaMBsedRJPLqTT7BLJ5WA14xAOXoeZOmT5dtW', CURRENT_DATE, false, false, false, true, -1, -3),
+(-9, 'pending', '$2a$10$rF7/BrC.7vKAmWREF0IYMuH3b696/uFS9zjVoQ3MsZte9CpSMYVdi', CURRENT_DATE, false, false, false, true, -1, -9),
+(-6, 'sli', '$2a$10$cHEFAUGhMdzEmBy4Xn2HUeuLST.ZgOc39X6kU8bwH3qD4YCqaa2Na', CURRENT_DATE, false, false, false, true, -1, -6),
+(-7, 'surescripts', '$2a$10$mso5r1dD.oWw5FID0Ke5k.ORqUmgSVJacca3vuf0Nf7.mIxbjAubS', CURRENT_DATE, false, false, false, true, -1, -7);
 SELECT pg_catalog.setval('user_user_id_seq', 2, true);
 
 
