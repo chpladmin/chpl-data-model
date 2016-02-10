@@ -7,14 +7,26 @@ a.certified_product_id,
 a.certification_criterion_id,
 a.success,
 a.deleted,
+a.gap,
+a.sed,
+a.g1_success,
+a.g2_success,
+a.ucd_process_selected,
+a.ucd_process_details,
 b.number,
-b.title
+b.title,
+COALESCE(d.count_additional_software, 0) as "count_additional_software"
 
 FROM openchpl.certification_result a
 
 LEFT JOIN (SELECT certification_criterion_id, number, title FROM openchpl.certification_criterion) b
+	ON a.certification_criterion_id = b.certification_criterion_id
+LEFT JOIN (SELECT certification_result_id, count(*) as "count_additional_software" 
+			FROM 
+			(SELECT * FROM openchpl.certification_result_additional_software WHERE deleted <> true) c GROUP BY certification_result_id) d 
+	ON a.certification_result_id = d.certification_result_id;
 
-ON a.certification_criterion_id = b.certification_criterion_id;
+
 
 -- ALTER VIEW openchpl.certification_result_details OWNER TO openchpl;
 
@@ -57,6 +69,7 @@ a.testing_lab_id,
 a.certification_body_id,
 a.chpl_product_number,
 a.report_file_location,
+a.sed_report_file_location,
 a.acb_certification_id,
 a.practice_type_id,
 a.product_classification_type_id,
@@ -75,6 +88,9 @@ a.api_documentation_url,
 a.ics,
 a.sed,
 a.qms,
+a.qms_standard,
+a.qms_modification,
+a.product_additional_software,
 b.year,
 c.certification_body_name,
 c.certification_body_code,
