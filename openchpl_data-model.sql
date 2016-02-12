@@ -138,6 +138,7 @@ CREATE TABLE openchpl.acb_vendor_map (
 	vendor_id bigint NOT NULL,
 	certification_body_id bigint NOT NULL,
 	transparency_attestation boolean NOT NULL DEFAULT FALSE,
+	transparency_attestation_url varchar(1024),
 	creation_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_user bigint NOT NULL,
@@ -167,6 +168,16 @@ CREATE TABLE openchpl.user_permission(
 --A LTER TABLE openchpl.user_permission OWNER TO openchpl;
 -- ddl-end --
 
+CREATE TABLE openchpl.qms_standard (
+	qms_standard_id bigserial NOT NULL,
+	name varchar(200) NOT NULL,
+	creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
+	CONSTRAINT qms_standard_pk PRIMARY KEY (qms_standard_id)
+);
+
 -- object: openchpl.certified_product | type: TABLE --
 -- DROP TABLE IF EXISTS openchpl.certified_product CASCADE;
 CREATE TABLE openchpl.certified_product(
@@ -191,8 +202,6 @@ CREATE TABLE openchpl.certified_product(
 	ics varchar(1024),
 	sed boolean,
 	qms boolean,
-	qms_standard varchar(255),
-	qms_modification text,
 	product_code varchar(16),
 	version_code varchar(16),
 	ics_code varchar(16),
@@ -210,6 +219,25 @@ COMMENT ON TABLE openchpl.certified_product IS 'A product that has been Certifie
 -- ddl-end --
 -- ALTER TABLE openchpl.certified_product OWNER TO openchpl;
 -- ddl-end --
+
+CREATE TABLE openchpl.certified_product_qms_standard(
+	certified_product_qms_standard_id bigserial not null,
+	certified_product_id bigint not null,
+	qms_standard_id bigint not null,
+	modification text,
+	applicable_criteria text,
+	creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
+	CONSTRAINT certified_product_qms_standard_pk PRIMARY KEY (certified_product_qms_standard_id),
+	CONSTRAINT certified_product_fk FOREIGN KEY (certified_product_id)
+      REFERENCES openchpl.certified_product (certified_product_id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+	CONSTRAINT qms_standard_fk FOREIGN KEY (qms_standard_id)
+      REFERENCES openchpl.qms_standard (qms_standard_id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+);
 
 -- object: openchpl.product_version | type: TABLE --
 -- DROP TABLE IF EXISTS openchpl.product_version CASCADE;
@@ -303,15 +331,15 @@ CREATE TABLE openchpl.test_standard (
 	constraint test_standard_pk primary key (test_standard_id)
 );
 
-CREATE TABLE openchpl.certification_result_standard_tested (
-	certification_result_standard_tested_id bigserial NOT NULL,
+CREATE TABLE openchpl.certification_result_test_standard (
+	certification_result_test_standard_id bigserial NOT NULL,
 	certification_result_id bigint not null,
 	test_standard_id bigint,
 	creation_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_user bigint NOT NULL,
 	deleted bool NOT NULL,
-	CONSTRAINT certification_result_standard_tested_pk PRIMARY KEY (certification_result_standard_tested_id),
+	CONSTRAINT certification_result_test_standard_pk PRIMARY KEY (certification_result_test_standard_id),
 	CONSTRAINT certification_result_fk FOREIGN KEY (certification_result_id)
       REFERENCES openchpl.certification_result (certification_result_id) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION,
@@ -324,6 +352,7 @@ CREATE TABLE openchpl.certification_result_standard_tested (
 CREATE TABLE openchpl.test_functionality (
 	test_functionality_id bigserial not null,
 	name varchar(200) not null,
+	category varchar(200) not null, --optional, inpatient, ambulatory, common MU
 	creation_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_user bigint NOT NULL,
@@ -403,22 +432,12 @@ CREATE TABLE openchpl.certification_result_test_procedure (
 -- ALTER TABLE openchpl.test_procedure_version OWNER TO openchpl;
 -- ddl-end --
 
-create table openchpl.test_data (
-	test_data_id bigserial not null,
-	version varchar(255) not null,
-	creation_date timestamp NOT NULL DEFAULT NOW(),
-	last_modified_date timestamp NOT NULL DEFAULT NOW(),
-	last_modified_user bigint NOT NULL,
-	deleted bool NOT NULL DEFAULT false,
-	CONSTRAINT test_data_pk PRIMARY KEY (test_data_id)
-);
-
--- object: openchpl.test_data_version | type: TABLE --
--- DROP TABLE IF EXISTS openchpl.test_data_version CASCADE;
+-- object: openchpl.certification_result_test_data | type: TABLE --
+-- DROP TABLE IF EXISTS openchpl.certification_result_test_data CASCADE;
 CREATE TABLE openchpl.certification_result_test_data(
 	certification_result_test_data_id bigserial NOT NULL,
 	certification_result_id bigint NOT NULL,
-	test_data_id bigint NOT NULL,
+	version varchar(100) not null,
 	alteration text,
 	creation_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
@@ -427,9 +446,6 @@ CREATE TABLE openchpl.certification_result_test_data(
 	CONSTRAINT certification_result_test_data_pk PRIMARY KEY (certification_result_test_data_id),
 	CONSTRAINT certification_result_fk FOREIGN KEY (certification_result_id)
 		REFERENCES openchpl.certification_result (certification_result_id) MATCH FULL
-		ON DELETE RESTRICT ON UPDATE CASCADE,
-	CONSTRAINT test_data_fk FOREIGN KEY (test_data_id)
-		REFERENCES openchpl.test_data (test_data_id) MATCH FULL
 		ON DELETE RESTRICT ON UPDATE CASCADE
 
 );
