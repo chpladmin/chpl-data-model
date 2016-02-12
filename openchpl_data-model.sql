@@ -360,15 +360,16 @@ CREATE TABLE openchpl.test_functionality (
 	constraint test_functionality_pk primary key (test_functionality_id)
 );
 
-CREATE TABLE openchpl.certification_result_functionality_tested (
-	certification_result_functionality_tested_id bigserial NOT NULL,
+CREATE TABLE openchpl.certification_result_test_functionality 
+(
+	certification_result_test_functionality_id bigserial NOT NULL,
 	certification_result_id bigint not null,
 	test_functionality_id bigint not null,
 	creation_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_user bigint NOT NULL,
 	deleted bool NOT NULL,
-	CONSTRAINT certification_result_functionality_tested_pk PRIMARY KEY (certification_result_functionality_tested_id),
+	CONSTRAINT certification_result_test_functionality_pk PRIMARY KEY (certification_result_test_functionality_id),
 	CONSTRAINT certification_result_fk FOREIGN KEY (certification_result_id)
       REFERENCES openchpl.certification_result (certification_result_id) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION,
