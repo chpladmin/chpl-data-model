@@ -438,6 +438,7 @@ CREATE TABLE openchpl.certification_result_test_procedure (
 CREATE TABLE openchpl.certification_result_test_data(
 	certification_result_test_data_id bigserial NOT NULL,
 	certification_result_id bigint NOT NULL,
+	version varchar(100) not null,
 	alteration text,
 	creation_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
