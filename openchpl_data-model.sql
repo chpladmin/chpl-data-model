@@ -1687,17 +1687,14 @@ COMMENT ON TABLE openchpl.invited_user_permission IS 'A user that has been invit
 CREATE TABLE openchpl.corrective_action_plan(
 	corrective_action_plan_id bigserial NOT NULL,
 	certified_product_id bigint NOT NULL,
-	acb_summary text NOT NULL, --comes from the developer
-	developer_summary text NOT NULL, -- comes from the vendor/developer
-	approval_date timestamp NOT NULL, -- the date ONC approved a corrective action plan
-	effective_date timestamp NOT NULL, -- the date corrective action began
-	completion_date_estimated timestamp NOT NULL, -- the date corrective action must be completed
-	completion_date_actual timestamp, -- the date corrective action was completed
-	noncompliance_determination_date timestamp NOT NULL, -- the date noncompliance was determined by an ACB
-	resolution text,
-	surveillance_start timestamp,
+	surveillance_start timestamp NOT NULL,
+	surveillance_result boolean NOT NULL,
 	surveillance_end timestamp,
-	surveillance_site_count int,
+	noncompliance_determination_date timestamp NOT NULL, -- the date noncompliance was determined by an ACB
+	approval_date timestamp, -- the date ONC approved a corrective action plan
+	start_date timestamp, -- the date corrective action began
+	completion_date_required timestamp, -- the date corrective action must be completed
+	completion_date_actual timestamp, -- the date corrective action was completed
 	creation_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_user bigint NOT NULL,
@@ -1714,11 +1711,11 @@ CREATE TABLE openchpl.corrective_action_plan_certification_result (
 	corrective_action_plan_certification_result_id bigserial NOT NULL,
 	certification_criterion_id bigint NOT NULL,
 	corrective_action_plan_id bigint NOT NULL,
-	acb_summary text NOT NULL, --comes from the developer
-	developer_summary text NOT NULL, -- comes from the vendor/developer
+	summary text, 
+	developer_explanation text,
 	resolution text,
-	surveillance_pass_rate varchar(100),
-	surveillance_results text,
+	num_sites_passed int,
+	num_sites_total int,
 	creation_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_user bigint NOT NULL,
@@ -1733,6 +1730,7 @@ ON DELETE RESTRICT ON UPDATE CASCADE;
 ALTER TABLE openchpl.corrective_action_plan_certification_result ADD CONSTRAINT corrective_action_plan_fk FOREIGN KEY (corrective_action_plan_id)
 REFERENCES openchpl.corrective_action_plan (corrective_action_plan_id) MATCH FULL
 ON DELETE RESTRICT ON UPDATE CASCADE;
+
 
 -- ALTER TABLE openchpl.corrective_action_plan_certification_result OWNER TO openchpl;
 
