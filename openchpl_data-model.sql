@@ -455,7 +455,6 @@ CREATE TABLE openchpl.certification_result_test_data(
 -- DROP TABLE IF EXISTS openchpl.test_tool CASCADE;
 CREATE TABLE openchpl.test_tool(
 	test_tool_id bigserial NOT NULL,
-	certification_edition_id bigint NOT NULL,
 	name varchar(100) NOT NULL,
 	description varchar(1000),
 	version varchar(50),
@@ -463,11 +462,7 @@ CREATE TABLE openchpl.test_tool(
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_user bigint NOT NULL,
 	deleted bool NOT NULL DEFAULT false,
-	CONSTRAINT test_tool_pk PRIMARY KEY (test_tool_id),
-	CONSTRAINT certification_edition_fk FOREIGN KEY (certification_edition_id)
-		REFERENCES openchpl.certification_edition (certification_edition_id) MATCH FULL
-		ON DELETE RESTRICT ON UPDATE CASCADE
-
+	CONSTRAINT test_tool_pk PRIMARY KEY (test_tool_id)
 );
 
 CREATE TABLE openchpl.certification_result_test_tool (
