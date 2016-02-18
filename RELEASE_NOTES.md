@@ -1,5 +1,15 @@
 # Release Notes
 
+## Version 0.3.0
+_18 February 2016_
+
+### New and improved freatures
+* Added vendor website to vendor information
+* Combined surveillance and corrective action plans
+* Allowed search on corrective action plan statuses
+* Removed Additional Software from CQMs
+* Updated data model with respect to new 2014 upload
+
 ## Version 0.2.0
 _3 February 2016_
 
