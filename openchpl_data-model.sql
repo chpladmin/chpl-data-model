@@ -138,12 +138,12 @@ CREATE TABLE openchpl.acb_vendor_map (
 	vendor_id bigint NOT NULL,
 	certification_body_id bigint NOT NULL,
 	transparency_attestation boolean NOT NULL DEFAULT FALSE,
+	transparency_attestation_url varchar(1024),
 	creation_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_user bigint NOT NULL,
 	deleted bool NOT NULL DEFAULT false,
-	CONSTRAINT acb_vendor_pk PRIMARY KEY (acb_vendor_map_id),
-	CONSTRAINT acb_vendor_unique UNIQUE (vendor_id, certification_body_id, deleted)
+	CONSTRAINT acb_vendor_pk PRIMARY KEY (acb_vendor_map_id)
 );
 
 ALTER TABLE openchpl.acb_vendor_map OWNER TO openchpl;
@@ -168,6 +168,16 @@ CREATE TABLE openchpl.user_permission(
 --A LTER TABLE openchpl.user_permission OWNER TO openchpl;
 -- ddl-end --
 
+CREATE TABLE openchpl.qms_standard (
+	qms_standard_id bigserial NOT NULL,
+	name varchar(200) NOT NULL,
+	creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
+	CONSTRAINT qms_standard_pk PRIMARY KEY (qms_standard_id)
+);
+
 -- object: openchpl.certified_product | type: TABLE --
 -- DROP TABLE IF EXISTS openchpl.certified_product CASCADE;
 CREATE TABLE openchpl.certified_product(
@@ -177,19 +187,17 @@ CREATE TABLE openchpl.certified_product(
 	testing_lab_id bigint,
 	certification_body_id bigint NOT NULL,
 	chpl_product_number varchar(250),
-	report_file_location varchar(255),
+	report_file_location varchar(255), -- test report
+	sed_report_file_location varchar(255), 
 	acb_certification_id varchar(250),
 	privacy_attestation boolean not null default false,
-	creation_date timestamp NOT NULL DEFAULT NOW(),
-	last_modified_date timestamp NOT NULL DEFAULT NOW(),
-	last_modified_user bigint NOT NULL,
-	deleted bool NOT NULL DEFAULT false,
 	practice_type_id bigint,
 	product_classification_type_id bigint,
+	product_additional_software varchar(1000), -- legacy for ETL
 	other_acb character varying(64),
 	certification_status_id bigint NOT NULL,
     visible_on_chpl bool NOT NULL DEFAULT true,
-	terms_of_use_url varchar(1024),
+	terms_of_use_url varchar(1024), --170.523 (k)(1)
 	api_documentation_url varchar(1024),
 	ics varchar(1024),
 	sed boolean,
@@ -199,14 +207,37 @@ CREATE TABLE openchpl.certified_product(
 	ics_code varchar(16),
 	additional_software_code varchar(16),
 	certified_date_code varchar(16),
+	creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
 	CONSTRAINT certified_product_pk PRIMARY KEY (certified_product_id)
 
 );
 -- ddl-end --
 COMMENT ON TABLE openchpl.certified_product IS 'A product that has been Certified';
 -- ddl-end --
---A LTER TABLE openchpl.certified_product OWNER TO openchpl;
+-- ALTER TABLE openchpl.certified_product OWNER TO openchpl;
 -- ddl-end --
+
+CREATE TABLE openchpl.certified_product_qms_standard(
+	certified_product_qms_standard_id bigserial not null,
+	certified_product_id bigint not null,
+	qms_standard_id bigint not null,
+	modification text,
+	applicable_criteria text,
+	creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
+	CONSTRAINT certified_product_qms_standard_pk PRIMARY KEY (certified_product_qms_standard_id),
+	CONSTRAINT certified_product_fk FOREIGN KEY (certified_product_id)
+      REFERENCES openchpl.certified_product (certified_product_id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+	CONSTRAINT qms_standard_fk FOREIGN KEY (qms_standard_id)
+      REFERENCES openchpl.qms_standard (qms_standard_id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+);
 
 -- object: openchpl.product_version | type: TABLE --
 -- DROP TABLE IF EXISTS openchpl.product_version CASCADE;
@@ -273,25 +304,181 @@ CREATE TABLE openchpl.certification_result(
 	certification_result_id bigserial NOT NULL,
 	certification_criterion_id bigint NOT NULL,
 	certified_product_id bigint NOT NULL,
-	test_data_version_id bigint,
-	test_procedure_version_id bigint,
 	success bool NOT NULL,
-	inherited bool,
 	gap bool,
-	automated_numerator bool,
-	automated_measure_capable bool,
-	sed_successful bool,
-	sed_inherited bool,
+	sed bool,
+	g1_success bool,
+	g2_success bool,
+	ucd_process_selected text,
+	ucd_process_details text,
 	creation_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_user bigint NOT NULL,
 	deleted bool NOT NULL DEFAULT false,
 	CONSTRAINT certification_result_pk PRIMARY KEY (certification_result_id)
+);
+-- ddl-end --
+--ALTER TABLE openchpl.certification_result OWNER TO openchpl;
+-- ddl-end --
+
+CREATE TABLE openchpl.test_standard (
+	test_standard_id bigserial not null,
+	name varchar(200) not null,
+	creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
+	constraint test_standard_pk primary key (test_standard_id)
+);
+
+CREATE TABLE openchpl.certification_result_test_standard (
+	certification_result_test_standard_id bigserial NOT NULL,
+	certification_result_id bigint not null,
+	test_standard_id bigint,
+	creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL,
+	CONSTRAINT certification_result_test_standard_pk PRIMARY KEY (certification_result_test_standard_id),
+	CONSTRAINT certification_result_fk FOREIGN KEY (certification_result_id)
+      REFERENCES openchpl.certification_result (certification_result_id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+	CONSTRAINT test_standard_fk FOREIGN KEY (test_standard_id)
+      REFERENCES openchpl.test_standard (test_standard_id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+
+);
+
+CREATE TABLE openchpl.test_functionality (
+	test_functionality_id bigserial not null,
+	name varchar(200) not null,
+	category varchar(200) not null, --optional, inpatient, ambulatory, common MU
+	creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
+	constraint test_functionality_pk primary key (test_functionality_id)
+);
+
+CREATE TABLE openchpl.certification_result_test_functionality 
+(
+	certification_result_test_functionality_id bigserial NOT NULL,
+	certification_result_id bigint not null,
+	test_functionality_id bigint not null,
+	creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL,
+	CONSTRAINT certification_result_test_functionality_pk PRIMARY KEY (certification_result_test_functionality_id),
+	CONSTRAINT certification_result_fk FOREIGN KEY (certification_result_id)
+      REFERENCES openchpl.certification_result (certification_result_id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+	CONSTRAINT test_functionality_fk FOREIGN KEY (test_functionality_id)
+      REFERENCES openchpl.test_functionality (test_functionality_id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+
+);
+
+CREATE TABLE openchpl.certification_result_additional_software
+(
+  certification_result_additional_software_id bigserial,
+  certification_result_id bigint NOT NULL,
+  name varchar(500),
+  version varchar(250),
+  certified_product_id bigint,
+  justification varchar(500),
+  creation_date timestamp without time zone NOT NULL DEFAULT now(),
+  last_modified_date timestamp without time zone NOT NULL DEFAULT now(),
+  last_modified_user bigint NOT NULL,
+  deleted boolean NOT NULL DEFAULT false,
+  CONSTRAINT certification_result_additional_software_pk PRIMARY KEY (certification_result_additional_software_id),
+  CONSTRAINT certification_result_fk FOREIGN KEY (certification_result_id)
+      REFERENCES openchpl.certification_result (certification_result_id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+   CONSTRAINT certified_product_fk FOREIGN KEY (certified_product_id)
+      REFERENCES openchpl.certified_product (certified_product_id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+);
+
+create table openchpl.test_procedure (
+	test_procedure_id bigserial not null,
+	version varchar(255) not null,
+	creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
+	CONSTRAINT test_procedure_pk PRIMARY KEY (test_procedure_id)
+);
+
+-- object: openchpl.test_procedure_version | type: TABLE --
+-- DROP TABLE IF EXISTS openchpl.test_procedure_version CASCADE;
+CREATE TABLE openchpl.certification_result_test_procedure (
+	certification_result_test_procedure_id bigserial NOT NULL,
+	certification_result_id bigint NOT NULL,
+	test_procedure_id bigint not null,
+	creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
+	CONSTRAINT certification_result_test_procedure_pk PRIMARY KEY (certification_result_test_procedure_id),
+	CONSTRAINT certification_result_fk FOREIGN KEY (certification_result_id)
+		REFERENCES openchpl.certification_result (certification_result_id) MATCH FULL
+		ON DELETE RESTRICT ON UPDATE CASCADE,
+	CONSTRAINT test_procedure_fk FOREIGN KEY (test_procedure_id)
+		REFERENCES openchpl.test_procedure (test_procedure_id) MATCH FULL
+		ON DELETE RESTRICT ON UPDATE CASCADE
 
 );
 -- ddl-end --
---A LTER TABLE openchpl.certification_result OWNER TO openchpl;
+-- ALTER TABLE openchpl.test_procedure_version OWNER TO openchpl;
 -- ddl-end --
+
+-- object: openchpl.certification_result_test_data | type: TABLE --
+-- DROP TABLE IF EXISTS openchpl.certification_result_test_data CASCADE;
+CREATE TABLE openchpl.certification_result_test_data(
+	certification_result_test_data_id bigserial NOT NULL,
+	certification_result_id bigint NOT NULL,
+	version varchar(100) not null,
+	alteration text,
+	creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
+	CONSTRAINT certification_result_test_data_pk PRIMARY KEY (certification_result_test_data_id),
+	CONSTRAINT certification_result_fk FOREIGN KEY (certification_result_id)
+		REFERENCES openchpl.certification_result (certification_result_id) MATCH FULL
+		ON DELETE RESTRICT ON UPDATE CASCADE
+
+);
+
+-- object: openchpl.test_tool | type: TABLE --
+-- DROP TABLE IF EXISTS openchpl.test_tool CASCADE;
+CREATE TABLE openchpl.test_tool(
+	test_tool_id bigserial NOT NULL,
+	name varchar(100) NOT NULL,
+	description varchar(1000),
+	version varchar(50),
+	creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
+	CONSTRAINT test_tool_pk PRIMARY KEY (test_tool_id)
+);
+
+CREATE TABLE openchpl.certification_result_test_tool (
+	certification_result_test_tool_id bigserial NOT NULL,
+	certification_result_id bigint NOT NULL,
+	test_tool_id bigint NOT NULL,
+	creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
+	CONSTRAINT certification_result_test_tool_pk PRIMARY KEY (certification_result_test_tool_id),
+	CONSTRAINT test_tool_fk FOREIGN KEY (test_tool_id)
+	REFERENCES openchpl.test_tool (test_tool_id) MATCH FULL
+	ON DELETE RESTRICT ON UPDATE CASCADE
+
+);
 
 -- object: openchpl.testing_lab | type: TABLE --
 -- DROP TABLE IF EXISTS openchpl.testing_lab CASCADE;
@@ -307,7 +494,6 @@ CREATE TABLE openchpl.testing_lab(
 	last_modified_user bigint NOT NULL,
 	deleted bool NOT NULL DEFAULT false,
 	CONSTRAINT testing_lab_pk PRIMARY KEY (testing_lab_id)
-
 );
 -- ddl-end --
 -- ALTER TABLE openchpl.testing_lab OWNER TO openchpl;
@@ -632,57 +818,6 @@ CREATE TABLE openchpl.cqm_criterion_type(
 -- ALTER TABLE openchpl.cqm_criterion_type OWNER TO openchpl;
 -- ddl-end --
 
--- object: openchpl.criterion_standard | type: TABLE --
--- DROP TABLE IF EXISTS openchpl.criterion_standard CASCADE;
-CREATE TABLE openchpl.criterion_standard(
-	criterion_standard_id bigserial NOT NULL,
-	certification_criterion_id bigint NOT NULL,
-	number varchar(25),
-	description varchar(1000),
-	sublist_description varchar(250),
-	creation_date timestamp NOT NULL DEFAULT NOW(),
-	last_modified_date timestamp NOT NULL DEFAULT NOW(),
-	last_modified_user bigint NOT NULL,
-	deleted bool NOT NULL,
-	CONSTRAINT criterion_standard_pk PRIMARY KEY (criterion_standard_id)
-
-);
--- ddl-end --
--- ALTER TABLE openchpl.criterion_standard OWNER TO openchpl;
--- ddl-end --
-
--- object: openchpl.criterion_optional_functionality | type: TABLE --
--- DROP TABLE IF EXISTS openchpl.criterion_optional_functionality CASCADE;
-CREATE TABLE openchpl.criterion_optional_functionality(
-	criterion_optional_functionality_id bigserial NOT NULL,
-	certification_criterion_id bigint NOT NULL,
-	number varchar(25),
-	description varchar(1000),
-	creation_date timestamp NOT NULL DEFAULT now(),
-	last_modified_date timestamp NOT NULL DEFAULT now(),
-	last_modified_user bigint NOT NULL,
-	deleted bool NOT NULL DEFAULT false,
-	CONSTRAINT criterion_optional_functionality_pk PRIMARY KEY (criterion_optional_functionality_id)
-
-);
--- ddl-end --
--- ALTER TABLE openchpl.criterion_optional_functionality OWNER TO openchpl;
--- ddl-end --
-
--- object: certification_criterion_fk | type: CONSTRAINT --
--- ALTER TABLE openchpl.criterion_standard DROP CONSTRAINT IF EXISTS certification_criterion_fk CASCADE;
-ALTER TABLE openchpl.criterion_standard ADD CONSTRAINT certification_criterion_fk FOREIGN KEY (certification_criterion_id)
-REFERENCES openchpl.certification_criterion (certification_criterion_id) MATCH FULL
-ON DELETE RESTRICT ON UPDATE CASCADE;
--- ddl-end --
-
--- object: certification_criterion_fk | type: CONSTRAINT --
--- ALTER TABLE openchpl.criterion_optional_functionality DROP CONSTRAINT IF EXISTS certification_criterion_fk CASCADE;
-ALTER TABLE openchpl.criterion_optional_functionality ADD CONSTRAINT certification_criterion_fk FOREIGN KEY (certification_criterion_id)
-REFERENCES openchpl.certification_criterion (certification_criterion_id) MATCH FULL
-ON DELETE RESTRICT ON UPDATE CASCADE;
--- ddl-end --
-
 -- object: openchpl.certification_event | type: TABLE --
 -- DROP TABLE IF EXISTS openchpl.certification_event CASCADE;
 CREATE TABLE openchpl.certification_event(
@@ -768,87 +903,12 @@ CREATE TABLE openchpl.practice_type(
 -- ALTER TABLE openchpl.practice_type OWNER TO openchpl;
 -- ddl-end --
 
--- object: openchpl.additional_software | type: TABLE --
--- DROP TABLE IF EXISTS openchpl.additional_software CASCADE;
-CREATE TABLE openchpl.additional_software(
-	additional_software_id bigserial NOT NULL,
-	certified_product_id bigint NOT NULL,
-	name varchar(500) NOT NULL,
-	version varchar(250) NOT NULL,
-	justification varchar(1000),
-	creation_date timestamp NOT NULL DEFAULT NOW(),
-	last_modified_date timestamp NOT NULL DEFAULT NOW(),
-	last_modified_user bigint NOT NULL,
-	deleted bool NOT NULL DEFAULT false,
-	CONSTRAINT additional_software_pk PRIMARY KEY (additional_software_id)
-
-);
--- ddl-end --
--- ALTER TABLE openchpl.additional_software OWNER TO openchpl;
--- ddl-end --
-
--- object: certified_product_fk | type: CONSTRAINT --
--- ALTER TABLE openchpl.additional_software DROP CONSTRAINT IF EXISTS certified_product_fk CASCADE;
-ALTER TABLE openchpl.additional_software ADD CONSTRAINT certified_product_fk FOREIGN KEY (certified_product_id)
-REFERENCES openchpl.certified_product (certified_product_id) MATCH FULL
-ON DELETE RESTRICT ON UPDATE CASCADE;
--- ddl-end --
-
--- object: openchpl.test_tool | type: TABLE --
--- DROP TABLE IF EXISTS openchpl.test_tool CASCADE;
-CREATE TABLE openchpl.test_tool(
-	test_tool_id bigserial NOT NULL,
-	certification_edition_id bigint NOT NULL,
-	name varchar(100) NOT NULL,
-	description varchar(1000),
-	creation_date timestamp NOT NULL DEFAULT NOW(),
-	last_modified_date timestamp NOT NULL DEFAULT NOW(),
-	last_modified_user bigint NOT NULL,
-	deleted bool NOT NULL DEFAULT false,
-	CONSTRAINT test_tool_pk PRIMARY KEY (test_tool_id)
-
-);
--- ddl-end --
--- ALTER TABLE openchpl.test_tool OWNER TO openchpl;
--- ddl-end --
-
--- object: certification_edition_fk | type: CONSTRAINT --
--- ALTER TABLE openchpl.test_tool DROP CONSTRAINT IF EXISTS certification_edition_fk CASCADE;
-ALTER TABLE openchpl.test_tool ADD CONSTRAINT certification_edition_fk FOREIGN KEY (certification_edition_id)
-REFERENCES openchpl.certification_edition (certification_edition_id) MATCH FULL
-ON DELETE RESTRICT ON UPDATE CASCADE;
--- ddl-end --
-
--- object: openchpl.test_tool_version | type: TABLE --
--- DROP TABLE IF EXISTS openchpl.test_tool_version CASCADE;
-CREATE TABLE openchpl.test_tool_version(
-	test_tool_version_id bigserial NOT NULL,
-	test_tool_id bigint NOT NULL,
-	version varchar(50) NOT NULL,
-	creation_date timestamp NOT NULL DEFAULT NOW(),
-	last_modified_date timestamp NOT NULL DEFAULT NOW(),
-	last_modified_user bigint NOT NULL,
-	deleted bool NOT NULL DEFAULT false,
-	CONSTRAINT test_tool_version_pk PRIMARY KEY (test_tool_version_id)
-
-);
--- ddl-end --
--- ALTER TABLE openchpl.test_tool_version OWNER TO openchpl;
--- ddl-end --
-
--- object: test_tool_fk | type: CONSTRAINT --
--- ALTER TABLE openchpl.test_tool_version DROP CONSTRAINT IF EXISTS test_tool_fk CASCADE;
-ALTER TABLE openchpl.test_tool_version ADD CONSTRAINT test_tool_fk FOREIGN KEY (test_tool_id)
-REFERENCES openchpl.test_tool (test_tool_id) MATCH FULL
-ON DELETE RESTRICT ON UPDATE CASCADE;
--- ddl-end --
-
 -- object: openchpl.utilized_test_tool | type: TABLE --
 -- DROP TABLE IF EXISTS openchpl.utilized_test_tool CASCADE;
 CREATE TABLE openchpl.utilized_test_tool(
 	utilized_test_tool_id bigserial NOT NULL,
 	selected bool NOT NULL,
-	certified_product_id bigint NOT NULL,
+	certification_result_id bigint NOT NULL,
 	test_tool_id bigint,
 	test_tool_version_id bigint,
 	creation_date timestamp NOT NULL DEFAULT NOW(),
@@ -860,20 +920,6 @@ CREATE TABLE openchpl.utilized_test_tool(
 );
 -- ddl-end --
 -- ALTER TABLE openchpl.utilized_test_tool OWNER TO openchpl;
--- ddl-end --
-
--- object: certified_product_fk | type: CONSTRAINT --
--- ALTER TABLE openchpl.utilized_test_tool DROP CONSTRAINT IF EXISTS certified_product_fk CASCADE;
-ALTER TABLE openchpl.utilized_test_tool ADD CONSTRAINT certified_product_fk FOREIGN KEY (certified_product_id)
-REFERENCES openchpl.certified_product (certified_product_id) MATCH FULL
-ON DELETE RESTRICT ON UPDATE CASCADE;
--- ddl-end --
-
--- object: test_tool_version_fk | type: CONSTRAINT --
--- ALTER TABLE openchpl.utilized_test_tool DROP CONSTRAINT IF EXISTS test_tool_version_fk CASCADE;
-ALTER TABLE openchpl.utilized_test_tool ADD CONSTRAINT test_tool_version_fk FOREIGN KEY (test_tool_version_id)
-REFERENCES openchpl.test_tool_version (test_tool_version_id) MATCH FULL
-ON DELETE SET NULL ON UPDATE CASCADE;
 -- ddl-end --
 
 -- object: test_tool_fk | type: CONSTRAINT --
@@ -901,12 +947,6 @@ CREATE TABLE openchpl.standards_met(
 -- ALTER TABLE openchpl.standards_met OWNER TO openchpl;
 -- ddl-end --
 
--- object: criterion_standard_fk | type: CONSTRAINT --
--- ALTER TABLE openchpl.standards_met DROP CONSTRAINT IF EXISTS criterion_standard_fk CASCADE;
-ALTER TABLE openchpl.standards_met ADD CONSTRAINT criterion_standard_fk FOREIGN KEY (criterion_standard_id)
-REFERENCES openchpl.criterion_standard (criterion_standard_id) MATCH FULL
-ON DELETE RESTRICT ON UPDATE CASCADE;
--- ddl-end --
 
 -- object: openchpl.newer_standards_met | type: TABLE --
 -- DROP TABLE IF EXISTS openchpl.newer_standards_met CASCADE;
@@ -958,75 +998,6 @@ CREATE TABLE openchpl.optional_functionality_met(
 -- ALTER TABLE openchpl.optional_functionality_met OWNER TO openchpl;
 -- ddl-end --
 
--- object: criterion_optional_functionality_fk | type: CONSTRAINT --
--- ALTER TABLE openchpl.optional_functionality_met DROP CONSTRAINT IF EXISTS criterion_optional_functionality_fk CASCADE;
-ALTER TABLE openchpl.optional_functionality_met ADD CONSTRAINT criterion_optional_functionality_fk FOREIGN KEY (criterion_optional_functionality_id)
-REFERENCES openchpl.criterion_optional_functionality (criterion_optional_functionality_id) MATCH FULL
-ON DELETE RESTRICT ON UPDATE CASCADE;
--- ddl-end --
-
--- object: openchpl.test_procedure_version | type: TABLE --
--- DROP TABLE IF EXISTS openchpl.test_procedure_version CASCADE;
-CREATE TABLE openchpl.test_procedure_version(
-	test_procedure_version_id bigserial NOT NULL,
-	certification_criterion_id bigint NOT NULL,
-	version varchar(25) NOT NULL,
-	creation_date timestamp NOT NULL DEFAULT NOW(),
-	last_modified_date timestamp NOT NULL DEFAULT NOW(),
-	last_modified_user bigint NOT NULL,
-	deleted bool NOT NULL DEFAULT false,
-	CONSTRAINT test_procedure_version_pk PRIMARY KEY (test_procedure_version_id)
-
-);
--- ddl-end --
--- ALTER TABLE openchpl.test_procedure_version OWNER TO openchpl;
--- ddl-end --
-
--- object: openchpl.test_data_version | type: TABLE --
--- DROP TABLE IF EXISTS openchpl.test_data_version CASCADE;
-CREATE TABLE openchpl.test_data_version(
-	test_data_version_id bigserial NOT NULL,
-	certification_criterion_id bigint NOT NULL,
-	version varchar(25) NOT NULL,
-	creation_date timestamp NOT NULL DEFAULT NOW(),
-	last_modified_date timestamp NOT NULL DEFAULT NOW(),
-	last_modified_user bigint NOT NULL,
-	deleted bool NOT NULL DEFAULT false,
-	CONSTRAINT test_data_version_pk PRIMARY KEY (test_data_version_id)
-
-);
--- ddl-end --
--- ALTER TABLE openchpl.test_data_version OWNER TO openchpl;
--- ddl-end --
-
--- object: certification_criterion_fk | type: CONSTRAINT --
--- ALTER TABLE openchpl.test_procedure_version DROP CONSTRAINT IF EXISTS certification_criterion_fk CASCADE;
-ALTER TABLE openchpl.test_procedure_version ADD CONSTRAINT certification_criterion_fk FOREIGN KEY (certification_criterion_id)
-REFERENCES openchpl.certification_criterion (certification_criterion_id) MATCH FULL
-ON DELETE RESTRICT ON UPDATE CASCADE;
--- ddl-end --
-
--- object: certification_criterion_fk | type: CONSTRAINT --
--- ALTER TABLE openchpl.test_data_version DROP CONSTRAINT IF EXISTS certification_criterion_fk CASCADE;
-ALTER TABLE openchpl.test_data_version ADD CONSTRAINT certification_criterion_fk FOREIGN KEY (certification_criterion_id)
-REFERENCES openchpl.certification_criterion (certification_criterion_id) MATCH FULL
-ON DELETE RESTRICT ON UPDATE CASCADE;
--- ddl-end --
-
--- object: test_data_version_fk | type: CONSTRAINT --
--- ALTER TABLE openchpl.certification_result DROP CONSTRAINT IF EXISTS test_data_version_fk CASCADE;
-ALTER TABLE openchpl.certification_result ADD CONSTRAINT test_data_version_fk FOREIGN KEY (test_data_version_id)
-REFERENCES openchpl.test_data_version (test_data_version_id) MATCH FULL
-ON DELETE SET NULL ON UPDATE CASCADE;
--- ddl-end --
-
--- object: test_procedure_version_fk | type: CONSTRAINT --
--- ALTER TABLE openchpl.certification_result DROP CONSTRAINT IF EXISTS test_procedure_version_fk CASCADE;
-ALTER TABLE openchpl.certification_result ADD CONSTRAINT test_procedure_version_fk FOREIGN KEY (test_procedure_version_id)
-REFERENCES openchpl.test_procedure_version (test_procedure_version_id) MATCH FULL
-ON DELETE SET NULL ON UPDATE CASCADE;
--- ddl-end --
-
 -- object: openchpl.cqm_version | type: TABLE --
 -- DROP TABLE IF EXISTS openchpl.cqm_version CASCADE;
 CREATE TABLE openchpl.cqm_version(
@@ -1041,30 +1012,6 @@ CREATE TABLE openchpl.cqm_version(
 );
 -- ddl-end --
 -- ALTER TABLE openchpl.cqm_version OWNER TO openchpl;
--- ddl-end --
-
--- object: openchpl.test_data_alteration | type: TABLE --
--- DROP TABLE IF EXISTS openchpl.test_data_alteration CASCADE;
-CREATE TABLE openchpl.test_data_alteration(
-	test_data_alteration_id bigserial NOT NULL,
-	certified_product_id bigint NOT NULL,
-	description varchar(1000) NOT NULL,
-	creation_date timestamp NOT NULL DEFAULT NOW(),
-	last_modified_date timestamp NOT NULL DEFAULT NOW(),
-	last_modified_user bigint NOT NULL,
-	deleted bool NOT NULL DEFAULT false,
-	CONSTRAINT test_data_alteration_pk PRIMARY KEY (test_data_alteration_id)
-
-);
--- ddl-end --
--- ALTER TABLE openchpl.test_data_alteration OWNER TO openchpl;
--- ddl-end --
-
--- object: certified_product_fk | type: CONSTRAINT --
--- ALTER TABLE openchpl.test_data_alteration DROP CONSTRAINT IF EXISTS certified_product_fk CASCADE;
-ALTER TABLE openchpl.test_data_alteration ADD CONSTRAINT certified_product_fk FOREIGN KEY (certified_product_id)
-REFERENCES openchpl.certified_product (certified_product_id) MATCH FULL
-ON DELETE RESTRICT ON UPDATE CASCADE;
 -- ddl-end --
 
 -- object: openchpl.test_result_summary_version | type: TABLE --
