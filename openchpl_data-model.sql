@@ -118,6 +118,7 @@ CREATE TABLE openchpl.vendor(
 	vendor_id bigserial NOT NULL,
 	vendor_code varchar(16) DEFAULT nextval('openchpl.vendor_vendor_code_seq'),
 	address_id bigint,
+	contact_id bigint,
 	name varchar(300),
 	website varchar(300),
 	creation_date timestamp NOT NULL DEFAULT NOW(),
@@ -714,26 +715,6 @@ ON DELETE RESTRICT ON UPDATE CASCADE;
 ALTER TABLE openchpl.acb_contact_map ADD CONSTRAINT certification_body_fk FOREIGN KEY (certification_body_id_certification_body)
 REFERENCES openchpl.certification_body (certification_body_id) MATCH FULL
 ON DELETE RESTRICT ON UPDATE CASCADE;
--- ddl-end --
-
--- object: openchpl.vendor_contact_map | type: TABLE --
--- DROP TABLE IF EXISTS openchpl.vendor_contact_map CASCADE;
-CREATE TABLE openchpl.vendor_contact_map(
-	contact_id bigint,
-	vendor_id_vendor bigint,
-	creation_date timestamp NOT NULL DEFAULT NOW(),
-	last_modified_date timestamp NOT NULL DEFAULT NOW(),
-	last_modified_user bigint NOT NULL,
-	deleted bool NOT NULL DEFAULT false,
-	CONSTRAINT vendor_contact_map_pk PRIMARY KEY (contact_id,vendor_id_vendor),
-	CONSTRAINT contact_fk FOREIGN KEY (contact_id)
-		REFERENCES openchpl.contact (contact_id) MATCH FULL
-		ON DELETE RESTRICT ON UPDATE CASCADE,
-	CONSTRAINT vendor_fk FOREIGN KEY (vendor_id_vendor)
-		REFERENCES openchpl.vendor (vendor_id) MATCH FULL
-		ON DELETE RESTRICT ON UPDATE CASCADE
-);
--- ALTER TABLE openchpl.vendor_contact_map OWNER TO openchpl;
 -- ddl-end --
 
 -- object: openchpl.cqm_criterion | type: TABLE --
@@ -1443,6 +1424,7 @@ CREATE TABLE openchpl.pending_certified_product(
 	vendor_email varchar(250), 
 	vendor_contact_name varchar(250),
 	vendor_phone varchar(100),
+	vendor_transparency_attestation boolean,
 	
 	test_report_url varchar(255), -- report_file_location
 	sed_report_file_location varchar(255),
@@ -1453,6 +1435,7 @@ CREATE TABLE openchpl.pending_certified_product(
 	practice_type_id bigint, -- should never be null
 	vendor_id bigint, -- may be null
 	vendor_address_id bigint, -- may be null
+	vendor_contact_id bigint, -- may be null
 	product_id bigint, -- may be null
 	product_version_id bigint, -- may be null
 	certification_edition_id bigint, -- should never be null
