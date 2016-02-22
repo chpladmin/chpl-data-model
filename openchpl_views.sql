@@ -7,14 +7,26 @@ a.certified_product_id,
 a.certification_criterion_id,
 a.success,
 a.deleted,
+a.gap,
+a.sed,
+a.g1_success,
+a.g2_success,
+a.ucd_process_selected,
+a.ucd_process_details,
 b.number,
-b.title
+b.title,
+COALESCE(d.count_additional_software, 0) as "count_additional_software"
 
 FROM openchpl.certification_result a
 
 LEFT JOIN (SELECT certification_criterion_id, number, title FROM openchpl.certification_criterion) b
+	ON a.certification_criterion_id = b.certification_criterion_id
+LEFT JOIN (SELECT certification_result_id, count(*) as "count_additional_software" 
+			FROM 
+			(SELECT * FROM openchpl.certification_result_additional_software WHERE deleted <> true) c GROUP BY certification_result_id) d 
+	ON a.certification_result_id = d.certification_result_id;
 
-ON a.certification_criterion_id = b.certification_criterion_id;
+
 
 -- ALTER VIEW openchpl.certification_result_details OWNER TO openchpl;
 
@@ -57,6 +69,7 @@ a.testing_lab_id,
 a.certification_body_id,
 a.chpl_product_number,
 a.report_file_location,
+a.sed_report_file_location,
 a.acb_certification_id,
 a.practice_type_id,
 a.product_classification_type_id,
@@ -75,6 +88,8 @@ a.api_documentation_url,
 a.ics,
 a.sed,
 a.qms,
+a.product_additional_software,
+a.last_modified_date,
 b.year,
 c.certification_body_name,
 c.certification_body_code,
@@ -86,13 +101,16 @@ g.product_name,
 g.vendor_id,
 h.vendor_name,
 h.vendor_code,
+h.vendor_website,
 i.certification_date,
 COALESCE(k.count_certifications, 0) as "count_certifications",
 COALESCE(m.count_cqms, 0) as "count_cqms",
 COALESCE(o.count_corrective_action_plans, 0) as "count_corrective_action_plans",
-a.last_modified_date,
+COALESCE(r.count_current_corrective_action_plans, 0) as "count_current_corrective_action_plans",
+COALESCE(s.count_closed_corrective_action_plans, 0) as "count_closed_corrective_action_plans",
 n.certification_status_name,
 p.transparency_attestation,
+p.transparency_attestation_url,
 q.testing_lab_name,
 q.testing_lab_code
 
@@ -110,9 +128,9 @@ LEFT JOIN (SELECT product_version_id, version as "product_version", product_id f
 
 LEFT JOIN (SELECT product_id, vendor_id, name as "product_name" FROM openchpl.product) g ON f.product_id = g.product_id
 
-LEFT JOIN (SELECT vendor_id, name as "vendor_name", vendor_code from openchpl.vendor) h on g.vendor_id = h.vendor_id
+LEFT JOIN (SELECT vendor_id, name as "vendor_name", vendor_code, website as "vendor_website" from openchpl.vendor) h on g.vendor_id = h.vendor_id
 
-LEFT JOIN (SELECT vendor_id, certification_body_id, transparency_attestation from openchpl.acb_vendor_map) p on h.vendor_id = p.vendor_id and a.certification_body_id = p.certification_body_id
+LEFT JOIN (SELECT vendor_id, certification_body_id, transparency_attestation, transparency_attestation_url from openchpl.acb_vendor_map) p on h.vendor_id = p.vendor_id and a.certification_body_id = p.certification_body_id
 
 LEFT JOIN (SELECT certification_status_id, certification_status as "certification_status_name" FROM openchpl.certification_status) n on a.certification_status_id = n.certification_status_id
 
@@ -120,10 +138,18 @@ LEFT JOIN (SELECT DISTINCT ON (certified_product_id) certified_product_id, event
 
 LEFT JOIN (SELECT certified_product_id, count(*) as "count_certifications" FROM (SELECT * FROM openchpl.certification_result WHERE success = true AND deleted <> true) j GROUP BY certified_product_id) k ON a.certified_product_id = k.certified_product_id
 
-
 LEFT JOIN (SELECT certified_product_id, count(*) as "count_cqms" FROM (SELECT DISTINCT ON (cqm_id, certified_product_id) * FROM openchpl.cqm_result_details WHERE success = true AND deleted <> true) l GROUP BY certified_product_id ORDER BY certified_product_id) m ON a.certified_product_id = m.certified_product_id
 
 LEFT JOIN (SELECT certified_product_id, count(*) as "count_corrective_action_plans" FROM (SELECT * FROM openchpl.corrective_action_plan WHERE deleted <> true) n GROUP BY certified_product_id) o ON a.certified_product_id = o.certified_product_id
+
+LEFT JOIN (SELECT certified_product_id, count(*) as "count_current_corrective_action_plans" FROM 
+	(SELECT * FROM openchpl.corrective_action_plan WHERE deleted <> true AND surveillance_start <= NOW() AND (surveillance_end IS NULL OR surveillance_end >= NOW())) n GROUP BY certified_product_id) r 
+ON a.certified_product_id = r.certified_product_id
+
+LEFT JOIN (SELECT certified_product_id, count(*) as "count_closed_corrective_action_plans" FROM 
+	(SELECT * FROM openchpl.corrective_action_plan WHERE deleted <> true AND surveillance_end IS NOT NULL AND surveillance_end <= NOW()) n 
+	GROUP BY certified_product_id) s
+ON a.certified_product_id = s.certified_product_id
 
 LEFT JOIN (SELECT testing_lab_id, name as "testing_lab_name", testing_lab_code from openchpl.testing_lab) q on a.testing_lab_id = q.testing_lab_id
 ;
