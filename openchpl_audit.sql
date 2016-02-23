@@ -234,5 +234,3 @@ CREATE TRIGGER utilized_test_tool_timestamp BEFORE UPDATE on openchpl.utilized_t
 CREATE TRIGGER utilized_test_tool_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.utilized_test_tool FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER vendor_timestamp BEFORE UPDATE on openchpl.vendor FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER vendor_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.vendor FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
-CREATE TRIGGER vendor_contact_map_timestamp BEFORE UPDATE on openchpl.vendor_contact_map FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
-CREATE TRIGGER vendor_contact_map_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.vendor_contact_map FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();

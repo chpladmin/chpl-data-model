@@ -324,7 +324,8 @@ CREATE TABLE openchpl.certification_result(
 
 CREATE TABLE openchpl.test_standard (
 	test_standard_id bigserial not null,
-	name varchar(200) not null,
+	number varchar(200) not null,
+	name varchar(500),
 	creation_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_user bigint NOT NULL,
@@ -352,7 +353,8 @@ CREATE TABLE openchpl.certification_result_test_standard (
 
 CREATE TABLE openchpl.test_functionality (
 	test_functionality_id bigserial not null,
-	name varchar(200) not null,
+	number varchar(200) not null,
+	name varchar(500),
 	category varchar(200) not null, --optional, inpatient, ambulatory, common MU
 	creation_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
