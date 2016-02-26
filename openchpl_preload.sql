@@ -722,6 +722,17 @@ INSERT INTO openchpl.cqm_criterion (cms_id, cqm_version_id, title, nqf_number, n
 ('CMS30', 5, 'Statin Prescribed at Discharge', '0639', null, 'Acute myocardial infarction (AMI) patients who are prescribed a statin medication at hospital discharge.', 'Clinical Process/ Effectiveness', 2, -1, false),
 ('CMS30', 6, 'Statin Prescribed at Discharge', '0639', null, 'Acute myocardial infarction (AMI) patients who are prescribed a statin medication at hospital discharge.', 'Clinical Process/ Effectiveness', 2, -1, false);
 
+INSERT INTO openchpl.test_tool(name, last_modified_user) VALUES
+('ePrescribing Validation Tool', -1),
+('HL7 CDA Cancer Registry Reporting Validation Tool', -1),
+('HL7 v2 Electronic Laboratory Reporting (ELR) Validation Tool', -1),
+('HL7 v2 Immunization Information System (IIS) Reporting Validation', -1),
+('HL7 v2 Laboratory Results Interface (LRI) Validation Tool', -1),
+('HL7 v2 Syndromic Surveillance Reporting Validation Tool', -1),
+('Transport Testing Tool', -1),
+('Cypress', -1),
+('Direct Certificate Discovery Tool', -1);
+
 INSERT INTO openchpl.test_standard(number, name, last_modified_user) VALUES
 ('170.202(a)','DIRECT: Applicability Statement for Secure Health Transport, Version 1.1, July 10, 2012',-1),
 ('170.202(b)','XDR and XDM for Direct Messaging Specification, Version 1, March 9, 2011',-1),
