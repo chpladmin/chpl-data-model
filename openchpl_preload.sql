@@ -3,7 +3,9 @@ insert into openchpl.product_classification_type (name, description, last_modifi
 insert into openchpl.certification_edition (year, retired, last_modified_user) values (2011, true, -1), (2014, false, -1), (2015, false, -1);
 insert into openchpl.cqm_criterion_type (name, description, last_modified_user) values ('Ambulatory', 'Ambulatory', -1), ('Inpatient','Inpatient',-1);
 insert into openchpl.certification_body (name, acb_code, last_modified_user) values ('InfoGard', '02', -1), ('CCHIT', '03', -1), ('Drummond Group Inc.', '04', -1), ('SLI Global', '05', -1), ('Surescripts LLC', '06', -1), ('ICSA Labs', '07', -1), ('Pending', '08', -1);
-insert into openchpl.testing_lab (name, testing_lab_code, last_modified_user) values ('InfoGard', '02', -1), ('Drummond Group', '04', -1), ('SLI Global', '05', -1), ('ICSA', '07', -1), ('NTS', '09', -1);
+insert into openchpl.testing_lab (name, testing_lab_code, last_modified_user) values 
+('InfoGard', '02', -1), ('Drummond Group Inc.', '04', -1), ('SLI Global', '05', -1), ('ICSA Labs', '07', -1), ('National Technical Systems', '09', -1);
+
 insert into openchpl.event_type (name, description, last_modified_user) values ('Certification','Product is certified', -1), ('Active', 'Product moved from Pending to Active', -1);
 insert into openchpl.cqm_version (version, last_modified_user) values ('v0', -1), ('v1', -1), ('v2', -1), ('v3', -1), ('v4', -1), ('v5', -1);
 insert into openchpl.certification_status (certification_status, last_modified_user) values ('Active', -1), ('Retired', -1), ('Withdrawn', -1), ('Decertified', -1), ('Pending', -1);
@@ -719,6 +721,17 @@ INSERT INTO openchpl.cqm_criterion (cms_id, cqm_version_id, title, nqf_number, n
 ('CMS30', 4, 'Statin Prescribed at Discharge', '0639', null, 'Acute myocardial infarction (AMI) patients who are prescribed a statin medication at hospital discharge.', 'Clinical Process/ Effectiveness', 2, -1, false),
 ('CMS30', 5, 'Statin Prescribed at Discharge', '0639', null, 'Acute myocardial infarction (AMI) patients who are prescribed a statin medication at hospital discharge.', 'Clinical Process/ Effectiveness', 2, -1, false),
 ('CMS30', 6, 'Statin Prescribed at Discharge', '0639', null, 'Acute myocardial infarction (AMI) patients who are prescribed a statin medication at hospital discharge.', 'Clinical Process/ Effectiveness', 2, -1, false);
+
+INSERT INTO openchpl.test_tool(name, last_modified_user) VALUES
+('ePrescribing Validation Tool', -1),
+('HL7 CDA Cancer Registry Reporting Validation Tool', -1),
+('HL7 v2 Electronic Laboratory Reporting (ELR) Validation Tool', -1),
+('HL7 v2 Immunization Information System (IIS) Reporting Validation', -1),
+('HL7 v2 Laboratory Results Interface (LRI) Validation Tool', -1),
+('HL7 v2 Syndromic Surveillance Reporting Validation Tool', -1),
+('Transport Testing Tool', -1),
+('Cypress', -1),
+('Direct Certificate Discovery Tool', -1);
 
 INSERT INTO openchpl.test_standard(number, name, last_modified_user) VALUES
 ('170.202(a)','DIRECT: Applicability Statement for Secure Health Transport, Version 1.1, July 10, 2012',-1),
