@@ -11,8 +11,6 @@ a.gap,
 a.sed,
 a.g1_success,
 a.g2_success,
-a.ucd_process_selected,
-a.ucd_process_details,
 b.number,
 b.title,
 COALESCE(d.count_additional_software, 0) as "count_additional_software"

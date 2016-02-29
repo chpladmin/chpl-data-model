@@ -1,5 +1,11 @@
 # Release Notes
 
+## Version 0.3.2
+_29 February 2016_
+
+### Features added
+* Updated data model to support new 2014 upload fields
+
 ## Version 0.3.0
 _18 February 2016_
 
