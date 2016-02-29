@@ -310,8 +310,6 @@ CREATE TABLE openchpl.certification_result(
 	sed bool,
 	g1_success bool,
 	g2_success bool,
-	ucd_process_selected text,
-	ucd_process_details text,
 	creation_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_user bigint NOT NULL,
@@ -377,6 +375,36 @@ CREATE TABLE openchpl.certification_result_test_functionality
       ON UPDATE NO ACTION ON DELETE NO ACTION,
 	CONSTRAINT test_functionality_fk FOREIGN KEY (test_functionality_id)
       REFERENCES openchpl.test_functionality (test_functionality_id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+
+);
+
+CREATE TABLE openchpl.ucd_process (
+	ucd_process_id bigserial not null,
+	name varchar(500),
+	creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
+	constraint ucd_process_pk primary key (ucd_process_id)
+);
+
+CREATE TABLE openchpl.certification_result_ucd_process 
+(
+	certification_result_ucd_process_id bigserial NOT NULL,
+	certification_result_id bigint not null,
+	ucd_process_id bigint not null,
+	ucd_process_details text,
+	creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL,
+	CONSTRAINT certification_result_ucd_process_pk PRIMARY KEY (certification_result_ucd_process_id),
+	CONSTRAINT certification_result_fk FOREIGN KEY (certification_result_id)
+      REFERENCES openchpl.certification_result (certification_result_id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+	CONSTRAINT ucd_process_fk FOREIGN KEY (ucd_process_id)
+      REFERENCES openchpl.ucd_process (ucd_process_id) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION
 
 );
@@ -1490,8 +1518,6 @@ CREATE TABLE openchpl.pending_certification_result(
 	sed bool,
 	g1_success bool,
 	g2_success bool,
-	ucd_process_selected text,
-	ucd_process_details text,
 	
 	-- fields we need for auditing/tracking
 	creation_date timestamp without time zone NOT NULL DEFAULT now(),
@@ -1542,6 +1568,25 @@ CREATE TABLE openchpl.pending_certification_result_test_functionality
       ON UPDATE NO ACTION ON DELETE NO ACTION,
 	CONSTRAINT test_functionality_fk FOREIGN KEY (test_functionality_id)
       REFERENCES openchpl.test_functionality (test_functionality_id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+);
+
+CREATE TABLE openchpl.pending_certification_result_ucd_process (
+	pending_certification_result_ucd_process_id bigserial NOT NULL,
+	pending_certification_result_id bigint not null,
+	ucd_process_id bigint,
+	ucd_process_name varchar(200),
+	ucd_process_details text,
+	creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL,
+	CONSTRAINT pending_certification_result_ucd_process_pk PRIMARY KEY (pending_certification_result_ucd_process_id),
+	CONSTRAINT pending_certification_result_fk FOREIGN KEY (pending_certification_result_id)
+      REFERENCES openchpl.pending_certification_result (pending_certification_result_id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+	CONSTRAINT ucd_process_fk FOREIGN KEY (ucd_process_id)
+      REFERENCES openchpl.ucd_process (ucd_process_id) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION
 );
 

@@ -138,7 +138,10 @@ CREATE TRIGGER test_tool_timestamp BEFORE UPDATE on openchpl.test_tool FOR EACH 
 CREATE TRIGGER test_tool_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.test_tool FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER certification_result_test_tool_timestamp BEFORE UPDATE on openchpl.certification_result_test_tool FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER certification_result_test_tool_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.certification_result_test_tool FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
-
+CREATE TRIGGER ucd_process_timestamp BEFORE UPDATE on openchpl.ucd_process FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
+CREATE TRIGGER ucd_process_timestamp_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.ucd_process FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+CREATE TRIGGER certification_result_ucd_process_timestamp BEFORE UPDATE on openchpl.certification_result_ucd_process FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
+CREATE TRIGGER certification_result_ucd_process_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.certification_result_ucd_process FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 
 CREATE TRIGGER certification_status_timestamp BEFORE UPDATE on openchpl.certification_status FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER certification_status_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.certification_status FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
@@ -197,6 +200,8 @@ CREATE TRIGGER pending_certification_result_test_data_timestamp BEFORE UPDATE on
 CREATE TRIGGER pending_certification_result_test_data_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.pending_certification_result_test_data FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER pending_certification_result_test_tool_timestamp BEFORE UPDATE on openchpl.pending_certification_result_test_tool FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER pending_certification_result_test_tool_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.pending_certification_result_test_tool FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+CREATE TRIGGER pending_certification_result_ucd_process_timestamp BEFORE UPDATE on openchpl.pending_certification_result_ucd_process FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
+CREATE TRIGGER pending_certification_result_ucd_process_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.pending_certification_result_ucd_process FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 
 
 CREATE TRIGGER pending_cqm_criterion_timestamp BEFORE UPDATE on openchpl.pending_cqm_criterion FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
