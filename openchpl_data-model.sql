@@ -201,7 +201,6 @@ CREATE TABLE openchpl.certified_product(
 	report_file_location varchar(255), -- test report
 	sed_report_file_location varchar(255), 
 	acb_certification_id varchar(250),
-	privacy_attestation boolean not null default false,
 	practice_type_id bigint,
 	product_classification_type_id bigint,
 	product_additional_software varchar(1000), -- legacy for ETL
