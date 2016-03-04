@@ -179,6 +179,16 @@ CREATE TABLE openchpl.qms_standard (
 	CONSTRAINT qms_standard_pk PRIMARY KEY (qms_standard_id)
 );
 
+CREATE TABLE openchpl.targeted_user (
+	targeted_user_id bigserial NOT NULL,
+	name varchar(300) NOT NULL,
+	creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
+	CONSTRAINT targeted_user_pk PRIMARY KEY (targeted_user_id)
+);
+
 -- object: openchpl.certified_product | type: TABLE --
 -- DROP TABLE IF EXISTS openchpl.certified_product CASCADE;
 CREATE TABLE openchpl.certified_product(
@@ -191,7 +201,6 @@ CREATE TABLE openchpl.certified_product(
 	report_file_location varchar(255), -- test report
 	sed_report_file_location varchar(255), 
 	acb_certification_id varchar(250),
-	privacy_attestation boolean not null default false,
 	practice_type_id bigint,
 	product_classification_type_id bigint,
 	product_additional_software varchar(1000), -- legacy for ETL
@@ -237,6 +246,23 @@ CREATE TABLE openchpl.certified_product_qms_standard(
       ON UPDATE NO ACTION ON DELETE NO ACTION,
 	CONSTRAINT qms_standard_fk FOREIGN KEY (qms_standard_id)
       REFERENCES openchpl.qms_standard (qms_standard_id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+);
+
+CREATE TABLE openchpl.certified_product_targeted_user (
+	certified_product_targeted_user_id bigserial not null,
+	certified_product_id bigint not null,
+	targeted_user_id bigint not null,
+	creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
+	CONSTRAINT certified_product_targeted_user_pk PRIMARY KEY (certified_product_targeted_user_id),
+	CONSTRAINT certified_product_fk FOREIGN KEY (certified_product_id)
+      REFERENCES openchpl.certified_product (certified_product_id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+	CONSTRAINT targeted_user_fk FOREIGN KEY (targeted_user_id)
+      REFERENCES openchpl.targeted_user (targeted_user_id) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION
 );
 
@@ -1504,6 +1530,24 @@ CREATE TABLE openchpl.pending_certified_product_qms_standard(
       ON UPDATE NO ACTION ON DELETE NO ACTION,
 	CONSTRAINT qms_standard_fk FOREIGN KEY (qms_standard_id)
       REFERENCES openchpl.qms_standard (qms_standard_id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+);
+
+CREATE TABLE openchpl.pending_certified_product_targeted_user (
+	pending_certified_product_targeted_user_id bigserial not null,
+	pending_certified_product_id bigint not null,
+	targeted_user_id bigint,
+	targeted_user_name varchar(300),
+	creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
+	CONSTRAINT pending_certified_product_targeted_user_pk PRIMARY KEY (pending_certified_product_targeted_user_id),
+	CONSTRAINT pending_certified_product_fk FOREIGN KEY (pending_certified_product_id)
+      REFERENCES openchpl.pending_certified_product (pending_certified_product_id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+	CONSTRAINT targeted_user_fk FOREIGN KEY (targeted_user_id)
+      REFERENCES openchpl.targeted_user (targeted_user_id) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION
 );
 
