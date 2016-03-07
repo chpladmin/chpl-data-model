@@ -168,6 +168,9 @@ CREATE TRIGGER cqm_criterion_type_timestamp BEFORE UPDATE on openchpl.cqm_criter
 CREATE TRIGGER cqm_criterion_type_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.cqm_criterion_type FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER cqm_result_timestamp BEFORE UPDATE on openchpl.cqm_result FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER cqm_result_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.cqm_result FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+CREATE TRIGGER cqm_result_criteria_timestamp BEFORE UPDATE on openchpl.cqm_result_criteria FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
+CREATE TRIGGER cqm_result_criteria_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.cqm_result_criteria FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+
 CREATE TRIGGER cqm_version_timestamp BEFORE UPDATE on openchpl.cqm_version FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER cqm_version_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.cqm_version FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER education_type_timestamp BEFORE UPDATE on openchpl.education_type FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
@@ -213,6 +216,9 @@ CREATE TRIGGER pending_certification_result_ucd_process_audit AFTER INSERT OR UP
 
 CREATE TRIGGER pending_cqm_criterion_timestamp BEFORE UPDATE on openchpl.pending_cqm_criterion FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER pending_cqm_criterion_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.pending_cqm_criterion FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+CREATE TRIGGER pending_cqm_certification_criteria_timestamp BEFORE UPDATE on openchpl.pending_cqm_certification_criteria FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
+CREATE TRIGGER pending_cqm_certification_criteria_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.pending_cqm_certification_criteria FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+
 CREATE TRIGGER practice_type_timestamp BEFORE UPDATE on openchpl.practice_type FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER practice_type_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.practice_type FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER product_timestamp BEFORE UPDATE on openchpl.product FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();

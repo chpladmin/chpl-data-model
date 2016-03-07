@@ -814,6 +814,24 @@ CREATE TABLE openchpl.cqm_result(
 -- ALTER TABLE openchpl.cqm_result OWNER TO openchpl;
 -- ddl-end --
 
+CREATE TABLE openchpl.cqm_result_criteria (
+	cqm_result_criteria_id bigserial not null,
+	cqm_result_id bigint not null,
+	certification_criterion_id bigint not null,
+	
+	creation_date timestamp without time zone NOT NULL DEFAULT now(),
+	last_modified_date timestamp without time zone NOT NULL DEFAULT now(),
+	last_modified_user bigint NOT NULL,
+	deleted boolean NOT NULL DEFAULT false,
+	CONSTRAINT cqm_result_criteria_pk PRIMARY KEY (cqm_result_criteria_id),
+	CONSTRAINT cqm_result_fk FOREIGN KEY (cqm_result_id)
+      REFERENCES openchpl.cqm_result (cqm_result_id) MATCH FULL
+      ON UPDATE CASCADE ON DELETE SET NULL,
+	CONSTRAINT certification_criterion_fk FOREIGN KEY (certification_criterion_id)
+      REFERENCES openchpl.certification_criterion (certification_criterion_id) MATCH FULL
+      ON UPDATE CASCADE ON DELETE SET NULL
+);
+
 -- object: certification_edition_fk | type: CONSTRAINT --
 -- ALTER TABLE openchpl.certification_criterion DROP CONSTRAINT IF EXISTS certification_edition_fk CASCADE;
 ALTER TABLE openchpl.certification_criterion ADD CONSTRAINT certification_edition_fk FOREIGN KEY (certification_edition_id)
@@ -1731,11 +1749,24 @@ CREATE TABLE openchpl.pending_cqm_criterion(
       REFERENCES openchpl.pending_certified_product (pending_certified_product_id) MATCH FULL
       ON UPDATE CASCADE ON DELETE SET NULL
 );
--- ddl-end --
-COMMENT ON TABLE openchpl.pending_cqm_criterion IS 'Criterion that has or has not been met for a pending certified product.';
--- ddl-end --
--- ALTER TABLE openchpl.pending_cqm_criterion OWNER TO openchpl;
--- ddl-end --
+
+CREATE TABLE openchpl.pending_cqm_certification_criteria (
+	pending_cqm_certification_criteria_id bigserial not null,
+	pending_cqm_criterion_id bigint not null,
+	certification_criterion_id bigint not null,
+	
+	creation_date timestamp without time zone NOT NULL DEFAULT now(),
+	last_modified_date timestamp without time zone NOT NULL DEFAULT now(),
+	last_modified_user bigint NOT NULL,
+	deleted boolean NOT NULL DEFAULT false,
+	CONSTRAINT pending_cqm_certification_criteria_pk PRIMARY KEY (pending_cqm_certification_criteria_id),
+	CONSTRAINT pending_cqm_criterion_fk FOREIGN KEY (pending_cqm_criterion_id)
+      REFERENCES openchpl.pending_cqm_criterion (pending_cqm_criterion_id) MATCH FULL
+      ON UPDATE CASCADE ON DELETE SET NULL,
+	CONSTRAINT certification_criterion_fk FOREIGN KEY (certification_criterion_id)
+      REFERENCES openchpl.certification_criterion (certification_criterion_id) MATCH FULL
+      ON UPDATE CASCADE ON DELETE SET NULL
+);
 
 CREATE TABLE openchpl.activity
 (
