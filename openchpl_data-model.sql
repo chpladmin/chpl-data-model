@@ -23,6 +23,9 @@ CREATE SCHEMA openchpl;
 SET search_path TO pg_catalog,public,openchpl;
 -- ddl-end --
 
+DROP TYPE IF EXISTS attestation;
+CREATE TYPE attestation as enum('Affirmative', 'Negative', 'N/A');
+
 -- object: openchpl.user | type: TABLE --
 -- DROP TABLE IF EXISTS openchpl.user CASCADE;
 CREATE TABLE openchpl.user(
@@ -138,8 +141,7 @@ CREATE TABLE openchpl.acb_vendor_map (
 	acb_vendor_map_id bigserial NOT NULL,
 	vendor_id bigint NOT NULL,
 	certification_body_id bigint NOT NULL,
-	transparency_attestation boolean NOT NULL DEFAULT FALSE,
-	transparency_attestation_url varchar(1024),
+	transparency_attestation attestation,
 	creation_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_user bigint NOT NULL,
@@ -209,6 +211,7 @@ CREATE TABLE openchpl.certified_product(
     visible_on_chpl bool NOT NULL DEFAULT true,
 	terms_of_use_url varchar(1024), --170.523 (k)(1)
 	api_documentation_url varchar(1024),
+	transparency_attestation_url varchar(1024),
 	ics boolean,
 	sed boolean,
 	qms boolean,
@@ -1497,7 +1500,7 @@ CREATE TABLE openchpl.pending_certified_product(
 	vendor_email varchar(250), 
 	vendor_contact_name varchar(250),
 	vendor_phone varchar(100),
-	vendor_transparency_attestation boolean,
+	vendor_transparency_attestation attestation,
 	vendor_transparency_attestation_url varchar(1024),
 	
 	test_report_url varchar(255), -- report_file_location
