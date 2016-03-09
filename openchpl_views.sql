@@ -82,6 +82,7 @@ a.certified_date_code,
 a.visible_on_chpl,
 a.terms_of_use_url,
 a.api_documentation_url,
+a.transparency_attestation_url,
 a.ics,
 a.sed,
 a.qms,
@@ -107,7 +108,6 @@ COALESCE(r.count_current_corrective_action_plans, 0) as "count_current_correctiv
 COALESCE(s.count_closed_corrective_action_plans, 0) as "count_closed_corrective_action_plans",
 n.certification_status_name,
 p.transparency_attestation,
-p.transparency_attestation_url,
 q.testing_lab_name,
 q.testing_lab_code
 
@@ -127,7 +127,7 @@ LEFT JOIN (SELECT product_id, vendor_id, name as "product_name" FROM openchpl.pr
 
 LEFT JOIN (SELECT vendor_id, name as "vendor_name", vendor_code, website as "vendor_website" from openchpl.vendor) h on g.vendor_id = h.vendor_id
 
-LEFT JOIN (SELECT vendor_id, certification_body_id, transparency_attestation, transparency_attestation_url from openchpl.acb_vendor_map) p on h.vendor_id = p.vendor_id and a.certification_body_id = p.certification_body_id
+LEFT JOIN (SELECT vendor_id, certification_body_id, transparency_attestation from openchpl.acb_vendor_map) p on h.vendor_id = p.vendor_id and a.certification_body_id = p.certification_body_id
 
 LEFT JOIN (SELECT certification_status_id, certification_status as "certification_status_name" FROM openchpl.certification_status) n on a.certification_status_id = n.certification_status_id
 
