@@ -24,7 +24,7 @@ SET search_path TO pg_catalog,public,openchpl;
 -- ddl-end --
 
 DROP TYPE IF EXISTS attestation;
-CREATE TYPE attestation as enum('Affirmative', 'Negative', 'N/A');
+CREATE TYPE openchpl.attestation as enum('Affirmative', 'Negative', 'N/A');
 
 -- object: openchpl.user | type: TABLE --
 -- DROP TABLE IF EXISTS openchpl.user CASCADE;
