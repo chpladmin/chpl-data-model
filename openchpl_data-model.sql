@@ -191,6 +191,16 @@ CREATE TABLE openchpl.targeted_user (
 	CONSTRAINT targeted_user_pk PRIMARY KEY (targeted_user_id)
 );
 
+CREATE TABLE openchpl.accessibility_standard (
+	accessibility_standard_id bigserial NOT NULL,
+	name varchar(300) NOT NULL,
+	creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
+	CONSTRAINT accessibility_standard_pk PRIMARY KEY (accessibility_standard_id)
+);
+
 -- object: openchpl.certified_product | type: TABLE --
 -- DROP TABLE IF EXISTS openchpl.certified_product CASCADE;
 CREATE TABLE openchpl.certified_product(
@@ -202,6 +212,8 @@ CREATE TABLE openchpl.certified_product(
 	chpl_product_number varchar(250),
 	report_file_location varchar(255), -- test report
 	sed_report_file_location varchar(255), 
+	sed_intended_user_description text,
+	sed_testing_end timestamp,
 	acb_certification_id varchar(250),
 	practice_type_id bigint,
 	product_classification_type_id bigint,
@@ -215,6 +227,7 @@ CREATE TABLE openchpl.certified_product(
 	ics boolean,
 	sed boolean,
 	qms boolean,
+	accessibility_certified boolean,
 	product_code varchar(16),
 	version_code varchar(16),
 	ics_code varchar(16),
@@ -266,6 +279,23 @@ CREATE TABLE openchpl.certified_product_targeted_user (
       ON UPDATE NO ACTION ON DELETE NO ACTION,
 	CONSTRAINT targeted_user_fk FOREIGN KEY (targeted_user_id)
       REFERENCES openchpl.targeted_user (targeted_user_id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+);
+
+CREATE TABLE openchpl.certified_product_accessibility_standard (
+	certified_product_accessibility_standard_id bigserial not null,
+	certified_product_id bigint not null,
+	accessibility_standard_id bigint not null,
+	creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
+	CONSTRAINT certified_product_accessibility_standard_pk PRIMARY KEY (certified_product_accessibility_standard_id),
+	CONSTRAINT certified_product_fk FOREIGN KEY (certified_product_id)
+      REFERENCES openchpl.certified_product (certified_product_id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+	CONSTRAINT accessibility_standard_fk FOREIGN KEY (accessibility_standard_id)
+      REFERENCES openchpl.accessibility_standard (accessibility_standard_id) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION
 );
 
@@ -1502,9 +1532,11 @@ CREATE TABLE openchpl.pending_certified_product(
 	vendor_phone varchar(100),
 	vendor_transparency_attestation attestation,
 	vendor_transparency_attestation_url varchar(1024),
-	
+	accessibility_certified boolean default false,
 	test_report_url varchar(255), -- report_file_location
 	sed_report_file_location varchar(255),
+	sed_intended_user_description text,
+	sed_testing_end timestamp,
 	ics varchar(1024),
 	terms_of_use_url varchar(1024),	-- k1 url
 	
@@ -1569,6 +1601,24 @@ CREATE TABLE openchpl.pending_certified_product_targeted_user (
       ON UPDATE NO ACTION ON DELETE NO ACTION,
 	CONSTRAINT targeted_user_fk FOREIGN KEY (targeted_user_id)
       REFERENCES openchpl.targeted_user (targeted_user_id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+);
+
+CREATE TABLE openchpl.pending_certified_product_accessibility_standard (
+	pending_certified_product_accessibility_standard_id bigserial not null,
+	pending_certified_product_id bigint not null,
+	accessibility_standard_id bigint,
+	accessibility_standard_name varchar(500),
+	creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
+	CONSTRAINT pending_certified_product_accessibility_standard_pk PRIMARY KEY (pending_certified_product_accessibility_standard_id),
+	CONSTRAINT pending_certified_product_fk FOREIGN KEY (pending_certified_product_id)
+      REFERENCES openchpl.pending_certified_product (pending_certified_product_id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+	 CONSTRAINT accessibility_standard_fk FOREIGN KEY (accessibility_standard_id)
+      REFERENCES openchpl.accessibility_standard (accessibility_standard_id) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION
 );
 
