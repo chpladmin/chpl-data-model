@@ -981,6 +981,60 @@ CREATE TABLE openchpl.practice_type(
 -- ALTER TABLE openchpl.practice_type OWNER TO openchpl;
 -- ddl-end --
 
+CREATE TABLE openchpl.education_type(
+	education_type_id bigserial NOT NULL,
+	name varchar(250) NOT NULL,
+	creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
+	CONSTRAINT education_type_pk PRIMARY KEY (education_type_id)
+
+);
+
+CREATE TABLE openchpl.test_participant(
+	test_paticipant_id bigserial NOT NULL,
+	gender char,
+	age smallint,
+	education_type_id bigint,
+	occupation varchar(250),
+	professional_experience_months int,
+	computer_experience_months int,
+	product_experience_months int,
+	assistive_technology_needs varchar(250),
+	creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
+	CONSTRAINT test_participant_pk PRIMARY KEY (test_paticipant_id),
+	CONSTRAINT education_type_fk FOREIGN KEY (education_type_id)
+		REFERENCES openchpl.education_type (education_type_id) MATCH FULL
+		ON DELETE RESTRICT ON UPDATE CASCADE
+);
+
+CREATE TABLE openchpl.test_task(
+	test_task_id bigserial NOT NULL,
+	description text,
+	task_success_avg_pct float,
+	task_success_stddev_pct float,
+	task_path_deviation_observed int,
+	task_path_deviation_optimal int,
+	task_time_avg_seconds bigint,
+	task_time_stddev_seconds int,
+	task_time_deviation_observed_avg_seconds int,
+	task_time_deviation_optimal_avg_seconds int,
+	task_errors_pct float,
+	task_errors_stddev_pct float,
+	task_rating_scale varchar(50),
+	task_rating float,
+	creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
+	CONSTRAINT test_task_pk PRIMARY KEY (test_task_id)
+
+);
+
 -- object: openchpl.utilized_test_tool | type: TABLE --
 -- DROP TABLE IF EXISTS openchpl.utilized_test_tool CASCADE;
 CREATE TABLE openchpl.utilized_test_tool(
@@ -1142,43 +1196,6 @@ CREATE TABLE openchpl.test_event_details(
 -- ALTER TABLE openchpl.test_event_details OWNER TO openchpl;
 -- ddl-end --
 
--- object: openchpl.test_participant | type: TABLE --
--- DROP TABLE IF EXISTS openchpl.test_participant CASCADE;
-CREATE TABLE openchpl.test_participant(
-	test_paticipant_id bigserial NOT NULL,
-	test_event_details_id bigint NOT NULL,
-	gender char,
-	age smallint,
-	occupation varchar(50),
-	assistive_technology_needs varchar(250),
-	creation_date timestamp NOT NULL DEFAULT NOW(),
-	last_modified_date timestamp NOT NULL DEFAULT NOW(),
-	last_modified_user bigint NOT NULL,
-	deleted bool NOT NULL DEFAULT false,
-	CONSTRAINT test_participant_pk PRIMARY KEY (test_paticipant_id)
-
-);
--- ddl-end --
--- ALTER TABLE openchpl.test_participant OWNER TO openchpl;
--- ddl-end --
-
--- object: openchpl.education_type | type: TABLE --
--- DROP TABLE IF EXISTS openchpl.education_type CASCADE;
-CREATE TABLE openchpl.education_type(
-	education_type_id bigint NOT NULL,
-	name varchar(25) NOT NULL,
-	description varchar(250) NOT NULL,
-	creation_date timestamp NOT NULL DEFAULT NOW(),
-	last_modified_date timestamp NOT NULL DEFAULT NOW(),
-	last_modified_user bigint NOT NULL,
-	deleted bool NOT NULL DEFAULT false,
-	CONSTRAINT education_type_pk PRIMARY KEY (education_type_id)
-
-);
--- ddl-end --
--- ALTER TABLE openchpl.education_type OWNER TO openchpl;
--- ddl-end --
-
 -- object: openchpl.experience_type | type: TABLE --
 -- DROP TABLE IF EXISTS openchpl.experience_type CASCADE;
 CREATE TABLE openchpl.experience_type(
@@ -1194,26 +1211,6 @@ CREATE TABLE openchpl.experience_type(
 );
 -- ddl-end --
 -- ALTER TABLE openchpl.experience_type OWNER TO openchpl;
--- ddl-end --
-
--- object: openchpl.test_task | type: TABLE --
--- DROP TABLE IF EXISTS openchpl.test_task CASCADE;
-CREATE TABLE openchpl.test_task(
-	test_task_id bigserial NOT NULL,
-	certification_criterion_id bigint,
-	test_event_details_id bigint NOT NULL,
-	name varchar(50) NOT NULL,
-	description text,
-	task_time_seconds bigint,
-	creation_date timestamp NOT NULL DEFAULT NOW(),
-	last_modified_date timestamp NOT NULL DEFAULT NOW(),
-	last_modified_user bigint NOT NULL,
-	deleted bool NOT NULL DEFAULT false,
-	CONSTRAINT test_task_pk PRIMARY KEY (test_task_id)
-
-);
--- ddl-end --
--- ALTER TABLE openchpl.test_task OWNER TO openchpl;
 -- ddl-end --
 
 -- object: openchpl.test_task_result | type: TABLE --
@@ -1240,33 +1237,6 @@ CREATE TABLE openchpl.test_task_result(
 -- ALTER TABLE openchpl.test_task_result OWNER TO openchpl;
 -- ddl-end --
 
--- object: test_event_details_fk | type: CONSTRAINT --
--- ALTER TABLE openchpl.test_task DROP CONSTRAINT IF EXISTS test_event_details_fk CASCADE;
-ALTER TABLE openchpl.test_task ADD CONSTRAINT test_event_details_fk FOREIGN KEY (test_event_details_id)
-REFERENCES openchpl.test_event_details (test_event_details_id) MATCH FULL
-ON DELETE RESTRICT ON UPDATE CASCADE;
--- ddl-end --
-
--- object: certification_criterion_fk | type: CONSTRAINT --
--- ALTER TABLE openchpl.test_task DROP CONSTRAINT IF EXISTS certification_criterion_fk CASCADE;
-ALTER TABLE openchpl.test_task ADD CONSTRAINT certification_criterion_fk FOREIGN KEY (certification_criterion_id)
-REFERENCES openchpl.certification_criterion (certification_criterion_id) MATCH FULL
-ON DELETE SET NULL ON UPDATE CASCADE;
--- ddl-end --
-
--- object: test_task_fk | type: CONSTRAINT --
--- ALTER TABLE openchpl.test_task_result DROP CONSTRAINT IF EXISTS test_task_fk CASCADE;
-ALTER TABLE openchpl.test_task_result ADD CONSTRAINT test_task_fk FOREIGN KEY (test_task_id)
-REFERENCES openchpl.test_task (test_task_id) MATCH FULL
-ON DELETE RESTRICT ON UPDATE CASCADE;
--- ddl-end --
-
--- object: test_event_details_fk | type: CONSTRAINT --
--- ALTER TABLE openchpl.test_participant DROP CONSTRAINT IF EXISTS test_event_details_fk CASCADE;
-ALTER TABLE openchpl.test_participant ADD CONSTRAINT test_event_details_fk FOREIGN KEY (test_event_details_id)
-REFERENCES openchpl.test_event_details (test_event_details_id) MATCH FULL
-ON DELETE RESTRICT ON UPDATE CASCADE;
--- ddl-end --
 
 -- object: test_participant_fk | type: CONSTRAINT --
 -- ALTER TABLE openchpl.test_task_result DROP CONSTRAINT IF EXISTS test_participant_fk CASCADE;
