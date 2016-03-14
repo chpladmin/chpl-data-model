@@ -1,5 +1,13 @@
 # Release Notes
 
+## Version 0.4.0
+_14 March 2016_
+
+### Changes
+* Cleaned up unused Certified Product fields
+* Changed Transparency Attestation to ENUM / URL to per product
+* Added "Targeted Users"
+
 ## Version 0.3.2
 _29 February 2016_
 
