@@ -23,7 +23,6 @@ CREATE SCHEMA openchpl;
 SET search_path TO pg_catalog,public,openchpl;
 -- ddl-end --
 
-DROP TYPE IF EXISTS attestation;
 CREATE TYPE openchpl.attestation as enum('Affirmative', 'Negative', 'N/A');
 
 -- object: openchpl.user | type: TABLE --
@@ -381,6 +380,8 @@ CREATE TABLE openchpl.certification_result(
 	sed bool,
 	g1_success bool,
 	g2_success bool,
+	api_documentation varchar(1024),
+	privacy_security_framework varchar(100),
 	creation_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_user bigint NOT NULL,
@@ -392,7 +393,7 @@ CREATE TABLE openchpl.certification_result(
 -- ddl-end --
 
 CREATE TABLE openchpl.test_participant(
-	test_paticipant_id bigserial NOT NULL,
+	test_participant_id bigserial NOT NULL,
 	gender char,
 	age smallint,
 	education_type_id bigint,
@@ -405,7 +406,7 @@ CREATE TABLE openchpl.test_participant(
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_user bigint NOT NULL,
 	deleted bool NOT NULL DEFAULT false,
-	CONSTRAINT test_participant_pk PRIMARY KEY (test_paticipant_id),
+	CONSTRAINT test_participant_pk PRIMARY KEY (test_participant_id),
 	CONSTRAINT education_type_fk FOREIGN KEY (education_type_id)
 		REFERENCES openchpl.education_type (education_type_id) MATCH FULL
 		ON DELETE RESTRICT ON UPDATE CASCADE
@@ -1273,14 +1274,6 @@ CREATE TABLE openchpl.test_task_result(
 -- ALTER TABLE openchpl.test_task_result OWNER TO openchpl;
 -- ddl-end --
 
-
--- object: test_participant_fk | type: CONSTRAINT --
--- ALTER TABLE openchpl.test_task_result DROP CONSTRAINT IF EXISTS test_participant_fk CASCADE;
-ALTER TABLE openchpl.test_task_result ADD CONSTRAINT test_participant_fk FOREIGN KEY (test_paticipant_id)
-REFERENCES openchpl.test_participant (test_paticipant_id) MATCH FULL
-ON DELETE RESTRICT ON UPDATE CASCADE;
--- ddl-end --
-
 -- object: education_type_fk | type: CONSTRAINT --
 -- ALTER TABLE openchpl.test_task_result DROP CONSTRAINT IF EXISTS education_type_fk CASCADE;
 ALTER TABLE openchpl.test_task_result ADD CONSTRAINT education_type_fk FOREIGN KEY (education_type_id)
@@ -1639,6 +1632,8 @@ CREATE TABLE openchpl.pending_certification_result(
 	sed bool,
 	g1_success bool,
 	g2_success bool,
+	api_documentation varchar(1024),
+	privacy_security_framework varchar(100),
 	
 	-- fields we need for auditing/tracking
 	creation_date timestamp without time zone NOT NULL DEFAULT now(),
