@@ -24,7 +24,7 @@ SET search_path TO pg_catalog,public,openchpl;
 -- ddl-end --
 
 DROP TYPE IF EXISTS attestation;
-CREATE TYPE attestation as enum('Affirmative', 'Negative', 'N/A');
+CREATE TYPE openchpl.attestation as enum('Affirmative', 'Negative', 'N/A');
 
 -- object: openchpl.user | type: TABLE --
 -- DROP TABLE IF EXISTS openchpl.user CASCADE;
@@ -146,7 +146,8 @@ CREATE TABLE openchpl.acb_vendor_map (
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_user bigint NOT NULL,
 	deleted bool NOT NULL DEFAULT false,
-	CONSTRAINT acb_vendor_pk PRIMARY KEY (acb_vendor_map_id)
+	CONSTRAINT acb_vendor_pk PRIMARY KEY (acb_vendor_map_id),
+    CONSTRAINT acb_vendor_map_vendor_id_certification_body_id_key UNIQUE (vendor_id, certification_body_id)
 );
 
 ALTER TABLE openchpl.acb_vendor_map OWNER TO openchpl;
