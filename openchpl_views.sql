@@ -11,6 +11,8 @@ a.gap,
 a.sed,
 a.g1_success,
 a.g2_success,
+a.api_documentation,
+a.privacy_security_framework,
 b.number,
 b.title,
 COALESCE(d.count_additional_software, 0) as "count_additional_software"

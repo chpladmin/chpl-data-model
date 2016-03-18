@@ -23,7 +23,6 @@ CREATE SCHEMA openchpl;
 SET search_path TO pg_catalog,public,openchpl;
 -- ddl-end --
 
-DROP TYPE IF EXISTS attestation;
 CREATE TYPE openchpl.attestation as enum('Affirmative', 'Negative', 'N/A');
 
 -- object: openchpl.user | type: TABLE --
@@ -359,6 +358,17 @@ CREATE TABLE openchpl.certification_criterion(
 -- ALTER TABLE openchpl.certification_criterion OWNER TO openchpl;
 -- ddl-end --
 
+CREATE TABLE openchpl.education_type(
+	education_type_id bigserial NOT NULL,
+	name varchar(250) NOT NULL,
+	creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
+	CONSTRAINT education_type_pk PRIMARY KEY (education_type_id)
+
+);
+
 -- object: openchpl.certification_result | type: TABLE --
 -- DROP TABLE IF EXISTS openchpl.certification_result CASCADE;
 CREATE TABLE openchpl.certification_result(
@@ -370,6 +380,8 @@ CREATE TABLE openchpl.certification_result(
 	sed bool,
 	g1_success bool,
 	g2_success bool,
+	api_documentation varchar(1024),
+	privacy_security_framework varchar(100),
 	creation_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_user bigint NOT NULL,
@@ -379,6 +391,83 @@ CREATE TABLE openchpl.certification_result(
 -- ddl-end --
 --ALTER TABLE openchpl.certification_result OWNER TO openchpl;
 -- ddl-end --
+
+CREATE TABLE openchpl.test_participant(
+	test_participant_id bigserial NOT NULL,
+	gender char,
+	age smallint,
+	education_type_id bigint,
+	occupation varchar(250),
+	professional_experience_months int,
+	computer_experience_months int,
+	product_experience_months int,
+	assistive_technology_needs varchar(250),
+	creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
+	CONSTRAINT test_participant_pk PRIMARY KEY (test_participant_id),
+	CONSTRAINT education_type_fk FOREIGN KEY (education_type_id)
+		REFERENCES openchpl.education_type (education_type_id) MATCH FULL
+		ON DELETE RESTRICT ON UPDATE CASCADE
+);
+
+CREATE TABLE openchpl.certification_result_test_participant (
+	certification_result_test_participant_id bigserial not null,
+	certification_result_id bigint not null,
+	test_participant_id bigint,
+	creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
+	constraint certification_result_test_participant_pk primary key (certification_result_test_participant_id),
+	CONSTRAINT certification_result_fk FOREIGN KEY (certification_result_id)
+      REFERENCES openchpl.certification_result (certification_result_id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+	CONSTRAINT test_participant_fk FOREIGN KEY (test_participant_id)
+      REFERENCES openchpl.test_participant (test_participant_id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+);
+
+CREATE TABLE openchpl.test_task(
+	test_task_id bigserial NOT NULL,
+	description text,
+	task_success_avg_pct float,
+	task_success_stddev_pct float,
+	task_path_deviation_observed int,
+	task_path_deviation_optimal int,
+	task_time_avg_seconds bigint,
+	task_time_stddev_seconds int,
+	task_time_deviation_observed_avg_seconds int,
+	task_time_deviation_optimal_avg_seconds int,
+	task_errors_pct float,
+	task_errors_stddev_pct float,
+	task_rating_scale varchar(50),
+	task_rating float,
+	creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
+	CONSTRAINT test_task_pk PRIMARY KEY (test_task_id)
+
+);
+
+CREATE TABLE openchpl.certification_result_test_task (
+	certification_result_test_task_id bigserial not null,
+	certification_result_id bigint not null,
+	test_task_id bigint,
+	creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
+	constraint certification_result_test_task_pk primary key (certification_result_test_task_id),
+	CONSTRAINT certification_result_fk FOREIGN KEY (certification_result_id)
+      REFERENCES openchpl.certification_result (certification_result_id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+	CONSTRAINT test_task_fk FOREIGN KEY (test_task_id)
+      REFERENCES openchpl.test_task (test_task_id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+);
 
 CREATE TABLE openchpl.test_standard (
 	test_standard_id bigserial not null,
@@ -477,6 +566,7 @@ CREATE TABLE openchpl.certification_result_additional_software
   version varchar(250),
   certified_product_id bigint,
   justification varchar(500),
+  grouping varchar(10),
   creation_date timestamp without time zone NOT NULL DEFAULT now(),
   last_modified_date timestamp without time zone NOT NULL DEFAULT now(),
   last_modified_user bigint NOT NULL,
@@ -982,6 +1072,7 @@ CREATE TABLE openchpl.practice_type(
 -- ALTER TABLE openchpl.practice_type OWNER TO openchpl;
 -- ddl-end --
 
+
 -- object: openchpl.utilized_test_tool | type: TABLE --
 -- DROP TABLE IF EXISTS openchpl.utilized_test_tool CASCADE;
 CREATE TABLE openchpl.utilized_test_tool(
@@ -1143,43 +1234,6 @@ CREATE TABLE openchpl.test_event_details(
 -- ALTER TABLE openchpl.test_event_details OWNER TO openchpl;
 -- ddl-end --
 
--- object: openchpl.test_participant | type: TABLE --
--- DROP TABLE IF EXISTS openchpl.test_participant CASCADE;
-CREATE TABLE openchpl.test_participant(
-	test_paticipant_id bigserial NOT NULL,
-	test_event_details_id bigint NOT NULL,
-	gender char,
-	age smallint,
-	occupation varchar(50),
-	assistive_technology_needs varchar(250),
-	creation_date timestamp NOT NULL DEFAULT NOW(),
-	last_modified_date timestamp NOT NULL DEFAULT NOW(),
-	last_modified_user bigint NOT NULL,
-	deleted bool NOT NULL DEFAULT false,
-	CONSTRAINT test_participant_pk PRIMARY KEY (test_paticipant_id)
-
-);
--- ddl-end --
--- ALTER TABLE openchpl.test_participant OWNER TO openchpl;
--- ddl-end --
-
--- object: openchpl.education_type | type: TABLE --
--- DROP TABLE IF EXISTS openchpl.education_type CASCADE;
-CREATE TABLE openchpl.education_type(
-	education_type_id bigint NOT NULL,
-	name varchar(25) NOT NULL,
-	description varchar(250) NOT NULL,
-	creation_date timestamp NOT NULL DEFAULT NOW(),
-	last_modified_date timestamp NOT NULL DEFAULT NOW(),
-	last_modified_user bigint NOT NULL,
-	deleted bool NOT NULL DEFAULT false,
-	CONSTRAINT education_type_pk PRIMARY KEY (education_type_id)
-
-);
--- ddl-end --
--- ALTER TABLE openchpl.education_type OWNER TO openchpl;
--- ddl-end --
-
 -- object: openchpl.experience_type | type: TABLE --
 -- DROP TABLE IF EXISTS openchpl.experience_type CASCADE;
 CREATE TABLE openchpl.experience_type(
@@ -1195,26 +1249,6 @@ CREATE TABLE openchpl.experience_type(
 );
 -- ddl-end --
 -- ALTER TABLE openchpl.experience_type OWNER TO openchpl;
--- ddl-end --
-
--- object: openchpl.test_task | type: TABLE --
--- DROP TABLE IF EXISTS openchpl.test_task CASCADE;
-CREATE TABLE openchpl.test_task(
-	test_task_id bigserial NOT NULL,
-	certification_criterion_id bigint,
-	test_event_details_id bigint NOT NULL,
-	name varchar(50) NOT NULL,
-	description text,
-	task_time_seconds bigint,
-	creation_date timestamp NOT NULL DEFAULT NOW(),
-	last_modified_date timestamp NOT NULL DEFAULT NOW(),
-	last_modified_user bigint NOT NULL,
-	deleted bool NOT NULL DEFAULT false,
-	CONSTRAINT test_task_pk PRIMARY KEY (test_task_id)
-
-);
--- ddl-end --
--- ALTER TABLE openchpl.test_task OWNER TO openchpl;
 -- ddl-end --
 
 -- object: openchpl.test_task_result | type: TABLE --
@@ -1239,41 +1273,6 @@ CREATE TABLE openchpl.test_task_result(
 );
 -- ddl-end --
 -- ALTER TABLE openchpl.test_task_result OWNER TO openchpl;
--- ddl-end --
-
--- object: test_event_details_fk | type: CONSTRAINT --
--- ALTER TABLE openchpl.test_task DROP CONSTRAINT IF EXISTS test_event_details_fk CASCADE;
-ALTER TABLE openchpl.test_task ADD CONSTRAINT test_event_details_fk FOREIGN KEY (test_event_details_id)
-REFERENCES openchpl.test_event_details (test_event_details_id) MATCH FULL
-ON DELETE RESTRICT ON UPDATE CASCADE;
--- ddl-end --
-
--- object: certification_criterion_fk | type: CONSTRAINT --
--- ALTER TABLE openchpl.test_task DROP CONSTRAINT IF EXISTS certification_criterion_fk CASCADE;
-ALTER TABLE openchpl.test_task ADD CONSTRAINT certification_criterion_fk FOREIGN KEY (certification_criterion_id)
-REFERENCES openchpl.certification_criterion (certification_criterion_id) MATCH FULL
-ON DELETE SET NULL ON UPDATE CASCADE;
--- ddl-end --
-
--- object: test_task_fk | type: CONSTRAINT --
--- ALTER TABLE openchpl.test_task_result DROP CONSTRAINT IF EXISTS test_task_fk CASCADE;
-ALTER TABLE openchpl.test_task_result ADD CONSTRAINT test_task_fk FOREIGN KEY (test_task_id)
-REFERENCES openchpl.test_task (test_task_id) MATCH FULL
-ON DELETE RESTRICT ON UPDATE CASCADE;
--- ddl-end --
-
--- object: test_event_details_fk | type: CONSTRAINT --
--- ALTER TABLE openchpl.test_participant DROP CONSTRAINT IF EXISTS test_event_details_fk CASCADE;
-ALTER TABLE openchpl.test_participant ADD CONSTRAINT test_event_details_fk FOREIGN KEY (test_event_details_id)
-REFERENCES openchpl.test_event_details (test_event_details_id) MATCH FULL
-ON DELETE RESTRICT ON UPDATE CASCADE;
--- ddl-end --
-
--- object: test_participant_fk | type: CONSTRAINT --
--- ALTER TABLE openchpl.test_task_result DROP CONSTRAINT IF EXISTS test_participant_fk CASCADE;
-ALTER TABLE openchpl.test_task_result ADD CONSTRAINT test_participant_fk FOREIGN KEY (test_paticipant_id)
-REFERENCES openchpl.test_participant (test_paticipant_id) MATCH FULL
-ON DELETE RESTRICT ON UPDATE CASCADE;
 -- ddl-end --
 
 -- object: education_type_fk | type: CONSTRAINT --
@@ -1634,6 +1633,8 @@ CREATE TABLE openchpl.pending_certification_result(
 	sed bool,
 	g1_success bool,
 	g2_success bool,
+	api_documentation varchar(1024),
+	privacy_security_framework varchar(100),
 	
 	-- fields we need for auditing/tracking
 	creation_date timestamp without time zone NOT NULL DEFAULT now(),
@@ -1649,6 +1650,54 @@ CREATE TABLE openchpl.pending_certification_result(
       ON UPDATE CASCADE ON DELETE SET NULL
 );
 
+CREATE TABLE openchpl.pending_certification_result_test_participant (
+	pending_certification_result_test_participant_id bigserial not null,
+	pending_certification_result_id bigint not null,
+	test_participant_unique_id varchar(20) not null,
+	gender char,
+	age smallint,
+	education_type_id bigint,
+	occupation varchar(250),
+	professional_experience_months int,
+	computer_experience_months int,
+	product_experience_months int,
+	assistive_technology_needs varchar(250),
+	creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
+	constraint pending_certification_result_test_participant_pk primary key (pending_certification_result_test_participant_id),
+	CONSTRAINT pending_certification_result_fk FOREIGN KEY (pending_certification_result_id)
+      REFERENCES openchpl.pending_certification_result (pending_certification_result_id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+);
+
+CREATE TABLE openchpl.pending_certification_result_test_task (
+	pending_certification_result_test_task_id bigserial not null,
+	pending_certification_result_id bigint not null,
+	test_task_unique_id varchar(20) not null,
+	description text,
+	task_success_avg_pct float,
+	task_success_stddev_pct float,
+	task_path_deviation_observed int,
+	task_path_deviation_optimal int,
+	task_time_avg_seconds bigint,
+	task_time_stddev_seconds int,
+	task_time_deviation_observed_avg_seconds int,
+	task_time_deviation_optimal_avg_seconds int,
+	task_errors_pct float,
+	task_errors_stddev_pct float,
+	task_rating_scale varchar(50),
+	task_rating float,
+	creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
+	constraint pending_certification_result_test_task_pk primary key (pending_certification_result_test_task_id),
+	CONSTRAINT pending_certification_result_fk FOREIGN KEY (pending_certification_result_id)
+      REFERENCES openchpl.pending_certification_result (pending_certification_result_id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+);
 
 CREATE TABLE openchpl.pending_certification_result_test_standard (
 	pending_certification_result_test_standard_id bigserial NOT NULL,
@@ -1715,6 +1764,7 @@ CREATE TABLE openchpl.pending_certification_result_additional_software
   certified_product_id bigint,
   certified_product_chpl_id varchar(200),
   justification varchar(500),
+  grouping varchar(10),
   creation_date timestamp without time zone NOT NULL DEFAULT now(),
   last_modified_date timestamp without time zone NOT NULL DEFAULT now(),
   last_modified_user bigint NOT NULL,

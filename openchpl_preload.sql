@@ -7,6 +7,8 @@ insert into openchpl.testing_lab (name, testing_lab_code, last_modified_user) va
 insert into openchpl.event_type (name, description, last_modified_user) values ('Certification','Product is certified', -1), ('Active', 'Product moved from Pending to Active', -1);
 insert into openchpl.cqm_version (version, last_modified_user) values ('v0', -1), ('v1', -1), ('v2', -1), ('v3', -1), ('v4', -1), ('v5', -1);
 insert into openchpl.certification_status (certification_status, last_modified_user) values ('Active', -1), ('Retired', -1), ('Withdrawn', -1), ('Decertified', -1), ('Pending', -1);
+insert into openchpl.education_type (name, last_modified_user) values ('No high school degree', -1), ('High school graduate, diploma or the equivalent (for example: GED', -1), ('Some college credit, no degree', -1), ('Trade/technical/vocational training', -1), ('Associate degree', -1),
+('Bachelor’s degree', -1), ('Master’s degree', -1), ('Professional degree (MD, DO, DMD)', -1), ('Doctorate degree', -1);
 
 INSERT INTO openchpl.certification_criterion (certification_edition_id, number, title, last_modified_user) VALUES
 (3, '170.315 (a)(1)', 'Computerized Provider Order Entry (CPOE) - Medications', -1),
