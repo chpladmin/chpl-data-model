@@ -2,13 +2,10 @@ insert into openchpl.practice_type (name, description, last_modified_user) value
 insert into openchpl.product_classification_type (name, description, last_modified_user) values ('Modular EHR', 'Modular EHR', -1), ('Complete EHR', 'Complete EHR', -1);
 insert into openchpl.certification_edition (year, retired, last_modified_user) values (2011, true, -1), (2014, false, -1), (2015, false, -1);
 insert into openchpl.cqm_criterion_type (name, description, last_modified_user) values ('Ambulatory', 'Ambulatory', -1), ('Inpatient','Inpatient',-1);
-insert into openchpl.certification_body (name, acb_code, last_modified_user) values ('InfoGard', '02', -1), ('CCHIT', '03', -1), ('Drummond Group Inc.', '04', -1), ('SLI Global', '05', -1), ('Surescripts LLC', '06', -1), ('ICSA Labs', '07', -1), ('Pending', '08', -1);
-insert into openchpl.testing_lab (name, testing_lab_code, last_modified_user) values ('InfoGard', '02', -1), ('CCHIT', '03', -1), ('Drummond Group Inc.', '04', -1), ('SLI Global', '05', -1), ('ICSA Labs', '07', -1), ('National Technical Systems', '09', -1);
 insert into openchpl.event_type (name, description, last_modified_user) values ('Certification','Product is certified', -1), ('Active', 'Product moved from Pending to Active', -1);
 insert into openchpl.cqm_version (version, last_modified_user) values ('v0', -1), ('v1', -1), ('v2', -1), ('v3', -1), ('v4', -1), ('v5', -1);
 insert into openchpl.certification_status (certification_status, last_modified_user) values ('Active', -1), ('Retired', -1), ('Withdrawn', -1), ('Decertified', -1), ('Pending', -1);
-insert into openchpl.education_type (name, last_modified_user) values ('No high school degree', -1), ('High school graduate, diploma or the equivalent (for example: GED', -1), ('Some college credit, no degree', -1), ('Trade/technical/vocational training', -1), ('Associate degree', -1),
-('Bachelor’s degree', -1), ('Master’s degree', -1), ('Professional degree (MD, DO, DMD)', -1), ('Doctorate degree', -1);
+insert into openchpl.education_type (name, last_modified_user) values ('No high school degree', -1), ('High school graduate, diploma or the equivalent (for example: GED', -1), ('Some college credit, no degree', -1), ('Trade/technical/vocational training', -1), ('Associate degree', -1), ('Bachelor’s degree', -1), ('Master’s degree', -1), ('Professional degree (MD, DO, DMD)', -1), ('Doctorate degree', -1);
 
 INSERT INTO openchpl.certification_criterion (certification_edition_id, number, title, last_modified_user) VALUES
 (3, '170.315 (a)(1)', 'Computerized Provider Order Entry (CPOE) - Medications', -1),
@@ -790,7 +787,6 @@ INSERT INTO openchpl.test_standard(number, name, last_modified_user) VALUES
 ('170.210(g)','RFC 5905: Network Time Protocol Version 4: Protocol and Algorithms Specification, June 2010',-1),
 ('170.210(h)','ASTM E2147-01 (Reapproved 2009) Standard Specification for Audit and Disclosure Logs for Use in Health Information Systems, approved September 1, 2009',-1);
 
-
 INSERT INTO openchpl.test_functionality(number, name, last_modified_user) VALUES
 ('(a)(4)(iii)', 'Optional: (a)(4)(iii) Plot and electronically display, upon request, growth charts for patients', -1),
 ('(b)(1)(i)(B)', 'Optional: (b)(1)(i)(B) The standards specified in § 170.202(a) and (b)', -1),
@@ -849,6 +845,9 @@ SET check_function_bodies = false;
 SET client_min_messages = warning;
 SET search_path = openchpl, pg_catalog;
 
+insert into openchpl.certification_body (name, acb_code, last_modified_user) values ('InfoGard', '02', -1), ('CCHIT', '03', -1), ('Drummond Group Inc.', '04', -1), ('SLI Global', '05', -1), ('Surescripts LLC', '06', -1), ('ICSA Labs', '07', -1), ('Pending', '08', -1);
+insert into openchpl.testing_lab (name, testing_lab_code, last_modified_user) values ('InfoGard', '02', -1), ('CCHIT', '03', -1), ('Drummond Group Inc.', '04', -1), ('SLI Global', '05', -1), ('ICSA Labs', '07', -1), ('National Technical Systems', '09', -1);
+
 INSERT INTO acl_class VALUES (1, 'gov.healthit.chpl.auth.dto.UserDTO'), (2, 'gov.healthit.chpl.dto.CertificationBodyDTO'),
 							 (3, 'gov.healthit.chpl.dto.PendingCertifiedProductDTO'), (4, 'gov.healthit.chpl.dto.TestingLabDTO');
 SELECT pg_catalog.setval('acl_class_id_seq', 5, true);
@@ -893,7 +892,8 @@ INSERT INTO acl_object_identity VALUES
 (10, 4, 2, NULL, -2, true),
 (11, 4, 3, NULL, -2, true),
 (12, 4, 4, NULL, -2, true),
-(13, 4, 5, NULL, -2, true);
+(13, 4, 5, NULL, -2, true),
+(14, 4, 6, NULL, -2, true);
 
 --insert acls for users
 INSERT INTO acl_entry VALUES
@@ -920,12 +920,13 @@ INSERT INTO acl_entry VALUES
 -- insert acls for atls
 INSERT INTO acl_entry VALUES
 (17, 9, 0, -3, 16, true, false, false),
-(18, 10, 0, -5, 16, true, false, false),
-(19, 11, 0, -6, 16, true, false, false),
-(20, 12, 0, -8, 16, true, false, false); --no user for NTS yet
+(18, 10, 0, -4, 16, true, false, false),
+(19, 11, 0, -5, 16, true, false, false),
+(20, 12, 0, -6, 16, true, false, false), --no user for NTS yet
+(21, 13, 0, -8, 16, true, false, false); --no user for NTS yet
 
-SELECT pg_catalog.setval('acl_entry_id_seq', 21, true);
-SELECT pg_catalog.setval('acl_object_identity_id_seq', 13, true);
+SELECT pg_catalog.setval('acl_entry_id_seq', 22, true);
+SELECT pg_catalog.setval('acl_object_identity_id_seq', 15, true);
 SELECT pg_catalog.setval('acl_sid_id_seq', 2, true);
 
 --user contacts.
@@ -953,7 +954,6 @@ INSERT INTO "user" (user_id, user_name, password, compliance_signature, account_
 (-6, 'sli', '$2a$10$cHEFAUGhMdzEmBy4Xn2HUeuLST.ZgOc39X6kU8bwH3qD4YCqaa2Na', CURRENT_DATE, false, false, false, true, -1, -6),
 (-7, 'surescripts', '$2a$10$mso5r1dD.oWw5FID0Ke5k.ORqUmgSVJacca3vuf0Nf7.mIxbjAubS', CURRENT_DATE, false, false, false, true, -1, -7);
 SELECT pg_catalog.setval('user_user_id_seq', 2, true);
-
 
 INSERT INTO user_permission (user_permission_id, "name", description, authority, last_modified_user) VALUES
 (-2, 'ADMIN', 'This permission confers administrative privileges to its owner.', 'ROLE_ADMIN', -1),
