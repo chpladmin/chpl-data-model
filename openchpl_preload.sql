@@ -893,7 +893,8 @@ INSERT INTO acl_object_identity VALUES
 (10, 4, 2, NULL, -2, true),
 (11, 4, 3, NULL, -2, true),
 (12, 4, 4, NULL, -2, true),
-(13, 4, 5, NULL, -2, true);
+(13, 4, 5, NULL, -2, true),
+(14, 4, 6, NULL, -2, true);
 
 --insert acls for users
 INSERT INTO acl_entry VALUES
@@ -925,7 +926,7 @@ INSERT INTO acl_entry VALUES
 (20, 12, 0, -8, 16, true, false, false); --no user for NTS yet
 
 SELECT pg_catalog.setval('acl_entry_id_seq', 21, true);
-SELECT pg_catalog.setval('acl_object_identity_id_seq', 13, true);
+SELECT pg_catalog.setval('acl_object_identity_id_seq', 14, true);
 SELECT pg_catalog.setval('acl_sid_id_seq', 2, true);
 
 --user contacts.
