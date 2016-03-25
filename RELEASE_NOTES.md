@@ -1,5 +1,16 @@
 # Release Notes
 
+## Version 0.5.0
+_25 March 2016_
+
+### Features added
+* Updated to conform with 2015 upload rules
+  * Additional software grouping
+  * API Documentation, Privacy & Security
+  * SED Tasks & Participants
+* Added SQL file for k1/k2 transparency insert/updates
+* Added CCHIT as ATL
+
 ## Version 0.4.0
 _14 March 2016_
 
