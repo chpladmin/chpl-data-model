@@ -393,7 +393,7 @@ CREATE TABLE openchpl.test_task(
 
 CREATE TABLE openchpl.test_participant(
 	test_participant_id bigserial NOT NULL,
-	gender char,
+	gender varchar(100),
 	age smallint,
 	education_type_id bigint,
 	occupation varchar(250),
@@ -1624,7 +1624,7 @@ CREATE TABLE openchpl.pending_certified_product_accessibility_standard (
 CREATE TABLE openchpl.pending_test_participant (
 	pending_test_participant_id bigserial not null,
 	test_participant_unique_id varchar(20) not null,
-	gender char,
+	gender varchar(100),
 	age smallint,
 	education_type_id bigint,
 	occupation varchar(250),
