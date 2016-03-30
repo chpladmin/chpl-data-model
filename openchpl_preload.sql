@@ -817,9 +817,9 @@ INSERT INTO openchpl.test_standard(number, name, last_modified_user) VALUES
 * Choose not to disclose. nullFlavor ASKU
 * Additional gender category or other, please specify. nullFlavor OTH
 * Choose not to disclose. nullFlavor ASKU', -1),
-('170.204(b)(3)','HL7 Version 3 Standard: Context Aware Knowledge Retrieval Application. (“Infobutton”), Knowledge Request, Release 2, 2014 Release
+('170.204(b)(3)','HL7 Version 3 Standard: Context Aware Knowledge Retrieval Application. ("Infobutton"), Knowledge Request, Release 2, 2014 Release
 HL7 Implementation Guide: Service-Oriented Architecture Implementations of the Context-aware Knowledge Retrieval (Infobutton) Domain, Release 1, August 9, 2013', -1),
-('170.204(b)(4)','HL7 Version 3 Standard: Context Aware Retrieval Application (“Infobutton”), Knowledge Request, Release 2, 2014 Release
+('170.204(b)(4)','HL7 Version 3 Standard: Context Aware Retrieval Application ("Infobutton"), Knowledge Request, Release 2, 2014 Release
 HL7 Version 3 Implementation Guide: Context-Aware Knowledge Retrieval (Infobutton), Release 4, June 13, 2014', -1),
 ('170.205(p)(1)','IHE IT Infrastructure Technical Framework Volume 2b (ITI TF-2b) Transactions Part B – Sections 3.29 – 3.43, Revision 7.0, August 10, 2010', -1),
 ('170.205(a)(3)','HL7 Implementation Guide for CDA® Release 2: IHE Health Story Consolidation, Release 1.1 - US Realm', -1),
@@ -845,7 +845,7 @@ HL7 Implementation Guide for CDA ®Release 2: National Health Care Surveys (NHC
 ('170.207(q)(1)','ITU-TE.123, Series E: Overall Network Operation, Telephone Service, Service Operation and Human Factors, International operation – General provisions concerning users: Notation for national and international telephone numbers, e-mail addresses and web addresses, February 2001
 ITU-T E. 164, Series E: Overall Network Operation, Telephone Service, Service Operation and Human Factors, International Operation - Numbering plan of the international telephone service: The international public telecommunication numbering plan, November 2010', -1),
 ('170.210(g)','Request for Comments (RFC) 5905:Network Time Protocol Version 4: Protocol and Algorithms Specification, June 2010', -1),
-('170.207(g)(2)','Request for Comments (RFC) 5646, “Tags for Identifying Languages,” September 2009, copyright 2009', -1),
+('170.207(g)(2)','Request for Comments (RFC) 5646, "Tags for Identifying Languages," September 2009, copyright 2009', -1),
 ('170.205(b)(2)','SCRIPT Standard, Version 10.6, October, 2008', -1),
 ('170.210(a)(2)','Annex A: Federal Information Processing Standards (FIPS) Publication 140-2, Security Requirements for Cryptographic Modules, October 8, 2014', -1),
 ('170.210(c)(2)','FIPS PUB 180-4, Secure Hash Standard, 180-4 (August 2015)', -1),
@@ -899,8 +899,8 @@ INSERT INTO openchpl.test_functionality(number, name, last_modified_user) VALUES
 ('(a)(4)(ii)(B)(2)','Alternative: (a)(4)(ii)(B)(2) As a system administrative function', -1),
 ('(a)(10)(i)','Alternative: (a)(10)(i) Drug formulary checks. Automatically check whether a drug formulary exists for a given patient and medication', -1),
 ('(a)(10)(ii)','Alternative: (a)(10)(ii)  Preferred drug list checks. Automatically check whether a preferred drug list exists for a given patient and medication', -1),
-('(a)(14)(iii)(A)(1)','Alternative: (a)(14)(iii)(A)(1) The “GMDN PT Name” attribute associated with the Device Identifier in the Global Unique Device Identification Database', -1),
-('(a)(14)(iii)(A)(2)','Alternative: (a)(14)(iii)(A)(2) The “SNOMED CT Description” mapped to the attribute referenced in (a)(14)(iii)(1) (The “GMDN PT Name” attribute associated with the Device Identifier in the Global Unique Device Identification Database)', -1),
+('(a)(14)(iii)(A)(1)','Alternative: (a)(14)(iii)(A)(1) The "GMDN PT Name" attribute associated with the Device Identifier in the Global Unique Device Identification Database', -1),
+('(a)(14)(iii)(A)(2)','Alternative: (a)(14)(iii)(A)(2) The "SNOMED CT Description" mapped to the attribute referenced in (a)(14)(iii)(1) (The "GMDN PT Name" attribute associated with the Device Identifier in the Global Unique Device Identification Database)', -1),
 ('(b)(1)(ii)(A)(5)(i)','Alternative: (b)(1)(ii)(A)(5)(i) Be notified of the errors produced', -1),
 ('(b)(1)(ii)(A)(5)(ii)','Alternative: (b)(1)(ii)(A)(5)(ii) Review the errors produced', -1),
 ('(b)(5)(ii)(A)(5)(i)','Alternative: (b)(5)(ii)(A)(5)(i) Be notified of the errors produced', -1),
@@ -916,17 +916,17 @@ INSERT INTO openchpl.test_functionality(number, name, last_modified_user) VALUES
 ('(g)(5)(i)','Alternative: (g)(5)(i) When a single accessibility-centered design standard or law was used for applicable capabilities, it would only need to be identified once', -1),
 ('(g)(5)(ii)','Alternative: (g)(5)(ii) When different accessibility-centered design standards and laws were applied to specific capabilities, each accessibility-centered design standard or law applied would need to be identified. This would include the application of an accessibility-centered design standard or law to some capabilities and none to others', -1),
 ('(g)(5)(iii)','Alternative: (g)(5)(iii) When no accessibility-centered design standard or law was applied to all applicable capabilities such a response is acceptable to satisfy this certification criterion', -1),
-('(a)(1)(ii)','Optional: (a)(1)(ii)  Include a “reason for order” field', -1),
-('(a)(2)(ii)','Optional: (a)(2)(ii) Include a “reason for order” field', -1),
-('(a)(3)(ii)','Optional: (a)(3)(ii) Include a “reason for order” field', -1),
+('(a)(1)(ii)','Optional: (a)(1)(ii)  Include a "reason for order" field', -1),
+('(a)(2)(ii)','Optional: (a)(2)(ii) Include a "reason for order" field', -1),
+('(a)(3)(ii)','Optional: (a)(3)(ii) Include a "reason for order" field', -1),
 ('(a)(13)(ii)','Optional; (a)(13)(ii) Request that patient-specific education resources be identified in accordance with the standard in § 170.207(g)(2)', -1),
 ('(b)(1)(iii)(G)(1)(ii)','Optional: (b)(1)(iii)(G)(1)(ii) When the hour, minute, and second are associated with a date of birth the technology must demonstrate that the correct time zone offset is included', -1),
 ('(b)(3)(iii)','Optional: (b)(3)(iii) For each transaction listed in paragraph (b)(3)(i) of this section, the technology must be able to receive and transmit the reason for the prescription using the indication elements in the SIG Segment', -1),
 ('(b)(4)(vii)(A)(2)','Optional: (b)(4)(vii)(A)(2) When the hour, minute, and second are associated with a date of birth the technology must demonstrate that the correct time zone offset is included', -1),
 ('(c)(3)(ii)','Optional: (c)(3)(ii) That can be electronically accepted by CMS', -1),
 ('170.102(13)(ii)(C) ','Optional: CCDS: 170.102(13)(ii)(C) The patient’s BMI percentile per age and sex for youth 2-20 years of age, weight for age per length and sex for children less than 3 years of age, and head occipital-frontal circumference for children less than 3 years of age must be recorded in numerical values only in accordance with the standard specified in § 170.207(c)(3) and with the associated applicable unit of measure for the vital sign measurement in the standard specified in § 170.207(m)(1). For BMI percentile per age and sex for youth 2-20 years of age and weight for age per length and sex for children less than 3 years of age, the reference range/scale or growth curve should be included as appropriate', -1),
-('170.102(19)(i)','Optional: CCDS: 170.102(19)(i) For certification to the 2015 Edition health IT certification criteria in accordance with the “Assessment and Plan Section (V2)” of the standard specified in § 170.205(a)(4);', -1),
-('170.102(19)(ii)','Optional: CCDS: 170.102(19)(ii)  For certification to the 2015 Edition health IT certification criteria in accordance with the “Assessment Section (V2)” and “Plan of Treatment Section (V2)” of the standard specified in § 170.205(a)(4). ', -1),
+('170.102(19)(i)','Optional: CCDS: 170.102(19)(i) For certification to the 2015 Edition health IT certification criteria in accordance with the "Assessment and Plan Section (V2)" of the standard specified in § 170.205(a)(4);', -1),
+('170.102(19)(ii)','Optional: CCDS: 170.102(19)(ii)  For certification to the 2015 Edition health IT certification criteria in accordance with the "Assessment Section (V2)" and "Plan of Treatment Section (V2)" of the standard specified in § 170.205(a)(4). ', -1),
 ('(a)(6)(i)','Ambulatory: (a)(6)(i) Over multiple encounters in accordance with, at a minimum, the version of the standard specified in § 170.207(a)(4)', -1),
 ('(a)(7)(i)','Ambulatory: (a)(7)(i) Over multiple encounters', -1),
 ('(a)(8)(i)','Ambulatory: (a)(8)(i) Over multiple encounters', -1),
