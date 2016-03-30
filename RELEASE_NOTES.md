@@ -1,12 +1,13 @@
 # Release Notes
 
-## Version TBD
-_DATE TBD_
+## Version 1.0.0
+_30 March 2016_
 
 ## Changes
 * Removed smart quotes from the preloaded education types.
 * Changed gender column to accommodate 100 characters instead of 1 character.
-* Added items to preload script 
+* Added items to preload script
+* Allowed `null` for first names of contacts in ACB
 
 ## Version 0.5.0
 _25 March 2016_
