@@ -818,7 +818,7 @@ ON DELETE RESTRICT ON UPDATE CASCADE;
 -- DROP TABLE IF EXISTS openchpl.contact CASCADE;
 CREATE TABLE openchpl.contact(
 	contact_id bigserial NOT NULL,
-	first_name varchar(250) NOT NULL,
+	first_name varchar(250),
 	last_name varchar(250) NOT NULL,
 	email varchar(250) NOT NULL,
 	phone_number varchar(50) NOT NULL,
