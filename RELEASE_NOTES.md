@@ -1,5 +1,13 @@
 # Release Notes
 
+## Version TBD
+_DATE TBD_
+
+## Changes
+* Removed smart quotes from the preloaded education types.
+* Changed gender column to accommodate 100 characters instead of 1 character.
+* Added items to preload script 
+
 ## Version 0.4.0
 _14 March 2016_
 

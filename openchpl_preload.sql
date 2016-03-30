@@ -726,6 +726,7 @@ INSERT INTO openchpl.ucd_process(name, last_modified_user) VALUES
 ('ISO 16982', -1),
 ('ISO/IEC 62366', -1),
 ('NISTIR 7741', -1);
+-- same for 2014 and 2015
 
 INSERT INTO openchpl.test_tool(name, last_modified_user) VALUES
 ('ePrescribing Validation Tool', -1),
@@ -736,7 +737,17 @@ INSERT INTO openchpl.test_tool(name, last_modified_user) VALUES
 ('HL7 v2 Syndromic Surveillance Reporting Validation Tool', -1),
 ('Transport Testing Tool', -1),
 ('Cypress', -1),
-('Direct Certificate Discovery Tool', -1);
+('Direct Certificate Discovery Tool', -1),
+-- 2014
+('HL7v2 Immunization Test Suite', -1),
+('HL7v2 Syndromic Surveillance Test Suite', -1),
+('HL7v2 Electronic Laboratory Reporting Validation Tool', -1),
+('Electronic Prescribing', -1),
+('HL7 CDA National Health Care Surveys Validator', -1),
+('Transport Test Tool', -1),
+('Edge Test Tool', -1),
+('2015 Direct Certificate Discovery Tool ', -1);
+--2015
 
 INSERT INTO openchpl.test_standard(number, name, last_modified_user) VALUES
 ('170.202(a)','DIRECT: Applicability Statement for Secure Health Transport, Version 1.1, July 10, 2012',-1),
@@ -785,7 +796,75 @@ INSERT INTO openchpl.test_standard(number, name, last_modified_user) VALUES
 ('170.210(f)','Annex A: Approved Security Functions for FIPS PUB 140-2, Security Requirements for Cryptographic Modules, Draft, May 30, 2012',-1),
 ('170.210(g)','RFC 1305: Network Time Protocol (Version 3) Specification, Implementation and Analysis, March 1992',-1),
 ('170.210(g)','RFC 5905: Network Time Protocol Version 4: Protocol and Algorithms Specification, June 2010',-1),
-('170.210(h)','ASTM E2147-01 (Reapproved 2009) Standard Specification for Audit and Disclosure Logs for Use in Health Information Systems, approved September 1, 2009',-1);
+('170.210(h)','ASTM E2147-01 (Reapproved 2009) Standard Specification for Audit and Disclosure Logs for Use in Health Information Systems, approved September 1, 2009',-1),
+-- 2014
+('170.207(b)(3)','CDT', -1),
+('170.207(b)(2)','CPT-4', -1),
+('170.210(h)','ASTM E2147 (Reapproved 2013) ', -1),
+('170.207(f)(2)','CDC Race and Ethnicity Code Set Version 1.0 (March 2000)', -1),
+('170.207(e)(4)','National Drug Code Directory – Vaccine NDC Linker, updates through August 17, 2015', -1),
+('170.207(b)(4)','ICD-10-PCS', -1),
+('170.207(i)','ICD-10-CM', -1),
+('170.207(r)(1)','Crosswalk: Medicare Provider/Supplier to Healthcare Provider Taxonomy (updated April 2, 2015)', -1),
+('170.210(d)','Record treatment, payment, and health care operations disclosures', -1),
+('170.207(n)(1)','Birth sex must be coded in accordance with HL7 Version 3 Standard, Value Sets for AdminstrativeGender and NullFlavor attributed as follows [PDF - 59 KB]:
+(1) Male. M
+(2) Female. F
+(3) Unknown. nullFlavor UNK 1', -1),
+('170.207(o)(1) - (2)','HL7 Version 3 Standard, Value Sets for AdminstrativeGender and NullFlavor attributed as follows:
+* Something else, please describe. nullFlavor OTH
+* Don''t know. nullFlavor UNK
+* Choose not to disclose. nullFlavor ASKU
+* Additional gender category or other, please specify. nullFlavor OTH
+* Choose not to disclose. nullFlavor ASKU', -1),
+('170.204(b)(3)','HL7 Version 3 Standard: Context Aware Knowledge Retrieval Application. (“Infobutton”), Knowledge Request, Release 2, 2014 Release
+HL7 Implementation Guide: Service-Oriented Architecture Implementations of the Context-aware Knowledge Retrieval (Infobutton) Domain, Release 1, August 9, 2013', -1),
+('170.204(b)(4)','HL7 Version 3 Standard: Context Aware Retrieval Application (“Infobutton”), Knowledge Request, Release 2, 2014 Release
+HL7 Version 3 Implementation Guide: Context-Aware Knowledge Retrieval (Infobutton), Release 4, June 13, 2014', -1),
+('170.205(p)(1)','IHE IT Infrastructure Technical Framework Volume 2b (ITI TF-2b) Transactions Part B – Sections 3.29 – 3.43, Revision 7.0, August 10, 2010', -1),
+('170.205(a)(3)','HL7 Implementation Guide for CDA® Release 2: IHE Health Story Consolidation, Release 1.1 - US Realm', -1),
+('170.205(a)(4)','HL7 Implementation Guide for CDA®Release 2: Consolidated CDA Templates for Clinical Notes (US Realm) Draft Standard for Trial Use, Volume 1 – Introductory Material, Release 2.1, August 2015
+HL7 Implementation Guide for CDA® Release 2: Consolidated CDA Templates for Clinical Notes (US Realm), Draft Standard for Trial Use, Volume 2 – Templates and Supporting Material, Release 2.1, August 2015', -1),
+('170.205(o)(1)','HL7 Version 3 Implementation Guide: Data Segmentation for Privacy (DS4P), Release 1, Part 1: CDA R2 and Privacy Metadata Reusable Content Profile, May 16, 2014', -1),
+('170.205(h)(2)','HL7 CDA® Release 2 Implementation Guide: Quality Reporting Document Architecture – Category I(QRDA I); Release 1, DTSU Release 3 (US Realm), Volume 1 – Introductory Material, June 2015
+HL7 CDA ® Release 2 Implementation Guide: Quality Reporting Document Architecture – Category I (QRDA I); Release 1, DSTU Release 3 (US Realm), Volume 2 – Templates and Supporting Material, June 2015', -1),
+('170.205(k)(1)','Quality Reporting Document Architecture Category III, Implementation Guide for CDA Release 2', -1),
+('170.205(k)(2)','Errata to the HL7 Implementation Guide for CDA® Release 2: Quality Reporting Document Architecture—Category III, DSTU Release 1 (US Realm), September 2014', -1),
+('170.205(e)(4)','HL7 2.5.1 Implementation Guide for Immunization Messaging Release 1.5, October 1, 2014
+HL7 2.5.1 Implementation Guide for Immunization Messaging, Release 1.5 - Addendum, July 2015', -1),
+('170.207(e)(3)','HL7 Standard Code Set CVX—Vaccines Administered, updates through August 17, 2015', -1),
+('170.205(d)(4)','PHIN Messaging Guide for Syndromic Surveillance: Emergency Department, Urgent Care, Inpatient and Ambulatory Care Settings, Release 2.0, April 21, 2015
+Erratum to the CDC PHIN 2.0 Implementation Guide, August 2015; Erratum to the CDC PHIN 2.0 Messaging Guide, April 2015 Release for Syndromic Surveillance: Emergency Department, Urgent Care, Inpatient and Ambulatory Care Settings', -1),
+('170.205(g)','HL7 Version 2.5.1 Implementation Guide: Electronic Laboratory Reporting to Public Health, Release 1 (US Realm)
+ELR 2.5.1 Clarification Document for EHR Technology Certification V1.1', -1),
+('170.205(i)(2)','HL7 Implementation Guide for CDA©Release 2 Implementation Guide: Reporting to Public Health Cancer Registries from Ambulatory Healthcare Providers, Release 1; DSTU Release 1.1, Volume 1 – Introductory Material, April 2015
+HL7 CDA© Release 2 Implementation Guide: Reporting to Public Health Cancer Registries from Ambulatory Healthcare Providers, Release 1; DSTU Release 1.1 (US Realm), Volume 2- Templates and Supporting Material, April 2015', -1),
+('170.205(r)(1)','HL7 Implementation Guide for CDA®Release 2 – Level 3: Healthcare Associated Infection Reports, Release 1 - U.S. Realm, August 9, 2013', -1),
+('170.205(s)(1)','HL7 Implementation Guide for CDA Release 2: National Health Care Surveys (NHCS), Release 1 – US Realm, HL7 Draft Standard for Trial Use, Volume 1- Introductory Material, December 2014
+HL7 Implementation Guide for CDA ®Release 2: National Health Care Surveys (NHCS), Release 1 – US Realm, HL7 Draft Standard for Trial Use, Volume 2 – Templates and Supporting Material, December 2014', -1),
+('170.207(q)(1)','ITU-TE.123, Series E: Overall Network Operation, Telephone Service, Service Operation and Human Factors, International operation – General provisions concerning users: Notation for national and international telephone numbers, e-mail addresses and web addresses, February 2001
+ITU-T E. 164, Series E: Overall Network Operation, Telephone Service, Service Operation and Human Factors, International Operation - Numbering plan of the international telephone service: The international public telecommunication numbering plan, November 2010', -1),
+('170.210(g)','Request for Comments (RFC) 5905:Network Time Protocol Version 4: Protocol and Algorithms Specification, June 2010', -1),
+('170.207(g)(2)','Request for Comments (RFC) 5646, “Tags for Identifying Languages,” September 2009, copyright 2009', -1),
+('170.205(b)(2)','SCRIPT Standard, Version 10.6, October, 2008', -1),
+('170.210(a)(2)','Annex A: Federal Information Processing Standards (FIPS) Publication 140-2, Security Requirements for Cryptographic Modules, October 8, 2014', -1),
+('170.210(c)(2)','FIPS PUB 180-4, Secure Hash Standard, 180-4 (August 2015)', -1),
+('170.207(f)(1)','The Office of Management and Budget Standards for Maintaining, Collecting, and Presenting Federal Data on Race and Ethnicity, Statistical Policy Directive No. 15, as revised, October 30, 1997', -1),
+('170.207(s)(1)','Public Health Data Standards Consortium Source of Payment Typology Code Set Version 5.0 (October 2011)', -1),
+('170.207(c)(2)','Logical Observation Identifiers Names and Codes (LOINC®) Database version 2.40', -1),
+('170.207(c)(3)','Logical Observation Identifiers Names and Codes (LOINC®) Database version 2.52, Released June 2015', -1),
+('170.207(m)(1)','The Unified Code of Units of Measure, Revision 1.9, October 23, 2013', -1),
+('170.202(a)(2)','Applicability Statement for Secure Health Transport, Version 1.2, August 2015', -1),
+('170.202(b)','XDR and XDM for Direct Messaging Specification, Version 1, March 9, 2011', -1),
+('170.202(d)','Implementation Guide for Direct Edge Protocols, Version 1.1, June 25, 2014', -1),
+('170.202(e)(1)','Implementation Guide for Delivery Notification in Direct, Version 1.0, June 29, 2012', -1),
+('170.207(a)(3)','International Health Terminology Standards Development Organisation (IHTSDO) SNOMED CT® International Release July 2012 and US Extension to SNOMED CT® March 2012 Release', -1),
+('170.207(a)(4)','International Health Terminology Standards Development Organisation (IHTSDO) Systematized Nomenclature of Medicine Clinical Terms (SNOMED CT®), U.S. Edition, September 2015 Release', -1),
+('170.207(h)','International Health Terminology Standards Development Organization (IHTSDO) Systematized Nomenclature of Medicine Clinical Terms (SNOMED CT®) U.S. Edition, September 2015 Release', -1),
+('170.207(d)(3)','RxNorm, a standardized nomenclature for clinical drugs produced by the United States National Library of Medicine, September 8, 2015 Release', -1),
+('170.204(a)(1)','Web Content Accessibility Guidelines (WCAG) 2.0, Level A Conformance', -1),
+('170.204(a)(2)','Web Content Accessibility Guidelines (WCAG) 2.0, Level AA Conformance', -1);
+--2015
 
 INSERT INTO openchpl.test_functionality(number, name, last_modified_user) VALUES
 ('(a)(4)(iii)', 'Optional: (a)(4)(iii) Plot and electronically display, upon request, growth charts for patients', -1),
@@ -814,7 +893,78 @@ INSERT INTO openchpl.test_functionality(number, name, last_modified_user) VALUES
 ('(e)(1)(i)(B)(1)(ii)', 'Inpatient setting: (e)(1)(i)(B)(1)(ii) All of the data in the Common MU Data Set (which should be in their English (i.e., noncoded) representation if they associate with a vocabulary/code set) and the admission and discharge dates and locations; discharge instructions; and reason(s) for hospitalization', -1),
 ('(e)(1)(i)(B)(2)', 'Inpatient setting: (e)(1)(i)(B)(2) Electronically download transition of care/referral summaries that were created as a result of a transition of care (pursuant to the capability expressed in the certification criterion adopted at paragraph (b)(2) of this section)', -1),
 ('(e)(1)(i)(C)(2)', 'Inpatient setting: (e)(1)(i)(C)(2) Electronically transmit transition of care/referral summaries (as a result of a transition of care/referral) selected by the patient (or their authorized representative) in accordance with at least one of the following: (i) The standard specified in §170.202(a). (ii) Through a method that conforms to the standard specified at §170.202(d) and that leads to such summary being processed by a service that has implemented the standard specified in §170.202(a)', -1),
-('(f)(3)(ii)', 'Inpatient setting: (f)(3)(ii)  The standard (and applicable implementation specifications) specified in §170.205(d)(3)', -1);
+('(f)(3)(ii)', 'Inpatient setting: (f)(3)(ii)  The standard (and applicable implementation specifications) specified in §170.205(d)(3)', -1),
+--2014
+('(a)(4)(ii)(B)(1)','Alternative: (a)(4)(ii)(B)(1) To a specific set of identified users', -1),
+('(a)(4)(ii)(B)(2)','Alternative: (a)(4)(ii)(B)(2) As a system administrative function', -1),
+('(a)(10)(i)','Alternative: (a)(10)(i) Drug formulary checks. Automatically check whether a drug formulary exists for a given patient and medication', -1),
+('(a)(10)(ii)','Alternative: (a)(10)(ii)  Preferred drug list checks. Automatically check whether a preferred drug list exists for a given patient and medication', -1),
+('(a)(14)(iii)(A)(1)','Alternative: (a)(14)(iii)(A)(1) The “GMDN PT Name” attribute associated with the Device Identifier in the Global Unique Device Identification Database', -1),
+('(a)(14)(iii)(A)(2)','Alternative: (a)(14)(iii)(A)(2) The “SNOMED CT Description” mapped to the attribute referenced in (a)(14)(iii)(1) (The “GMDN PT Name” attribute associated with the Device Identifier in the Global Unique Device Identification Database)', -1),
+('(b)(1)(ii)(A)(5)(i)','Alternative: (b)(1)(ii)(A)(5)(i) Be notified of the errors produced', -1),
+('(b)(1)(ii)(A)(5)(ii)','Alternative: (b)(1)(ii)(A)(5)(ii) Review the errors produced', -1),
+('(b)(5)(ii)(A)(5)(i)','Alternative: (b)(5)(ii)(A)(5)(i) Be notified of the errors produced', -1),
+('(b)(5)(ii)(A)(5)(ii)','Alternative: (b)(5)(ii)(A)(5)(ii) Review the errors produced', -1),
+('(b)(6)(i)(B)(1)','Alternative: (b)(6)(i)(B)(1) To a specific set of identified users', -1),
+('(b)(6)(i)(B)(2)','Alternative: (b)(6)(i)(B)(2) As a system administrative function', -1),
+('(d)(7)(i)','Alternative: (d)(7)(i) Technology that is designed to locally store electronic health information on end-user devices must encrypt the electronic health information stored on such devices after use of the technology on those devices stops', -1),
+('(d)(7)(ii)','Alternative: (d)(7)(ii) Technology is designed to prevent electronic health information from being locally stored on end-user devices after use of the technology on those devices stops', -1),
+('(d)(9)(i)','Alternative: (d)(9)(i) Message-level. Encrypt and integrity protect message contents in accordance with the standards specified in § 170.210(a)(2) and (c)(2)', -1),
+('(d)(9)(ii)','Alternative: (d)(9)(ii) Transport-level. Use a trusted connection in accordance with the standards specified in § 170.210(a)(2) and (c)(2)', -1),
+('(g)(4)(i)(A)','Alternative: (g)(4)(i)(A) The QMS used is established by the Federal government or a standards developing organization', -1),
+('(g)(4)(i)(B)','Alternative: (g)(4)(i)(B) The QMS used is mapped to one or more QMS established by the Federal government or standards developing organization(s)', -1),
+('(g)(5)(i)','Alternative: (g)(5)(i) When a single accessibility-centered design standard or law was used for applicable capabilities, it would only need to be identified once', -1),
+('(g)(5)(ii)','Alternative: (g)(5)(ii) When different accessibility-centered design standards and laws were applied to specific capabilities, each accessibility-centered design standard or law applied would need to be identified. This would include the application of an accessibility-centered design standard or law to some capabilities and none to others', -1),
+('(g)(5)(iii)','Alternative: (g)(5)(iii) When no accessibility-centered design standard or law was applied to all applicable capabilities such a response is acceptable to satisfy this certification criterion', -1),
+('(a)(1)(ii)','Optional: (a)(1)(ii)  Include a “reason for order” field', -1),
+('(a)(2)(ii)','Optional: (a)(2)(ii) Include a “reason for order” field', -1),
+('(a)(3)(ii)','Optional: (a)(3)(ii) Include a “reason for order” field', -1),
+('(a)(13)(ii)','Optional; (a)(13)(ii) Request that patient-specific education resources be identified in accordance with the standard in § 170.207(g)(2)', -1),
+('(b)(1)(iii)(G)(1)(ii)','Optional: (b)(1)(iii)(G)(1)(ii) When the hour, minute, and second are associated with a date of birth the technology must demonstrate that the correct time zone offset is included', -1),
+('(b)(3)(iii)','Optional: (b)(3)(iii) For each transaction listed in paragraph (b)(3)(i) of this section, the technology must be able to receive and transmit the reason for the prescription using the indication elements in the SIG Segment', -1),
+('(b)(4)(vii)(A)(2)','Optional: (b)(4)(vii)(A)(2) When the hour, minute, and second are associated with a date of birth the technology must demonstrate that the correct time zone offset is included', -1),
+('(c)(3)(ii)','Optional: (c)(3)(ii) That can be electronically accepted by CMS', -1),
+('170.102(13)(ii)(C) ','Optional: CCDS: 170.102(13)(ii)(C) The patient’s BMI percentile per age and sex for youth 2-20 years of age, weight for age per length and sex for children less than 3 years of age, and head occipital-frontal circumference for children less than 3 years of age must be recorded in numerical values only in accordance with the standard specified in § 170.207(c)(3) and with the associated applicable unit of measure for the vital sign measurement in the standard specified in § 170.207(m)(1). For BMI percentile per age and sex for youth 2-20 years of age and weight for age per length and sex for children less than 3 years of age, the reference range/scale or growth curve should be included as appropriate', -1),
+('170.102(19)(i)','Optional: CCDS: 170.102(19)(i) For certification to the 2015 Edition health IT certification criteria in accordance with the “Assessment and Plan Section (V2)” of the standard specified in § 170.205(a)(4);', -1),
+('170.102(19)(ii)','Optional: CCDS: 170.102(19)(ii)  For certification to the 2015 Edition health IT certification criteria in accordance with the “Assessment Section (V2)” and “Plan of Treatment Section (V2)” of the standard specified in § 170.205(a)(4). ', -1),
+('(a)(6)(i)','Ambulatory: (a)(6)(i) Over multiple encounters in accordance with, at a minimum, the version of the standard specified in § 170.207(a)(4)', -1),
+('(a)(7)(i)','Ambulatory: (a)(7)(i) Over multiple encounters', -1),
+('(a)(8)(i)','Ambulatory: (a)(8)(i) Over multiple encounters', -1),
+('(b)(1)(iii)(E)','Ambulatory: (b)(1)(iii)(E) The reason for referral; and referring or transitioning provider''s name and office contact information', -1),
+('(b)(4)(v)','Ambulatory: (b)(4)(v) The reason for referral; and referring or transitioning provider''s name and office contact information', -1),
+('(b)(5)(i)(E) ','Ambulatory: (b)(5)(i)(E) The reason for referral; and referring or transitioning provider''s name and office contact information', -1),
+('(b)(6)(ii)(E) ','Ambulatory: (b)(6)(ii)(E) The reason for referral; and referring or transitioning provider''s name and office contact information', -1),
+('(e)(1)(i)(A)(2)','Ambulatory: (e)(1)(i)(A)(2) Provider''s name and office contact information', -1),
+('(e)(1)(i)(B)(2)(i)','Ambulatory: (e)(1)(i)(B)(2)(i) All of the following data:
+(1) The Common Clinical Data Set (which should be in their English (i.e., non-coded) representation if they associate with a vocabulary/code set).
+(2) Ambulatory setting only. Provider’s name and office contact information.
+(4) Laboratory test report(s). Laboratory test report(s), including:
+(i) The information for a test report as specified all the data specified in 42 CFR 493.1291(c)(1) through (7);
+(ii)The information related to reference intervals or normal values as specified in 42 CFR 493.1291(d); and
+(iii)The information for corrected reports as specified in 42 CFR 493.1291(k)(2).
+(5) Diagnostic image report(s)', -1),
+('(a)(5)(ii)','Inpatient: (a)(5)(ii) Enable a user to record, change, and access the preliminary cause of death and date of death in the event of mortality', -1),
+('(a)(6)(ii)','Inpatient: (a)(6)(ii) For the duration of an entire hospitalization in accordance with, at a minimum, the version of the standard specified in §170.207(a)(4)', -1),
+('(a)(7)(ii)','Inpatient: (a)(7)(ii) For the duration of an entire hospitalization', -1),
+('(a)(8)(ii)','Inpatient: (a)(8)(ii) For the duration of an entire hospitalization', -1),
+('(b)(1)(iii)(F)','Inpatient: (b)(1)(iii)(F) Discharge Instructions', -1),
+('(b)(4)(vi)','Inpatient: (b)(4)(vi) Discharge Instructions', -1),
+('(b)(5)(i)(F)','Inpatient: (b)(5)(i)(F) Discharge Instructions', -1),
+('(b)(6)(ii)(F)','Inpatient: (b)(6)(ii)(F) Discharge Instructions', -1),
+('(e)(1)(i)(A)(3)','Inpatient: (e)(1)(i)(A)(3) Admission and discharge dates and locations; discharge instructions; and reason(s) for hospitalization', -1),
+('(e)(1)(i)(B)(2)(ii)','Inpatient: (e)(1)(i)(B)(2)(ii) All of the following data:
+(1) The Common Clinical Data Set (which should be in their English (i.e., non-coded) representation if they associate with a vocabulary/code set).
+(3) Inpatient setting only. Admission and discharge dates and locations; discharge instructions; and reason(s) for hospitalization.
+(5) Diagnostic image report(s)', -1),
+('(e)(1)(i)(B)(3)','Inpatient: (e)(1)(i)(B)(3) Patients (and their authorized representatives) must be able to download transition of care/referral summaries that were created as a result of a transition of care (pursuant to the capability expressed in the certification criterion specified in paragraph (b)(1) of this section)', -1),
+('(e)(1)(i)(C)(2)','Inpatient: (e)(1)(i)(C)(2)  Transmit transition of care/referral summaries (as a result of a transition of care/referral as referenced by (e)(1)(i)(B)(3)) selected by the patient (or their authorized representative) in  both of the following ways:
+(i) Email transmission to any email address; and
+(ii)An encrypted method of electronic transmission', -1);
+--2015
+
+INSERT INTO openchpl.accessibility_standard(name, last_modified_user) VALUES
+('170.204(a)(1)', -1),
+('170.204(a)(2)', -1);
 
 INSERT INTO openchpl.qms_standard(name, last_modified_user) VALUES
 ('21 CFR Part 820', -1),
