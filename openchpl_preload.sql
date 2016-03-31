@@ -748,6 +748,7 @@ INSERT INTO openchpl.test_tool(name, last_modified_user) VALUES
 ('Edge Test Tool', -1),
 ('2015 Direct Certificate Discovery Tool', -1),
 --2015
+('N/A', -1),
     ('', -1);
 -- Faking 'not required'; remove after Validator changed
 
