@@ -746,8 +746,10 @@ INSERT INTO openchpl.test_tool(name, last_modified_user) VALUES
 ('HL7 CDA National Health Care Surveys Validator', -1),
 ('Transport Test Tool', -1),
 ('Edge Test Tool', -1),
-('2015 Direct Certificate Discovery Tool ', -1);
+('2015 Direct Certificate Discovery Tool', -1),
 --2015
+    ('', -1);
+-- Faking 'not required'; remove after Validator changed
 
 INSERT INTO openchpl.test_standard(number, name, last_modified_user) VALUES
 ('170.202(a)','DIRECT: Applicability Statement for Secure Health Transport, Version 1.1, July 10, 2012',-1),
