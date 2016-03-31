@@ -1004,27 +1004,11 @@ SELECT pg_catalog.setval('acl_class_id_seq', 5, true);
 
 --inserts users that can have acls
 INSERT INTO acl_sid VALUES
-(-2, true, 'admin'),
-(-3, true, 'infogard'),
-(-4, true, 'cchit'),
-(-5, true, 'drummond'),
-(-6, true, 'sli'),
-(-7, true, 'surescripts'),
-(-8, true, 'icsa'),
-(-9, true, 'pending'),
-(1, true, 'scott');
+(-2, true, 'admin');
 
 --insert user objects
 INSERT INTO acl_object_identity VALUES
-(-2, 1, -2, NULL, -2, true),
-(-3, 1, -3, NULL, -3, true),
-(-4, 1, -4, NULL, -4, true),
-(-5, 1, -5, NULL, -5, true),
-(-6, 1, -6, NULL, -6, true),
-(-7, 1, -7, NULL, -7, true),
-(-8, 1, -8, NULL, -8, true),
-(-9, 1, -9, NULL, -9, true),
-(1, 1, 1, NULL, 1, true);
+(-2, 1, -2, NULL, -2, true);
 
 --insert acb objects
 INSERT INTO acl_object_identity VALUES
@@ -1047,33 +1031,25 @@ INSERT INTO acl_object_identity VALUES
 
 --insert acls for users
 INSERT INTO acl_entry VALUES
-(1, -2, 0, -2, 16, true, false, false),
-(2, -3, 0, -3, 16, true, false, false),
-(3, -4, 0, -4, 16, true, false, false),
-(4, -5, 0, -5, 16, true, false, false),
-(5, -6, 0, -6, 16, true, false, false),
-(6, -7, 0, -7, 16, true, false, false),
-(7, -8, 0, -8, 16, true, false, false),
-(8, -9, 0, -9, 16, true, false, false),
-(9, 1, 0, 1, 16, true, false, false);
+(1, -2, 0, -2, 16, true, false, false);
 
 --insert acls for acbs
-INSERT INTO acl_entry VALUES
-(10, 2, 0, -3, 16, true, false, false),
-(11, 3, 0, -4, 16, true, false, false),
-(12, 4, 0, -5, 16, true, false, false),
-(13, 5, 0, -6, 16, true, false, false),
-(14, 6, 0, -7, 16, true, false, false),
-(15, 7, 0, -8, 16, true, false, false),
-(16, 8, 0, -9, 16, true, false, false);
+--INSERT INTO acl_entry VALUES
+--(10, 2, 0, -3, 16, true, false, false),
+--(11, 3, 0, -4, 16, true, false, false),
+--(12, 4, 0, -5, 16, true, false, false),
+--(13, 5, 0, -6, 16, true, false, false),
+--(14, 6, 0, -7, 16, true, false, false),
+--(15, 7, 0, -8, 16, true, false, false),
+--(16, 8, 0, -9, 16, true, false, false);
 
 -- insert acls for atls
-INSERT INTO acl_entry VALUES
-(17, 9, 0, -3, 16, true, false, false),
-(18, 10, 0, -4, 16, true, false, false),
-(19, 11, 0, -5, 16, true, false, false),
-(20, 12, 0, -6, 16, true, false, false), --no user for NTS yet
-(21, 13, 0, -8, 16, true, false, false); --no user for NTS yet
+--INSERT INTO acl_entry VALUES
+--(17, 9, 0, -3, 16, true, false, false),
+--(18, 10, 0, -4, 16, true, false, false),
+--(19, 11, 0, -5, 16, true, false, false),
+--(20, 12, 0, -6, 16, true, false, false), --no user for NTS yet
+--(21, 13, 0, -8, 16, true, false, false); --no user for NTS yet
 
 SELECT pg_catalog.setval('acl_entry_id_seq', 22, true);
 SELECT pg_catalog.setval('acl_object_identity_id_seq', 15, true);
@@ -1082,27 +1058,11 @@ SELECT pg_catalog.setval('acl_sid_id_seq', 2, true);
 --user contacts.
 -- one contact for each user that's getting pre-loaded. there are 2 chpl admins and 7 acb admins
 INSERT INTO contact (contact_id, first_name, last_name, email, phone_number, signature_date, last_modified_user) VALUES
-(-2, 'Administrator', 'Administrator', 'info@ainq.com', '(301) 560-6999', CURRENT_DATE, -1),
-(-3, 'InfoGard', 'Administrator', 'noreply@ainq.com', '(xxx) xxx-xxxx', CURRENT_DATE, -1),
-(-4, 'CCHIT', 'Administrator', 'noreply@ainq.com', '(xxx) xxx-xxxx', CURRENT_DATE, -1),
-(-5, 'Drummond Group', 'Administrator', 'noreply@ainq.com', '(xxx) xxx-xxxx', CURRENT_DATE, -1),
-(-6, 'SLI Global', 'Administrator', 'noreply@ainq.com', '(xxx) xxx-xxxx', CURRENT_DATE, -1),
-(-7, 'Surescripts', 'Administrator', 'noreply@ainq.com', '(xxx) xxx-xxxx', CURRENT_DATE, -1),
-(-8, 'ICSA', 'Administrator', 'noreply@ainq.com', '(xxx) xxx-xxxx', CURRENT_DATE, -1),
-(-9, 'Pending', 'Administrator', 'noreply@ainq.com', '(xxx) xxx-xxxx', CURRENT_DATE, -1),
-(1, 'Scott', 'Purnell-Saunders', 'Scott.Purnell-Saunders@hhs.gov', '(xxx) xxx-xxxx', CURRENT_DATE, -1);
+(-2, 'Administrator', 'Administrator', 'info@ainq.com', '(301) 560-6999', CURRENT_DATE, -1);
 SELECT pg_catalog.setval('contact_contact_id_seq', 2, true);
 
 INSERT INTO "user" (user_id, user_name, password, compliance_signature, account_expired, account_locked, credentials_expired, account_enabled, last_modified_user, contact_id) VALUES
-(-2, 'admin', '$2a$10$vVXOupd9DckGsQPtZ5h9seYCGzqYb3A35r/GNuP/rRbK2eq2KxtA2', CURRENT_DATE, false, false, false, true, -1, -2),
-(1, 'scott', '$2a$10$cdKTeuhg3xpsysEtHkOV3eXQIfZpi13E.bm3aaGghwo/mLZhDPlpm', CURRENT_DATE, false, false, false, true, -1, 1),
-(-4, 'cchit', '$2a$10$LLS3sT.jIr5jhSK4b28eHe9dwFuQvlkpnM5qSRfPrTgbrlH02GqWq', CURRENT_DATE, false, false, false, true, -1, -4),
-(-5, 'drummond', '$2a$10$eYFuQl9CX7dwTnvKc2vfOOip336IW/RPtZNNWYDf0kmjuN7s80yJS', CURRENT_DATE, false, false, false, true, -1, -5),
-(-8, 'icsa', '$2a$10$a5RkoNfVZCuOfGTIGTXeS.bIlPR82XyopXUweWX83kgAHPtiAge4m', CURRENT_DATE, false, false, false, true, -1, -8),
-(-3, 'infogard', '$2a$10$lKafl5W1.Dv1cyqKEaMBsedRJPLqTT7BLJ5WA14xAOXoeZOmT5dtW', CURRENT_DATE, false, false, false, true, -1, -3),
-(-9, 'pending', '$2a$10$rF7/BrC.7vKAmWREF0IYMuH3b696/uFS9zjVoQ3MsZte9CpSMYVdi', CURRENT_DATE, false, false, false, true, -1, -9),
-(-6, 'sli', '$2a$10$cHEFAUGhMdzEmBy4Xn2HUeuLST.ZgOc39X6kU8bwH3qD4YCqaa2Na', CURRENT_DATE, false, false, false, true, -1, -6),
-(-7, 'surescripts', '$2a$10$mso5r1dD.oWw5FID0Ke5k.ORqUmgSVJacca3vuf0Nf7.mIxbjAubS', CURRENT_DATE, false, false, false, true, -1, -7);
+(-2, 'admin', '$2a$10$vVXOupd9DckGsQPtZ5h9seYCGzqYb3A35r/GNuP/rRbK2eq2KxtA2', CURRENT_DATE, false, false, false, true, -1, -2);
 SELECT pg_catalog.setval('user_user_id_seq', 2, true);
 
 INSERT INTO user_permission (user_permission_id, "name", description, authority, last_modified_user) VALUES
@@ -1116,19 +1076,5 @@ INSERT INTO user_permission (user_permission_id, "name", description, authority,
 SELECT pg_catalog.setval('user_permission_user_permission_id_seq', 6, true);
 
 INSERT INTO global_user_permission_map (user_id, user_permission_id_user_permission, last_modified_user) VALUES
-(-2, -2, -1),
-(-3, 2, -1),
-(-3, 4, -1),
-(-4, 2, -1),
-(-4, 4, -1),
-(-5, 2, -1),
-(-5, 4, -1),
-(-6, 2, -1),
-(-6, 4, -1),
-(-7, 2, -1),
-(-7, 4, -1),
-(-8, 2, -1),
-(-8, 4, -1),
-(-9, 2, -1),
-(1, -2, -1);
+(-2, -2, -1);
 SELECT pg_catalog.setval('global_user_permission_map_global_user_permission_id_seq', 16, true);
