@@ -1,9 +1,17 @@
 # Release Notes
 
+## Next version
+_Date TBD_
+
+### Changes
+* Removed non-admin accounts
+* Allowed 'N/A' for test tools temporarily
+* Moved & chmod -x all scripts / sql files to avoid resetting database
+
 ## Version 1.0.0
 _30 March 2016_
 
-## Changes
+### Changes
 * Removed smart quotes from the preloaded education types.
 * Changed gender column to accommodate 100 characters instead of 1 character.
 * Added items to preload script
