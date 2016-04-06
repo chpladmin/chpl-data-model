@@ -1,0 +1,1 @@
+update openchpl.certified_product set chpl_product_number = null where chpl_product_number not like 'CHP-%';
