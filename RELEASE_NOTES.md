@@ -1,12 +1,13 @@
 # Release Notes
 
-## Next version
-_Date TBD_
+## Version 1.1.0
+_12 April 2016_
 
 ### Changes
 * Removed non-admin accounts
-* Allowed 'N/A' for test tools temporarily
 * Moved & chmod -x all scripts / sql files to avoid resetting database
+* Added audit/timestamp triggers to tables missing them
+* Updated data model diagram
 
 ## Version 1.0.0
 _30 March 2016_
