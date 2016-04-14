@@ -19,3 +19,5 @@ INSERT INTO openchpl.acl_entry (acl_object_identity, ace_order, sid, mask, grant
 (12, (select coalesce(max(ace_order), -1)+1 from openchpl.acl_entry where acl_object_identity =12), -2, 16, true, false, false),
 (13, (select coalesce(max(ace_order), -1)+1 from openchpl.acl_entry where acl_object_identity =13), -2, 16, true, false, false),
 (14, (select coalesce(max(ace_order), -1)+1 from openchpl.acl_entry where acl_object_identity =14), -2, 16, true, false, false);
+
+update openchpl.pending_certified_product set deleted = true where certification_status_id = 1;
