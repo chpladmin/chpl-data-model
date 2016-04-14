@@ -1037,24 +1037,25 @@ INSERT INTO acl_entry VALUES
 (1, -2, 0, -2, 16, true, false, false);
 
 --insert acls for acbs
---INSERT INTO acl_entry VALUES
---(10, 2, 0, -3, 16, true, false, false),
---(11, 3, 0, -4, 16, true, false, false),
---(12, 4, 0, -5, 16, true, false, false),
---(13, 5, 0, -6, 16, true, false, false),
---(14, 6, 0, -7, 16, true, false, false),
---(15, 7, 0, -8, 16, true, false, false),
---(16, 8, 0, -9, 16, true, false, false);
+INSERT INTO acl_entry VALUES
+(2, 2, 0, -2, 16, true, false, false),
+(3, 3, 0, -2, 16, true, false, false),
+(4, 4, 0, -2, 16, true, false, false),
+(5, 5, 0, -2, 16, true, false, false),
+(6, 6, 0, -2, 16, true, false, false),
+(7, 7, 0, -2, 16, true, false, false),
+(8, 8, 0, -2, 16, true, false, false);
 
 -- insert acls for atls
---INSERT INTO acl_entry VALUES
---(17, 9, 0, -3, 16, true, false, false),
---(18, 10, 0, -4, 16, true, false, false),
---(19, 11, 0, -5, 16, true, false, false),
---(20, 12, 0, -6, 16, true, false, false), --no user for NTS yet
---(21, 13, 0, -8, 16, true, false, false); --no user for NTS yet
+INSERT INTO acl_entry VALUES
+(9, 9, 0, -2, 16, true, false, false),
+(10, 10, 0, -2, 16, true, false, false),
+(11, 11, 0, -2, 16, true, false, false),
+(12, 12, 0, -2, 16, true, false, false), 
+(13, 13, 0, -2, 16, true, false, false), 
+(14, 14, 0, -2, 16, true, false, false); 
 
-SELECT pg_catalog.setval('acl_entry_id_seq', 22, true);
+SELECT pg_catalog.setval('acl_entry_id_seq', 15, true);
 SELECT pg_catalog.setval('acl_object_identity_id_seq', 15, true);
 SELECT pg_catalog.setval('acl_sid_id_seq', 2, true);
 
