@@ -1,5 +1,12 @@
 # Release Notes
 
+## Version 1.2.0
+_20 April 2016_
+
+### Changes
+* Added ACLs for system user to ACB/ATL
+* Uploaded ICSA k1/k2 attestations
+
 ## Version 1.1.0
 _12 April 2016_
 
