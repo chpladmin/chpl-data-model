@@ -2092,25 +2092,19 @@ CREATE TABLE openchpl.api_key_activity
 ALTER TABLE openchpl.api_key_activity ADD CONSTRAINT api_key_fk FOREIGN KEY (api_key_id) REFERENCES openchpl.api_key (api_key_id);
 
 
--- Sequence: openchpl.ehr_cert_product_map_id_ehr_cert_product_map_id_seq
-
--- DROP SEQUENCE openchpl.ehr_cert_product_map_id_ehr_cert_product_map_id_seq;
+ -- Sequence: openchpl.ehr_cert_product_map_id_ehr_cert_product_map_id_seq
 
 CREATE SEQUENCE openchpl.ehr_cert_product_map_id_ehr_cert_product_map_id_seq
   INCREMENT 1
-  MINVALUE 1
---ALTER TABLE openchpl.ehr_cert_product_map_id_ehr_cert_product_map_id_seq OWNER TO openchpl;
-
-
+  MINVALUE 1;
+-- ALTER TABLE openchpl.ehr_cert_product_map_id_ehr_cert_product_map_id_seq OWNER TO openchpl;
+  
 -- Sequence: openchpl.ehr_certification_id_ehr_certification_id_id_seq
-
--- DROP SEQUENCE openchpl.ehr_certification_id_ehr_certification_id_id_seq;
 
 CREATE SEQUENCE openchpl.ehr_certification_id_ehr_certification_id_id_seq
   INCREMENT 1
-  MINVALUE 1
---ALTER TABLE openchpl.ehr_certification_id_ehr_certification_id_id_seq OWNER TO openchpl;
-
+  MINVALUE 1;
+-- ALTER TABLE openchpl.ehr_certification_id_ehr_certification_id_id_seq OWNER TO openchpl;
 
 -- Table: openchpl.ehr_certification_id
 
@@ -2118,35 +2112,31 @@ CREATE SEQUENCE openchpl.ehr_certification_id_ehr_certification_id_id_seq
 
 CREATE TABLE openchpl.ehr_certification_id
 (
-  attestation_year text NOT NULL, -- Attestation year
   ehr_certification_id_id bigint NOT NULL DEFAULT nextval('openchpl.ehr_certification_id_ehr_certification_id_id_seq'::regclass),
---  practice_type_text text, -- 'Ambulatory', 'Inpatient', or NULL
---  key text NOT NULL, -- The unique product collection key
+  key text NOT NULL, -- The unique product collection key
   certification_id text NOT NULL, -- The unqiue CMS EHR Certification ID
   practice_type_id bigint,
-  last_modified_date date NOT NULL DEFAULT now(),
-  creation_date date NOT NULL DEFAULT now(),
+  last_modified_date timestamp without time zone NOT NULL DEFAULT now(),
+  creation_date timestamp without time zone NOT NULL DEFAULT now(),
   last_modified_user bigint,
-  certification_edition_id bigint,
+  year text NOT NULL,
+  deleted boolean NOT NULL DEFAULT false,
   CONSTRAINT ehr_certification_id_pk PRIMARY KEY (ehr_certification_id_id),
   CONSTRAINT practice_type_id_fk FOREIGN KEY (practice_type_id)
       REFERENCES openchpl.practice_type (practice_type_id) MATCH FULL
       ON UPDATE NO ACTION ON DELETE RESTRICT,
   CONSTRAINT unique_certification_id UNIQUE (certification_id),
-  CONSTRAINT unique_key_attestation_year UNIQUE (attestation_year, key)
+  CONSTRAINT unique_year_key UNIQUE (year, key)
 )
 WITH (
   OIDS=FALSE
 );
-ALTER TABLE openchpl.ehr_certification_id
-  OWNER TO openchpl;
-GRANT ALL ON TABLE openchpl.ehr_certification_id TO openchpl;
+--ALTER TABLE openchpl.ehr_certification_id OWNER TO openchpl;
 COMMENT ON TABLE openchpl.ehr_certification_id
   IS 'CMS EHR Certification IDs';
-COMMENT ON COLUMN openchpl.ehr_certification_id.attestation_year IS 'Attestation year';
-COMMENT ON COLUMN openchpl.ehr_certification_id.practice_type_text IS '''Ambulatory'', ''Inpatient'', or NULL';
 COMMENT ON COLUMN openchpl.ehr_certification_id.key IS 'The unique product collection key';
 COMMENT ON COLUMN openchpl.ehr_certification_id.certification_id IS 'The unqiue CMS EHR Certification ID';
+ALTER TABLE openchpl.ehr_certification_id ALTER COLUMN year SET STORAGE PLAIN;
 
 
 -- Index: openchpl.fki_practice_type_id_fk
@@ -2158,7 +2148,7 @@ CREATE INDEX fki_practice_type_id_fk
   USING btree
   (practice_type_id);
 
-  
+
 -- Table: openchpl.ehr_certification_id_product_map
 
 -- DROP TABLE openchpl.ehr_certification_id_product_map;
@@ -2168,8 +2158,8 @@ CREATE TABLE openchpl.ehr_certification_id_product_map
   ehr_certification_id_product_map_id bigint NOT NULL DEFAULT nextval('openchpl.ehr_cert_product_map_id_ehr_cert_product_map_id_seq'::regclass),
   ehr_certification_id_id bigint NOT NULL,
   certified_product_id bigint NOT NULL,
-  creation_date date NOT NULL DEFAULT now(),
-  last_modified_date date NOT NULL DEFAULT now(),
+  creation_date timestamp without time zone NOT NULL DEFAULT now(),
+  last_modified_date timestamp without time zone NOT NULL DEFAULT now(),
   last_modified_user bigint,
   deleted boolean NOT NULL DEFAULT false,
   CONSTRAINT ehr_certification_id_product_map_pk PRIMARY KEY (ehr_certification_id_product_map_id),
@@ -2183,9 +2173,7 @@ CREATE TABLE openchpl.ehr_certification_id_product_map
 WITH (
   OIDS=FALSE
 );
-ALTER TABLE openchpl.ehr_certification_id_product_map
-  OWNER TO openchpl;
-GRANT ALL ON TABLE openchpl.ehr_certification_id_product_map TO openchpl;
+--ALTER TABLE openchpl.ehr_certification_id_product_map OWNER TO openchpl;
 
 -- Index: openchpl.fki_certified_product_id_fk
 
@@ -2204,4 +2192,4 @@ CREATE INDEX fki_ehr_certification_id_fk
   ON openchpl.ehr_certification_id_product_map
   USING btree
   (ehr_certification_id_id);
-
+ 
