@@ -1,5 +1,11 @@
 # Release Notes
 
+## Next Version
+_Date TBD_
+
+### Changes
+* Added new columns to corrective action plans
+
 ## Version 1.1.0
 _12 April 2016_
 
