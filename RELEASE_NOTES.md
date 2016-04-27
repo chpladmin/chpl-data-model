@@ -1,10 +1,10 @@
 # Release Notes
 
-## Next Version
-_Date TBD_
+## Version 1.3.0
+_27 April 2016_
 
 ### Changes
-* Added new columns to corrective action plans
+* Added new columns to corrective action plans for non-certification criteria based nonconformities
 
 ## Version 1.2.0
 _20 April 2016_
