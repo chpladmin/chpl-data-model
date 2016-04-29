@@ -1,10 +1,22 @@
 # Release Notes
 
+## Next Version
+_Date TBD_
+
+### Changes
+* Added new CQM CMS Versions IAW
+  * eCQMs for Eligible Professionals Table April 2016
+  * eCQMs for Eligible Hospitals Table April 2016
+
+---
+
 ## Version 1.3.0
 _27 April 2016_
 
 ### Changes
 * Added new columns to corrective action plans for non-certification criteria based nonconformities
+
+---
 
 ## Version 1.2.0
 _20 April 2016_
@@ -12,6 +24,8 @@ _20 April 2016_
 ### Changes
 * Added ACLs for system user to ACB/ATL
 * Uploaded ICSA k1/k2 attestations
+
+---
 
 ## Version 1.1.0
 _12 April 2016_
@@ -22,6 +36,8 @@ _12 April 2016_
 * Added audit/timestamp triggers to tables missing them
 * Updated data model diagram
 
+---
+
 ## Version 1.0.0
 _30 March 2016_
 
@@ -30,6 +46,8 @@ _30 March 2016_
 * Changed gender column to accommodate 100 characters instead of 1 character.
 * Added items to preload script
 * Allowed `null` for first names of contacts in ACB
+
+---
 
 ## Version 0.5.0
 _25 March 2016_
@@ -42,6 +60,8 @@ _25 March 2016_
 * Added SQL file for k1/k2 transparency insert/updates
 * Added CCHIT as ATL
 
+---
+
 ## Version 0.4.0
 _14 March 2016_
 
@@ -50,11 +70,15 @@ _14 March 2016_
 * Changed Transparency Attestation to ENUM / URL to per product
 * Added "Targeted Users"
 
+---
+
 ## Version 0.3.2
 _29 February 2016_
 
 ### Features added
 * Updated data model to support new 2014 upload fields
+
+---
 
 ## Version 0.3.0
 _18 February 2016_
@@ -66,15 +90,21 @@ _18 February 2016_
 * Removed Additional Software from CQMs
 * Updated data model with respect to new 2014 upload
 
+---
+
 ## Version 0.2.0
 _3 February 2016_
 
 No significant data model changes
 
+---
+
 ## Version 0.1.1
 _12 January 2016_
 
 No significant data model changes
+
+---
 
 ## Version 0.1.0
 _5 January 2016_
@@ -89,6 +119,8 @@ New and improved features
 * Added ATL information
 * Added vendor-to-ACB mapping to store transparancyAttestation field.
 
+---
+
 ## Version 0.0.2
 _7 December 2015_
 
@@ -97,6 +129,8 @@ New and improved features
 
 Bugs Fixed
 * Fixed bug where incorrect CQM counts were reported
+
+---
 
 ## Version 0.0.1
 _13 November 2015_
