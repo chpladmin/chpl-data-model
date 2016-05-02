@@ -2093,3 +2093,110 @@ CREATE TABLE openchpl.api_key_activity
 -- ALTER TABLE openchpl.api_key_activity  OWNER TO openchpl;
 
 ALTER TABLE openchpl.api_key_activity ADD CONSTRAINT api_key_fk FOREIGN KEY (api_key_id) REFERENCES openchpl.api_key (api_key_id);
+
+
+-- Table: openchpl.ehr_certification_id
+
+-- DROP TABLE openchpl.ehr_certification_id;
+
+CREATE TABLE openchpl.ehr_certification_id
+(
+  ehr_certification_id_id bigint NOT NULL DEFAULT nextval('openchpl.ehr_certification_id_ehr_certification_id_id_seq'::regclass),
+  key text NOT NULL, -- The unique product collection key
+  year text NOT NULL, -- The attestation year
+  certification_id text NOT NULL, -- The unqiue CMS EHR Certification ID
+  practice_type_id bigint, -- The practice type if applicable (e.g. 2011)
+  creation_date timestamp without time zone NOT NULL DEFAULT now(),
+  last_modified_date timestamp without time zone NOT NULL DEFAULT now(),
+  last_modified_user bigint,
+  CONSTRAINT ehr_certification_id_pk PRIMARY KEY (ehr_certification_id_id),
+  CONSTRAINT practice_type_id_fk FOREIGN KEY (practice_type_id)
+      REFERENCES openchpl.practice_type (practice_type_id) MATCH FULL
+      ON UPDATE NO ACTION ON DELETE RESTRICT,
+  CONSTRAINT unique_certification_id UNIQUE (certification_id),
+  CONSTRAINT unique_year_key UNIQUE (year, key)
+)
+WITH (
+  OIDS=FALSE
+);
+--ALTER TABLE openchpl.ehr_certification_id OWNER TO openchpl;
+GRANT ALL ON TABLE openchpl.ehr_certification_id TO openchpl;
+COMMENT ON TABLE openchpl.ehr_certification_id
+  IS 'CMS EHR Certification IDs';
+COMMENT ON COLUMN openchpl.ehr_certification_id.key IS 'The unique product collection key';
+COMMENT ON COLUMN openchpl.ehr_certification_id.year IS 'The attestation year';
+COMMENT ON COLUMN openchpl.ehr_certification_id.certification_id IS 'The unqiue CMS EHR Certification ID';
+COMMENT ON COLUMN openchpl.ehr_certification_id.practice_type_id ID 'The practice type if applicable (e.g. 2011)';
+ALTER TABLE openchpl.ehr_certification_id ALTER COLUMN year SET STORAGE PLAIN;
+
+
+-- Index: openchpl.fki_practice_type_id_fk
+
+-- DROP INDEX openchpl.fki_practice_type_id_fk;
+
+CREATE INDEX fki_practice_type_id_fk
+  ON openchpl.ehr_certification_id
+  USING btree
+  (practice_type_id);
+  
+  -- Table: openchpl.ehr_certification_id_product_map
+
+-- DROP TABLE openchpl.ehr_certification_id_product_map;
+
+CREATE TABLE openchpl.ehr_certification_id_product_map
+(
+  ehr_certification_id_product_map_id bigint NOT NULL DEFAULT nextval('openchpl.ehr_cert_product_map_id_ehr_cert_product_map_id_seq'::regclass),
+  ehr_certification_id_id bigint NOT NULL,
+  certified_product_id bigint NOT NULL,
+  creation_date timestamp without time zone NOT NULL DEFAULT now(),
+  last_modified_date timestamp without time zone NOT NULL DEFAULT now(),
+  last_modified_user bigint,
+  CONSTRAINT ehr_certification_id_product_map_pk PRIMARY KEY (ehr_certification_id_product_map_id),
+  CONSTRAINT ehr_certification_id_product_map_certified_product_id_fkey FOREIGN KEY (certified_product_id)
+      REFERENCES openchpl.certified_product (certified_product_id) MATCH FULL
+      ON UPDATE NO ACTION ON DELETE RESTRICT,
+  CONSTRAINT ehr_certification_id_product_map_ehr_certification_id_id_fkey FOREIGN KEY (ehr_certification_id_id)
+      REFERENCES openchpl.ehr_certification_id (ehr_certification_id_id) MATCH FULL
+      ON UPDATE NO ACTION ON DELETE RESTRICT
+)
+WITH (
+  OIDS=FALSE
+);
+-- ALTER TABLE openchpl.ehr_certification_id_product_map OWNER TO openchpl;
+GRANT ALL ON TABLE openchpl.ehr_certification_id_product_map TO openchpl;
+
+-- Index: openchpl.fki_certified_product_id_fk
+
+-- DROP INDEX openchpl.fki_certified_product_id_fk;
+
+CREATE INDEX fki_certified_product_id_fk
+  ON openchpl.ehr_certification_id_product_map
+  USING btree
+  (certified_product_id);
+
+-- Index: openchpl.fki_ehr_certification_id_fk
+
+-- DROP INDEX openchpl.fki_ehr_certification_id_fk;
+
+CREATE INDEX fki_ehr_certification_id_fk
+  ON openchpl.ehr_certification_id_product_map
+  USING btree
+  (ehr_certification_id_id);
+
+-- Sequence: openchpl.ehr_cert_product_map_id_ehr_cert_product_map_id_seq
+
+-- DROP SEQUENCE openchpl.ehr_cert_product_map_id_ehr_cert_product_map_id_seq;
+
+CREATE SEQUENCE openchpl.ehr_cert_product_map_id_ehr_cert_product_map_id_seq
+  INCREMENT 1
+  MINVALUE 1
+-- ALTER TABLE openchpl.ehr_cert_product_map_id_ehr_cert_product_map_id_seq OWNER TO openchpl;
+
+-- Sequence: openchpl.ehr_certification_id_ehr_certification_id_id_seq
+
+-- DROP SEQUENCE openchpl.ehr_certification_id_ehr_certification_id_id_seq;
+
+CREATE SEQUENCE openchpl.ehr_certification_id_ehr_certification_id_id_seq
+  INCREMENT 1
+  MINVALUE 1
+-- ALTER TABLE openchpl.ehr_certification_id_ehr_certification_id_id_seq OWNER TO openchpl;

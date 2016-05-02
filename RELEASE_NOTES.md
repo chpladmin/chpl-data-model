@@ -1,7 +1,11 @@
 # Release Notes
 
-## Next Version
+## Next version
 _Date TBD_
+
+### Features Added
+* Added ehr_certification_id table and associated triggers, sequences
+* Added ehr_certification_id_product_map table and associated triggers, sequences
 
 ### Changes
 * Added new CQM CMS Versions IAW
