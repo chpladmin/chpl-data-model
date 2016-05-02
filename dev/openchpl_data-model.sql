@@ -2002,6 +2002,9 @@ CREATE TABLE openchpl.corrective_action_plan(
 	start_date timestamp, -- the date corrective action began
 	completion_date_required timestamp, -- the date corrective action must be completed
 	completion_date_actual timestamp, -- the date corrective action was completed
+	summary text, 
+	developer_explanation text,
+	resolution text,
 	creation_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_user bigint NOT NULL,
