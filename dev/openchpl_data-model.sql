@@ -2135,28 +2135,6 @@ CREATE INDEX fki_practice_type_id_fk
   ON openchpl.ehr_certification_id
   USING btree
   (practice_type_id);
-
-
--- Trigger: ehr_certification_id_audit on openchpl.ehr_certification_id
-
--- DROP TRIGGER ehr_certification_id_audit ON openchpl.ehr_certification_id;
-
-CREATE TRIGGER ehr_certification_id_audit
-  AFTER INSERT OR UPDATE OR DELETE
-  ON openchpl.ehr_certification_id
-  FOR EACH ROW
-  EXECUTE PROCEDURE audit.if_modified_func();
-
--- Trigger: ehr_certification_id_timestamp on openchpl.ehr_certification_id
-
--- DROP TRIGGER ehr_certification_id_timestamp ON openchpl.ehr_certification_id;
-
-CREATE TRIGGER ehr_certification_id_timestamp
-  BEFORE UPDATE
-  ON openchpl.ehr_certification_id
-  FOR EACH ROW
-  EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
-
   
   -- Table: openchpl.ehr_certification_id_product_map
 
@@ -2201,27 +2179,6 @@ CREATE INDEX fki_ehr_certification_id_fk
   ON openchpl.ehr_certification_id_product_map
   USING btree
   (ehr_certification_id_id);
-
-
--- Trigger: ehr_certification_id_product_map_audit on openchpl.ehr_certification_id_product_map
-
--- DROP TRIGGER ehr_certification_id_product_map_audit ON openchpl.ehr_certification_id_product_map;
-
-CREATE TRIGGER ehr_certification_id_product_map_audit
-  AFTER INSERT OR UPDATE OR DELETE
-  ON openchpl.ehr_certification_id_product_map
-  FOR EACH ROW
-  EXECUTE PROCEDURE audit.if_modified_func();
-
--- Trigger: ehr_certification_id_product_map_timestamp on openchpl.ehr_certification_id_product_map
-
--- DROP TRIGGER ehr_certification_id_product_map_timestamp ON openchpl.ehr_certification_id_product_map;
-
-CREATE TRIGGER ehr_certification_id_product_map_timestamp
-  BEFORE UPDATE
-  ON openchpl.ehr_certification_id_product_map
-  FOR EACH ROW
-  EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 
 -- Sequence: openchpl.ehr_cert_product_map_id_ehr_cert_product_map_id_seq
 
