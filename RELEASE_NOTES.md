@@ -1,5 +1,14 @@
 # Release Notes
 
+## Next version
+_Date TBD_
+
+### Features Added
+* Added ehr_certification_id table and associated triggers, sequences
+* Added ehr_certification_id_product_map table and associated triggers, sequences
+
+---
+
 ## Version 1.3.0
 _27 April 2016_
 
