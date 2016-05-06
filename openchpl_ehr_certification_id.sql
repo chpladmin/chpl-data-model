@@ -4,7 +4,7 @@
 
 CREATE TABLE openchpl.ehr_certification_id
 (
-  ehr_certification_id_id bigint NOT NULL DEFAULT nextval('openchpl.ehr_certification_id_ehr_certification_id_id_seq'::regclass),
+  ehr_certification_id_id bigserial,
   key text NOT NULL, -- The unique product collection key
   year text NOT NULL, -- The attestation year
   certification_id text NOT NULL, -- The unqiue CMS EHR Certification ID
@@ -29,7 +29,7 @@ COMMENT ON TABLE openchpl.ehr_certification_id
 COMMENT ON COLUMN openchpl.ehr_certification_id.key IS 'The unique product collection key';
 COMMENT ON COLUMN openchpl.ehr_certification_id.year IS 'The attestation year';
 COMMENT ON COLUMN openchpl.ehr_certification_id.certification_id IS 'The unqiue CMS EHR Certification ID';
-COMMENT ON COLUMN openchpl.ehr_certification_id.practice_type_id ID 'The practice type if applicable (e.g. 2011)';
+COMMENT ON COLUMN openchpl.ehr_certification_id.practice_type_id IS 'The practice type if applicable (e.g. 2011)';
 ALTER TABLE openchpl.ehr_certification_id ALTER COLUMN year SET STORAGE PLAIN;
 
 
@@ -63,14 +63,14 @@ CREATE TRIGGER ehr_certification_id_timestamp
   FOR EACH ROW
   EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 
-  
+
   -- Table: openchpl.ehr_certification_id_product_map
 
 -- DROP TABLE openchpl.ehr_certification_id_product_map;
 
 CREATE TABLE openchpl.ehr_certification_id_product_map
 (
-  ehr_certification_id_product_map_id bigint NOT NULL DEFAULT nextval('openchpl.ehr_cert_product_map_id_ehr_cert_product_map_id_seq'::regclass),
+  ehr_certification_id_product_map_id bigserial,
   ehr_certification_id_id bigint NOT NULL,
   certified_product_id bigint NOT NULL,
   creation_date timestamp without time zone NOT NULL DEFAULT now(),
@@ -128,21 +128,3 @@ CREATE TRIGGER ehr_certification_id_product_map_timestamp
   ON openchpl.ehr_certification_id_product_map
   FOR EACH ROW
   EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
-
--- Sequence: openchpl.ehr_cert_product_map_id_ehr_cert_product_map_id_seq
-
--- DROP SEQUENCE openchpl.ehr_cert_product_map_id_ehr_cert_product_map_id_seq;
-
-CREATE SEQUENCE openchpl.ehr_cert_product_map_id_ehr_cert_product_map_id_seq
-  INCREMENT 1
-  MINVALUE 1
--- ALTER TABLE openchpl.ehr_cert_product_map_id_ehr_cert_product_map_id_seq OWNER TO openchpl;
-
--- Sequence: openchpl.ehr_certification_id_ehr_certification_id_id_seq
-
--- DROP SEQUENCE openchpl.ehr_certification_id_ehr_certification_id_id_seq;
-
-CREATE SEQUENCE openchpl.ehr_certification_id_ehr_certification_id_id_seq
-  INCREMENT 1
-  MINVALUE 1
--- ALTER TABLE openchpl.ehr_certification_id_ehr_certification_id_id_seq OWNER TO openchpl;
