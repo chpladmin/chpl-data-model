@@ -7,6 +7,9 @@ _Date TBD_
 * Added ehr_certification_id table and associated triggers, sequences
 * Added ehr_certification_id_product_map table and associated triggers, sequences
 
+### Bugs Fixed
+* Remove errant space from a test functionality row.
+
 ---
 
 ## Version 1.3.0
