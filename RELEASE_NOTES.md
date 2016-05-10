@@ -10,6 +10,9 @@ _Date TBD_
   * eCQMs for Eligible Professionals Table April 2016
   * eCQMs for Eligible Hospitals Table April 2016
 
+### Bugs Fixed
+* Remove errant space from a test functionality row.
+
 ---
 
 ## Version 1.3.0
