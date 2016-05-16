@@ -211,7 +211,7 @@ CREATE TABLE openchpl.certified_product(
 	certification_body_id bigint NOT NULL,
 	chpl_product_number varchar(250),
 	report_file_location varchar(255), -- test report
-	sed_report_file_location varchar(255), 
+	sed_report_file_location varchar(255),
 	sed_intended_user_description text,
 	sed_testing_end timestamp,
 	acb_certification_id varchar(250),
@@ -508,7 +508,7 @@ CREATE TABLE openchpl.test_functionality (
 	constraint test_functionality_pk primary key (test_functionality_id)
 );
 
-CREATE TABLE openchpl.certification_result_test_functionality 
+CREATE TABLE openchpl.certification_result_test_functionality
 (
 	certification_result_test_functionality_id bigserial NOT NULL,
 	certification_result_id bigint not null,
@@ -537,7 +537,7 @@ CREATE TABLE openchpl.ucd_process (
 	constraint ucd_process_pk primary key (ucd_process_id)
 );
 
-CREATE TABLE openchpl.certification_result_ucd_process 
+CREATE TABLE openchpl.certification_result_ucd_process
 (
 	certification_result_ucd_process_id bigserial NOT NULL,
 	certification_result_id bigint not null,
@@ -941,7 +941,7 @@ CREATE TABLE openchpl.cqm_result_criteria (
 	cqm_result_criteria_id bigserial not null,
 	cqm_result_id bigint not null,
 	certification_criterion_id bigint not null,
-	
+
 	creation_date timestamp without time zone NOT NULL DEFAULT now(),
 	last_modified_date timestamp without time zone NOT NULL DEFAULT now(),
 	last_modified_user bigint NOT NULL,
@@ -1523,10 +1523,10 @@ CREATE TABLE openchpl.pending_certified_product(
 	certification_date timestamp,
 	vendor_street_address varchar(250), -- not broken out into line1/line2
 	vendor_city varchar(250),
-	vendor_state varchar(250), 
+	vendor_state varchar(250),
 	vendor_zip_code varchar(25), -- maps to nothing in our address table
 	vendor_website varchar(300),
-	vendor_email varchar(250), 
+	vendor_email varchar(250),
 	vendor_contact_name varchar(250),
 	vendor_phone varchar(100),
 	vendor_transparency_attestation attestation,
@@ -1538,7 +1538,7 @@ CREATE TABLE openchpl.pending_certified_product(
 	sed_testing_end timestamp,
 	ics varchar(1024),
 	terms_of_use_url varchar(1024),	-- k1 url
-	
+
 	-- foreign keys that have meaning if they are not mapped
 	practice_type_id bigint, -- should never be null
 	vendor_id bigint, -- may be null
@@ -1550,7 +1550,7 @@ CREATE TABLE openchpl.pending_certified_product(
 	certification_body_id bigint, --should never be null
 	product_classification_id bigint, -- should never be null
 	testing_lab_id bigint,
-	
+
 	-- fields we need for auditing/tracking
 	creation_date timestamp without time zone NOT NULL DEFAULT now(),
 	last_modified_date timestamp without time zone NOT NULL DEFAULT now(),
@@ -1675,7 +1675,7 @@ CREATE TABLE openchpl.pending_certification_result(
 	g2_success bool,
 	api_documentation varchar(1024),
 	privacy_security_framework varchar(100),
-	
+
 	-- fields we need for auditing/tracking
 	creation_date timestamp without time zone NOT NULL DEFAULT now(),
 	last_modified_date timestamp without time zone NOT NULL DEFAULT now(),
@@ -1704,7 +1704,7 @@ CREATE TABLE openchpl.pending_certification_result_test_task (
       ON UPDATE NO ACTION ON DELETE NO ACTION,
 	CONSTRAINT pending_test_task_fk FOREIGN KEY (pending_test_task_id)
       REFERENCES openchpl.pending_test_task (pending_test_task_id) MATCH SIMPLE
-      ON UPDATE NO ACTION ON DELETE NO ACTION  
+      ON UPDATE NO ACTION ON DELETE NO ACTION
 );
 
 CREATE TABLE openchpl.pending_certification_result_test_task_participant (
@@ -1721,7 +1721,7 @@ CREATE TABLE openchpl.pending_certification_result_test_task_participant (
       ON UPDATE NO ACTION ON DELETE NO ACTION,
 	CONSTRAINT pending_test_participant_fk FOREIGN KEY (pending_test_participant_id)
       REFERENCES openchpl.pending_test_participant (pending_test_participant_id) MATCH SIMPLE
-      ON UPDATE NO ACTION ON DELETE NO ACTION  
+      ON UPDATE NO ACTION ON DELETE NO ACTION
 );
 
 CREATE TABLE openchpl.pending_certification_result_test_standard (
@@ -1742,7 +1742,7 @@ CREATE TABLE openchpl.pending_certification_result_test_standard (
       ON UPDATE NO ACTION ON DELETE NO ACTION
 );
 
-CREATE TABLE openchpl.pending_certification_result_test_functionality 
+CREATE TABLE openchpl.pending_certification_result_test_functionality
 (
 	pending_certification_result_test_functionality_id bigserial NOT NULL,
 	pending_certification_result_id bigint not null,
@@ -1842,7 +1842,7 @@ CREATE TABLE openchpl.pending_certification_result_test_tool (
 	test_tool_id bigint,
 	test_tool_name varchar(100),
 	test_tool_version varchar(50),
-	
+
 	creation_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_user bigint NOT NULL,
@@ -1883,7 +1883,7 @@ CREATE TABLE openchpl.pending_cqm_certification_criteria (
 	pending_cqm_certification_criteria_id bigserial not null,
 	pending_cqm_criterion_id bigint not null,
 	certification_criterion_id bigint not null,
-	
+
 	creation_date timestamp without time zone NOT NULL DEFAULT now(),
 	last_modified_date timestamp without time zone NOT NULL DEFAULT now(),
 	last_modified_user bigint NOT NULL,
@@ -2002,7 +2002,7 @@ CREATE TABLE openchpl.corrective_action_plan(
 	start_date timestamp, -- the date corrective action began
 	completion_date_required timestamp, -- the date corrective action must be completed
 	completion_date_actual timestamp, -- the date corrective action was completed
-	summary text, 
+	summary text,
 	developer_explanation text,
 	resolution text,
 	creation_date timestamp NOT NULL DEFAULT NOW(),
@@ -2021,7 +2021,7 @@ CREATE TABLE openchpl.corrective_action_plan_certification_result (
 	corrective_action_plan_certification_result_id bigserial NOT NULL,
 	certification_criterion_id bigint NOT NULL,
 	corrective_action_plan_id bigint NOT NULL,
-	summary text, 
+	summary text,
 	developer_explanation text,
 	resolution text,
 	num_sites_passed int,
@@ -2093,3 +2093,92 @@ CREATE TABLE openchpl.api_key_activity
 -- ALTER TABLE openchpl.api_key_activity  OWNER TO openchpl;
 
 ALTER TABLE openchpl.api_key_activity ADD CONSTRAINT api_key_fk FOREIGN KEY (api_key_id) REFERENCES openchpl.api_key (api_key_id);
+
+
+-- Table: openchpl.ehr_certification_id
+
+-- DROP TABLE openchpl.ehr_certification_id;
+
+CREATE TABLE openchpl.ehr_certification_id
+(
+  ehr_certification_id_id bigserial,
+  key text NOT NULL, -- The unique product collection key
+  year text NOT NULL, -- The attestation year
+  certification_id text NOT NULL, -- The unqiue CMS EHR Certification ID
+  practice_type_id bigint, -- The practice type if applicable (e.g. 2011)
+  creation_date timestamp without time zone NOT NULL DEFAULT now(),
+  last_modified_date timestamp without time zone NOT NULL DEFAULT now(),
+  last_modified_user bigint,
+  CONSTRAINT ehr_certification_id_pk PRIMARY KEY (ehr_certification_id_id),
+  CONSTRAINT practice_type_id_fk FOREIGN KEY (practice_type_id)
+      REFERENCES openchpl.practice_type (practice_type_id) MATCH FULL
+      ON UPDATE NO ACTION ON DELETE RESTRICT,
+  CONSTRAINT unique_certification_id UNIQUE (certification_id),
+  CONSTRAINT unique_year_key UNIQUE (year, key)
+)
+WITH (
+  OIDS=FALSE
+);
+--ALTER TABLE openchpl.ehr_certification_id OWNER TO openchpl;
+GRANT ALL ON TABLE openchpl.ehr_certification_id TO openchpl;
+COMMENT ON TABLE openchpl.ehr_certification_id
+  IS 'CMS EHR Certification IDs';
+COMMENT ON COLUMN openchpl.ehr_certification_id.key IS 'The unique product collection key';
+COMMENT ON COLUMN openchpl.ehr_certification_id.year IS 'The attestation year';
+COMMENT ON COLUMN openchpl.ehr_certification_id.certification_id IS 'The unqiue CMS EHR Certification ID';
+COMMENT ON COLUMN openchpl.ehr_certification_id.practice_type_id ID 'The practice type if applicable (e.g. 2011)';
+ALTER TABLE openchpl.ehr_certification_id ALTER COLUMN year SET STORAGE PLAIN;
+
+
+-- Index: openchpl.fki_practice_type_id_fk
+
+-- DROP INDEX openchpl.fki_practice_type_id_fk;
+
+CREATE INDEX fki_practice_type_id_fk
+  ON openchpl.ehr_certification_id
+  USING btree
+  (practice_type_id);
+
+  -- Table: openchpl.ehr_certification_id_product_map
+
+-- DROP TABLE openchpl.ehr_certification_id_product_map;
+
+CREATE TABLE openchpl.ehr_certification_id_product_map
+(
+  ehr_certification_id_product_map_id bigserial,
+  ehr_certification_id_id bigint NOT NULL,
+  certified_product_id bigint NOT NULL,
+  creation_date timestamp without time zone NOT NULL DEFAULT now(),
+  last_modified_date timestamp without time zone NOT NULL DEFAULT now(),
+  last_modified_user bigint,
+  CONSTRAINT ehr_certification_id_product_map_pk PRIMARY KEY (ehr_certification_id_product_map_id),
+  CONSTRAINT ehr_certification_id_product_map_certified_product_id_fkey FOREIGN KEY (certified_product_id)
+      REFERENCES openchpl.certified_product (certified_product_id) MATCH FULL
+      ON UPDATE NO ACTION ON DELETE RESTRICT,
+  CONSTRAINT ehr_certification_id_product_map_ehr_certification_id_id_fkey FOREIGN KEY (ehr_certification_id_id)
+      REFERENCES openchpl.ehr_certification_id (ehr_certification_id_id) MATCH FULL
+      ON UPDATE NO ACTION ON DELETE RESTRICT
+)
+WITH (
+  OIDS=FALSE
+);
+-- ALTER TABLE openchpl.ehr_certification_id_product_map OWNER TO openchpl;
+GRANT ALL ON TABLE openchpl.ehr_certification_id_product_map TO openchpl;
+
+-- Index: openchpl.fki_certified_product_id_fk
+
+-- DROP INDEX openchpl.fki_certified_product_id_fk;
+
+CREATE INDEX fki_certified_product_id_fk
+  ON openchpl.ehr_certification_id_product_map
+  USING btree
+  (certified_product_id);
+
+-- Index: openchpl.fki_ehr_certification_id_fk
+
+-- DROP INDEX openchpl.fki_ehr_certification_id_fk;
+
+CREATE INDEX fki_ehr_certification_id_fk
+  ON openchpl.ehr_certification_id_product_map
+  USING btree
+  (ehr_certification_id_id);
