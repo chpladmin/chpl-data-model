@@ -357,6 +357,17 @@ CREATE TABLE openchpl.certification_criterion(
 -- ALTER TABLE openchpl.certification_criterion OWNER TO openchpl;
 -- ddl-end --
 
+CREATE TABLE openchpl.test_participant_age(
+	test_participant_age_id bigserial NOT NULL,
+	age varchar(32),
+	creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
+	CONSTRAINT test_participant_age_pk PRIMARY KEY (test_participant_age_id)
+);
+
+
 CREATE TABLE openchpl.education_type(
 	education_type_id bigserial NOT NULL,
 	name varchar(250) NOT NULL,
@@ -395,6 +406,7 @@ CREATE TABLE openchpl.test_participant(
 	test_participant_id bigserial NOT NULL,
 	gender varchar(100),
 	age smallint,
+    test_participant_age_id bigint,
 	education_type_id bigint,
 	occupation varchar(250),
 	professional_experience_months int,
@@ -407,8 +419,11 @@ CREATE TABLE openchpl.test_participant(
 	deleted bool NOT NULL DEFAULT false,
 	CONSTRAINT test_participant_pk PRIMARY KEY (test_participant_id),
 	CONSTRAINT education_type_fk FOREIGN KEY (education_type_id)
-		REFERENCES openchpl.education_type (education_type_id) MATCH FULL
-		ON DELETE RESTRICT ON UPDATE CASCADE
+	REFERENCES openchpl.education_type (education_type_id) MATCH FULL
+	ON DELETE RESTRICT ON UPDATE CASCADE,
+    CONSTRAINT test_participant_age_fk FOREIGN KEY (test_participant_age_id)
+	REFERENCES openchpl.test_participant_age (test_participant_age_id) MATCH FULL
+	ON DELETE RESTRICT ON UPDATE CASCADE;
 );
 
 -- object: openchpl.certification_result | type: TABLE --
@@ -1626,6 +1641,7 @@ CREATE TABLE openchpl.pending_test_participant (
 	test_participant_unique_id varchar(20) not null,
 	gender varchar(100),
 	age smallint,
+    test_participant_age_id bigint,
 	education_type_id bigint,
 	occupation varchar(250),
 	professional_experience_months int,
@@ -1636,7 +1652,10 @@ CREATE TABLE openchpl.pending_test_participant (
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_user bigint NOT NULL,
 	deleted bool NOT NULL DEFAULT false,
-	constraint pending_test_participant_pk primary key (pending_test_participant_id)
+	constraint pending_test_participant_pk primary key (pending_test_participant_id),
+    CONSTRAINT test_participant_age_fk FOREIGN KEY (test_participant_age_id)
+	REFERENCES openchpl.test_participant_age (test_participant_age_id) MATCH FULL
+	ON DELETE RESTRICT ON UPDATE CASCADE;
 );
 
 CREATE TABLE openchpl.pending_test_task (
