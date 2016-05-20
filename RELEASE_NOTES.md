@@ -5,6 +5,7 @@ _Date TBD_
 
 ### Features added
 * Allowed SED Test Participants to have age ranges
+* Drummond transparency updates as of 19 May
 
 ---
 
