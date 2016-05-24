@@ -1,7 +1,7 @@
 # Release Notes
 
-## Next Version
-_Date TBD_
+## Version 1.5.0
+_24 May 2016_
 
 ### Features added
 * Allowed SED Test Participants to have age ranges
