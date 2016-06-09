@@ -1,63 +1,4 @@
-CREATE OR REPLACE VIEW openchpl.certification_result_details AS
-
-SELECT
-
-a.certification_result_id,
-a.certified_product_id,
-a.certification_criterion_id,
-a.success,
-a.deleted,
-a.gap,
-a.sed,
-a.g1_success,
-a.g2_success,
-a.api_documentation,
-a.privacy_security_framework,
-b.number,
-b.title,
-COALESCE(d.count_additional_software, 0) as "count_additional_software"
-
-FROM openchpl.certification_result a
-
-LEFT JOIN (SELECT certification_criterion_id, number, title FROM openchpl.certification_criterion) b
-	ON a.certification_criterion_id = b.certification_criterion_id
-LEFT JOIN (SELECT certification_result_id, count(*) as "count_additional_software" 
-			FROM 
-			(SELECT * FROM openchpl.certification_result_additional_software WHERE deleted <> true) c GROUP BY certification_result_id) d 
-	ON a.certification_result_id = d.certification_result_id;
-
-
-
--- ALTER VIEW openchpl.certification_result_details OWNER TO openchpl;
-
-CREATE OR REPLACE VIEW openchpl.cqm_result_details AS
-
-SELECT
-
-a.cqm_result_id,
-a.certified_product_id,
-a.success,
-a.cqm_criterion_id,
-a.deleted,
-b.number,
-b.cms_id,
-b.title,
-b.description,
-b.cqm_domain,
-b.nqf_number,
-b.cqm_criterion_type_id,
-c.cqm_version_id,
-c.version,
-COALESCE(b.cms_id, b.nqf_number) as cqm_id
-
-FROM openchpl.cqm_result a
-
-LEFT JOIN openchpl.cqm_criterion b ON a.cqm_criterion_id = b.cqm_criterion_id
-
-LEFT JOIN openchpl.cqm_version c ON b.cqm_version_id = c.cqm_version_id;
-
--- ALTER VIEW openchpl.cqm_result_details OWNER TO openchpl;
-
+DROP VIEW openchpl.certified_product_details;
 CREATE OR REPLACE VIEW openchpl.certified_product_details AS
 
 SELECT
@@ -146,7 +87,7 @@ LEFT JOIN (SELECT vendor_id, name as "vendor_name", vendor_code, website as "ven
 
 LEFT JOIN (SELECT vendor_id, certification_body_id, transparency_attestation from openchpl.acb_vendor_map) p on h.vendor_id = p.vendor_id and a.certification_body_id = p.certification_body_id
 
-LEFT JOIN (SELECT address_id, street_line_1, street_line_2, city, state, zipcode, country) t on h.vendor_address = t.address_id
+LEFT JOIN (SELECT address_id, street_line_1, street_line_2, city, state, zipcode, country from openchpl.address) t on h.vendor_address = t.address_id
 
 LEFT JOIN (SELECT contact_id, first_name, last_name, email, phone_number, title from openchpl.contact) u on h.vendor_contact = u.contact_id
 
@@ -172,4 +113,4 @@ ON a.certified_product_id = s.certified_product_id
 LEFT JOIN (SELECT testing_lab_id, name as "testing_lab_name", testing_lab_code from openchpl.testing_lab) q on a.testing_lab_id = q.testing_lab_id
 ;
 
--- ALTER VIEW openchpl.certified_product_details OWNER TO openchpl;
+ ALTER VIEW openchpl.certified_product_details OWNER TO openchpl;
