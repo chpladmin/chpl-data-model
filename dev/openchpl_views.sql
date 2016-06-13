@@ -104,6 +104,19 @@ g.vendor_id,
 h.vendor_name,
 h.vendor_code,
 h.vendor_website,
+t.address_id, 
+t.street_line_1, 
+t.street_line_2, 
+t.city, 
+t.state, 
+t.zipcode, 
+t.country,
+u.contact_id, 
+u.first_name, 
+u.last_name, 
+u.email, 
+u.phone_number, 
+u.title,
 i.certification_date,
 COALESCE(k.count_certifications, 0) as "count_certifications",
 COALESCE(m.count_cqms, 0) as "count_cqms",
@@ -129,9 +142,13 @@ LEFT JOIN (SELECT product_version_id, version as "product_version", product_id f
 
 LEFT JOIN (SELECT product_id, vendor_id, name as "product_name" FROM openchpl.product) g ON f.product_id = g.product_id
 
-LEFT JOIN (SELECT vendor_id, name as "vendor_name", vendor_code, website as "vendor_website" from openchpl.vendor) h on g.vendor_id = h.vendor_id
+LEFT JOIN (SELECT vendor_id, name as "vendor_name", vendor_code, website as "vendor_website", address_id as "vendor_address", contact_id as "vendor_contact" from openchpl.vendor) h on g.vendor_id = h.vendor_id
 
 LEFT JOIN (SELECT vendor_id, certification_body_id, transparency_attestation from openchpl.acb_vendor_map) p on h.vendor_id = p.vendor_id and a.certification_body_id = p.certification_body_id
+
+LEFT JOIN (SELECT address_id, street_line_1, street_line_2, city, state, zipcode, country) t on h.vendor_address = t.address_id
+
+LEFT JOIN (SELECT contact_id, first_name, last_name, email, phone_number, title from openchpl.contact) u on h.vendor_contact = u.contact_id
 
 LEFT JOIN (SELECT certification_status_id, certification_status as "certification_status_name" FROM openchpl.certification_status) n on a.certification_status_id = n.certification_status_id
 
