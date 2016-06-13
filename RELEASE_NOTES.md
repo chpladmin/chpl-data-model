@@ -1,9 +1,9 @@
 # Release Notes
 
-## Version TBD
-_Date TBD_
+## Version 1.5.1
+_13 June 2016_
 
-### Features added
+### Bugs fixed
 * Add vendor address and contact to certified product view
 
 ## Version 1.5.0
