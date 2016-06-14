@@ -1,10 +1,21 @@
 # Release Notes
 
+## Version TBD
+_Date TBD_
+
+### Changes
+* Add ``Suspended`` Certification Status
+* Change Certification Status ``Decertified`` to ``Terminated``
+
+---
+
 ## Version 1.5.1
 _13 June 2016_
 
 ### Bugs fixed
 * Add vendor address and contact to certified product view
+
+---
 
 ## Version 1.5.0
 _24 May 2016_
