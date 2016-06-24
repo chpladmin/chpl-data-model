@@ -146,7 +146,7 @@ LEFT JOIN (SELECT vendor_id, name as "vendor_name", vendor_code, website as "ven
 
 LEFT JOIN (SELECT vendor_id, certification_body_id, transparency_attestation from openchpl.acb_vendor_map) p on h.vendor_id = p.vendor_id and a.certification_body_id = p.certification_body_id
 
-LEFT JOIN (SELECT address_id, street_line_1, street_line_2, city, state, zipcode, country) t on h.vendor_address = t.address_id
+LEFT JOIN (SELECT address_id, street_line_1, street_line_2, city, state, zipcode, country from openchpl.address) t on h.vendor_address = t.address_id
 
 LEFT JOIN (SELECT contact_id, first_name, last_name, email, phone_number, title from openchpl.contact) u on h.vendor_contact = u.contact_id
 

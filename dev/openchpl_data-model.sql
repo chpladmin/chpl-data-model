@@ -423,7 +423,7 @@ CREATE TABLE openchpl.test_participant(
 	ON DELETE RESTRICT ON UPDATE CASCADE,
     CONSTRAINT test_participant_age_fk FOREIGN KEY (test_participant_age_id)
 	REFERENCES openchpl.test_participant_age (test_participant_age_id) MATCH FULL
-	ON DELETE RESTRICT ON UPDATE CASCADE;
+	ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
 -- object: openchpl.certification_result | type: TABLE --
@@ -1655,7 +1655,7 @@ CREATE TABLE openchpl.pending_test_participant (
 	constraint pending_test_participant_pk primary key (pending_test_participant_id),
     CONSTRAINT test_participant_age_fk FOREIGN KEY (test_participant_age_id)
 	REFERENCES openchpl.test_participant_age (test_participant_age_id) MATCH FULL
-	ON DELETE RESTRICT ON UPDATE CASCADE;
+	ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
 CREATE TABLE openchpl.pending_test_task (
@@ -2145,7 +2145,7 @@ COMMENT ON TABLE openchpl.ehr_certification_id
 COMMENT ON COLUMN openchpl.ehr_certification_id.key IS 'The unique product collection key';
 COMMENT ON COLUMN openchpl.ehr_certification_id.year IS 'The attestation year';
 COMMENT ON COLUMN openchpl.ehr_certification_id.certification_id IS 'The unqiue CMS EHR Certification ID';
-COMMENT ON COLUMN openchpl.ehr_certification_id.practice_type_id ID 'The practice type if applicable (e.g. 2011)';
+COMMENT ON COLUMN openchpl.ehr_certification_id.practice_type_id IS 'The practice type if applicable (e.g. 2011)';
 ALTER TABLE openchpl.ehr_certification_id ALTER COLUMN year SET STORAGE PLAIN;
 
 
