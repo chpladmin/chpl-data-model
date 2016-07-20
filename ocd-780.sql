@@ -1,4 +1,4 @@
-CREATE OR REPLACE FUNCTION test_procedure_update() RETURNS VOID AS
+CREATE OR REPLACE FUNCTION openchpl.test_procedure_update() RETURNS VOID AS
 $$
 DECLARE
 	reused_tp_id openchpl.test_procedure.test_procedure_id%TYPE;
@@ -38,5 +38,5 @@ END;
 $$
 LANGUAGE plpgsql;
 
-SELECT test_procedure_update();
+SELECT openchpl.test_procedure_update();
 -- test with product 7706 on DEV and 7733 on STG
