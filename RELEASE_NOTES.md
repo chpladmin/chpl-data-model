@@ -3,9 +3,13 @@
 ## Version TBD
 _Date TBD_
 
-### Changes
+### Features Added
 * Add ``Suspended`` Certification Status
 * Change Certification Status ``Decertified`` to ``Terminated``
+* Add task rating standard deviation to pending and regular tables
+
+### Bugs fixed
+* Do not re-use test procedure versions 
 
 ---
 
