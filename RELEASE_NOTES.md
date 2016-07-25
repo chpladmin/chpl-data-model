@@ -1,11 +1,24 @@
 # Release Notes
 
+## Version 1.7.0
+_25 July 2016_
+
+### Changes
+* Changed available education types
+* Added SED Task Rating Standard Deviation
+
+---
+
 ## Version 1.6.0
 _16 June 2016_
 
-### Changes
+### Features Added
 * Add ``Suspended`` Certification Status
 * Change Certification Status ``Decertified`` to ``Terminated``
+* Add task rating standard deviation to pending and regular tables
+
+### Bugs fixed
+* Do not re-use test procedure versions
 
 ---
 
