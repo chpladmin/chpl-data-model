@@ -1,5 +1,14 @@
 # Release Notes
 
+## Next Version
+_Date TBD_
+
+### Changes
+* Bulk update of certification statuses of ICSA products (already loaded)
+  * _Do not reload_
+
+---
+
 ## Version 1.7.0
 _25 July 2016_
 
