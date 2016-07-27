@@ -1,5 +1,11 @@
 # Release Notes
 
+## Version TBD
+_Date TBD_
+
+###Changes
+* Re-populate test functionality table since some values have been edited
+
 ## Version 1.7.0
 _25 July 2016_
 
