@@ -6,6 +6,7 @@ _Date TBD_
 ### Changes
 * Bulk update of certification statuses of ICSA products (already loaded)
   * _Do not reload_
+* Re-populate test functionality table since some values have been edited
 
 ---
 
