@@ -5,6 +5,8 @@ _Date TBD_
 
 ###Changes
 * Re-populate test functionality table since some values have been edited
+* Change many of the description values for test functionality and standards. 
+* NOTE: RUN OCD-806 LAST
 
 ## Version 1.7.0
 _25 July 2016_
