@@ -7,6 +7,8 @@ _Date TBD_
 * Bulk update of certification statuses of ICSA products (already loaded)
   * _Do not reload_
 * Re-populate test functionality table since some values have been edited
+* Change many of the description values for test functionality and standards. 
+* NOTE: RUN OCD-806 LAST
 
 ---
 
