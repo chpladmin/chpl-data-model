@@ -1,3 +1,98 @@
+UPDATE openchpl.test_functionality SET number = '(a)(4)(iii)' WHERE "name" = 'Optional: (a)(4)(iii) Plot and electronically display, upon request, growth charts for patients';
+UPDATE openchpl.test_functionality SET number = '(b)(1)(i)(B)' WHERE "name" = 'Optional: (b)(1)(i)(B) The standards specified in § 170.202(a) and (b)';
+UPDATE openchpl.test_functionality SET number = '(b)(1)(i)(C)' WHERE "name" = 'Optional: (b)(1)(i)(C) The standards specified in § 170.202(b) and (c)';
+UPDATE openchpl.test_functionality SET number = '(f)(3)(i)(B)' WHERE "name" = 'Optional: (f)(3)(i)(B) The standard (and applicable implementation specifications) specified in §170.205(d)(3)';
+UPDATE openchpl.test_functionality SET number = '(f)(7)(i)' WHERE "name" = 'Optional: (f)(7)(i) That contains the following data: (A) Patient demographics; (B) Provider specialty; (C) Provider address; (D) Problem list; (E) Vital signs; (F) Laboratory test values/results; (G) Procedures; (H) Medication list; and (I) Insurance';
+UPDATE openchpl.test_functionality SET number = '(a)(5)(i)' WHERE "name" = 'Ambulatory setting: (a)(5)(i) Over multiple encounters in accordance with, at a minimum, the version of the standard specified in §170.207(a)(3)';
+UPDATE openchpl.test_functionality SET number = '(a)(6)(i)' WHERE "name" = 'Ambulatory setting: (a)(6)(i) Over multiple encounters';
+UPDATE openchpl.test_functionality SET number = '(a)(7)(i)' WHERE "name" = 'Ambulatory setting: (a)(7)(i) Over multiple encounters';
+UPDATE openchpl.test_functionality SET number = '(a)(8)(iii)(B)(3)' WHERE "name" = 'Ambulatory setting: (a)(8)(iii)(B)(3) When a patient’s laboratory tests and values/results are incorporated pursuant to paragraph (b)(5)(i)(A)(1) of this section';
+UPDATE openchpl.test_functionality SET number = '(a)(14)(vi)' WHERE "name" = 'Ambulatory setting: (a)(14)(vi) Patient communication preferences';
+UPDATE openchpl.test_functionality SET number = '(b)(2)(i)(E)' WHERE "name" = 'Ambulatory setting: (b)(2)(i)(E) The reason for referral; and referring or transitioning provider''s name and office contact information';
+UPDATE openchpl.test_functionality SET number = '(b)(7)(v)' WHERE "name" = 'Ambulatory setting: (b)(7)(v) The reason for referral; and referring or transitioning provider''s name and office contact information';
+UPDATE openchpl.test_functionality SET number = '(b)(8)(iii)(E)' WHERE "name" = 'Ambulatory setting: (b)(8)(iii)(E) The reason for referral; and referring or transitioning provider''s name and office contact information';
+UPDATE openchpl.test_functionality SET number = '(e)(1)(i)(A)(2)' WHERE "name" = 'Ambulatory setting: (e)(1)(i)(A)(2) Provider''s name and office contact information';
+UPDATE openchpl.test_functionality SET number = '(e)(1)(i)(B)(1)(i)' WHERE "name" = 'Ambulatory setting: (e)(1)(i)(B)(1)(i) All of the data in the Common MU Data Set (which should be in their English (i.e., noncoded) representation if they associate with a vocabulary/code set) and the Provider''s name and office contact information';
+UPDATE openchpl.test_functionality SET number = '(f)(3)(i)' WHERE "name" = 'Ambulatory setting: (f)(3)(i) (A) The standard specified in §170.205(d)(2). (B) Optional. The standard (and applicable implementation specifications) specified in §170.205(d)(3)';
+UPDATE openchpl.test_functionality SET number = '(a)(5)(ii)' WHERE "name" = 'Inpatient setting: (a)(5)(ii) For the duration of an entire hospitalization in accordance with, at a minimum, the version of the standard specified in §170.207(a)(3)';
+UPDATE openchpl.test_functionality SET number = '(a)(6)(ii)' WHERE "name" = 'Inpatient setting: (a)(6)(ii) For the duration of an entire hospitalization';
+UPDATE openchpl.test_functionality SET number = '(a)(7)(ii)' WHERE "name" = 'Inpatient setting: (a)(7)(ii) For the duration of an entire hospitalization';
+UPDATE openchpl.test_functionality SET number = '(b)(2)(i)(F)' WHERE "name" = 'Inpatient setting: (b)(2)(i)(F) Discharge instructions';
+UPDATE openchpl.test_functionality SET number = '(b)(7)(vi)' WHERE "name" = 'Inpatient setting: (b)(7)(vi) Discharge Instructions';
+UPDATE openchpl.test_functionality SET number = '(b)(8)(iii)(F)' WHERE "name" = 'Inpatient setting: (b)(8)(iii)(F) Discharge Instructions';
+UPDATE openchpl.test_functionality SET number = '(e)(1)(i)(A)(3)' WHERE "name" = 'Inpatient setting: (e)(1)(i)(A)(3) Admission and discharge dates and locations; discharge instructions; and reason(s) for hospitalization';
+UPDATE openchpl.test_functionality SET number = '(e)(1)(i)(B)(1)(ii)' WHERE "name" = 'Inpatient setting: (e)(1)(i)(B)(1)(ii) All of the data in the Common MU Data Set (which should be in their English (i.e., noncoded) representation if they associate with a vocabulary/code set) and the admission and discharge dates and locations; discharge instructions; and reason(s) for hospitalization';
+UPDATE openchpl.test_functionality SET number = '(e)(1)(i)(B)(2)' WHERE "name" = 'Inpatient setting: (e)(1)(i)(B)(2) Electronically download transition of care/referral summaries that were created as a result of a transition of care (pursuant to the capability expressed in the certification criterion adopted at paragraph (b)(2) of this section)';
+UPDATE openchpl.test_functionality SET number = '(e)(1)(i)(C)(2)' WHERE "name" = 'Inpatient setting: (e)(1)(i)(C)(2) Electronically transmit transition of care/referral summaries (as a result of a transition of care/referral) selected by the patient (or their authorized representative) in accordance with at least one of the following: (i) The standard specified in §170.202(a). (ii) Through a method that conforms to the standard specified at §170.202(d) and that leads to such summary being processed by a service that has implemented the standard specified in §170.202(a)';
+UPDATE openchpl.test_functionality SET number = '(f)(3)(ii)' WHERE "name" = 'Inpatient setting: (f)(3)(ii)  The standard (and applicable implementation specifications) specified in §170.205(d)(3)';
+UPDATE openchpl.test_functionality SET number = '(a)(4)(ii)(B)(1)' WHERE "name" ='Alternative: (a)(4)(ii)(B)(1) To a specific set of identified users';
+UPDATE openchpl.test_functionality SET number = '(a)(4)(ii)(B)(2)' WHERE "name" ='Alternative: (a)(4)(ii)(B)(2) As a system administrative function';
+UPDATE openchpl.test_functionality SET number = '(a)(10)(i)' WHERE "name" ='Alternative: (a)(10)(i) Drug formulary checks. Automatically check whether a drug formulary exists for a given patient and medication';
+UPDATE openchpl.test_functionality SET number = '(a)(10)(ii)' WHERE "name" ='Alternative: (a)(10)(ii)  Preferred drug list checks. Automatically check whether a preferred drug list exists for a given patient and medication';
+UPDATE openchpl.test_functionality SET number = '(a)(14)(iii)(A)(1)' WHERE "name" ='Alternative: (a)(14)(iii)(A)(1) The "GMDN PT Name" attribute associated with the Device Identifier in the Global Unique Device Identification Database';
+UPDATE openchpl.test_functionality SET number = '(a)(14)(iii)(A)(2)' WHERE "name" ='Alternative: (a)(14)(iii)(A)(2) The "SNOMED CT Description" mapped to the attribute referenced in (a)(14)(iii)(1) (The "GMDN PT Name" attribute associated with the Device Identifier in the Global Unique Device Identification Database)';
+UPDATE openchpl.test_functionality SET number = '(b)(1)(ii)(A)(5)(i)' WHERE "name" ='Alternative: (b)(1)(ii)(A)(5)(i) Be notified of the errors produced';
+UPDATE openchpl.test_functionality SET number = '(b)(1)(ii)(A)(5)(ii)' WHERE "name" ='Alternative: (b)(1)(ii)(A)(5)(ii) Review the errors produced';
+UPDATE openchpl.test_functionality SET number = '(b)(5)(ii)(A)(5)(i)' WHERE "name" ='Alternative: (b)(5)(ii)(A)(5)(i) Be notified of the errors produced';
+UPDATE openchpl.test_functionality SET number = '(b)(5)(ii)(A)(5)(ii)' WHERE "name" ='Alternative: (b)(5)(ii)(A)(5)(ii) Review the errors produced';
+UPDATE openchpl.test_functionality SET number = '(b)(6)(i)(B)(1)' WHERE "name" ='Alternative: (b)(6)(i)(B)(1) To a specific set of identified users';
+UPDATE openchpl.test_functionality SET number = '(b)(6)(i)(B)(2)' WHERE "name" ='Alternative: (b)(6)(i)(B)(2) As a system administrative function';
+UPDATE openchpl.test_functionality SET number = '(d)(7)(i)' WHERE "name" ='Alternative: (d)(7)(i) Technology that is designed to locally store electronic health information on end-user devices must encrypt the electronic health information stored on such devices after use of the technology on those devices stops';
+UPDATE openchpl.test_functionality SET number = '(d)(7)(ii)' WHERE "name" ='Alternative: (d)(7)(ii) Technology is designed to prevent electronic health information from being locally stored on end-user devices after use of the technology on those devices stops';
+UPDATE openchpl.test_functionality SET number = '(d)(9)(i)' WHERE "name" ='Alternative: (d)(9)(i) Message-level. Encrypt and integrity protect message contents in accordance with the standards specified in § 170.210(a)(2) and (c)(2)';
+UPDATE openchpl.test_functionality SET number = '(d)(9)(ii)' WHERE "name" ='Alternative: (d)(9)(ii) Transport-level. Use a trusted connection in accordance with the standards specified in § 170.210(a)(2) and (c)(2)';
+UPDATE openchpl.test_functionality SET number = '(g)(4)(i)(A)' WHERE "name" ='Alternative: (g)(4)(i)(A) The QMS used is established by the Federal government or a standards developing organization';
+UPDATE openchpl.test_functionality SET number = '(g)(4)(i)(B)' WHERE "name" ='Alternative: (g)(4)(i)(B) The QMS used is mapped to one or more QMS established by the Federal government or standards developing organization(s)';
+UPDATE openchpl.test_functionality SET number = '(g)(5)(i)' WHERE "name" ='Alternative: (g)(5)(i) When a single accessibility-centered design standard or law was used for applicable capabilities, it would only need to be identified once';
+UPDATE openchpl.test_functionality SET number = '(g)(5)(ii)' WHERE "name" ='Alternative: (g)(5)(ii) When different accessibility-centered design standards and laws were applied to specific capabilities, each accessibility-centered design standard or law applied would need to be identified. This would include the application of an accessibility-centered design standard or law to some capabilities and none to others';
+UPDATE openchpl.test_functionality SET number = '(g)(5)(iii)' WHERE "name" ='Alternative: (g)(5)(iii) When no accessibility-centered design standard or law was applied to all applicable capabilities such a response is acceptable to satisfy this certification criterion';
+UPDATE openchpl.test_functionality SET number = '(a)(1)(ii)' WHERE "name" ='Optional: (a)(1)(ii)  Include a "reason for order" field';
+UPDATE openchpl.test_functionality SET number = '(a)(2)(ii)' WHERE "name" ='Optional: (a)(2)(ii) Include a "reason for order" field';
+UPDATE openchpl.test_functionality SET number = '(a)(3)(ii)' WHERE "name" ='Optional: (a)(3)(ii) Include a "reason for order" field';
+UPDATE openchpl.test_functionality SET number = '(a)(13)(ii)' WHERE "name" ='Optional; (a)(13)(ii) Request that patient-specific education resources be identified in accordance with the standard in § 170.207(g)(2)';
+UPDATE openchpl.test_functionality SET number = '(b)(1)(iii)(G)(1)(ii)' WHERE "name" ='Optional: (b)(1)(iii)(G)(1)(ii) When the hour, minute, and second are associated with a date of birth the technology must demonstrate that the correct time zone offset is included';
+UPDATE openchpl.test_functionality SET number = '(b)(3)(iii)' WHERE "name" ='Optional: (b)(3)(iii) For each transaction listed in paragraph (b)(3)(i) of this section, the technology must be able to receive and transmit the reason for the prescription using the indication elements in the SIG Segment';
+UPDATE openchpl.test_functionality SET number = '(b)(4)(vii)(A)(2)' WHERE "name" ='Optional: (b)(4)(vii)(A)(2) When the hour, minute, and second are associated with a date of birth the technology must demonstrate that the correct time zone offset is included';
+UPDATE openchpl.test_functionality SET number = '(c)(3)(ii)' WHERE "name" ='Optional: (c)(3)(ii) That can be electronically accepted by CMS';
+UPDATE openchpl.test_functionality SET number = '170.102(13)(ii)(C)' WHERE "name" ='Optional: CCDS: 170.102(13)(ii)(C) The patient’s BMI percentile per age and sex for youth 2-20 years of age, weight for age per length and sex for children less than 3 years of age, and head occipital-frontal circumference for children less than 3 years of age must be recorded in numerical values only in accordance with the standard specified in § 170.207(c)(3) and with the associated applicable unit of measure for the vital sign measurement in the standard specified in § 170.207(m)(1). For BMI percentile per age and sex for youth 2-20 years of age and weight for age per length and sex for children less than 3 years of age, the reference range/scale or growth curve should be included as appropriate';
+UPDATE openchpl.test_functionality SET number = '170.102(19)(i)' WHERE "name" ='Optional: CCDS: 170.102(19)(i) For certification to the 2015 Edition health IT certification criteria in accordance with the "Assessment and Plan Section (V2)" of the standard specified in § 170.205(a)(4);';
+UPDATE openchpl.test_functionality SET number = '170.102(19)(ii)' WHERE "name" LIKE 'Optional: CCDS: 170.102(19)(ii)%';--  For certification to the 2015 Edition health IT certification criteria in accordance with the "Assessment Section (V2)" and "Plan of Treatment Section (V2)" of the standard specified in § 170.205(a)(4).';
+UPDATE openchpl.test_functionality SET number = '(a)(6)(i)' WHERE "name" ='Ambulatory: (a)(6)(i) Over multiple encounters in accordance with, at a minimum, the version of the standard specified in § 170.207(a)(4)';
+UPDATE openchpl.test_functionality SET number = '(a)(7)(i)' WHERE "name" ='Ambulatory: (a)(7)(i) Over multiple encounters';
+UPDATE openchpl.test_functionality SET number = '(a)(8)(i)' WHERE "name" ='Ambulatory: (a)(8)(i) Over multiple encounters';
+UPDATE openchpl.test_functionality SET number = '(b)(1)(iii)(E)' WHERE "name" ='Ambulatory: (b)(1)(iii)(E) The reason for referral; and referring or transitioning provider''s name and office contact information';
+UPDATE openchpl.test_functionality SET number = '(b)(4)(v)' WHERE "name" ='Ambulatory: (b)(4)(v) The reason for referral; and referring or transitioning provider''s name and office contact information';
+UPDATE openchpl.test_functionality SET number = '(b)(5)(i)(E)' WHERE "name" ='Ambulatory: (b)(5)(i)(E) The reason for referral; and referring or transitioning provider''s name and office contact information';
+UPDATE openchpl.test_functionality SET number = '(b)(6)(ii)(E)' WHERE "name" ='Ambulatory: (b)(6)(ii)(E) The reason for referral; and referring or transitioning provider''s name and office contact information';
+UPDATE openchpl.test_functionality SET number = '(e)(1)(i)(A)(2)' WHERE "name" ='Ambulatory: (e)(1)(i)(A)(2) Provider''s name and office contact information';
+UPDATE openchpl.test_functionality SET number = '(e)(1)(i)(B)(2)(i)' WHERE "name" LIKE 'Ambulatory: (e)(1)(i)(B)(2)(i) All of the following data:%';
+--(1) The Common Clinical Data Set (which should be in their English (i.e., non-coded) representation if they associate with a vocabulary/code set).
+--(2) Ambulatory setting only. Provider’s name and office contact information.
+--(4) Laboratory test report(s). Laboratory test report(s), including:
+--(i) The information for a test report as specified all the data specified in 42 CFR 493.1291(c)(1) through (7);
+--(ii)The information related to reference intervals or normal values as specified in 42 CFR 493.1291(d); and
+--(iii)The information for corrected reports as specified in 42 CFR 493.1291(k)(2).
+--(5) Diagnostic image report(s)';
+UPDATE openchpl.test_functionality SET number = '(a)(5)(ii)' WHERE "name" ='Inpatient: (a)(5)(ii) Enable a user to record, change, and access the preliminary cause of death and date of death in the event of mortality';
+UPDATE openchpl.test_functionality SET number = '(a)(6)(ii)' WHERE "name" ='Inpatient: (a)(6)(ii) For the duration of an entire hospitalization in accordance with, at a minimum, the version of the standard specified in §170.207(a)(4)';
+UPDATE openchpl.test_functionality SET number = '(a)(7)(ii)' WHERE "name" ='Inpatient: (a)(7)(ii) For the duration of an entire hospitalization';
+UPDATE openchpl.test_functionality SET number = '(a)(8)(ii)' WHERE "name" ='Inpatient: (a)(8)(ii) For the duration of an entire hospitalization';
+UPDATE openchpl.test_functionality SET number = '(b)(1)(iii)(F)' WHERE "name" ='Inpatient: (b)(1)(iii)(F) Discharge Instructions';
+UPDATE openchpl.test_functionality SET number = '(b)(4)(vi)' WHERE "name" ='Inpatient: (b)(4)(vi) Discharge Instructions';
+UPDATE openchpl.test_functionality SET number = '(b)(5)(i)(F)' WHERE "name" ='Inpatient: (b)(5)(i)(F) Discharge Instructions';
+UPDATE openchpl.test_functionality SET number = '(b)(6)(ii)(F)' WHERE "name" ='Inpatient: (b)(6)(ii)(F) Discharge Instructions';
+UPDATE openchpl.test_functionality SET number = '(e)(1)(i)(A)(3)' WHERE "name" ='Inpatient: (e)(1)(i)(A)(3) Admission and discharge dates and locations; discharge instructions; and reason(s) for hospitalization';
+UPDATE openchpl.test_functionality SET number = '(e)(1)(i)(B)(2)(ii)' WHERE "name" LIKE 'Inpatient: (e)(1)(i)(B)(2)(ii) All of the following data:%';
+--(1) The Common Clinical Data Set (which should be in their English (i.e., non-coded) representation if they associate with a vocabulary/code set).
+--(3) Inpatient setting only. Admission and discharge dates and locations; discharge instructions; and reason(s) for hospitalization.
+--(5) Diagnostic image report(s)';
+UPDATE openchpl.test_functionality SET number = '(e)(1)(i)(B)(3)' WHERE "name" ='Inpatient: (e)(1)(i)(B)(3) Patients (and their authorized representatives) must be able to download transition of care/referral summaries that were created as a result of a transition of care (pursuant to the capability expressed in the certification criterion specified in paragraph (b)(1) of this section)';
+UPDATE openchpl.test_functionality SET number = '(e)(1)(i)(C)(2)' WHERE "name" LIKE 'Inpatient: (e)(1)(i)(C)(2)%';--  Transmit transition of care/referral summaries (as a result of a transition of care/referral as referenced by (e)(1)(i)(B)(3)) selected by the patient (or their authorized representative) in  both of the following ways:
+--(i) Email transmission to any email address; and
+--(ii)An encrypted method of electronic transmission';
+
+
+
 --2014 test functionality
 UPDATE openchpl.test_functionality SET "name" = 'Optional: 170.314(a)(4)(iii) Plot and electronically display, upon request, growth charts for patients' WHERE "name" LIKE 'Optional: (a)(4)(iii) Plot and electronically display, upon request, growth charts for patients';
 UPDATE openchpl.test_functionality SET "name" = 'Optional: 170.314(b)(1)(i)(B) Receive summary care record using the standards specified at §170.202(a) and (b) (Direct and XDM Validation)' WHERE "name" LIKE 'Optional: (b)(1)(i)(B) The standards specified in % 170.202(a) and (b)';
