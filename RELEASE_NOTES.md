@@ -5,7 +5,8 @@ _Date TBD_
 
 ###Changes
 * Re-populate test functionality table since some values have been edited
-* Change many of the description values for test functionality and standards. 
+* Change many of the description values for test functionality and standards.
+* remove visible on chpl
 * NOTE: RUN OCD-806 LAST
 
 ## Version 1.7.0
