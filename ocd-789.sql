@@ -1,4 +1,4 @@
---ALTER TABLE openchpl.certified_product DROP COLUMN visible_on_chpl CASCADE;
+ALTER TABLE openchpl.certified_product DROP COLUMN visible_on_chpl CASCADE;
 
 CREATE OR REPLACE VIEW openchpl.certified_product_details AS
 

@@ -5,6 +5,7 @@ _Date TBD_
 
 ### Changes
 * Remove visible on chpl (breaks bakcwards compatibility)
+  * Might need to re-run dev/openchpl_grant-all.sql
 
 ---
 
@@ -13,10 +14,8 @@ _2 August 2016_
 
 ### Changes
 * Bulk update of certification statuses of ICSA products (already loaded)
-  * _Do not reload_
 * Re-populate test functionality table since some values have been edited
 * Change many of the description values for test functionality and standards.
-* NOTE: RUN OCD-806 LAST
 
 ---
 
