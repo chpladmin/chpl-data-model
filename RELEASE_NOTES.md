@@ -3,11 +3,22 @@
 ## Version TBD
 _Date TBD_
 
-###Changes
+### Changes
+* Remove visible on chpl (breaks bakcwards compatibility)
+
+---
+
+## Version 2.0.0
+_2 August 2016_
+
+### Changes
+* Bulk update of certification statuses of ICSA products (already loaded)
+  * _Do not reload_
 * Re-populate test functionality table since some values have been edited
 * Change many of the description values for test functionality and standards.
-* remove visible on chpl
 * NOTE: RUN OCD-806 LAST
+
+---
 
 ## Version 1.7.0
 _25 July 2016_
