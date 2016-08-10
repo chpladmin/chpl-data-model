@@ -1,7 +1,7 @@
 # Release Notes
 
-## Version TBD
-_Date TBD_
+## Version 3.0.0
+_10 August 2016_
 
 ### Changes
 * Remove visible on chpl (breaks bakcwards compatibility)
