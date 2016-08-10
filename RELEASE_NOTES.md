@@ -1,5 +1,11 @@
 # Release Notes
 
+## Version TBD
+_Date TBD_
+
+### Changes
+* Add ROLE_CMS_STAFF as an available role in the system.
+
 ## Version 3.0.0
 _10 August 2016_
 
