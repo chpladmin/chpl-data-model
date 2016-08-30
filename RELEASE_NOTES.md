@@ -1,5 +1,14 @@
 # Release Notes
 
+## Version 4.0.0
+_30 August 2016_
+
+### Changes
+* Add ROLE_CMS_STAFF as an available role in the system.
+* Update legacy CMS IDs with CreationDate
+
+---
+
 ## Version 3.0.0
 _10 August 2016_
 
