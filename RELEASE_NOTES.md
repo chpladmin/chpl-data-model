@@ -6,6 +6,7 @@ _30 August 2016_
 ### Changes
 * Add ROLE_CMS_STAFF as an available role in the system.
 * Update legacy CMS IDs with CreationDate
+* Add two new views: product_certification_statuses and developer_certification_statuses
 
 ---
 
