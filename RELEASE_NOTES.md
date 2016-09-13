@@ -1,5 +1,13 @@
 # Release Notes
 
+## Version TBD
+_Date TBD_
+
+### Changes
+* Add two new views: product_certification_statuses and developer_certification_statuses
+
+---
+
 ## Version 4.0.0
 _30 August 2016_
 
