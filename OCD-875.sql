@@ -12,8 +12,8 @@ CREATE OR REPLACE VIEW openchpl.developer_certification_statuses AS
      LEFT JOIN openchpl.certification_status cs ON cp.certification_status_id = cs.certification_status_id
   GROUP BY v.vendor_id;
 
-ALTER TABLE openchpl.developer_certification_statuses
-  OWNER TO openchpl;
+--ALTER TABLE openchpl.developer_certification_statuses
+--  OWNER TO openchpl;
 GRANT ALL ON TABLE openchpl.developer_certification_statuses TO openchpl;
 
 CREATE OR REPLACE VIEW openchpl.product_certification_statuses AS 
@@ -29,6 +29,6 @@ CREATE OR REPLACE VIEW openchpl.product_certification_statuses AS
      LEFT JOIN openchpl.certification_status cs ON cp.certification_status_id = cs.certification_status_id
   GROUP BY p.product_id;
 
-ALTER TABLE openchpl.product_certification_statuses
-  OWNER TO openchpl;
+--ALTER TABLE openchpl.product_certification_statuses
+--  OWNER TO openchpl;
 GRANT ALL ON TABLE openchpl.product_certification_statuses TO openchpl;
