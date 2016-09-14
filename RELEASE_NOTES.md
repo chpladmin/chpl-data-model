@@ -5,6 +5,7 @@ _Date TBD_
 
 ### Changes
 * Add two new views: product_certification_statuses and developer_certification_statuses
+* Added view for faster /developers call
 
 ---
 
