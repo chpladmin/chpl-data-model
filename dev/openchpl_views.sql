@@ -151,9 +151,9 @@ CREATE OR REPLACE VIEW openchpl.developer_certification_statuses AS
 SELECT v.vendor_id,
     count(cp.certified_product_id) FILTER (WHERE cs.certification_status::text = 'Active'::text) AS active,
     count(cp.certified_product_id) FILTER (WHERE cs.certification_status::text = 'Retired'::text) AS retired,
-    count(cp.certified_product_id) FILTER (WHERE cs.certification_status::text = 'Withdrawn'::text) AS withdrawn,
-    count(cp.certified_product_id) FILTER (WHERE cs.certification_status::text = 'Terminated'::text) AS terminated,
-    count(cp.certified_product_id) FILTER (WHERE cs.certification_status::text = 'Suspended'::text) AS suspended
+    count(cp.certified_product_id) FILTER (WHERE cs.certification_status::text = 'Withdrawn by Developer'::text) AS withdrawn,
+    count(cp.certified_product_id) FILTER (WHERE cs.certification_status::text = 'Withdrawn by ONC-ACB'::text) AS terminated,
+    count(cp.certified_product_id) FILTER (WHERE cs.certification_status::text = 'Suspended by ONC-ACB'::text) AS suspended
 FROM openchpl.vendor v
     LEFT JOIN openchpl.product p ON v.vendor_id = p.vendor_id
     LEFT JOIN openchpl.product_version pv ON p.product_id = pv.product_id
@@ -168,9 +168,9 @@ CREATE OR REPLACE VIEW openchpl.product_certification_statuses AS
 SELECT p.product_id,
     count(cp.certified_product_id) FILTER (WHERE cs.certification_status::text = 'Active'::text) AS active,
     count(cp.certified_product_id) FILTER (WHERE cs.certification_status::text = 'Retired'::text) AS retired,
-    count(cp.certified_product_id) FILTER (WHERE cs.certification_status::text = 'Withdrawn'::text) AS withdrawn,
-    count(cp.certified_product_id) FILTER (WHERE cs.certification_status::text = 'Terminated'::text) AS terminated,
-    count(cp.certified_product_id) FILTER (WHERE cs.certification_status::text = 'Suspended'::text) AS suspended
+    count(cp.certified_product_id) FILTER (WHERE cs.certification_status::text = 'Withdrawn by Developer'::text) AS withdrawn,
+    count(cp.certified_product_id) FILTER (WHERE cs.certification_status::text = 'Withdrawn by ONC-ACB'::text) AS terminated,
+    count(cp.certified_product_id) FILTER (WHERE cs.certification_status::text = 'Suspended by ONC-ACB'::text) AS suspended
 FROM openchpl.product p
     LEFT JOIN openchpl.product_version pv ON p.product_id = pv.product_id
     LEFT JOIN openchpl.certified_product cp ON pv.product_version_id = cp.product_version_id
