@@ -1,12 +1,28 @@
 # Release Notes
 
+## Version TBD
+_Date TBD_
+
+### Changes
+* Modified certification status names previously known as Terminated, Suspended, and Withdrawn. Changed views as necessary.
+
+---
+
+## Version 5.0.0
+_19 September 2016_
+
+### Changes
+* Add two new views: product_certification_statuses and developer_certification_statuses
+* Added view for faster /developers call
+
+---
+
 ## Version 4.0.0
 _30 August 2016_
 
 ### Changes
 * Add ROLE_CMS_STAFF as an available role in the system.
 * Update legacy CMS IDs with CreationDate
-* Add two new views: product_certification_statuses and developer_certification_statuses
 
 ---
 
