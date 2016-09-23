@@ -220,7 +220,6 @@ CREATE TABLE openchpl.certified_product(
 	product_additional_software varchar(1000), -- legacy for ETL
 	other_acb character varying(64),
 	certification_status_id bigint NOT NULL,
-	terms_of_use_url varchar(1024), --170.523 (k)(1)
 	transparency_attestation_url varchar(1024),
 	ics boolean,
 	sed boolean,
@@ -1552,7 +1551,6 @@ CREATE TABLE openchpl.pending_certified_product(
 	sed_intended_user_description text,
 	sed_testing_end timestamp,
 	ics varchar(1024),
-	terms_of_use_url varchar(1024),	-- k1 url
 
 	-- foreign keys that have meaning if they are not mapped
 	practice_type_id bigint, -- should never be null

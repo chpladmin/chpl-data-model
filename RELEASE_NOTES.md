@@ -6,6 +6,7 @@ _Date TBD_
 ### Changes
 * Modified certification status names previously known as Terminated, Suspended, and Withdrawn. Changed views as necessary.
 * Added view to merge certificaiton_id, date created, and columns necessary to formulate the CHPL product id
+* Remove terms_of_use_url from data model and views.
 
 ---
 

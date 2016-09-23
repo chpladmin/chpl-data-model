@@ -74,7 +74,6 @@ SELECT
     a.ics_code,
     a.additional_software_code,
     a.certified_date_code,
-    a.terms_of_use_url,
     a.transparency_attestation_url,
     a.ics,
     a.sed,
