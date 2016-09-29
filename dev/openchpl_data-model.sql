@@ -650,6 +650,7 @@ CREATE TABLE openchpl.test_tool(
 	test_tool_id bigserial NOT NULL,
 	name varchar(100) NOT NULL,
 	description varchar(1000),
+	retired boolean NOT NULL DEFAULT false,
 	creation_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_user bigint NOT NULL,
