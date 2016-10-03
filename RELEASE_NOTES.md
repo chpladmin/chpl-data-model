@@ -9,6 +9,7 @@ _Date TBD_
 * Remove terms_of_use_url from data model and views.
 * Added script to find Certified Products with improper CHPL Product Number Code components
 * Add retired boolean to test_tool tables and retired Transport Test[ing] Tool.
+* Added creation_date to certifiedProductDetails view for OCD-897
 
 ---
 

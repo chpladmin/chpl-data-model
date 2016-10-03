@@ -67,6 +67,7 @@ SELECT
     a.practice_type_id,
     a.product_classification_type_id,
     a.other_acb,
+	a.creation_date,
     a.certification_status_id,
     a.deleted,
     a.product_code,
