@@ -1,4 +1,4 @@
-﻿-- View: openchpl.certified_product_details
+-- View: openchpl.certified_product_details
 
  DROP VIEW openchpl.certified_product_details;
 
