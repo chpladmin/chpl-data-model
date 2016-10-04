@@ -1,7 +1,7 @@
 # Release Notes
 
-## Version TBD
-_Date TBD_
+## Version 5.1.0
+_4 October 2016_
 
 ### Changes
 * Modified certification status names previously known as Terminated, Suspended, and Withdrawn. Changed views as necessary.
