@@ -233,7 +233,7 @@ CREATE OR REPLACE VIEW openchpl.certified_product_details AS
             testing_lab.testing_lab_code
            FROM openchpl.testing_lab) q ON a.testing_lab_id = q.testing_lab_id;
 
-ALTER TABLE openchpl.certified_product_details
-  OWNER TO postgres;
-GRANT ALL ON TABLE openchpl.certified_product_details TO postgres;
+--ALTER TABLE openchpl.certified_product_details
+--  OWNER TO postgres;
+--GRANT ALL ON TABLE openchpl.certified_product_details TO postgres;
 GRANT ALL ON TABLE openchpl.certified_product_details TO openchpl;
