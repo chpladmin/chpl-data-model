@@ -1,5 +1,18 @@
 # Release Notes
 
+## Version 5.1.0
+_4 October 2016_
+
+### Changes
+* Modified certification status names previously known as Terminated, Suspended, and Withdrawn. Changed views as necessary.
+* Added view to merge certification_id, date created, and columns necessary to formulate the CHPL product id
+* Remove terms_of_use_url from data model and views.
+* Added script to find Certified Products with improper CHPL Product Number Code components
+* Add retired boolean to test_tool tables and retired Transport Test[ing] Tool.
+* Added creation_date to certifiedProductDetails view for OCD-897
+
+---
+
 ## Version 5.0.0
 _19 September 2016_
 

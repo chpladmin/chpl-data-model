@@ -67,6 +67,7 @@ SELECT
     a.practice_type_id,
     a.product_classification_type_id,
     a.other_acb,
+	a.creation_date,
     a.certification_status_id,
     a.deleted,
     a.product_code,
@@ -74,7 +75,6 @@ SELECT
     a.ics_code,
     a.additional_software_code,
     a.certified_date_code,
-    a.terms_of_use_url,
     a.transparency_attestation_url,
     a.ics,
     a.sed,
@@ -151,9 +151,9 @@ CREATE OR REPLACE VIEW openchpl.developer_certification_statuses AS
 SELECT v.vendor_id,
     count(cp.certified_product_id) FILTER (WHERE cs.certification_status::text = 'Active'::text) AS active,
     count(cp.certified_product_id) FILTER (WHERE cs.certification_status::text = 'Retired'::text) AS retired,
-    count(cp.certified_product_id) FILTER (WHERE cs.certification_status::text = 'Withdrawn'::text) AS withdrawn,
-    count(cp.certified_product_id) FILTER (WHERE cs.certification_status::text = 'Terminated'::text) AS terminated,
-    count(cp.certified_product_id) FILTER (WHERE cs.certification_status::text = 'Suspended'::text) AS suspended
+    count(cp.certified_product_id) FILTER (WHERE cs.certification_status::text = 'Withdrawn by Developer'::text) AS withdrawn_by_developer,
+    count(cp.certified_product_id) FILTER (WHERE cs.certification_status::text = 'Withdrawn by ONC-ACB'::text) AS withdrawn_by_acb,
+    count(cp.certified_product_id) FILTER (WHERE cs.certification_status::text = 'Suspended by ONC-ACB'::text) AS suspended_by_acb
 FROM openchpl.vendor v
     LEFT JOIN openchpl.product p ON v.vendor_id = p.vendor_id
     LEFT JOIN openchpl.product_version pv ON p.product_id = pv.product_id
@@ -168,9 +168,9 @@ CREATE OR REPLACE VIEW openchpl.product_certification_statuses AS
 SELECT p.product_id,
     count(cp.certified_product_id) FILTER (WHERE cs.certification_status::text = 'Active'::text) AS active,
     count(cp.certified_product_id) FILTER (WHERE cs.certification_status::text = 'Retired'::text) AS retired,
-    count(cp.certified_product_id) FILTER (WHERE cs.certification_status::text = 'Withdrawn'::text) AS withdrawn,
-    count(cp.certified_product_id) FILTER (WHERE cs.certification_status::text = 'Terminated'::text) AS terminated,
-    count(cp.certified_product_id) FILTER (WHERE cs.certification_status::text = 'Suspended'::text) AS suspended
+    count(cp.certified_product_id) FILTER (WHERE cs.certification_status::text = 'Withdrawn by Developer'::text) AS withdrawn_by_developer,
+    count(cp.certified_product_id) FILTER (WHERE cs.certification_status::text = 'Withdrawn by ONC-ACB'::text) AS withdrawn_by_acb,
+    count(cp.certified_product_id) FILTER (WHERE cs.certification_status::text = 'Suspended by ONC-ACB'::text) AS suspended_by_acb
 FROM openchpl.product p
     LEFT JOIN openchpl.product_version pv ON p.product_id = pv.product_id
     LEFT JOIN openchpl.certified_product cp ON pv.product_version_id = cp.product_version_id
@@ -199,3 +199,36 @@ WHERE (certification_body.deleted = false OR certification_body.deleted IS NULL)
 --ALTER TABLE openchpl.acb_developer_transparency_mappings OWNER TO openchpl;
 
     GRANT ALL ON TABLE openchpl.acb_developer_transparency_mappings TO openchpl;
+
+CREATE OR REPLACE VIEW openchpl.ehr_certification_ids_and_products AS
+SELECT 
+	row_number() OVER () AS id,
+	ehr.ehr_certification_id_id as ehr_certification_id,
+	ehr.certification_id as ehr_certification_id_text,
+	ehr.creation_date as ehr_certification_id_creation_date,
+	cp.certified_product_id,
+	cp.chpl_product_number,
+	ed.year,
+	atl.testing_lab_code,
+	acb.certification_body_code,
+	v.vendor_code,
+	cp.product_code,
+    cp.version_code,
+    cp.ics_code,
+    cp.additional_software_code,
+    cp.certified_date_code
+FROM openchpl.ehr_certification_id ehr
+    LEFT JOIN openchpl.ehr_certification_id_product_map prodMap 
+		ON ehr.ehr_certification_id_id = prodMap.ehr_certification_id_id
+	LEFT JOIN openchpl.certified_product cp	
+		ON prodMap.certified_product_id = cp.certified_product_id
+    LEFT JOIN (SELECT certification_edition_id, year FROM openchpl.certification_edition) ed on cp.certification_edition_id = ed.certification_edition_id
+    LEFT JOIN (SELECT certification_body_id, name as "certification_body_name", acb_code as "certification_body_code" FROM openchpl.certification_body) acb 
+		ON cp.certification_body_id = acb.certification_body_id
+	LEFT JOIN (SELECT testing_lab_id, testing_lab_code from openchpl.testing_lab) atl on cp.testing_lab_id = atl.testing_lab_id
+	LEFT JOIN (SELECT product_version_id, product_id from openchpl.product_version) pv on cp.product_version_id = pv.product_version_id
+    LEFT JOIN (SELECT product_id, vendor_id FROM openchpl.product) prod ON pv.product_id = prod.product_id
+	LEFT JOIN (SELECT vendor_id, vendor_code from openchpl.vendor) v ON prod.vendor_id = v.vendor_id
+;
+
+GRANT ALL ON TABLE openchpl.ehr_certification_ids_and_products TO openchpl;
