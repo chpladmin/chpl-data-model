@@ -121,13 +121,17 @@ CREATE TABLE openchpl.vendor(
 	vendor_code varchar(16) DEFAULT nextval('openchpl.vendor_vendor_code_seq'),
 	address_id bigint,
 	contact_id bigint,
+	vendor_status_id bigint DEFAULT 1,
 	name varchar(300),
 	website varchar(300),
 	creation_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_user bigint NOT NULL,
 	deleted bool NOT NULL DEFAULT false,
-	CONSTRAINT vendor_pk PRIMARY KEY (vendor_id)
+	CONSTRAINT vendor_pk PRIMARY KEY (vendor_id),
+	CONSTRAINT vendor_status_fk FOREIGN KEY (vendor_status_id)
+      REFERENCES openchpl.vendor_status (vendor_status_id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE RESTRICT
 
 );
 -- ddl-end --
@@ -135,6 +139,17 @@ COMMENT ON TABLE openchpl.vendor IS 'Table to store vendors that are entered int
 -- ddl-end --
 --A LTER TABLE openchpl.vendor OWNER TO openchpl;
 -- ddl-end --
+
+CREATE TABLE openchpl.vendor_status(
+	vendor_status_id bigserial not null,
+	name varchar(100) not null,
+	creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
+	CONSTRAINT vendor_status_pk PRIMARY KEY (vendor_status_id),
+	CONSTRAINT vendor_status_unique_key UNIQUE (name)
+);
 
 CREATE TABLE openchpl.acb_vendor_map (
 	acb_vendor_map_id bigserial NOT NULL,
