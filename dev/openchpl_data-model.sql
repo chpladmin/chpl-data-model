@@ -108,6 +108,16 @@ COMMENT ON TABLE openchpl.product IS 'Table to store products that are submitted
 --A LTER TABLE openchpl.product OWNER TO openchpl;
 -- ddl-end --
 
+CREATE TABLE openchpl.vendor_status(
+	vendor_status_id bigserial not null,
+	name varchar(100) not null,
+	creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
+	CONSTRAINT vendor_status_pk PRIMARY KEY (vendor_status_id),
+	CONSTRAINT vendor_status_unique_key UNIQUE (name)
+);
 
 CREATE SEQUENCE openchpl.vendor_vendor_code_seq
     INCREMENT 1
@@ -139,17 +149,6 @@ COMMENT ON TABLE openchpl.vendor IS 'Table to store vendors that are entered int
 -- ddl-end --
 --A LTER TABLE openchpl.vendor OWNER TO openchpl;
 -- ddl-end --
-
-CREATE TABLE openchpl.vendor_status(
-	vendor_status_id bigserial not null,
-	name varchar(100) not null,
-	creation_date timestamp NOT NULL DEFAULT NOW(),
-	last_modified_date timestamp NOT NULL DEFAULT NOW(),
-	last_modified_user bigint NOT NULL,
-	deleted bool NOT NULL DEFAULT false,
-	CONSTRAINT vendor_status_pk PRIMARY KEY (vendor_status_id),
-	CONSTRAINT vendor_status_unique_key UNIQUE (name)
-);
 
 CREATE TABLE openchpl.acb_vendor_map (
 	acb_vendor_map_id bigserial NOT NULL,
