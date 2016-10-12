@@ -8,6 +8,14 @@ _TBD_
 
 ---
 
+## Version 5.1.1
+_4 October 2016_
+
+### Bugs fixed
+* Updated version file to only have one 'modification' to certified_product_details view
+
+---
+
 ## Version 5.1.0
 _4 October 2016_
 
