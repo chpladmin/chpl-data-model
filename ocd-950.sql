@@ -10,6 +10,8 @@ CREATE TABLE IF NOT EXISTS openchpl.vendor_status(
 	CONSTRAINT vendor_status_unique_key UNIQUE (name)
 );
 
+GRANT ALL ON TABLE openchpl.vendor_status TO openchpl;
+
 --insert data if it's not already there
 INSERT INTO openchpl.vendor_status
     (name, last_modified_user)
@@ -34,6 +36,9 @@ WHERE
     NOT EXISTS (
         SELECT name FROM openchpl.vendor_status WHERE name = 'Under certification ban by ONC'
     );
+
+--drop the views using this column so we are allowed to drop the column
+DROP VIEW IF EXISTS openchpl.certified_product_details;
 	
 --drop and add the column
 ALTER TABLE openchpl.vendor
@@ -55,7 +60,6 @@ DROP TRIGGER IF EXISTS vendor_status_timestamp on openchpl.vendor_status;
 CREATE TRIGGER vendor_status_timestamp BEFORE UPDATE on openchpl.vendor_status FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 
 --update the certified_product_details view to include vendor status info
-DROP VIEW IF EXISTS openchpl.certified_product_details;
 CREATE OR REPLACE VIEW openchpl.certified_product_details AS
 
 SELECT
@@ -153,3 +157,5 @@ FROM openchpl.certified_product a
     ON a.certified_product_id = s.certified_product_id
     LEFT JOIN (SELECT testing_lab_id, name as "testing_lab_name", testing_lab_code from openchpl.testing_lab) q on a.testing_lab_id = q.testing_lab_id
     ;
+	
+GRANT ALL ON TABLE openchpl.certified_product_details TO openchpl;
