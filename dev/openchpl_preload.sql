@@ -1177,6 +1177,7 @@ INSERT INTO user_permission (user_permission_id, "name", description, authority,
 (4, 'ATL_ADMIN' ,'This permission gives a user write access to their ATLs.',	'ROLE_ATL_ADMIN' , -1),
 (5, 'ATL_STAFF' ,'This permission gives a user write access to their ATLs.',	'ROLE_ATL_STAFF' , -1),
 (6, 'CMS_STAFF' ,'This permission gives a user read access to CMS reports.',	'ROLE_CMS_STAFF' , -1);
+(7, 'ONC_STAFF' ,'This permission gives a user access to the CMS Download file and report navigation section. It denies editing of Users/Products/CPs/ACBs/etc. No user invitation ability.', 'ROLE_ONC_STAFF' , -1);
 
 SELECT pg_catalog.setval('user_permission_user_permission_id_seq', 7, true);
 
