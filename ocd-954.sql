@@ -1,4 +1,5 @@
-﻿INSERT INTO openchpl.user_permission(
+﻿-- Add ONC Staff role to user_permission table to support API ROLE_ONC_STAFF
+INSERT INTO openchpl.user_permission(
             user_permission_id, name, description, authority, creation_date, 
             last_modified_date, last_modified_user, deleted)
     SELECT 7, 'ONC STAFF', 

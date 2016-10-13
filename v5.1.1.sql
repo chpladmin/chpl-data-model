@@ -324,6 +324,7 @@ ALTER TABLE openchpl.pending_certified_product DROP COLUMN IF EXISTS terms_of_us
 UPDATE openchpl.test_tool set retired = true where name = 'Transport Testing Tool';
 UPDATE openchpl.test_tool set retired = true where name = 'Transport Test Tool';
 
+-- Add ONC Staff role to user_permission table to support API ROLE_ONC_STAFF
 INSERT INTO openchpl.user_permission(
             user_permission_id, name, description, authority, creation_date, 
             last_modified_date, last_modified_user, deleted)
