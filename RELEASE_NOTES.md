@@ -5,6 +5,7 @@ _TBD_
 
 ### Changes
 * Added vendor_status table and new status foreign key in the vendor table
+* Added ONC Staff role to user_permission table
 
 ---
 
