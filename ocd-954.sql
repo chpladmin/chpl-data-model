@@ -5,3 +5,4 @@ INSERT INTO openchpl.user_permission(user_permission_id, "name", description, au
 	(SELECT user_permission_id 
 	FROM openchpl.user_permission 
 	WHERE user_permission_id = 7);
+	
