@@ -828,7 +828,7 @@ INSERT INTO openchpl.test_tool(name, last_modified_user) VALUES
 ('ePrescribing Validation Tool', -1),
 ('HL7 CDA Cancer Registry Reporting Validation Tool', -1),
 ('HL7 v2 Electronic Laboratory Reporting (ELR) Validation Tool', -1),
-('HL7 v2 Immunization Information System (IIS) Reporting Validation', -1),
+('HL7 v2 Immunization Information System (IIS) Reporting Validation Tool', -1),
 ('HL7 v2 Laboratory Results Interface (LRI) Validation Tool', -1),
 ('HL7 v2 Syndromic Surveillance Reporting Validation Tool', -1),
 ('Transport Testing Tool', -1),
