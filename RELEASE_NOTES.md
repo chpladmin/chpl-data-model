@@ -5,6 +5,7 @@ _TBD_
 
 ### Changes
 * Added vendor_status table and new status foreign key in the vendor table
+* Changed testing tool name from 'HL7 v2 Immunization Information System (IIS) Reporting Validation' to 'HL7 v2 Immunization Information System (IIS) Reporting Validation Tool'
 * Added ONC Staff role to user_permission table
 
 ---
