@@ -1,5 +1,23 @@
 # Release Notes
 
+## Version 5.2.0
+_21 October 2016_
+
+### Changes
+* Added vendor_status table and new status foreign key in the vendor table
+* Changed testing tool name from 'HL7 v2 Immunization Information System (IIS) Reporting Validation' to 'HL7 v2 Immunization Information System (IIS) Reporting Validation Tool'
+* Added ONC Staff role to user_permission table
+
+---
+
+## Version 5.1.1
+_4 October 2016_
+
+### Bugs fixed
+* Updated version file to only have one 'modification' to certified_product_details view
+
+---
+
 ## Version 5.1.0
 _4 October 2016_
 

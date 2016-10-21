@@ -7,6 +7,7 @@ insert into openchpl.cqm_version (version, last_modified_user) values ('v0', -1)
 insert into openchpl.certification_status (certification_status, last_modified_user) values ('Active', -1), ('Retired', -1), ('Withdrawn by Developer', -1), ('Withdrawn by ONC-ACB', -1), ('Pending', -1), ('Suspended by ONC-ACB', -1);
 insert into openchpl.education_type (name, last_modified_user) values ('No high school degree', -1), ('High school graduate, diploma or the equivalent (for example: GED)', -1), ('Some college credit, no degree', -1), ('Trade/technical/vocational training', -1), ('Associate degree', -1), ('Bachelor''s degree', -1), ('Master''s degree', -1), ('Doctorate degree (e.g., MD, DNP, DMD, PhD)', -1);
 insert into openchpl.test_participant_age (age, last_modified_user) values ('0-9', -1),('10-19', -1),('20-29', -1),('30-39', -1),('40-49', -1),('50-59', -1),('60-69', -1),('70-79', -1),('80-89', -1),('90-99', -1),('100+', -1);
+insert into openchpl.vendor_status (name, last_modified_user) values('Active', -1), ('Suspended by ONC', -1), ('Under certification ban by ONC', -1);
 
 INSERT INTO openchpl.certification_criterion (certification_edition_id, number, title, last_modified_user) VALUES
 (3, '170.315 (a)(1)', 'Computerized Provider Order Entry (CPOE) - Medications', -1),
@@ -827,7 +828,7 @@ INSERT INTO openchpl.test_tool(name, last_modified_user) VALUES
 ('ePrescribing Validation Tool', -1),
 ('HL7 CDA Cancer Registry Reporting Validation Tool', -1),
 ('HL7 v2 Electronic Laboratory Reporting (ELR) Validation Tool', -1),
-('HL7 v2 Immunization Information System (IIS) Reporting Validation', -1),
+('HL7 v2 Immunization Information System (IIS) Reporting Validation Tool', -1),
 ('HL7 v2 Laboratory Results Interface (LRI) Validation Tool', -1),
 ('HL7 v2 Syndromic Surveillance Reporting Validation Tool', -1),
 ('Transport Testing Tool', -1),
@@ -1175,9 +1176,10 @@ INSERT INTO user_permission (user_permission_id, "name", description, authority,
 (3, 'ACB_STAFF' ,'This permission gives a user read access to their ACBs',	'ROLE_ACB_STAFF' , -1),
 (4, 'ATL_ADMIN' ,'This permission gives a user write access to their ATLs.',	'ROLE_ATL_ADMIN' , -1),
 (5, 'ATL_STAFF' ,'This permission gives a user write access to their ATLs.',	'ROLE_ATL_STAFF' , -1),
-(6, 'CMS_STAFF' ,'This permission gives a user read access to CMS reports.',	'ROLE_CMS_STAFF' , -1);
+(6, 'CMS_STAFF' ,'This permission gives a user read access to CMS reports.',	'ROLE_CMS_STAFF' , -1),
+(7, 'ONC_STAFF' ,'This permission gives a user access to the CMS Download file and report navigation section. It denies editing of Users/Products/CPs/ACBs/etc. No user invitation ability.', 'ROLE_ONC_STAFF' , -1);
 
-SELECT pg_catalog.setval('user_permission_user_permission_id_seq', 7, true);
+SELECT pg_catalog.setval('user_permission_user_permission_id_seq', 8, true);
 
 INSERT INTO global_user_permission_map (user_id, user_permission_id_user_permission, last_modified_user) VALUES
 (-2, -2, -1);
