@@ -1,7 +1,7 @@
 # Release Notes
 
-## Version TBD
-_TBD_
+## Version 5.2.0
+_21 October 2016_
 
 ### Changes
 * Added vendor_status table and new status foreign key in the vendor table

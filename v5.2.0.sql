@@ -158,4 +158,13 @@ FROM openchpl.certified_product a
     LEFT JOIN (SELECT testing_lab_id, name as "testing_lab_name", testing_lab_code from openchpl.testing_lab) q on a.testing_lab_id = q.testing_lab_id
     ;
 	
-GRANT ALL ON TABLE openchpl.certified_product_details TO openchpl;
+GRANT ALL ON TABLE openchpl.certified_product_details TO openchpl;-- Add ONC Staff role to user_permission table to support API ROLE_ONC_STAFF
+INSERT INTO openchpl.user_permission(user_permission_id, "name", description, authority, last_modified_user)
+    SELECT 7, 'ONC_STAFF' ,'This permission gives a user access to the CMS Download file and report navigation section. It denies editing of Users/Products/CPs/ACBs/etc. No user invitation ability.', 'ROLE_ONC_STAFF' , -1
+	WHERE NOT EXISTS 
+	(SELECT user_permission_id 
+	FROM openchpl.user_permission 
+	WHERE user_permission_id = 7);
+	UPDATE openchpl.test_tool
+SET name = 'HL7 v2 Immunization Information System (IIS) Reporting Validation Tool'
+WHERE name = 'HL7 v2 Immunization Information System (IIS) Reporting Validation';
