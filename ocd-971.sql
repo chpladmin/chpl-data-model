@@ -1,4 +1,4 @@
-DROP TABLE openchpl.product_owner_history_map;
+DROP TABLE IF EXISTS openchpl.product_owner_history_map;
 
 CREATE TABLE IF NOT EXISTS openchpl.product_owner_history_map (
 	id bigserial NOT NULL,
@@ -21,3 +21,4 @@ GRANT ALL ON TABLE openchpl.product_owner_history_map TO openchpl;
 
 CREATE TRIGGER product_owner_history_map_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.product_owner_history_map FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER product_owner_history_map_timestamp BEFORE UPDATE on openchpl.product_owner_history_map FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
+
