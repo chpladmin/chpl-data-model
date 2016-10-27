@@ -703,6 +703,25 @@ CREATE TABLE openchpl.testing_lab(
 	deleted bool NOT NULL DEFAULT false,
 	CONSTRAINT testing_lab_pk PRIMARY KEY (testing_lab_id)
 );
+
+CREATE TABLE openchpl.product_owner_history_map (
+	id bigserial NOT NULL,
+	product_id bigint NOT NULL,
+	vendor_id bigint NOT NULL,
+	transfer_date timestamp NOT NULL DEFAULT NOW(),
+	creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
+	CONSTRAINT product_owner_history_map_pk PRIMARY KEY (id),
+	CONSTRAINT product_fk FOREIGN KEY (product_id) 
+		REFERENCES product (product_id) 
+		MATCH FULL ON DELETE CASCADE ON UPDATE CASCADE,
+	CONSTRAINT vendor_fk FOREIGN KEY (vendor_id) 
+		REFERENCES vendor (vendor_id) 
+		MATCH FULL ON DELETE CASCADE ON UPDATE CASCADE			
+);
+
 -- ddl-end --
 -- ALTER TABLE openchpl.testing_lab OWNER TO openchpl;
 -- ddl-end --
