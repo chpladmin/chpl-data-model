@@ -1,5 +1,13 @@
 # Release Notes
 
+## Version TBD
+_Date TBD_
+
+### Changes
+* Added script to remove three specific duplicate certified products
+
+---
+
 ## Version 5.2.0
 _21 October 2016_
 
