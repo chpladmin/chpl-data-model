@@ -5,6 +5,7 @@ _Date TBD_
 
 ### Changes
 * Added script to remove three specific duplicate certified products
+* Added product owner history relationship
 
 ---
 

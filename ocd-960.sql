@@ -33,3 +33,5 @@ $$ LANGUAGE plpgsql;
 select openchpl.deleteDuplicateCertifiedProducts();
 
 DROP FUNCTION openchpl.deleteDuplicateCertifiedProducts();
+
+
