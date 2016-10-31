@@ -235,3 +235,17 @@ FROM openchpl.ehr_certification_id ehr
 ;
 
 GRANT ALL ON TABLE openchpl.ehr_certification_ids_and_products TO openchpl;
+
+CREATE OR REPLACE VIEW openchpl.product_active_owner_history_map AS
+SELECT  id,
+	product_id,
+	vendor_id,
+	transfer_date,
+	creation_date,
+	last_modified_date,
+	last_modified_user,
+	deleted
+FROM openchpl.product_owner_history_map
+WHERE deleted = false;
+
+GRANT ALL ON TABLE openchpl.product_active_owner_history_map TO openchpl;
