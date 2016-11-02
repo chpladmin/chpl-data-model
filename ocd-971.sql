@@ -41,3 +41,5 @@ FROM openchpl.product_owner_history_map
 WHERE deleted = false;
 
 GRANT ALL ON TABLE openchpl.product_active_owner_history_map TO openchpl;
+
+
