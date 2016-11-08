@@ -95,7 +95,7 @@ CREATE TABLE openchpl.surveillance_requirement (
 		MATCH FULL ON DELETE SET NULL ON UPDATE CASCADE,
 	CONSTRAINT certification_criterion_fk FOREIGN KEY (certification_criterion_id) 
 		REFERENCES openchpl.certification_criterion (certification_criterion_id) 
-		MATCH FULL ON DELETE SET NULL ON UPDATE CASCADE,		
+		MATCH FULL ON DELETE CASCADE ON UPDATE CASCADE,		
 	CONSTRAINT result_fk FOREIGN KEY (result_id) 
 		REFERENCES openchpl.surveillance_result (id) 
 		MATCH FULL ON DELETE SET NULL ON UPDATE CASCADE		
@@ -129,7 +129,7 @@ CREATE TABLE openchpl.surveillance_nonconformity (
 		MATCH FULL ON DELETE CASCADE ON UPDATE CASCADE,
 	CONSTRAINT certification_criterion_fk FOREIGN KEY (certification_criterion_id) 
 		REFERENCES openchpl.certification_criterion (certification_criterion_id) 
-		MATCH FULL ON DELETE SET NULL ON UPDATE CASCADE,
+		MATCH FULL ON DELETE CASCADE ON UPDATE CASCADE,
 	CONSTRAINT nonconformity_status_fk FOREIGN KEY (nonconformity_status_id) 
 		REFERENCES openchpl.nonconformity_status (id) 
 		MATCH FULL ON DELETE SET NULL ON UPDATE CASCADE	
