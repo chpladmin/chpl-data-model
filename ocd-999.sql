@@ -152,6 +152,24 @@ CREATE TABLE openchpl.surveillance_nonconformity_document (
 		MATCH FULL ON DELETE CASCADE ON UPDATE CASCADE
 );
 
+-- permissions
+GRANT ALL ON TABLE openchpl.surveillance_type TO openchpl;
+GRANT ALL ON TABLE openchpl.surveillance_requirement_type TO openchpl;
+GRANT ALL ON TABLE openchpl.surveillance_result TO openchpl;
+GRANT ALL ON TABLE openchpl.nonconformity_status TO openchpl;
+GRANT ALL ON TABLE openchpl.surveillance TO openchpl;
+GRANT ALL ON TABLE openchpl.surveillance_requirement TO openchpl;
+GRANT ALL ON TABLE openchpl.surveillance_nonconformity TO openchpl;
+GRANT ALL ON TABLE openchpl.surveillance_nonconformity_document TO openchpl;
+GRANT ALL ON SEQUENCE openchpl.surveillance_type_id_seq TO openchpl;
+GRANT ALL ON SEQUENCE openchpl.surveillance_requirement_type_id_seq TO openchpl;
+GRANT ALL ON SEQUENCE openchpl.surveillance_result_id_seq TO openchpl;
+GRANT ALL ON SEQUENCE openchpl.nonconformity_status_id_seq TO openchpl;
+GRANT ALL ON SEQUENCE openchpl.surveillance_id_seq TO openchpl;
+GRANT ALL ON SEQUENCE openchpl.surveillance_requirement_id_seq TO openchpl;
+GRANT ALL ON SEQUENCE openchpl.surveillance_nonconformity_id_seq TO openchpl;
+GRANT ALL ON SEQUENCE openchpl.surveillance_nonconformity_document_id_seq TO openchpl;
+
 --audit
 
 CREATE TRIGGER nonconformity_status_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.nonconformity_status FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();

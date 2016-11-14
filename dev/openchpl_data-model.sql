@@ -2289,6 +2289,8 @@ CREATE TABLE openchpl.surveillance_nonconformity_document (
 
 CREATE TABLE openchpl.pending_surveillance (
 	id bigserial not null,
+	surveillance_id_to_replace bigint,
+	certified_product_id bigint, 
 	certified_product_unique_id varchar(30),
 	start_date date,
 	end_date date,
@@ -2320,7 +2322,7 @@ CREATE TABLE openchpl.pending_surveillance_requirement (
 CREATE TABLE openchpl.pending_surveillance_nonconformity (
 	id bigserial not null,
 	pending_surveillance_requirement_id bigint not null,
-	nonconformtiy_type varchar(1024), 
+	nonconformity_type varchar(1024), 
 	nonconformity_status varchar(15),
 	date_of_determination date,
 	corrective_action_plan_approval_date date,
