@@ -8,6 +8,8 @@ DROP TABLE IF EXISTS openchpl.pending_surveillance;
 
 CREATE TABLE openchpl.pending_surveillance (
 	id bigserial not null,
+	surveillance_id_to_replace bigint,
+	certified_product_id bigint, 
 	certified_product_unique_id varchar(100),
 	start_date date,
 	end_date date,
@@ -39,7 +41,7 @@ CREATE TABLE openchpl.pending_surveillance_requirement (
 CREATE TABLE openchpl.pending_surveillance_nonconformity (
 	id bigserial not null,
 	pending_surveillance_requirement_id bigint not null,
-	nonconformtiy_type varchar(1024), 
+	nonconformity_type varchar(1024), 
 	nonconformity_status varchar(15),
 	date_of_determination date,
 	corrective_action_plan_approval_date date,
@@ -62,8 +64,15 @@ CREATE TABLE openchpl.pending_surveillance_nonconformity (
 		MATCH FULL ON DELETE CASCADE ON UPDATE CASCADE
 );
 
---audit
+-- permission
+GRANT ALL ON TABLE openchpl.pending_surveillance TO openchpl;
+GRANT ALL ON TABLE openchpl.pending_surveillance_requirement TO openchpl;
+GRANT ALL ON TABLE openchpl.pending_surveillance_nonconformity TO openchpl;
+GRANT ALL ON SEQUENCE openchpl.pending_surveillance_id_seq TO openchpl;
+GRANT ALL ON SEQUENCE openchpl.pending_surveillance_requirement_id_seq TO openchpl;
+GRANT ALL ON SEQUENCE openchpl.pending_surveillance_nonconformity_id_seq TO openchpl;
 
+--audit
 CREATE TRIGGER pending_surveillance_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.pending_surveillance FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER pending_surveillance_timestamp BEFORE UPDATE on openchpl.pending_surveillance FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER pending_surveillance_nonconformity_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.pending_surveillance_nonconformity FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
