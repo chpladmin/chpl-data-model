@@ -255,6 +255,8 @@ CREATE TRIGGER surveillance_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.s
 CREATE TRIGGER surveillance_timestamp BEFORE UPDATE on openchpl.surveillance FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER surveillance_nonconformity_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.surveillance_nonconformity FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER surveillance_nonconformity_timestamp BEFORE UPDATE on openchpl.surveillance_nonconformity FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
+CREATE TRIGGER surveillance_nonconformity_document_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.surveillance_nonconformity_document FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+CREATE TRIGGER surveillance_nonconformity_document_timestamp BEFORE UPDATE on openchpl.surveillance_nonconformity_document FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER surveillance_requirement_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.surveillance_requirement FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER surveillance_requirement_timestamp BEFORE UPDATE on openchpl.surveillance_requirement FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER surveillance_requirement_type_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.surveillance_requirement_type FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();

@@ -2202,7 +2202,7 @@ CREATE TABLE openchpl.surveillance (
 	last_modified_user bigint NOT NULL,
 	deleted bool NOT NULL DEFAULT false,
 	CONSTRAINT surveillance_pk PRIMARY KEY (id),
-	CONSTRAINT certified_product_fk FOREIGN KEY (type_id) 
+	CONSTRAINT certified_product_fk FOREIGN KEY (certified_product_id) 
 		REFERENCES openchpl.certified_product (certified_product_id) 
 		MATCH FULL ON DELETE CASCADE ON UPDATE CASCADE,	
 	CONSTRAINT type_fk FOREIGN KEY (type_id) 
@@ -2269,6 +2269,22 @@ CREATE TABLE openchpl.surveillance_nonconformity (
 	CONSTRAINT nonconformity_status_fk FOREIGN KEY (nonconformity_status_id) 
 		REFERENCES openchpl.nonconformity_status (id) 
 		MATCH FULL ON DELETE SET NULL ON UPDATE CASCADE	
+);
+
+CREATE TABLE openchpl.surveillance_nonconformity_document (
+	id bigserial not null,
+	surveillance_nonconformity_id bigint not null,
+	filename varchar(250) NOT NULL,
+	filetype varchar(250),
+	filedata bytea not null,
+	creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
+	CONSTRAINT surveillance_nonconformity_document_pk PRIMARY KEY (id),
+	CONSTRAINT surveillance_nonconformity_fk FOREIGN KEY (surveillance_nonconformity_id) 
+		REFERENCES openchpl.surveillance_nonconformity (id) 
+		MATCH FULL ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE openchpl.pending_surveillance (
