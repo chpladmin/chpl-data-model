@@ -1,5 +1,14 @@
 # Release Notes
 
+## Version 6.0.0
+_15 November 2016_
+
+### Changes
+* Added script to remove three specific duplicate certified products
+* Added product owner history relationship
+
+---
+
 ## Version 5.2.0
 _21 October 2016_
 
