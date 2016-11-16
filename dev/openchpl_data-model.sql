@@ -2354,13 +2354,12 @@ DECLARE
 	v_num_survs text;
 BEGIN
 	SELECT cast (count(*)+1 as text) INTO v_num_survs from openchpl.surveillance where certified_product_id = NEW.certified_product_id;
-	UPDATE openchpl.surveillance 
-	SET friendly_surveillance_id = 'SURV' || lpad(v_num_survs, 2, '0')
-	WHERE id = NEW.id;
+	NEW.friendly_id = 'SURV' || lpad(v_num_survs, 2, '0');
+	RETURN NEW;
 END;
 $$ language 'plpgsql';
 
-CREATE TRIGGER surveillance_friendly_id AFTER INSERT on openchpl.surveillance FOR EACH ROW EXECUTE PROCEDURE openchpl.friendly_surveillance_id_func();
+CREATE TRIGGER surveillance_friendly_id BEFORE INSERT on openchpl.surveillance FOR EACH ROW EXECUTE PROCEDURE openchpl.friendly_surveillance_id_func();
 
 -- Table: openchpl.ehr_certification_id
 
