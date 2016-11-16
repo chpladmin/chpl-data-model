@@ -58,6 +58,7 @@ CREATE TABLE openchpl.nonconformity_status (
 CREATE TABLE openchpl.surveillance (
 	id bigserial not null,
 	certified_product_id bigint not null,
+	friendly_id varchar(10) NOT NULL, -- is filled in with a trigger
 	start_date date not null,
 	end_date date,
 	type_id bigint not null,
@@ -67,6 +68,7 @@ CREATE TABLE openchpl.surveillance (
 	last_modified_user bigint NOT NULL,
 	deleted bool NOT NULL DEFAULT false,
 	CONSTRAINT surveillance_pk PRIMARY KEY (id),
+	CONSTRAINT friendly_id_cp_unique_key UNIQUE (certified_product_id, friendly_id),
 	CONSTRAINT certified_product_fk FOREIGN KEY (certified_product_id) 
 		REFERENCES openchpl.certified_product (certified_product_id) 
 		MATCH FULL ON DELETE CASCADE ON UPDATE CASCADE,	
@@ -152,6 +154,21 @@ CREATE TABLE openchpl.surveillance_nonconformity_document (
 		MATCH FULL ON DELETE CASCADE ON UPDATE CASCADE
 );
 
+-- friendly id trigger/function
+
+CREATE OR REPLACE FUNCTION openchpl.friendly_surveillance_id_func()
+RETURNS TRIGGER AS $$
+DECLARE
+	v_num_survs text;
+BEGIN
+	SELECT cast (count(*)+1 as text) INTO v_num_survs from openchpl.surveillance where certified_product_id = NEW.certified_product_id;
+	NEW.friendly_id = 'SURV' || lpad(v_num_survs, 2, '0');
+	RETURN NEW;
+END;
+$$ language 'plpgsql';
+
+CREATE TRIGGER surveillance_friendly_id BEFORE INSERT on openchpl.surveillance FOR EACH ROW EXECUTE PROCEDURE openchpl.friendly_surveillance_id_func();
+
 -- permissions
 GRANT ALL ON TABLE openchpl.surveillance_type TO openchpl;
 GRANT ALL ON TABLE openchpl.surveillance_requirement_type TO openchpl;
@@ -169,6 +186,7 @@ GRANT ALL ON SEQUENCE openchpl.surveillance_id_seq TO openchpl;
 GRANT ALL ON SEQUENCE openchpl.surveillance_requirement_id_seq TO openchpl;
 GRANT ALL ON SEQUENCE openchpl.surveillance_nonconformity_id_seq TO openchpl;
 GRANT ALL ON SEQUENCE openchpl.surveillance_nonconformity_document_id_seq TO openchpl;
+GRANT ALL ON FUNCTION openchpl.friendly_surveillance_id_func() TO openchpl;
 
 --audit
 
