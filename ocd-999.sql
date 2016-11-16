@@ -107,7 +107,7 @@ CREATE TABLE openchpl.surveillance_nonconformity (
 	surveillance_requirement_id bigint not null,
 	-- either criteria or type is required
 	certification_criterion_id bigint,
-	nonconformtiy_type varchar(1024), 
+	nonconformity_type varchar(1024), 
 	nonconformity_status_id bigint not null,
 	date_of_determination date not null,
 	corrective_action_plan_approval_date date,
