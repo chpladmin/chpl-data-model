@@ -47,6 +47,16 @@ CREATE TEMP TABLE surveillance_nonconformity_document AS
 	FROM openchpl.corrective_action_plan_documentation D
 	LEFT JOIN surveillance_nonconformity SN ON D.corrective_action_plan_id = SN.corrective_action_plan_id;
 
+-- Disable triggers
+ALTER TABLE openchpl.surveillance DISABLE TRIGGER surveillance_audit;
+ALTER TABLE openchpl.surveillance DISABLE TRIGGER surveillance_timestamp;
+ALTER TABLE openchpl.surveillance_nonconformity DISABLE TRIGGER surveillance_nonconformity_audit;
+ALTER TABLE openchpl.surveillance_nonconformity DISABLE TRIGGER surveillance_nonconformity_timestamp;
+ALTER TABLE openchpl.surveillance_requirement DISABLE TRIGGER surveillance_requirement_audit;
+ALTER TABLE openchpl.surveillance_requirement DISABLE TRIGGER surveillance_requirement_timestamp;
+ALTER TABLE openchpl.surveillance_nonconformity_document DISABLE TRIGGER surveillance_nonconformity_document_audit;
+ALTER TABLE openchpl.surveillance_nonconformity_document DISABLE TRIGGER surveillance_nonconformity_document_timestamp;
+
 -- Insert from each temp staging table into the destination table
 INSERT INTO openchpl.surveillance 
 	(id, certified_product_id, start_date, end_date, type_id, randomized_sites_used, 
@@ -90,6 +100,16 @@ INSERT INTO openchpl.surveillance_nonconformity_document
 	id, surveillance_nonconformity_id, filename, filetype, filedata, 
 	creation_date, last_modified_date, last_modified_user, deleted
 	FROM surveillance_nonconformity_document;
+
+-- Enable triggers
+ALTER TABLE openchpl.surveillance ENABLE TRIGGER surveillance_audit;
+ALTER TABLE openchpl.surveillance ENABLE TRIGGER surveillance_timestamp;
+ALTER TABLE openchpl.surveillance_nonconformity ENABLE TRIGGER surveillance_nonconformity_audit;
+ALTER TABLE openchpl.surveillance_nonconformity ENABLE TRIGGER surveillance_nonconformity_timestamp;
+ALTER TABLE openchpl.surveillance_requirement ENABLE TRIGGER surveillance_requirement_audit;
+ALTER TABLE openchpl.surveillance_requirement ENABLE TRIGGER surveillance_requirement_timestamp;
+ALTER TABLE openchpl.surveillance_nonconformity_document ENABLE TRIGGER surveillance_nonconformity_document_audit;
+ALTER TABLE openchpl.surveillance_nonconformity_document ENABLE TRIGGER surveillance_nonconformity_document_timestamp;
 
 -- Drop temp tables
 DROP TABLE IF EXISTS surveillance;
