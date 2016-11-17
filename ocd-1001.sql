@@ -91,6 +91,12 @@ INSERT INTO openchpl.surveillance_nonconformity_document
 	creation_date, last_modified_date, last_modified_user, deleted
 	FROM surveillance_nonconformity_document;
 
+-- Drop temp tables
+DROP TABLE IF EXISTS surveillance;
+DROP TABLE IF EXISTS surveillance_requirement;
+DROP TABLE IF EXISTS surveillance_nonconformity;
+DROP TABLE IF EXISTS surveillance_nonconformity_document;
+
 -- Update sequence numbers
 SELECT pg_catalog.setval(pg_get_serial_sequence('openchpl.surveillance', 'id'), (SELECT MAX(id) FROM openchpl.surveillance)+1);
 SELECT pg_catalog.setval(pg_get_serial_sequence('openchpl.surveillance_requirement', 'id'), (SELECT MAX(id) FROM openchpl.surveillance_requirement)+1);
