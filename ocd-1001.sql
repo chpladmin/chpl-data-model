@@ -112,15 +112,12 @@ LANGUAGE 'plpgsql' IMMUTABLE;
 -- Output certified Product ID for any CAP that is defined as "general " so Jennifer can look at them
 -- Note: "general" would be whenever a CAP does not have an associated certification_criterion; 
 -- in other words, "general" is whenever there is no corrective_action_plan_id in the corrective_action_plan_certification_result table.
-SELECT print_notice('Create temp table called generalCPs with Certified Product IDs for any CAP that is defined as "general"');
+SELECT print_notice('Please send the following "general" Certified Product IDs to Jennifer for review:');
 
-DROP TABLE IF EXISTS generalCPs;
-CREATE TEMP TABLE generalCPs AS
+DROP FUNCTION IF EXISTS print_notice(text);
+
 SELECT C.certified_product_id
 FROM openchpl.corrective_action_plan C
 LEFT JOIN openchpl.corrective_action_plan_certification_result CR ON C.corrective_action_plan_id = CR.corrective_action_plan_id
 WHERE C.corrective_action_plan_id IS NOT NULL AND CR.corrective_action_plan_id IS NULL;
-
-SELECT print_notice('Please run the following command to output the table generalCPs to a CSV for Jennifer to review:
-COPY (SELECT * FROM generalCPs) TO ''/generalCPs.copy;''');
 
