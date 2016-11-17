@@ -2193,6 +2193,7 @@ CREATE TABLE openchpl.nonconformity_status (
 CREATE TABLE openchpl.surveillance (
 	id bigserial not null,
 	certified_product_id bigint not null,
+	friendly_id varchar(10), -- will be null when inserted but filled in with a trigger. in practice, will not be null
 	start_date date not null,
 	end_date date,
 	type_id bigint not null,
@@ -2242,7 +2243,7 @@ CREATE TABLE openchpl.surveillance_nonconformity (
 	surveillance_requirement_id bigint not null,
 	-- either criteria or type is required
 	certification_criterion_id bigint,
-	nonconformtiy_type varchar(1024), 
+	nonconformity_type varchar(1024), 
 	nonconformity_status_id bigint not null,
 	date_of_determination date not null,
 	corrective_action_plan_approval_date date,
@@ -2289,7 +2290,7 @@ CREATE TABLE openchpl.surveillance_nonconformity_document (
 
 CREATE TABLE openchpl.pending_surveillance (
 	id bigserial not null,
-	surveillance_id_to_replace bigint,
+	surveillance_id_to_replace varchar(10),
 	certified_product_id bigint, 
 	certified_product_unique_id varchar(30),
 	start_date date,
@@ -2344,6 +2345,21 @@ CREATE TABLE openchpl.pending_surveillance_nonconformity (
 		REFERENCES openchpl.pending_surveillance_requirement (id) 
 		MATCH FULL ON DELETE CASCADE ON UPDATE CASCADE
 );
+
+-- friendly id trigger/function
+
+CREATE OR REPLACE FUNCTION openchpl.friendly_surveillance_id_func()
+RETURNS TRIGGER AS $$
+DECLARE
+	v_num_survs text;
+BEGIN
+	SELECT cast (count(*)+1 as text) INTO v_num_survs from openchpl.surveillance where certified_product_id = NEW.certified_product_id;
+	NEW.friendly_id = 'SURV' || lpad(v_num_survs, 2, '0');
+	RETURN NEW;
+END;
+$$ language 'plpgsql';
+
+CREATE TRIGGER surveillance_friendly_id BEFORE INSERT on openchpl.surveillance FOR EACH ROW EXECUTE PROCEDURE openchpl.friendly_surveillance_id_func();
 
 -- Table: openchpl.ehr_certification_id
 

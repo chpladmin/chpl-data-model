@@ -8,7 +8,7 @@ DROP TABLE IF EXISTS openchpl.pending_surveillance;
 
 CREATE TABLE openchpl.pending_surveillance (
 	id bigserial not null,
-	surveillance_id_to_replace bigint,
+	surveillance_id_to_replace varchar(10),
 	certified_product_id bigint, 
 	certified_product_unique_id varchar(100),
 	start_date date,
