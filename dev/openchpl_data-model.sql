@@ -1,4 +1,4 @@
--- Database generated with pgModeler (PostgreSQL Database Modeler).
+﻿-- Database generated with pgModeler (PostgreSQL Database Modeler).
 -- pgModeler  version: 0.8.0
 -- PostgreSQL version: 9.4
 -- Project Site: pgmodeler.com.br
@@ -247,6 +247,7 @@ CREATE TABLE openchpl.certified_product(
 	creation_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_user bigint NOT NULL,
+	meaningful_use_users bigint,
 	deleted bool NOT NULL DEFAULT false,
 	CONSTRAINT certified_product_pk PRIMARY KEY (certified_product_id)
 

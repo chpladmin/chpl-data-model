@@ -1,4 +1,4 @@
-CREATE OR REPLACE VIEW openchpl.certification_result_details AS
+﻿CREATE OR REPLACE VIEW openchpl.certification_result_details AS
 
 SELECT
     a.certification_result_id,
@@ -82,6 +82,7 @@ SELECT
     a.accessibility_certified,
     a.product_additional_software,
     a.last_modified_date,
+    a.meaningful_use_users,
     b.year,
     c.certification_body_name,
     c.certification_body_code,
