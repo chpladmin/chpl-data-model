@@ -221,3 +221,5 @@ values ('Non-Conformity', -1), ('No Non-Conformity', -1);
 
 INSERT INTO openchpl.nonconformity_status (name, last_modified_user)
 values ('Open', -1), ('Closed', -1);
+
+
