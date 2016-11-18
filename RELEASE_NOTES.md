@@ -1,5 +1,15 @@
 # Release Notes
 
+## Version TBD
+_Date TBD_
+
+### Features Added
+* Add add meaningful_use_users column to certified_product & certified_product_details
+
+### Bugs Fixed
+
+--- 
+
 ## Version 6.0.0
 _15 November 2016_
 
