@@ -6,6 +6,9 @@ _15 November 2016_
 ### Changes
 * Added script to remove three specific duplicate certified products
 * Added product owner history relationship
+* Add surveillance tables to the database 
+* Add pending surveillance tables to the database.
+* Add script to migrate corrective action plan tables to surveillance tables
 
 ---
 
