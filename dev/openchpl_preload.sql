@@ -9,6 +9,19 @@ insert into openchpl.education_type (name, last_modified_user) values ('No high 
 insert into openchpl.test_participant_age (age, last_modified_user) values ('0-9', -1),('10-19', -1),('20-29', -1),('30-39', -1),('40-49', -1),('50-59', -1),('60-69', -1),('70-79', -1),('80-89', -1),('90-99', -1),('100+', -1);
 insert into openchpl.vendor_status (name, last_modified_user) values('Active', -1), ('Suspended by ONC', -1), ('Under certification ban by ONC', -1);
 
+INSERT INTO openchpl.surveillance_type (name, last_modified_user)
+values ('Reactive', -1),('Randomized', -1);
+
+INSERT INTO openchpl.surveillance_requirement_type (name, last_modified_user)
+values ('Certified Capability', -1), ('Transparency or Disclosure Requirement', -1),
+('Other Requirement', -1);
+
+INSERT INTO openchpl.surveillance_result (name, last_modified_user)
+values ('Non-Conformity', -1), ('No Non-Conformity', -1);
+
+INSERT INTO openchpl.nonconformity_status (name, last_modified_user)
+values ('Open', -1), ('Closed', -1);
+
 INSERT INTO openchpl.certification_criterion (certification_edition_id, number, title, last_modified_user) VALUES
 (3, '170.315 (a)(1)', 'Computerized Provider Order Entry (CPOE) - Medications', -1),
 (3, '170.315 (a)(2)', 'CPOE - Laboratory', -1),
