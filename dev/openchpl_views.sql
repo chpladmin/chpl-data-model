@@ -148,7 +148,6 @@ FROM openchpl.certified_product a
     ON a.certified_product_id = s.certified_product_id
     LEFT JOIN (SELECT testing_lab_id, name as "testing_lab_name", testing_lab_code from openchpl.testing_lab) q on a.testing_lab_id = q.testing_lab_id
     ;
-	GRANT ALL ON TABLE openchpl.certified_product_details TO openchpl;
 
 -- ALTER VIEW openchpl.certified_product_details OWNER TO openchpl;
 
