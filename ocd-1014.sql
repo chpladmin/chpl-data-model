@@ -1,4 +1,4 @@
-﻿CREATE OR REPLACE FUNCTION add_column(schema_name TEXT, table_name TEXT, 
+CREATE OR REPLACE FUNCTION add_column(schema_name TEXT, table_name TEXT, 
 column_name TEXT, data_type TEXT)
 RETURNS BOOLEAN
 AS
@@ -269,4 +269,5 @@ CREATE OR REPLACE VIEW openchpl.certified_product_details AS
 		    testing_lab.name AS testing_lab_name,
 		    testing_lab.testing_lab_code
 		   FROM openchpl.testing_lab) q ON a.testing_lab_id = q.testing_lab_id;
+		   GRANT ALL ON TABLE openchpl.certified_product_details TO openchpl;
 
