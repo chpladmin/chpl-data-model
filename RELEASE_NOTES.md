@@ -1,14 +1,21 @@
 # Release Notes
 
+## Version TBD
+_Date TBD_
+
+### Changes
+* Add surveillance tables to the database
+* Add pending surveillance tables to the database
+* Add add meaningful_use_users column to certified_product & certified_product_details
+
+--- 
+
 ## Version 6.0.0
 _15 November 2016_
 
 ### Changes
 * Added script to remove three specific duplicate certified products
 * Added product owner history relationship
-* Add surveillance tables to the database 
-* Add pending surveillance tables to the database.
-* Add script to migrate corrective action plan tables to surveillance tables
 
 ---
 

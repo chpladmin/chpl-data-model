@@ -1,4 +1,4 @@
-﻿-- Clear all receiving tables. Note: cascade on surveillance also impacts surveillance_requirement, surveillance_nonconformity, and surveillance_nonconformity_document
+-- Clear all receiving tables. Note: cascade on surveillance also impacts surveillance_requirement, surveillance_nonconformity, and surveillance_nonconformity_document
 TRUNCATE openchpl.surveillance CASCADE;
 
 -- Build temp staging tables for each destination table
