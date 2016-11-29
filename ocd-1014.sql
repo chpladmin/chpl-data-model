@@ -1,4 +1,4 @@
-CREATE OR REPLACE FUNCTION add_column(schema_name TEXT, table_name TEXT, 
+CREATE OR REPLACE FUNCTION openchpl.add_column(schema_name TEXT, table_name TEXT, 
 column_name TEXT, data_type TEXT)
 RETURNS BOOLEAN
 AS
@@ -27,9 +27,9 @@ END;
 $BODY$
 LANGUAGE 'plpgsql';
 
-SELECT add_column('openchpl', 'certified_product', 'meaningful_use_users', 'BIGINT');
+SELECT openchpl.add_column('openchpl', 'certified_product', 'meaningful_use_users', 'BIGINT');
 
-DROP FUNCTION IF EXISTS add_column(text, text, text, text);
+DROP FUNCTION IF EXISTS openchpl.add_column(text, text, text, text);
 
 DROP VIEW IF EXISTS openchpl.certified_product_details;
 CREATE OR REPLACE VIEW openchpl.certified_product_details AS 
