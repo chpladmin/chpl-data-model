@@ -32,7 +32,8 @@ CREATE TEMP TABLE surveillance_nonconformity AS
 	CASE WHEN c.surveillance_end IS NULL THEN 1 ELSE 2 END AS nonconformity_status_id, c.noncompliance_determination_date AS date_of_determination, 
 	c.approval_date AS corrective_action_plan_approval_date, c.surveillance_start AS corrective_action_start_date, 
 	c.completion_date_required AS corrective_action_must_complete_date, c.completion_date_actual AS corrective_action_end_date, 
-	c.summary, 'N/A' AS findings, CR.num_sites_passed AS sites_passed, CR.num_sites_total AS total_sites, c.developer_explanation, 
+	CASE WHEN c.summary IS NULL THEN 'Not available' ELSE c.summary END AS summary, 
+	'N/A' AS findings, CR.num_sites_passed AS sites_passed, CR.num_sites_total AS total_sites, c.developer_explanation, 
 	c.resolution, c.creation_date, c.last_modified_date, c.last_modified_user, c.deleted, c.corrective_action_plan_id
 	FROM openchpl.corrective_action_plan c
 	LEFT JOIN surveillance_requirement r ON c.corrective_action_plan_id = r.surveillance_id
