@@ -3,10 +3,10 @@
 ## Version TBD
 _Date TBD_
 
-### Features Added
+### Changes
+* Add surveillance tables to the database
+* Add pending surveillance tables to the database
 * Add add meaningful_use_users column to certified_product & certified_product_details
-
-### Bugs Fixed
 
 --- 
 
