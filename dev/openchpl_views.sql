@@ -157,7 +157,9 @@ SELECT v.vendor_id,
     count(cp.certified_product_id) FILTER (WHERE cs.certification_status::text = 'Retired'::text) AS retired,
     count(cp.certified_product_id) FILTER (WHERE cs.certification_status::text = 'Withdrawn by Developer'::text) AS withdrawn_by_developer,
     count(cp.certified_product_id) FILTER (WHERE cs.certification_status::text = 'Withdrawn by ONC-ACB'::text) AS withdrawn_by_acb,
-    count(cp.certified_product_id) FILTER (WHERE cs.certification_status::text = 'Suspended by ONC-ACB'::text) AS suspended_by_acb
+    count(cp.certified_product_id) FILTER (WHERE cs.certification_status::text = 'Suspended by ONC-ACB'::text) AS suspended_by_acb,
+    count(cp.certified_product_id) FILTER (WHERE cs.certification_status::text = 'Suspended by ONC'::text) AS suspended_by_onc,
+    count(cp.certified_product_id) FILTER (WHERE cs.certification_status::text = 'Terminated by ONC'::text) AS terminated_by_onc
 FROM openchpl.vendor v
     LEFT JOIN openchpl.product p ON v.vendor_id = p.vendor_id
     LEFT JOIN openchpl.product_version pv ON p.product_id = pv.product_id
@@ -166,7 +168,6 @@ FROM openchpl.vendor v
 GROUP BY v.vendor_id;
 
 --ALTER TABLE openchpl.developer_certification_statuses OWNER TO openchpl;
-    GRANT ALL ON TABLE openchpl.developer_certification_statuses TO openchpl;
 
 CREATE OR REPLACE VIEW openchpl.product_certification_statuses AS
 SELECT p.product_id,
@@ -174,7 +175,9 @@ SELECT p.product_id,
     count(cp.certified_product_id) FILTER (WHERE cs.certification_status::text = 'Retired'::text) AS retired,
     count(cp.certified_product_id) FILTER (WHERE cs.certification_status::text = 'Withdrawn by Developer'::text) AS withdrawn_by_developer,
     count(cp.certified_product_id) FILTER (WHERE cs.certification_status::text = 'Withdrawn by ONC-ACB'::text) AS withdrawn_by_acb,
-    count(cp.certified_product_id) FILTER (WHERE cs.certification_status::text = 'Suspended by ONC-ACB'::text) AS suspended_by_acb
+    count(cp.certified_product_id) FILTER (WHERE cs.certification_status::text = 'Suspended by ONC-ACB'::text) AS suspended_by_acb,
+    count(cp.certified_product_id) FILTER (WHERE cs.certification_status::text = 'Suspended by ONC'::text) AS suspended_by_onc,
+    count(cp.certified_product_id) FILTER (WHERE cs.certification_status::text = 'Terminated by ONC'::text) AS terminated_by_onc
 FROM openchpl.product p
     LEFT JOIN openchpl.product_version pv ON p.product_id = pv.product_id
     LEFT JOIN openchpl.certified_product cp ON pv.product_version_id = cp.product_version_id
@@ -182,7 +185,6 @@ FROM openchpl.product p
 GROUP BY p.product_id;
 
 --ALTER TABLE openchpl.product_certification_statuses OWNER TO openchpl;
-    GRANT ALL ON TABLE openchpl.product_certification_statuses TO openchpl;
 
 -- View: openchpl.acb_developer_transparency_mappings
 
@@ -201,8 +203,6 @@ FROM openchpl.vendor
 WHERE (certification_body.deleted = false OR certification_body.deleted IS NULL) AND vendor.deleted = false;
 
 --ALTER TABLE openchpl.acb_developer_transparency_mappings OWNER TO openchpl;
-
-    GRANT ALL ON TABLE openchpl.acb_developer_transparency_mappings TO openchpl;
 
 CREATE OR REPLACE VIEW openchpl.ehr_certification_ids_and_products AS
 SELECT 
@@ -235,8 +235,6 @@ FROM openchpl.ehr_certification_id ehr
 	LEFT JOIN (SELECT vendor_id, vendor_code from openchpl.vendor) v ON prod.vendor_id = v.vendor_id
 ;
 
-GRANT ALL ON TABLE openchpl.ehr_certification_ids_and_products TO openchpl;
-
 CREATE OR REPLACE VIEW openchpl.product_active_owner_history_map AS
 SELECT  id,
 	product_id,
@@ -248,5 +246,3 @@ SELECT  id,
 	deleted
 FROM openchpl.product_owner_history_map
 WHERE deleted = false;
-
-GRANT ALL ON TABLE openchpl.product_active_owner_history_map TO openchpl;
