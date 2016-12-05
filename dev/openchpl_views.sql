@@ -86,7 +86,7 @@ SELECT
     b.year,
     c.certification_body_name,
     c.certification_body_code,
-    c.is_acb_deleted
+    c.is_acb_deleted,
     d.product_classification_name,
     e.practice_type_name,
     f.product_version,
