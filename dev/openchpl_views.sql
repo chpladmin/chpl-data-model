@@ -86,7 +86,7 @@ SELECT
     b.year,
     c.certification_body_name,
     c.certification_body_code,
-    c.is_acb_deleted,
+    c.acb_is_deleted,
     d.product_classification_name,
     e.practice_type_name,
     f.product_version,
@@ -125,7 +125,7 @@ SELECT
 FROM openchpl.certified_product a
 
     LEFT JOIN (SELECT certification_edition_id, year FROM openchpl.certification_edition) b on a.certification_edition_id = b.certification_edition_id
-    LEFT JOIN (SELECT certification_body_id, name as "certification_body_name", acb_code as "certification_body_code", deleted as "is_acb_deleted" FROM openchpl.certification_body) c on a.certification_body_id = c.certification_body_id
+    LEFT JOIN (SELECT certification_body_id, name as "certification_body_name", acb_code as "certification_body_code", deleted as "acb_is_deleted" FROM openchpl.certification_body) c on a.certification_body_id = c.certification_body_id
     LEFT JOIN (SELECT product_classification_type_id, name as "product_classification_name" FROM openchpl.product_classification_type) d on a.product_classification_type_id = d.product_classification_type_id
     LEFT JOIN (SELECT practice_type_id, name as "practice_type_name" from openchpl.practice_type) e on a.practice_type_id = e.practice_type_id
     LEFT JOIN (SELECT product_version_id, version as "product_version", product_id from openchpl.product_version) f on a.product_version_id = f.product_version_id
