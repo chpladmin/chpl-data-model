@@ -1,4 +1,4 @@
-DROP VIEW openchpl.certified_product_details;
+﻿DROP VIEW openchpl.certified_product_details;
 
 CREATE OR REPLACE VIEW openchpl.certified_product_details AS 
  SELECT a.certified_product_id,
@@ -76,7 +76,7 @@ CREATE OR REPLACE VIEW openchpl.certified_product_details AS
      LEFT JOIN ( SELECT certification_body.certification_body_id,
             certification_body.name AS certification_body_name,
             certification_body.acb_code AS certification_body_code,
-            deleted AS acb_is_deleted
+            certification_body.deleted AS acb_is_deleted
            FROM openchpl.certification_body) c ON a.certification_body_id = c.certification_body_id
      LEFT JOIN ( SELECT product_classification_type.product_classification_type_id,
             product_classification_type.name AS product_classification_name
