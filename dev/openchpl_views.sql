@@ -1,4 +1,4 @@
-﻿CREATE OR REPLACE VIEW openchpl.certification_result_details AS
+CREATE OR REPLACE VIEW openchpl.certification_result_details AS
 
 SELECT
     a.certification_result_id,
