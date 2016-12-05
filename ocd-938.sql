@@ -1,4 +1,4 @@
-﻿DROP VIEW openchpl.certified_product_details;
+DROP VIEW openchpl.certified_product_details;
 
 CREATE OR REPLACE VIEW openchpl.certified_product_details AS 
  SELECT a.certified_product_id,
