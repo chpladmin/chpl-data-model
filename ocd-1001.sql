@@ -125,7 +125,7 @@ SELECT pg_catalog.setval(pg_get_serial_sequence('openchpl.surveillance_nonconfor
 SELECT pg_catalog.setval(pg_get_serial_sequence('openchpl.surveillance_nonconformity_document', 'id'), (SELECT MAX(id) FROM openchpl.surveillance_nonconformity_document)+1);
 
 -- Add function to allow printing text to screen
-CREATE OR REPLACE FUNCTION print_notice(msg text) 
+CREATE OR REPLACE FUNCTION openchpl.print_notice(msg text) 
   RETURNS INTEGER AS 
 $$ 
 DECLARE 
@@ -139,9 +139,9 @@ LANGUAGE 'plpgsql' IMMUTABLE;
 -- Output certified Product ID for any CAP that is defined as "general " so Jennifer can look at them
 -- Note: "general" would be whenever a CAP does not have an associated certification_criterion; 
 -- in other words, "general" is whenever there is no corrective_action_plan_id in the corrective_action_plan_certification_result table.
-SELECT print_notice('Please send the following "general" Certified Product IDs to Jennifer for review:');
+SELECT openchpl.print_notice('Please send the following "general" Certified Product IDs to Jennifer for review:');
 
-DROP FUNCTION IF EXISTS print_notice(text);
+DROP FUNCTION IF EXISTS openchpl.print_notice(text);
 
 SELECT C.certified_product_id
 FROM openchpl.corrective_action_plan C
