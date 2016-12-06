@@ -8,6 +8,7 @@ _Date TBD_
 * Add pending surveillance tables to the database
 * Add add meaningful_use_users column to certified_product & certified_product_details
 * Add 'Suspended by ONC' and 'Terminated by ONC' to certification_status table
+* Replace corrective action plan with surveillance in details view for searching 
 
 ---
 
