@@ -1,3 +1,36 @@
+CREATE OR REPLACE FUNCTION openchpl.add_column(schema_name TEXT, table_name TEXT, 
+column_name TEXT, data_type TEXT)
+RETURNS BOOLEAN
+AS
+$BODY$
+DECLARE
+  _tmp text;
+BEGIN
+
+  EXECUTE format('SELECT COLUMN_NAME FROM information_schema.columns WHERE 
+    table_schema=%L
+    AND table_name=%L
+    AND column_name=%L', schema_name, table_name, column_name)
+  INTO _tmp;
+
+  IF _tmp IS NOT NULL THEN
+    RAISE NOTICE 'Column % already exists in %.%', column_name, schema_name, table_name;
+    RETURN FALSE;
+  END IF;
+
+  EXECUTE format('ALTER TABLE %I.%I ADD COLUMN %I %s;', schema_name, table_name, column_name, data_type);
+
+  RAISE NOTICE 'Column % added to %.%', column_name, schema_name, table_name;
+
+  RETURN TRUE;
+END;
+$BODY$
+LANGUAGE 'plpgsql';
+
+SELECT openchpl.add_column('openchpl', 'certified_product', 'meaningful_use_users', 'BIGINT');
+
+DROP FUNCTION IF EXISTS openchpl.add_column(text, text, text, text);
+
 DROP VIEW openchpl.certified_product_details;
 
 CREATE OR REPLACE VIEW openchpl.certified_product_details AS
@@ -101,3 +134,4 @@ FROM openchpl.certified_product a
     ;
 
 GRANT ALL ON TABLE openchpl.certified_product_details TO openchpl;
+
