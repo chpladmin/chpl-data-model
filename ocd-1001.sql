@@ -174,7 +174,7 @@ SELECT openchpl.print_notice('Please send the following "general" Certified Prod
 
 DROP FUNCTION IF EXISTS openchpl.print_notice(text);
 
-SELECT C.certified_product_id
+SELECT DISTINCT C.certified_product_id
 FROM openchpl.corrective_action_plan C
 LEFT JOIN openchpl.corrective_action_plan_certification_result CR ON C.corrective_action_plan_id = CR.corrective_action_plan_id
 WHERE C.corrective_action_plan_id IS NOT NULL AND CR.corrective_action_plan_id IS NULL;
