@@ -4,18 +4,30 @@ TRUNCATE openchpl.surveillance CASCADE;
 -- Build temp staging tables for each destination table
 DROP TABLE IF EXISTS surveillance;
 CREATE TEMP TABLE surveillance AS
-	SELECT C.corrective_action_plan_id AS id, C.certified_product_id, C.surveillance_start AS start_date, C.surveillance_end AS end_date, 
-	CASE WHEN CR.num_sites_total IS NOT NULL THEN 2 ELSE 1 END AS type_id, CR.num_sites_total AS randomized_sites_used,
-	C.creation_date, C.last_modified_date, C.last_modified_user, C.deleted
+	SELECT C.corrective_action_plan_id AS id, 
+	C.certified_product_id, 
+	C.surveillance_start AS start_date, 
+	C.surveillance_end AS end_date, 
+	CASE WHEN CR.num_sites_total IS NOT NULL THEN 2 ELSE 1 END AS type_id, 
+	CR.num_sites_total AS randomized_sites_used,
+	C.creation_date, 
+	C.last_modified_date, 
+	C.last_modified_user, 
+	C.deleted
 	FROM openchpl.corrective_action_plan C
-	LEFT JOIN (SELECT DISTINCT corrective_action_plan_id, MAX(num_sites_total) AS num_sites_total FROM openchpl.corrective_action_plan_certification_result GROUP BY corrective_action_plan_id) CR 
+	LEFT JOIN (SELECT DISTINCT corrective_action_plan_id, MAX(num_sites_total) AS num_sites_total 
+	FROM openchpl.corrective_action_plan_certification_result GROUP BY corrective_action_plan_id) CR 
 	ON C.corrective_action_plan_id = CR.corrective_action_plan_id;
 
 DROP TABLE IF EXISTS surveillance_requirement;
 CREATE TEMP TABLE surveillance_requirement AS
-	SELECT ROW_NUMBER() OVER() AS surveillance_requirement_id, s.id AS surveillance_id, s.type_id, CR.certification_criterion_id, 
+	SELECT ROW_NUMBER() OVER() AS surveillance_requirement_id, 
+	s.id AS surveillance_id, 
+	CASE WHEN CR.certification_criterion_id IS NOT NULL THEN 1 WHEN CR.certification_criterion_id IS NULL THEN 2 ELSE s.type_id END AS type_id,
+	CR.certification_criterion_id, 
 	CASE WHEN CR.certification_criterion_id IS NULL THEN '170.523(k)(2)' ELSE NULL END AS requirement,
-	CASE WHEN s.end_date IS NULL THEN 1 ELSE 2 END AS result_id, CASE WHEN CR.creation_date IS NOT NULL THEN CR.creation_date ELSE now() END AS creation_date, 
+	CASE WHEN s.end_date IS NULL THEN 1 ELSE 2 END AS result_id, 
+	CASE WHEN CR.creation_date IS NOT NULL THEN CR.creation_date ELSE now() END AS creation_date, 
 	CASE WHEN CR.last_modified_date IS NOT NULL THEN CR.last_modified_date ELSE now() END AS last_modified_date, 
 	CASE WHEN CR.last_modified_user IS NOT NULL THEN CR.last_modified_user ELSE -2 END AS last_modified_user, 
 	CASE WHEN CR.deleted IS NOT NULL THEN CR.deleted ELSE false END AS deleted
@@ -25,28 +37,47 @@ CREATE TEMP TABLE surveillance_requirement AS
 
 DROP TABLE IF EXISTS surveillance_nonconformity;
 CREATE TEMP TABLE surveillance_nonconformity AS
-	SELECT ROW_NUMBER() OVER() AS surveillance_nonconformity_id, r.surveillance_requirement_id, r.certification_criterion_id, 
-	CASE WHEN r.type_id = 1 THEN CC.number
-	WHEN r.type_id = 2 THEN '170.523 (k)(2)'
-	END AS nonconformity_type, 
-	CASE WHEN c.surveillance_end IS NULL THEN 1 ELSE 2 END AS nonconformity_status_id, c.noncompliance_determination_date AS date_of_determination, 
-	c.approval_date AS corrective_action_plan_approval_date, c.surveillance_start AS corrective_action_start_date, 
-	c.completion_date_required AS corrective_action_must_complete_date, c.completion_date_actual AS corrective_action_end_date, 
-	CASE WHEN c.summary IS NULL THEN 'Not available' ELSE c.summary END AS summary, 
-	'N/A' AS findings, CR.num_sites_passed AS sites_passed, CR.num_sites_total AS total_sites, c.developer_explanation, 
-	c.resolution, c.creation_date, c.last_modified_date, c.last_modified_user, c.deleted, c.corrective_action_plan_id
-	FROM openchpl.corrective_action_plan c
-	LEFT JOIN surveillance_requirement r ON c.corrective_action_plan_id = r.surveillance_id
-	LEFT JOIN (SELECT num_sites_passed, num_sites_total, corrective_action_plan_id FROM openchpl.corrective_action_plan_certification_result) CR 
-	ON c.corrective_action_plan_id= CR.corrective_action_plan_id
-	LEFT JOIN openchpl.certification_criterion CC ON r.certification_criterion_id = CC.certification_criterion_id;
+	SELECT 
+	ROW_NUMBER() OVER() AS surveillance_nonconformity_id, 
+	r.surveillance_requirement_id, 
+	cr.certification_criterion_id, 
+	CASE WHEN r.type_id = 1 AND CC.number IS NOT NULL THEN CC.number WHEN r.type_id = 2 THEN '170.523 (k)(2)' ELSE '170.523 (k)(2)' END AS nonconformity_type, 
+	CASE WHEN c.surveillance_end IS NULL THEN 1 ELSE 2 END AS nonconformity_status_id, 
+	c.noncompliance_determination_date AS date_of_determination, 
+	c.approval_date AS corrective_action_plan_approval_date, 
+	c.surveillance_start AS corrective_action_start_date, 
+	c.completion_date_required AS corrective_action_must_complete_date, 
+	c.completion_date_actual AS corrective_action_end_date, 
+	CASE WHEN cr.summary IS NULL THEN 'Not available' ELSE cr.summary END AS summary, 
+	'N/A' AS findings, 
+	cr.num_sites_passed AS sites_passed, 
+	cr.num_sites_total AS total_sites, 
+	cr.developer_explanation, 
+	cr.resolution, 
+	r.creation_date, 
+	r.last_modified_date, 
+	r.last_modified_user, 
+	r.deleted, 
+	r.surveillance_id
+	FROM surveillance_requirement r
+	LEFT JOIN openchpl.corrective_action_plan_certification_result CR 
+	ON cr.corrective_action_plan_id = r.surveillance_id AND (cr.certification_criterion_id IS NOT NULL AND cr.certification_criterion_id = r.certification_criterion_id)
+	LEFT JOIN openchpl.corrective_action_plan c ON c.corrective_action_plan_id= r.surveillance_id
+	LEFT JOIN openchpl.certification_criterion CC ON cr.certification_criterion_id = CC.certification_criterion_id;
 
 DROP TABLE IF EXISTS surveillance_nonconformity_document;
 CREATE TEMP TABLE surveillance_nonconformity_document AS
-	SELECT ROW_NUMBER() OVER() AS id, SN.surveillance_nonconformity_id, D.filename, D.filetype, D.filedata, 
-	D.creation_date, D.last_modified_date, D.last_modified_user, D.deleted
+	SELECT ROW_NUMBER() OVER() AS id, 
+	SN.surveillance_nonconformity_id, 
+	D.filename, 
+	D.filetype, 
+	D.filedata, 
+	D.creation_date, 
+	D.last_modified_date, 
+	D.last_modified_user, 
+	D.deleted
 	FROM openchpl.corrective_action_plan_documentation D
-	LEFT JOIN surveillance_nonconformity SN ON D.corrective_action_plan_id = SN.corrective_action_plan_id;
+	LEFT JOIN surveillance_nonconformity SN ON D.corrective_action_plan_id = SN.surveillance_id;
 
 -- Disable triggers
 ALTER TABLE openchpl.surveillance DISABLE TRIGGER surveillance_audit;
@@ -143,7 +174,7 @@ SELECT openchpl.print_notice('Please send the following "general" Certified Prod
 
 DROP FUNCTION IF EXISTS openchpl.print_notice(text);
 
-SELECT C.certified_product_id
+SELECT DISTINCT C.certified_product_id
 FROM openchpl.corrective_action_plan C
 LEFT JOIN openchpl.corrective_action_plan_certification_result CR ON C.corrective_action_plan_id = CR.corrective_action_plan_id
 WHERE C.corrective_action_plan_id IS NOT NULL AND CR.corrective_action_plan_id IS NULL;
