@@ -68,7 +68,6 @@ SELECT
     a.product_classification_type_id,
     a.other_acb,
 	a.creation_date,
-    a.certification_status_id,
     a.deleted,
     a.product_code,
     a.version_code,
@@ -119,6 +118,7 @@ SELECT
 	COALESCE(surv_closed.count_closed_surveillance_activities, 0) as "count_closed_surveillance_activities",
     COALESCE(nc_open.count_open_nonconformities, 0) as "count_open_nonconformities",
 	COALESCE(nc_closed.count_closed_nonconformities, 0) as "count_closed_nonconformities",
+	r.certification_status_id,
     n.certification_status_name,
     p.transparency_attestation,
     q.testing_lab_name,
@@ -137,8 +137,17 @@ FROM openchpl.certified_product a
     LEFT JOIN (SELECT address_id, street_line_1, street_line_2, city, state, zipcode, country from openchpl.address) t on h.vendor_address = t.address_id
     LEFT JOIN (SELECT contact_id, first_name, last_name, email, phone_number, title from openchpl.contact) u on h.vendor_contact = u.contact_id
 	LEFT JOIN (SELECT vendor_status_id, name as "vendor_status_name" from openchpl.vendor_status) v on h.vendor_status_id = v.vendor_status_id
-    LEFT JOIN (SELECT certification_status_id, certification_status as "certification_status_name" FROM openchpl.certification_status) n on a.certification_status_id = n.certification_status_id
-    LEFT JOIN (SELECT DISTINCT ON (certified_product_id) certified_product_id, event_date as "certification_date" FROM openchpl.certification_event WHERE event_type_id = 1) i on a.certified_product_id = i.certified_product_id
+ 	LEFT JOIN (SELECT cse.certification_status_id as "certification_status_id", cse.certified_product_id as "certified_product_id"
+				FROM openchpl.certification_status_event cse
+				INNER JOIN (
+					SELECT certified_product_id, MAX(event_date) event_date
+					FROM openchpl.certification_status_event
+					GROUP BY certified_product_id
+				) cseInner 
+				ON cse.certified_product_id = cseInner.certified_product_id AND cse.event_date = cseInner.event_date) r
+		ON r.certified_product_id = a.certified_product_id
+    LEFT JOIN (SELECT certification_status_id, certification_status as "certification_status_name" FROM openchpl.certification_status) n on r.certification_status_id = n.certification_status_id
+    LEFT JOIN (SELECT MIN(event_date) as "certification_date", certified_product_id from openchpl.certification_status_event where certification_status_id = 1 group by (certified_product_id)) i on a.certified_product_id = i.certified_product_id
     LEFT JOIN (SELECT certified_product_id, count(*) as "count_certifications" FROM (SELECT * FROM openchpl.certification_result WHERE success = true AND deleted <> true) j GROUP BY certified_product_id) k ON a.certified_product_id = k.certified_product_id
     LEFT JOIN (SELECT certified_product_id, count(*) as "count_cqms" FROM (SELECT DISTINCT ON (cqm_id, certified_product_id) * FROM openchpl.cqm_result_details WHERE success = true AND deleted <> true) l GROUP BY certified_product_id ORDER BY certified_product_id) m ON a.certified_product_id = m.certified_product_id
     LEFT JOIN (SELECT certified_product_id, count(*) as "count_surveillance_activities" FROM (SELECT * FROM openchpl.surveillance WHERE deleted <> true) n GROUP BY certified_product_id) surv ON a.certified_product_id = surv.certified_product_id

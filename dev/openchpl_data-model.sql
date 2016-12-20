@@ -1515,6 +1515,20 @@ CREATE TABLE openchpl.certification_status(
 -- ALTER TABLE openchpl.certification_status OWNER TO openchpl;
 -- ddl-end --
 
+CREATE TABLE openchpl.certification_status_event (
+	certification_status_event_id  bigserial NOT NULL,
+	certified_product_id bigint NOT NULL,
+	certification_status_id bigint NOT NULL,
+	event_date timestamp NOT NULL DEFAULT NOW(),
+	creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
+	CONSTRAINT certification_status_event_pk PRIMARY KEY (certification_status_event_id),
+	CONSTRAINT certification_status_fk FOREIGN KEY (certification_status_id) REFERENCES openchpl.certification_status (certification_status_id) 
+		MATCH FULL ON DELETE RESTRICT ON UPDATE CASCADE
+);
+
 -- object: certification_status_fk | type: CONSTRAINT --
 -- ALTER TABLE openchpl.certified_product DROP CONSTRAINT IF EXISTS certification_status_fk CASCADE;
 ALTER TABLE openchpl.certified_product ADD CONSTRAINT certification_status_fk FOREIGN KEY (certification_status_id)
