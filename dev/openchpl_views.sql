@@ -119,13 +119,15 @@ SELECT
     COALESCE(nc_open.count_open_nonconformities, 0) as "count_open_nonconformities",
 	COALESCE(nc_closed.count_closed_nonconformities, 0) as "count_closed_nonconformities",
 	r.certification_status_id,
+	r.last_certification_status_change,
     n.certification_status_name,
     p.transparency_attestation,
     q.testing_lab_name,
     q.testing_lab_code
 
 FROM openchpl.certified_product a
-	LEFT JOIN (SELECT cse.certification_status_id as "certification_status_id", cse.certified_product_id as "certified_product_id"
+	LEFT JOIN (SELECT cse.certification_status_id as "certification_status_id", cse.certified_product_id as "certified_product_id",
+			cse.event_date as "last_certification_status_change"
 				FROM openchpl.certification_status_event cse
 				INNER JOIN (
 					SELECT certified_product_id, MAX(event_date) event_date
