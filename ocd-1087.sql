@@ -1,6 +1,7 @@
 --
 -- Certification Status Event table and trigger setup
 --
+DROP VIEW IF EXISTS openchpl.certified_product_details;
 DROP TABLE IF EXISTS openchpl.certification_status_event;
 CREATE TABLE openchpl.certification_status_event (
 	certification_status_event_id  bigserial NOT NULL,
@@ -16,6 +17,7 @@ CREATE TABLE openchpl.certification_status_event (
 		MATCH FULL ON DELETE RESTRICT ON UPDATE CASCADE
 );
 GRANT ALL ON TABLE openchpl.certification_status_event TO openchpl;
+GRANT ALL ON SEQUENCE openchpl.certification_status_event_certification_status_event_id_seq TO openchpl;
 
 -- TODO: update the cp details view
 
