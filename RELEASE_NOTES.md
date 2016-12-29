@@ -13,6 +13,7 @@ _Date TBD_
 * Add certification_status_event table to store certification status change history. Eliminate use of certification_event and event_type.
 * Add decertification_date to certified product details view
 * Create v-next.sql since some of the update files require a certain order of execution
+* Add indexes to improve performance
 
 ---
 
