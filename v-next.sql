@@ -887,11 +887,11 @@ IF to_regclass('openchpl.ix_contact') IS NULL THEN
 END IF;
 
 IF to_regclass('openchpl.ix_cqm_criterion') IS NULL THEN
-    CREATE INDEX ix_cqm_criterion ON openchpl.cqm_criterion (cqm_result_id, certified_product_id, cqm_criterion_id, deleted);
+    CREATE INDEX ix_cqm_criterion ON openchpl.cqm_criterion (cqm_criterion_id, deleted);
 END IF;
 
 IF to_regclass('openchpl.ix_cqm_result') IS NULL THEN
-    CREATE INDEX ix_cqm_result ON openchpl.cqm_result (cqm_criterion_id, cms_id, deleted, cqm_version_id, cqm_criterion_type_id, retired);
+    CREATE INDEX ix_cqm_result ON openchpl.cqm_result (cqm_criterion_id, deleted);
 END IF;
 
 IF to_regclass('openchpl.ix_ehr_certification_id') IS NULL THEN
