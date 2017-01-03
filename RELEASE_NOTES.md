@@ -14,6 +14,7 @@ _Date TBD_
 * Add decertification_date to certified product details view
 * Create v-next.sql since some of the update files require a certain order of execution 
 * Add new certification status for products
+* Add indexes to improve performance
 
 ---
 
