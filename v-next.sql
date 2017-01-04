@@ -329,8 +329,8 @@ CREATE TRIGGER pending_surveillance_requirement_timestamp BEFORE UPDATE on openc
 TRUNCATE openchpl.surveillance CASCADE;
 
 -- Build temp staging tables for each destination table
-DROP TABLE IF EXISTS surveillance;
-CREATE TEMP TABLE surveillance AS
+DROP TABLE IF EXISTS surveillance_temp;
+CREATE TEMP TABLE surveillance_temp AS
 	SELECT C.corrective_action_plan_id AS id, 
 	C.certified_product_id, 
 	C.surveillance_start AS start_date, 
@@ -346,8 +346,8 @@ CREATE TEMP TABLE surveillance AS
 	FROM openchpl.corrective_action_plan_certification_result GROUP BY corrective_action_plan_id) CR 
 	ON C.corrective_action_plan_id = CR.corrective_action_plan_id;
 
-DROP TABLE IF EXISTS surveillance_requirement;
-CREATE TEMP TABLE surveillance_requirement AS
+DROP TABLE IF EXISTS surveillance_requirement_temp;
+CREATE TEMP TABLE surveillance_requirement_temp AS
 	SELECT ROW_NUMBER() OVER() AS surveillance_requirement_id, 
 	s.id AS surveillance_id, 
 	CASE WHEN CR.certification_criterion_id IS NOT NULL THEN 1 WHEN CR.certification_criterion_id IS NULL THEN 2 ELSE s.type_id END AS type_id,
@@ -358,12 +358,12 @@ CREATE TEMP TABLE surveillance_requirement AS
 	CASE WHEN CR.last_modified_date IS NOT NULL THEN CR.last_modified_date ELSE now() END AS last_modified_date, 
 	CASE WHEN CR.last_modified_user IS NOT NULL THEN CR.last_modified_user ELSE -2 END AS last_modified_user, 
 	CASE WHEN CR.deleted IS NOT NULL THEN CR.deleted ELSE false END AS deleted
-	FROM surveillance s
+	FROM surveillance_temp s
 	LEFT JOIN (SELECT corrective_action_plan_id, certification_criterion_id, creation_date, last_modified_date, last_modified_user, deleted
 	FROM openchpl.corrective_action_plan_certification_result) CR ON CR.corrective_action_plan_id = s.id;
 
-DROP TABLE IF EXISTS surveillance_nonconformity;
-CREATE TEMP TABLE surveillance_nonconformity AS
+DROP TABLE IF EXISTS surveillance_nonconformity_temp;
+CREATE TEMP TABLE surveillance_nonconformity_temp AS
 	SELECT 
 	ROW_NUMBER() OVER() AS surveillance_nonconformity_id, 
 	r.surveillance_requirement_id, 
@@ -386,14 +386,14 @@ CREATE TEMP TABLE surveillance_nonconformity AS
 	r.last_modified_user, 
 	r.deleted, 
 	r.surveillance_id
-	FROM surveillance_requirement r
+	FROM surveillance_requirement_temp r
 	LEFT JOIN openchpl.corrective_action_plan_certification_result CR 
 	ON cr.corrective_action_plan_id = r.surveillance_id AND (cr.certification_criterion_id IS NOT NULL AND cr.certification_criterion_id = r.certification_criterion_id)
 	LEFT JOIN openchpl.corrective_action_plan c ON c.corrective_action_plan_id= r.surveillance_id
 	LEFT JOIN openchpl.certification_criterion CC ON cr.certification_criterion_id = CC.certification_criterion_id;
 
-DROP TABLE IF EXISTS surveillance_nonconformity_document;
-CREATE TEMP TABLE surveillance_nonconformity_document AS
+DROP TABLE IF EXISTS surveillance_nonconformity_document_temp;
+CREATE TEMP TABLE surveillance_nonconformity_document_temp AS
 	SELECT ROW_NUMBER() OVER() AS id, 
 	SN.surveillance_nonconformity_id, 
 	D.filename, 
@@ -404,7 +404,7 @@ CREATE TEMP TABLE surveillance_nonconformity_document AS
 	D.last_modified_user, 
 	D.deleted
 	FROM openchpl.corrective_action_plan_documentation D
-	LEFT JOIN surveillance_nonconformity SN ON D.corrective_action_plan_id = SN.surveillance_id;
+	LEFT JOIN surveillance_nonconformity_temp SN ON D.corrective_action_plan_id = SN.surveillance_id;
 
 -- Disable triggers
 ALTER TABLE openchpl.surveillance DISABLE TRIGGER surveillance_audit;
@@ -422,7 +422,7 @@ INSERT INTO openchpl.surveillance
 	creation_date, last_modified_date, last_modified_user, deleted)
 	SELECT id, certified_product_id, start_date, end_date, type_id, randomized_sites_used, 
 	creation_date, last_modified_date, last_modified_user, deleted
-	FROM surveillance;
+	FROM surveillance_temp;
 
 INSERT INTO openchpl.surveillance_requirement
 	(id, surveillance_id, type_id, certification_criterion_id, requirement, 
@@ -432,7 +432,7 @@ INSERT INTO openchpl.surveillance_requirement
 	surveillance_requirement_id, surveillance_id, type_id, certification_criterion_id, 
 	requirement, result_id, creation_date, last_modified_date, last_modified_user, 
 	deleted
-	FROM surveillance_requirement;
+	FROM surveillance_requirement_temp;
 
 INSERT INTO openchpl.surveillance_nonconformity 
 	(id, surveillance_requirement_id, certification_criterion_id, 
@@ -450,7 +450,7 @@ INSERT INTO openchpl.surveillance_nonconformity
 	summary, findings, sites_passed, total_sites, developer_explanation, 
 	resolution, creation_date, last_modified_date, last_modified_user,
 	deleted
-	FROM surveillance_nonconformity;
+	FROM surveillance_nonconformity_temp;
 
 INSERT INTO openchpl.surveillance_nonconformity_document 
 	(id, surveillance_nonconformity_id, filename, filetype, filedata, 
@@ -458,7 +458,7 @@ INSERT INTO openchpl.surveillance_nonconformity_document
 	SELECT
 	id, surveillance_nonconformity_id, filename, filetype, filedata, 
 	creation_date, last_modified_date, last_modified_user, deleted
-	FROM surveillance_nonconformity_document;
+	FROM surveillance_nonconformity_document_temp;
 
 -- Enable triggers
 ALTER TABLE openchpl.surveillance ENABLE TRIGGER surveillance_audit;
@@ -471,10 +471,10 @@ ALTER TABLE openchpl.surveillance_nonconformity_document ENABLE TRIGGER surveill
 ALTER TABLE openchpl.surveillance_nonconformity_document ENABLE TRIGGER surveillance_nonconformity_document_timestamp;
 
 -- Drop temp tables
-DROP TABLE IF EXISTS surveillance;
-DROP TABLE IF EXISTS surveillance_requirement;
-DROP TABLE IF EXISTS surveillance_nonconformity;
-DROP TABLE IF EXISTS surveillance_nonconformity_document;
+DROP TABLE IF EXISTS surveillance_temp;
+DROP TABLE IF EXISTS surveillance_requirement_temp;
+DROP TABLE IF EXISTS surveillance_nonconformity_temp;
+DROP TABLE IF EXISTS surveillance_nonconformity_document_temp;
 
 -- Update sequence numbers
 SELECT pg_catalog.setval(pg_get_serial_sequence('openchpl.surveillance', 'id'), (SELECT MAX(id) FROM openchpl.surveillance)+1);
