@@ -4,6 +4,15 @@
 _Date TBD_
 
 ### Changes
+* Add new certification status for products
+* Add indexes to improve performance
+
+---
+
+## Version TBD
+_Date TBD_
+
+### Changes
 * Add surveillance tables to the database
 * Add pending surveillance tables to the database
 * Add add meaningful_use_users column to certified_product & certified_product_details
@@ -12,7 +21,7 @@ _Date TBD_
 * Add certification_body deleted column to certified_product_details view
 * Add certification_status_event table to store certification status change history. Eliminate use of certification_event and event_type.
 * Add decertification_date to certified product details view
-* Create v-next.sql since some of the update files require a certain order of execution
+* Create v-next.sql since some of the update files require a certain order of execution 
 
 ---
 
