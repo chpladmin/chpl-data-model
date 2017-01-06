@@ -247,6 +247,7 @@ CREATE TABLE openchpl.certified_product(
 	creation_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_user bigint NOT NULL,
+	meaningful_use_users bigint,
 	deleted bool NOT NULL DEFAULT false,
 	CONSTRAINT certified_product_pk PRIMARY KEY (certified_product_id)
 
@@ -1514,6 +1515,20 @@ CREATE TABLE openchpl.certification_status(
 -- ALTER TABLE openchpl.certification_status OWNER TO openchpl;
 -- ddl-end --
 
+CREATE TABLE openchpl.certification_status_event (
+	certification_status_event_id  bigserial NOT NULL,
+	certified_product_id bigint NOT NULL,
+	certification_status_id bigint NOT NULL,
+	event_date timestamp NOT NULL DEFAULT NOW(),
+	creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
+	CONSTRAINT certification_status_event_pk PRIMARY KEY (certification_status_event_id),
+	CONSTRAINT certification_status_fk FOREIGN KEY (certification_status_id) REFERENCES openchpl.certification_status (certification_status_id) 
+		MATCH FULL ON DELETE RESTRICT ON UPDATE CASCADE
+);
+
 -- object: certification_status_fk | type: CONSTRAINT --
 -- ALTER TABLE openchpl.certified_product DROP CONSTRAINT IF EXISTS certification_status_fk CASCADE;
 ALTER TABLE openchpl.certified_product ADD CONSTRAINT certification_status_fk FOREIGN KEY (certification_status_id)
@@ -2146,6 +2161,220 @@ CREATE TABLE openchpl.api_key_activity
 
 ALTER TABLE openchpl.api_key_activity ADD CONSTRAINT api_key_fk FOREIGN KEY (api_key_id) REFERENCES openchpl.api_key (api_key_id);
 
+CREATE TABLE openchpl.surveillance_type (
+	id bigserial not null,
+	name varchar(50) not null,
+	creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
+	CONSTRAINT surveillance_type_pk PRIMARY KEY (id),
+	CONSTRAINT surveillance_type_name_key UNIQUE (name)
+);
+
+CREATE TABLE openchpl.surveillance_requirement_type (
+	id bigserial not null,
+	name varchar(100) not null,
+	creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
+	CONSTRAINT surveillance_requirement_type_pk PRIMARY KEY (id),
+	CONSTRAINT surveillance_requirement_type_name_key UNIQUE (name)
+);
+
+CREATE TABLE openchpl.surveillance_result (
+	id bigserial not null,
+	name varchar(100) not null,
+	creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
+	CONSTRAINT surveillance_result_pk PRIMARY KEY (id),
+	CONSTRAINT surveillance_result_name_key UNIQUE (name)
+);
+
+CREATE TABLE openchpl.nonconformity_status (
+	id bigserial not null,
+	name varchar(50) not null,
+	creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
+	CONSTRAINT nonconformity_status_pk PRIMARY KEY (id),
+	CONSTRAINT nonconformity_status_name_key UNIQUE (name)
+);
+
+CREATE TABLE openchpl.surveillance (
+	id bigserial not null,
+	certified_product_id bigint not null,
+	friendly_id varchar(10), -- will be null when inserted but filled in with a trigger. in practice, will not be null
+	start_date date not null,
+	end_date date,
+	type_id bigint not null,
+	randomized_sites_used integer, -- required if type is Randomized
+	creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
+	CONSTRAINT surveillance_pk PRIMARY KEY (id),
+	CONSTRAINT certified_product_fk FOREIGN KEY (certified_product_id) 
+		REFERENCES openchpl.certified_product (certified_product_id) 
+		MATCH FULL ON DELETE CASCADE ON UPDATE CASCADE,	
+	CONSTRAINT type_fk FOREIGN KEY (type_id) 
+		REFERENCES openchpl.surveillance_type (id) 
+		MATCH FULL ON DELETE SET NULL ON UPDATE CASCADE		
+);
+
+CREATE TABLE openchpl.surveillance_requirement (
+	id bigserial not null,
+	surveillance_id bigint not null,
+	type_id bigint not null,
+	-- either criteria or requirement text is required
+	certification_criterion_id bigint,
+	requirement varchar(1024),
+	result_id bigint, -- required if parent surveillance has an end date
+	creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
+	CONSTRAINT surveillance_requirement_id PRIMARY KEY (id),
+	CONSTRAINT surveillance_fk FOREIGN KEY (surveillance_id) 
+		REFERENCES openchpl.surveillance (id) 
+		MATCH FULL ON DELETE CASCADE ON UPDATE CASCADE,
+	CONSTRAINT type_fk FOREIGN KEY (type_id) 
+		REFERENCES openchpl.surveillance_requirement_type (id) 
+		MATCH FULL ON DELETE SET NULL ON UPDATE CASCADE,
+	CONSTRAINT certification_criterion_fk FOREIGN KEY (certification_criterion_id) 
+		REFERENCES openchpl.certification_criterion (certification_criterion_id) 
+		MATCH FULL ON DELETE CASCADE ON UPDATE CASCADE,		
+	CONSTRAINT result_fk FOREIGN KEY (result_id) 
+		REFERENCES openchpl.surveillance_result (id) 
+		MATCH FULL ON DELETE SET NULL ON UPDATE CASCADE		
+);
+
+CREATE TABLE openchpl.surveillance_nonconformity (
+	id bigserial not null,
+	surveillance_requirement_id bigint not null,
+	-- either criteria or type is required
+	certification_criterion_id bigint,
+	nonconformity_type varchar(1024), 
+	nonconformity_status_id bigint not null,
+	date_of_determination date not null,
+	corrective_action_plan_approval_date date,
+	corrective_action_start_date date,
+	corrective_action_must_complete_date date,
+	corrective_action_end_date date,
+	summary varchar(2048) not null, -- required if nonconformity type+certification_criterion is not null
+	findings text not null, -- required if nonconformity type+certification_criterion is not null
+	sites_passed integer, -- only pertintent to Randomized surveillance
+	total_sites integer,
+	developer_explanation text,
+	resolution text, -- required if status is Closed
+	creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
+	CONSTRAINT surveillance_nonconformity_pk PRIMARY KEY (id),
+	CONSTRAINT surveillance_requirement_fk FOREIGN KEY (surveillance_requirement_id) 
+		REFERENCES openchpl.surveillance_requirement (id) 
+		MATCH FULL ON DELETE CASCADE ON UPDATE CASCADE,
+	CONSTRAINT certification_criterion_fk FOREIGN KEY (certification_criterion_id) 
+		REFERENCES openchpl.certification_criterion (certification_criterion_id) 
+		MATCH FULL ON DELETE CASCADE ON UPDATE CASCADE,
+	CONSTRAINT nonconformity_status_fk FOREIGN KEY (nonconformity_status_id) 
+		REFERENCES openchpl.nonconformity_status (id) 
+		MATCH FULL ON DELETE SET NULL ON UPDATE CASCADE	
+);
+
+CREATE TABLE openchpl.surveillance_nonconformity_document (
+	id bigserial not null,
+	surveillance_nonconformity_id bigint not null,
+	filename varchar(250) NOT NULL,
+	filetype varchar(250),
+	filedata bytea not null,
+	creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
+	CONSTRAINT surveillance_nonconformity_document_pk PRIMARY KEY (id),
+	CONSTRAINT surveillance_nonconformity_fk FOREIGN KEY (surveillance_nonconformity_id) 
+		REFERENCES openchpl.surveillance_nonconformity (id) 
+		MATCH FULL ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE TABLE openchpl.pending_surveillance (
+	id bigserial not null,
+	surveillance_id_to_replace varchar(10),
+	certified_product_id bigint, 
+	certified_product_unique_id varchar(30),
+	start_date date,
+	end_date date,
+	type_value varchar(30),
+	randomized_sites_used integer, 
+	creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
+	CONSTRAINT pending_surveillance_pk PRIMARY KEY (id)	
+);
+
+CREATE TABLE openchpl.pending_surveillance_requirement (
+	id bigserial not null,
+	pending_surveillance_id bigint not null,
+	type_value varchar(50),
+	requirement varchar(1024),
+	result_value varchar(30),
+	creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
+	CONSTRAINT pending_surveillance_requirement_id PRIMARY KEY (id),
+	CONSTRAINT pending_surveillance_fk FOREIGN KEY (pending_surveillance_id) 
+		REFERENCES openchpl.pending_surveillance (id) 
+		MATCH FULL ON DELETE CASCADE ON UPDATE CASCADE	
+);
+
+CREATE TABLE openchpl.pending_surveillance_nonconformity (
+	id bigserial not null,
+	pending_surveillance_requirement_id bigint not null,
+	nonconformity_type varchar(1024), 
+	nonconformity_status varchar(15),
+	date_of_determination date,
+	corrective_action_plan_approval_date date,
+	corrective_action_start_date date,
+	corrective_action_must_complete_date date,
+	corrective_action_end_date date,
+	summary varchar(2048), 
+	findings text, 
+	sites_passed integer, 
+	total_sites integer,
+	developer_explanation text,
+	resolution text,
+	creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
+	CONSTRAINT pending_surveillance_nonconformity_pk PRIMARY KEY (id),
+	CONSTRAINT pending_surveillance_requirement_fk FOREIGN KEY (pending_surveillance_requirement_id) 
+		REFERENCES openchpl.pending_surveillance_requirement (id) 
+		MATCH FULL ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+-- friendly id trigger/function
+
+CREATE OR REPLACE FUNCTION openchpl.friendly_surveillance_id_func()
+RETURNS TRIGGER AS $$
+DECLARE
+	v_num_survs text;
+BEGIN
+	SELECT cast (count(*)+1 as text) INTO v_num_survs from openchpl.surveillance where certified_product_id = NEW.certified_product_id;
+	NEW.friendly_id = 'SURV' || lpad(v_num_survs, 2, '0');
+	RETURN NEW;
+END;
+$$ language 'plpgsql';
+
+CREATE TRIGGER surveillance_friendly_id BEFORE INSERT on openchpl.surveillance FOR EACH ROW EXECUTE PROCEDURE openchpl.friendly_surveillance_id_func();
 
 -- Table: openchpl.ehr_certification_id
 
