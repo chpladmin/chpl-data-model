@@ -1,7 +1,7 @@
 # Release Notes
 
-## Version TBD
-_Date TBD_
+## Version 7.0.0
+_6 January 2017_
 
 ### Changes
 * Add new certification status for products
@@ -15,7 +15,7 @@ _Date TBD_
 ### Changes
 * Add surveillance tables to the database
 * Add pending surveillance tables to the database
-* Add add meaningful_use_users column to certified_product & certified_product_details
+* Add meaningful_use_users column to certified_product & certified_product_details
 * Add 'Suspended by ONC' and 'Terminated by ONC' to certification_status table
 * Replace corrective action plan with surveillance in details view for searching 
 * Add certification_body deleted column to certified_product_details view
