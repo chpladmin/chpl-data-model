@@ -1,5 +1,13 @@
 # Release Notes
 
+## Version 7.0.1
+_9 January 2017_
+
+### Changes
+* Update surveillance migration script to include top-level summary field.
+
+---
+
 ## Version 7.0.0
 _6 January 2017_
 
