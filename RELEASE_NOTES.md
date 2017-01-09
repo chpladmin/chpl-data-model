@@ -1,5 +1,14 @@
 # Release Notes
 
+## Version TBD
+_Date TBD_
+
+### Changes
+* Add new certification status for products
+* Add indexes to improve performance
+
+---
+
 ## Version 7.0.1
 _9 January 2017_
 
@@ -16,7 +25,7 @@ _6 January 2017_
 * Add pending surveillance tables to the database
 * Add meaningful_use_users column to certified_product & certified_product_details
 * Add 'Suspended by ONC' and 'Terminated by ONC' to certification_status table
-* Replace corrective action plan with surveillance in details view for searching 
+* Replace corrective action plan with surveillance in details view for searching
 * Add certification_body deleted column to certified_product_details view
 * Add certification_status_event table to store certification status change history. Eliminate use of certification_event and event_type.
 * Add decertification_date to certified product details view
