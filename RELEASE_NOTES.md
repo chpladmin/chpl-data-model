@@ -1,5 +1,13 @@
 # Release Notes
 
+## Version 7.0.2
+_10 January 2017_
+
+### Changes
+* Update surveillance migration script to include top-level developer explanation and resolution fields. Change the field start date is pulled from.
+
+---
+
 ## Version 7.0.1
 _9 January 2017_
 
