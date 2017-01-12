@@ -802,9 +802,3 @@ FROM openchpl.certified_product a
     ;
 
 GRANT ALL ON TABLE openchpl.certified_product_details TO openchpl;
--------------------------------------------------------------------------------------
--- OCD-1098 Re-retire "Transport Test[ing] Tool"
--------------------------------------------------------------------------------------
-UPDATE openchpl.test_tool
-SET retired = TRUE
-WHERE name IN ('Transport Testing Tool', 'Transport Test Tool');
