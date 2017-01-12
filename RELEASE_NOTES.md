@@ -6,6 +6,7 @@ _Date TBD_
 ### Changes
 * Add new certification status for products
 * Add indexes to improve performance
+* Set retired to true for Transport Test Tool and Transport Testing Tool
 
 ---
 
