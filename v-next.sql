@@ -74,8 +74,8 @@ IF to_regclass('openchpl.ix_certification_result_ucd_process') IS NULL THEN
 END IF;
 
 IF to_regclass('openchpl.ix_certified_product_qms_standard') IS NULL THEN
-END IF;
     CREATE INDEX ix_certified_product_qms_standard ON openchpl.certified_product_qms_standard (certified_product_qms_standard_id, certified_product_id, qms_standard_id, deleted);
+END IF;
 
 IF to_regclass('openchpl.ix_contact') IS NULL THEN
     CREATE INDEX ix_contact ON openchpl.contact (contact_id, deleted);
