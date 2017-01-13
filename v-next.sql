@@ -389,7 +389,7 @@ WHERE name IN ('Transport Testing Tool', 'Transport Test Tool');
 -------------------------------------------------------------------------------------
 DROP TABLE IF EXISTS openchpl.muu_accurate_as_of_date;
 CREATE TABLE openchpl.muu_accurate_as_of_date (
-	muu_accurate_as_of_date_id bigserial PRIMARY KEY NOT NULL,
+	muu_accurate_as_of_date_id bigserial NOT NULL,
 	Accurate_as_of_date timestamp without time zone NOT NULL,
 	creation_date timestamp without time zone NOT NULL DEFAULT now(),
 	last_modified_date timestamp without time zone NOT NULL DEFAULT now(),
