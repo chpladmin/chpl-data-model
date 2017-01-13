@@ -7,6 +7,7 @@ _Date TBD_
 * Add new certification status for products
 * Add indexes to improve performance
 * Set retired to true for Transport Test Tool and Transport Testing Tool
+* Add MUU accurate table
 
 ---
 
