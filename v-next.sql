@@ -383,3 +383,34 @@ GRANT ALL ON TABLE openchpl.certified_product_details TO openchpl;
 UPDATE openchpl.test_tool
 SET retired = TRUE
 WHERE name IN ('Transport Testing Tool', 'Transport Test Tool');
+
+-------------------------------------------------------------------------------------
+-- OCD-1158 Add MUU accurate table
+-------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS openchpl.muu_accurate_as_of_date;
+CREATE TABLE openchpl.muu_accurate_as_of_date (
+	muu_accurate_as_of_date_id bigserial PRIMARY KEY NOT NULL,
+	Accurate_as_of_date timestamp without time zone NOT NULL,
+	creation_date timestamp without time zone NOT NULL DEFAULT now(),
+	last_modified_date timestamp without time zone NOT NULL DEFAULT now(),
+	last_modified_user bigint NOT NULL,
+	deleted boolean NOT NULL DEFAULT false,
+	CONSTRAINT muu_accurate_as_of_date_pk PRIMARY KEY (muu_accurate_as_of_date_id)
+)
+WITH (
+  OIDS=FALSE
+);
+
+GRANT ALL ON TABLE openchpl.muu_accurate_as_of_date TO openchpl;
+
+CREATE TRIGGER muu_accurate_as_of_date_audit
+  AFTER INSERT OR UPDATE OR DELETE
+  ON openchpl.muu_accurate_as_of_date
+  FOR EACH ROW
+  EXECUTE PROCEDURE audit.if_modified_func();
+
+CREATE TRIGGER muu_accurate_as_of_date_timestamp
+  BEFORE UPDATE
+  ON openchpl.muu_accurate_as_of_date
+  FOR EACH ROW
+  EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
