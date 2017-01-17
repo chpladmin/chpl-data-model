@@ -61,7 +61,7 @@ CREATE TABLE openchpl.certification_result_g2_macra (
 --the g1 macra attested to for pending certification result
 CREATE TABLE openchpl.pending_certification_result_g1_macra (
 	id bigserial not null,
-	macra_id bigint not null, -- a macra that the udser entry could be mapped to
+	macra_id bigint, -- a macra that the udser entry could be mapped to
 	macra_value varchar(255) not null, -- what the user entered
 	pending_certification_result_id bigint not null,
 	creation_date timestamp NOT NULL DEFAULT NOW(),
@@ -80,7 +80,7 @@ CREATE TABLE openchpl.pending_certification_result_g1_macra (
 --the g2 macra attested to for pending certification result
 CREATE TABLE openchpl.pending_certification_result_g2_macra (
 	id bigserial not null,
-	macra_id bigint not null, -- a macra that the udser entry could be mapped to
+	macra_id bigint, -- a macra that the udser entry could be mapped to
 	macra_value varchar(255) not null, -- what the user entered
 	pending_certification_result_id bigint not null,
 	creation_date timestamp NOT NULL DEFAULT NOW(),
@@ -101,6 +101,11 @@ GRANT ALL ON TABLE openchpl.certification_result_g1_macra TO openchpl;
 GRANT ALL ON TABLE openchpl.certification_result_g2_macra TO openchpl;
 GRANT ALL ON TABLE openchpl.pending_certification_result_g1_macra TO openchpl;
 GRANT ALL ON TABLE openchpl.pending_certification_result_g2_macra TO openchpl;
+GRANT ALL ON SEQUENCE openchpl.macra_criteria_map_id_seq TO openchpl;
+GRANT ALL ON SEQUENCE openchpl.certification_result_g1_macra_id_seq TO openchpl;
+GRANT ALL ON SEQUENCE openchpl.certification_result_g2_macra_id_seq TO openchpl;
+GRANT ALL ON SEQUENCE openchpl.pending_certification_result_g1_macra_id_seq TO openchpl;
+GRANT ALL ON SEQUENCE openchpl.pending_certification_result_g2_macra_id_seq TO openchpl;
 
 CREATE TRIGGER macra_criteria_map_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.macra_criteria_map FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER macra_criteria_map_timestamp BEFORE UPDATE on openchpl.macra_criteria_map FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
@@ -177,19 +182,19 @@ values ((SELECT certification_criterion_id from openchpl.certification_criterion
 INSERT INTO openchpl.macra_criteria_map (criteria_id, value, name, description, last_modified_user)
 values ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (b)(2)'), 'EH/CAH','Eligible Hospital/Critical Access Hospital: Medication/Clinical Information Reconciliation','Required Test 5: Stage 2 Objective 7 and Stage 3 Objective 7 Measure 3', -1);
 INSERT INTO openchpl.macra_criteria_map (criteria_id, value, name, description, last_modified_user)
-values ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (b)(3)'), 'EP Individual','Eligible Provider Individual: Electronic Prescribing ','Required Test 1: Stage 2 Objective 4 and Stage 3 Objective 2', -1);
+values ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (b)(3)'), 'EP Individual','Eligible Provider Individual: Electronic Prescribing','Required Test 1: Stage 2 Objective 4 and Stage 3 Objective 2', -1);
 INSERT INTO openchpl.macra_criteria_map (criteria_id, value, name, description, last_modified_user)
-values ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (b)(3)'), 'EC Individual (TIN/NPI)','Eligible Clinician Individual (TIN/NPI): Electronic Prescribing ','Required Test 1: Stage 2 Objective 4 and Stage 3 Objective 2', -1);
+values ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (b)(3)'), 'EC Individual (TIN/NPI)','Eligible Clinician Individual (TIN/NPI): Electronic Prescribing','Required Test 1: Stage 2 Objective 4 and Stage 3 Objective 2', -1);
 INSERT INTO openchpl.macra_criteria_map (criteria_id, value, name, description, last_modified_user)
 values ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (b)(3)'), 'EC Group','Eligible Clinician Group: Electronic Prescribing','Required Test 1: Stage 2 Objective 4 and Stage 3 Objective 2', -1);
 INSERT INTO openchpl.macra_criteria_map (criteria_id, value, name, description, last_modified_user)
-values ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (b)(3)'), 'EH/CAH','Eligible Hospital/Critical Access Hospital: Electronic Prescribing ','Required Test 1: Stage 2 Objective 4 and Stage 3 Objective 2', -1);
+values ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (b)(3)'), 'EH/CAH','Eligible Hospital/Critical Access Hospital: Electronic Prescribing','Required Test 1: Stage 2 Objective 4 and Stage 3 Objective 2', -1);
 INSERT INTO openchpl.macra_criteria_map (criteria_id, value, name, description, last_modified_user)
 values ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (e)(1)'), 'RT2a EP Individual','RT2a Eligible Provider Individual: Patient Electronic Access','Required Test 2: Stage 2 Objective 8 Measure 1 and Stage 3 Objective 5 Measure 1', -1);
 INSERT INTO openchpl.macra_criteria_map (criteria_id, value, name, description, last_modified_user)
 values ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (e)(1)'), 'RT2a EC Individual (TIN/NPI)','RT2a Eligible Clinician Individual (TIN/NPI): Patient Electronic Access','Required Test 2: Stage 2 Objective 8 Measure 1 and Stage 3 Objective 5 Measure 1', -1);
 INSERT INTO openchpl.macra_criteria_map (criteria_id, value, name, description, last_modified_user)
-values ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (e)(1)'), 'RT2a EC Group ','RT2a Eligible Clinician Group: Patient Electronic Access','Required Test 2: Stage 2 Objective 8 Measure 1 and Stage 3 Objective 5 Measure 1', -1);
+values ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (e)(1)'), 'RT2a EC Group','RT2a Eligible Clinician Group: Patient Electronic Access','Required Test 2: Stage 2 Objective 8 Measure 1 and Stage 3 Objective 5 Measure 1', -1);
 INSERT INTO openchpl.macra_criteria_map (criteria_id, value, name, description, last_modified_user)
 values ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (e)(1)'), 'RT2a EH/CAH','Patient Electronic Access','Required Test 2: Stage 2 Objective 8 Measure 1 and Stage 3 Objective 5 Measure 1', -1);
 INSERT INTO openchpl.macra_criteria_map (criteria_id, value, name, description, last_modified_user)
@@ -197,7 +202,7 @@ values ((SELECT certification_criterion_id from openchpl.certification_criterion
 INSERT INTO openchpl.macra_criteria_map (criteria_id, value, name, description, last_modified_user)
 values ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (e)(1)'), 'RT2b EC Individual (TIN/NPI)','RT2b Eligible Clinician Individual (TIN/NPI): Patient Electronic Access','Required Test 2: Stage 2 Objective 8 Measure 1 and Stage 3 Objective 5 Measure 1', -1);
 INSERT INTO openchpl.macra_criteria_map (criteria_id, value, name, description, last_modified_user)
-values ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (e)(1)'), 'RT2b EC Group ','RT2b Eligible Clinician Group: Patient Electronic Access','Required Test 2: Stage 2 Objective 8 Measure 1 and Stage 3 Objective 5 Measure 1', -1);
+values ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (e)(1)'), 'RT2b EC Group','RT2b Eligible Clinician Group: Patient Electronic Access','Required Test 2: Stage 2 Objective 8 Measure 1 and Stage 3 Objective 5 Measure 1', -1);
 INSERT INTO openchpl.macra_criteria_map (criteria_id, value, name, description, last_modified_user)
 values ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (e)(1)'), 'RT2b EH/CAH','Patient Electronic Access','Required Test 2: Stage 2 Objective 8 Measure 1 and Stage 3 Objective 5 Measure 1', -1);
 INSERT INTO openchpl.macra_criteria_map (criteria_id, value, name, description, last_modified_user)
@@ -205,7 +210,7 @@ values ((SELECT certification_criterion_id from openchpl.certification_criterion
 INSERT INTO openchpl.macra_criteria_map (criteria_id, value, name, description, last_modified_user)
 values ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (e)(1)'), 'RT4a EC Individual (TIN/NPI)','RT4a Eligible Clinician Individual (TIN/NPI): View, Download, or Transmit (VDT)','Required Test 4: Stage 2 Objective 8 Measure 2 and Stage 3 Objctive 6 Measure 1', -1);
 INSERT INTO openchpl.macra_criteria_map (criteria_id, value, name, description, last_modified_user)
-values ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (e)(1)'), 'RT4a EC Group ','RT4a Eligible Clinician Group: View, Download, or Transmit (VDT)','Required Test 4: Stage 2 Objective 8 Measure 2 and Stage 3 Objective 6 Measure 1', -1);
+values ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (e)(1)'), 'RT4a EC Group','RT4a Eligible Clinician Group: View, Download, or Transmit (VDT)','Required Test 4: Stage 2 Objective 8 Measure 2 and Stage 3 Objective 6 Measure 1', -1);
 INSERT INTO openchpl.macra_criteria_map (criteria_id, value, name, description, last_modified_user)
 values ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (e)(1)'), 'RT4a EH/CAH','View, Download, or Transmit (VDT)','Required Test 4: Stage 2 Objective 8 Measure 2 and Stage 3 Objective 6 Measure 1', -1);
 INSERT INTO openchpl.macra_criteria_map (criteria_id, value, name, description, last_modified_user)
@@ -213,7 +218,7 @@ values ((SELECT certification_criterion_id from openchpl.certification_criterion
 INSERT INTO openchpl.macra_criteria_map (criteria_id, value, name, description, last_modified_user)
 values ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (e)(1)'), 'RT4b EC Individual (TIN/NPI)','RT4b Eligible Clinician Individual (TIN/NPI): View, Download, or Transmit (VDT)','Required Test 4: Stage 2 Objective 8 Measure 2 and Stage 3 Objective 6 Measure 1', -1);
 INSERT INTO openchpl.macra_criteria_map (criteria_id, value, name, description, last_modified_user)
-values ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (e)(1)'), 'RT4b EC Group ','RT4b Eligible Clinician Group: View, Download, or Transmit (VDT)','Required Test 4: Stage 2 Objective 8 Measure 2 and Stage 3 Objective 6 Measure 1', -1);
+values ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (e)(1)'), 'RT4b EC Group','RT4b Eligible Clinician Group: View, Download, or Transmit (VDT)','Required Test 4: Stage 2 Objective 8 Measure 2 and Stage 3 Objective 6 Measure 1', -1);
 INSERT INTO openchpl.macra_criteria_map (criteria_id, value, name, description, last_modified_user)
 values ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (e)(1)'), 'RT4b EH/CAH','View, Download, or Transmit (VDT)','Required Test 4: Stage 2 Objective 8 Measure 2 and Stage 3 Objective 6 Measure 1', -1);
 INSERT INTO openchpl.macra_criteria_map (criteria_id, value, name, description, last_modified_user)
@@ -237,7 +242,7 @@ values ((SELECT certification_criterion_id from openchpl.certification_criterion
 INSERT INTO openchpl.macra_criteria_map (criteria_id, value, name, description, last_modified_user)
 values ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (g)(8)'), 'RT2a EC Individual (TIN/NPI)','RT2a Eligible Clinician Individual (TIN/NPI): Patient Electronic Access','Required Test 2: Stage 2 Objective 8 Measure 1 and Stage 3 Objective 5 Measure 1', -1);
 INSERT INTO openchpl.macra_criteria_map (criteria_id, value, name, description, last_modified_user)
-values ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (g)(8)'), 'RT2a EC Group ','RT2a Eligible Clinician Group: Patient Electronic Access','Required Test 2: Stage 2 Objective 8 Measure 1 and Stage 3 Objective 5 Measure 1', -1);
+values ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (g)(8)'), 'RT2a EC Group','RT2a Eligible Clinician Group: Patient Electronic Access','Required Test 2: Stage 2 Objective 8 Measure 1 and Stage 3 Objective 5 Measure 1', -1);
 INSERT INTO openchpl.macra_criteria_map (criteria_id, value, name, description, last_modified_user)
 values ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (g)(8)'), 'RT2a EH/CAH','RT2a Eligible Hospital/Critical Access Hospital: Patient Electronic Access','Required Test 2: Stage 2 Objective 8 Measure 1 and Stage 3 Objective 5 Measure 1', -1);
 INSERT INTO openchpl.macra_criteria_map (criteria_id, value, name, description, last_modified_user)
@@ -245,7 +250,7 @@ values ((SELECT certification_criterion_id from openchpl.certification_criterion
 INSERT INTO openchpl.macra_criteria_map (criteria_id, value, name, description, last_modified_user)
 values ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (g)(8)'), 'RT2c EC Individual (TIN/NPI)','RT2c Eligible Clinician Individual (TIN/NPI): Patient Electronic Access','Required Test 2: Stage 2 Objective 8 Measure 1 and Stage 3 Objective 5 Measure 1', -1);
 INSERT INTO openchpl.macra_criteria_map (criteria_id, value, name, description, last_modified_user)
-values ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (g)(8)'), 'RT2c EC Group ','RT2c Eligible Clinician Group: Patient Electronic Access','Required Test 2: Stage 2 Objective 8 Measure 1 and Stage 3 Objective 5 Measure 1', -1);
+values ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (g)(8)'), 'RT2c EC Group','RT2c Eligible Clinician Group: Patient Electronic Access','Required Test 2: Stage 2 Objective 8 Measure 1 and Stage 3 Objective 5 Measure 1', -1);
 INSERT INTO openchpl.macra_criteria_map (criteria_id, value, name, description, last_modified_user)
 values ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (g)(8)'), 'RT2c EH/CAH','RT2c Eligible Hospital/Critical Access Hospital: Patient Electronic Access','Required Test 2: Stage 2 Objective 8 Measure 1 and Stage 3 Objective 5 Measure 1', -1);
 INSERT INTO openchpl.macra_criteria_map (criteria_id, value, name, description, last_modified_user)
@@ -253,7 +258,7 @@ values ((SELECT certification_criterion_id from openchpl.certification_criterion
 INSERT INTO openchpl.macra_criteria_map (criteria_id, value, name, description, last_modified_user)
 values ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (g)(8)'), 'RT4a EC Individual (TIN/NPI)','RT4a Eligible Clinician Individual (TIN/NPI): View, Download, or Transmit (VDT)','Required Test 4: Stage 2 Objective 8 Measure 2 and Stage 3 Objective 6 Measure 1', -1);
 INSERT INTO openchpl.macra_criteria_map (criteria_id, value, name, description, last_modified_user)
-values ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (g)(8)'), 'RT4a EC Group ','RT4a Eligible Clinician Group: View, Download, or Transmit (VDT)','Required Test 4: Stage 2 Objective 8 Measure 2 and Stage 3 Objective 6 Measure 1', -1);
+values ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (g)(8)'), 'RT4a EC Group','RT4a Eligible Clinician Group: View, Download, or Transmit (VDT)','Required Test 4: Stage 2 Objective 8 Measure 2 and Stage 3 Objective 6 Measure 1', -1);
 INSERT INTO openchpl.macra_criteria_map (criteria_id, value, name, description, last_modified_user)
 values ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (g)(8)'), 'RT4a EH/CAH','RT4a Eligible Hospital/Critical Access Hospital: View, Download, or Transmit (VDT)','Required Test 4: Stage 2 Objective 8 Measure 2 and Stage 3 Objective 6 Measure 1', -1);
 INSERT INTO openchpl.macra_criteria_map (criteria_id, value, name, description, last_modified_user)
@@ -261,7 +266,7 @@ values ((SELECT certification_criterion_id from openchpl.certification_criterion
 INSERT INTO openchpl.macra_criteria_map (criteria_id, value, name, description, last_modified_user)
 values ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (g)(8)'), 'RT4c EC Individual (TIN/NPI)','RT4c Eligible Clinician Individual (TIN/NPI): View, Download, or Transmit (VDT)','Required Test 4: Stage 2 Objective 8 Measure 2 and Stage 3 Objective 6 Measure 1', -1);
 INSERT INTO openchpl.macra_criteria_map (criteria_id, value, name, description, last_modified_user)
-values ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (g)(8)'), 'RT4c EC Group ','RT4c Eligible Clinician Group: View, Download, or Transmit (VDT)','Required Test 4: Stage 2 Objective 8 Measure 2 and Stage 3 Objective 6 Measure 1', -1);
+values ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (g)(8)'), 'RT4c EC Group','RT4c Eligible Clinician Group: View, Download, or Transmit (VDT)','Required Test 4: Stage 2 Objective 8 Measure 2 and Stage 3 Objective 6 Measure 1', -1);
 INSERT INTO openchpl.macra_criteria_map (criteria_id, value, name, description, last_modified_user)
 values ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (g)(8)'), 'RT4c EH/CAH','RT4c Eligible Hospital/Critical Access Hospital: View, Download, or Transmit (VDT)','Required Test 4: Stage 2 Objective 8 Measure 2 and Stage 3 Objective 6 Measure 1', -1);
 INSERT INTO openchpl.macra_criteria_map (criteria_id, value, name, description, last_modified_user) 
@@ -269,23 +274,23 @@ values ((SELECT certification_criterion_id from openchpl.certification_criterion
 INSERT INTO openchpl.macra_criteria_map (criteria_id, value, name, description, last_modified_user) 
 values ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (g)(9)'),'RT2a EC Individual (TIN/NPI)','RT2a Eligible Clinician Individual (TIN/NPI): Patient Electronic Access','Required Test 2: Stage 2 Objective 8 Measure 1 and Stage 3 Objective 5 Measure 1', -1);
 INSERT INTO openchpl.macra_criteria_map (criteria_id, value, name, description, last_modified_user) 
-values ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (g)(9)'),'RT2a EC Group ','RT2a Eligible Clinician Group: Patient Electronic Access','Required Test 2: Stage 2 Objective 8 Measure 1 and Stage 3 Objective 5 Measure 1', -1);
+values ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (g)(9)'),'RT2a EC Group','RT2a Eligible Clinician Group: Patient Electronic Access','Required Test 2: Stage 2 Objective 8 Measure 1 and Stage 3 Objective 5 Measure 1', -1);
 INSERT INTO openchpl.macra_criteria_map (criteria_id, value, name, description, last_modified_user) 
 values ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (g)(9)'),'RT2a EH/CAH','RT2a Eligible Hospital/Critical Access Hospital: Patient Electronic Access','Required Test 2: Stage 2 Objective 8 Measure 1 and Stage 3 Objective 5 Measure 1', -1);
 INSERT INTO openchpl.macra_criteria_map (criteria_id, value, name, description, last_modified_user) 
-values ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (g)(9)'),'RT2c EP Individual','RT2c Eligible Provider Individual: Patient Electronic Access ','Required Test 2: Stage 2 Objective 8 Measure 1 and Stage 3 Objective 5 Measure 1', -1);
+values ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (g)(9)'),'RT2c EP Individual','RT2c Eligible Provider Individual: Patient Electronic Access','Required Test 2: Stage 2 Objective 8 Measure 1 and Stage 3 Objective 5 Measure 1', -1);
 INSERT INTO openchpl.macra_criteria_map (criteria_id, value, name, description, last_modified_user) 
-values ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (g)(9)'),'RT2c EC Individual (TIN/NPI)','RT2c Eligible Clinician Individual (TIN/NPI): Patient Electronic Access ','Required Test 2: Stage 2 Objective 8 Measure 1 and Stage 3 Objective 5 Measure 1', -1);
+values ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (g)(9)'),'RT2c EC Individual (TIN/NPI)','RT2c Eligible Clinician Individual (TIN/NPI): Patient Electronic Access','Required Test 2: Stage 2 Objective 8 Measure 1 and Stage 3 Objective 5 Measure 1', -1);
 INSERT INTO openchpl.macra_criteria_map (criteria_id, value, name, description, last_modified_user) 
-values ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (g)(9)'),'RT2c EC Group ','RT2c Eligible Clinician Group: Patient Electronic Access ','Required Test 2: Stage 2 Objective 8 Measure 1 and Stage 3 Objective 5 Measure 1', -1);
+values ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (g)(9)'),'RT2c EC Group','RT2c Eligible Clinician Group: Patient Electronic Access','Required Test 2: Stage 2 Objective 8 Measure 1 and Stage 3 Objective 5 Measure 1', -1);
 INSERT INTO openchpl.macra_criteria_map (criteria_id, value, name, description, last_modified_user) 
-values ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (g)(9)'),'RT2c EH/CAH','RT2c Eligible Hospital/Critical Access Hospital: Patient Electronic Access ','Required Test 2: Stage 2 Objective 8 Measure 1 and Stage 3 Objective 5 Measure 1', -1);
+values ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (g)(9)'),'RT2c EH/CAH','RT2c Eligible Hospital/Critical Access Hospital: Patient Electronic Access','Required Test 2: Stage 2 Objective 8 Measure 1 and Stage 3 Objective 5 Measure 1', -1);
 INSERT INTO openchpl.macra_criteria_map (criteria_id, value, name, description, last_modified_user) 
 values ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (g)(9)'),'RT4a EP Individual','RT4a Eligible Provider Individual: View, Download, or Transmit (VDT)','Required Test 4: Stage 2 Objective 8 Measure 2 and Stage 3 Objective 6 Measure 1', -1);
 INSERT INTO openchpl.macra_criteria_map (criteria_id, value, name, description, last_modified_user) 
 values ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (g)(9)'),'RT4a EC Individual (TIN/NPI)','RT4a Eligible Clinician Individual (TIN/NPI): View, Download, or Transmit (VDT)','Required Test 4: Stage 2 Objective 8 Measure 2 and Stage 3 Objective 6 Measure 1', -1);
 INSERT INTO openchpl.macra_criteria_map (criteria_id, value, name, description, last_modified_user) 
-values ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (g)(9)'),'RT4a EC Group ','RT4a Eligible Clinician Group: View, Download, or Transmit (VDT)','Required Test 4: Stage 2 Objective 8 Measure 2 and Stage 3 Objective 6 Measure 1', -1);
+values ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (g)(9)'),'RT4a EC Group','RT4a Eligible Clinician Group: View, Download, or Transmit (VDT)','Required Test 4: Stage 2 Objective 8 Measure 2 and Stage 3 Objective 6 Measure 1', -1);
 INSERT INTO openchpl.macra_criteria_map (criteria_id, value, name, description, last_modified_user) 
 values ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (g)(9)'),'RT4a EH/CAH','RT4a Eligible Hospital/Critical Access Hospital: View, Download, or Transmit (VDT)','Required Test 4: Stage 2 Objective 8 Measure 2 and Stage 3 Objective 6 Measure 1', -1);
 INSERT INTO openchpl.macra_criteria_map (criteria_id, value, name, description, last_modified_user) 
@@ -293,6 +298,6 @@ values ((SELECT certification_criterion_id from openchpl.certification_criterion
 INSERT INTO openchpl.macra_criteria_map (criteria_id, value, name, description, last_modified_user) 
 values ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (g)(9)'),'RT4c EC Individual (TIN/NPI)','RT4c Eligible Clinician Individual (TIN/NPI): View, Download, or Transmit (VDT)','Required Test 4: Stage 2 Objective 8 Measure 2 and Stage 3 Objective 6 Measure 1', -1);
 INSERT INTO openchpl.macra_criteria_map (criteria_id, value, name, description, last_modified_user) 
-values ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (g)(9)'),'RT4c EC Group ','RT4c Eligible Clinician Group: View, Download, or Transmit (VDT)','Required Test 4: Stage 2 Objective 8 Measure 2 and Stage 3 Objective 6 Measure 1', -1);
+values ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (g)(9)'),'RT4c EC Group','RT4c Eligible Clinician Group: View, Download, or Transmit (VDT)','Required Test 4: Stage 2 Objective 8 Measure 2 and Stage 3 Objective 6 Measure 1', -1);
 INSERT INTO openchpl.macra_criteria_map (criteria_id, value, name, description, last_modified_user) 
 values ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (g)(9)'),'RT4c EH/CAH','RT4c Eligible Hospital/Critical Access Hospital: View, Download, or Transmit (VDT)','Required Test 4: Stage 2 Objective 8 Measure 2 and Stage 3 Objective 6 Measure 1', -1);
