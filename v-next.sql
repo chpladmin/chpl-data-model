@@ -415,7 +415,7 @@ CREATE TRIGGER muu_accurate_as_of_date_timestamp
   FOR EACH ROW
   EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
   
-  INSERT INTO openchpl.muu_accurate_as_of_date (accurate_as_of_date, last_modified_user) SELECT '12/01/2016', -1
+  INSERT INTO openchpl.muu_accurate_as_of_date (accurate_as_of_date, last_modified_user) SELECT '11/30/2016', -1
   WHERE
     NOT EXISTS (
         SELECT muu_accurate_as_of_date_id FROM openchpl.muu_accurate_as_of_date
