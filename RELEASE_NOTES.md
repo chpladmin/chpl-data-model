@@ -4,9 +4,17 @@
 _Date TBD_
 
 ### Changes
+* Add tables for macra g1/g2 measures for lookup, certification results, and pending certification results
+
+---
+
+## Version TBD
+_Date TBD_
+
+### Changes
 * Add new certification status for products
 * Add indexes to improve performance
-* Add tables for macra g1/g2 measures for lookup, certification results, and pending certification results
+* Set retired to true for Transport Test Tool and Transport Testing Tool
 
 ---
 

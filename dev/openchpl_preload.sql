@@ -837,25 +837,25 @@ INSERT INTO openchpl.ucd_process(name, last_modified_user) VALUES
 ('NISTIR 7741', -1);
 -- same for 2014 and 2015
 
-INSERT INTO openchpl.test_tool(name, last_modified_user) VALUES
-('ePrescribing Validation Tool', -1),
-('HL7 CDA Cancer Registry Reporting Validation Tool', -1),
-('HL7 v2 Electronic Laboratory Reporting (ELR) Validation Tool', -1),
-('HL7 v2 Immunization Information System (IIS) Reporting Validation Tool', -1),
-('HL7 v2 Laboratory Results Interface (LRI) Validation Tool', -1),
-('HL7 v2 Syndromic Surveillance Reporting Validation Tool', -1),
-('Transport Testing Tool', -1),
-('Cypress', -1),
-('Direct Certificate Discovery Tool', -1),
+INSERT INTO openchpl.test_tool(name, last_modified_user, retired) VALUES
+('ePrescribing Validation Tool', -1, false),
+('HL7 CDA Cancer Registry Reporting Validation Tool', -1, false),
+('HL7 v2 Electronic Laboratory Reporting (ELR) Validation Tool', -1, false),
+('HL7 v2 Immunization Information System (IIS) Reporting Validation Tool', -1, false),
+('HL7 v2 Laboratory Results Interface (LRI) Validation Tool', -1, false),
+('HL7 v2 Syndromic Surveillance Reporting Validation Tool', -1, false),
+('Transport Testing Tool', -1, true),
+('Cypress', -1, false),
+('Direct Certificate Discovery Tool', -1, false),
 -- 2014
-('HL7v2 Immunization Test Suite', -1),
-('HL7v2 Syndromic Surveillance Test Suite', -1),
-('HL7v2 Electronic Laboratory Reporting Validation Tool', -1),
-('Electronic Prescribing', -1),
-('HL7 CDA National Health Care Surveys Validator', -1),
-('Transport Test Tool', -1),
-('Edge Test Tool', -1),
-('2015 Direct Certificate Discovery Tool', -1),
+('HL7v2 Immunization Test Suite', -1, false),
+('HL7v2 Syndromic Surveillance Test Suite', -1, false),
+('HL7v2 Electronic Laboratory Reporting Validation Tool', -1, false),
+('Electronic Prescribing', -1, false),
+('HL7 CDA National Health Care Surveys Validator', -1, false),
+('Transport Test Tool', -1, true),
+('Edge Test Tool', -1, false),
+('2015 Direct Certificate Discovery Tool', -1, false),
 --2015
 ('N/A', -1),
     ('', -1);
