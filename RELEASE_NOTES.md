@@ -5,6 +5,7 @@ _Date TBD_
 
 ### Changes
 * Add tables for macra g1/g2 measures for lookup, certification results, and pending certification results
+* Add Meaningful Use User Accurate table, triggers, and row of data with accurate as of date = '11/30/2016'
 
 ---
 
@@ -15,7 +16,7 @@ _23 January 2017_
 * Add new certification status for products
 * Add indexes to improve performance
 * Set retired to true for Transport Test Tool and Transport Testing Tool
-* Add MUU accurate table
+
 
 ---
 
