@@ -4,7 +4,7 @@ insert into openchpl.certification_edition (year, retired, last_modified_user) v
 insert into openchpl.cqm_criterion_type (name, description, last_modified_user) values ('Ambulatory', 'Ambulatory', -1), ('Inpatient','Inpatient',-1);
 insert into openchpl.event_type (name, description, last_modified_user) values ('Certification','Product is certified', -1), ('Active', 'Product moved from Pending to Active', -1);
 insert into openchpl.cqm_version (version, last_modified_user) values ('v0', -1), ('v1', -1), ('v2', -1), ('v3', -1), ('v4', -1), ('v5', -1), ('v6', -1);
-insert into openchpl.certification_status (certification_status, last_modified_user) values ('Active', -1), ('Retired', -1), ('Withdrawn by Developer', -1), ('Withdrawn by ONC-ACB', -1), ('Pending', -1), ('Suspended by ONC-ACB', -1), ('Suspended by ONC', -1), ('Terminated by ONC', -1);
+insert into openchpl.certification_status (certification_status, last_modified_user) values ('Active', -1), ('Retired', -1), ('Withdrawn by Developer', -1), ('Withdrawn by ONC-ACB', -1), ('Pending', -1), ('Suspended by ONC-ACB', -1), ('Suspended by ONC', -1), ('Terminated by ONC', -1), ('Withdrawn by Developer Under Surveillance/Review', -1);
 insert into openchpl.education_type (name, last_modified_user) values ('No high school degree', -1), ('High school graduate, diploma or the equivalent (for example: GED)', -1), ('Some college credit, no degree', -1), ('Trade/technical/vocational training', -1), ('Associate degree', -1), ('Bachelor''s degree', -1), ('Master''s degree', -1), ('Doctorate degree (e.g., MD, DNP, DMD, PhD)', -1);
 insert into openchpl.test_participant_age (age, last_modified_user) values ('0-9', -1),('10-19', -1),('20-29', -1),('30-39', -1),('40-49', -1),('50-59', -1),('60-69', -1),('70-79', -1),('80-89', -1),('90-99', -1),('100+', -1);
 insert into openchpl.vendor_status (name, last_modified_user) values('Active', -1), ('Suspended by ONC', -1), ('Under certification ban by ONC', -1);
@@ -837,25 +837,25 @@ INSERT INTO openchpl.ucd_process(name, last_modified_user) VALUES
 ('NISTIR 7741', -1);
 -- same for 2014 and 2015
 
-INSERT INTO openchpl.test_tool(name, last_modified_user) VALUES
-('ePrescribing Validation Tool', -1),
-('HL7 CDA Cancer Registry Reporting Validation Tool', -1),
-('HL7 v2 Electronic Laboratory Reporting (ELR) Validation Tool', -1),
-('HL7 v2 Immunization Information System (IIS) Reporting Validation Tool', -1),
-('HL7 v2 Laboratory Results Interface (LRI) Validation Tool', -1),
-('HL7 v2 Syndromic Surveillance Reporting Validation Tool', -1),
-('Transport Testing Tool', -1),
-('Cypress', -1),
-('Direct Certificate Discovery Tool', -1),
+INSERT INTO openchpl.test_tool(name, last_modified_user, retired) VALUES
+('ePrescribing Validation Tool', -1, false),
+('HL7 CDA Cancer Registry Reporting Validation Tool', -1, false),
+('HL7 v2 Electronic Laboratory Reporting (ELR) Validation Tool', -1, false),
+('HL7 v2 Immunization Information System (IIS) Reporting Validation Tool', -1, false),
+('HL7 v2 Laboratory Results Interface (LRI) Validation Tool', -1, false),
+('HL7 v2 Syndromic Surveillance Reporting Validation Tool', -1, false),
+('Transport Testing Tool', -1, true),
+('Cypress', -1, false),
+('Direct Certificate Discovery Tool', -1, false),
 -- 2014
-('HL7v2 Immunization Test Suite', -1),
-('HL7v2 Syndromic Surveillance Test Suite', -1),
-('HL7v2 Electronic Laboratory Reporting Validation Tool', -1),
-('Electronic Prescribing', -1),
-('HL7 CDA National Health Care Surveys Validator', -1),
-('Transport Test Tool', -1),
-('Edge Test Tool', -1),
-('2015 Direct Certificate Discovery Tool', -1),
+('HL7v2 Immunization Test Suite', -1, false),
+('HL7v2 Syndromic Surveillance Test Suite', -1, false),
+('HL7v2 Electronic Laboratory Reporting Validation Tool', -1, false),
+('Electronic Prescribing', -1, false),
+('HL7 CDA National Health Care Surveys Validator', -1, false),
+('Transport Test Tool', -1, true),
+('Edge Test Tool', -1, false),
+('2015 Direct Certificate Discovery Tool', -1, false),
 --2015
 ('N/A', -1),
     ('', -1);
