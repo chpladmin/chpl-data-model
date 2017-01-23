@@ -1,5 +1,13 @@
 # Release Notes
 
+## Version TBD
+_Date TBD_
+
+### Changes
+* Add tables for macra g1/g2 measures for lookup, certification results, and pending certification results
+
+---
+
 ## Version 7.1.0
 _23 January 2017_
 

@@ -440,6 +440,24 @@ CREATE TABLE openchpl.test_participant(
 	ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
+--allowable values per criteria for g1/g2
+CREATE TABLE openchpl.macra_criteria_map (
+	id bigserial not null,
+	criteria_id bigint not null,
+	value varchar(100) not null,
+	name varchar(255) not null,
+	description varchar(512) not null,
+	creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
+	CONSTRAINT macra_criteria_map_pk PRIMARY KEY (id),	
+	CONSTRAINT macra_criteria_fk FOREIGN KEY (criteria_id) 
+		REFERENCES openchpl.certification_criterion (certification_criterion_id) 
+		MATCH FULL ON DELETE RESTRICT ON UPDATE CASCADE,
+	CONSTRAINT macra_criteria_unique UNIQUE (criteria_id, value)
+);
+
 -- object: openchpl.certification_result | type: TABLE --
 -- DROP TABLE IF EXISTS openchpl.certification_result CASCADE;
 CREATE TABLE openchpl.certification_result(
@@ -687,6 +705,42 @@ CREATE TABLE openchpl.certification_result_test_tool (
 	REFERENCES openchpl.test_tool (test_tool_id) MATCH FULL
 	ON DELETE RESTRICT ON UPDATE CASCADE
 
+);
+
+--the g1 macra attested to for certification results (maps back to certified product eventually)
+CREATE TABLE openchpl.certification_result_g1_macra (
+	id bigserial not null,
+	macra_id bigint not null,
+	certification_result_id bigint not null,
+	creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
+	CONSTRAINT certification_result_g1_macra_pk PRIMARY KEY (id),
+	CONSTRAINT macra_g1_criteria_map_fk FOREIGN KEY (macra_id) 
+		REFERENCES openchpl.macra_criteria_map (id) 
+		MATCH FULL ON DELETE RESTRICT ON UPDATE CASCADE,	
+	CONSTRAINT g1_macra_certification_result_fk FOREIGN KEY (certification_result_id) 
+		REFERENCES openchpl.certification_result (certification_result_id) 
+		MATCH FULL ON DELETE RESTRICT ON UPDATE CASCADE
+);
+
+--the g2 macra attested to for certification results (maps back to certified product eventually)
+CREATE TABLE openchpl.certification_result_g2_macra (
+	id bigserial not null,
+	macra_id bigint not null,
+	certification_result_id bigint not null,
+	creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
+	CONSTRAINT certification_result_g2_macra_pk PRIMARY KEY (id),
+	CONSTRAINT macra_g2_criteria_map_fk FOREIGN KEY (macra_id) 
+		REFERENCES openchpl.macra_criteria_map (id) 
+		MATCH FULL ON DELETE RESTRICT ON UPDATE CASCADE,	
+	CONSTRAINT g2_macra_certification_result_fk FOREIGN KEY (certification_result_id) 
+		REFERENCES openchpl.certification_result (certification_result_id) 
+		MATCH FULL ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
 -- object: openchpl.testing_lab | type: TABLE --
@@ -1922,6 +1976,44 @@ CREATE TABLE openchpl.pending_certification_result_test_tool (
 	REFERENCES openchpl.test_tool (test_tool_id) MATCH FULL
 	ON DELETE RESTRICT ON UPDATE CASCADE
 
+);
+
+--the g1 macra attested to for pending certification result
+CREATE TABLE openchpl.pending_certification_result_g1_macra (
+	id bigserial not null,
+	macra_id bigint not null, -- a macra that the udser entry could be mapped to
+	macra_value varchar(255) not null, -- what the user entered
+	pending_certification_result_id bigint not null,
+	creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
+	CONSTRAINT pending_certification_result_g1_macra_pk PRIMARY KEY (id),
+	CONSTRAINT pending_g1_macra_criteria_map_fk FOREIGN KEY (macra_id) 
+		REFERENCES openchpl.macra_criteria_map (id) 
+		MATCH FULL ON DELETE RESTRICT ON UPDATE CASCADE,	
+	CONSTRAINT g1_macra_pending_certification_result_fk FOREIGN KEY (pending_certification_result_id) 
+		REFERENCES openchpl.pending_certification_result (pending_certification_result_id) 
+		MATCH FULL ON DELETE RESTRICT ON UPDATE CASCADE
+);
+
+--the g2 macra attested to for pending certification result
+CREATE TABLE openchpl.pending_certification_result_g2_macra (
+	id bigserial not null,
+	macra_id bigint not null, -- a macra that the udser entry could be mapped to
+	macra_value varchar(255) not null, -- what the user entered
+	pending_certification_result_id bigint not null,
+	creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
+	CONSTRAINT pending_certification_result_g2_macra_pk PRIMARY KEY (id),
+	CONSTRAINT pending_g2_macra_criteria_map_fk FOREIGN KEY (macra_id) 
+		REFERENCES openchpl.macra_criteria_map (id) 
+		MATCH FULL ON DELETE RESTRICT ON UPDATE CASCADE,	
+	CONSTRAINT g2_macra_pending_certification_result_fk FOREIGN KEY (pending_certification_result_id) 
+		REFERENCES openchpl.pending_certification_result (pending_certification_result_id) 
+		MATCH FULL ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
 -- object: openchpl.pending_cqm_criterion | type: TABLE --
