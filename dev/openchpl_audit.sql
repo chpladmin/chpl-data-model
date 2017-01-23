@@ -128,6 +128,10 @@ CREATE TRIGGER certification_result_additional_software_timestamp BEFORE UPDATE 
 CREATE TRIGGER certification_result_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.certification_result FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER certification_result_functionality_tested_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.certification_result_test_functionality FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER certification_result_functionality_tested_timestamp BEFORE UPDATE on openchpl.certification_result_test_functionality FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
+CREATE TRIGGER certification_result_g1_macra_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.certification_result_g1_macra FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+CREATE TRIGGER certification_result_g1_macra_timestamp BEFORE UPDATE on openchpl.certification_result_g1_macra FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
+CREATE TRIGGER certification_result_g2_macra_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.certification_result_g2_macra FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+CREATE TRIGGER certification_result_g2_macra_timestamp BEFORE UPDATE on openchpl.certification_result_g2_macra FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER certification_result_test_data_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.certification_result_test_data FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER certification_result_test_data_timestamp BEFORE UPDATE on openchpl.certification_result_test_data FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER certification_result_test_procedure_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.certification_result_test_procedure FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
@@ -145,6 +149,8 @@ CREATE TRIGGER certification_result_ucd_process_audit AFTER INSERT OR UPDATE OR 
 CREATE TRIGGER certification_result_ucd_process_timestamp BEFORE UPDATE on openchpl.certification_result_ucd_process FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER certification_status_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.certification_status FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER certification_status_timestamp BEFORE UPDATE on openchpl.certification_status FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
+CREATE TRIGGER certification_status_event_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.certification_status_event FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+CREATE TRIGGER certification_status_event_timestamp BEFORE UPDATE on openchpl.certification_status_event FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER certified_product_accessibility_standard_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.certified_product_accessibility_standard FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER certified_product_accessibility_standard_timestamp BEFORE UPDATE on openchpl.certified_product_accessibility_standard FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER certified_product_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.certified_product FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
@@ -155,8 +161,6 @@ CREATE TRIGGER certified_product_qms_standard_timestamp BEFORE UPDATE on openchp
 CREATE TRIGGER certified_product_targeted_user_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.certified_product_targeted_user FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER certified_product_targeted_user_timestamp BEFORE UPDATE on openchpl.certified_product_targeted_user FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER certified_product_timestamp BEFORE UPDATE on openchpl.certified_product FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
-CREATE TRIGGER certification_status_event_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.certification_status_event FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
-CREATE TRIGGER certification_status_event_timestamp BEFORE UPDATE on openchpl.certification_status_event FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER contact_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.contact FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER contact_timestamp BEFORE UPDATE on openchpl.contact FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER corrective_action_plan_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.corrective_action_plan FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
@@ -193,6 +197,8 @@ CREATE TRIGGER invited_user_permission_timestamp BEFORE UPDATE on openchpl.invit
 CREATE TRIGGER invited_user_timestamp BEFORE UPDATE on openchpl.invited_user FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER muu_accurate_as_of_date_audit AFTER INSERT OR UPDATE OR DELETE ON openchpl.muu_accurate_as_of_date FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER muu_accurate_as_of_date_timestamp BEFORE UPDATE ON openchpl.muu_accurate_as_of_date FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
+CREATE TRIGGER macra_criteria_map_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.macra_criteria_map FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+CREATE TRIGGER macra_criteria_map_timestamp BEFORE UPDATE on openchpl.macra_criteria_map FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER newer_standards_met_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.newer_standards_met FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER newer_standards_met_timestamp BEFORE UPDATE on openchpl.newer_standards_met FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER nonconformity_status_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.nonconformity_status FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
@@ -202,6 +208,10 @@ CREATE TRIGGER optional_functionality_met_timestamp BEFORE UPDATE on openchpl.op
 CREATE TRIGGER pending_certification_result_additional_software_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.pending_certification_result_additional_software FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER pending_certification_result_additional_software_timestamp BEFORE UPDATE on openchpl.pending_certification_result_additional_software FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER pending_certification_result_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.pending_certification_result FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+CREATE TRIGGER pending_certification_result_g1_macra_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.pending_certification_result_g1_macra FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+CREATE TRIGGER pending_certification_result_g1_macra_timestamp BEFORE UPDATE on openchpl.pending_certification_result_g1_macra FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
+CREATE TRIGGER pending_certification_result_g2_macra_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.pending_certification_result_g2_macra FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+CREATE TRIGGER pending_certification_result_g2_macra_timestamp BEFORE UPDATE on openchpl.pending_certification_result_g2_macra FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER pending_certification_result_test_data_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.pending_certification_result_test_data FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER pending_certification_result_test_data_timestamp BEFORE UPDATE on openchpl.pending_certification_result_test_data FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER pending_certification_result_test_functionality_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.pending_certification_result_test_functionality FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
