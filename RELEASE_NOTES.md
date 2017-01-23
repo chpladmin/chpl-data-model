@@ -17,7 +17,6 @@ _23 January 2017_
 * Add indexes to improve performance
 * Set retired to true for Transport Test Tool and Transport Testing Tool
 
-
 ---
 
 ## Version 7.0.2
