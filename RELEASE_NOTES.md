@@ -5,6 +5,7 @@ _Date TBD_
 
 ### Changes
 * Add tables for macra g1/g2 measures for lookup, certification results, and pending certification results
+* Add Meaningful Use User Accurate table, triggers, and row of data with accurate as of date = '11/30/2016'
 
 ---
 
