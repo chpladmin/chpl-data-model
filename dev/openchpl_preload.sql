@@ -1366,6 +1366,8 @@ values ((SELECT certification_criterion_id from openchpl.certification_criterion
 INSERT INTO openchpl.macra_criteria_map (criteria_id, value, name, description, last_modified_user) 
 values ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (g)(9)'),'RT4c EH/CAH','RT4c Eligible Hospital/Critical Access Hospital: View, Download, or Transmit (VDT)','Required Test 4: Stage 2 Objective 8 Measure 2 and Stage 3 Objective 6 Measure 1', -1);
 
+INSERT INTO openchpl.muu_accurate_as_of_date (accurate_as_of_date, last_modified_user) values('11/30/2016', -1);
+
 INSERT INTO user_permission (user_permission_id, "name", description, authority, last_modified_user) VALUES
 (-2, 'ADMIN', 'This permission confers administrative privileges to its owner.', 'ROLE_ADMIN', -1),
 (1, 'USER_CREATOR' ,'This permission allows a user to create other users',	'ROLE_USER_CREATOR' , -1),

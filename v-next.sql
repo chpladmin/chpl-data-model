@@ -301,3 +301,40 @@ INSERT INTO openchpl.macra_criteria_map (criteria_id, value, name, description, 
 values ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (g)(9)'),'RT4c EC Group','RT4c Eligible Clinician Group: View, Download, or Transmit (VDT)','Required Test 4: Stage 2 Objective 8 Measure 2 and Stage 3 Objective 6 Measure 1', -1);
 INSERT INTO openchpl.macra_criteria_map (criteria_id, value, name, description, last_modified_user) 
 values ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (g)(9)'),'RT4c EH/CAH','RT4c Eligible Hospital/Critical Access Hospital: View, Download, or Transmit (VDT)','Required Test 4: Stage 2 Objective 8 Measure 2 and Stage 3 Objective 6 Measure 1', -1);
+
+-------------------------------------------------------------------------------------
+-- OCD-1158 Add MUU accurate table
+-------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS openchpl.muu_accurate_as_of_date;
+CREATE TABLE openchpl.muu_accurate_as_of_date (
+	muu_accurate_as_of_date_id bigserial NOT NULL,
+	accurate_as_of_date timestamp without time zone NOT NULL,
+	creation_date timestamp without time zone NOT NULL DEFAULT now(),
+	last_modified_date timestamp without time zone NOT NULL DEFAULT now(),
+	last_modified_user bigint NOT NULL,
+	deleted boolean NOT NULL DEFAULT false,
+	CONSTRAINT muu_accurate_as_of_date_pk PRIMARY KEY (muu_accurate_as_of_date_id)
+)
+WITH (
+  OIDS=FALSE
+);
+
+GRANT ALL ON TABLE openchpl.muu_accurate_as_of_date TO openchpl;
+
+CREATE TRIGGER muu_accurate_as_of_date_audit
+  AFTER INSERT OR UPDATE OR DELETE
+  ON openchpl.muu_accurate_as_of_date
+  FOR EACH ROW
+  EXECUTE PROCEDURE audit.if_modified_func();
+
+CREATE TRIGGER muu_accurate_as_of_date_timestamp
+  BEFORE UPDATE
+  ON openchpl.muu_accurate_as_of_date
+  FOR EACH ROW
+  EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
+  
+  INSERT INTO openchpl.muu_accurate_as_of_date (accurate_as_of_date, last_modified_user) SELECT '11/30/2016', -1
+  WHERE
+    NOT EXISTS (
+        SELECT muu_accurate_as_of_date_id FROM openchpl.muu_accurate_as_of_date
+    );
