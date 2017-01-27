@@ -1,9 +1,11 @@
-﻿CREATE OR REPLACE VIEW openchpl.certified_product_search AS
+﻿DROP VIEW IF EXISTS openchpl.certified_product_search;
+CREATE OR REPLACE VIEW openchpl.certified_product_search AS
 
 SELECT
     cp.certified_product_id,
+    string_agg(DISTINCT cert_number::text, ',') as "certs",
+    string_agg(DISTINCT cqm_number::text, ',') as "cqms",
     COALESCE(cp.chpl_product_number, substring(edition.year from 3 for 2)||'.'||atl.testing_lab_code||'.'||acb.certification_body_code||'.'||vendor.vendor_code||'.'||cp.product_code||'.'||cp.version_code||'.'||cp.ics_code||'.'||cp.additional_software_code||'.'||cp.certified_date_code) as "chpl_product_number",
-    edition.certification_edition_id,
     edition.year,
     atl.testing_lab_name,
     acb.certification_body_name,
@@ -16,7 +18,7 @@ SELECT
     CASE WHEN surv.count_surveillance_activities=0 THEN false WHEN surv.count_surveillance_activities IS NULL THEN false ELSE true END as "has_had_surveillance",
     CASE WHEN surv_open.count_open_surveillance_activities = 0 THEN false WHEN surv_open.count_open_surveillance_activities IS NULL THEN false ELSE true END as "has_open_surveillance",
     CASE WHEN nc_open.count_open_nonconformities = 0 THEN false WHEN nc_open.count_open_nonconformities IS NULL THEN false ELSE true END as "has_open_nonconformities"
-FROM openchpl.certified_product cp
+ FROM openchpl.certified_product cp
 	LEFT JOIN (SELECT cse.certification_status_id as "certification_status_id", cse.certified_product_id as "certified_product_id",
 			cse.event_date as "last_certification_status_change"
 				FROM openchpl.certification_status_event cse
@@ -54,6 +56,22 @@ FROM openchpl.certified_product cp
 		 WHERE surv.deleted <> true 
 		 AND nc_status.name = 'Open') n GROUP BY certified_product_id) nc_open
     ON cp.certified_product_id = nc_open.certified_product_id
-    ;
+    LEFT JOIN (SELECT number as "cert_number", certified_product_id FROM openchpl.certification_criterion 
+		JOIN openchpl.certification_result ON certification_criterion.certification_criterion_id = certification_result.certification_criterion_id
+		WHERE certification_result.success = true AND certification_result.deleted = false AND certification_criterion.deleted = false) certs
+	ON certs.certified_product_id = cp.certified_product_id
+    LEFT JOIN (SELECT COALESCE(cms_id, 'NQF-'||nqf_number) as "cqm_number", certified_product_id FROM openchpl.cqm_criterion 
+		JOIN openchpl.cqm_result 
+		ON cqm_criterion.cqm_criterion_id = cqm_result.cqm_criterion_id
+		WHERE cqm_result.success = true AND cqm_result.deleted = false AND cqm_criterion.deleted = false) cqms
+	ON cqms.certified_product_id = cp.certified_product_id
+	
+WHERE cp.deleted != true
+GROUP BY cp.certified_product_id, edition.year, atl.testing_lab_code, acb.certification_body_code, vendor.vendor_code, cp.product_code, cp.version_code, cp.ics_code, cp.additional_software_code, cp.certified_date_code,
+atl.testing_lab_name, acb.certification_body_name,prac.practice_type_name,version.product_version,product.product_name,vendor.vendor_name,certStatusEvent.certification_date,certStatus.certification_status_name,
+surv.count_surveillance_activities, surv_open.count_open_surveillance_activities, nc_open.count_open_nonconformities
+;
+
+GRANT ALL on openchpl.certified_product_search to openchpl;
 
 ANALYZE;
