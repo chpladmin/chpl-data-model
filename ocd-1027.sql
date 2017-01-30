@@ -1,10 +1,10 @@
-﻿DROP VIEW IF EXISTS openchpl.certified_product_search;
+DROP VIEW IF EXISTS openchpl.certified_product_search;
 CREATE OR REPLACE VIEW openchpl.certified_product_search AS
 
 SELECT
     cp.certified_product_id,
-    string_agg(DISTINCT cert_number::text, ',') as "certs",
-    string_agg(DISTINCT cqm_number::text, ',') as "cqms",
+    string_agg(DISTINCT cert_number::text, ';') as "certs",
+    string_agg(DISTINCT cqm_number::text, ';') as "cqms",
     COALESCE(cp.chpl_product_number, substring(edition.year from 3 for 2)||'.'||atl.testing_lab_code||'.'||acb.certification_body_code||'.'||vendor.vendor_code||'.'||cp.product_code||'.'||cp.version_code||'.'||cp.ics_code||'.'||cp.additional_software_code||'.'||cp.certified_date_code) as "chpl_product_number",
     edition.year,
     atl.testing_lab_name,
@@ -14,6 +14,7 @@ SELECT
     version.product_version,
     product.product_name,
     vendor.vendor_name,
+    string_agg(DISTINCT history_vendor_name::text, ';') as "owner_history",
     certStatusEvent.certification_date,
     certStatus.certification_status_name,
     CASE WHEN surv.count_surveillance_activities=0 THEN false WHEN surv.count_surveillance_activities IS NULL THEN false ELSE true END as "has_had_surveillance",
@@ -38,6 +39,10 @@ SELECT
     LEFT JOIN (SELECT product_version_id, version as "product_version", product_id from openchpl.product_version) version on cp.product_version_id = version.product_version_id
     LEFT JOIN (SELECT product_id, vendor_id, name as "product_name" FROM openchpl.product) product ON version.product_id = product.product_id
     LEFT JOIN (SELECT vendor_id, name as "vendor_name", vendor_code FROM openchpl.vendor) vendor on product.vendor_id = vendor.vendor_id
+    LEFT JOIN (SELECT name as "history_vendor_name", product_owner_history_map.product_id as "history_product_id" FROM openchpl.vendor 
+			JOIN openchpl.product_owner_history_map ON vendor.vendor_id = product_owner_history_map.vendor_id
+			WHERE product_owner_history_map.deleted = false) owners
+    ON owners.history_product_id = product.product_id
     LEFT JOIN (SELECT MIN(event_date) as "certification_date", certified_product_id from openchpl.certification_status_event where certification_status_id = 1 group by (certified_product_id)) certStatusEvent on cp.certified_product_id = certStatusEvent.certified_product_id
     LEFT JOIN (SELECT certified_product_id, count(*) as "count_surveillance_activities" FROM (SELECT * FROM openchpl.surveillance WHERE deleted <> true) n GROUP BY certified_product_id) surv ON cp.certified_product_id = surv.certified_product_id
     LEFT JOIN (SELECT certified_product_id, count(*) as "count_open_surveillance_activities" FROM
