@@ -9,6 +9,7 @@ SELECT
     edition.year,
     atl.testing_lab_name,
     acb.certification_body_name,
+    cp.acb_certification_id,
     prac.practice_type_name,
     version.product_version,
     product.product_name,
@@ -67,7 +68,7 @@ SELECT
 	ON cqms.certified_product_id = cp.certified_product_id
 	
 WHERE cp.deleted != true
-GROUP BY cp.certified_product_id, edition.year, atl.testing_lab_code, acb.certification_body_code, vendor.vendor_code, cp.product_code, cp.version_code, cp.ics_code, cp.additional_software_code, cp.certified_date_code,
+GROUP BY cp.certified_product_id, cp.acb_certification_id, edition.year, atl.testing_lab_code, acb.certification_body_code, vendor.vendor_code, cp.product_code, cp.version_code, cp.ics_code, cp.additional_software_code, cp.certified_date_code,
 atl.testing_lab_name, acb.certification_body_name,prac.practice_type_name,version.product_version,product.product_name,vendor.vendor_name,certStatusEvent.certification_date,certStatus.certification_status_name,
 surv.count_surveillance_activities, surv_open.count_open_surveillance_activities, nc_open.count_open_nonconformities
 ;
