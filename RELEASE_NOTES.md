@@ -1,5 +1,14 @@
 # Release Notes
 
+## Version 8.0.0
+_7 February 2017_
+
+### Changes
+* Add tables for macra g1/g2 measures for lookup, certification results, and pending certification results
+* Add Meaningful Use User Accurate table, triggers, and row of data with accurate as of date = '11/30/2016'
+
+---
+
 ## Version 7.1.0
 _23 January 2017_
 
