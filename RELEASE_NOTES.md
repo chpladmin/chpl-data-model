@@ -1,5 +1,13 @@
 # Release Notes
 
+## Version TBD Next
+_Date TBD Next_
+
+### Changes
+* Added basic search view
+
+---
+
 ## Version TBD
 _Date TBD_
 
