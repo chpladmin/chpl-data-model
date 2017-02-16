@@ -4,6 +4,14 @@
 _Date TBD_
 
 ### Changes
+* Add new EH/CAH macra measures for 170.315 (a)(1), (2), and (3)
+
+---
+
+## Version 8.0.0
+_7 February 2017_
+
+### Changes
 * Add tables for macra g1/g2 measures for lookup, certification results, and pending certification results
 * Add Meaningful Use User Accurate table, triggers, and row of data with accurate as of date = '11/30/2016'
 
