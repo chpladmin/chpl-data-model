@@ -99,3 +99,28 @@ surveillance.open_surv_exists, surveillance.closed_surv_exists, nonconformities.
 GRANT ALL on openchpl.certified_product_search to openchpl;
 
 ANALYZE;
+
+-------------------------------------------------------------------------------------
+-- OCD-1249 Add column to surveillance for "role" of creator
+-------------------------------------------------------------------------------------
+DO $$ 
+    BEGIN
+        BEGIN
+            ALTER TABLE openchpl.surveillance ADD COLUMN user_permission_id INTEGER NOT NULL DEFAULT 3;
+        EXCEPTION
+            WHEN duplicate_column THEN RAISE NOTICE 'column user_permission_id already exists in openchpl.surveillance';
+        END;
+
+        BEGIN
+            ALTER TABLE openchpl.surveillance
+		ADD CONSTRAINT user_permission_id_fk
+		FOREIGN KEY (user_permission_id)
+		REFERENCES openchpl.user_permission
+		MATCH FULL
+		ON DELETE CASCADE
+		ON UPDATE CASCADE;
+        EXCEPTION
+            WHEN duplicate_object THEN RAISE NOTICE 'Table constraint openchpl.user_permission_id_fk already exists';
+        END;
+    END;
+$$

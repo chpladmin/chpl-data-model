@@ -5,6 +5,7 @@ _Date TBD Next_
 
 ### Changes
 * Added basic search view
+* Add column to surveillance for "role" of creator
 
 ---
 

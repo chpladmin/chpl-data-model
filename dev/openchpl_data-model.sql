@@ -2309,13 +2309,17 @@ CREATE TABLE openchpl.surveillance (
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_user bigint NOT NULL,
 	deleted bool NOT NULL DEFAULT false,
+	user_permission_id integer NOT NULL DEFAULT 3,
 	CONSTRAINT surveillance_pk PRIMARY KEY (id),
 	CONSTRAINT certified_product_fk FOREIGN KEY (certified_product_id) 
 		REFERENCES openchpl.certified_product (certified_product_id) 
 		MATCH FULL ON DELETE CASCADE ON UPDATE CASCADE,	
 	CONSTRAINT type_fk FOREIGN KEY (type_id) 
 		REFERENCES openchpl.surveillance_type (id) 
-		MATCH FULL ON DELETE SET NULL ON UPDATE CASCADE		
+		MATCH FULL ON DELETE SET NULL ON UPDATE CASCADE,
+	CONSTRAINT user_permission_id_fk FOREIGN KEY (user_permission_id)
+      REFERENCES openchpl.user_permission (user_permission_id) MATCH FULL
+      ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 CREATE TABLE openchpl.surveillance_requirement (
