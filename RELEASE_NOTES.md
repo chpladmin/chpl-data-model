@@ -1,6 +1,6 @@
 # Release Notes
 
-## Version TBD Next
+## Version TBD
 _Date TBD Next_
 
 ### Changes
@@ -8,8 +8,8 @@ _Date TBD Next_
 
 ---
 
-## Version TBD
-_Date TBD_
+## Version 8.0.1
+_21 February 2017_
 
 ### Changes
 * Add new EH/CAH macra measures for 170.315 (a)(1), (2), and (3)
