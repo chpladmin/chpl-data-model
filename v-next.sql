@@ -111,6 +111,13 @@ DO $$
         EXCEPTION
             WHEN duplicate_column THEN RAISE NOTICE 'column user_permission_id already exists in openchpl.surveillance';
         END;
+		
+		BEGIN
+            ALTER TABLE openchpl.pending_surveillance ADD COLUMN user_permission_id INTEGER NOT NULL DEFAULT 3;
+			RAISE NOTICE 'Added column user_permission_id to openchpl.pending_surveillance';
+        EXCEPTION
+            WHEN duplicate_column THEN RAISE NOTICE 'column user_permission_id already exists in openchpl.pending_surveillance';
+        END;
 
         BEGIN
             ALTER TABLE openchpl.surveillance
@@ -122,7 +129,20 @@ DO $$
 		ON UPDATE CASCADE;
 		RAISE NOTICE 'Added FK constraint user_permission_id_fk to openchpl.surveillance';
         EXCEPTION
-            WHEN duplicate_object THEN RAISE NOTICE 'Table constraint openchpl.user_permission_id_fk already exists';
+            WHEN duplicate_object THEN RAISE NOTICE 'Table constraint openchpl.user_permission_id_fk already exists for openchpl.surveillance';
+        END;
+		
+		BEGIN
+            ALTER TABLE openchpl.pending_surveillance
+		ADD CONSTRAINT user_permission_id_fk
+		FOREIGN KEY (user_permission_id)
+		REFERENCES openchpl.user_permission
+		MATCH FULL
+		ON DELETE CASCADE
+		ON UPDATE CASCADE;
+		RAISE NOTICE 'Added FK constraint user_permission_id_fk to openchpl.pending_surveillance';
+        EXCEPTION
+            WHEN duplicate_object THEN RAISE NOTICE 'Table constraint openchpl.user_permission_id_fk already exists for openchpl.pending_surveillance';
         END;
     END;
 $$
