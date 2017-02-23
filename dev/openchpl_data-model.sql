@@ -2308,7 +2308,7 @@ CREATE TABLE openchpl.surveillance (
 	creation_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_user bigint NOT NULL,
-	user_permission_id integer NOT NULL DEFAULT 3,
+	user_permission_id integer NOT NULL,
 	deleted bool NOT NULL DEFAULT false,
 	CONSTRAINT surveillance_pk PRIMARY KEY (id),
 	CONSTRAINT certified_product_fk FOREIGN KEY (certified_product_id) 
