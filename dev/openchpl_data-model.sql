@@ -2412,9 +2412,7 @@ CREATE TABLE openchpl.pending_surveillance (
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_user bigint NOT NULL,
 	deleted bool NOT NULL DEFAULT false,
-	CONSTRAINT pending_surveillance_pk PRIMARY KEY (id),
-    REFERENCES openchpl.user_permission (user_permission_id) MATCH FULL
-    ON UPDATE CASCADE ON DELETE CASCADE
+	CONSTRAINT pending_surveillance_pk PRIMARY KEY (id)
 );
 
 CREATE TABLE openchpl.pending_surveillance_requirement (
