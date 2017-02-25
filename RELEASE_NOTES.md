@@ -5,7 +5,7 @@ _Date TBD Next_
 
 ### Changes
 * Added basic search view
-* Add column to surveillance and pending_surveillance for "role" of creator
+* Add column to surveillance to keep track of initiator's authority
 
 ---
 
