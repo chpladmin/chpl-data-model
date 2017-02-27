@@ -1,5 +1,13 @@
 # Release Notes
 
+## Version 8.1.0
+_27 February 2017_
+
+### Changes
+* Added basic search view
+
+---
+
 ## Version 8.0.1
 _21 February 2017_
 
