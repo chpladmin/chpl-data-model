@@ -4,7 +4,7 @@
 DO $$ 
     BEGIN
         BEGIN
-            ALTER TABLE openchpl.surveillance ADD COLUMN user_permission_id INTEGER NOT NULL DEFAULT 3;
+            ALTER TABLE openchpl.surveillance ADD COLUMN user_permission_id BIGINT NOT NULL DEFAULT 3;
 			RAISE NOTICE 'Added column user_permission_id to openchpl.surveillance';
         EXCEPTION
             WHEN duplicate_column THEN RAISE NOTICE 'column user_permission_id already exists in openchpl.surveillance';
