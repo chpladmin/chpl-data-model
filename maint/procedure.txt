@@ -1,10 +1,10 @@
 ssh initial-machine
 cd chpl-data-model/maint
-./dump.sh $DB openchpl openchpl_dev
+./dump.sh $DB openchpl_dev
 exit
 scp initial-machine:chpl-data-model/maint/openchpl.backup target-machine:chpl-data-model/maint/openchpl.backup
 ssh target-machine
 cd chpl-data-model/maint
 service tomcat8 stop
-./load.sh $DB openchpl openchpl_dev
+./load.sh $DB openchpl_dev
 psql -U openchpl -h $DB -c analyze;
