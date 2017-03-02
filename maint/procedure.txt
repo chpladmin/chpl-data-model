@@ -1,10 +1,27 @@
+Log into the "initial-machine" and generate the backup file
 ssh initial-machine
 cd chpl-data-model/maint
 ./dump.sh $DB openchpl_dev
 exit
+
+Copy the backup file from the initial machine to the target machine
 scp initial-machine:chpl-data-model/maint/openchpl.backup target-machine:chpl-data-model/maint/openchpl.backup
+
+Log into the target machine and load the data file
 ssh target-machine
 cd chpl-data-model/maint
-service tomcat8 stop
 ./load.sh $DB openchpl_dev
+To disable all users (except admin):
+  psql -U openchpl_dev -h $DB -f disable-users.sql openchpl
+psql -U openchpl_dev -h $DB -f users.sql openchpl
+
+Update the target machine with whatever is "new" as per git
+cd ..
+psql -U openchpl_dev -h $DB -f v-next.sql openchpl;
 psql -U openchpl -h $DB -c analyze;
+
+Notes:
+If loading on live, consider stop/starting tomcat
+  service tomcat8 stop
+  service tomcat8 start
+Edit users.sql file to add any users w/encrypted passwords and the things they should be managers of.
