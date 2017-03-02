@@ -67,7 +67,7 @@ localhost:5432:*:openchpl_dev:password
 localhost:5432:*:openchpl:password
 ```
 
-# Create openchpl_dev role (if it doesn't already exist
+### Create openchpl_dev role (if it doesn't already exist
 
 ```sql
 CREATE ROLE openchpl_dev LOGIN
@@ -75,22 +75,22 @@ CREATE ROLE openchpl_dev LOGIN
   NOSUPERUSER INHERIT NOCREATEDB NOCREATEROLE NOREPLICATION;
 ```
 
-# Backup your local database in case of disaster
+### Backup your local database in case of disaster
 
 ```sh
 cd chpl_data_model/maint
 ./dump.sh localhost openchpl
 ```
 
-# And make sure the openchpl database is owned by openchpl_dev:
+### And make sure the openchpl database is owned by openchpl_dev:
 
-## Drop the openchpl database if it's not owned by openchpl_dev
+#### Drop the openchpl database if it's not owned by openchpl_dev
 
 ```sql
 DROP DATABASE openchpl;
 ```
 
-# Then create it
+#### Then create it
 
 ```sql
 CREATE DATABASE openchpl
