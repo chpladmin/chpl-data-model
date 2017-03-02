@@ -25,3 +25,7 @@ If loading on live, consider stop/starting tomcat
   service tomcat8 stop
   service tomcat8 start
 Edit users.sql file to add any users w/encrypted passwords and the things they should be managers of.
+Make sure openchpl_dev is a user in the system, something like:
+CREATE ROLE openchpl_dev LOGIN
+  ENCRYPTED PASSWORD 'md5cf8270a3cc591bdefa97b25a3981ef9e'
+  NOSUPERUSER INHERIT NOCREATEDB NOCREATEROLE NOREPLICATION;
