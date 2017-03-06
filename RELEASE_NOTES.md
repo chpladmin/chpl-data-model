@@ -5,6 +5,7 @@ _Date TBD_
 
 ###Changes
 * Remove ACLs for pending certified products
+* Added scripts for backup/load of database
 
 ---
 
