@@ -1,5 +1,13 @@
 # Release Notes
 
+## Version TBD
+_Date TBD_
+
+###Changes
+* Remove ACLs for pending certified products
+
+---
+
 ## Version 8.1.0
 _27 February 2017_
 
