@@ -1114,9 +1114,8 @@ SET search_path = openchpl, pg_catalog;
 insert into openchpl.certification_body (name, acb_code, last_modified_user) values ('InfoGard', '02', -1), ('CCHIT', '03', -1), ('Drummond Group Inc.', '04', -1), ('SLI Global', '05', -1), ('Surescripts LLC', '06', -1), ('ICSA Labs', '07', -1), ('Pending', '08', -1);
 insert into openchpl.testing_lab (name, testing_lab_code, last_modified_user) values ('InfoGard', '02', -1), ('CCHIT', '03', -1), ('Drummond Group Inc.', '04', -1), ('SLI Global', '05', -1), ('ICSA Labs', '07', -1), ('National Technical Systems', '09', -1);
 
-INSERT INTO acl_class VALUES (1, 'gov.healthit.chpl.auth.dto.UserDTO'), (2, 'gov.healthit.chpl.dto.CertificationBodyDTO'),
-							 (3, 'gov.healthit.chpl.dto.PendingCertifiedProductDTO'), (4, 'gov.healthit.chpl.dto.TestingLabDTO');
-SELECT pg_catalog.setval('acl_class_id_seq', 5, true);
+INSERT INTO acl_class VALUES (1, 'gov.healthit.chpl.auth.dto.UserDTO'), (2, 'gov.healthit.chpl.dto.CertificationBodyDTO'), (3, 'gov.healthit.chpl.dto.TestingLabDTO');
+SELECT pg_catalog.setval('acl_class_id_seq', 4, true);
 
 --inserts users that can have acls
 INSERT INTO acl_sid VALUES
@@ -1138,12 +1137,12 @@ INSERT INTO acl_object_identity VALUES
 
 -- insert atl objects
 INSERT INTO acl_object_identity VALUES
-(9, 4, 1, NULL, -2, true),
-(10, 4, 2, NULL, -2, true),
-(11, 4, 3, NULL, -2, true),
-(12, 4, 4, NULL, -2, true),
-(13, 4, 5, NULL, -2, true),
-(14, 4, 6, NULL, -2, true);
+(9, 3, 1, NULL, -2, true),
+(10, 3, 2, NULL, -2, true),
+(11, 3, 3, NULL, -2, true),
+(12, 3, 4, NULL, -2, true),
+(13, 3, 5, NULL, -2, true),
+(14, 3, 6, NULL, -2, true);
 
 --insert acls for users
 INSERT INTO acl_entry VALUES
