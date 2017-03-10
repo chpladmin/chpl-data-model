@@ -28,7 +28,7 @@ DO $$
             WHEN duplicate_object THEN RAISE NOTICE 'Table constraint openchpl.user_permission_id_fk already exists for openchpl.surveillance';
         END;
     END;
-$$
+$$;
 -- remove all acl_entry values for pending certified products
 DELETE from openchpl.acl_entry 
 WHERE acl_object_identity IN
