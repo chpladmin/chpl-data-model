@@ -22,7 +22,6 @@ _27 February 2017_
 
 ### Changes
 * Added basic search view
-* Add column to surveillance to keep track of initiator's authority
 
 ---
 
