@@ -1,7 +1,7 @@
 # Release Notes
 
 ## Version TBD
-_27 March 2017_
+_Date TBD_
 
 ### Changes
 * Add column to surveillance for "role" of creator
