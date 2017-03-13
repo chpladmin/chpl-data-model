@@ -1,7 +1,15 @@
 # Release Notes
 
 ## Version TBD
-_Date TBD_
+_27 March 2017_
+
+### Changes
+* Add column to surveillance for "role" of creator
+
+---
+
+## Version 8.2.0
+_13 March 2017_
 
 ###Changes
 * Remove ACLs for pending certified products
