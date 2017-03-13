@@ -1,15 +1,24 @@
 # Release Notes
 
-## Version TBD Next
-_Date TBD Next_
+## Version 8.2.0
+_13 March 2017_
+
+### Changes
+* Remove ACLs for pending certified products
+* Added scripts for backup/load of database
+
+---
+
+## Version 8.1.0
+_27 February 2017_
 
 ### Changes
 * Added basic search view
 
 ---
 
-## Version TBD
-_Date TBD_
+## Version 8.0.1
+_21 February 2017_
 
 ### Changes
 * Add new EH/CAH macra measures for 170.315 (a)(1), (2), and (3)
