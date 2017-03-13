@@ -4,10 +4,17 @@
 
 This document outlines the steps that will need to be followed to migrate a database from "initial-machine" to "target-machine". That said, certain lines will need to be modified based on the user that's taking the activity. These lines are not all meant to be copy/pasted
 
+# Set initial/target machines
+
+```sh
+export initial_machine="IP address or SSH alias or something equal to system where data starts"
+export target_machine="IP address or SSH alias or something equal to system where data is going"
+```
+
 # Log into the "initial-machine" and generate the backup file
 
 ```sh
-ssh initial-machine
+ssh $initial_machine
 cd chpl-data-model/maint
 ./dump.sh $DB openchpl_dev
 exit
@@ -16,13 +23,20 @@ exit
 # Copy the backup file from the initial machine to the target machine
 
 ```sh
-scp initial-machine:chpl-data-model/maint/openchpl.backup target-machine:chpl-data-model/maint/openchpl.backup
+scp $initial_machine:chpl-data-model/maint/openchpl.backup openchpl.backup
+scp openchpl.backup $target_machine:chpl-data-model/maint/openchpl.backup
+```
+
+Or...
+
+```sh
+scp -3 $initial_machine:chpl-data-model/maint/openchpl.backup $target_machine:chpl-data-model/maint/openchpl.backup
 ```
 
 # Log into the target machine and load the data files
 
 ```sh
-ssh target-machine
+ssh $target_machine
 cd chpl-data-model/maint
 ./load.sh $DB openchpl_dev
 ```
