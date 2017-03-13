@@ -1,5 +1,14 @@
 # Release Notes
 
+## Version 8.2.0
+_13 March 2017_
+
+### Changes
+* Remove ACLs for pending certified products
+* Added scripts for backup/load of database
+
+---
+
 ## Version 8.1.0
 _27 February 2017_
 
