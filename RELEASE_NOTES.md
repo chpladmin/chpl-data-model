@@ -5,6 +5,7 @@ _Date TBD_
 
 ### Changes
 * Add column to surveillance for "role" of creator
+* Updated text for G1/G2 Macra measures
 
 ---
 
