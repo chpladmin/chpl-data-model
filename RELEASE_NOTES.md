@@ -1,5 +1,14 @@
 # Release Notes
 
+## Version TBD
+_Date TBD_
+
+### Changes
+* Add column to surveillance for "role" of creator
+* Updated text for G1/G2 Macra measures
+
+---
+
 ## Version 8.2.0
 _13 March 2017_
 

@@ -2308,6 +2308,7 @@ CREATE TABLE openchpl.surveillance (
 	creation_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_user bigint NOT NULL,
+	user_permission_id bigint NOT NULL,
 	deleted bool NOT NULL DEFAULT false,
 	CONSTRAINT surveillance_pk PRIMARY KEY (id),
 	CONSTRAINT certified_product_fk FOREIGN KEY (certified_product_id) 
@@ -2315,7 +2316,10 @@ CREATE TABLE openchpl.surveillance (
 		MATCH FULL ON DELETE CASCADE ON UPDATE CASCADE,	
 	CONSTRAINT type_fk FOREIGN KEY (type_id) 
 		REFERENCES openchpl.surveillance_type (id) 
-		MATCH FULL ON DELETE SET NULL ON UPDATE CASCADE		
+		MATCH FULL ON DELETE SET NULL ON UPDATE CASCADE,
+	CONSTRAINT user_permission_id_fk FOREIGN KEY (user_permission_id)
+      REFERENCES openchpl.user_permission (user_permission_id) MATCH FULL
+      ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 CREATE TABLE openchpl.surveillance_requirement (
@@ -2408,7 +2412,7 @@ CREATE TABLE openchpl.pending_surveillance (
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_user bigint NOT NULL,
 	deleted bool NOT NULL DEFAULT false,
-	CONSTRAINT pending_surveillance_pk PRIMARY KEY (id)	
+	CONSTRAINT pending_surveillance_pk PRIMARY KEY (id)
 );
 
 CREATE TABLE openchpl.pending_surveillance_requirement (
