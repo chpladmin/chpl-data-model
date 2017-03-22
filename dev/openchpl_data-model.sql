@@ -150,6 +150,22 @@ COMMENT ON TABLE openchpl.vendor IS 'Table to store vendors that are entered int
 --A LTER TABLE openchpl.vendor OWNER TO openchpl;
 -- ddl-end --
 
+CREATE TABLE openchpl.vendor_status_history (
+	vendor_status_history_id  bigserial NOT NULL,
+	vendor_id bigint NOT NULL,
+	vendor_status_id bigint NOT NULL,
+	status_date timestamp NOT NULL DEFAULT NOW(),
+	creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
+	CONSTRAINT vendor_status_history_pk PRIMARY KEY (vendor_status_history_id),
+	CONSTRAINT vendor_fk FOREIGN KEY (vendor_id) REFERENCES openchpl.vendor (vendor_id) 
+		MATCH FULL ON DELETE RESTRICT ON UPDATE CASCADE
+	CONSTRAINT vendor_status_fk FOREIGN KEY (vendor_status_id) REFERENCES openchpl.vendor_status (vendor_status_id) 
+		MATCH FULL ON DELETE RESTRICT ON UPDATE CASCADE
+);
+
 CREATE TABLE openchpl.acb_vendor_map (
 	acb_vendor_map_id bigserial NOT NULL,
 	vendor_id bigint NOT NULL,
