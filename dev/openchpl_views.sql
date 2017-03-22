@@ -155,6 +155,7 @@ FROM openchpl.certified_product a
 				INNER JOIN (
 					SELECT vendor_id, MAX(status_date) status_date
 					FROM openchpl.vendor_status_history
+					WHERE deleted = false
 					GROUP BY vendor_id
 				) vsInner 
 				ON vsHistory.vendor_id = vsInner.vendor_id AND vsHistory.status_date = vsInner.status_date) vendorStatus

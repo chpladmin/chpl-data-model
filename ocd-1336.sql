@@ -1,6 +1,7 @@
 -------------------------------------
 -- developer status history changes
 -------------------------------------
+DROP VIEW IF EXISTS openchpl.certified_product_details;
 
 -- create new table and triggers
 DROP TABLE IF EXISTS openchpl.vendor_status_history;
@@ -48,7 +49,6 @@ INSERT INTO openchpl.vendor_status_history
 	WHERE vendor_status_id != 1;
 	
 --adjust the details view to pull current vendor status from new history table
-DROP VIEW IF EXISTS openchpl.certified_product_details;
 CREATE OR REPLACE VIEW openchpl.certified_product_details AS
 
 SELECT
