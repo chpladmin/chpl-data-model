@@ -161,7 +161,7 @@ CREATE TABLE openchpl.vendor_status_history (
 	deleted bool NOT NULL DEFAULT false,
 	CONSTRAINT vendor_status_history_pk PRIMARY KEY (vendor_status_history_id),
 	CONSTRAINT vendor_fk FOREIGN KEY (vendor_id) REFERENCES openchpl.vendor (vendor_id) 
-		MATCH FULL ON DELETE RESTRICT ON UPDATE CASCADE
+		MATCH FULL ON DELETE RESTRICT ON UPDATE CASCADE,
 	CONSTRAINT vendor_status_fk FOREIGN KEY (vendor_status_id) REFERENCES openchpl.vendor_status (vendor_status_id) 
 		MATCH FULL ON DELETE RESTRICT ON UPDATE CASCADE
 );
