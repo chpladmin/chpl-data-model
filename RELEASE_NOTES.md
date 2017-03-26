@@ -1,5 +1,13 @@
 # Release Notes
 
+## Version OCD-1336
+_Date TBD_
+
+### Changes
+* Add a new table to capture history of vendor status changes. 
+
+---
+
 ## Version TBD
 _Date TBD_
 

@@ -97,6 +97,7 @@ SELECT
     h.vendor_website,
 	v.vendor_status_id,
 	v.vendor_status_name,
+	vendorStatus.last_vendor_status_change,
     t.address_id,
     t.street_line_1,
     t.street_line_2,
@@ -148,7 +149,18 @@ FROM openchpl.certified_product a
     LEFT JOIN (SELECT vendor_id, certification_body_id, transparency_attestation from openchpl.acb_vendor_map) p on h.vendor_id = p.vendor_id and a.certification_body_id = p.certification_body_id
     LEFT JOIN (SELECT address_id, street_line_1, street_line_2, city, state, zipcode, country from openchpl.address) t on h.vendor_address = t.address_id
     LEFT JOIN (SELECT contact_id, first_name, last_name, email, phone_number, title from openchpl.contact) u on h.vendor_contact = u.contact_id
-	LEFT JOIN (SELECT vendor_status_id, name as "vendor_status_name" from openchpl.vendor_status) v on h.vendor_status_id = v.vendor_status_id
+	LEFT JOIN (SELECT vsHistory.vendor_status_id as "vendor_status_id", vsHistory.vendor_id as "vendor_id",
+			vsHistory.status_date as "last_vendor_status_change"
+				FROM openchpl.vendor_status_history vsHistory
+				INNER JOIN (
+					SELECT vendor_id, MAX(status_date) status_date
+					FROM openchpl.vendor_status_history
+					WHERE deleted = false
+					GROUP BY vendor_id
+				) vsInner 
+				ON vsHistory.vendor_id = vsInner.vendor_id AND vsHistory.status_date = vsInner.status_date) vendorStatus
+		ON vendorStatus.vendor_id = h.vendor_id
+	LEFT JOIN (SELECT vendor_status_id, name as "vendor_status_name" from openchpl.vendor_status) v on vendorStatus.vendor_status_id = v.vendor_status_id
 	LEFT JOIN (SELECT MIN(event_date) as "certification_date", certified_product_id from openchpl.certification_status_event where certification_status_id = 1 group by (certified_product_id)) i on a.certified_product_id = i.certified_product_id
 	LEFT JOIN (SELECT MAX(event_date) as "decertification_date", certified_product_id from openchpl.certification_status_event where certification_status_id IN (3, 4, 8) group by (certified_product_id)) decert on a.certified_product_id = decert.certified_product_id
     LEFT JOIN (SELECT certified_product_id, count(*) as "count_certifications" FROM (SELECT * FROM openchpl.certification_result WHERE success = true AND deleted <> true) j GROUP BY certified_product_id) k ON a.certified_product_id = k.certified_product_id
@@ -190,7 +202,7 @@ FROM openchpl.certified_product a
 		 AND nc_status.name = 'Closed') n GROUP BY certified_product_id) nc_closed
     ON a.certified_product_id = nc_closed.certified_product_id
     LEFT JOIN (SELECT testing_lab_id, name as "testing_lab_name", testing_lab_code from openchpl.testing_lab) q on a.testing_lab_id = q.testing_lab_id
-    ;
+    ;	
 	
 -- ALTER VIEW openchpl.certified_product_details OWNER TO openchpl;
 
