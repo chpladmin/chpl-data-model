@@ -24,8 +24,6 @@ CREATE TABLE openchpl.vendor_status_history (
 GRANT ALL ON TABLE openchpl.vendor_status_history TO openchpl;
 GRANT ALL ON SEQUENCE openchpl.vendor_status_history_vendor_status_history_id_seq TO openchpl;
 
-DROP TRIGGER vendor_status_history_audit on openchpl.vendor_status;
-DROP TRIGGER vendor_status_historys_timestamp on openchpl.vendor_status;
 CREATE TRIGGER vendor_status_history_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.vendor_status_history FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER vendor_status_history_timestamp BEFORE UPDATE on openchpl.vendor_status_history FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 
