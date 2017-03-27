@@ -5,6 +5,10 @@ _Date TBD_
 
 ### Changes
 * Add a new table to capture history of vendor status changes. 
+* Replace four surveillance boolean values in the certified_product_search_view with three values listing the counts of:
+  * surveillance
+  * open nonconformities, and 
+  * closed nonconformities
 
 ---
 
