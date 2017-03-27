@@ -24,10 +24,10 @@ CREATE TABLE openchpl.vendor_status_history (
 GRANT ALL ON TABLE openchpl.vendor_status_history TO openchpl;
 GRANT ALL ON SEQUENCE openchpl.vendor_status_history_vendor_status_history_id_seq TO openchpl;
 
-DROP TRIGGER vendor_status_audit on openchpl.vendor_status;
-DROP TRIGGER vendor_status_timestamp on openchpl.vendor_status;
-CREATE TRIGGER vendor_status_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.vendor_status FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
-CREATE TRIGGER vendor_status_timestamp BEFORE UPDATE on openchpl.vendor_status FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
+DROP TRIGGER vendor_status_history_audit on openchpl.vendor_status;
+DROP TRIGGER vendor_status_historys_timestamp on openchpl.vendor_status;
+CREATE TRIGGER vendor_status_history_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.vendor_status_history FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+CREATE TRIGGER vendor_status_history_timestamp BEFORE UPDATE on openchpl.vendor_status_history FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 
 -- insert existing data into new table-- insert a vendor_status_history item for every developer  
 -- to indicate that they were Active when they were first created in the system
