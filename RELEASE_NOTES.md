@@ -1,6 +1,6 @@
 # Release Notes
 
-## Version OCD-1336
+## Version TBD
 _Date TBD_
 
 ### Changes
@@ -8,8 +8,8 @@ _Date TBD_
 
 ---
 
-## Version TBD
-_Date TBD_
+## Version 8.3.0
+_27 March 2017_
 
 ### Changes
 * Add column to surveillance for "role" of creator
