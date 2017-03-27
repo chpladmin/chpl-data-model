@@ -1,3 +1,36 @@
+-------------------------------------------------------------------------------------
+-- OCD-1249 Add column to surveillance for "role" of creator
+-------------------------------------------------------------------------------------
+DO $$ 
+    BEGIN
+        BEGIN
+            ALTER TABLE openchpl.surveillance ADD COLUMN user_permission_id BIGINT NOT NULL DEFAULT 3;
+			RAISE NOTICE 'Added column user_permission_id to openchpl.surveillance';
+        EXCEPTION
+            WHEN duplicate_column THEN RAISE NOTICE 'column user_permission_id already exists in openchpl.surveillance';
+        END;
+		
+		BEGIN
+			ALTER TABLE openchpl.surveillance ALTER COLUMN user_permission_id DROP DEFAULT;
+			RAISE NOTICE 'Altered user_permission_id column to NOT default to 3';
+		END;
+
+        BEGIN
+            ALTER TABLE openchpl.surveillance
+		ADD CONSTRAINT user_permission_id_fk
+		FOREIGN KEY (user_permission_id)
+		REFERENCES openchpl.user_permission
+		MATCH FULL
+		ON DELETE CASCADE
+		ON UPDATE CASCADE;
+		RAISE NOTICE 'Added FK constraint user_permission_id_fk to openchpl.surveillance';
+        EXCEPTION
+            WHEN duplicate_object THEN RAISE NOTICE 'Table constraint openchpl.user_permission_id_fk already exists for openchpl.surveillance';
+        END;
+    END;
+$$;
+
+
 update openchpl.macra_criteria_map set (name, description) = ('Computerized Provider Order Entry - Medications: Eligible Provider', 'Required Test 10: Stage 2 Objective 3 Measure 1 and Stage 3 Objective 4 Measure 1') where value = 'EP' and criteria_id = (SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (a)(1)');
 update openchpl.macra_criteria_map set (name, description) = ('Computerized Provider Order Entry - Medications: Eligible Hospital/Critical Access Hospital', 'Required Test 10: Stage 2 Objective 3 Measure 1 and Stage 3 Objective 4 Measure 1') where value = 'EH/CAH' and criteria_id = (SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (a)(1)');
 update openchpl.macra_criteria_map set (name, description) = ('Computerized Provider Order  - Laboratory: Eligible Provider', 'Required Test 11: Stage 2 Objective 3 Measure 2 and Stage 3 Objective 4 Measure 2') where value = 'EP' and criteria_id = (SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (a)(2)');
