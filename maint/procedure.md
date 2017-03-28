@@ -41,12 +41,6 @@ cd chpl-data-model/maint
 ./load.sh $DB openchpl_dev
 ```
 
-To disable all users (except admin):
-
-```sh
-psql -U openchpl_dev -h $DB -f disable-users.sql openchpl
-```
-
 Load the users
 
 ```sh
