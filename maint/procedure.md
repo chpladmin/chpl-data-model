@@ -33,18 +33,19 @@ Or...
 scp -3 $initial_machine:chpl-data-model/maint/openchpl.backup $target_machine:chpl-data-model/maint/openchpl.backup
 ```
 
+Or...
+
+```sh
+rsync -zP $initial_machine:chpl-data-model/maint/openchpl.backup .
+rsync -zP openchpl.backup $target_machine:chpl-data-model/maint
+```
+
 # Log into the target machine and load the data files
 
 ```sh
 ssh $target_machine
 cd chpl-data-model/maint
 ./load.sh $DB openchpl_dev
-```
-
-To disable all users (except admin):
-
-```sh
-psql -U openchpl_dev -h $DB -f disable-users.sql openchpl
 ```
 
 Load the users

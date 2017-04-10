@@ -1,55 +1,52 @@
-CREATE OR REPLACE VIEW openchpl.certification_result_details AS
+-------------------------------------
+-- developer status history changes
+-------------------------------------
+DROP VIEW IF EXISTS openchpl.certified_product_details;
 
-SELECT
-    a.certification_result_id,
-    a.certified_product_id,
-    a.certification_criterion_id,
-    a.success,
-    a.deleted,
-    a.gap,
-    a.sed,
-    a.g1_success,
-    a.g2_success,
-    a.api_documentation,
-    a.privacy_security_framework,
-    b.number,
-    b.title,
-    COALESCE(d.count_additional_software, 0) as "count_additional_software"
-FROM openchpl.certification_result a
+-- create new table and triggers
+DROP TABLE IF EXISTS openchpl.vendor_status_history;
+CREATE TABLE openchpl.vendor_status_history (
+	vendor_status_history_id  bigserial NOT NULL,
+	vendor_id bigint NOT NULL,
+	vendor_status_id bigint NOT NULL,
+	status_date timestamp NOT NULL DEFAULT NOW(),
+	creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
+	CONSTRAINT vendor_status_history_pk PRIMARY KEY (vendor_status_history_id),
+	CONSTRAINT vendor_fk FOREIGN KEY (vendor_id) REFERENCES openchpl.vendor (vendor_id) 
+		MATCH FULL ON DELETE RESTRICT ON UPDATE CASCADE,
+	CONSTRAINT vendor_status_fk FOREIGN KEY (vendor_status_id) REFERENCES openchpl.vendor_status (vendor_status_id) 
+		MATCH FULL ON DELETE RESTRICT ON UPDATE CASCADE
+);
 
-    LEFT JOIN (SELECT certification_criterion_id, number, title FROM openchpl.certification_criterion) b
-	ON a.certification_criterion_id = b.certification_criterion_id
-    LEFT JOIN (SELECT certification_result_id, count(*) as "count_additional_software"
-	FROM
-		(SELECT * FROM openchpl.certification_result_additional_software WHERE deleted <> true) c GROUP BY certification_result_id) d
-	ON a.certification_result_id = d.certification_result_id;
+GRANT ALL ON TABLE openchpl.vendor_status_history TO openchpl;
+GRANT ALL ON SEQUENCE openchpl.vendor_status_history_vendor_status_history_id_seq TO openchpl;
 
--- ALTER VIEW openchpl.certification_result_details OWNER TO openchpl;
+CREATE TRIGGER vendor_status_history_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.vendor_status_history FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+CREATE TRIGGER vendor_status_history_timestamp BEFORE UPDATE on openchpl.vendor_status_history FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 
-CREATE OR REPLACE VIEW openchpl.cqm_result_details AS
-
-SELECT
-    a.cqm_result_id,
-    a.certified_product_id,
-    a.success,
-    a.cqm_criterion_id,
-    a.deleted,
-    b.number,
-    b.cms_id,
-    b.title,
-    b.description,
-    b.cqm_domain,
-    b.nqf_number,
-    b.cqm_criterion_type_id,
-    c.cqm_version_id,
-    c.version,
-    COALESCE(b.cms_id, b.nqf_number) as cqm_id
-FROM openchpl.cqm_result a
-    LEFT JOIN openchpl.cqm_criterion b ON a.cqm_criterion_id = b.cqm_criterion_id
-    LEFT JOIN openchpl.cqm_version c ON b.cqm_version_id = c.cqm_version_id;
-
--- ALTER VIEW openchpl.cqm_result_details OWNER TO openchpl;
-
+-- insert existing data into new table-- insert a vendor_status_history item for every developer  
+-- to indicate that they were Active when they were first created in the system
+INSERT INTO openchpl.vendor_status_history 
+	(vendor_id, vendor_status_id, status_date,
+	creation_date, last_modified_date, last_modified_user, deleted)
+	SELECT vendor_id, 1, creation_date,
+		creation_date, creation_date, last_modified_user, false
+	FROM openchpl.vendor;
+	
+-- insert a new vendor_status_history row for any developer
+-- that is not currently marked as Active
+INSERT INTO openchpl.vendor_status_history 
+	(vendor_id, vendor_status_id, status_date,
+	creation_date, last_modified_date, last_modified_user, deleted)
+	SELECT vendor_id, vendor_status_id, last_modified_date,
+		last_modified_date, last_modified_date, last_modified_user, false
+	FROM openchpl.vendor
+	WHERE vendor_status_id != 1;
+	
+--adjust the details view to pull current vendor status from new history table
 CREATE OR REPLACE VIEW openchpl.certified_product_details AS
 
 SELECT
@@ -155,7 +152,6 @@ FROM openchpl.certified_product a
 				INNER JOIN (
 					SELECT vendor_id, MAX(status_date) status_date
 					FROM openchpl.vendor_status_history
-					WHERE deleted = false
 					GROUP BY vendor_id
 				) vsInner 
 				ON vsHistory.vendor_id = vsInner.vendor_id AND vsHistory.status_date = vsInner.status_date) vendorStatus
@@ -204,8 +200,11 @@ FROM openchpl.certified_product a
     LEFT JOIN (SELECT testing_lab_id, name as "testing_lab_name", testing_lab_code from openchpl.testing_lab) q on a.testing_lab_id = q.testing_lab_id
     ;	
 	
--- ALTER VIEW openchpl.certified_product_details OWNER TO openchpl;
+GRANT ALL ON TABLE openchpl.certified_product_details TO openchpl;
 
+-----------------------------------
+-- change surveillance booleans to actual counts in search view
+-----------------------------------
 DROP VIEW IF EXISTS openchpl.certified_product_search;
 CREATE OR REPLACE VIEW openchpl.certified_product_search AS
 
@@ -291,98 +290,6 @@ atl.testing_lab_name, acb.certification_body_name,prac.practice_type_name,versio
 survs.count_surveillance_activities, nc_open.count_open_nonconformities, nc_closed.count_closed_nonconformities
 ;
 
-CREATE OR REPLACE VIEW openchpl.developer_certification_statuses AS
-SELECT v.vendor_id,
-    count(cp.certified_product_id) FILTER (WHERE cs.certification_status::text = 'Active'::text) AS active,
-    count(cp.certified_product_id) FILTER (WHERE cs.certification_status::text = 'Retired'::text) AS retired,
-    count(cp.certified_product_id) FILTER (WHERE cs.certification_status::text = 'Withdrawn by Developer'::text) AS withdrawn_by_developer,
-    count(cp.certified_product_id) FILTER (WHERE cs.certification_status::text = 'Withdrawn by ONC-ACB'::text) AS withdrawn_by_acb,
-    count(cp.certified_product_id) FILTER (WHERE cs.certification_status::text = 'Suspended by ONC-ACB'::text) AS suspended_by_acb,
-    count(cp.certified_product_id) FILTER (WHERE cs.certification_status::text = 'Suspended by ONC'::text) AS suspended_by_onc,
-    count(cp.certified_product_id) FILTER (WHERE cs.certification_status::text = 'Terminated by ONC'::text) AS terminated_by_onc
-FROM openchpl.vendor v
-    LEFT JOIN openchpl.product p ON v.vendor_id = p.vendor_id
-    LEFT JOIN openchpl.product_version pv ON p.product_id = pv.product_id
-    LEFT JOIN openchpl.certified_product cp ON pv.product_version_id = cp.product_version_id
-    LEFT JOIN openchpl.certification_status cs ON cp.certification_status_id = cs.certification_status_id
-GROUP BY v.vendor_id;
+GRANT ALL ON TABLE openchpl.certified_product_search TO openchpl;
 
---ALTER TABLE openchpl.developer_certification_statuses OWNER TO openchpl;
-
-CREATE OR REPLACE VIEW openchpl.product_certification_statuses AS
-SELECT p.product_id,
-    count(cp.certified_product_id) FILTER (WHERE cs.certification_status::text = 'Active'::text) AS active,
-    count(cp.certified_product_id) FILTER (WHERE cs.certification_status::text = 'Retired'::text) AS retired,
-    count(cp.certified_product_id) FILTER (WHERE cs.certification_status::text = 'Withdrawn by Developer'::text) AS withdrawn_by_developer,
-    count(cp.certified_product_id) FILTER (WHERE cs.certification_status::text = 'Withdrawn by ONC-ACB'::text) AS withdrawn_by_acb,
-    count(cp.certified_product_id) FILTER (WHERE cs.certification_status::text = 'Suspended by ONC-ACB'::text) AS suspended_by_acb,
-    count(cp.certified_product_id) FILTER (WHERE cs.certification_status::text = 'Suspended by ONC'::text) AS suspended_by_onc,
-    count(cp.certified_product_id) FILTER (WHERE cs.certification_status::text = 'Terminated by ONC'::text) AS terminated_by_onc
-FROM openchpl.product p
-    LEFT JOIN openchpl.product_version pv ON p.product_id = pv.product_id
-    LEFT JOIN openchpl.certified_product cp ON pv.product_version_id = cp.product_version_id
-    LEFT JOIN openchpl.certification_status cs ON cp.certification_status_id = cs.certification_status_id
-GROUP BY p.product_id;
-
---ALTER TABLE openchpl.product_certification_statuses OWNER TO openchpl;
-
--- View: openchpl.acb_developer_transparency_mappings
-
--- DROP VIEW openchpl.acb_developer_transparency_mappings;
-
-CREATE OR REPLACE VIEW openchpl.acb_developer_transparency_mappings AS
-SELECT row_number() OVER () AS id,
-    certification_body.certification_body_id,
-    certification_body."name" AS acb_name,
-    acb_vendor_map.transparency_attestation,
-    vendor."name" AS developer_name,
-    vendor.vendor_id
-FROM openchpl.vendor
-    LEFT JOIN openchpl.acb_vendor_map ON acb_vendor_map.vendor_id = vendor.vendor_id
-    LEFT JOIN openchpl.certification_body ON acb_vendor_map.certification_body_id = certification_body.certification_body_id
-WHERE (certification_body.deleted = false OR certification_body.deleted IS NULL) AND vendor.deleted = false;
-
---ALTER TABLE openchpl.acb_developer_transparency_mappings OWNER TO openchpl;
-
-CREATE OR REPLACE VIEW openchpl.ehr_certification_ids_and_products AS
-SELECT 
-	row_number() OVER () AS id,
-	ehr.ehr_certification_id_id as ehr_certification_id,
-	ehr.certification_id as ehr_certification_id_text,
-	ehr.creation_date as ehr_certification_id_creation_date,
-	cp.certified_product_id,
-	cp.chpl_product_number,
-	ed.year,
-	atl.testing_lab_code,
-	acb.certification_body_code,
-	v.vendor_code,
-	cp.product_code,
-    cp.version_code,
-    cp.ics_code,
-    cp.additional_software_code,
-    cp.certified_date_code
-FROM openchpl.ehr_certification_id ehr
-    LEFT JOIN openchpl.ehr_certification_id_product_map prodMap 
-		ON ehr.ehr_certification_id_id = prodMap.ehr_certification_id_id
-	LEFT JOIN openchpl.certified_product cp	
-		ON prodMap.certified_product_id = cp.certified_product_id
-    LEFT JOIN (SELECT certification_edition_id, year FROM openchpl.certification_edition) ed on cp.certification_edition_id = ed.certification_edition_id
-    LEFT JOIN (SELECT certification_body_id, name as "certification_body_name", acb_code as "certification_body_code" FROM openchpl.certification_body) acb 
-		ON cp.certification_body_id = acb.certification_body_id
-	LEFT JOIN (SELECT testing_lab_id, testing_lab_code from openchpl.testing_lab) atl on cp.testing_lab_id = atl.testing_lab_id
-	LEFT JOIN (SELECT product_version_id, product_id from openchpl.product_version) pv on cp.product_version_id = pv.product_version_id
-    LEFT JOIN (SELECT product_id, vendor_id FROM openchpl.product) prod ON pv.product_id = prod.product_id
-	LEFT JOIN (SELECT vendor_id, vendor_code from openchpl.vendor) v ON prod.vendor_id = v.vendor_id
-;
-
-CREATE OR REPLACE VIEW openchpl.product_active_owner_history_map AS
-SELECT  id,
-	product_id,
-	vendor_id,
-	transfer_date,
-	creation_date,
-	last_modified_date,
-	last_modified_user,
-	deleted
-FROM openchpl.product_owner_history_map
-WHERE deleted = false;
+ANALYZE;

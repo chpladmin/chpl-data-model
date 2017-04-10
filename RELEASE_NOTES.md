@@ -1,5 +1,17 @@
 # Release Notes
 
+## Version 8.4.0
+_10 April 2017_
+
+### Changes
+* Add a new table to capture history of vendor status changes. 
+* Replace four surveillance boolean values in the certified_product_search_view with three values listing the counts of:
+  * surveillance
+  * open nonconformities, and 
+  * closed nonconformities
+
+---
+
 ## Version 8.3.0
 _27 March 2017_
 
