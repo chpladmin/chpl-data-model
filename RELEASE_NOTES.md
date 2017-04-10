@@ -1,7 +1,7 @@
 # Release Notes
 
-## Version TBD
-_Date TBD_
+## Version 8.4.0
+_10 April 2017_
 
 ### Changes
 * Add a new table to capture history of vendor status changes. 

@@ -33,6 +33,13 @@ Or...
 scp -3 $initial_machine:chpl-data-model/maint/openchpl.backup $target_machine:chpl-data-model/maint/openchpl.backup
 ```
 
+Or...
+
+```sh
+rsync -zP $initial_machine:chpl-data-model/maint/openchpl.backup .
+rsync -zP openchpl.backup $target_machine:chpl-data-model/maint
+```
+
 # Log into the target machine and load the data files
 
 ```sh
