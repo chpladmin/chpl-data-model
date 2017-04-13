@@ -91,6 +91,12 @@ SELECT
     f.product_version,
     f.product_id,
     g.product_name,
+	prodContact.contact_id as "product_contact_id",
+    prodContact.first_name as "product_contact_first_name",
+    prodContact.last_name as "product_contact_last_name",
+    prodContact.email as "product_contact_email",
+    prodContact.phone_number as "product_contact_phone_number",
+	prodContact.title as "product_contact_title",
     g.vendor_id,
     h.vendor_name,
     h.vendor_code,
@@ -105,12 +111,12 @@ SELECT
     t.state,
     t.zipcode,
     t.country,
-    u.contact_id,
-    u.first_name,
-    u.last_name,
-    u.email,
-    u.phone_number,
-    u.title,
+    u.contact_id as "vendor_contact_id",
+    u.first_name as "vendor_contact_first_name",
+    u.last_name as "vendor_contact_last_name",
+    u.email as "vendor_contact_email",
+    u.phone_number as "vendor_contact_phone_number",
+    u.title as "vendor_contact_title",
     i.certification_date,
 	decert.decertification_date,
     COALESCE(k.count_certifications, 0) as "count_certifications",
@@ -144,7 +150,8 @@ FROM openchpl.certified_product a
     LEFT JOIN (SELECT product_classification_type_id, name as "product_classification_name" FROM openchpl.product_classification_type) d on a.product_classification_type_id = d.product_classification_type_id
     LEFT JOIN (SELECT practice_type_id, name as "practice_type_name" from openchpl.practice_type) e on a.practice_type_id = e.practice_type_id
     LEFT JOIN (SELECT product_version_id, version as "product_version", product_id from openchpl.product_version) f on a.product_version_id = f.product_version_id
-    LEFT JOIN (SELECT product_id, vendor_id, name as "product_name" FROM openchpl.product) g ON f.product_id = g.product_id
+    LEFT JOIN (SELECT product_id, vendor_id, contact_id as "product_contact", name as "product_name" FROM openchpl.product) g ON f.product_id = g.product_id
+	LEFT JOIN (SELECT contact_id, first_name, last_name, email, phone_number, title from openchpl.contact) prodContact on g.product_contact = prodContact.contact_id
     LEFT JOIN (SELECT vendor_id, name as "vendor_name", vendor_code, website as "vendor_website", address_id as "vendor_address", contact_id as "vendor_contact", vendor_status_id from openchpl.vendor) h on g.vendor_id = h.vendor_id
     LEFT JOIN (SELECT vendor_id, certification_body_id, transparency_attestation from openchpl.acb_vendor_map) p on h.vendor_id = p.vendor_id and a.certification_body_id = p.certification_body_id
     LEFT JOIN (SELECT address_id, street_line_1, street_line_2, city, state, zipcode, country from openchpl.address) t on h.vendor_address = t.address_id
