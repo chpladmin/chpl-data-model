@@ -1,5 +1,13 @@
 # Release Notes
 
+## Version TBD
+_Date TBD_
+
+### Changes
+* Add optional contact column to the product table. 
+
+---
+
 ## Version 8.4.0
 _10 April 2017_
 
