@@ -5,6 +5,8 @@ _Date TBD_
 
 ### Changes
 * Add optional contact column to the product table. 
+* Make surveillance requirement and surveillance nonconformity as deleted when parent surveillance is deleted.
+* Make surveillance requirement have a result of "Nonconformity" when there are nonconformities.
 
 ---
 
