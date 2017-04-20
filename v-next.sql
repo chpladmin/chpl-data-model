@@ -6,6 +6,7 @@ ALTER TABLE openchpl.product ADD CONSTRAINT contact_fk FOREIGN KEY (contact_id)
 REFERENCES openchpl.contact (contact_id) MATCH FULL
 ON DELETE RESTRICT ON UPDATE CASCADE;
 
+BEGIN TRANSACTION;
 -- update related requirements to deleted if parent surveillance is deleted
 UPDATE openchpl.surveillance_requirement sr
 SET deleted = true
@@ -31,4 +32,5 @@ WHERE (
 	SELECT count(*) from openchpl.surveillance_nonconformity WHERE surveillance_requirement_id = sr.id
    ) > 0
 AND result_id = 2;
+COMMIT;
 
