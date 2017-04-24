@@ -93,6 +93,7 @@ CREATE TABLE openchpl.certification_body(
 CREATE TABLE openchpl.product(
 	product_id bigserial NOT NULL,
 	vendor_id bigint NOT NULL,
+	contact_id bigint, 
 	name varchar(300) NOT NULL,
 	report_file_location varchar(255),
 	creation_date timestamp NOT NULL DEFAULT NOW(),
@@ -100,7 +101,6 @@ CREATE TABLE openchpl.product(
 	last_modified_user bigint NOT NULL,
 	deleted bool NOT NULL DEFAULT false,
 	CONSTRAINT product_pk PRIMARY KEY (product_id)
-
 );
 -- ddl-end --
 COMMENT ON TABLE openchpl.product IS 'Table to store products that are submitted for vendors';
@@ -950,6 +950,11 @@ CREATE TABLE openchpl.contact(
 	CONSTRAINT contact_pk PRIMARY KEY (contact_id)
 
 );
+
+ALTER TABLE openchpl.product ADD CONSTRAINT contact_fk FOREIGN KEY (contact_id)
+REFERENCES openchpl.contact (contact_id) MATCH FULL
+ON DELETE RESTRICT ON UPDATE CASCADE;
+
 -- ddl-end --
 -- ALTER TABLE openchpl.contact OWNER TO openchpl;
 -- ddl-end --
