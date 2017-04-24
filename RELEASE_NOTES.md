@@ -1,10 +1,12 @@
 # Release Notes
 
-## Version TBD
-_Date TBD_
+## Version 8.5.0
+_24 April 2017_
 
 ### Changes
 * Add optional contact column to the product table. 
+* Make surveillance requirement and surveillance nonconformity as deleted when parent surveillance is deleted.
+* Make surveillance requirement have a result of "Nonconformity" when there are nonconformities.
 
 ---
 
