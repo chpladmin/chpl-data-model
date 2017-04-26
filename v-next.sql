@@ -7,6 +7,7 @@ raise notice 'Updating openchpl.certification_result and openchpl.pending_certif
 END; 
 $$;
 
+-- remove leading and trailing whitespace from privacy_security_framework
 BEGIN;
 UPDATE openchpl.certification_result
 SET privacy_security_framework = TRIM(both ' ' from privacy_security_framework);
@@ -16,6 +17,34 @@ BEGIN;
 UPDATE openchpl.pending_certification_result 
 SET privacy_security_framework = TRIM(both ' ' from privacy_security_framework);
 END;
+
+-- update comma to semicolon
+BEGIN;
+UPDATE openchpl.certification_result
+SET privacy_security_framework = REPLACE(privacy_security_framework, ',', ';');
+ROLLBACK;
+END;
+
+BEGIN;
+SELECT DISTINCT privacy_security_framework FROM openchpl.pending_certification_result;
+UPDATE openchpl.pending_certification_result
+SET privacy_security_framework = REPLACE(privacy_security_framework, ',', ';');
+ROLLBACK;
+END;
+
+-- remove space after semicolon
+BEGIN;
+UPDATE openchpl.certification_result
+SET privacy_security_framework = REPLACE(privacy_security_framework, '; ', ';');
+ROLLBACK;
+END;
+
+BEGIN;
+UPDATE openchpl.pending_certification_result
+SET privacy_security_framework = REPLACE(privacy_security_framework, '; ', ';');
+ROLLBACK;
+END;
+
 ---------------------- certified products with bad data
 
 DO $$
@@ -29,7 +58,7 @@ FROM openchpl.certification_result cr
 LEFT JOIN openchpl.certification_criterion cc ON cr.certification_criterion_id = cc.certification_criterion_id
 WHERE cr.privacy_security_framework IS NOT NULL
 AND cr.privacy_security_framework <> ''
-AND cr.privacy_security_framework NOT IN ('Approach 1', 'Approach 2', 'Approach 1;Approach 2');
+AND REPLACE(cr.privacy_security_framework, ' ', '') NOT IN ('Approach1', 'Approach2', 'Approach1;Approach2', 'Approach1,Approach2');
 
 ---------------------- pending products with bad data
 DO $$
@@ -43,4 +72,4 @@ FROM openchpl.pending_certification_result pr
 LEFT JOIN openchpl.certification_criterion cc ON pr.certification_criterion_id = cc.certification_criterion_id
 WHERE pr.privacy_security_framework IS NOT NULL 
 AND pr.privacy_security_framework <> ''
-AND pr.privacy_security_framework NOT IN ('Approach 1', 'Approach 2', 'Approach 1;Approach 2');
+AND REPLACE(pr.privacy_security_framework, ' ', '') NOT IN ('Approach1', 'Approach2', 'Approach1;Approach2', 'Approach1,Approach2');
