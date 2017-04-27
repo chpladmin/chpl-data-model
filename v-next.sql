@@ -73,3 +73,36 @@ LEFT JOIN openchpl.certification_criterion cc ON pr.certification_criterion_id =
 WHERE pr.privacy_security_framework IS NOT NULL 
 AND pr.privacy_security_framework <> ''
 AND REPLACE(pr.privacy_security_framework, ' ', '') NOT IN ('Approach1', 'Approach2', 'Approach1;Approach2', 'Approach1,Approach2');
+
+------------------------------------------------------------
+-- OCD-1443 - Update values for CQMs with typos
+------------------------------------------------------------
+BEGIN;
+UPDATE openchpl.cqm_criterion
+SET title = ADHD: 'Follow-Up Care for Children Prescribed Attention-Deficit/Hyperactivity Disorder (ADHD) Medication'
+WHERE title = 'ADHD: Follow-Up Care for Children Prescribed AttentionDeficit/Hyperactivi ty Disorder (ADHD) Medication';
+END; 
+
+BEGIN;
+UPDATE openchpl.cqm_criterion
+SET title = 'Functional Status Assessment for Total Hip Replacement'
+WHERE title = 'Functional Status Assessment for Hip Replacemen';
+END;
+
+BEGIN;
+UPDATE openchpl.cqm_criterion
+SET title = 'Heart Failure (HF): Beta-Blocker Therapy for Left Ventricular Systolic Dysfunction (LVSD)'
+WHERE title = 'Heart Failure (HF): BetaBlocker Therapy for Left Ventricular Systolic Dysfunction (LVSD)';
+END;
+
+BEGIN;
+UPDATE openchpl.cqm_criterion
+SET title = 'Heart Failure (HF): Angiotensin-Converting Enzyme (ACE) Inhibitor or Angiotensin Receptor Blocker (ARB) Therapy for Left Ventricular Systolic Dysfunction (LVSD)'
+WHERE title = 'Heart Failure (HF): AngiotensinConverting Enzyme (ACE) Inhibitor or Angiotensin Receptor Blocker (ARB) Therapy for Left Ventricular Systolic Dysfunction (LVSD)';
+END;
+
+BEGIN;
+UPDATE openchpl.cqm_criterion
+SET title = 'Incidence of Potentially-Preventable Venous Thromboembolism'
+WHERE title = 'Incidence of PotentiallyPreventable Venous Thromboembolism';
+END;
