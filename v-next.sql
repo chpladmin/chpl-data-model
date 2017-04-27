@@ -22,27 +22,22 @@ END;
 BEGIN;
 UPDATE openchpl.certification_result
 SET privacy_security_framework = REPLACE(privacy_security_framework, ',', ';');
-ROLLBACK;
 END;
 
 BEGIN;
-SELECT DISTINCT privacy_security_framework FROM openchpl.pending_certification_result;
 UPDATE openchpl.pending_certification_result
 SET privacy_security_framework = REPLACE(privacy_security_framework, ',', ';');
-ROLLBACK;
 END;
 
 -- remove space after semicolon
 BEGIN;
 UPDATE openchpl.certification_result
 SET privacy_security_framework = REPLACE(privacy_security_framework, '; ', ';');
-ROLLBACK;
 END;
 
 BEGIN;
 UPDATE openchpl.pending_certification_result
 SET privacy_security_framework = REPLACE(privacy_security_framework, '; ', ';');
-ROLLBACK;
 END;
 
 ---------------------- certified products with bad data
