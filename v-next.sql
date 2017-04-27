@@ -74,7 +74,7 @@ AND REPLACE(pr.privacy_security_framework, ' ', '') NOT IN ('Approach1', 'Approa
 ------------------------------------------------------------
 BEGIN;
 UPDATE openchpl.cqm_criterion
-SET title = ADHD: 'Follow-Up Care for Children Prescribed Attention-Deficit/Hyperactivity Disorder (ADHD) Medication'
+SET title = 'ADHD: Follow-Up Care for Children Prescribed Attention-Deficit/Hyperactivity Disorder (ADHD) Medication'
 WHERE title = 'ADHD: Follow-Up Care for Children Prescribed AttentionDeficit/Hyperactivi ty Disorder (ADHD) Medication';
 END; 
 
