@@ -1,5 +1,10 @@
 # Release Notes
 
+## OCD-1448
+* add tables for recipients and subscriptions to different types of notifications
+
+---
+
 ## Version 8.5.0
 _24 April 2017_
 

@@ -21,6 +21,26 @@ values ('Non-Conformity', -1), ('No Non-Conformity', -1);
 INSERT INTO openchpl.nonconformity_status (name, last_modified_user)
 values ('Open', -1), ('Closed', -1);
 
+INSERT INTO openchpl.notification_type (name, description, last_modified_user)
+VALUES ('ACB Daily Surveillance Broken Rules', 'A daily email of surveillance rules that have been broken within the last day for listings certified by a specific ACB.', -1), 
+('ACB Weekly Surveillance Broken Rules', 'A weekly email of all surveillance rules that are currently broken for listings certified by a specific ACB.', -1),
+('ONC Daily Surveillance Broken Rules', 'A daily email of surveillance rules that have been broken within the last day for any listing.', -1), 
+('ONC Weekly Surveillance Broken Rules', 'A weekly email of all surveillance rules that are currently broken for any listing.', -1);
+
+INSERT INTO openchpl.notification_type_permission (notification_type_id, permission_id, last_modified_user)
+SELECT id, -2, -1 FROM openchpl.notification_type WHERE name = 'ACB Daily Surveillance Broken Rules';
+INSERT INTO openchpl.notification_type_permission (notification_type_id, permission_id, last_modified_user)
+SELECT id, 2, -1 FROM openchpl.notification_type WHERE name = 'ACB Daily Surveillance Broken Rules';
+INSERT INTO openchpl.notification_type_permission (notification_type_id, permission_id, last_modified_user)
+SELECT id, -2, -1 FROM openchpl.notification_type WHERE name = 'ACB Weekly Surveillance Broken Rules';
+INSERT INTO openchpl.notification_type_permission (notification_type_id, permission_id, last_modified_user)
+SELECT id, 2, -1 FROM openchpl.notification_type WHERE name = 'ACB Weekly Surveillance Broken Rules';
+INSERT INTO openchpl.notification_type_permission (notification_type_id, permission_id, last_modified_user)
+SELECT id, -2, -1 FROM openchpl.notification_type WHERE name = 'ONC Daily Surveillance Broken Rules';
+INSERT INTO openchpl.notification_type_permission (notification_type_id, permission_id, last_modified_user) 
+SELECT id, -2, -1 FROM openchpl.notification_type WHERE name = 'ONC Weekly Surveillance Broken Rules';
+
+
 INSERT INTO openchpl.certification_criterion (certification_edition_id, number, title, last_modified_user) VALUES
 (3, '170.315 (a)(1)', 'Computerized Provider Order Entry (CPOE) - Medications', -1),
 (3, '170.315 (a)(2)', 'CPOE - Laboratory', -1),
