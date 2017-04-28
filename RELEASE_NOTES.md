@@ -5,6 +5,14 @@
 
 ---
 
+## Version TBD
+_Date TBD_
+
+### Changes
+* Find any current products that have bad values for their criterions' Privacy and Security Framework
+* Update values for CQMs with typos
+
+
 ## Version 8.5.0
 _24 April 2017_
 
