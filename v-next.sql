@@ -112,6 +112,7 @@ CREATE TABLE openchpl.notification_type(
 	id bigserial NOT NULL,
 	name varchar(255) NOT NULL,
 	description varchar(1024),
+	requires_acb boolean NOT NULL,
 	creation_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_user bigint NOT NULL,
@@ -119,11 +120,11 @@ CREATE TABLE openchpl.notification_type(
 	CONSTRAINT notification_type_pk PRIMARY KEY (id)
 );
 
-INSERT INTO openchpl.notification_type (name, description, last_modified_user)
-VALUES ('ACB Daily Surveillance Broken Rules', 'A daily email of surveillance rules that have been broken within the last day for listings certified by a specific ACB.', -1), 
-('ACB Weekly Surveillance Broken Rules', 'A weekly email of all surveillance rules that are currently broken for listings certified by a specific ACB.', -1),
-('ONC Daily Surveillance Broken Rules', 'A daily email of surveillance rules that have been broken within the last day for any listing.', -1), 
-('ONC Weekly Surveillance Broken Rules', 'A weekly email of all surveillance rules that are currently broken for any listing.', -1);
+INSERT INTO openchpl.notification_type (name, description, requires_acb, last_modified_user)
+VALUES ('ONC-ACB Daily Surveillance Broken Rules', 'A daily email of surveillance rules that have been broken within the last day for listings certified by a specific ONC-ACB.', true, -1), 
+('ONC-ACB Weekly Surveillance Broken Rules', 'A weekly email of all surveillance rules that are currently broken for listings certified by a specific ONC-ACB.', true, -1),
+('ONC Daily Surveillance Broken Rules', 'A daily email of surveillance rules that have been broken within the last day for any listing.', false, -1), 
+('ONC Weekly Surveillance Broken Rules', 'A weekly email of all surveillance rules that are currently broken for any listing.', false, -1);
 
 CREATE TRIGGER notification_type_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.notification_type FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER notification_type_timestamp BEFORE UPDATE on openchpl.notification_type FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
@@ -172,7 +173,8 @@ CREATE TABLE openchpl.notification_recipient(
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_user bigint NOT NULL,
 	deleted bool NOT NULL DEFAULT false,
-	CONSTRAINT notification_recipient_pk PRIMARY KEY (id)
+	CONSTRAINT notification_recipient_pk PRIMARY KEY (id),
+	CONSTRAINT email_unique_key UNIQUE (email)
 );
 
 CREATE TRIGGER notification_recipient_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.notification_recipient FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
