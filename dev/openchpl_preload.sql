@@ -28,13 +28,13 @@ VALUES ('ONC-ACB Daily Surveillance Broken Rules', 'A daily email of surveillanc
 ('ONC Weekly Surveillance Broken Rules', 'A weekly email of all surveillance rules that are currently broken for any listing.', -1);
 
 INSERT INTO openchpl.notification_type_permission (notification_type_id, permission_id, last_modified_user)
-SELECT id, -2, -1 FROM openchpl.notification_type WHERE name = 'ACB Daily Surveillance Broken Rules';
+SELECT id, -2, -1 FROM openchpl.notification_type WHERE name = 'ONC-ACB Daily Surveillance Broken Rules';
 INSERT INTO openchpl.notification_type_permission (notification_type_id, permission_id, last_modified_user)
-SELECT id, 2, -1 FROM openchpl.notification_type WHERE name = 'ACB Daily Surveillance Broken Rules';
+SELECT id, 2, -1 FROM openchpl.notification_type WHERE name = 'ONC-ACB Daily Surveillance Broken Rules';
 INSERT INTO openchpl.notification_type_permission (notification_type_id, permission_id, last_modified_user)
-SELECT id, -2, -1 FROM openchpl.notification_type WHERE name = 'ACB Weekly Surveillance Broken Rules';
+SELECT id, -2, -1 FROM openchpl.notification_type WHERE name = 'ONC-ACB Weekly Surveillance Broken Rules';
 INSERT INTO openchpl.notification_type_permission (notification_type_id, permission_id, last_modified_user)
-SELECT id, 2, -1 FROM openchpl.notification_type WHERE name = 'ACB Weekly Surveillance Broken Rules';
+SELECT id, 2, -1 FROM openchpl.notification_type WHERE name = 'ONC-ACB Weekly Surveillance Broken Rules';
 INSERT INTO openchpl.notification_type_permission (notification_type_id, permission_id, last_modified_user)
 SELECT id, -2, -1 FROM openchpl.notification_type WHERE name = 'ONC Daily Surveillance Broken Rules';
 INSERT INTO openchpl.notification_type_permission (notification_type_id, permission_id, last_modified_user) 
