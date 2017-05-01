@@ -173,8 +173,7 @@ CREATE TABLE openchpl.notification_recipient(
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_user bigint NOT NULL,
 	deleted bool NOT NULL DEFAULT false,
-	CONSTRAINT notification_recipient_pk PRIMARY KEY (id),
-	CONSTRAINT email_unique_key UNIQUE (email)
+	CONSTRAINT notification_recipient_pk PRIMARY KEY (id)
 );
 
 CREATE TRIGGER notification_recipient_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.notification_recipient FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
