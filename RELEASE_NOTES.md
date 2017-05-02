@@ -1,16 +1,14 @@
 # Release Notes
 
-## OCD-1448
-* add tables for recipients and subscriptions to different types of notifications
-
----
-
 ## Version TBD
 _Date TBD_
 
 ### Changes
 * Find any current products that have bad values for their criterions' Privacy and Security Framework
 * Update values for CQMs with typos
+* Add tables for recipients and subscriptions to different types of notifications
+
+---
 
 
 ## Version 8.5.0
