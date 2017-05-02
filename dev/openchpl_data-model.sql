@@ -2580,6 +2580,7 @@ CREATE TABLE openchpl.notification_type(
 	id bigserial NOT NULL,
 	name varchar(255) NOT NULL,
 	description varchar(1024),
+	requires_acb boolean NOT NULL,
 	creation_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_user bigint NOT NULL,
