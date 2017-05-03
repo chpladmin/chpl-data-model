@@ -315,7 +315,7 @@ UPDATE openchpl.test_functionality SET certification_edition_id = 3 WHERE number
 UPDATE openchpl.test_functionality SET certification_edition_id = 3 WHERE number = '(e)(1)(i)(B)(2)(ii)';
 UPDATE openchpl.test_functionality SET certification_edition_id = 3 WHERE number = '(e)(1)(i)(B)(3)' and name = 'Inpatient: 170.315(e)(1)(i)(B)(3) Patients (and their authorized representatives) must be able to download transition of care/referral summaries that were created as a result of a transition of care (pursuant to the capability expressed in the certification criterion specified in paragraph (b)(1) of this section)';
 
---cannot get to work with name criteria, suspect newlines?? there are two with this number but 2014 gets filled first
+--cannot get to work with name criteria, suspect newlines?? there are two with this number but 2014 certification_edition_id gets filled first
 UPDATE openchpl.test_functionality SET certification_edition_id = 3 WHERE number = '(e)(1)(i)(C)(2)' and certification_edition_id is null;
 
 
@@ -326,3 +326,66 @@ WHERE certification_edition_id IS NULL;
 -- set column to not allow null
 ALTER TABLE openchpl.test_functionality 
 ALTER COLUMN certification_edition_id SET NOT NULL;
+
+CREATE OR REPLACE FUNCTION openchpl.fixTestFunctionality() RETURNS VOID AS $$
+DECLARE
+	mismatchCount integer;
+    mismatch RECORD;
+    testFuncId bigint;
+	
+    BEGIN
+	
+		--get the records where listing edition does not match test func edition
+		SELECT INTO mismatchCount result
+		FROM
+		(SELECT count(*) as result
+		FROM openchpl.certification_result_test_functionality crtf
+		JOIN openchpl.test_functionality tf ON crtf.test_functionality_id = tf.test_functionality_id
+		JOIN openchpl.certification_result cr ON cr.certification_result_id = crtf.certification_result_id
+		JOIN openchpl.certified_product cp ON cp.certified_product_id = cr.certified_product_id
+		WHERE cp.certification_edition_id != tf.certification_edition_id) innerQuery;
+		
+		raise notice '# criteria with test functionality certification edition mismatches BEFORE update: %', mismatchCount;
+	
+		FOR mismatch IN 
+		(SELECT distinct cp.certified_product_id, cr.certification_result_id, crtf.certification_result_test_functionality_id, 
+			tf.number as test_func_number, 
+			cp.certification_edition_id as listing_edition, 
+			tf.certification_edition_id as criteria_edition
+		FROM openchpl.certification_result_test_functionality crtf
+		JOIN openchpl.test_functionality tf ON crtf.test_functionality_id = tf.test_functionality_id
+		JOIN openchpl.certification_result cr ON cr.certification_result_id = crtf.certification_result_id
+		JOIN openchpl.certified_product cp ON cp.certified_product_id = cr.certified_product_id
+		WHERE cp.certification_edition_id != tf.certification_edition_id)
+		LOOP
+				-- look up test func id for listing edition and same test func number
+				SELECT INTO testFuncId result
+				FROM
+				(SELECT test_functionality_id as result
+				FROM openchpl.test_functionality
+				WHERE number = mismatch.test_func_number
+				AND certification_edition_id = mismatch.listing_edition) innerQuery;
+				
+				--update certification_result_test_functionality to point to correct test func id
+				UPDATE openchpl.certification_result_test_functionality
+				SET test_functionality_id = testFuncId
+				WHERE certification_result_test_functionality_id = mismatch.certification_result_test_functionality_id;
+				
+		END LOOP;
+		
+		SELECT INTO mismatchCount result
+		FROM
+		(SELECT count(*) as result
+		FROM openchpl.certification_result_test_functionality crtf
+		JOIN openchpl.test_functionality tf ON crtf.test_functionality_id = tf.test_functionality_id
+		JOIN openchpl.certification_result cr ON cr.certification_result_id = crtf.certification_result_id
+		JOIN openchpl.certified_product cp ON cp.certified_product_id = cr.certified_product_id
+		WHERE cp.certification_edition_id != tf.certification_edition_id) innerQuery;
+		
+		raise notice '# criteria with test functionality certification edition mismatches AFTER update: %', mismatchCount;
+	END;
+$$ LANGUAGE plpgsql;
+
+SELECT openchpl.fixTestFunctionality();
+
+DROP FUNCTION openchpl.fixTestFunctionality();
