@@ -564,6 +564,7 @@ CREATE TABLE openchpl.test_functionality (
 	test_functionality_id bigserial not null,
 	number varchar(200) not null,
 	name varchar(1000),
+	certification_edition_id bigint NOT NULL,
 	creation_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_user bigint NOT NULL,

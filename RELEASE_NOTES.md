@@ -7,6 +7,8 @@ _Date TBD_
 * Find any current products that have bad values for their criterions' Privacy and Security Framework
 * Update values for CQMs with typos
 * Add tables for recipients and subscriptions to different types of notifications
+* Add a required certification edition column to test functionality.
+* Find and fix any criteria pointing to test functionality from the wrong edition.
 
 ---
 
