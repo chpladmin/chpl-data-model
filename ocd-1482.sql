@@ -1,6 +1,39 @@
 ------------------------------------------------------------
 -- add edition reference to test standards
 ------------------------------------------------------------
+
+-- update existing test standards to the correct values based on new spreadsheet
+
+--TODO: make the below into a function that takes arguments
+--fix 170.205(a)(1)
+UPDATE openchpl.test_standard SET name = 'Health Level Seven Clinical Document Architecture (CDA) Release 2, Continuity of Care Document (CCD) (incorporated by reference in § 170.299). Implementation specifications. The Healthcare Information Technology Standards Panel (HITSP) Summary Documents Using HL7 CCD Component HITSP/C32 (incorporated by reference in § 170.299).' WHERE number = '170.205(a)(1)' and test_standard_id <= 47;
+-- update cert results to use the updated standard
+UPDATE openchpl.certification_result_test_standard 
+SET test_standard_id = 
+	(SELECT MIN(test_standard_id) FROM openchpl.test_standard WHERE number = '170.205(a)(1)' and test_standard_id <= 47)
+WHERE test_standard_id IN (SELECT test_standard_id FROM openchpl.test_standard WHERE number = '170.205(a)(1)' and test_standard_id <= 47);
+--delete any other test standards with this number
+UPDATE openchpl.test_standard 
+SET deleted = true, last_modified_user = -1
+WHERE number = '170.205(a)(1)' 
+AND test_standard_id > (SELECT MIN(test_standard_id) FROM openchpl.test_standard WHERE number = '170.205(a)(1)' and test_standard_id <= 47) 
+AND test_standard_id <= 47;
+
+--fix 170.205(a)(2)
+UPDATE openchpl.test_standard SET name = 'ASTM E2369 Standard Specification for Continuity of Care Record and Adjunct to ASTM E2369 (incorporated by reference in § 170.299).' WHERE number = '170.205(a)(2)' and test_standard_id <= 47;
+-- update cert results to use the updated standard
+UPDATE openchpl.certification_result_test_standard 
+SET test_standard_id = 
+	(SELECT MIN(test_standard_id) FROM openchpl.test_standard WHERE number = '170.205(a)(2)' and test_standard_id <= 47)
+WHERE test_standard_id IN (SELECT test_standard_id FROM openchpl.test_standard WHERE number = '170.205(a)(2)' and test_standard_id <= 47);
+--delete any other test standards with this number
+UPDATE openchpl.test_standard 
+SET deleted = true, last_modified_user = -1
+WHERE number = '170.205(a)(2)' 
+AND test_standard_id > (SELECT MIN(test_standard_id) FROM openchpl.test_standard WHERE number = '170.205(a)(2)' and test_standard_id <= 47) 
+AND test_standard_id <= 47;
+
+
 ALTER TABLE openchpl.test_standard
 DROP COLUMN IF EXISTS certification_edition_id;
 
@@ -9,6 +42,8 @@ ADD COLUMN certification_edition_id bigint;
 
 --fill in all certification edition ids for existing test standards
 --we had to use the id in here because some names and numbers are identical across editions
+UPDATE openchpl.test_standard SET certification_edition_id = 2 WHERE test_standard_id <= 47;
+
 UPDATE openchpl.test_standard SET certification_edition_id = 2 WHERE number = '170.202(a)' and name = 'DIRECT: Applicability Statement for Secure Health Transport, Version 1.1, July 10, 2012' and test_standard_id <= 47;
 UPDATE openchpl.test_standard SET certification_edition_id = 2 WHERE number = '170.202(b)' and name = 'XDR and XDM for Direct Messaging Specification, Version 1, March 9, 2011' and test_standard_id <= 47;
 UPDATE openchpl.test_standard SET certification_edition_id = 2 WHERE number = '170.202(c)' and name = 'Transport and Security Specification, Version 1.0, June 19, 2012' and test_standard_id <= 47;
@@ -18,12 +53,10 @@ UPDATE openchpl.test_standard SET certification_edition_id = 2 WHERE number = '1
 UPDATE openchpl.test_standard SET certification_edition_id = 2 WHERE number = '170.204(b)(1)' and name = 'HL7 Version 3 Implementation Guide: URL-Based Implementations of the Context-Aware Information Retrieval (Infobutton) Domain, Release 3, December 2010' and test_standard_id <= 47;
 UPDATE openchpl.test_standard SET certification_edition_id = 2 WHERE number = '170.204(b)(2)' and name = 'HL7 Version 3 Implementation Guide: Context-Aware Knowledge Retrieval (Infobutton) Service-Oriented Architecture Implementation Guide, Release 1, HL7 Draft Standard for Trial Use, March 2011' and test_standard_id <= 47;
 UPDATE openchpl.test_standard SET certification_edition_id = 2 WHERE number = '170.204(c)' and name = 'Data Element Catalog, Version 1.1 October 2012' and test_standard_id <= 47;
-UPDATE openchpl.test_standard SET certification_edition_id = 2 WHERE number = '170.205(a)(1)' and name = 'HITSP Summary Documents Using HL7 Continuity of Care Document (CCD) Component, HITSP/C32, July 8, 2009, Version 2.5' and test_standard_id <= 47;
-UPDATE openchpl.test_standard SET certification_edition_id = 2 WHERE number = '170.205(a)(1)' and name = 'Health Level Seven Implementation Guide: Clinical Document Architecture (CDA) Release 2—Continuity of Care Document (CCD), April 01, 2007' and test_standard_id <= 47;
-UPDATE openchpl.test_standard SET certification_edition_id = 2 WHERE number = '170.205(a)(2)' and name = 'ASTM E2369–05: Standard Specification for Continuity of Care Record (CCR), year of adoption 2005, ASTM approved July 17, 2006' and test_standard_id <= 47;
-UPDATE openchpl.test_standard SET certification_edition_id = 2 WHERE number = '170.205(a)(2)' and name = 'ASTM E2369–05 (Adjunct to E2369): Standard Specification Continuity of Care Record,—Final Version 1.0 (V1.0), November 7, 2005' and test_standard_id <= 47;
 UPDATE openchpl.test_standard SET certification_edition_id = 2 WHERE number = '170.205(a)(3)' and name = 'HL7 Implementation Guide for CDA® Release 2: IHE Health Story Consolidation, DSTU Release 1.1 (US Realm) Draft Standard for Trial Use July 2012' and test_standard_id <= 47;
 UPDATE openchpl.test_standard SET certification_edition_id = 2 WHERE number = '170.205(b)(2)' and name = 'SCRIPT Standard, Implementation Guide, Version 10.6, October, 2008, (Approval date for ANSI: November 12, 2008)' and test_standard_id <= 47;
+
+-- checked spreadsheet to here
 UPDATE openchpl.test_standard SET certification_edition_id = 2 WHERE number = '170.205(d)(3)' and name = 'PHIN Messaging Guide for Syndromic Surveillance: Emergency Department and Urgent Care Data, ADT Messages A01, A03, A04, and A08, HL7 Version 2.5.1 (Version 2.3.1 Compatible), Release 1.1, August 2012' and test_standard_id <= 47;
 UPDATE openchpl.test_standard SET certification_edition_id = 2 WHERE number = '170.205(d)(3)' and name = 'Conformance Clarification for EHR Certification of Electronic Syndromic Surveillance, ADT MESSAGES A01, A03, A04, and A08, HL7 Version 2.5.1, Addendum to PHIN Messaging Guide for Syndromic Surveillance: Emergency Department and Urgent Care Data (Release 1.1), August 2012' and test_standard_id <= 47;
 UPDATE openchpl.test_standard SET certification_edition_id = 2 WHERE number = '170.205(d)(3)' and name = 'Health Level Seven Messaging Standard Version 2.5.1 (HL7 2.5.1), An Application Protocol for Electronic Data Exchange in Healthcare Environments, February 21, 2007' and test_standard_id <= 47;
