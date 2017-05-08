@@ -1,5 +1,22 @@
 # Release Notes
 
+## Version 9.0.0
+_8 May 2017_
+
+### Major modification
+* Add a required certification edition column to test functionality.
+
+### Table modification
+* Add tables for recipients and subscriptions to different types of notifications
+
+### Data modification
+* Find any current products that have bad values for their criterions' Privacy and Security Framework
+* Update values for CQMs with typos
+* Find and fix any criteria pointing to test functionality from the wrong edition.
+
+---
+
+
 ## Version 8.5.0
 _24 April 2017_
 
