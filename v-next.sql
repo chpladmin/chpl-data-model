@@ -250,7 +250,7 @@ UPDATE openchpl.test_standard
 SET name = 'ASTM E2147-01 (Reapproved 2009) Standard Specification for Audit and Disclosure Logs for Use in Health Information Systems, approved September 1, 2009', last_modified_user = -1 
 WHERE number = '170.210(h)' AND test_standard_id <= 47;
 
--- no changes to 2015 test standards
+-- no changes needed to 2015 test standards
 
 -- add certification edition column
 ALTER TABLE openchpl.test_standard
