@@ -361,7 +361,7 @@ DECLARE
 						WHERE certification_result_test_standard_id = mismatchTestStandardId;
 					END LOOP;
 				ELSE
-					raise notice 'Test Standard % (id %) was not referenced by any criteria and has been marked deleted.', userEnteredTestStandard.number, userEnteredTestStandard.test_standard_id;
+					raise exception 'Test Standard % (id %)is referenced by % certification editions.', userEnteredTestStandard.number, userEnteredTestStandard.test_standard_id, referencedByEditionsCount;
 			END CASE;
 		END LOOP;
 		
