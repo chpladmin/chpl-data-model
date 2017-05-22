@@ -1,7 +1,7 @@
 # Release Notes
 
-## Version TBD
-_Date TBD_
+## Version 10.0.0
+_22 May 2017_
 
 ### Table modification
 * Add certification_edition_id column to test standards
