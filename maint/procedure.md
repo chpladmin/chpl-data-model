@@ -45,7 +45,7 @@ rsync -zP openchpl.backup $target_machine:chpl-data-model/maint
 ```sh
 ssh $target_machine
 cd chpl-data-model/maint
-./load.sh $DB openchpl_dev
+service apache2 stop && ./load.sh $DB openchpl_dev && service apache2 start
 ```
 
 Load the users

@@ -1,5 +1,16 @@
 # Release Notes
 
+## Version 10.0.0
+_22 May 2017_
+
+### Table modification
+* Add certification_edition_id column to test standards
+
+### Data modification
+* Update existing test standards to fix 2014 numbers/descriptions from spreadsheet and remove existing user-entered duplicates
+
+---
+
 ## Version 9.0.0
 _8 May 2017_
 

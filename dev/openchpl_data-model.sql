@@ -535,6 +535,7 @@ CREATE TABLE openchpl.test_standard (
 	test_standard_id bigserial not null,
 	number text not null,
 	name varchar(1000),
+	certification_edition_id bigint NOT NULL,
 	creation_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_user bigint NOT NULL,
