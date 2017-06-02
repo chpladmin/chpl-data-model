@@ -1,5 +1,11 @@
 # Release Notes
 
+## OCD-1397
+_Date TBD_
+* Add columns decertification date and number of meaningful use users to the search view
+
+---
+
 ## Version 10.0.0
 _22 May 2017_
 
