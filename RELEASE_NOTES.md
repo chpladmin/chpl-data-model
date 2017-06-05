@@ -1,5 +1,11 @@
 # Release Notes
 
+## OCD-1397
+_Date TBD_
+* Add columns to the search view: decertification date, number of meaningful use users, mandatory disclosure url (aka transparency attestation url), and api documentation
+
+---
+
 ## Version 10.0.0
 _22 May 2017_
 

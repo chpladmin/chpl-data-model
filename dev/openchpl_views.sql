@@ -211,9 +211,11 @@ CREATE OR REPLACE VIEW openchpl.certified_product_search AS
 
 SELECT
     cp.certified_product_id,
-    string_agg(DISTINCT cert_number::text, '☺') as "certs",
-    string_agg(DISTINCT cqm_number::text, '☺') as "cqms",
+    string_agg(DISTINCT certs.cert_number::text, '☺') as "certs",
+    string_agg(DISTINCT cqms.cqm_number::text, '☺') as "cqms",
     COALESCE(cp.chpl_product_number, substring(edition.year from 3 for 2)||'.'||atl.testing_lab_code||'.'||acb.certification_body_code||'.'||vendor.vendor_code||'.'||cp.product_code||'.'||cp.version_code||'.'||cp.ics_code||'.'||cp.additional_software_code||'.'||cp.certified_date_code) as "chpl_product_number",
+	cp.meaningful_use_users,
+	cp.transparency_attestation_url,
     edition.year,
     atl.testing_lab_name,
     acb.certification_body_name,
@@ -225,6 +227,8 @@ SELECT
     string_agg(DISTINCT history_vendor_name::text, '☺') as "owner_history",
     certStatusEvent.certification_date,
     certStatus.certification_status_name,
+	decert.decertification_date,
+	string_agg(DISTINCT certs_with_api_documentation.cert_number::text||'☹'||certs_with_api_documentation.api_documentation, '☺') as "api_documentation",
     COALESCE(survs.count_surveillance_activities, 0) as "surveillance_count",
     COALESCE(nc_open.count_open_nonconformities, 0) as "open_nonconformity_count",
     COALESCE(nc_closed.count_closed_nonconformities, 0) as "closed_nonconformity_count"
@@ -252,6 +256,7 @@ SELECT
 			WHERE product_owner_history_map.deleted = false) owners
     ON owners.history_product_id = product.product_id
     LEFT JOIN (SELECT MIN(event_date) as "certification_date", certified_product_id from openchpl.certification_status_event where certification_status_id = 1 group by (certified_product_id)) certStatusEvent on cp.certified_product_id = certStatusEvent.certified_product_id
+	LEFT JOIN (SELECT MAX(event_date) as "decertification_date", certified_product_id from openchpl.certification_status_event where certification_status_id IN (3, 4, 8) group by (certified_product_id)) decert on cp.certified_product_id = decert.certified_product_id
     LEFT JOIN (SELECT certified_product_id, count(*) as "count_surveillance_activities" 
 		FROM openchpl.surveillance 
 		WHERE openchpl.surveillance.deleted <> true  
@@ -279,6 +284,13 @@ SELECT
 		JOIN openchpl.certification_result ON certification_criterion.certification_criterion_id = certification_result.certification_criterion_id
 		WHERE certification_result.success = true AND certification_result.deleted = false AND certification_criterion.deleted = false) certs
 	ON certs.certified_product_id = cp.certified_product_id
+	LEFT JOIN (SELECT number as "cert_number", api_documentation, certified_product_id FROM openchpl.certification_criterion 
+		JOIN openchpl.certification_result ON certification_criterion.certification_criterion_id = certification_result.certification_criterion_id
+		WHERE certification_result.success = true 
+		AND certification_result.api_documentation IS NOT NULL 
+		AND certification_result.deleted = false 
+		AND certification_criterion.deleted = false) certs_with_api_documentation
+	ON certs_with_api_documentation.certified_product_id = cp.certified_product_id 
     LEFT JOIN (SELECT COALESCE(cms_id, 'NQF-'||nqf_number) as "cqm_number", certified_product_id FROM openchpl.cqm_criterion 
 		JOIN openchpl.cqm_result 
 		ON cqm_criterion.cqm_criterion_id = cqm_result.cqm_criterion_id
@@ -286,8 +298,8 @@ SELECT
 	ON cqms.certified_product_id = cp.certified_product_id
 	
 WHERE cp.deleted != true
-GROUP BY cp.certified_product_id, cp.acb_certification_id, edition.year, atl.testing_lab_code, acb.certification_body_code, vendor.vendor_code, cp.product_code, cp.version_code,cp.ics_code, cp.additional_software_code, cp.certified_date_code,
-atl.testing_lab_name, acb.certification_body_name,prac.practice_type_name,version.product_version,product.product_name,vendor.vendor_name,certStatusEvent.certification_date,certStatus.certification_status_name,
+GROUP BY cp.certified_product_id, cp.acb_certification_id, edition.year, atl.testing_lab_code, acb.certification_body_code, vendor.vendor_code, cp.product_code, cp.version_code,cp.ics_code, cp.additional_software_code, cp.certified_date_code, cp.transparency_attestation_url,
+atl.testing_lab_name, acb.certification_body_name,prac.practice_type_name,version.product_version,product.product_name,vendor.vendor_name,certStatusEvent.certification_date,certStatus.certification_status_name, decert.decertification_date,
 survs.count_surveillance_activities, nc_open.count_open_nonconformities, nc_closed.count_closed_nonconformities
 ;
 
