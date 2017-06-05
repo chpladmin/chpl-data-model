@@ -2,7 +2,7 @@
 
 ## OCD-1397
 _Date TBD_
-* Add columns decertification date and number of meaningful use users to the search view
+* Add columns to the search view: decertification date, number of meaningful use users, mandatory disclosure url (aka transparency attestation url), and api documentation
 
 ---
 
