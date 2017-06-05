@@ -3,8 +3,8 @@ CREATE OR REPLACE VIEW openchpl.certified_product_search AS
 
 SELECT
     cp.certified_product_id,
-    string_agg(DISTINCT cert_number::text, '☺') as "certs",
-    string_agg(DISTINCT cqm_number::text, '☺') as "cqms",
+    string_agg(DISTINCT certs.cert_number::text, '☺') as "certs",
+    string_agg(DISTINCT cqms.cqm_number::text, '☺') as "cqms",
     COALESCE(cp.chpl_product_number, substring(edition.year from 3 for 2)||'.'||atl.testing_lab_code||'.'||acb.certification_body_code||'.'||vendor.vendor_code||'.'||cp.product_code||'.'||cp.version_code||'.'||cp.ics_code||'.'||cp.additional_software_code||'.'||cp.certified_date_code) as "chpl_product_number",
 	cp.meaningful_use_users,
 	cp.transparency_attestation_url,
@@ -20,7 +20,7 @@ SELECT
     certStatusEvent.certification_date,
     certStatus.certification_status_name,
 	decert.decertification_date,
-	string_agg(DISTINCT certs_with_api_documentation.cert_number::text||'☹'||api_documentation, '☺') as "api_documentation",
+	string_agg(DISTINCT certs_with_api_documentation.cert_number::text||'☹'||certs_with_api_documentation.api_documentation, '☺') as "api_documentation",
     COALESCE(survs.count_surveillance_activities, 0) as "surveillance_count",
     COALESCE(nc_open.count_open_nonconformities, 0) as "open_nonconformity_count",
     COALESCE(nc_closed.count_closed_nonconformities, 0) as "closed_nonconformity_count"
