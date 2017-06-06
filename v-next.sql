@@ -41,6 +41,35 @@ USING
 		ELSE ics_code::integer
 	END;
 
+--
+-- add two new report types for missing ICS
+--
+INSERT INTO openchpl.notification_type (name, description, requires_acb, last_modified_user)
+SELECT 
+   'ONC-ACB Weekly Missing ICS', 
+   'A weekly email of listings certified by a specific ONC-ACB that are marked as having ICS but do not specify a parent.', 
+   true, 
+   -1
+WHERE NOT EXISTS (
+    SELECT * 
+	FROM openchpl.notification_type 
+	WHERE  name = 'ONC-ACB Weekly Missing ICS' 
+	AND description = 'A weekly email of listings certified by a specific ONC-ACB that are marked as having ICS but do not specify a parent.'
+);
+
+INSERT INTO openchpl.notification_type (name, description, requires_acb, last_modified_user)
+SELECT 
+  'ONC Weekly Missing ICS', 
+   'A weekly email of all listings that are marked as having ICS but do not specify a parent.', 
+   true, 
+   -1
+WHERE NOT EXISTS (
+    SELECT * 
+	FROM openchpl.notification_type 
+	WHERE  name = 'ONC Weekly Missing ICS' 
+	AND description = 'A weekly email of all listings that are marked as having ICS but do not specify a parent.'
+);
+
 -- Note: The user calling this script must be in the same directory as v-next. 
 --re-run view creation 
 \i dev/openchpl_views.sql

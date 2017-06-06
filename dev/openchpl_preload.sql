@@ -1279,8 +1279,10 @@ SELECT pg_catalog.setval('global_user_permission_map_global_user_permission_id_s
 INSERT INTO openchpl.notification_type (name, description, requires_acb, last_modified_user)
 VALUES ('ONC-ACB Daily Surveillance Broken Rules', 'A daily email of surveillance rules that have been broken within the last day for listings certified by a specific ONC-ACB.', true, -1), 
 ('ONC-ACB Weekly Surveillance Broken Rules', 'A weekly email of all surveillance rules that are currently broken for listings certified by a specific ONC-ACB.', true, -1),
+('ONC-ACB Weekly Missing ICS', 'A weekly email of listings certified by a specific ONC-ACB that are marked as having ICS but do not specify a parent.', true, -1),
 ('ONC Daily Surveillance Broken Rules', 'A daily email of surveillance rules that have been broken within the last day for any listing.', false, -1), 
-('ONC Weekly Surveillance Broken Rules', 'A weekly email of all surveillance rules that are currently broken for any listing.', false, -1);
+('ONC Weekly Surveillance Broken Rules', 'A weekly email of all surveillance rules that are currently broken for any listing.', false, -1),
+('ONC Weekly Missing ICS', 'A weekly email of all listings that are marked as having ICS but do not specify a parent.', true, -1);
 
 INSERT INTO openchpl.notification_type_permission (notification_type_id, permission_id, last_modified_user)
 SELECT id, -2, -1 FROM openchpl.notification_type WHERE name = 'ONC-ACB Daily Surveillance Broken Rules';

@@ -1,5 +1,16 @@
 # Release Notes
 
+## Version TBD
+_Date TBD_
+
+### Table modification
+* Alter ICS column to be an integer instead of varchar
+
+### Data modification
+* Added two new report types for ICS inconsistencies
+
+---
+
 ## Version 10.0.0
 _22 May 2017_
 
