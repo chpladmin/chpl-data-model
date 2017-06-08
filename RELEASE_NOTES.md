@@ -4,6 +4,9 @@
 _Date TBD_
 * Add columns to the search view: decertification date, number of meaningful use users, mandatory disclosure url (aka transparency attestation url), and api documentation
 
+## OCD-1528
+* Bulk change ICSA Listings Disclosure URLs
+
 ---
 
 ## Version 10.0.0
