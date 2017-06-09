@@ -46,28 +46,66 @@ USING
 --
 INSERT INTO openchpl.notification_type (name, description, requires_acb, last_modified_user)
 SELECT 
-   'ONC-ACB Weekly Missing ICS', 
+   'ONC-ACB Weekly ICS Family Errors', 
    'A weekly email of listings certified by a specific ONC-ACB that are marked as having ICS but do not specify a parent.', 
    true, 
    -1
 WHERE NOT EXISTS (
     SELECT * 
 	FROM openchpl.notification_type 
-	WHERE  name = 'ONC-ACB Weekly Missing ICS' 
+	WHERE  name = 'ONC-ACB Weekly ICS Family Errors'
 	AND description = 'A weekly email of listings certified by a specific ONC-ACB that are marked as having ICS but do not specify a parent.'
 );
 
 INSERT INTO openchpl.notification_type (name, description, requires_acb, last_modified_user)
 SELECT 
-  'ONC Weekly Missing ICS', 
+  'ONC Weekly ICS Family Errors', 
    'A weekly email of all listings that are marked as having ICS but do not specify a parent.', 
-   true, 
+   false, 
    -1
 WHERE NOT EXISTS (
     SELECT * 
 	FROM openchpl.notification_type 
-	WHERE  name = 'ONC Weekly Missing ICS' 
+	WHERE  name = 'ONC Weekly ICS Family Errors'
 	AND description = 'A weekly email of all listings that are marked as having ICS but do not specify a parent.'
+);
+
+--
+-- add permissions for the new report types
+--
+INSERT INTO openchpl.notification_type_permission (notification_type_id, permission_id, last_modified_user)
+	SELECT
+		(SELECT id FROM openchpl.notification_type WHERE name = 'ONC Weekly ICS Family Errors'),
+		-2,
+		-1
+WHERE NOT EXISTS (
+    SELECT * 
+	FROM openchpl.notification_type_permission 
+	WHERE  notification_type_id = (SELECT id FROM openchpl.notification_type WHERE name = 'ONC Weekly ICS Family Errors')
+	AND permission_id = -2
+);
+
+INSERT INTO openchpl.notification_type_permission (notification_type_id, permission_id, last_modified_user)
+SELECT
+		(SELECT id FROM openchpl.notification_type WHERE name = 'ONC-ACB Weekly ICS Family Errors'),
+		-2,
+		-1
+WHERE NOT EXISTS (
+    SELECT * 
+	FROM openchpl.notification_type_permission 
+	WHERE  notification_type_id = (SELECT id FROM openchpl.notification_type WHERE name = 'ONC-ACB Weekly ICS Family Errors')
+	AND permission_id = 2
+);
+
+INSERT INTO openchpl.notification_type_permission (notification_type_id, permission_id, last_modified_user)
+SELECT
+		(SELECT id FROM openchpl.notification_type WHERE name = 'ONC-ACB Weekly ICS Family Errors'),
+		2,
+		-1WHERE NOT EXISTS (
+    SELECT * 
+	FROM openchpl.notification_type_permission 
+	WHERE  notification_type_id = (SELECT id FROM openchpl.notification_type WHERE name = 'ONC-ACB Weekly ICS Family Errors')
+	AND permission_id = -2
 );
 
 -- Note: The user calling this script must be in the same directory as v-next. 
