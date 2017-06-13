@@ -99,7 +99,7 @@ survs.count_surveillance_activities, nc_open.count_open_nonconformities, nc_clos
 -- Bulk change ICSA Listings Disclosure URLs
 ------------------------------------------------------------
 -- obtained list of 3,141 CP ids from REST API. This list excludes non-managed ICSA listings
-CREATE OR REPLACE FUNCTION updateURLs() 
+CREATE OR REPLACE FUNCTION openchpl.updateURLs() 
 RETURNS int LANGUAGE plpgsql 
 AS $$
 	DECLARE
@@ -121,10 +121,10 @@ DO $$
 declare updateCount int;
 BEGIN
 EXECUTE 'select * from 
-updateURLs();' INTO updateCount;
+openchpl.updateURLs();' INTO updateCount;
 RAISE NOTICE 'Updated disclosure URL for % listings', updateCount;
 END$$;
 
-DROP FUNCTION IF EXISTS updateURLs();
+DROP FUNCTION IF EXISTS openchpl.updateURLs();
 
 \i dev/openchpl_grant-all.sql
