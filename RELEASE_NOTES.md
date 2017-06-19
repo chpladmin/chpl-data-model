@@ -1,7 +1,7 @@
 # Release Notes
 
-## Version TBD
-_Date TBD_
+## Version 10.1.1
+_19 June 2017_
 
 ### Data modification
 * Bulk change ICSA Listings Disclosure URLs
