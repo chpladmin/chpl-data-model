@@ -1,5 +1,11 @@
 # Release Notes
 
+## Version 10.1.0
+_19 June 2017_
+* Add columns to the search view: decertification date, number of meaningful use users, mandatory disclosure url (aka transparency attestation url), and api documentation
+
+---
+
 ## Version 10.0.0
 _22 May 2017_
 
