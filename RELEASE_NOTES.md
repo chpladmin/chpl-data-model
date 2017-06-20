@@ -11,6 +11,23 @@ _Date TBD_
 
 ---
 
+## Version 10.1.1
+_19 June 2017_
+
+### Data modification
+* Bulk change ICSA Listings Disclosure URLs
+
+---
+
+## Version 10.1.0
+_19 June 2017_
+
+### Table/view modification
+* Add columns to the search view: decertification date, number of meaningful use users, mandatory disclosure url (aka transparency attestation url), and api documentation
+>>>>>>> development
+
+---
+
 ## Version 10.0.0
 _22 May 2017_
 
@@ -43,7 +60,7 @@ _8 May 2017_
 _24 April 2017_
 
 ### Changes
-* Add optional contact column to the product table. 
+* Add optional contact column to the product table.
 * Make surveillance requirement and surveillance nonconformity as deleted when parent surveillance is deleted.
 * Make surveillance requirement have a result of "Nonconformity" when there are nonconformities.
 
@@ -53,10 +70,10 @@ _24 April 2017_
 _10 April 2017_
 
 ### Changes
-* Add a new table to capture history of vendor status changes. 
+* Add a new table to capture history of vendor status changes.
 * Replace four surveillance boolean values in the certified_product_search_view with three values listing the counts of:
   * surveillance
-  * open nonconformities, and 
+  * open nonconformities, and
   * closed nonconformities
 
 ---
