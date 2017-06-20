@@ -24,7 +24,6 @@ _19 June 2017_
 
 ### Table/view modification
 * Add columns to the search view: decertification date, number of meaningful use users, mandatory disclosure url (aka transparency attestation url), and api documentation
->>>>>>> development
 
 ---
 
