@@ -101,11 +101,12 @@ INSERT INTO openchpl.notification_type_permission (notification_type_id, permiss
 SELECT
 		(SELECT id FROM openchpl.notification_type WHERE name = 'ONC-ACB Weekly ICS Family Errors'),
 		2,
-		-1WHERE NOT EXISTS (
+		-1
+WHERE NOT EXISTS (
     SELECT * 
 	FROM openchpl.notification_type_permission 
 	WHERE  notification_type_id = (SELECT id FROM openchpl.notification_type WHERE name = 'ONC-ACB Weekly ICS Family Errors')
-	AND permission_id = -2
+	AND permission_id = 2
 );
 
 -- Note: The user calling this script must be in the same directory as v-next. 
