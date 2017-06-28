@@ -8,6 +8,7 @@ _Date TBD_
 
 ### Data modification
 * Added two new report types for ICS inconsistencies
+* Add activity concept for pending surveillance
 
 ---
 
