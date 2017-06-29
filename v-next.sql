@@ -110,7 +110,7 @@ WHERE NOT EXISTS (
 );
 
 ----------------------------------------
--- OCD-1408: Add table for pending surveillance business rules broken. Add activity concept for pending surveillance
+-- OCD-1408: Add activity concept for pending surveillance
 ----------------------------------------
 
 BEGIN;
