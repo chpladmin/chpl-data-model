@@ -1090,7 +1090,8 @@ INSERT INTO openchpl.activity_concept (activity_concept_id, concept, last_modifi
 (10, 'PENDING_CERTIFIED_PRODUCT', -1),
 (11, 'API_KEY', -1),
 (12, 'ANNOUNCEMENT', -1),
-(13, 'CERTIFICATION_ID', -1);
+(13, 'CERTIFICATION_ID', -1),
+(14, 'PENDING_SURVEILLANCE', -1);
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
