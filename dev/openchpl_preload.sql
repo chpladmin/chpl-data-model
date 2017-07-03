@@ -4,7 +4,7 @@ insert into openchpl.certification_edition (year, retired, last_modified_user) v
 insert into openchpl.cqm_criterion_type (name, description, last_modified_user) values ('Ambulatory', 'Ambulatory', -1), ('Inpatient','Inpatient',-1);
 insert into openchpl.event_type (name, description, last_modified_user) values ('Certification','Product is certified', -1), ('Active', 'Product moved from Pending to Active', -1);
 insert into openchpl.cqm_version (version, last_modified_user) values ('v0', -1), ('v1', -1), ('v2', -1), ('v3', -1), ('v4', -1), ('v5', -1), ('v6', -1);
-insert into openchpl.certification_status (certification_status, last_modified_user) values ('Active', -1), ('Retired', -1), ('Withdrawn by Developer', -1), ('Withdrawn by ONC-ACB', -1), ('Pending', -1), ('Suspended by ONC-ACB', -1), ('Suspended by ONC', -1), ('Terminated by ONC', -1);
+insert into openchpl.certification_status (certification_status, last_modified_user) values ('Active', -1), ('Retired', -1), ('Withdrawn by Developer', -1), ('Withdrawn by ONC-ACB', -1), ('Pending', -1), ('Suspended by ONC-ACB', -1), ('Suspended by ONC', -1), ('Terminated by ONC', -1), ('Withdrawn by Developer Under Surveillance/Review', -1);
 insert into openchpl.education_type (name, last_modified_user) values ('No high school degree', -1), ('High school graduate, diploma or the equivalent (for example: GED)', -1), ('Some college credit, no degree', -1), ('Trade/technical/vocational training', -1), ('Associate degree', -1), ('Bachelor''s degree', -1), ('Master''s degree', -1), ('Doctorate degree (e.g., MD, DNP, DMD, PhD)', -1);
 insert into openchpl.test_participant_age (age, last_modified_user) values ('0-9', -1),('10-19', -1),('20-29', -1),('30-39', -1),('40-49', -1),('50-59', -1),('60-69', -1),('70-79', -1),('80-89', -1),('90-99', -1),('100+', -1);
 insert into openchpl.vendor_status (name, last_modified_user) values('Active', -1), ('Suspended by ONC', -1), ('Under certification ban by ONC', -1);
@@ -13,8 +13,7 @@ INSERT INTO openchpl.surveillance_type (name, last_modified_user)
 values ('Reactive', -1),('Randomized', -1);
 
 INSERT INTO openchpl.surveillance_requirement_type (name, last_modified_user)
-values ('Certified Capability', -1), ('Transparency or Disclosure Requirement', -1),
-('Other Requirement', -1);
+values ('Certified Capability', -1), ('Transparency or Disclosure Requirement', -1), ('Other Requirement', -1);
 
 INSERT INTO openchpl.surveillance_result (name, last_modified_user)
 values ('Non-Conformity', -1), ('No Non-Conformity', -1);
@@ -358,11 +357,11 @@ INSERT INTO openchpl.cqm_criterion (cms_id, cqm_version_id, title, nqf_number, n
 ('CMS145', 3, 'Coronary Artery Disease (CAD): Beta-Blocker Therapy-Prior Myocardial Infarction (MI) or Left Ventricular Systolic Dysfunction (LVEF <40%)', '0070', '007', 'Percentage of patients aged 18 years and older with a diagnosis of coronary artery disease seen within a 12 month period who also have a prior MI or a current or prior LVEF <40% who were prescribed beta-blocker therapy', 'Clinical Process/ Effectiveness.', 1, -1, false),
 ('CMS145', 4, 'Coronary Artery Disease (CAD): Beta-Blocker Therapy-Prior Myocardial Infarction (MI) or Left Ventricular Systolic Dysfunction (LVEF <40%)', '0070', '007', 'Percentage of patients aged 18 years and older with a diagnosis of coronary artery disease seen within a 12 month period who also have a prior MI or a current or prior LVEF <40% who were prescribed beta-blocker therapy', 'Clinical Process/ Effectiveness.', 1, -1, false),
 ('CMS145', 5, 'Coronary Artery Disease (CAD): Beta-Blocker Therapy-Prior Myocardial Infarction (MI) or Left Ventricular Systolic Dysfunction (LVEF <40%)', '0070', '007', 'Percentage of patients aged 18 years and older with a diagnosis of coronary artery disease seen within a 12 month period who also have a prior MI or a current or prior LVEF <40% who were prescribed beta-blocker therapy', 'Clinical Process/ Effectiveness.', 1, -1, false),
-('CMS144', 1, 'Heart Failure (HF): BetaBlocker Therapy for Left Ventricular Systolic Dysfunction (LVSD)', '0083', '008 GPRO HF-6', 'Percentage of patients aged 18 years and older with a diagnosis of heart failure (HF) with a current or prior left ventricular ejection fraction (LVEF) < 40% who were prescribed beta-blocker therapy either within a 12 month period when seen in the outpatient setting OR at each hospital discharge', 'Clinical Process/ Effectiveness.', 1, -1, false),
-('CMS144', 2, 'Heart Failure (HF): BetaBlocker Therapy for Left Ventricular Systolic Dysfunction (LVSD)', '0083', '008 GPRO HF-6', 'Percentage of patients aged 18 years and older with a diagnosis of heart failure (HF) with a current or prior left ventricular ejection fraction (LVEF) < 40% who were prescribed beta-blocker therapy either within a 12 month period when seen in the outpatient setting OR at each hospital discharge', 'Clinical Process/ Effectiveness.', 1, -1, false),
-('CMS144', 3, 'Heart Failure (HF): BetaBlocker Therapy for Left Ventricular Systolic Dysfunction (LVSD)', '0083', '008 GPRO HF-6', 'Percentage of patients aged 18 years and older with a diagnosis of heart failure (HF) with a current or prior left ventricular ejection fraction (LVEF) < 40% who were prescribed beta-blocker therapy either within a 12 month period when seen in the outpatient setting OR at each hospital discharge', 'Clinical Process/ Effectiveness.', 1, -1, false),
-('CMS144', 4, 'Heart Failure (HF): BetaBlocker Therapy for Left Ventricular Systolic Dysfunction (LVSD)', '0083', '008 GPRO HF-6', 'Percentage of patients aged 18 years and older with a diagnosis of heart failure (HF) with a current or prior left ventricular ejection fraction (LVEF) < 40% who were prescribed beta-blocker therapy either within a 12 month period when seen in the outpatient setting OR at each hospital discharge', 'Clinical Process/ Effectiveness.', 1, -1, false),
-('CMS144', 5, 'Heart Failure (HF): BetaBlocker Therapy for Left Ventricular Systolic Dysfunction (LVSD)', '0083', '008 GPRO HF-6', 'Percentage of patients aged 18 years and older with a diagnosis of heart failure (HF) with a current or prior left ventricular ejection fraction (LVEF) < 40% who were prescribed beta-blocker therapy either within a 12 month period when seen in the outpatient setting OR at each hospital discharge', 'Clinical Process/ Effectiveness.', 1, -1, false),
+('CMS144', 1, 'Heart Failure (HF): Beta-Blocker Therapy for Left Ventricular Systolic Dysfunction (LVSD)', '0083', '008 GPRO HF-6', 'Percentage of patients aged 18 years and older with a diagnosis of heart failure (HF) with a current or prior left ventricular ejection fraction (LVEF) < 40% who were prescribed beta-blocker therapy either within a 12 month period when seen in the outpatient setting OR at each hospital discharge', 'Clinical Process/ Effectiveness.', 1, -1, false),
+('CMS144', 2, 'Heart Failure (HF): Beta-Blocker Therapy for Left Ventricular Systolic Dysfunction (LVSD)', '0083', '008 GPRO HF-6', 'Percentage of patients aged 18 years and older with a diagnosis of heart failure (HF) with a current or prior left ventricular ejection fraction (LVEF) < 40% who were prescribed beta-blocker therapy either within a 12 month period when seen in the outpatient setting OR at each hospital discharge', 'Clinical Process/ Effectiveness.', 1, -1, false),
+('CMS144', 3, 'Heart Failure (HF): Beta-Blocker Therapy for Left Ventricular Systolic Dysfunction (LVSD)', '0083', '008 GPRO HF-6', 'Percentage of patients aged 18 years and older with a diagnosis of heart failure (HF) with a current or prior left ventricular ejection fraction (LVEF) < 40% who were prescribed beta-blocker therapy either within a 12 month period when seen in the outpatient setting OR at each hospital discharge', 'Clinical Process/ Effectiveness.', 1, -1, false),
+('CMS144', 4, 'Heart Failure (HF): Beta-Blocker Therapy for Left Ventricular Systolic Dysfunction (LVSD)', '0083', '008 GPRO HF-6', 'Percentage of patients aged 18 years and older with a diagnosis of heart failure (HF) with a current or prior left ventricular ejection fraction (LVEF) < 40% who were prescribed beta-blocker therapy either within a 12 month period when seen in the outpatient setting OR at each hospital discharge', 'Clinical Process/ Effectiveness.', 1, -1, false),
+('CMS144', 5, 'Heart Failure (HF): Beta-Blocker Therapy for Left Ventricular Systolic Dysfunction (LVSD)', '0083', '008 GPRO HF-6', 'Percentage of patients aged 18 years and older with a diagnosis of heart failure (HF) with a current or prior left ventricular ejection fraction (LVEF) < 40% who were prescribed beta-blocker therapy either within a 12 month period when seen in the outpatient setting OR at each hospital discharge', 'Clinical Process/ Effectiveness.', 1, -1, false),
 ('CMS143', 1, 'Primary Open Angle Glaucoma (POAG): Optic Nerve Evaluation', '0086', '012', 'Percentage of patients aged 18 years and older with a diagnosis of primary openangle glaucoma (POAG) who have an optic nerve head evaluation during one or more office visits within 12 months', 'Clinical Process/ Effectiveness.', 1, -1, false),
 ('CMS143', 2, 'Primary Open Angle Glaucoma (POAG): Optic Nerve Evaluation', '0086', '012', 'Percentage of patients aged 18 years and older with a diagnosis of primary openangle glaucoma (POAG) who have an optic nerve head evaluation during one or more office visits within 12 months', 'Clinical Process/ Effectiveness.', 1, -1, false),
 ('CMS143', 3, 'Primary Open Angle Glaucoma (POAG): Optic Nerve Evaluation', '0086', '012', 'Percentage of patients aged 18 years and older with a diagnosis of primary openangle glaucoma (POAG) who have an optic nerve head evaluation during one or more office visits within 12 months', 'Clinical Process/ Effectiveness.', 1, -1, false),
@@ -483,11 +482,11 @@ INSERT INTO openchpl.cqm_criterion (cms_id, cqm_version_id, title, nqf_number, n
 ('CMS66', 3, 'Functional Status Assessment for Knee Replacement', 'N/A', '375', 'Percentage of patients aged 18 years and older with primary total knee arthroplasty (TKA) who completed baseline and follow-up (patient-reported) functional status assessments.', 'Patient and Family Engagement.', 1, -1, false),
 ('CMS66', 4, 'Functional Status Assessment for Knee Replacement', 'N/A', '375', 'Percentage of patients aged 18 years and older with primary total knee arthroplasty (TKA) who completed baseline and follow-up (patient-reported) functional status assessments.', 'Patient and Family Engagement.', 1, -1, false),
 ('CMS66', 5, 'Functional Status Assessment for Knee Replacement', 'N/A', '375', 'Percentage of patients aged 18 years and older with primary total knee arthroplasty (TKA) who completed baseline and follow-up (patient-reported) functional status assessments.', 'Patient and Family Engagement.', 1, -1, false),
-('CMS56', 1, 'Functional Status Assessment for Hip Replacemen', 'N/A', '376', 'Percentage of patients aged 18 years and older with primary total hip arthroplasty (THA) who completed baseline and follow-up (patientreported) functional status assessments.', 'Patient and Family Engagement.', 1, -1, false),
-('CMS56', 2, 'Functional Status Assessment for Hip Replacemen', 'N/A', '376', 'Percentage of patients aged 18 years and older with primary total hip arthroplasty (THA) who completed baseline and follow-up (patientreported) functional status assessments.', 'Patient and Family Engagement.', 1, -1, false),
-('CMS56', 3, 'Functional Status Assessment for Hip Replacemen', 'N/A', '376', 'Percentage of patients aged 18 years and older with primary total hip arthroplasty (THA) who completed baseline and follow-up (patientreported) functional status assessments.', 'Patient and Family Engagement.', 1, -1, false),
-('CMS56', 4, 'Functional Status Assessment for Hip Replacemen', 'N/A', '376', 'Percentage of patients aged 18 years and older with primary total hip arthroplasty (THA) who completed baseline and follow-up (patientreported) functional status assessments.', 'Patient and Family Engagement.', 1, -1, false),
-('CMS56', 5, 'Functional Status Assessment for Hip Replacemen', 'N/A', '376', 'Percentage of patients aged 18 years and older with primary total hip arthroplasty (THA) who completed baseline and follow-up (patientreported) functional status assessments.', 'Patient and Family Engagement.', 1, -1, false),
+('CMS56', 1, 'Functional Status Assessment for Total Hip Replacement', 'N/A', '376', 'Percentage of patients aged 18 years and older with primary total hip arthroplasty (THA) who completed baseline and follow-up (patientreported) functional status assessments.', 'Patient and Family Engagement.', 1, -1, false),
+('CMS56', 2, 'Functional Status Assessment for Total Hip Replacement', 'N/A', '376', 'Percentage of patients aged 18 years and older with primary total hip arthroplasty (THA) who completed baseline and follow-up (patientreported) functional status assessments.', 'Patient and Family Engagement.', 1, -1, false),
+('CMS56', 3, 'Functional Status Assessment for Total Hip Replacement', 'N/A', '376', 'Percentage of patients aged 18 years and older with primary total hip arthroplasty (THA) who completed baseline and follow-up (patientreported) functional status assessments.', 'Patient and Family Engagement.', 1, -1, false),
+('CMS56', 4, 'Functional Status Assessment for Total Hip Replacement', 'N/A', '376', 'Percentage of patients aged 18 years and older with primary total hip arthroplasty (THA) who completed baseline and follow-up (patientreported) functional status assessments.', 'Patient and Family Engagement.', 1, -1, false),
+('CMS56', 5, 'Functional Status Assessment for Total Hip Replacement', 'N/A', '376', 'Percentage of patients aged 18 years and older with primary total hip arthroplasty (THA) who completed baseline and follow-up (patientreported) functional status assessments.', 'Patient and Family Engagement.', 1, -1, false),
 ('CMS179', 1, 'ADE Prevention and Monitoring: Warfarin Time in Therapeutic Range', 'N/A', '380', 'Average percentage of time in which patients aged 18 and older with atrial fibrillation who are on chronic warfarin therapy have International Normalized Ratio (INR) test results within the therapeutic range (i.e., TTR) during the measurement period.', 'Patient Safety.', 1, -1, false),
 ('CMS179', 2, 'ADE Prevention and Monitoring: Warfarin Time in Therapeutic Range', 'N/A', '380', 'Average percentage of time in which patients aged 18 and older with atrial fibrillation who are on chronic warfarin therapy have International Normalized Ratio (INR) test results within the therapeutic range (i.e., TTR) during the measurement period.', 'Patient Safety.', 1, -1, false),
 ('CMS179', 3, 'ADE Prevention and Monitoring: Warfarin Time in Therapeutic Range', 'N/A', '380', 'Average percentage of time in which patients aged 18 and older with atrial fibrillation who are on chronic warfarin therapy have International Normalized Ratio (INR) test results within the therapeutic range (i.e., TTR) during the measurement period.', 'Patient Safety.', 1, -1, false),
@@ -514,12 +513,12 @@ INSERT INTO openchpl.cqm_criterion (cms_id, cqm_version_id, title, nqf_number, n
 ('CMS166', 4, 'Use of Imaging Studies for Low Back Pain', '0052', '312', 'Percentage of patients 18-50 years of age with a diagnosis of low back pain who did not have an imaging study (plain X-ray, MRI, CT scan) within 28 days of the diagnosis.', 'Efficient Use of Healthcare Resources.', 1, -1, false),
 ('CMS166', 5, 'Use of Imaging Studies for Low Back Pain', '0052', '312', 'Percentage of patients 18-50 years of age with a diagnosis of low back pain who did not have an imaging study (plain X-ray, MRI, CT scan) within 28 days of the diagnosis.', 'Efficient Use of Healthcare Resources.', 1, -1, false),
 ('CMS166', 6, 'Use of Imaging Studies for Low Back Pain', '0052', '312', 'Percentage of patients 18-50 years of age with a diagnosis of low back pain who did not have an imaging study (plain X-ray, MRI, CT scan) within 28 days of the diagnosis.', 'Efficient Use of Healthcare Resources.', 1, -1, false),
-('CMS136', 1, 'ADHD: Follow-Up Care for Children Prescribed AttentionDeficit/Hyperactivi ty Disorder (ADHD) Medication', '0108', '366', 'Percentage of children 6-12 years of age and newly dispensed a medication for attention-deficit/hyperactivity disorder (ADHD) who had appropriate follow-up care. Two rates are reported.  Percentage of children who had one follow-up visit with a practitioner with prescribing authority during the 30-Day Initiation Phase.  Percentage of children who remained on ADHD medication for at least 210 days and who, in addition to the visit in the Initiation Phase, had at least two additional follow-up visits with a practitioner within 270 days (9 months) after the Initiation Phase ended.', 'Clinical Process/ Effectiveness.', 1, -1, false),
-('CMS136', 2, 'ADHD: Follow-Up Care for Children Prescribed AttentionDeficit/Hyperactivi ty Disorder (ADHD) Medication', '0108', '366', 'Percentage of children 6-12 years of age and newly dispensed a medication for attention-deficit/hyperactivity disorder (ADHD) who had appropriate follow-up care. Two rates are reported.  Percentage of children who had one follow-up visit with a practitioner with prescribing authority during the 30-Day Initiation Phase.  Percentage of children who remained on ADHD medication for at least 210 days and who, in addition to the visit in the Initiation Phase, had at least two additional follow-up visits with a practitioner within 270 days (9 months) after the Initiation Phase ended.', 'Clinical Process/ Effectiveness.', 1, -1, false),
-('CMS136', 3, 'ADHD: Follow-Up Care for Children Prescribed AttentionDeficit/Hyperactivi ty Disorder (ADHD) Medication', '0108', '366', 'Percentage of children 6-12 years of age and newly dispensed a medication for attention-deficit/hyperactivity disorder (ADHD) who had appropriate follow-up care. Two rates are reported.  Percentage of children who had one follow-up visit with a practitioner with prescribing authority during the 30-Day Initiation Phase.  Percentage of children who remained on ADHD medication for at least 210 days and who, in addition to the visit in the Initiation Phase, had at least two additional follow-up visits with a practitioner within 270 days (9 months) after the Initiation Phase ended.', 'Clinical Process/ Effectiveness.', 1, -1, false),
-('CMS136', 4, 'ADHD: Follow-Up Care for Children Prescribed AttentionDeficit/Hyperactivi ty Disorder (ADHD) Medication', '0108', '366', 'Percentage of children 6-12 years of age and newly dispensed a medication for attention-deficit/hyperactivity disorder (ADHD) who had appropriate follow-up care. Two rates are reported.  Percentage of children who had one follow-up visit with a practitioner with prescribing authority during the 30-Day Initiation Phase.  Percentage of children who remained on ADHD medication for at least 210 days and who, in addition to the visit in the Initiation Phase, had at least two additional follow-up visits with a practitioner within 270 days (9 months) after the Initiation Phase ended.', 'Clinical Process/ Effectiveness.', 1, -1, false),
-('CMS136', 5, 'ADHD: Follow-Up Care for Children Prescribed AttentionDeficit/Hyperactivi ty Disorder (ADHD) Medication', '0108', '366', 'Percentage of children 6-12 years of age and newly dispensed a medication for attention-deficit/hyperactivity disorder (ADHD) who had appropriate follow-up care. Two rates are reported.  Percentage of children who had one follow-up visit with a practitioner with prescribing authority during the 30-Day Initiation Phase.  Percentage of children who remained on ADHD medication for at least 210 days and who, in addition to the visit in the Initiation Phase, had at least two additional follow-up visits with a practitioner within 270 days (9 months) after the Initiation Phase ended.', 'Clinical Process/ Effectiveness.', 1, -1, false),
-('CMS136', 6, 'ADHD: Follow-Up Care for Children Prescribed AttentionDeficit/Hyperactivi ty Disorder (ADHD) Medication', '0108', '366', 'Percentage of children 6-12 years of age and newly dispensed a medication for attention-deficit/hyperactivity disorder (ADHD) who had appropriate follow-up care. Two rates are reported.  Percentage of children who had one follow-up visit with a practitioner with prescribing authority during the 30-Day Initiation Phase.  Percentage of children who remained on ADHD medication for at least 210 days and who, in addition to the visit in the Initiation Phase, had at least two additional follow-up visits with a practitioner within 270 days (9 months) after the Initiation Phase ended.', 'Clinical Process/ Effectiveness.', 1, -1, false),
+('CMS136', 1, 'ADHD: Follow-Up Care for Children Prescribed Attention-Deficit/Hyperactivity Disorder (ADHD) Medication', '0108', '366', 'Percentage of children 6-12 years of age and newly dispensed a medication for attention-deficit/hyperactivity disorder (ADHD) who had appropriate follow-up care. Two rates are reported.  Percentage of children who had one follow-up visit with a practitioner with prescribing authority during the 30-Day Initiation Phase.  Percentage of children who remained on ADHD medication for at least 210 days and who, in addition to the visit in the Initiation Phase, had at least two additional follow-up visits with a practitioner within 270 days (9 months) after the Initiation Phase ended.', 'Clinical Process/ Effectiveness.', 1, -1, false),
+('CMS136', 2, 'ADHD: Follow-Up Care for Children Prescribed Attention-Deficit/Hyperactivity Disorder (ADHD) Medication', '0108', '366', 'Percentage of children 6-12 years of age and newly dispensed a medication for attention-deficit/hyperactivity disorder (ADHD) who had appropriate follow-up care. Two rates are reported.  Percentage of children who had one follow-up visit with a practitioner with prescribing authority during the 30-Day Initiation Phase.  Percentage of children who remained on ADHD medication for at least 210 days and who, in addition to the visit in the Initiation Phase, had at least two additional follow-up visits with a practitioner within 270 days (9 months) after the Initiation Phase ended.', 'Clinical Process/ Effectiveness.', 1, -1, false),
+('CMS136', 3, 'ADHD: Follow-Up Care for Children Prescribed Attention-Deficit/Hyperactivity Disorder (ADHD) Medication', '0108', '366', 'Percentage of children 6-12 years of age and newly dispensed a medication for attention-deficit/hyperactivity disorder (ADHD) who had appropriate follow-up care. Two rates are reported.  Percentage of children who had one follow-up visit with a practitioner with prescribing authority during the 30-Day Initiation Phase.  Percentage of children who remained on ADHD medication for at least 210 days and who, in addition to the visit in the Initiation Phase, had at least two additional follow-up visits with a practitioner within 270 days (9 months) after the Initiation Phase ended.', 'Clinical Process/ Effectiveness.', 1, -1, false),
+('CMS136', 4, 'ADHD: Follow-Up Care for Children Prescribed Attention-Deficit/Hyperactivity Disorder (ADHD) Medication', '0108', '366', 'Percentage of children 6-12 years of age and newly dispensed a medication for attention-deficit/hyperactivity disorder (ADHD) who had appropriate follow-up care. Two rates are reported.  Percentage of children who had one follow-up visit with a practitioner with prescribing authority during the 30-Day Initiation Phase.  Percentage of children who remained on ADHD medication for at least 210 days and who, in addition to the visit in the Initiation Phase, had at least two additional follow-up visits with a practitioner within 270 days (9 months) after the Initiation Phase ended.', 'Clinical Process/ Effectiveness.', 1, -1, false),
+('CMS136', 5, 'ADHD: Follow-Up Care for Children Prescribed Attention-Deficit/Hyperactivity Disorder (ADHD) Medication', '0108', '366', 'Percentage of children 6-12 years of age and newly dispensed a medication for attention-deficit/hyperactivity disorder (ADHD) who had appropriate follow-up care. Two rates are reported.  Percentage of children who had one follow-up visit with a practitioner with prescribing authority during the 30-Day Initiation Phase.  Percentage of children who remained on ADHD medication for at least 210 days and who, in addition to the visit in the Initiation Phase, had at least two additional follow-up visits with a practitioner within 270 days (9 months) after the Initiation Phase ended.', 'Clinical Process/ Effectiveness.', 1, -1, false),
+('CMS136', 6, 'ADHD: Follow-Up Care for Children Prescribed Attention-Deficit/Hyperactivity Disorder (ADHD) Medication', '0108', '366', 'Percentage of children 6-12 years of age and newly dispensed a medication for attention-deficit/hyperactivity disorder (ADHD) who had appropriate follow-up care. Two rates are reported.  Percentage of children who had one follow-up visit with a practitioner with prescribing authority during the 30-Day Initiation Phase.  Percentage of children who remained on ADHD medication for at least 210 days and who, in addition to the visit in the Initiation Phase, had at least two additional follow-up visits with a practitioner within 270 days (9 months) after the Initiation Phase ended.', 'Clinical Process/ Effectiveness.', 1, -1, false),
 ('CMS2', 1, 'Preventive Care and Screening: Screening for Clinical Depression and Follow-Up Plan', '0418', '134 GPRO PREV-12', 'Percentage of patients aged 12 years and older screened for clinical depression on the date of the encounter using an age appropriate standardized depression screening tool AND if positive, a follow-up plan is documented on the date of the positive screen.', 'Population/Public Health.', 1, -1, false),
 ('CMS2', 2, 'Preventive Care and Screening: Screening for Clinical Depression and Follow-Up Plan', '0418', '134 GPRO PREV-12', 'Percentage of patients aged 12 years and older screened for clinical depression on the date of the encounter using an age appropriate standardized depression screening tool AND if positive, a follow-up plan is documented on the date of the positive screen.', 'Population/Public Health.', 1, -1, false),
 ('CMS2', 3, 'Preventive Care and Screening: Screening for Clinical Depression and Follow-Up Plan', '0418', '134 GPRO PREV-12', 'Percentage of patients aged 12 years and older screened for clinical depression on the date of the encounter using an age appropriate standardized depression screening tool AND if positive, a follow-up plan is documented on the date of the positive screen.', 'Population/Public Health.', 1, -1, false),
@@ -538,11 +537,11 @@ INSERT INTO openchpl.cqm_criterion (cms_id, cqm_version_id, title, nqf_number, n
 ('CMS147', 4, 'Preventive Care and Screening: Influenza Immunization', '0041', '110 GPRO PREV-7', 'Percentage of patients aged 6 months and older seen for a visit between October 1 and March 31 who received an influenza immunization OR who reported previous receipt of an influenza immunization', 'Population/Public Health.', 1, -1, false),
 ('CMS147', 5, 'Preventive Care and Screening: Influenza Immunization', '0041', '110 GPRO PREV-7', 'Percentage of patients aged 6 months and older seen for a visit between October 1 and March 31 who received an influenza immunization OR who reported previous receipt of an influenza immunization', 'Population/Public Health.', 1, -1, false),
 ('CMS147', 6, 'Preventive Care and Screening: Influenza Immunization', '0041', '110 GPRO PREV-7', 'Percentage of patients aged 6 months and older seen for a visit between October 1 and March 31 who received an influenza immunization OR who reported previous receipt of an influenza immunization', 'Population/Public Health.', 1, -1, false),
-('CMS135', 1, 'Heart Failure (HF): AngiotensinConverting Enzyme (ACE) Inhibitor or Angiotensin Receptor Blocker (ARB) Therapy for Left Ventricular Systolic Dysfunction (LVSD)', '0081', '005', 'Percentage of patients aged 18 years and older with a diagnosis of heart failure (HF) with a current or prior left ventricular ejection fraction (LVEF) < 40% who were prescribed ACE inhibitor or ARB therapy either within a 12 month period when seen in the outpatient setting OR at each hospital discharge', 'Clinical Process/ Effectiveness.', 1, -1, false),
-('CMS135', 2, 'Heart Failure (HF): AngiotensinConverting Enzyme (ACE) Inhibitor or Angiotensin Receptor Blocker (ARB) Therapy for Left Ventricular Systolic Dysfunction (LVSD)', '0081', '005', 'Percentage of patients aged 18 years and older with a diagnosis of heart failure (HF) with a current or prior left ventricular ejection fraction (LVEF) < 40% who were prescribed ACE inhibitor or ARB therapy either within a 12 month period when seen in the outpatient setting OR at each hospital discharge', 'Clinical Process/ Effectiveness.', 1, -1, false),
-('CMS135', 3, 'Heart Failure (HF): AngiotensinConverting Enzyme (ACE) Inhibitor or Angiotensin Receptor Blocker (ARB) Therapy for Left Ventricular Systolic Dysfunction (LVSD)', '0081', '005', 'Percentage of patients aged 18 years and older with a diagnosis of heart failure (HF) with a current or prior left ventricular ejection fraction (LVEF) < 40% who were prescribed ACE inhibitor or ARB therapy either within a 12 month period when seen in the outpatient setting OR at each hospital discharge', 'Clinical Process/ Effectiveness.', 1, -1, false),
-('CMS135', 4, 'Heart Failure (HF): AngiotensinConverting Enzyme (ACE) Inhibitor or Angiotensin Receptor Blocker (ARB) Therapy for Left Ventricular Systolic Dysfunction (LVSD)', '0081', '005', 'Percentage of patients aged 18 years and older with a diagnosis of heart failure (HF) with a current or prior left ventricular ejection fraction (LVEF) < 40% who were prescribed ACE inhibitor or ARB therapy either within a 12 month period when seen in the outpatient setting OR at each hospital discharge', 'Clinical Process/ Effectiveness.', 1, -1, false),
-('CMS135', 5, 'Heart Failure (HF): AngiotensinConverting Enzyme (ACE) Inhibitor or Angiotensin Receptor Blocker (ARB) Therapy for Left Ventricular Systolic Dysfunction (LVSD)', '0081', '005', 'Percentage of patients aged 18 years and older with a diagnosis of heart failure (HF) with a current or prior left ventricular ejection fraction (LVEF) < 40% who were prescribed ACE inhibitor or ARB therapy either within a 12 month period when seen in the outpatient setting OR at each hospital discharge', 'Clinical Process/ Effectiveness.', 1, -1, false),
+('CMS135', 1, 'Heart Failure (HF): Angiotensin-Converting Enzyme (ACE) Inhibitor or Angiotensin Receptor Blocker (ARB) Therapy for Left Ventricular Systolic Dysfunction (LVSD)', '0081', '005', 'Percentage of patients aged 18 years and older with a diagnosis of heart failure (HF) with a current or prior left ventricular ejection fraction (LVEF) < 40% who were prescribed ACE inhibitor or ARB therapy either within a 12 month period when seen in the outpatient setting OR at each hospital discharge', 'Clinical Process/ Effectiveness.', 1, -1, false),
+('CMS135', 2, 'Heart Failure (HF): Angiotensin-Converting Enzyme (ACE) Inhibitor or Angiotensin Receptor Blocker (ARB) Therapy for Left Ventricular Systolic Dysfunction (LVSD)', '0081', '005', 'Percentage of patients aged 18 years and older with a diagnosis of heart failure (HF) with a current or prior left ventricular ejection fraction (LVEF) < 40% who were prescribed ACE inhibitor or ARB therapy either within a 12 month period when seen in the outpatient setting OR at each hospital discharge', 'Clinical Process/ Effectiveness.', 1, -1, false),
+('CMS135', 3, 'Heart Failure (HF): Angiotensin-Converting Enzyme (ACE) Inhibitor or Angiotensin Receptor Blocker (ARB) Therapy for Left Ventricular Systolic Dysfunction (LVSD)', '0081', '005', 'Percentage of patients aged 18 years and older with a diagnosis of heart failure (HF) with a current or prior left ventricular ejection fraction (LVEF) < 40% who were prescribed ACE inhibitor or ARB therapy either within a 12 month period when seen in the outpatient setting OR at each hospital discharge', 'Clinical Process/ Effectiveness.', 1, -1, false),
+('CMS135', 4, 'Heart Failure (HF): Angiotensin-Converting Enzyme (ACE) Inhibitor or Angiotensin Receptor Blocker (ARB) Therapy for Left Ventricular Systolic Dysfunction (LVSD)', '0081', '005', 'Percentage of patients aged 18 years and older with a diagnosis of heart failure (HF) with a current or prior left ventricular ejection fraction (LVEF) < 40% who were prescribed ACE inhibitor or ARB therapy either within a 12 month period when seen in the outpatient setting OR at each hospital discharge', 'Clinical Process/ Effectiveness.', 1, -1, false),
+('CMS135', 5, 'Heart Failure (HF): Angiotensin-Converting Enzyme (ACE) Inhibitor or Angiotensin Receptor Blocker (ARB) Therapy for Left Ventricular Systolic Dysfunction (LVSD)', '0081', '005', 'Percentage of patients aged 18 years and older with a diagnosis of heart failure (HF) with a current or prior left ventricular ejection fraction (LVEF) < 40% who were prescribed ACE inhibitor or ARB therapy either within a 12 month period when seen in the outpatient setting OR at each hospital discharge', 'Clinical Process/ Effectiveness.', 1, -1, false),
 ('CMS182', 1, 'Ischemic Vascular Disease (IVD): Complete Lipid Panel and LDL Control', 'N/A', '241', 'Percentage of patients 18 years of age and older who were discharged alive for acute myocardial infarction (AMI), coronary artery bypass graft (CABG) or percutaneous coronary interventions (PCI) in the 12 months prior to the measurement period, or who had an active diagnosis of ischemic vascular disease (IVD) during the measurement period, and who had a complete lipid profile performed during the measurement period and whose LDL-C was adequately controlled (< 100 mg/dL).', 'Clinical Process/ Effectiveness.', 1, -1, false),
 ('CMS182', 2, 'Ischemic Vascular Disease (IVD): Complete Lipid Panel and LDL Control', 'N/A', '241', 'Percentage of patients 18 years of age and older who were discharged alive for acute myocardial infarction (AMI), coronary artery bypass graft (CABG) or percutaneous coronary interventions (PCI) in the 12 months prior to the measurement period, or who had an active diagnosis of ischemic vascular disease (IVD) during the measurement period, and who had a complete lipid profile performed during the measurement period and whose LDL-C was adequately controlled (< 100 mg/dL).', 'Clinical Process/ Effectiveness.', 1, -1, false),
 ('CMS182', 3, 'Ischemic Vascular Disease (IVD): Complete Lipid Panel and LDL Control', 'N/A', '241', 'Percentage of patients 18 years of age and older who were discharged alive for acute myocardial infarction (AMI), coronary artery bypass graft (CABG) or percutaneous coronary interventions (PCI) in the 12 months prior to the measurement period, or who had an active diagnosis of ischemic vascular disease (IVD) during the measurement period, and who had a complete lipid profile performed during the measurement period and whose LDL-C was adequately controlled (< 100 mg/dL).', 'Clinical Process/ Effectiveness.', 1, -1, false),
@@ -644,11 +643,11 @@ INSERT INTO openchpl.cqm_criterion (cms_id, cqm_version_id, title, nqf_number, n
 ('CMS110', 3, 'Venous Thromboembolism Discharge Instructions', 'N/A', null, 'This measure assesses the number of patients diagnosed with confirmed VTE that are discharged to home, home care, court/law enforcement or home on hospice care on warfarin with written discharge instructions that address all four criteria: compliance issues, dietary advice, follow-up monitoring, and information about the potential for adverse drug reactions/ interactions.', 'Patient and Family Engagement', 2, -1, false),
 ('CMS110', 4, 'Venous Thromboembolism Discharge Instructions', 'N/A', null, 'This measure assesses the number of patients diagnosed with confirmed VTE that are discharged to home, home care, court/law enforcement or home on hospice care on warfarin with written discharge instructions that address all four criteria: compliance issues, dietary advice, follow-up monitoring, and information about the potential for adverse drug reactions/ interactions.', 'Patient and Family Engagement', 2, -1, false),
 ('CMS110', 5, 'Venous Thromboembolism Discharge Instructions', 'N/A', null, 'This measure assesses the number of patients diagnosed with confirmed VTE that are discharged to home, home care, court/law enforcement or home on hospice care on warfarin with written discharge instructions that address all four criteria: compliance issues, dietary advice, follow-up monitoring, and information about the potential for adverse drug reactions/ interactions.', 'Patient and Family Engagement', 2, -1, false),
-('CMS114', 1, 'Incidence of PotentiallyPreventable Venous Thromboembolism', 'N/A', null, 'This measure assesses the number of patients diagnosed with confirmed VTE during hospitalization (not present at admission) who did not receive VTE prophylaxis between hospital admission and the day before the VTE diagnostic testing order date.', 'Patient Safety', 2, -1, false),
-('CMS114', 2, 'Incidence of PotentiallyPreventable Venous Thromboembolism', 'N/A', null, 'This measure assesses the number of patients diagnosed with confirmed VTE during hospitalization (not present at admission) who did not receive VTE prophylaxis between hospital admission and the day before the VTE diagnostic testing order date.', 'Patient Safety', 2, -1, false),
-('CMS114', 3, 'Incidence of PotentiallyPreventable Venous Thromboembolism', 'N/A', null, 'This measure assesses the number of patients diagnosed with confirmed VTE during hospitalization (not present at admission) who did not receive VTE prophylaxis between hospital admission and the day before the VTE diagnostic testing order date.', 'Patient Safety', 2, -1, false),
-('CMS114', 4, 'Incidence of PotentiallyPreventable Venous Thromboembolism', 'N/A', null, 'This measure assesses the number of patients diagnosed with confirmed VTE during hospitalization (not present at admission) who did not receive VTE prophylaxis between hospital admission and the day before the VTE diagnostic testing order date.', 'Patient Safety', 2, -1, false),
-('CMS114', 5, 'Incidence of PotentiallyPreventable Venous Thromboembolism', 'N/A', null, 'This measure assesses the number of patients diagnosed with confirmed VTE during hospitalization (not present at admission) who did not receive VTE prophylaxis between hospital admission and the day before the VTE diagnostic testing order date.', 'Patient Safety', 2, -1, false),
+('CMS114', 1, 'Incidence of Potentially-Preventable Venous Thromboembolism', 'N/A', null, 'This measure assesses the number of patients diagnosed with confirmed VTE during hospitalization (not present at admission) who did not receive VTE prophylaxis between hospital admission and the day before the VTE diagnostic testing order date.', 'Patient Safety', 2, -1, false),
+('CMS114', 2, 'Incidence of Potentially-Preventable Venous Thromboembolism', 'N/A', null, 'This measure assesses the number of patients diagnosed with confirmed VTE during hospitalization (not present at admission) who did not receive VTE prophylaxis between hospital admission and the day before the VTE diagnostic testing order date.', 'Patient Safety', 2, -1, false),
+('CMS114', 3, 'Incidence of Potentially-Preventable Venous Thromboembolism', 'N/A', null, 'This measure assesses the number of patients diagnosed with confirmed VTE during hospitalization (not present at admission) who did not receive VTE prophylaxis between hospital admission and the day before the VTE diagnostic testing order date.', 'Patient Safety', 2, -1, false),
+('CMS114', 4, 'Incidence of Potentially-Preventable Venous Thromboembolism', 'N/A', null, 'This measure assesses the number of patients diagnosed with confirmed VTE during hospitalization (not present at admission) who did not receive VTE prophylaxis between hospital admission and the day before the VTE diagnostic testing order date.', 'Patient Safety', 2, -1, false),
+('CMS114', 5, 'Incidence of Potentially-Preventable Venous Thromboembolism', 'N/A', null, 'This measure assesses the number of patients diagnosed with confirmed VTE during hospitalization (not present at admission) who did not receive VTE prophylaxis between hospital admission and the day before the VTE diagnostic testing order date.', 'Patient Safety', 2, -1, false),
 ('CMS141', 1, 'Colon Cancer: Chemotherapy for AJCC Stage III Colon Cancer Patients', '0385', '072', 'Percentage of patients aged 18 through 80 years with AJCC Stage III colon cancer who are referred for adjuvant chemotherapy, prescribed adjuvant chemotherapy, or have previously received adjuvant chemotherapy within the 12-month reporting period.', 'Clinical Process/ Effectiveness.', 1, -1, false),
 ('CMS141', 2, 'Colon Cancer: Chemotherapy for AJCC Stage III Colon Cancer Patients', '0385', '072', 'Percentage of patients aged 18 through 80 years with AJCC Stage III colon cancer who are referred for adjuvant chemotherapy, prescribed adjuvant chemotherapy, or have previously received adjuvant chemotherapy within the 12-month reporting period.', 'Clinical Process/ Effectiveness.', 1, -1, false),
 ('CMS141', 3, 'Colon Cancer: Chemotherapy for AJCC Stage III Colon Cancer Patients', '0385', '072', 'Percentage of patients aged 18 through 80 years with AJCC Stage III colon cancer who are referred for adjuvant chemotherapy, prescribed adjuvant chemotherapy, or have previously received adjuvant chemotherapy within the 12-month reporting period.', 'Clinical Process/ Effectiveness.', 1, -1, false),
@@ -837,219 +836,209 @@ INSERT INTO openchpl.ucd_process(name, last_modified_user) VALUES
 ('NISTIR 7741', -1);
 -- same for 2014 and 2015
 
-INSERT INTO openchpl.test_tool(name, last_modified_user) VALUES
-('ePrescribing Validation Tool', -1),
-('HL7 CDA Cancer Registry Reporting Validation Tool', -1),
-('HL7 v2 Electronic Laboratory Reporting (ELR) Validation Tool', -1),
-('HL7 v2 Immunization Information System (IIS) Reporting Validation Tool', -1),
-('HL7 v2 Laboratory Results Interface (LRI) Validation Tool', -1),
-('HL7 v2 Syndromic Surveillance Reporting Validation Tool', -1),
-('Transport Testing Tool', -1),
-('Cypress', -1),
-('Direct Certificate Discovery Tool', -1),
+INSERT INTO openchpl.test_tool(name, last_modified_user, retired) VALUES
+('ePrescribing Validation Tool', -1, false),
+('HL7 CDA Cancer Registry Reporting Validation Tool', -1, false),
+('HL7 v2 Electronic Laboratory Reporting (ELR) Validation Tool', -1, false),
+('HL7 v2 Immunization Information System (IIS) Reporting Validation Tool', -1, false),
+('HL7 v2 Laboratory Results Interface (LRI) Validation Tool', -1, false),
+('HL7 v2 Syndromic Surveillance Reporting Validation Tool', -1, false),
+('Transport Testing Tool', -1, true),
+('Cypress', -1, false),
+('Direct Certificate Discovery Tool', -1, false),
 -- 2014
-('HL7v2 Immunization Test Suite', -1),
-('HL7v2 Syndromic Surveillance Test Suite', -1),
-('HL7v2 Electronic Laboratory Reporting Validation Tool', -1),
-('Electronic Prescribing', -1),
-('HL7 CDA National Health Care Surveys Validator', -1),
-('Transport Test Tool', -1),
-('Edge Test Tool', -1),
-('2015 Direct Certificate Discovery Tool', -1),
+('HL7v2 Immunization Test Suite', -1, false),
+('HL7v2 Syndromic Surveillance Test Suite', -1, false),
+('HL7v2 Electronic Laboratory Reporting Validation Tool', -1, false),
+('Electronic Prescribing', -1, false),
+('HL7 CDA National Health Care Surveys Validator', -1, false),
+('Transport Test Tool', -1, true),
+('Edge Test Tool', -1, false),
+('2015 Direct Certificate Discovery Tool', -1, false),
 --2015
-('N/A', -1),
-    ('', -1);
+('N/A', -1, false),
+    ('', -1, false);
 -- Faking 'not required'; remove after Validator changed
 
-INSERT INTO openchpl.test_standard(number, name, last_modified_user) VALUES
-('170.202(a)','DIRECT: Applicability Statement for Secure Health Transport, Version 1.1, July 10, 2012', -1),
-('170.202(b)','XDR and XDM for Direct Messaging Specification, Version 1, March 9, 2011', -1),
-('170.202(c)','Transport and Security Specification, Version 1.0, June 19, 2012', -1),
-('170.202(d)','Implementation Guide for Direct Edge Protocols, Version 1.1, June 25, 2014', -1),
-('170.204(a)','Web Content Accessibility Guidelines (WCAG) 2.0, December 11, 2008', -1),
-('170.204(b)','HL7 Version 3 Standard: Context-Aware Retrieval Application (Infobutton); Release 1, July 2010', -1),
-('170.204(b)(1)','HL7 Version 3 Implementation Guide: URL-Based Implementations of the Context-Aware Information Retrieval (Infobutton) Domain, Release 3, December 2010', -1),
-('170.204(b)(2)','HL7 Version 3 Implementation Guide: Context-Aware Knowledge Retrieval (Infobutton) Service-Oriented Architecture Implementation Guide, Release 1, HL7 Draft Standard for Trial Use, March 2011', -1),
-('170.204(c)','Data Element Catalog, Version 1.1 October 2012', -1),
-('170.205(a)(1)','HITSP Summary Documents Using HL7 Continuity of Care Document (CCD) Component, HITSP/C32, July 8, 2009, Version 2.5', -1),
-('170.205(a)(1)','Health Level Seven Implementation Guide: Clinical Document Architecture (CDA) Release 2—Continuity of Care Document (CCD), April 01, 2007', -1),
-('170.205(a)(2)','ASTM E2369–05: Standard Specification for Continuity of Care Record (CCR), year of adoption 2005, ASTM approved July 17, 2006', -1),
-('170.205(a)(2)','ASTM E2369–05 (Adjunct to E2369): Standard Specification Continuity of Care Record,—Final Version 1.0 (V1.0), November 7, 2005', -1),
-('170.205(a)(3)','HL7 Implementation Guide for CDA® Release 2: IHE Health Story Consolidation, DSTU Release 1.1 (US Realm) Draft Standard for Trial Use July 2012', -1),
-('170.205(b)(2)','SCRIPT Standard, Implementation Guide, Version 10.6, October, 2008, (Approval date for ANSI: November 12, 2008)', -1),
-('170.205(d)(3)','PHIN Messaging Guide for Syndromic Surveillance: Emergency Department and Urgent Care Data, ADT Messages A01, A03, A04, and A08, HL7 Version 2.5.1 (Version 2.3.1 Compatible), Release 1.1, August 2012', -1),
-('170.205(d)(3)','Conformance Clarification for EHR Certification of Electronic Syndromic Surveillance, ADT MESSAGES A01, A03, A04, and A08, HL7 Version 2.5.1, Addendum to PHIN Messaging Guide for Syndromic Surveillance: Emergency Department and Urgent Care Data (Release 1.1), August 2012', -1),
-('170.205(d)(3)','Health Level Seven Messaging Standard Version 2.5.1 (HL7 2.5.1), An Application Protocol for Electronic Data Exchange in Healthcare Environments, February 21, 2007', -1),
-('170.205(e)(3)','HL7 2.5.1 Implementation Guide for Immunization Messaging, Release 1.4, August 1, 2012', -1),
-('170.205(e)(3)','Health Level Seven Messaging Standard Version 2.5.1 (HL7 2.5.1), An Application Protocol for Electronic Data Exchange in Healthcare Environments, February 21, 2007', -1),
-('170.205(g)','HL7 v2.5.1 IG: Electronic Laboratory Reporting to Public Health (US Realm), Release 1 Errata and Clarifications, September, 29, 2011', -1),
-('170.205(g)(3)','ELR 2.5.1 Clarification Document for EHR Technology Certification, July 16, 2012', -1),
-('170.205(g)(3)','Health Level Seven Messaging Standard Version 2.5.1 (HL7 2.5.1), An Application Protocol for Electronic Data Exchange in Healthcare Environments, February 21, 2007', -1),
-('170.205(g)(3)','HL7 Version 2.5.1 Implementation Guide: Electronic Laboratory Reporting to Public Health, Release 1 (US Realm) HL7 Version 2.5.1: ORU^R01, HL7 Informative Document, February, 2010', -1),
-('170.205(h)','HL7 Implementation Guide for CDA® Release 2: Quality Reporting Document Architecture, DTSU Release 2 (Universal Realm), Draft Standard for Trial Use, July 2012', -1),
-('170.205(i)','Implementation Guide for Ambulatory Healthcare Provider Reporting to Central Cancer Registries, HL7 Clinical Document Architecture (CDA), Release 1.0, August 2012', -1),
-('170.205(i)','HL7 Clinical Document Architecture, Release 2.0, Normative Edition, May 2005', -1),
-('170.205(j)','HL7 Version 2.5.1 Implementation Guide: S&I Framework Lab Results Interface, Release 1 - US Realm [HL7 Version 2.5.1: ORU^R01] Draft Standard for Trial Use, July 2012', -1),
-('170.205(k)','HL7 Implementation Guide for CDA® Release 2: Quality Reporting Document Architecture—Category III, DSTU Release 1 (US Realm) Draft Standard for Trial Use, November 2012', -1),
-('170.207(a)(3)','International Health Terminology Standards Development Organisation (IHTSDO) Systematized Nomenclature of Medicine Clinical Terms (SNOMED CT®) International Release July 31, 2012', -1),
-('170.207(a)(3)','US Extension to SNOMED CT® March 2012 Release', -1),
-('170.207(b)(2)','CPT-4', -1),
-('170.207(b)(2)','HCPCS', -1),
-('170.207(b)(3)','CDT', -1),
-('170.207(b)(4)','ICD-10-PCS', -1),
-('170.207(c)(2)','Logical Observation Identifiers Names and Codes (LOINC®) Database version 2.40,Released June 2012', -1),
-('170.207(d)(2)','RxNorm, August 6, 2012 Full Release Update', -1),
-('170.207(e)(2)','IIS: HL7 Standard Code Set CVX -- Vaccines Administered, updates through July 11, 2012', -1),
-('170.207(f)','OMB standards for Maintaining, Collecting, and Presenting Federal Data on Race and Ethnicity, Statistical Policy Directive No. 15, Oct 30, 1997', -1),
-('170.207(g)','ISO 639-2. Codes for the Representation of Names of Languages Part 2: Alpha-3 Code, April 8, 2011', -1),
-('170.207(i)','ICD-10-CM', -1),
-('170.207(j)','HL7 Version 3 Standard: Clinical Genomics; Pedigree, Release 1, Edition 2011, March 2012', -1),
-('170.210(a)(1)','Annex A: Approved Security Functions for FIPS PUB 140-2, Security Requirements for Cryptographic Modules, Draft, May 30, 2012', -1),
-('170.210(f)','Annex A: Approved Security Functions for FIPS PUB 140-2, Security Requirements for Cryptographic Modules, Draft, May 30, 2012', -1),
-('170.210(g) NTP v3','RFC 1305: Network Time Protocol (Version 3) Specification, Implementation and Analysis, March 1992', -1),
-('170.210(g) NTP v4','RFC 5905: Network Time Protocol Version 4: Protocol and Algorithms Specification, June 2010', -1),
-('170.210(h)','ASTM E2147-01 (Reapproved 2009) Standard Specification for Audit and Disclosure Logs for Use in Health Information Systems, approved September 1, 2009', -1),
+INSERT INTO openchpl.test_standard(number, name, certification_edition_id, last_modified_user) VALUES
+('170.202(a)', 'DIRECT: Applicability Statement for Secure Health Transport, Version 1.1, July 10, 2012', 2, -1),
+('170.202(b)', 'XDR and XDM for Direct Messaging Specification, Version 1, March 9, 2011', 2, -1),
+('170.202(c)', 'Transport and Security Specification, Version 1.0, June 19, 2012', 2, -1),
+('170.202(d)', 'Implementation Guide for Direct Edge Protocols, Version 1.1, June 25, 2014', 2, -1),
+('170.204(a)', 'Web Content Accessibility Guidelines (WCAG) 2.0, December 11, 2008', 2, -1),
+('170.204(b)', 'HL7 Version 3 Standard: Context-Aware Retrieval Application (Infobutton); Release 1, July 2010', 2, -1),
+('170.204(b)(1)', 'HL7 Version 3 Implementation Guide: URL-Based Implementations of the Context-Aware Information Retrieval (Infobutton) Domain, Release 3, December 2010', 2, -1),
+('170.204(b)(2)', 'HL7 Version 3 Implementation Guide: Context-Aware Knowledge Retrieval (Infobutton) Service-Oriented Architecture Implementation Guide, Release 1, HL7 Draft Standard for Trial Use, March 2011', 2, -1),
+('170.204(c)', 'Data Element Catalog, Version 1.1 October 2012', 2, -1),
+('170.205(a)(1)', 'Health Level Seven Clinical Document Architecture (CDA) Release 2, Continuity of Care Document (CCD) (incorporated by reference in § 170.299). Implementation specifications. The Healthcare Information Technology Standards Panel (HITSP) Summary Documents Using HL7 CCD Component HITSP/C32 (incorporated by reference in § 170.299).', 2, -1),
+('170.205(a)(2)', 'ASTM E2369 Standard Specification for Continuity of Care Record and Adjunct to ASTM E2369 (incorporated by reference in § 170.299).', 2, -1),
+('170.205(a)(3)', 'HL7 Implementation Guide for CDA® Release 2: IHE Health Story Consolidation, DSTU Release 1.1 (US Realm) Draft Standard for Trial Use July 2012', 2, -1),
+('170.205(b)(2)', 'SCRIPT Standard, Implementation Guide, Version 10.6, October, 2008, (Approval date for ANSI: November 12, 2008)', 2, -1),
+('170.205(d)(3)', 'HL7 2.5.1 (incorporated by reference in § 170.299). Implementation specifications. PHIN Messaging Guide for Syndromic Surveillance (incorporated by reference in § 170.299) and Conformance Clarification for EHR Certification of Electronic Syndromic Surveillance, Addendum to PHIN Messaging Guide for Syndromic Surveillance (incorporated by reference in § 170.299).', 2, -1),
+('170.205(e)(3)', 'HL7 2.5.1 (incorporated by reference in § 170.299). Implementation specifications. HL7 2.5.1 Implementation Guide for Immunization Messaging, Release 1.4, (incorporated by reference in § 170.299).', 2, -1),
+('170.205(g)', 'HL7 2.5.1 (incorporated by reference in § 170.299). Implementation specifications. HL7 Version 2.5.1 Implementation Guide: Electronic Laboratory Reporting to Public Health, Release 1 (US Realm) (incorporated by reference in § 170.299) with Errata and Clarifications, (incorporated by reference in § 170.299) and ELR 2.5.1 Clarification Document for EHR Technology Certification, (incorporated by reference in § 170.299).', 2, -1),
+('170.205(h)', 'HL7 Implementation Guide for CDA® Release 2: Quality Reporting Document Architecture, DTSU Release 2 (Universal Realm), Draft Standard for Trial Use, July 2012', 2, -1),
+('170.205(i)(1)', 'HL7 Clinical Document Architecture (CDA), Release 2.0, Normative Edition (incorporated by reference in § 170.299). Implementation specifications. Implementation Guide for Ambulatory Healthcare Provider Reporting to Central Cancer Registries, HL7 Clinical Document Architecture (CDA), Release 1.0 (incorporated by reference in § 170.299).', 2, -1),
+('170.205(i)(2)', 'HL7 Clinical Document Architecture (CDA), Release 2.0, Normative Edition (incorporated by reference in § 170.299). Implementation specifications. HL7 CDA©Release 2 Implementation Guide: Reporting to Public Health Cancer Registries from Ambulatory Healthcare Providers, Release 1; DSTU Release 1.1, Volume 1 - Introductory Material and HL7 CDA© Release 2 Implementation Guide: Reporting to Public Health Cancer Registries from Ambulatory Healthcare Providers, Release 1; DSTU Release 1.1 (US Realm), Volume 2 - Templates and Supporting Material (incorporated by reference in § 170.299).', 2, -1),
+('170.205(j)', 'HL7 Version 2.5.1 Implementation Guide: S&I Framework Lab Results Interface, Release 1 - US Realm [HL7 Version 2.5.1: ORU^R01] Draft Standard for Trial Use, July 2012', 2, -1),
+('170.205(k)', 'HL7 Implementation Guide for CDA® Release 2: Quality Reporting Document Architecture—Category III, DSTU Release 1 (US Realm) Draft Standard for Trial Use, November 2012', 2, -1),
+('170.207(a)(3)', 'IHTSDO SNOMED CT® International Release July 2012 (incorporated by reference in § 170.299) and US Extension to SNOMED CT® March 2012 Release (incorporated by reference in § 170.299).', 2, -1),
+('170.207(b)(2)', 'The combination of Health Care Financing Administration Common Procedure Coding System (HCPCS), as maintained and distributed by HHS, and Current Procedural Terminology, Fourth Edition (CPT-4), asmaintained and distributed by the American Medical Association, for physician services and other health care services.', 2, -1),
+('170.207(b)(3)', 'CDT', 2, -1),
+('170.207(b)(4)', 'ICD-10-PCS', 2, -1),
+('170.207(c)(2)', 'Logical Observation Identifiers Names and Codes (LOINC®) Database version 2.40,Released June 2012', 2, -1),
+('170.207(d)(2)', 'RxNorm, August 6, 2012 Full Release Update', 2, -1),
+('170.207(e)(2)', 'IIS: HL7 Standard Code Set CVX -- Vaccines Administered, updates through July 11, 2012', 2, -1),
+('170.207(f)', 'OMB standards for Maintaining, Collecting, and Presenting Federal Data on Race and Ethnicity, Statistical Policy Directive No. 15, Oct 30, 1997', 2, -1),
+('170.207(g)', 'ISO 639-2. Codes for the Representation of Names of Languages Part 2: Alpha-3 Code, April 8, 2011', 2, -1),
+('170.207(i)', 'ICD-10-CM', 2, -1),
+('170.207(j)', 'HL7 Version 3 Standard: Clinical Genomics; Pedigree, Release 1, Edition 2011, March 2012', 2, -1),
+('170.210(a)(1)', 'Annex A: Approved Security Functions for FIPS PUB 140-2, Security Requirements for Cryptographic Modules, Draft, May 30, 2012', 2, -1),
+('170.210(f)', 'Annex A: Approved Security Functions for FIPS PUB 140-2, Security Requirements for Cryptographic Modules, Draft, May 30, 2012', 2, -1),
+('170.210(g) NTP v3', 'RFC 1305: Network Time Protocol (Version 3) Specification, Implementation and Analysis, March 1992', 2, -1),
+('170.210(g) NTP v4', 'RFC 5905: Network Time Protocol Version 4: Protocol and Algorithms Specification, June 2010', 2, -1),
+('170.210(h)', 'ASTM E2147-01 (Reapproved 2009) Standard Specification for Audit and Disclosure Logs for Use in Health Information Systems, approved September 1, 2009', 2, -1),
 
 -- 2014
 
-('170.207(b)(3)','CDT', -1),
-('170.207(b)(2)','CPT-4', -1),
-('170.210(h)','ASTM E2147 (Reapproved 2013) ', -1),
-('170.207(f)(2)','CDC Race and Ethnicity Code Set Version 1.0 (March 2000)', -1),
-('170.207(e)(4)','National Drug Code Directory – Vaccine NDC Linker, updates through August 17, 2015', -1),
-('170.207(b)(4)','ICD-10-PCS', -1),
-('170.207(i)','ICD-10-CM', -1),
-('170.207(r)(1)','Crosswalk: Medicare Provider/Supplier to Healthcare Provider Taxonomy (updated April 2, 2015)', -1),
-('170.210(d)','Record treatment, payment, and health care operations disclosures', -1),
+('170.207(b)(3)','CDT', 3, -1),
+('170.207(b)(2)','CPT-4', 3, -1),
+('170.210(h)','ASTM E2147 (Reapproved 2013) ', 3, -1),
+('170.207(f)(2)','CDC Race and Ethnicity Code Set Version 1.0 (March 2000)', 3, -1),
+('170.207(e)(4)','National Drug Code Directory – Vaccine NDC Linker, updates through August 17, 2015', 3, -1),
+('170.207(b)(4)','ICD-10-PCS', 3, -1),
+('170.207(i)','ICD-10-CM', 3, -1),
+('170.207(r)(1)','Crosswalk: Medicare Provider/Supplier to Healthcare Provider Taxonomy (updated April 2, 2015)', 3, -1),
+('170.210(d)','Record treatment, payment, and health care operations disclosures', 3, -1),
 ('170.207(n)(1)','Birth sex must be coded in accordance with HL7 Version 3 Standard, Value Sets for AdminstrativeGender and NullFlavor attributed as follows [PDF - 59 KB]:
 (1) Male. M
 (2) Female. F
-(3) Unknown. nullFlavor UNK 1', -1),
+(3) Unknown. nullFlavor UNK 1', 3, -1),
 ('170.207(o)(1) - (2)','HL7 Version 3 Standard, Value Sets for AdminstrativeGender and NullFlavor attributed as follows:
 * Something else, please describe. nullFlavor OTH
 * Don''t know. nullFlavor UNK
 * Choose not to disclose. nullFlavor ASKU
 * Additional gender category or other, please specify. nullFlavor OTH
-* Choose not to disclose. nullFlavor ASKU', -1),
+* Choose not to disclose. nullFlavor ASKU', 3, -1),
 ('170.204(b)(3)','HL7 Version 3 Standard: Context Aware Knowledge Retrieval Application. ("Infobutton"), Knowledge Request, Release 2, 2014 Release
-HL7 Implementation Guide: Service-Oriented Architecture Implementations of the Context-aware Knowledge Retrieval (Infobutton) Domain, Release 1, August 9, 2013', -1),
+HL7 Implementation Guide: Service-Oriented Architecture Implementations of the Context-aware Knowledge Retrieval (Infobutton) Domain, Release 1, August 9, 2013', 3, -1),
 ('170.204(b)(4)','HL7 Version 3 Standard: Context Aware Retrieval Application ("Infobutton"), Knowledge Request, Release 2, 2014 Release
-HL7 Version 3 Implementation Guide: Context-Aware Knowledge Retrieval (Infobutton), Release 4, June 13, 2014', -1),
-('170.205(p)(1)','IHE IT Infrastructure Technical Framework Volume 2b (ITI TF-2b) Transactions Part B – Sections 3.29 – 3.43, Revision 7.0, August 10, 2010', -1),
-('170.205(a)(3)','HL7 Implementation Guide for CDA® Release 2: IHE Health Story Consolidation, Release 1.1 - US Realm', -1),
+HL7 Version 3 Implementation Guide: Context-Aware Knowledge Retrieval (Infobutton), Release 4, June 13, 2014', 3, -1),
+('170.205(p)(1)','IHE IT Infrastructure Technical Framework Volume 2b (ITI TF-2b) Transactions Part B – Sections 3.29 – 3.43, Revision 7.0, August 10, 2010', 3, -1),
+('170.205(a)(3)','HL7 Implementation Guide for CDA® Release 2: IHE Health Story Consolidation, Release 1.1 - US Realm', 3, -1),
 ('170.205(a)(4)','HL7 Implementation Guide for CDA®Release 2: Consolidated CDA Templates for Clinical Notes (US Realm) Draft Standard for Trial Use, Volume 1 – Introductory Material, Release 2.1, August 2015
-HL7 Implementation Guide for CDA® Release 2: Consolidated CDA Templates for Clinical Notes (US Realm), Draft Standard for Trial Use, Volume 2 – Templates and Supporting Material, Release 2.1, August 2015', -1),
-('170.205(o)(1)','HL7 Version 3 Implementation Guide: Data Segmentation for Privacy (DS4P), Release 1, Part 1: CDA R2 and Privacy Metadata Reusable Content Profile, May 16, 2014', -1),
+HL7 Implementation Guide for CDA® Release 2: Consolidated CDA Templates for Clinical Notes (US Realm), Draft Standard for Trial Use, Volume 2 – Templates and Supporting Material, Release 2.1, August 2015', 3, -1),
+('170.205(o)(1)','HL7 Version 3 Implementation Guide: Data Segmentation for Privacy (DS4P), Release 1, Part 1: CDA R2 and Privacy Metadata Reusable Content Profile, May 16, 2014', 3, -1),
 ('170.205(h)(2)','HL7 CDA® Release 2 Implementation Guide: Quality Reporting Document Architecture – Category I(QRDA I); Release 1, DTSU Release 3 (US Realm), Volume 1 – Introductory Material, June 2015
-HL7 CDA ® Release 2 Implementation Guide: Quality Reporting Document Architecture – Category I (QRDA I); Release 1, DSTU Release 3 (US Realm), Volume 2 – Templates and Supporting Material, June 2015', -1),
-('170.205(k)(1)','Quality Reporting Document Architecture Category III, Implementation Guide for CDA Release 2', -1),
-('170.205(k)(2)','Errata to the HL7 Implementation Guide for CDA® Release 2: Quality Reporting Document Architecture—Category III, DSTU Release 1 (US Realm), September 2014', -1),
+HL7 CDA ® Release 2 Implementation Guide: Quality Reporting Document Architecture – Category I (QRDA I); Release 1, DSTU Release 3 (US Realm), Volume 2 – Templates and Supporting Material, June 2015', 3, -1),
+('170.205(k)(1)','Quality Reporting Document Architecture Category III, Implementation Guide for CDA Release 2', 3, -1),
+('170.205(k)(2)','Errata to the HL7 Implementation Guide for CDA® Release 2: Quality Reporting Document Architecture—Category III, DSTU Release 1 (US Realm), September 2014', 3, -1),
 ('170.205(e)(4)','HL7 2.5.1 Implementation Guide for Immunization Messaging Release 1.5, October 1, 2014
-HL7 2.5.1 Implementation Guide for Immunization Messaging, Release 1.5 - Addendum, July 2015', -1),
-('170.207(e)(3)','HL7 Standard Code Set CVX—Vaccines Administered, updates through August 17, 2015', -1),
+HL7 2.5.1 Implementation Guide for Immunization Messaging, Release 1.5 - Addendum, July 2015', 3, -1),
+('170.207(e)(3)','HL7 Standard Code Set CVX—Vaccines Administered, updates through August 17, 2015', 3, -1),
 ('170.205(d)(4)','PHIN Messaging Guide for Syndromic Surveillance: Emergency Department, Urgent Care, Inpatient and Ambulatory Care Settings, Release 2.0, April 21, 2015
-Erratum to the CDC PHIN 2.0 Implementation Guide, August 2015; Erratum to the CDC PHIN 2.0 Messaging Guide, April 2015 Release for Syndromic Surveillance: Emergency Department, Urgent Care, Inpatient and Ambulatory Care Settings', -1),
+Erratum to the CDC PHIN 2.0 Implementation Guide, August 2015; Erratum to the CDC PHIN 2.0 Messaging Guide, April 2015 Release for Syndromic Surveillance: Emergency Department, Urgent Care, Inpatient and Ambulatory Care Settings', 3, -1),
 ('170.205(g)','HL7 Version 2.5.1 Implementation Guide: Electronic Laboratory Reporting to Public Health, Release 1 (US Realm)
-ELR 2.5.1 Clarification Document for EHR Technology Certification V1.1', -1),
+ELR 2.5.1 Clarification Document for EHR Technology Certification V1.1', 3, -1),
 ('170.205(i)(2)','HL7 Implementation Guide for CDA©Release 2 Implementation Guide: Reporting to Public Health Cancer Registries from Ambulatory Healthcare Providers, Release 1; DSTU Release 1.1, Volume 1 – Introductory Material, April 2015
-HL7 CDA© Release 2 Implementation Guide: Reporting to Public Health Cancer Registries from Ambulatory Healthcare Providers, Release 1; DSTU Release 1.1 (US Realm), Volume 2- Templates and Supporting Material, April 2015', -1),
-('170.205(r)(1)','HL7 Implementation Guide for CDA®Release 2 – Level 3: Healthcare Associated Infection Reports, Release 1 - U.S. Realm, August 9, 2013', -1),
+HL7 CDA© Release 2 Implementation Guide: Reporting to Public Health Cancer Registries from Ambulatory Healthcare Providers, Release 1; DSTU Release 1.1 (US Realm), Volume 2- Templates and Supporting Material, April 2015', 3, -1),
+('170.205(r)(1)','HL7 Implementation Guide for CDA®Release 2 – Level 3: Healthcare Associated Infection Reports, Release 1 - U.S. Realm, August 9, 2013', 3, -1),
 ('170.205(s)(1)','HL7 Implementation Guide for CDA Release 2: National Health Care Surveys (NHCS), Release 1 – US Realm, HL7 Draft Standard for Trial Use, Volume 1- Introductory Material, December 2014
-HL7 Implementation Guide for CDA ®Release 2: National Health Care Surveys (NHCS), Release 1 – US Realm, HL7 Draft Standard for Trial Use, Volume 2 – Templates and Supporting Material, December 2014', -1),
+HL7 Implementation Guide for CDA ®Release 2: National Health Care Surveys (NHCS), Release 1 – US Realm, HL7 Draft Standard for Trial Use, Volume 2 – Templates and Supporting Material, December 2014', 3, -1),
 ('170.207(q)(1)','ITU-TE.123, Series E: Overall Network Operation, Telephone Service, Service Operation and Human Factors, International operation – General provisions concerning users: Notation for national and international telephone numbers, e-mail addresses and web addresses, February 2001
-ITU-T E. 164, Series E: Overall Network Operation, Telephone Service, Service Operation and Human Factors, International Operation - Numbering plan of the international telephone service: The international public telecommunication numbering plan, November 2010', -1),
-('170.210(g)','Request for Comments (RFC) 5905:Network Time Protocol Version 4: Protocol and Algorithms Specification, June 2010', -1),
-('170.207(g)(2)','Request for Comments (RFC) 5646, "Tags for Identifying Languages," September 2009, copyright 2009', -1),
-('170.205(b)(2)','SCRIPT Standard, Version 10.6, October, 2008', -1),
-('170.210(a)(2)','Annex A: Federal Information Processing Standards (FIPS) Publication 140-2, Security Requirements for Cryptographic Modules, October 8, 2014', -1),
-('170.210(c)(2)','FIPS PUB 180-4, Secure Hash Standard, 180-4 (August 2015)', -1),
-('170.207(f)(1)','The Office of Management and Budget Standards for Maintaining, Collecting, and Presenting Federal Data on Race and Ethnicity, Statistical Policy Directive No. 15, as revised, October 30, 1997', -1),
-('170.207(s)(1)','Public Health Data Standards Consortium Source of Payment Typology Code Set Version 5.0 (October 2011)', -1),
-('170.207(c)(2)','Logical Observation Identifiers Names and Codes (LOINC®) Database version 2.40', -1),
-('170.207(c)(3)','Logical Observation Identifiers Names and Codes (LOINC®) Database version 2.52, Released June 2015', -1),
-('170.207(m)(1)','The Unified Code of Units of Measure, Revision 1.9, October 23, 2013', -1),
-('170.202(a)(2)','Applicability Statement for Secure Health Transport, Version 1.2, August 2015', -1),
-('170.202(b)','XDR and XDM for Direct Messaging Specification, Version 1, March 9, 2011', -1),
-('170.202(d)','Implementation Guide for Direct Edge Protocols, Version 1.1, June 25, 2014', -1),
-('170.202(e)(1)','Implementation Guide for Delivery Notification in Direct, Version 1.0, June 29, 2012', -1),
-('170.207(a)(3)','International Health Terminology Standards Development Organisation (IHTSDO) SNOMED CT® International Release July 2012 and US Extension to SNOMED CT® March 2012 Release', -1),
-('170.207(a)(4)','International Health Terminology Standards Development Organisation (IHTSDO) Systematized Nomenclature of Medicine Clinical Terms (SNOMED CT®), U.S. Edition, September 2015 Release', -1),
-('170.207(h)','International Health Terminology Standards Development Organization (IHTSDO) Systematized Nomenclature of Medicine Clinical Terms (SNOMED CT®) U.S. Edition, September 2015 Release', -1),
-('170.207(d)(3)','RxNorm, a standardized nomenclature for clinical drugs produced by the United States National Library of Medicine, September 8, 2015 Release', -1),
-('170.204(a)(1)','Web Content Accessibility Guidelines (WCAG) 2.0, Level A Conformance', -1),
-('170.204(a)(2)','Web Content Accessibility Guidelines (WCAG) 2.0, Level AA Conformance', -1);
+ITU-T E. 164, Series E: Overall Network Operation, Telephone Service, Service Operation and Human Factors, International Operation - Numbering plan of the international telephone service: The international public telecommunication numbering plan, November 2010', 3, -1),
+('170.210(g)','Request for Comments (RFC) 5905:Network Time Protocol Version 4: Protocol and Algorithms Specification, June 2010', 3, -1),
+('170.207(g)(2)','Request for Comments (RFC) 5646, "Tags for Identifying Languages," September 2009, copyright 2009', 3, -1),
+('170.205(b)(2)','SCRIPT Standard, Version 10.6, October, 2008', 3, -1),
+('170.210(a)(2)','Annex A: Federal Information Processing Standards (FIPS) Publication 140-2, Security Requirements for Cryptographic Modules, October 8, 2014', 3, -1),
+('170.210(c)(2)','FIPS PUB 180-4, Secure Hash Standard, 180-4 (August 2015)', 3, -1),
+('170.207(f)(1)','The Office of Management and Budget Standards for Maintaining, Collecting, and Presenting Federal Data on Race and Ethnicity, Statistical Policy Directive No. 15, as revised, October 30, 1997', 3, -1),
+('170.207(s)(1)','Public Health Data Standards Consortium Source of Payment Typology Code Set Version 5.0 (October 2011)', 3, -1),
+('170.207(c)(2)','Logical Observation Identifiers Names and Codes (LOINC®) Database version 2.40', 3, -1),
+('170.207(c)(3)','Logical Observation Identifiers Names and Codes (LOINC®) Database version 2.52, Released June 2015', 3, -1),
+('170.207(m)(1)','The Unified Code of Units of Measure, Revision 1.9, October 23, 2013', 3, -1),
+('170.202(a)(2)','Applicability Statement for Secure Health Transport, Version 1.2, August 2015', 3, -1),
+('170.202(b)','XDR and XDM for Direct Messaging Specification, Version 1, March 9, 2011', 3, -1),
+('170.202(d)','Implementation Guide for Direct Edge Protocols, Version 1.1, June 25, 2014', 3, -1),
+('170.202(e)(1)','Implementation Guide for Delivery Notification in Direct, Version 1.0, June 29, 2012', 3, -1),
+('170.207(a)(3)','International Health Terminology Standards Development Organisation (IHTSDO) SNOMED CT® International Release July 2012 and US Extension to SNOMED CT® March 2012 Release', 3, -1),
+('170.207(a)(4)','International Health Terminology Standards Development Organisation (IHTSDO) Systematized Nomenclature of Medicine Clinical Terms (SNOMED CT®), U.S. Edition, September 2015 Release', 3, -1),
+('170.207(h)','International Health Terminology Standards Development Organization (IHTSDO) Systematized Nomenclature of Medicine Clinical Terms (SNOMED CT®) U.S. Edition, September 2015 Release', 3, -1),
+('170.207(d)(3)','RxNorm, a standardized nomenclature for clinical drugs produced by the United States National Library of Medicine, September 8, 2015 Release', 3, -1),
+('170.204(a)(1)','Web Content Accessibility Guidelines (WCAG) 2.0, Level A Conformance', 3, -1),
+('170.204(a)(2)','Web Content Accessibility Guidelines (WCAG) 2.0, Level AA Conformance', 3, -1);
 --2015
 
-INSERT INTO openchpl.test_functionality(number, name, last_modified_user) VALUES
-('(a)(4)(iii)','Optional: 170.314(a)(4)(iii) Plot and electronically display, upon request, growth charts for patients', -1),
-('(b)(1)(i)(B)','Optional: 170.314(b)(1)(i)(B) Receive summary care record using the standards specified at §170.202(a) and (b) (Direct and XDM Validation)', -1),
-('(b)(1)(i)(C)','Optional: 170.314(b)(1)(i)(C) Receive summary care record using the standards specified at §170.202(b) and (c) (SOAP Protocols)', -1),
-('(f)(3)(i)(B)','Optional: 170.314(f)(3)(i)(B) Create syndrome-based public health surveillance information for transmission using the standard specified at §170.205(d)(3) (urgent care visit scenario)', -1),
-('(f)(7)(i)','Optional: (f)(7)(i) EHR technology must be able to electronically create syndrome-based public health surveillance information for electronic transmission that contains the following data: (A) Patient demographics; (B) Provider specialty; (C) Provider address; (D) Problem list; (E) Vital signs; (F) Laboratory test values/results; (G) Procedures; (H) Medication list; and (I) Insurance', -1),
-('(a)(5)(i)','Ambulatory setting: 170.314(a)(5)(i) Over multiple encounters in accordance with, at a minimum, the version of the standard specified in §170.207(a)(3)', -1),
-('(a)(6)(i)','Ambulatory setting: 170.314(a)(6)(i) Over multiple encounters', -1),
-('(a)(7)(i)','Ambulatory setting: 170.314(a)(7)(i) Over multiple encounters', -1),
-('(a)(8)(iii)(B)(3)','Ambulatory setting: 170.314(a)(8)(iii)(B)(3) When a patient’s laboratory tests and values/results are incorporated pursuant to paragraph (b)(5)(i)(A)(1) of this section', -1),
-('(a)(14)(vi)','Ambulatory setting: 170.314(a)(14)(vi) Patient communication preferences', -1),
-('(b)(2)(i)(E)','Ambulatory setting: 170.314(b)(2)(i)(E) The reason for referral; and referring or transitioning provider''s name and office contact information', -1),
-('(b)(7)(v)','Ambulatory setting: 170.314(b)(7)(v) The reason for referral; and referring or transitioning provider''s name and office contact information', -1),
-('(b)(8)(iii)(E)','Ambulatory setting: 170.314(b)(8)(iii)(E) The reason for referral; and referring or transitioning provider''s name and office contact information', -1),
-('(e)(1)(i)(A)(2)','Ambulatory setting: 170.314(e)(1)(i)(A)(2) Provider''s name and office contact information', -1),
-('(e)(1)(i)(B)(1)(i)','Ambulatory setting: 170.314(e)(1)(i)(B)(1)(i) All of the data in the Common MU Data Set (which should be in their English (i.e., noncoded) representation if they associate with a vocabulary/code set) and the Provider''s name and office contact information', -1),
-('(f)(3)(i)','Ambulatory setting: 170.314(f)(3)(i) (A) The standard specified in §170.205(d)(2). (B) Optional. The standard (and applicable implementation specifications) specified in §170.205(d)(3)', -1),
-('(a)(5)(ii)','Inpatient setting: 170.314(a)(5)(ii) For the duration of an entire hospitalization in accordance with, at a minimum, the version of the standard specified in §170.207(a)(3)', -1),
-('(a)(6)(ii)','Inpatient setting: 170.314(a)(6)(ii) For the duration of an entire hospitalization', -1),
-('(a)(7)(ii)','Inpatient setting: 170.314(a)(7)(ii) For the duration of an entire hospitalization', -1),
-('(b)(2)(i)(F)','Inpatient setting: 170.314(b)(2)(i)(F) Discharge instructions', -1),
-('(b)(7)(vi)','Inpatient setting: 170.314(b)(7)(vi) Discharge Instructions', -1),
-('(b)(8)(iii)(F)','Inpatient setting: 170.314(b)(8)(iii)(F) Discharge Instructions', -1),
-('(e)(1)(i)(A)(3)','Inpatient setting: 170.314(e)(1)(i)(A)(3) Admission and discharge dates and locations; discharge instructions; and reason(s) for hospitalization', -1),
-('(e)(1)(i)(B)(1)(ii)','Inpatient setting: 170.314(e)(1)(i)(B)(1)(ii) All of the data in the Common MU Data Set (which should be in their English (i.e., noncoded) representation if they associate with a vocabulary/code set) and the admission and discharge dates and locations; discharge instructions; and reason(s) for hospitalization', -1),
-('(e)(1)(i)(B)(2)','Inpatient setting: 170.314(e)(1)(i)(B)(2) Electronically download transition of care/referral summaries that were created as a result of a transition of care (pursuant to the capability expressed in the certification criterion adopted at paragraph (b)(2) of this section)', -1),
-('(e)(1)(i)(C)(2)','Inpatient setting: 170.314(e)(1)(i)(C)(2) Electronically transmit transition of care/referral summaries (as a result of a transition of care/referral) selected by the patient (or their authorized representative) in accordance with at least one of the following: (i) The standard specified in §170.202(a). (ii) Through a method that conforms to the standard specified at §170.202(d) and that leads to such summary being processed by a service that has implemented the standard specified in §170.202(a)', -1),
-('(f)(3)(ii)','Inpatient setting: 170.314(f)(3)(ii)  The standard (and applicable implementation specifications) specified in §170.205(d)(3)', -1),
+INSERT INTO openchpl.test_functionality(number, name, certification_edition_id, last_modified_user) VALUES
+('(a)(4)(iii)','Optional: 170.314(a)(4)(iii) Plot and electronically display, upon request, growth charts for patients', 2, -1),
+('(b)(1)(i)(B)','Optional: 170.314(b)(1)(i)(B) Receive summary care record using the standards specified at §170.202(a) and (b) (Direct and XDM Validation)', 2, -1),
+('(b)(1)(i)(C)','Optional: 170.314(b)(1)(i)(C) Receive summary care record using the standards specified at §170.202(b) and (c) (SOAP Protocols)', 2, -1),
+('(f)(3)(i)(B)','Optional: 170.314(f)(3)(i)(B) Create syndrome-based public health surveillance information for transmission using the standard specified at §170.205(d)(3) (urgent care visit scenario)', 2, -1),
+('(f)(7)(i)','Optional: (f)(7)(i) EHR technology must be able to electronically create syndrome-based public health surveillance information for electronic transmission that contains the following data: (A) Patient demographics; (B) Provider specialty; (C) Provider address; (D) Problem list; (E) Vital signs; (F) Laboratory test values/results; (G) Procedures; (H) Medication list; and (I) Insurance', 2, -1),
+('(a)(5)(i)','Ambulatory setting: 170.314(a)(5)(i) Over multiple encounters in accordance with, at a minimum, the version of the standard specified in §170.207(a)(3)', 2, -1),
+('(a)(6)(i)','Ambulatory setting: 170.314(a)(6)(i) Over multiple encounters', 2, -1),
+('(a)(7)(i)','Ambulatory setting: 170.314(a)(7)(i) Over multiple encounters', 2, -1),
+('(a)(8)(iii)(B)(3)','Ambulatory setting: 170.314(a)(8)(iii)(B)(3) When a patient''s laboratory tests and values/results are incorporated pursuant to paragraph (b)(5)(i)(A)(1) of this section', 2, -1),
+('(a)(14)(vi)','Ambulatory setting: 170.314(a)(14)(vi) Patient communication preferences', 2, -1),
+('(b)(2)(i)(E)','Ambulatory setting: 170.314(b)(2)(i)(E) The reason for referral; and referring or transitioning provider''s name and office contact information', 2, -1),
+('(b)(7)(v)','Ambulatory setting: 170.314(b)(7)(v) The reason for referral; and referring or transitioning provider''s name and office contact information', 2, -1),
+('(b)(8)(iii)(E)','Ambulatory setting: 170.314(b)(8)(iii)(E) The reason for referral; and referring or transitioning provider''s name and office contact information', 2, -1),
+('(e)(1)(i)(A)(2)','Ambulatory setting: 170.314(e)(1)(i)(A)(2) Provider''s name and office contact information', 2, -1),
+('(e)(1)(i)(B)(1)(i)','Ambulatory setting: 170.314(e)(1)(i)(B)(1)(i) All of the data in the Common MU Data Set (which should be in their English (i.e., noncoded) representation if they associate with a vocabulary/code set) and the Provider''s name and office contact information', 2, -1),
+('(f)(3)(i)','Ambulatory setting: 170.314(f)(3)(i) (A) The standard specified in §170.205(d)(2). (B) Optional. The standard (and applicable implementation specifications) specified in §170.205(d)(3)', 2, -1),
+('(a)(5)(ii)','Inpatient setting: 170.314(a)(5)(ii) For the duration of an entire hospitalization in accordance with, at a minimum, the version of the standard specified in §170.207(a)(3)', 2, -1),
+('(a)(6)(ii)','Inpatient setting: 170.314(a)(6)(ii) For the duration of an entire hospitalization', 2, -1),
+('(a)(7)(ii)','Inpatient setting: 170.314(a)(7)(ii) For the duration of an entire hospitalization', 2, -1),
+('(b)(2)(i)(F)','Inpatient setting: 170.314(b)(2)(i)(F) Discharge instructions', 2, -1),
+('(b)(7)(vi)','Inpatient setting: 170.314(b)(7)(vi) Discharge Instructions', 2, -1),
+('(b)(8)(iii)(F)','Inpatient setting: 170.314(b)(8)(iii)(F) Discharge Instructions', 2, -1),
+('(e)(1)(i)(A)(3)','Inpatient setting: 170.314(e)(1)(i)(A)(3) Admission and discharge dates and locations; discharge instructions; and reason(s) for hospitalization', 2, -1),
+('(e)(1)(i)(B)(1)(ii)','Inpatient setting: 170.314(e)(1)(i)(B)(1)(ii) All of the data in the Common MU Data Set (which should be in their English (i.e., noncoded) representation if they associate with a vocabulary/code set) and the admission and discharge dates and locations; discharge instructions; and reason(s) for hospitalization', 2, -1),
+('(e)(1)(i)(B)(2)','Inpatient setting: 170.314(e)(1)(i)(B)(2) Electronically download transition of care/referral summaries that were created as a result of a transition of care (pursuant to the capability expressed in the certification criterion adopted at paragraph (b)(2) of this section)', 2, -1),
+('(e)(1)(i)(C)(2)','Inpatient setting: 170.314(e)(1)(i)(C)(2) Electronically transmit transition of care/referral summaries (as a result of a transition of care/referral) selected by the patient (or their authorized representative) in accordance with at least one of the following: (i) The standard specified in §170.202(a). (ii) Through a method that conforms to the standard specified at §170.202(d) and that leads to such summary being processed by a service that has implemented the standard specified in §170.202(a)', 2, -1),
+('(f)(3)(ii)','Inpatient setting: 170.314(f)(3)(ii)  The standard (and applicable implementation specifications) specified in §170.205(d)(3)', 2, -1),
 --2014
 
-('(a)(4)(ii)(B)(1)','Alternative: 170.315(a)(4)(ii)(B)(1) To a specific set of identified users', -1),
-('(a)(4)(ii)(B)(2)','Alternative: 170.315(a)(4)(ii)(B)(2) As a system administrative function', -1),
-('(a)(10)(i)','Alternative: 170.315(a)(10)(i) Drug formulary checks. Automatically check whether a drug formulary exists for a given patient and medication', -1),
-('(a)(10)(ii)','Alternative: 170.315(a)(10)(ii)  Preferred drug list checks. Automatically check whether a preferred drug list exists for a given patient and medication', -1),
-('(a)(14)(iii)(A)(1)','Alternative: 170.315(a)(14)(iii)(A)(1) The "GMDN PT Name" attribute associated with the Device Identifier in the Global Unique Device Identification Database', -1),
-('(a)(14)(iii)(A)(2)','Alternative: 170.315(a)(14)(iii)(A)(2) The "SNOMED CT Description" mapped to the attribute referenced in (a)(14)(iii)(1) (The "GMDN PT Name" attribute associated with the Device Identifier in the Global Unique Device Identification Database)', -1),
-('(b)(1)(ii)(A)(5)(i)','Alternative: 170.315(b)(1)(ii)(A)(5)(i) Be notified of the errors produced', -1),
-('(b)(1)(ii)(A)(5)(ii)','Alternative: 170.315(b)(1)(ii)(A)(5)(ii) Review the errors produced', -1),
-('(b)(5)(ii)(A)(5)(i)','Alternative: 170.315(b)(5)(ii)(A)(5)(i) Be notified of the errors produced', -1),
-('(b)(5)(ii)(A)(5)(ii)','Alternative: 170.315(b)(5)(ii)(A)(5)(ii) Review the errors produced', -1),
-('(b)(6)(i)(B)(1)','Alternative: 170.315(b)(6)(i)(B)(1) To a specific set of identified users', -1),
-('(b)(6)(i)(B)(2)','Alternative: 170.315(b)(6)(i)(B)(2) As a system administrative function', -1),
-('(d)(7)(i)','Alternative: 170.315(d)(7)(i) Technology that is designed to locally store electronic health information on end-user devices must encrypt the electronic health information stored on such devices after use of the technology on those devices stops', -1),
-('(d)(7)(ii)','Alternative: 170.315(d)(7)(ii) Technology is designed to prevent electronic health information from being locally stored on end-user devices after use of the technology on those devices stops', -1),
-('(d)(9)(i)','Alternative: 170.315(d)(9)(i) Message-level. Encrypt and integrity protect message contents in accordance with the standards specified in § 170.210(a)(2) and (c)(2)', -1),
-('(d)(9)(ii)','Alternative: 170.315(d)(9)(ii) Transport-level. Use a trusted connection in accordance with the standards specified in § 170.210(a)(2) and (c)(2)', -1),
-('(g)(4)(i)(A)','Alternative: 170.315(g)(4)(i)(A) The QMS used is established by the Federal government or a standards developing organization', -1),
-('(g)(4)(i)(B)','Alternative: 170.315(g)(4)(i)(B) The QMS used is mapped to one or more QMS established by the Federal government or standards developing organization(s)', -1),
-('(g)(5)(i)','Alternative: 170.315(g)(5)(i) When a single accessibility-centered design standard or law was used for applicable capabilities, it would only need to be identified once', -1),
-('(g)(5)(ii)','Alternative: 170.315(g)(5)(ii) When different accessibility-centered design standards and laws were applied to specific capabilities, each accessibility-centered design standard or law applied would need to be identified. This would include the application of an accessibility-centered design standard or law to some capabilities and none to others', -1),
-('(g)(5)(iii)','Alternative: 170.315(g)(5)(iii) When no accessibility-centered design standard or law was applied to all applicable capabilities such a response is acceptable to satisfy this certification criterion', -1),
-('(a)(1)(ii)','Optional: 170.315(a)(1)(ii)  Include a "reason for order" field', -1),
-('(a)(2)(ii)','Optional: 170.315(a)(2)(ii) Include a "reason for order" field', -1),
-('(a)(3)(ii)','Optional: 170.315(a)(3)(ii) Include a "reason for order" field', -1),
-('(a)(13)(ii)','Optional: 170.315(a)(13)(ii) Request that patient-specific education resources be identified in accordance with the standard in § 170.207(g)(2)', -1),
-('(b)(1)(iii)(G)(1)(ii)','Optional: 170.315(b)(1)(iii)(G)(1)(ii) When the hour, minute, and second are associated with a date of birth the technology must demonstrate that the correct time zone offset is included', -1),
-('(b)(3)(iii)','Optional: 170.315(b)(3)(iii) For each transaction listed in paragraph (b)(3)(i) of this section, the technology must be able to receive and transmit the reason for the prescription using the indication elements in the SIG Segment', -1),
-('(b)(4)(vii)(A)(2)','Optional: 170.315(b)(4)(vii)(A)(2) When the hour, minute, and second are associated with a date of birth the technology must demonstrate that the correct time zone offset is included', -1),
-('(c)(3)(ii)','Optional: 170.315(c)(3)(ii) That can be electronically accepted by CMS', -1),
-('170.102(13)(ii)(C) ','Optional: Common Clinical Data Set 170.102(13)(ii)(C) The patient’s BMI percentile per age and sex for youth 2-20 years of age, weight for age per length and sex for children less than 3 years of age, and head occipital-frontal circumference for children less than 3 years of age must be recorded in numerical values only in accordance with the standard specified in § 170.207(c)(3) and with the associated applicable unit of measure for the vital sign measurement in the standard specified in § 170.207(m)(1). For BMI percentile per age and sex for youth 2-20 years of age and weight for age per length and sex for children less than 3 years of age, the reference range/scale or growth curve should be included as appropriate', -1),
-('170.102(19)(i)','Optional: Common Clinical Data Set 170.102(19)(i) For certification to the 2015 Edition health IT certification criteria in accordance with the "Assessment and Plan Section (V2)" of the standard specified in § 170.205(a)(4);', -1),
-('170.102(19)(ii)','Optional: Common Clincial Data Set 170.102(19)(ii)  For certification to the 2015 Edition health IT certification criteria in accordance with the "Assessment Section (V2)" and "Plan of Treatment Section (V2)" of the standard specified in § 170.205(a)(4). ', -1),
-('(a)(6)(i)','Ambulatory: 170.315(a)(6)(i) Over multiple encounters in accordance with, at a minimum, the version of the standard specified in § 170.207(a)(4)', -1),
-('(a)(7)(i)','Ambulatory: 170.315(a)(7)(i) Over multiple encounters', -1),
-('(a)(8)(i)','Ambulatory: 170.315(a)(8)(i) Over multiple encounters', -1),
-('(b)(1)(iii)(E)','Ambulatory: 170.315(b)(1)(iii)(E) The reason for referral; and referring or transitioning provider''s name and office contact information', -1),
-('(b)(4)(v)','Ambulatory: 170.315(b)(4)(v) The reason for referral; and referring or transitioning provider''s name and office contact information', -1),
-('(b)(5)(i)(E) ','Ambulatory: 170.315(b)(5)(i)(E) The reason for referral; and referring or transitioning provider''s name and office contact information', -1),
-('(b)(6)(ii)(E) ','Ambulatory: 170.315(b)(6)(ii)(E) The reason for referral; and referring or transitioning provider''s name and office contact information', -1),
-('(e)(1)(i)(A)(2)','Ambulatory: 170.315(e)(1)(i)(A)(2) Provider’s name and office contact information', -1),
+('(a)(4)(ii)(B)(1)','Alternative: 170.315(a)(4)(ii)(B)(1) To a specific set of identified users', 3, -1),
+('(a)(4)(ii)(B)(2)','Alternative: 170.315(a)(4)(ii)(B)(2) As a system administrative function', 3, -1),
+('(a)(10)(i)','Alternative: 170.315(a)(10)(i) Drug formulary checks. Automatically check whether a drug formulary exists for a given patient and medication', 3, -1),
+('(a)(10)(ii)','Alternative: 170.315(a)(10)(ii)  Preferred drug list checks. Automatically check whether a preferred drug list exists for a given patient and medication', 3, -1),
+('(a)(14)(iii)(A)(1)','Alternative: 170.315(a)(14)(iii)(A)(1) The "GMDN PT Name" attribute associated with the Device Identifier in the Global Unique Device Identification Database', 3, -1),
+('(a)(14)(iii)(A)(2)','Alternative: 170.315(a)(14)(iii)(A)(2) The "SNOMED CT Description" mapped to the attribute referenced in (a)(14)(iii)(1) (The "GMDN PT Name" attribute associated with the Device Identifier in the Global Unique Device Identification Database)', 3, -1),
+('(b)(1)(ii)(A)(5)(i)','Alternative: 170.315(b)(1)(ii)(A)(5)(i) Be notified of the errors produced', 3, -1),
+('(b)(1)(ii)(A)(5)(ii)','Alternative: 170.315(b)(1)(ii)(A)(5)(ii) Review the errors produced', 3, -1),
+('(b)(5)(ii)(A)(5)(i)','Alternative: 170.315(b)(5)(ii)(A)(5)(i) Be notified of the errors produced', 3, -1),
+('(b)(5)(ii)(A)(5)(ii)','Alternative: 170.315(b)(5)(ii)(A)(5)(ii) Review the errors produced', 3, -1),
+('(b)(6)(i)(B)(1)','Alternative: 170.315(b)(6)(i)(B)(1) To a specific set of identified users', 3, -1),
+('(b)(6)(i)(B)(2)','Alternative: 170.315(b)(6)(i)(B)(2) As a system administrative function', 3, -1),
+('(d)(7)(i)','Alternative: 170.315(d)(7)(i) Technology that is designed to locally store electronic health information on end-user devices must encrypt the electronic health information stored on such devices after use of the technology on those devices stops', 3, -1),
+('(d)(7)(ii)','Alternative: 170.315(d)(7)(ii) Technology is designed to prevent electronic health information from being locally stored on end-user devices after use of the technology on those devices stops', 3, -1),
+('(d)(9)(i)','Alternative: 170.315(d)(9)(i) Message-level. Encrypt and integrity protect message contents in accordance with the standards specified in § 170.210(a)(2) and (c)(2)', 3, -1),
+('(d)(9)(ii)','Alternative: 170.315(d)(9)(ii) Transport-level. Use a trusted connection in accordance with the standards specified in § 170.210(a)(2) and (c)(2)', 3, -1),
+('(g)(4)(i)(A)','Alternative: 170.315(g)(4)(i)(A) The QMS used is established by the Federal government or a standards developing organization', 3, -1),
+('(g)(4)(i)(B)','Alternative: 170.315(g)(4)(i)(B) The QMS used is mapped to one or more QMS established by the Federal government or standards developing organization(s)', 3, -1),
+('(g)(5)(i)','Alternative: 170.315(g)(5)(i) When a single accessibility-centered design standard or law was used for applicable capabilities, it would only need to be identified once', 3, -1),
+('(g)(5)(ii)','Alternative: 170.315(g)(5)(ii) When different accessibility-centered design standards and laws were applied to specific capabilities, each accessibility-centered design standard or law applied would need to be identified. This would include the application of an accessibility-centered design standard or law to some capabilities and none to others', 3, -1),
+('(g)(5)(iii)','Alternative: 170.315(g)(5)(iii) When no accessibility-centered design standard or law was applied to all applicable capabilities such a response is acceptable to satisfy this certification criterion', 3, -1),
+('(a)(1)(ii)','Optional: 170.315(a)(1)(ii)  Include a "reason for order" field', 3, -1),
+('(a)(2)(ii)','Optional: 170.315(a)(2)(ii) Include a "reason for order" field', 3, -1),
+('(a)(3)(ii)','Optional: 170.315(a)(3)(ii) Include a "reason for order" field', 3, -1),
+('(a)(13)(ii)','Optional: 170.315(a)(13)(ii) Request that patient-specific education resources be identified in accordance with the standard in § 170.207(g)(2)', 3, -1),
+('(b)(1)(iii)(G)(1)(ii)','Optional: 170.315(b)(1)(iii)(G)(1)(ii) When the hour, minute, and second are associated with a date of birth the technology must demonstrate that the correct time zone offset is included', 3, -1),
+('(b)(3)(iii)','Optional: 170.315(b)(3)(iii) For each transaction listed in paragraph (b)(3)(i) of this section, the technology must be able to receive and transmit the reason for the prescription using the indication elements in the SIG Segment', 3, -1),
+('(b)(4)(vii)(A)(2)','Optional: 170.315(b)(4)(vii)(A)(2) When the hour, minute, and second are associated with a date of birth the technology must demonstrate that the correct time zone offset is included', 3, -1),
+('(c)(3)(ii)','Optional: 170.315(c)(3)(ii) That can be electronically accepted by CMS', 3, -1),
+('170.102(13)(ii)(C)','Optional: Common Clinical Data Set 170.102(13)(ii)(C) The patient’s BMI percentile per age and sex for youth 2-20 years of age, weight for age per length and sex for children less than 3 years of age, and head occipital-frontal circumference for children less than 3 years of age must be recorded in numerical values only in accordance with the standard specified in § 170.207(c)(3) and with the associated applicable unit of measure for the vital sign measurement in the standard specified in § 170.207(m)(1). For BMI percentile per age and sex for youth 2-20 years of age and weight for age per length and sex for children less than 3 years of age, the reference range/scale or growth curve should be included as appropriate', 3, -1),
+('170.102(19)(i)','Optional: Common Clinical Data Set 170.102(19)(i) For certification to the 2015 Edition health IT certification criteria in accordance with the "Assessment and Plan Section (V2)" of the standard specified in § 170.205(a)(4);', 3, -1),
+('170.102(19)(ii)','Optional: Common Clincial Data Set 170.102(19)(ii)  For certification to the 2015 Edition health IT certification criteria in accordance with the "Assessment Section (V2)" and "Plan of Treatment Section (V2)" of the standard specified in § 170.205(a)(4). ', 3, -1),
+('(a)(6)(i)','Ambulatory: 170.315(a)(6)(i) Over multiple encounters in accordance with, at a minimum, the version of the standard specified in § 170.207(a)(4)', 3, -1),
+('(a)(7)(i)','Ambulatory: 170.315(a)(7)(i) Over multiple encounters', 3, -1),
+('(a)(8)(i)','Ambulatory: 170.315(a)(8)(i) Over multiple encounters', 3, -1),
+('(b)(1)(iii)(E)','Ambulatory: 170.315(b)(1)(iii)(E) The reason for referral; and referring or transitioning provider''s name and office contact information', 3, -1),
+('(b)(4)(v)','Ambulatory: 170.315(b)(4)(v) The reason for referral; and referring or transitioning provider''s name and office contact information', 3, -1),
+('(b)(5)(i)(E)','Ambulatory: 170.315(b)(5)(i)(E) The reason for referral; and referring or transitioning provider''s name and office contact information', 3, -1),
+('(b)(6)(ii)(E)','Ambulatory: 170.315(b)(6)(ii)(E) The reason for referral; and referring or transitioning provider''s name and office contact information', 3, -1),
+('(e)(1)(i)(A)(2)','Ambulatory: 170.315(e)(1)(i)(A)(2) Provider''s name and office contact information', 3, -1),
 ('(e)(1)(i)(B)(2)(i)','Ambulatory: 170.315(e)(1)(i)(B)(2)(i) All of the following data:
 (1) The Common Clinical Data Set (which should be in their English (i.e., non-coded) representation if they associate with a vocabulary/code set).
 (2) Ambulatory setting only. Provider’s name and office contact information.
@@ -1057,24 +1046,24 @@ INSERT INTO openchpl.test_functionality(number, name, last_modified_user) VALUES
 (i) The information for a test report as specified all the data specified in 42 CFR 493.1291(c)(1) through (7);
 (ii)The information related to reference intervals or normal values as specified in 42 CFR 493.1291(d); and
 (iii)The information for corrected reports as specified in 42 CFR 493.1291(k)(2).
-(5) Diagnostic image report(s)', -1),
-('(a)(5)(ii)','Inpatient: 170.315(a)(5)(ii) Enable a user to record, change, and access the preliminary cause of death and date of death in the event of mortality', -1),
-('(a)(6)(ii)','Inpatient: 170.315(a)(6)(ii) For the duration of an entire hospitalization in accordance with, at a minimum, the version of the standard specified in §170.207(a)(4)', -1),
-('(a)(7)(ii)','Inpatient: 170.315(a)(7)(ii) For the duration of an entire hospitalization', -1),
-('(a)(8)(ii)','Inpatient: 170.315(a)(8)(ii) For the duration of an entire hospitalization', -1),
-('(b)(1)(iii)(F)','Inpatient: 170.315(b)(1)(iii)(F) Discharge Instructions', -1),
-('(b)(4)(vi)','Inpatient: 170.315(b)(4)(vi) Discharge Instructions', -1),
-('(b)(5)(i)(F)','Inpatient: 170.315(b)(5)(i)(F) Discharge Instructions', -1),
-('(b)(6)(ii)(F)','Inpatient: 170.315(b)(6)(ii)(F) Discharge Instructions', -1),
-('(e)(1)(i)(A)(3)','Inpatient: 170.315(e)(1)(i)(A)(3) Admission and discharge dates and locations; discharge instructions; and reason(s) for hospitalization', -1),
+(5) Diagnostic image report(s)', 3, -1),
+('(a)(5)(ii)','Inpatient: 170.315(a)(5)(ii) Enable a user to record, change, and access the preliminary cause of death and date of death in the event of mortality', 3, -1),
+('(a)(6)(ii)','Inpatient: 170.315(a)(6)(ii) For the duration of an entire hospitalization in accordance with, at a minimum, the version of the standard specified in §170.207(a)(4)', 3, -1),
+('(a)(7)(ii)','Inpatient: 170.315(a)(7)(ii) For the duration of an entire hospitalization', 3, -1),
+('(a)(8)(ii)','Inpatient: 170.315(a)(8)(ii) For the duration of an entire hospitalization', 3, -1),
+('(b)(1)(iii)(F)','Inpatient: 170.315(b)(1)(iii)(F) Discharge Instructions', 3, -1),
+('(b)(4)(vi)','Inpatient: 170.315(b)(4)(vi) Discharge Instructions', 3, -1),
+('(b)(5)(i)(F)','Inpatient: 170.315(b)(5)(i)(F) Discharge Instructions', 3, -1),
+('(b)(6)(ii)(F)','Inpatient: 170.315(b)(6)(ii)(F) Discharge Instructions', 3, -1),
+('(e)(1)(i)(A)(3)','Inpatient: 170.315(e)(1)(i)(A)(3) Admission and discharge dates and locations; discharge instructions; and reason(s) for hospitalization', 3, -1),
 ('(e)(1)(i)(B)(2)(ii)','Inpatient: 170.315(e)(1)(i)(B)(2)(ii) All of the following data:
 (1) The Common Clinical Data Set (which should be in their English (i.e., non-coded) representation if they associate with a vocabulary/code set).
 (3) Inpatient setting only. Admission and discharge dates and locations; discharge instructions; and reason(s) for hospitalization.
-(5) Diagnostic image report(s)', -1),
-('(e)(1)(i)(B)(3)','Inpatient: 170.315(e)(1)(i)(B)(3) Patients (and their authorized representatives) must be able to download transition of care/referral summaries that were created as a result of a transition of care (pursuant to the capability expressed in the certification criterion specified in paragraph (b)(1) of this section)', -1),
+(5) Diagnostic image report(s)', 3, -1),
+('(e)(1)(i)(B)(3)','Inpatient: 170.315(e)(1)(i)(B)(3) Patients (and their authorized representatives) must be able to download transition of care/referral summaries that were created as a result of a transition of care (pursuant to the capability expressed in the certification criterion specified in paragraph (b)(1) of this section)', 3, -1),
 ('(e)(1)(i)(C)(2)','Inpatient: 170.315(e)(1)(i)(C)(2)  Transmit transition of care/referral summaries (as a result of a transition of care/referral as referenced by (e)(1)(i)(B)(3)) selected by the patient (or their authorized representative) in  both of the following ways:
 (i) Email transmission to any email address; and
-(ii)An encrypted method of electronic transmission', -1);
+(ii)An encrypted method of electronic transmission', 3, -1);
 --2015
 
 INSERT INTO openchpl.accessibility_standard(name, last_modified_user) VALUES
@@ -1114,9 +1103,8 @@ SET search_path = openchpl, pg_catalog;
 insert into openchpl.certification_body (name, acb_code, last_modified_user) values ('InfoGard', '02', -1), ('CCHIT', '03', -1), ('Drummond Group Inc.', '04', -1), ('SLI Global', '05', -1), ('Surescripts LLC', '06', -1), ('ICSA Labs', '07', -1), ('Pending', '08', -1);
 insert into openchpl.testing_lab (name, testing_lab_code, last_modified_user) values ('InfoGard', '02', -1), ('CCHIT', '03', -1), ('Drummond Group Inc.', '04', -1), ('SLI Global', '05', -1), ('ICSA Labs', '07', -1), ('National Technical Systems', '09', -1);
 
-INSERT INTO acl_class VALUES (1, 'gov.healthit.chpl.auth.dto.UserDTO'), (2, 'gov.healthit.chpl.dto.CertificationBodyDTO'),
-							 (3, 'gov.healthit.chpl.dto.PendingCertifiedProductDTO'), (4, 'gov.healthit.chpl.dto.TestingLabDTO');
-SELECT pg_catalog.setval('acl_class_id_seq', 5, true);
+INSERT INTO acl_class VALUES (1, 'gov.healthit.chpl.auth.dto.UserDTO'), (2, 'gov.healthit.chpl.dto.CertificationBodyDTO'), (3, 'gov.healthit.chpl.dto.TestingLabDTO');
+SELECT pg_catalog.setval('acl_class_id_seq', 4, true);
 
 --inserts users that can have acls
 INSERT INTO acl_sid VALUES
@@ -1138,12 +1126,12 @@ INSERT INTO acl_object_identity VALUES
 
 -- insert atl objects
 INSERT INTO acl_object_identity VALUES
-(9, 4, 1, NULL, -2, true),
-(10, 4, 2, NULL, -2, true),
-(11, 4, 3, NULL, -2, true),
-(12, 4, 4, NULL, -2, true),
-(13, 4, 5, NULL, -2, true),
-(14, 4, 6, NULL, -2, true);
+(9, 3, 1, NULL, -2, true),
+(10, 3, 2, NULL, -2, true),
+(11, 3, 3, NULL, -2, true),
+(12, 3, 4, NULL, -2, true),
+(13, 3, 5, NULL, -2, true),
+(14, 3, 6, NULL, -2, true);
 
 --insert acls for users
 INSERT INTO acl_entry VALUES
@@ -1164,9 +1152,9 @@ INSERT INTO acl_entry VALUES
 (9, 9, 0, -2, 16, true, false, false),
 (10, 10, 0, -2, 16, true, false, false),
 (11, 11, 0, -2, 16, true, false, false),
-(12, 12, 0, -2, 16, true, false, false), 
-(13, 13, 0, -2, 16, true, false, false), 
-(14, 14, 0, -2, 16, true, false, false); 
+(12, 12, 0, -2, 16, true, false, false),
+(13, 13, 0, -2, 16, true, false, false),
+(14, 14, 0, -2, 16, true, false, false);
 
 SELECT pg_catalog.setval('acl_entry_id_seq', 15, true);
 SELECT pg_catalog.setval('acl_object_identity_id_seq', 15, true);
@@ -1182,18 +1170,135 @@ INSERT INTO "user" (user_id, user_name, password, compliance_signature, account_
 (-2, 'admin', '$2a$10$vVXOupd9DckGsQPtZ5h9seYCGzqYb3A35r/GNuP/rRbK2eq2KxtA2', CURRENT_DATE, false, false, false, true, -1, -2);
 SELECT pg_catalog.setval('user_user_id_seq', 2, true);
 
+INSERT INTO openchpl.macra_criteria_map (criteria_id, value, name, description, last_modified_user) values
+    ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (a)(1)'), 'EP', 'Computerized Provider Order Entry - Medications: Eligible Provider', 'Required Test 10: Stage 2 Objective 3 Measure 1 and Stage 3 Objective 4 Measure 1', -1)
+    , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (a)(1)'), 'EH/CAH', 'Computerized Provider Order Entry - Medications: Eligible Hospital/Critical Access Hospital', 'Required Test 10: Stage 2 Objective 3 Measure 1 and Stage 3 Objective 4 Measure 1', -1)
+    , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (a)(2)'), 'EP', 'Computerized Provider Order  - Laboratory: Eligible Provider', 'Required Test 11: Stage 2 Objective 3 Measure 2 and Stage 3 Objective 4 Measure 2', -1)
+    , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (a)(2)'), 'EH/CAH', 'Computerized Provider Order Entry - Laboratory: Eligible Hospital/Critical Access Hospital', 'Required Test 11: Stage 2 Objective 3 Measure 2 and Stage 3 Objective 4 Measure 2', -1)
+    , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (a)(3)'), 'EP', 'Computerized Provider Order Entry - Diagnostic Imaging: Eligible Provider', 'Required Test 12: Stage 2 Objective 3 Measure 3 and Stage 3 Objective 4 Measure 3', -1)
+    , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (a)(3)'), 'EH/CAH', 'Computerized Provider Order Entry - Diagnostic Imaging: Eligible Hospital/Critical Access Hospital', 'Required Test 12: Stage 2 Objective 3 Measure 3 and Stage 3 Objective 4 Measure 3', -1)
+    , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (a)(10)'), 'EP Individual', 'Electronic Prescibing: Eligible Provider Individual', 'Required Test 1: Stage 2 Objective 4 and Stage 3 Objective 2', -1)
+    , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (a)(10)'), 'EC Individual (TIN/NPI)', 'Electronic Prescribing: Eligible Clinician Individual (TIN/NPI)', 'Required Test 1: Stage 2 Objective 4 and Stage 3 Objective 2, ACI Transition Objective 2 Measure 1 and ACI Objective 2 Measure 1', -1)
+    , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (a)(10)'), 'EC Group', 'Electronic Prescribing: Eligible Clinician Group', 'Required Test 1: Stage 2 Objective 4 and Stage 3 Objective 2, ACI Transition Objective 2 Measure 1 and ACI Objective 2 Measure 1', -1)
+    , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (a)(10)'), 'EH/CAH', 'Electronic Prescribing: Eligible Hospital/Critical Access Hospital', 'Required Test 1: Stage 2 Objective 4 and Stage 3 Objective 2', -1)
+    , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (a)(13)'), 'EP Individual', 'Patient-Specific Education: Eligible Provider Individual', 'Required Test 3: Stage 2 Objective 6 and Stage 3 Objective 5 Measure 2', -1)
+    , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (a)(13)'), 'EC Individual (TIN/NPI)', 'Patient-Specific Education:  Eligible Clinician Individual (TIN/NPI)', 'Required Test 3: Stage 2 Objective 6 and Stage 3 Objective 5 Measure 2, ACI Transition Objective 4 Measure 2 and ACI Objective 3 Measure 2', -1)
+    , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (a)(13)'), 'EC Group', 'Patient-Specific Education: Eligible Clinician Group', 'Required Test 3: Stage 2 Objective 6 and Stage 3 Objective 5 Measure 2, ACI Transition Objective 4 Measure 2 and ACI Objective 3 Measure 2', -1)
+    , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (a)(13)'), 'EH/CAH', 'Patient-Specific Education:  Eligible Hospital/Critical Access Hospital', 'Required Test 3: Stage 2 Objective 6 and Stage 3 Objective 5 Measure 2', -1)
+    , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (b)(1)'), 'RT7 EP Individual', 'Patient Care Record Exchange:  Eligible Provider Individual', 'Required Test 7: Stage 2 Objective 5 and Stage 3 Objective 7 Measure 1', -1)
+    , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (b)(1)'), 'RT7 EC Individual (TIN/NPI)', 'Patient Care Record Exchange:  Eligible Clinician Individual (TIN/NPI)', 'Required Test 7: Stage 2 Objective 5 and Stage 3 Objective 7 Measure 1, ACI Transition Objective 6 Measure 1 and ACI Objective 5 Measure 1', -1)
+    , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (b)(1)'), 'RT7 EC Group', 'Patient Care Record Exchange:  Eligible Clinician Group', 'Required Test 7: Stage 2 Objective 5 and Stage 3 Objective 7 Measure 1, ACI Transition Objective 6 Measure 1 and ACI Objective 5 Measure 1', -1)
+    , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (b)(1)'), 'RT7 EH/CAH', 'Patient Care Record Exchange:  Eligible Hospital/Critical Access Hospital', 'Required Test 7: Stage 2 Objective 5 and Stage 3 Objective 7 Measure 1', -1)
+    , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (b)(1)'), 'RT8 EP Individual', 'Request/Accept Patient Care Record:  Eligible Provider Individual', 'Required Test 8: Stage 3 Objective 7 Measure 2', -1)
+    , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (b)(1)'), 'RT8 EC Individual (TIN/NPI)', 'Request/Accept Patient Care Record:  Eligible Clinician Individual (TIN/NPI)', 'Required Test 8: Stage 3 Objective 7 Measure 2, ACI Objective 5 Measure 2', -1)
+    , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (b)(1)'), 'RT8 EC Group', 'Request/Accept Patient Care Record:  Eligible Clinician Group', 'Required Test 8: Stage 3 Objective 7 Measure 2, ACI Objective 5 Measure 2', -1)
+    , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (b)(1)'), 'RT8 EH/CAH', 'Request/Accept Patient Care Record:  Eligible Hospital/Critical Access Hospital', 'Required Test 8: Stage 3 Objective 7 Measure 2', -1)
+    , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (b)(2)'), 'EP Individual', 'Medication/Clinical Information Reconciliation: Eligible Provider Individual', 'Required Test 9: Stage 2 Objective 7 and Stage 3 Objective 7 Measure 3', -1)
+    , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (b)(2)'), 'EC Individual (TIN/NPI)', 'Medication/Clinical Information Reconciliation: Eligible Clinician Individual (TIN/NPI)', 'Required Test 9: Stage 2 Objective 7 and Stage 3 Objective 7 Measure 3, ACI Transition Objective 7 Measure 1 and ACI Objective 5 Measure 3', -1)
+    , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (b)(2)'), 'EC Group', 'Medication/Clinical Information Reconciliation: Eligible Clinician Group', 'Required Test 9: Stage 2 Objective 7 and Stage 3 Objective 7 Measure 3, ACI Transition Objective 7 Measure 1 and ACI Objective 5 Measure 3', -1)
+    , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (b)(2)'), 'EH/CAH', 'Medication/Clinical Information Reconciliation: Eligible Hospital/Critical Access Hospital', 'Required Test 9: Stage 2 Objective 7 and Stage 3 Objective 7 Measure 3', -1)
+    , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (b)(3)'), 'EP Individual', 'Electronic Prescribing: Eligible Provider Individual', 'Required Test 1: Stage 2 Objective 4 and Stage 3 Objective 2', -1)
+    , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (b)(3)'), 'EC Individual (TIN/NPI)', 'Electronic Prescribing: Eligible Clinician Individual (TIN/NPI)', 'Required Test 1: Stage 2 Objective 4 and Stage 3 Objective 2, ACI Transition Objective 2 Measure 1 and ACI Objective 2 Measure 1', -1)
+    , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (b)(3)'), 'EC Group', 'Electronic Prescribing: Eligible Clinician Group', 'Required Test 1: Stage 2 Objective 4 and Stage 3 Objective 2, ACI Transition Objective 2 Measure 1 and ACI Objective 2 Measure 1', -1)
+    , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (b)(3)'), 'EH/CAH', 'Electronic Prescribing: Eligible Hospital/Critical Access Hospital', 'Required Test 1: Stage 2 Objective 4 and Stage 3 Objective 2', -1)
+    , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (e)(1)'), 'RT2a EP Individual', 'Patient Electronic Access:  Eligible Provider Individual', 'Required Test 2: Stage 2 Objective 8 Measure 1 and Stage 3 Objective 5 Measure 1', -1)
+    , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (e)(1)'), 'RT2a EC Individual (TIN/NPI)', 'Patient Electronic Access:  Eligible Clinician Individual (TIN/NPI)', 'Required Test 2: Stage 2 Objective 8 Measure 1 and Stage 3 Objective 5 Measure 1, ACI Transition Objective 3 Measure 1 and ACI Objective 3 Measure 1', -1)
+    , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (e)(1)'), 'RT2a EC Group', 'Patient Electronic Access:  Eligible Clinician Group', 'Required Test 2: Stage 2 Objective 8 Measure 1 and Stage 3 Objective 5 Measure 1, ACI Transition Objective 3 Measure 1 and ACI Objective 3 Measure 1', -1)
+    , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (e)(1)'), 'RT2a EH/CAH', 'Patient Electronic Access:  Eligible Hospital/Critical Access Hospital', 'Required Test 2: Stage 2 Objective 8 Measure 1 and Stage 3 Objective 5 Measure 1', -1)
+    , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (e)(1)'), 'RT2b EP Individual', 'Patient Electronic Access:  Eligible Provider Individual', 'Required Test 2: Stage 2 Objective 8 Measure 1 and Stage 3 Objective 5 Measure 1', -1)
+    , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (e)(1)'), 'RT2b EC Individual (TIN/NPI)', 'Patient Electronic Access:  Eligible Clinician Individual (TIN/NPI)', 'Required Test 2: Stage 2 Objective 8 Measure 1 and Stage 3 Objective 5 Measure 1, ACI Transition Objective 3 Measure 1 and ACI Objective 3 Measure 1', -1)
+    , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (e)(1)'), 'RT2b EC Group', 'Patient Electronic Access:  Eligible Clinician Group', 'Required Test 2: Stage 2 Objective 8 Measure 1 and Stage 3 Objective 5 Measure 1, ACI Transition Objective 3 Measure 1 and ACI Objective 3 Measure 1', -1)
+    , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (e)(1)'), 'RT2b EH/CAH', 'Patient Electronic Access:  Eligible Hospital/Critical Access Hospital', 'Required Test 2: Stage 2 Objective 8 Measure 1 and Stage 3 Objective 5 Measure 1', -1)
+    , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (e)(1)'), 'RT4a EP Individual', 'View, Download, or Transmit (VDT):  Eligible Provider Individual', 'Required Test 4: Stage 2 Objective 8 Measure 2 and Stage 3 Objective 6 Measure 1', -1)
+    , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (e)(1)'), 'RT4a EC Individual (TIN/NPI)', 'View, Download, or Transmit (VDT):  Eligible Clinician Individual (TIN/NPI)', 'Required Test 4: Stage 2 Objective 8 Measure 2 and Stage 3 Objective 6 Measure 1, ACI Transition Objective 3 Measure 2 and ACI Objective 4 Measure 1', -1)
+    , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (e)(1)'), 'RT4a EC Group', 'View, Download, or Transmit (VDT):  Eligible Clinician Group', 'Required Test 4: Stage 2 Objective 8 Measure 2 and Stage 3 Objective 6 Measure 1, ACI Transition Objective 3 Measure 2 and ACI Objective 4 Measure 1', -1)
+    , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (e)(1)'), 'RT4a EH/CAH', 'View, Download, or Transmit (VDT):  Eligible Hospital/Critical Access Hospital', 'Required Test 4: Stage 2 Objective 8 Measure 2 and Stage 3 Objective 6 Measure 1', -1)
+    , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (e)(1)'), 'RT4b EP Individual', 'View, Download, or Transmit (VDT):  Eligible Provider Individual', 'Required Test 4: Stage 2 Objective 8 Measure 2 and Stage 3 Objective 6 Measure 1', -1)
+    , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (e)(1)'), 'RT4b EC Individual (TIN/NPI)', 'View, Download, or Transmit (VDT):  Eligible Clinician Individual (TIN/NPI)', 'Required Test 4: Stage 2 Objective 8 Measure 2 and Stage 3 Objective 6 Measure 1, ACI Transition Objective 3 Measure 2 and ACI Objective 4 Measure 1', -1)
+    , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (e)(1)'), 'RT4b EC Group', 'View, Download, or Transmit (VDT):  Eligible Clinician Group', 'Required Test 4: Stage 2 Objective 8 Measure 2 and Stage 3 Objective 6 Measure 1, ACI Transition Objective 3 Measure 2 and ACI Objective 4 Measure 1', -1)
+    , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (e)(1)'), 'RT4b EH/CAH', 'View, Download, or Transmit (VDT):  Eligible Hospital/Critical Access Hospital', 'Required Test 4: Stage 2 Objective 8 Measure 2 and Stage 3 Objective 6 Measure 1', -1)
+    , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (e)(2)'), 'EP Individual', 'Secure Electronic Messaging: Eligible Provider Individual', 'Required Test 5: Stage 2 Objective 9 and Stage 3 Objective 6 Measure 2', -1)
+    , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (e)(2)'), 'EC Individual (TIN/NPI)', 'Secure Electronic Messaging: Eligible Clinician Individual (TIN/NPI)', 'Required Test 5: Stage 2 Objective 9 and Stage 3 Objective 6 Measure 2, ACI Transition Objective 5 Measure 1 and ACI Objective 4 Measure 2', -1)
+    , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (e)(2)'), 'EC Group', 'Secure Electronic Messaging: Eligible Clinician Group', 'Required Test 5: Stage 2 Objective 9 and Stage 3 Objective 6 Measure 2, ACI Transition Objective 5 Measure 1 and ACI Objective 4 Measure 2', -1)
+    , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (e)(2)'), 'EH/CAH', 'Secure Electronic Messaging: Eligible Hospital/Critical Access Hospital', 'Required Test 5: Stage 2 Objective 9 and Stage 3 Objective 6 Measure 2', -1)
+    , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (e)(3)'), 'EP Individual', 'Eligible Provider Individual: Patient-Generated Health Data', 'Required Test 6: Stage 3 Objective 6 Measure 3', -1)
+    , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (e)(3)'), 'EC Individual (TIN/NPI)', 'Patient-Generated Health Data: Eligible Clinician Individual (TIN/NPI)', 'Required Test 6: Stage 3 Objective 6 Measure 3, ACI Objective 4 Measure 3', -1)
+    , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (e)(3)'), 'EC Group', 'Patient-Generated Health Data: Eligible Clinician Group', 'Required Test 6: Stage 3 Objective 6 Measure 3, ACI Objective 4 Measure 3', -1)
+    , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (e)(3)'), 'EH/CAH', 'Patient-Generated Health Data: Eligible Hospital/Critical Access Hospital', 'Required Test 6: Stage 3 Objective 6 Measure 3', -1)
+    , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (g)(8)'), 'RT2a EP Individual', 'Patient Electronic Access:  Eligible Provider Individual', 'Required Test 2: Stage 2 Objective 8 Measure 1 and Stage 3 Objective 5 Measure 1', -1)
+    , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (g)(8)'), 'RT2a EC Individual (TIN/NPI)', 'Patient Electronic Access:  Eligible Clinician Individual (TIN/NPI)', 'Required Test 2: Stage 2 Objective 8 Measure 1 and Stage 3 Objective 5 Measure 1, ACI Transition Objective 3 Measure 1 and ACI Objective 3 Measure 1', -1)
+    , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (g)(8)'), 'RT2a EC Group', 'Patient Electronic Access:  Eligible Clinician Group', 'Required Test 2: Stage 2 Objective 8 Measure 1 and Stage 3 Objective 5 Measure 1, ACI Transition Objective 3 Measure 1 and ACI Objective 3 Measure 1', -1)
+    , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (g)(8)'), 'RT2a EH/CAH', 'Patient Electronic Access:  Eligible Hospital/Critical Access Hospital', 'Required Test 2: Stage 2 Objective 8 Measure 1 and Stage 3 Objective 5 Measure 1', -1)
+    , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (g)(8)'), 'RT2c EP Individual', 'Patient Electronic Access:  Eligible Provider Individual', 'Required Test 2: Stage 2 Objective 8 Measure 1 and Stage 3 Objective 5 Measure 1', -1)
+    , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (g)(8)'), 'RT2c EC Individual (TIN/NPI)', 'Patient Electronic Access:  Eligible Clinician Individual (TIN/NPI)', 'Required Test 2: Stage 2 Objective 8 Measure 1 and Stage 3 Objective 5 Measure 1, ACI Transition Objective 3 Measure 1 and ACI Objective 3 Measure 1', -1)
+    , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (g)(8)'), 'RT2c EC Group', 'Patient Electronic Access:  Eligible Clinician Group', 'Required Test 2: Stage 2 Objective 8 Measure 1 and Stage 3 Objective 5 Measure 1, ACI Transition Objective 3 Measure 1 and ACI Objective 3 Measure 1', -1)
+    , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (g)(8)'), 'RT2c EH/CAH', 'Patient Electronic Access:  Eligible Hospital/Critical Access Hospital', 'Required Test 2: Stage 2 Objective 8 Measure 1 and Stage 3 Objective 5 Measure 1', -1)
+    , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (g)(8)'), 'RT4a EP Individual', 'View, Download, or Transmit (VDT):  Eligible Provider Individual', 'Required Test 4: Stage 2 Objective 8 Measure 2 and Stage 3 Objective 6 Measure 1', -1)
+    , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (g)(8)'), 'RT4a EC Individual (TIN/NPI)', 'View, Download, or Transmit (VDT):  Eligible Clinician Individual (TIN/NPI)', 'Required Test 4: Stage 2 Objective 8 Measure 2 and Stage 3 Objective 6 Measure 1, ACI Transition Objective 3 Measure 2 and ACI Objective 4 Measure 1', -1)
+    , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (g)(8)'), 'RT4a EC Group', 'View, Download, or Transmit (VDT):  Eligible Clinician Group', 'Required Test 4: Stage 2 Objective 8 Measure 2 and Stage 3 Objective 6 Measure 1, ACI Transition Objective 3 Measure 2 and ACI Objective 4 Measure 1', -1)
+    , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (g)(8)'), 'RT4a EH/CAH', 'View, Download, or Transmit (VDT):  Eligible Hospital/Critical Access Hospital', 'Required Test 4: Stage 2 Objective 8 Measure 2 and Stage 3 Objective 6 Measure 1', -1)
+    , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (g)(8)'), 'RT4c EP Individual', 'View, Download, or Transmit (VDT):  Eligible Provider Individual', 'Required Test 4: Stage 2 Objective 8 Measure 2 and Stage 3 Objective 6 Measure 1', -1)
+    , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (g)(8)'), 'RT4c EC Individual (TIN/NPI)', 'View, Download, or Transmit (VDT):  Eligible Clinician Individual (TIN/NPI)', 'Required Test 4: Stage 2 Objective 8 Measure 2 and Stage 3 Objective 6 Measure 1, ACI Transition Objective 3 Measure 2 and ACI Objective 4 Measure 1', -1)
+    , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (g)(8)'), 'RT4c EC Group', 'View, Download, or Transmit (VDT):  Eligible Clinician Group', 'Required Test 4: Stage 2 Objective 8 Measure 2 and Stage 3 Objective 6 Measure 1, ACI Transition Objective 3 Measure 2 and ACI Objective 4 Measure 1', -1)
+    , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (g)(8)'), 'RT4c EH/CAH', 'View, Download, or Transmit (VDT):  Eligible Hospital/Critical Access Hospital', 'Required Test 4: Stage 2 Objective 8 Measure 2 and Stage 3 Objective 6 Measure 1', -1)
+    , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (g)(9)'), 'RT2a EP Individual', 'Patient Electronic Access:  Eligible Provider Individual', 'Required Test 2: Stage 2 Objective 8 Measure 1 and Stage 3 Objective 5 Measure 1', -1)
+    , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (g)(9)'), 'RT2a EC Individual (TIN/NPI)', 'Patient Electronic Access:  Eligible Clinician Individual (TIN/NPI)', 'Required Test 2: Stage 2 Objective 8 Measure 1 and Stage 3 Objective 5 Measure 1, ACI Transition Objective 3 Measure 1 and ACI Objective 3 Measure 1', -1)
+    , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (g)(9)'), 'RT2a EC Group', 'Patient Electronic Access:  Eligible Clinician Group', 'Required Test 2: Stage 2 Objective 8 Measure 1 and Stage 3 Objective 5 Measure 1, ACI Transition Objective 3 Measure 1 and ACI Objective 3 Measure 1', -1)
+    , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (g)(9)'), 'RT2a EH/CAH', 'Patient Electronic Access:  Eligible Hospital/Critical Access Hospital', 'Required Test 2: Stage 2 Objective 8 Measure 1 and Stage 3 Objective 5 Measure 1', -1)
+    , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (g)(9)'), 'RT2c EP Individual', 'Patient Electronic Access:  Eligible Provider Individual', 'Required Test 2: Stage 2 Objective 8 Measure 1 and Stage 3 Objective 5 Measure 1', -1)
+    , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (g)(9)'), 'RT2c EC Individual (TIN/NPI)', 'Patient Electronic Access:  Eligible Clinician Individual (TIN/NPI)', 'Required Test 2: Stage 2 Objective 8 Measure 1 and Stage 3 Objective 5 Measure 1, ACI Transition Objective 3 Measure 1 and ACI Objective 3 Measure 1', -1)
+    , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (g)(9)'), 'RT2c EC Group', 'Patient Electronic Access:  Eligible Clinician Group', 'Required Test 2: Stage 2 Objective 8 Measure 1 and Stage 3 Objective 5 Measure 1, ACI Transition Objective 3 Measure 1 and ACI Objective 3 Measure 1', -1)
+    , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (g)(9)'), 'RT2c EH/CAH', 'Patient Electronic Access:  Eligible Hospital/Critical Access Hospital', 'Required Test 2: Stage 2 Objective 8 Measure 1 and Stage 3 Objective 5 Measure 1', -1)
+    , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (g)(9)'), 'RT4a EP Individual', 'View, Download, or Transmit (VDT):  Eligible Provider Individual', 'Required Test 4: Stage 2 Objective 8 Measure 2 and Stage 3 Objective 6 Measure 1', -1)
+    , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (g)(9)'), 'RT4a EC Individual (TIN/NPI)', 'View, Download, or Transmit (VDT):  Eligible Clinician Individual (TIN/NPI)', 'Required Test 4: Stage 2 Objective 8 Measure 2 and Stage 3 Objective 6 Measure 1, ACI Transition Objective 3 Measure 2 and ACI Objective 4 Measure 1', -1)
+    , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (g)(9)'), 'RT4a EC Group', 'View, Download, or Transmit (VDT):  Eligible Clinician Group', 'Required Test 4: Stage 2 Objective 8 Measure 2 and Stage 3 Objective 6 Measure 1, ACI Transition Objective 3 Measure 2 and ACI Objective 4 Measure 1', -1)
+    , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (g)(9)'), 'RT4a EH/CAH', 'View, Download, or Transmit (VDT):  Eligible Hospital/Critical Access Hospital', 'Required Test 4: Stage 2 Objective 8 Measure 2 and Stage 3 Objective 6 Measure 1', -1)
+    , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (g)(9)'), 'RT4c EP Individual', 'View, Download, or Transmit (VDT):  Eligible Provider Individual', 'Required Test 4: Stage 2 Objective 8 Measure 2 and Stage 3 Objective 6 Measure 1', -1)
+    , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (g)(9)'), 'RT4c EC Individual (TIN/NPI)', 'View, Download, or Transmit (VDT):  Eligible Clinician Individual (TIN/NPI)', 'Required Test 4: Stage 2 Objective 8 Measure 2 and Stage 3 Objective 6 Measure 1, ACI Transition Objective 3 Measure 2 and ACI Objective 4 Measure 1', -1)
+    , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (g)(9)'), 'RT4c EC Group', 'View, Download, or Transmit (VDT):  Eligible Clinician Group', 'Required Test 4: Stage 2 Objective 8 Measure 2 and Stage 3 Objective 6 Measure 1, ACI Transition Objective 3 Measure 2 and ACI Objective 4 Measure 1', -1)
+    , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (g)(9)'), 'RT4c EH/CAH', 'View, Download, or Transmit (VDT):  Eligible Hospital/Critical Access Hospital', 'Required Test 4: Stage 2 Objective 8 Measure 2 and Stage 3 Objective 6 Measure 1', -1)
+    ;
+
+INSERT INTO openchpl.muu_accurate_as_of_date (accurate_as_of_date, last_modified_user) values('11/30/2016', -1);
+
 INSERT INTO user_permission (user_permission_id, "name", description, authority, last_modified_user) VALUES
 (-2, 'ADMIN', 'This permission confers administrative privileges to its owner.', 'ROLE_ADMIN', -1),
-(1, 'USER_CREATOR' ,'This permission allows a user to create other users',	'ROLE_USER_CREATOR' , -1),
-(2, 'ACB_ADMIN' ,'This permission gives a user write access to their ACBs.',	'ROLE_ACB_ADMIN' , -1),
-(3, 'ACB_STAFF' ,'This permission gives a user read access to their ACBs',	'ROLE_ACB_STAFF' , -1),
-(4, 'ATL_ADMIN' ,'This permission gives a user write access to their ATLs.',	'ROLE_ATL_ADMIN' , -1),
-(5, 'ATL_STAFF' ,'This permission gives a user write access to their ATLs.',	'ROLE_ATL_STAFF' , -1),
-(6, 'CMS_STAFF' ,'This permission gives a user read access to CMS reports.',	'ROLE_CMS_STAFF' , -1),
+(1, 'USER_CREATOR' ,'This permission allows a user to create other users', 'ROLE_USER_CREATOR' , -1),
+(2, 'ACB_ADMIN' ,'This permission gives a user write access to their ACBs.', 'ROLE_ACB_ADMIN' , -1),
+(3, 'ACB_STAFF' ,'This permission gives a user read access to their ACBs', 'ROLE_ACB_STAFF' , -1),
+(4, 'ATL_ADMIN' ,'This permission gives a user write access to their ATLs.', 'ROLE_ATL_ADMIN' , -1),
+(5, 'ATL_STAFF' ,'This permission gives a user write access to their ATLs.', 'ROLE_ATL_STAFF' , -1),
+(6, 'CMS_STAFF' ,'This permission gives a user read access to CMS reports.', 'ROLE_CMS_STAFF' , -1),
 (7, 'ONC_STAFF' ,'This permission gives a user access to the CMS Download file and report navigation section. It denies editing of Users/Products/CPs/ACBs/etc. No user invitation ability.', 'ROLE_ONC_STAFF' , -1);
 
 SELECT pg_catalog.setval('user_permission_user_permission_id_seq', 8, true);
 
-INSERT INTO global_user_permission_map (user_id, user_permission_id_user_permission, last_modified_user) VALUES
-(-2, -2, -1);
+INSERT INTO global_user_permission_map (user_id, user_permission_id_user_permission, last_modified_user) VALUES (-2, -2, -1);
 SELECT pg_catalog.setval('global_user_permission_map_global_user_permission_id_seq', 16, true);
+
+INSERT INTO openchpl.notification_type (name, description, requires_acb, last_modified_user)
+VALUES ('ONC-ACB Daily Surveillance Broken Rules', 'A daily email of surveillance rules that have been broken within the last day for listings certified by a specific ONC-ACB.', true, -1), 
+('ONC-ACB Weekly Surveillance Broken Rules', 'A weekly email of all surveillance rules that are currently broken for listings certified by a specific ONC-ACB.', true, -1),
+('ONC-ACB Weekly ICS Family Errors', 'A weekly email of listings certified by a specific ONC-ACB that are marked as having ICS but do not specify a parent.', true, -1),
+('ONC Daily Surveillance Broken Rules', 'A daily email of surveillance rules that have been broken within the last day for any listing.', false, -1), 
+('ONC Weekly Surveillance Broken Rules', 'A weekly email of all surveillance rules that are currently broken for any listing.', false, -1),
+('ONC Weekly ICS Family Errors', 'A weekly email of all listings that are marked as having ICS but do not specify a parent.', false, -1);
+
+INSERT INTO openchpl.notification_type_permission (notification_type_id, permission_id, last_modified_user)
+SELECT id, -2, -1 FROM openchpl.notification_type WHERE name = 'ONC-ACB Daily Surveillance Broken Rules';
+INSERT INTO openchpl.notification_type_permission (notification_type_id, permission_id, last_modified_user)
+SELECT id, 2, -1 FROM openchpl.notification_type WHERE name = 'ONC-ACB Daily Surveillance Broken Rules';
+INSERT INTO openchpl.notification_type_permission (notification_type_id, permission_id, last_modified_user)
+SELECT id, -2, -1 FROM openchpl.notification_type WHERE name = 'ONC-ACB Weekly Surveillance Broken Rules';
+INSERT INTO openchpl.notification_type_permission (notification_type_id, permission_id, last_modified_user)
+SELECT id, 2, -1 FROM openchpl.notification_type WHERE name = 'ONC-ACB Weekly Surveillance Broken Rules';
+INSERT INTO openchpl.notification_type_permission (notification_type_id, permission_id, last_modified_user) 
+SELECT id, -2, -1 FROM openchpl.notification_type WHERE name = 'ONC-ACB Weekly ICS Family Errors';
+INSERT INTO openchpl.notification_type_permission (notification_type_id, permission_id, last_modified_user) 
+SELECT id, 2, -1 FROM openchpl.notification_type WHERE name = 'ONC-ACB Weekly ICS Family Errors';
+INSERT INTO openchpl.notification_type_permission (notification_type_id, permission_id, last_modified_user)
+SELECT id, -2, -1 FROM openchpl.notification_type WHERE name = 'ONC Daily Surveillance Broken Rules';
+INSERT INTO openchpl.notification_type_permission (notification_type_id, permission_id, last_modified_user) 
+SELECT id, -2, -1 FROM openchpl.notification_type WHERE name = 'ONC Weekly Surveillance Broken Rules';
+INSERT INTO openchpl.notification_type_permission (notification_type_id, permission_id, last_modified_user) 
+SELECT id, -2, -1 FROM openchpl.notification_type WHERE name = 'ONC Weekly ICS Family Errors';

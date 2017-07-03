@@ -1,5 +1,135 @@
 # Release Notes
 
+## Version 11.0.0
+_3 July 2017_
+
+### Table modification
+* Alter ICS column to be an integer instead of varchar
+
+### Data modification
+* Added two new report types for ICS inconsistencies
+
+---
+
+## Version 10.1.1
+_19 June 2017_
+
+### Data modification
+* Bulk change ICSA Listings Disclosure URLs
+
+---
+
+## Version 10.1.0
+_19 June 2017_
+
+### Table/view modification
+* Add columns to the search view: decertification date, number of meaningful use users, mandatory disclosure url (aka transparency attestation url), and api documentation
+
+---
+
+## Version 10.0.0
+_22 May 2017_
+
+### Table modification
+* Add certification_edition_id column to test standards
+
+### Data modification
+* Update existing test standards to fix 2014 numbers/descriptions from spreadsheet and remove existing user-entered duplicates
+
+---
+
+## Version 9.0.0
+_8 May 2017_
+
+### Major modification
+* Add a required certification edition column to test functionality.
+
+### Table modification
+* Add tables for recipients and subscriptions to different types of notifications
+
+### Data modification
+* Find any current products that have bad values for their criterions' Privacy and Security Framework
+* Update values for CQMs with typos
+* Find and fix any criteria pointing to test functionality from the wrong edition.
+
+---
+
+
+## Version 8.5.0
+_24 April 2017_
+
+### Changes
+* Add optional contact column to the product table.
+* Make surveillance requirement and surveillance nonconformity as deleted when parent surveillance is deleted.
+* Make surveillance requirement have a result of "Nonconformity" when there are nonconformities.
+
+---
+
+## Version 8.4.0
+_10 April 2017_
+
+### Changes
+* Add a new table to capture history of vendor status changes.
+* Replace four surveillance boolean values in the certified_product_search_view with three values listing the counts of:
+  * surveillance
+  * open nonconformities, and
+  * closed nonconformities
+
+---
+
+## Version 8.3.0
+_27 March 2017_
+
+### Changes
+* Add column to surveillance for "role" of creator
+* Updated text for G1/G2 Macra measures
+
+---
+
+## Version 8.2.0
+_13 March 2017_
+
+### Changes
+* Remove ACLs for pending certified products
+* Added scripts for backup/load of database
+
+---
+
+## Version 8.1.0
+_27 February 2017_
+
+### Changes
+* Added basic search view
+
+---
+
+## Version 8.0.1
+_21 February 2017_
+
+### Changes
+* Add new EH/CAH macra measures for 170.315 (a)(1), (2), and (3)
+
+---
+
+## Version 8.0.0
+_7 February 2017_
+
+### Changes
+* Add tables for macra g1/g2 measures for lookup, certification results, and pending certification results
+* Add Meaningful Use User Accurate table, triggers, and row of data with accurate as of date = '11/30/2016'
+
+---
+
+## Version 7.1.0
+_23 January 2017_
+
+### Changes
+* Add new certification status for products
+* Add indexes to improve performance
+* Set retired to true for Transport Test Tool and Transport Testing Tool
+
+---
+
 ## Version 7.0.2
 _10 January 2017_
 
@@ -24,7 +154,7 @@ _6 January 2017_
 * Add pending surveillance tables to the database
 * Add meaningful_use_users column to certified_product & certified_product_details
 * Add 'Suspended by ONC' and 'Terminated by ONC' to certification_status table
-* Replace corrective action plan with surveillance in details view for searching 
+* Replace corrective action plan with surveillance in details view for searching
 * Add certification_body deleted column to certified_product_details view
 * Add certification_status_event table to store certification status change history. Eliminate use of certification_event and event_type.
 * Add decertification_date to certified product details view
