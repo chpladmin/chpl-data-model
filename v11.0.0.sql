@@ -109,6 +109,7 @@ WHERE NOT EXISTS (
 	AND permission_id = 2
 );
 
+
 -- Note: The user calling this script must be in the same directory as v-next. 
 --re-run view creation 
 \i dev/openchpl_views.sql
