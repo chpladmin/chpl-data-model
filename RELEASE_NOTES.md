@@ -1,6 +1,7 @@
 # Release Notes
 
-## Version TBD
+## Version 11.0.1
+_3 July 2017_
 * Add activity concept for pending surveillance
 
 ---
