@@ -1,7 +1,7 @@
 # Release Notes
 
-## Version TBD
-_Date TBD_
+## Version 11.0.0
+_3 July 2017_
 
 ### Table modification
 * Alter ICS column to be an integer instead of varchar
