@@ -1,5 +1,13 @@
 # Release Notes
 
+## Version TBD
+_Date TBD_
+
+### Table/view modification
+* Create new view for developers collections; combines all developers, transparency attestation urls and acb attestations
+
+---
+
 ## Version 11.0.1
 _3 July 2017_
 * Add activity concept for pending surveillance
