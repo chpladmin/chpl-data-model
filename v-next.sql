@@ -51,7 +51,7 @@ CREATE TYPE openchpl.validation_message_type as enum('Error', 'Warning');
 CREATE TABLE openchpl.pending_surveillance_validation (
 	id bigserial NOT NULL,
 	pending_surveillance_id bigint NOT NULL,
-	message_type validation_message_type NOT NULL,
+	message_type openchpl.validation_message_type NOT NULL,
 	message text NOT NULL,
 	creation_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
