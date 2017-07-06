@@ -24,6 +24,7 @@ SET search_path TO pg_catalog,public,openchpl;
 -- ddl-end --
 
 CREATE TYPE openchpl.attestation as enum('Affirmative', 'Negative', 'N/A');
+CREATE TYPE openchpl.validation_message_type as enum('Error', 'Warning');
 
 -- object: openchpl.user | type: TABLE --
 -- DROP TABLE IF EXISTS openchpl.user CASCADE;
@@ -2495,6 +2496,21 @@ CREATE TABLE openchpl.pending_surveillance_nonconformity (
 	CONSTRAINT pending_surveillance_requirement_fk FOREIGN KEY (pending_surveillance_requirement_id) 
 		REFERENCES openchpl.pending_surveillance_requirement (id) 
 		MATCH FULL ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE TABLE openchpl.pending_surveillance_validation (
+	id bigserial NOT NULL,
+	pending_surveillance_id bigint NOT NULL,
+	message_type validation_message_type NOT NULL,
+	message text NOT NULL,
+	creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
+	CONSTRAINT pending_surveillance_validation_pk PRIMARY KEY (id),
+	CONSTRAINT pending_surveillance_fk FOREIGN KEY (pending_surveillance_id) 
+		REFERENCES openchpl.pending_surveillance (id) 
+		MATCH FULL ON DELETE CASCADE ON UPDATE CASCADE	
 );
 
 CREATE TABLE openchpl.muu_accurate_as_of_date (

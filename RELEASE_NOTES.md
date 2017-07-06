@@ -5,6 +5,7 @@ _Date TBD_
 
 ### Table/view modification
 * Create new view for developers collections; combines all developers, transparency attestation urls and acb attestations
+* Create new table for pending surveillance validation messages
 
 ---
 
