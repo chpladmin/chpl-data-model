@@ -371,7 +371,20 @@ sum(case when certification_status.certification_status = 'Suspended by ONC-ACB'
 sum(case when certification_status.certification_status = 'Suspended by ONC' then 1 else 0 end) as countSuspendedByOncListings,
 sum(case when certification_status.certification_status = 'Terminated by ONC' then 1 else 0 end) as countTerminatedByOncListings,
 sum(case when certification_status.certification_status = 'Withdrawn by Developer Under Surveillance/Review' then 1 else 0 end) as countWithdrawnByDeveloperUnderSurveillanceListings,
-string_agg(DISTINCT listings.transparency_attestation_url::text, '☺') as "transparency_attestation_urls",
+
+--only include urls that are not empty strings and come from
+-- a listing with one of the active... or suspended... statuses
+string_agg(DISTINCT 
+	case when 
+		listings.transparency_attestation_url::text != '' 
+		and 
+			(certification_status.certification_status = 'Active' 
+			or
+			certification_status.certification_status = 'Suspended by ONC'
+			or 
+			certification_status.certification_status = 'Suspended by ONC-ACB')
+		then listings.transparency_attestation_url::text else null end, '☺') 
+	as "transparency_attestation_urls",
 --using coalesce here because the attestation can be null and concatting null with anything just gives null
 --so null/empty attestations are left out unless we replace null with empty string
 string_agg(DISTINCT acb.name::text||':'||COALESCE(attestations.transparency_attestation::text, ''), '☺') as "attestations"
