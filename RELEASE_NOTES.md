@@ -6,6 +6,9 @@ _Date TBD_
 ### Table/view modification
 * Create new view for developers collections; combines all developers, transparency attestation urls and acb attestations
 
+### Data modification
+* Fix typo / extra spaces in G1/G2 Macra measures
+
 ---
 
 ## Version 11.0.1
