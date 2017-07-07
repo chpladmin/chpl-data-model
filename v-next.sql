@@ -43,3 +43,25 @@ GROUP BY v.vendor_id, v.name, s.name;
 -- Note: The user calling this script must be in the same directory as v-next. 
 --re-run grants
 \i dev/openchpl_grant-all.sql
+
+-- Clean up G1/G2 macra measure text
+update openchpl.macra_criteria_map as mcm set name = 'Computerized Provider Order - Laboratory: Eligible Provider' where mcm.name = 'Computerized Provider Order  - Laboratory: Eligible Provider';
+update openchpl.macra_criteria_map as mcm set name = 'Electronic Prescribing: Eligible Provider Individual' where mcm.name = 'Electronic Prescibing: Eligible Provider Individual';
+update openchpl.macra_criteria_map as mcm set name = 'Patient Care Record Exchange: Eligible Clinician Group' where mcm.name = 'Patient Care Record Exchange:  Eligible Clinician Group';
+update openchpl.macra_criteria_map as mcm set name = 'Patient Care Record Exchange: Eligible Clinician Individual (TIN/NPI)' where mcm.name = 'Patient Care Record Exchange:  Eligible Clinician Individual (TIN/NPI)';
+update openchpl.macra_criteria_map as mcm set name = 'Patient Care Record Exchange: Eligible Hospital/Critical Access Hospital' where mcm.name = 'Patient Care Record Exchange:  Eligible Hospital/Critical Access Hospital';
+update openchpl.macra_criteria_map as mcm set name = 'Patient Care Record Exchange: Eligible Provider Individual' where mcm.name = 'Patient Care Record Exchange:  Eligible Provider Individual';
+update openchpl.macra_criteria_map as mcm set name = 'Patient Electronic Access: Eligible Clinician Group' where mcm.name = 'Patient Electronic Access:  Eligible Clinician Group';
+update openchpl.macra_criteria_map as mcm set name = 'Patient Electronic Access: Eligible Clinician Individual (TIN/NPI)' where mcm.name = 'Patient Electronic Access:  Eligible Clinician Individual (TIN/NPI)';
+update openchpl.macra_criteria_map as mcm set name = 'Patient Electronic Access: Eligible Hospital/Critical Access Hospital' where mcm.name = 'Patient Electronic Access:  Eligible Hospital/Critical Access Hospital';
+update openchpl.macra_criteria_map as mcm set name = 'Patient Electronic Access: Eligible Provider Individual' where mcm.name = 'Patient Electronic Access:  Eligible Provider Individual';
+update openchpl.macra_criteria_map as mcm set name = 'Patient-Specific Education: Eligible Clinician Individual (TIN/NPI)' where mcm.name = 'Patient-Specific Education:  Eligible Clinician Individual (TIN/NPI)';
+update openchpl.macra_criteria_map as mcm set name = 'Patient-Specific Education: Eligible Hospital/Critical Access Hospital' where mcm.name = 'Patient-Specific Education:  Eligible Hospital/Critical Access Hospital';
+update openchpl.macra_criteria_map as mcm set name = 'Request/Accept Patient Care Record: Eligible Clinician Group' where mcm.name = 'Request/Accept Patient Care Record:  Eligible Clinician Group';
+update openchpl.macra_criteria_map as mcm set name = 'Request/Accept Patient Care Record: Eligible Clinician Individual (TIN/NPI)' where mcm.name = 'Request/Accept Patient Care Record:  Eligible Clinician Individual (TIN/NPI)';
+update openchpl.macra_criteria_map as mcm set name = 'Request/Accept Patient Care Record: Eligible Hospital/Critical Access Hospital' where mcm.name = 'Request/Accept Patient Care Record:  Eligible Hospital/Critical Access Hospital';
+update openchpl.macra_criteria_map as mcm set name = 'Request/Accept Patient Care Record: Eligible Provider Individual' where mcm.name = 'Request/Accept Patient Care Record:  Eligible Provider Individual';
+update openchpl.macra_criteria_map as mcm set name = 'View, Download, or Transmit (VDT): Eligible Clinician Group' where mcm.name = 'View, Download, or Transmit (VDT):  Eligible Clinician Group';
+update openchpl.macra_criteria_map as mcm set name = 'View, Download, or Transmit (VDT): Eligible Clinician Individual (TIN/NPI)' where mcm.name = 'View, Download, or Transmit (VDT):  Eligible Clinician Individual (TIN/NPI)';
+update openchpl.macra_criteria_map as mcm set name = 'View, Download, or Transmit (VDT): Eligible Hospital/Critical Access Hospital' where mcm.name = 'View, Download, or Transmit (VDT):  Eligible Hospital/Critical Access Hospital';
+update openchpl.macra_criteria_map as mcm set name = 'View, Download, or Transmit (VDT): Eligible Provider Individual' where mcm.name = 'View, Download, or Transmit (VDT):  Eligible Provider Individual';
