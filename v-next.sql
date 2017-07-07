@@ -40,6 +40,32 @@ LEFT OUTER JOIN openchpl.certification_body acb ON attestations.certification_bo
 WHERE v.deleted != true
 GROUP BY v.vendor_id, v.name, s.name;
 
+------------
+-- OCD-1408
+------------
+
+DROP TABLE IF EXISTS openchpl.pending_surveillance_validation;
+DROP TYPE IF EXISTS openchpl.validation_message_type;
+
+CREATE TYPE openchpl.validation_message_type as enum('Error', 'Warning');
+CREATE TABLE openchpl.pending_surveillance_validation (
+	id bigserial NOT NULL,
+	pending_surveillance_id bigint NOT NULL,
+	message_type openchpl.validation_message_type NOT NULL,
+	message text NOT NULL,
+	creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
+	CONSTRAINT pending_surveillance_validation_pk PRIMARY KEY (id),
+	CONSTRAINT pending_surveillance_fk FOREIGN KEY (pending_surveillance_id) 
+		REFERENCES openchpl.pending_surveillance (id) 
+		MATCH FULL ON DELETE CASCADE ON UPDATE CASCADE	
+);
+
+CREATE TRIGGER pending_surveillance_validation_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.pending_surveillance_validation FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+CREATE TRIGGER pending_surveillance_validation_timestamp BEFORE UPDATE on openchpl.pending_surveillance_validation FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
+
 -- Note: The user calling this script must be in the same directory as v-next. 
 --re-run grants
 \i dev/openchpl_grant-all.sql
