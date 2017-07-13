@@ -204,7 +204,7 @@ CREATE TABLE openchpl.user_permission(
 
 CREATE TABLE openchpl.qms_standard (
 	qms_standard_id bigserial NOT NULL,
-	name varchar(200) NOT NULL,
+	name varchar(255) NOT NULL,
 	creation_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_user bigint NOT NULL,
@@ -224,7 +224,7 @@ CREATE TABLE openchpl.targeted_user (
 
 CREATE TABLE openchpl.accessibility_standard (
 	accessibility_standard_id bigserial NOT NULL,
-	name varchar(300) NOT NULL,
+	name varchar(500) NOT NULL,
 	creation_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_user bigint NOT NULL,
@@ -612,7 +612,7 @@ CREATE TABLE openchpl.certification_result_test_functionality
 
 CREATE TABLE openchpl.ucd_process (
 	ucd_process_id bigserial not null,
-	name varchar(500),
+	name varchar(200),
 	creation_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_user bigint NOT NULL,
@@ -731,7 +731,7 @@ CREATE TABLE openchpl.certification_result_test_tool (
 	certification_result_test_tool_id bigserial NOT NULL,
 	certification_result_id bigint NOT NULL,
 	test_tool_id bigint NOT NULL,
-	version varchar(100),
+	version varchar(50),
 	creation_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_user bigint NOT NULL,
@@ -785,7 +785,7 @@ CREATE TABLE openchpl.testing_lab(
 	testing_lab_id bigserial NOT NULL,
 	testing_lab_code varchar(16),
 	address_id bigint,
-	name varchar(250) NOT NULL,
+	name varchar(300) NOT NULL,
 	accredidation_number varchar(25),
 	website varchar(300),
 	creation_date timestamp NOT NULL DEFAULT NOW(),
@@ -910,8 +910,8 @@ CREATE TABLE openchpl.address(
 	street_line_1 varchar(250) NOT NULL,
 	street_line_2 varchar(250),
 	city varchar(250) NOT NULL,
-	state varchar(100) NOT NULL,
-	zipcode varchar(100) NOT NULL,
+	state varchar(250) NOT NULL,
+	zipcode varchar(25) NOT NULL,
 	country varchar(250) NOT NULL,
 	creation_date timestamp NOT NULL DEFAULT now(),
 	last_modified_date timestamp NOT NULL DEFAULT now(),
@@ -960,7 +960,7 @@ CREATE TABLE openchpl.contact(
 	first_name varchar(250),
 	last_name varchar(250) NOT NULL,
 	email varchar(250) NOT NULL,
-	phone_number varchar(50) NOT NULL,
+	phone_number varchar(100) NOT NULL,
 	title varchar(250),
 	signature_date timestamp,
 	creation_date timestamp NOT NULL DEFAULT NOW(),

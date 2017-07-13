@@ -1,5 +1,10 @@
 # Release Notes
 
+## OCD-1651
+* update db field lengths to match spec
+
+---
+
 ## Version TBD
 _Date TBD_
 
