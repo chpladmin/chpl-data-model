@@ -16,6 +16,18 @@ ALTER TABLE openchpl.address
 ALTER COLUMN state TYPE varchar(250);
 
 --was 100; pending and spec say 25
+--we are shortening this column, first find any records that are too long and report on them
+DO $$
+BEGIN
+	raise notice 'Addresses with zipcode > 25 characters in length that will be truncated: ';
+END; 
+$$;
+SELECT * FROM openchpl.address where char_length(zipcode) > 25;
+--truncate the records that were too long so the alter table can complete
+UPDATE openchpl.address
+SET zipcode = substring(zipcode from 0 for 26)
+WHERE char_length(zipcode) > 25;
+--shorten the  column
 ALTER TABLE openchpl.address
 ALTER COLUMN zipcode TYPE varchar(25);
 
@@ -32,10 +44,34 @@ ALTER TABLE openchpl.accessibility_standard
 ALTER COLUMN name TYPE varchar(500);
 
 -- was 100; pending and spec say 50
+-- we are shortening this column, first find any records that are too long and report on them
+DO $$
+BEGIN
+	raise notice 'Test Tools with a version > 50 characters in length that will be truncated: ';
+END; 
+$$;
+SELECT * FROM openchpl.certification_result_test_tool where char_length(version) > 50;
+--truncate the records that were too long so the alter table can complete
+UPDATE openchpl.certification_result_test_tool
+SET version = substring(version from 0 for 51)
+WHERE char_length(version) > 50;
+--shorten the column
 ALTER TABLE openchpl.certification_result_test_tool
 ALTER COLUMN version TYPE varchar(50);
 
 -- was 500; pending and spec say 200
+-- we are shortening this column, first find any records that are too long and report on them
+DO $$
+BEGIN
+	raise notice 'UCD Processs with a name > 200 characters in length that will be truncated: ';
+END; 
+$$;
+SELECT * FROM openchpl.ucd_process where char_length(name) > 200;
+--truncate the records that were too long so the alter table can complete
+UPDATE openchpl.ucd_process
+SET name = substring(name from 0 for 201)
+WHERE char_length(name) > 200;
+
 ALTER TABLE openchpl.ucd_process
 ALTER COLUMN name TYPE varchar(200);
 
