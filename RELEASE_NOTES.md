@@ -1,7 +1,7 @@
 # Release Notes
 
-## Version TBD
-_Date TBD_
+## Version 11.1.0
+_17 July 2017_
 
 ### Table/view modification
 * Create new view for developers collections; combines all developers, transparency attestation urls and acb attestations
