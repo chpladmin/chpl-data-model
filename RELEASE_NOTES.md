@@ -1,5 +1,34 @@
 # Release Notes
 
+## Version 11.1.0
+_17 July 2017_
+
+### Table/view modification
+* Create new view for developers collections; combines all developers, transparency attestation urls and acb attestations
+* Create new table for pending surveillance validation messages
+
+### Data modification
+* Fix typo / extra spaces in G1/G2 Macra measures
+
+---
+
+## Version 11.0.1
+_3 July 2017_
+* Add activity concept for pending surveillance
+
+---
+
+## Version 11.0.0
+_3 July 2017_
+
+### Table modification
+* Alter ICS column to be an integer instead of varchar
+
+### Data modification
+* Added two new report types for ICS inconsistencies
+
+---
+
 ## Version 10.1.1
 _19 June 2017_
 

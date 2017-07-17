@@ -24,6 +24,7 @@ SET search_path TO pg_catalog,public,openchpl;
 -- ddl-end --
 
 CREATE TYPE openchpl.attestation as enum('Affirmative', 'Negative', 'N/A');
+CREATE TYPE openchpl.validation_message_type as enum('Error', 'Warning');
 
 -- object: openchpl.user | type: TABLE --
 -- DROP TABLE IF EXISTS openchpl.user CASCADE;
@@ -257,7 +258,7 @@ CREATE TABLE openchpl.certified_product(
 	accessibility_certified boolean,
 	product_code varchar(16),
 	version_code varchar(16),
-	ics_code varchar(16),
+	ics_code integer,
 	additional_software_code varchar(16),
 	certified_date_code varchar(16),
 	creation_date timestamp NOT NULL DEFAULT NOW(),
@@ -273,6 +274,23 @@ COMMENT ON TABLE openchpl.certified_product IS 'A product that has been Certifie
 -- ddl-end --
 -- ALTER TABLE openchpl.certified_product OWNER TO openchpl;
 -- ddl-end --
+
+CREATE TABLE openchpl.listing_to_listing_map(
+	listing_to_listing_map_id bigserial NOT NULL,
+	parent_listing_id bigint NOT NULL,
+	child_listing_id bigint NOT NULL,
+	creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
+	CONSTRAINT listing_to_listing_map_pk PRIMARY KEY (listing_to_listing_map_id),
+	CONSTRAINT parent_listing_fk FOREIGN KEY (parent_listing_id)
+		REFERENCES openchpl.certified_product(certified_product_id) MATCH SIMPLE
+		ON UPDATE NO ACTION ON DELETE NO ACTION,
+	CONSTRAINT child_listing_fk FOREIGN KEY (child_listing_id)
+		REFERENCES openchpl.certified_product(certified_product_id) MATCH SIMPLE
+		ON UPDATE NO ACTION ON DELETE NO ACTION
+);
 
 CREATE TABLE openchpl.certified_product_qms_standard(
 	certified_product_qms_standard_id bigserial not null,
@@ -2478,6 +2496,21 @@ CREATE TABLE openchpl.pending_surveillance_nonconformity (
 	CONSTRAINT pending_surveillance_requirement_fk FOREIGN KEY (pending_surveillance_requirement_id) 
 		REFERENCES openchpl.pending_surveillance_requirement (id) 
 		MATCH FULL ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE TABLE openchpl.pending_surveillance_validation (
+	id bigserial NOT NULL,
+	pending_surveillance_id bigint NOT NULL,
+	message_type openchpl.validation_message_type NOT NULL,
+	message text NOT NULL,
+	creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
+	CONSTRAINT pending_surveillance_validation_pk PRIMARY KEY (id),
+	CONSTRAINT pending_surveillance_fk FOREIGN KEY (pending_surveillance_id) 
+		REFERENCES openchpl.pending_surveillance (id) 
+		MATCH FULL ON DELETE CASCADE ON UPDATE CASCADE	
 );
 
 CREATE TABLE openchpl.muu_accurate_as_of_date (
