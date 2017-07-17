@@ -1,12 +1,15 @@
 # Release Notes
 
-## OCD-1651
-* update db field lengths to match spec
+## Version TBD
+_Date TBD_
+
+### Table/view modification
+* Update db field lengths to match spec
 
 ---
 
-## Version TBD
-_Date TBD_
+## Version 11.1.0
+_17 July 2017_
 
 ### Table/view modification
 * Create new view for developers collections; combines all developers, transparency attestation urls and acb attestations
