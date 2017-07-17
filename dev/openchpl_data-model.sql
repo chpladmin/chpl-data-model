@@ -256,18 +256,22 @@ CREATE TABLE openchpl.certified_product(
 	sed boolean,
 	qms boolean,
 	accessibility_certified boolean,
-	product_code varchar(16),
-	version_code varchar(16),
-	ics_code integer,
-	additional_software_code varchar(16),
-	certified_date_code varchar(16),
+	product_code varchar(4),
+	version_code varchar(2),
+	ics_code varchar(1),
+	additional_software_code varchar(1),
+	certified_date_code varchar(6),
 	creation_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_user bigint NOT NULL,
 	meaningful_use_users bigint,
 	deleted bool NOT NULL DEFAULT false,
-	CONSTRAINT certified_product_pk PRIMARY KEY (certified_product_id)
-
+	CONSTRAINT certified_product_pk PRIMARY KEY (certified_product_id),
+	CONSTRAINT product_code_regexp CHECK (product_code ~ $$^[a-zA-Z0-9_]*\Z$$),
+	CONSTRAINT version_code_regexp CHECK (version_code ~ $$^[a-zA-Z0-9_]*\Z$$),
+	CONSTRAINT ics_code_regexp CHECK (ics_code ~ $$^[0-9]*\Z$$),
+	CONSTRAINT additional_software_code_regexp CHECK (additional_software_code ~ $$^[01]*\Z$$),
+	CONSTRAINT certified_date_code_regexp CHECK (certified_date_code ~ $$^[0-9]*\Z$$)
 );
 -- ddl-end --
 COMMENT ON TABLE openchpl.certified_product IS 'A product that has been Certified';
