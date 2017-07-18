@@ -267,11 +267,11 @@ CREATE TABLE openchpl.certified_product(
 	meaningful_use_users bigint,
 	deleted bool NOT NULL DEFAULT false,
 	CONSTRAINT certified_product_pk PRIMARY KEY (certified_product_id),
-	CONSTRAINT product_code_regexp CHECK (product_code ~ $$^[a-zA-Z0-9_]*\Z$$),
-	CONSTRAINT version_code_regexp CHECK (version_code ~ $$^[a-zA-Z0-9_]*\Z$$),
-	CONSTRAINT ics_code_regexp CHECK (ics_code ~ $$^[0-9]*\Z$$),
-	CONSTRAINT additional_software_code_regexp CHECK (additional_software_code ~ $$^[01]*\Z$$),
-	CONSTRAINT certified_date_code_regexp CHECK (certified_date_code ~ $$^[0-9]*\Z$$)
+	CONSTRAINT product_code_regexp CHECK (product_code ~ $$^[a-zA-Z0-9_]{4}\Z$$),
+	CONSTRAINT version_code_regexp CHECK (version_code ~ $$^[a-zA-Z0-9_]{2}\Z$$),
+	CONSTRAINT ics_code_regexp CHECK (ics_code ~ $$^[0-9]{1}\Z$$),
+	CONSTRAINT additional_software_code_regexp CHECK (additional_software_code ~ $$^0|1\Z$$),
+	CONSTRAINT certified_date_code_regexp CHECK (certified_date_code ~ $$^[0-9]{6}\Z$$)
 );
 -- ddl-end --
 COMMENT ON TABLE openchpl.certified_product IS 'A product that has been Certified';

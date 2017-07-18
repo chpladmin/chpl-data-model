@@ -96,19 +96,19 @@ ALTER COLUMN product_code TYPE varchar(4);
 -- we are adding a constraint to this column, first check if any listings won't meet it
 DO $$
 BEGIN
-	raise notice 'Confirmed listings with product code that will be changed to match ^[a-zA-Z0-9_]*\Z: ';
+	raise notice 'Confirmed listings with product code that will be changed to match ^[a-zA-Z0-9_]{4}\Z: ';
 END; 
 $$;
 SELECT certified_product_id, product_code 
 FROM openchpl.certified_product
-WHERE product_code !~ $$^[a-zA-Z0-9_]*\Z$$;
+WHERE product_code !~ $$^[a-zA-Z0-9_]{4}\Z$$;
 --change those invalid product codes to underscores
 UPDATE openchpl.certified_product
-SET product_code = '_'
-WHERE product_code !~ $$^[a-zA-Z0-9_]*\Z$$;
+SET product_code = '____'
+WHERE product_code !~ $$^[a-zA-Z0-9_]{4}\Z$$;
 
 ALTER TABLE openchpl.certified_product DROP CONSTRAINT IF EXISTS product_code_regexp;
-ALTER TABLE openchpl.certified_product ADD CONSTRAINT product_code_regexp CHECK (product_code ~ $$^[a-zA-Z0-9_]*\Z$$);
+ALTER TABLE openchpl.certified_product ADD CONSTRAINT product_code_regexp CHECK (product_code ~ $$^[a-zA-Z0-9_]{4}\Z$$);
 
 -- was 16; spec says 4
 -- we are shortening this column, first find any records that are too long and report on them
@@ -131,19 +131,19 @@ ALTER COLUMN version_code TYPE varchar(2);
 -- we are adding a constraint to this column, first check if any listings won't meet it
 DO $$
 BEGIN
-	raise notice 'Confirmed listings with version code that will be changed to match ^[a-zA-Z0-9_]*\Z: ';
+	raise notice 'Confirmed listings with version code that will be changed to match ^[a-zA-Z0-9_]{2}\Z: ';
 END; 
 $$;
 SELECT certified_product_id, version_code 
 FROM openchpl.certified_product
-WHERE version_code !~ $$^[a-zA-Z0-9_]*\Z$$;
+WHERE version_code !~ $$^[a-zA-Z0-9_]{2}\Z$$;
 --change those invalid version codes to underscores
 UPDATE openchpl.certified_product
-SET version_code = '_'
-WHERE version_code !~ $$^[a-zA-Z0-9_]*\Z$$;
+SET version_code = '__'
+WHERE version_code !~ $$^[a-zA-Z0-9_]{2}\Z$$;
 
 ALTER TABLE openchpl.certified_product DROP CONSTRAINT IF EXISTS version_code_regexp;
-ALTER TABLE openchpl.certified_product ADD CONSTRAINT version_code_regexp CHECK (version_code ~ $$^[a-zA-Z0-9_]*\Z$$);
+ALTER TABLE openchpl.certified_product ADD CONSTRAINT version_code_regexp CHECK (version_code ~ $$^[a-zA-Z0-9_]{2}\Z$$);
 
 -- was integer; spec says varchar(1)
 -- report on any that aren't one char in length
@@ -173,19 +173,19 @@ ALTER COLUMN ics_code TYPE varchar(1);
 -- we are adding a constraint to this column, first check if any listings won't meet it
 DO $$
 BEGIN
-	raise notice 'Confirmed listings with ics code that will be changed to match ^[0-9]*\Z: ';
+	raise notice 'Confirmed listings with ics code that will be changed to match ^[0-9]{1}\Z: ';
 END; 
 $$;
 SELECT certified_product_id, ics_code 
 FROM openchpl.certified_product
-WHERE ics_code !~ $$^[0-9]*\Z$$;
+WHERE ics_code !~ $$^[0-9]{1}\Z$$;
 --change those invalid ics codes to 0s
 UPDATE openchpl.certified_product
 SET ics_code = '0'
-WHERE ics_code !~ $$^[0-9]*\Z$$;
+WHERE ics_code !~ $$^[0-9]{1}\Z$$;
 
 ALTER TABLE openchpl.certified_product DROP CONSTRAINT IF EXISTS ics_code_regexp;
-ALTER TABLE openchpl.certified_product ADD CONSTRAINT ics_code_regexp CHECK (ics_code ~ $$^[0-9]*\Z$$);
+ALTER TABLE openchpl.certified_product ADD CONSTRAINT ics_code_regexp CHECK (ics_code ~ $$^[0-9]{1}\Z$$);
 
 
 -- was 16; spec says varchar(1)
@@ -209,12 +209,12 @@ ALTER COLUMN additional_software_code TYPE varchar(1);
 -- we are adding a constraint to this column, first check if any listings won't meet it
 DO $$
 BEGIN
-	raise notice 'Confirmed listings with additional software code that will be changed to match ^[01]*\Z: ';
+	raise notice 'Confirmed listings with additional software code that will be changed to match ^0|1\Z: ';
 END; 
 $$;
 SELECT certified_product_id, additional_software_code 
 FROM openchpl.certified_product
-WHERE additional_software_code !~ $$^[01]*\Z$$;
+WHERE additional_software_code !~ $$^0|1\Z$$;
 --change those invalid additional software codes to 0s
 UPDATE openchpl.certified_product updatedCp
 SET additional_software_code = 
@@ -229,10 +229,10 @@ SET additional_software_code =
 		JOIN openchpl.certification_result_additional_software addSoft ON addSoft.certification_result_id = cert.certification_result_id
 		WHERE selectedCp.certified_product_id = updatedCp.certified_product_id
 	)
-WHERE updatedCp.additional_software_code !~ $$^[01]*\Z$$;
+WHERE updatedCp.additional_software_code !~ $$^0|1\Z$$;
 
 ALTER TABLE openchpl.certified_product DROP CONSTRAINT IF EXISTS additional_software_code_regexp;
-ALTER TABLE openchpl.certified_product ADD CONSTRAINT additional_software_code_regexp CHECK (additional_software_code ~ $$^[01]*\Z$$);
+ALTER TABLE openchpl.certified_product ADD CONSTRAINT additional_software_code_regexp CHECK (additional_software_code ~ $$^0|1\Z$$);
 
 
 -- was 16; spec says 4
@@ -256,19 +256,19 @@ ALTER COLUMN certified_date_code TYPE varchar(6);
 -- we are adding a constraint to this column, first check if any listings won't meet it
 DO $$
 BEGIN
-	raise notice 'Confirmed listings with certified date code that will be changed to match ^[0-9]*: ';
+	raise notice 'Confirmed listings with certified date code that will be changed to match ^[0-9]{6}\Z: ';
 END; 
 $$;
 SELECT certified_product_id, certified_date_code 
 FROM openchpl.certified_product
-WHERE certified_date_code !~ $$^[0-9]*\Z$$;
+WHERE certified_date_code !~ $$^[0-9]{6}\Z$$;
 --change those invalid certrified date codes to 0s
 UPDATE openchpl.certified_product
 SET certified_date_code = '000000'
-WHERE certified_date_code !~ $$^[0-9]*\Z$$;
+WHERE certified_date_code !~ $$^[0-9]{6}\Z$$;
 
 ALTER TABLE openchpl.certified_product DROP CONSTRAINT IF EXISTS certified_date_code_regexp;
-ALTER TABLE openchpl.certified_product ADD CONSTRAINT certified_date_code_regexp CHECK (certified_date_code ~ $$^[0-9]*\Z$$);
+ALTER TABLE openchpl.certified_product ADD CONSTRAINT certified_date_code_regexp CHECK (certified_date_code ~ $$^[0-9]{6}\Z$$);
 	
 -- Note: The user calling this script must be in the same directory as v-next. 
 -- recreate all the views
