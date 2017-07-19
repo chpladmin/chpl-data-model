@@ -5,6 +5,7 @@ _Date TBD_
 
 ### Table/view modification
 * Update db field lengths to match spec
+* Add constraints to db fields for unique CHPL id codes for length and content.
 
 ---
 
