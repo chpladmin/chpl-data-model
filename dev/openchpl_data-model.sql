@@ -258,7 +258,7 @@ CREATE TABLE openchpl.certified_product(
 	accessibility_certified boolean,
 	product_code varchar(4),
 	version_code varchar(2),
-	ics_code varchar(1),
+	ics_code varchar(2),
 	additional_software_code varchar(1),
 	certified_date_code varchar(6),
 	creation_date timestamp NOT NULL DEFAULT NOW(),
