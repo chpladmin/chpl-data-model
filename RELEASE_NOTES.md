@@ -1,7 +1,7 @@
 # Release Notes
 
-## Version TBD
-_Date TBD_
+## Version 12.0.0
+_31 July 2017_
 
 ### Table/view modification
 * Update db field lengths to match spec
