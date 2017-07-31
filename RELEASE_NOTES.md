@@ -1,5 +1,17 @@
 # Release Notes
 
+## Version 12.0.0
+_31 July 2017_
+
+### Table/view modification
+* Update db field lengths to match spec
+* Add constraints to db fields for unique CHPL id codes for length and content.
+
+### Maintenance ability
+* Added file to remove PROD notifications and insert QA ones
+
+---
+
 ## Version 11.1.0
 _17 July 2017_
 

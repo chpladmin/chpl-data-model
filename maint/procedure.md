@@ -2,7 +2,7 @@
 
 **Read this entire document before beginning anything.**
 
-This document outlines the steps that will need to be followed to migrate a database from "initial-machine" to "target-machine". That said, certain lines will need to be modified based on the user that's taking the activity. These lines are not all meant to be copy/pasted
+This document outlines the steps that will need to be followed to migrate a database from "initial-machine" to "target-machine". That said, certain lines will need to be modified based on the user that's taking the activity. These lines are not all meant to be copy/pasted. "initial-machine" or "target-machine" may be local or remote, depending on the circumstances.
 
 # Set initial/target machines
 
@@ -42,19 +42,26 @@ rsync -zP openchpl.backup $target_machine:chpl-data-model/maint
 
 # Log into the target machine and load the data files
 
+If the target machine is running CHPL at the time, it is recommended that apache be stopped/started around the load, to avoid any database activity during the load process. The below lines include those steps.
+
 ```sh
 ssh $target_machine
 cd chpl-data-model/maint
 service apache2 stop && ./load.sh $DB openchpl_dev || service apache2 start
 ```
 
-Load the users
+## If going from PRODUCTION to STG
+
+Load the users & update the Notifications
 
 ```sh
 psql -U openchpl_dev -h $DB -f users.sql openchpl
+psql -U openchpl_dev -h $DB -f subscriptions.sql openchpl
 ```
 
 # Update the target machine with whatever is "new" as per git
+
+The "analyze" command is optional
 
 ```sh
 cd ..
@@ -71,7 +78,7 @@ service tomcat8 stop
 service tomcat8 start
 ```
 
-## Edit users.sql file to add any users w/encrypted passwords and the things they should be managers of.
+## Edit users.sql file to add any users w/encrypted passwords and the things they should be managers of
 
 ## First time setup instructions include:
 

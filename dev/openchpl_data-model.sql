@@ -204,7 +204,7 @@ CREATE TABLE openchpl.user_permission(
 
 CREATE TABLE openchpl.qms_standard (
 	qms_standard_id bigserial NOT NULL,
-	name varchar(200) NOT NULL,
+	name varchar(255) NOT NULL,
 	creation_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_user bigint NOT NULL,
@@ -224,7 +224,7 @@ CREATE TABLE openchpl.targeted_user (
 
 CREATE TABLE openchpl.accessibility_standard (
 	accessibility_standard_id bigserial NOT NULL,
-	name varchar(300) NOT NULL,
+	name varchar(500) NOT NULL,
 	creation_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_user bigint NOT NULL,
@@ -256,18 +256,22 @@ CREATE TABLE openchpl.certified_product(
 	sed boolean,
 	qms boolean,
 	accessibility_certified boolean,
-	product_code varchar(16),
-	version_code varchar(16),
-	ics_code integer,
-	additional_software_code varchar(16),
-	certified_date_code varchar(16),
+	product_code varchar(4),
+	version_code varchar(2),
+	ics_code varchar(1),
+	additional_software_code varchar(1),
+	certified_date_code varchar(6),
 	creation_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_user bigint NOT NULL,
 	meaningful_use_users bigint,
 	deleted bool NOT NULL DEFAULT false,
-	CONSTRAINT certified_product_pk PRIMARY KEY (certified_product_id)
-
+	CONSTRAINT certified_product_pk PRIMARY KEY (certified_product_id),
+	CONSTRAINT product_code_regexp CHECK (product_code ~ $$^[a-zA-Z0-9_]{4}\Z$$),
+	CONSTRAINT version_code_regexp CHECK (version_code ~ $$^[a-zA-Z0-9_]{2}\Z$$),
+	CONSTRAINT ics_code_regexp CHECK (ics_code ~ $$^[0-9]{1}\Z$$),
+	CONSTRAINT additional_software_code_regexp CHECK (additional_software_code ~ $$^0|1\Z$$),
+	CONSTRAINT certified_date_code_regexp CHECK (certified_date_code ~ $$^[0-9]{6}\Z$$)
 );
 -- ddl-end --
 COMMENT ON TABLE openchpl.certified_product IS 'A product that has been Certified';
@@ -612,7 +616,7 @@ CREATE TABLE openchpl.certification_result_test_functionality
 
 CREATE TABLE openchpl.ucd_process (
 	ucd_process_id bigserial not null,
-	name varchar(500),
+	name varchar(200),
 	creation_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_user bigint NOT NULL,
@@ -731,7 +735,7 @@ CREATE TABLE openchpl.certification_result_test_tool (
 	certification_result_test_tool_id bigserial NOT NULL,
 	certification_result_id bigint NOT NULL,
 	test_tool_id bigint NOT NULL,
-	version varchar(100),
+	version varchar(50),
 	creation_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_user bigint NOT NULL,
@@ -785,7 +789,7 @@ CREATE TABLE openchpl.testing_lab(
 	testing_lab_id bigserial NOT NULL,
 	testing_lab_code varchar(16),
 	address_id bigint,
-	name varchar(250) NOT NULL,
+	name varchar(300) NOT NULL,
 	accredidation_number varchar(25),
 	website varchar(300),
 	creation_date timestamp NOT NULL DEFAULT NOW(),
@@ -910,8 +914,8 @@ CREATE TABLE openchpl.address(
 	street_line_1 varchar(250) NOT NULL,
 	street_line_2 varchar(250),
 	city varchar(250) NOT NULL,
-	state varchar(100) NOT NULL,
-	zipcode varchar(100) NOT NULL,
+	state varchar(250) NOT NULL,
+	zipcode varchar(25) NOT NULL,
 	country varchar(250) NOT NULL,
 	creation_date timestamp NOT NULL DEFAULT now(),
 	last_modified_date timestamp NOT NULL DEFAULT now(),
@@ -960,7 +964,7 @@ CREATE TABLE openchpl.contact(
 	first_name varchar(250),
 	last_name varchar(250) NOT NULL,
 	email varchar(250) NOT NULL,
-	phone_number varchar(50) NOT NULL,
+	phone_number varchar(100) NOT NULL,
 	title varchar(250),
 	signature_date timestamp,
 	creation_date timestamp NOT NULL DEFAULT NOW(),
