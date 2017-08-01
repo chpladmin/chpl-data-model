@@ -20,6 +20,15 @@ WHERE ics_code ~ $$^[0-9]{1}\Z$$;
 
 ALTER TABLE openchpl.certified_product ADD CONSTRAINT ics_code_regexp CHECK (ics_code ~ $$^[0-9]{2}\Z$$);
 
+
+-- remove unused 'age' column; add two columns to store user-entered values for later error messages
+ALTER TABLE openchpl.pending_test_participant DROP COLUMN IF EXISTS age;
+ALTER TABLE openchpl.pending_test_participant DROP COLUMN IF EXISTS user_entered_age;
+ALTER TABLE openchpl.pending_test_participant DROP COLUMN IF EXISTS user_entered_education_type;
+
+ALTER TABLE openchpl.pending_test_participant ADD COLUMN user_entered_age varchar(32);
+ALTER TABLE openchpl.pending_test_participant ADD COLUMN user_entered_education_type varchar(250);
+
 -- Note: The user calling this script must be in the same directory as v-next. 
 -- recreate all the views
 \i dev/openchpl_views.sql
