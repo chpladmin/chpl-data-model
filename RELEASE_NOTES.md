@@ -6,6 +6,7 @@ _Date TBD_
 ### Table/view modification
 * Increased ICS Code length from 1 to 2; prepended '0' in front of any codes that were previously 1 character
 * Add columns to save the user-entered age range and education level of test participants.
+* Add ONC report types Weekly Statistics and Questionable Activity
 
 ---
 
