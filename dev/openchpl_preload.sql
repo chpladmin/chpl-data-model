@@ -1306,6 +1306,6 @@ SELECT id, -2, -1 FROM openchpl.notification_type WHERE name = 'ONC Weekly Surve
 INSERT INTO openchpl.notification_type_permission (notification_type_id, permission_id, last_modified_user) 
 SELECT id, -2, -1 FROM openchpl.notification_type WHERE name = 'ONC Weekly ICS Family Errors';
 INSERT INTO openchpl.notification_type_permission (notification_type_id, permission_id, last_modified_user) 
-SELECT id, -2, -1 FROM openchpl.notification_type WHERE name = 'Weekly Statistics';
+SELECT id, -2, -1 FROM openchpl.notification_type WHERE name = 'Summary Statistics';
 INSERT INTO openchpl.notification_type_permission (notification_type_id, permission_id, last_modified_user) 
 SELECT id, -2, -1 FROM openchpl.notification_type WHERE name = 'Questionable Activity';
