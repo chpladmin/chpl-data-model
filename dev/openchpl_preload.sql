@@ -1284,7 +1284,7 @@ VALUES ('ONC-ACB Daily Surveillance Broken Rules', 'A daily email of surveillanc
 ('ONC Daily Surveillance Broken Rules', 'A daily email of surveillance rules that have been broken within the last day for any listing.', false, -1), 
 ('ONC Weekly Surveillance Broken Rules', 'A weekly email of all surveillance rules that are currently broken for any listing.', false, -1),
 ('ONC Weekly ICS Family Errors', 'A weekly email of all listings that are marked as having ICS but do not specify a parent.', false, -1),
-('Weekly Statistics', 'A weekly email with both current and historical statistics on the CHPL.', false, -1),
+('Summary Statistics', 'An email with both current and historical statistics on the CHPL.', false, -1),
 ('Questionable Activity', 'An email that is generated whenever ONC-specified user actions on the CHPL occur.', false, -1);
 
 INSERT INTO openchpl.notification_type_permission (notification_type_id, permission_id, last_modified_user)

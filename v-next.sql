@@ -47,8 +47,8 @@ SELECT
 WHERE NOT EXISTS (
     SELECT * 
 	FROM openchpl.notification_type 
-	WHERE  name =  'Weekly Statistics'
-	AND description = 'A weekly email with both current and historical statistics on the CHPL.'
+	WHERE  name =  'Summary Statistics'
+	AND description = 'An email with both current and historical statistics on the CHPL.'
 );
 
 INSERT INTO openchpl.notification_type (name, description, requires_acb, last_modified_user)
@@ -69,13 +69,13 @@ WHERE NOT EXISTS (
 --
 INSERT INTO openchpl.notification_type_permission (notification_type_id, permission_id, last_modified_user)
 	SELECT
-		(SELECT id FROM openchpl.notification_type WHERE name = 'Weekly Statistics'),
+		(SELECT id FROM openchpl.notification_type WHERE name = 'Summary Statistics'),
 		-2,
 		-1
 WHERE NOT EXISTS (
     SELECT * 
 	FROM openchpl.notification_type_permission 
-	WHERE  notification_type_id = (SELECT id FROM openchpl.notification_type WHERE name = 'Weekly Statistics')
+	WHERE  notification_type_id = (SELECT id FROM openchpl.notification_type WHERE name = 'Summary Statistics')
 	AND permission_id = -2
 );
 
