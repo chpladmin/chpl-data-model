@@ -34,3 +34,59 @@ ALTER TABLE openchpl.pending_test_participant ADD COLUMN user_entered_education_
 \i dev/openchpl_views.sql
 --re-run grants
 \i dev/openchpl_grant-all.sql
+
+--
+-- add two new report types for weekly statistics and questionable activity
+--
+INSERT INTO openchpl.notification_type (name, description, requires_acb, last_modified_user)
+SELECT 
+   'Weekly Statistics', 
+   'A weekly email with both current and historical statistics on the CHPL.',
+   false, 
+   -1
+WHERE NOT EXISTS (
+    SELECT * 
+	FROM openchpl.notification_type 
+	WHERE  name =  'Summary Statistics'
+	AND description = 'An email with both current and historical statistics on the CHPL.'
+);
+
+INSERT INTO openchpl.notification_type (name, description, requires_acb, last_modified_user)
+SELECT 
+	'Questionable Activity', 
+   'An email that is generated whenever ONC-specified user actions on the CHPL occur.', 
+   false, 
+   -1
+WHERE NOT EXISTS (
+    SELECT * 
+	FROM openchpl.notification_type 
+	WHERE  name = 'Questionable Activity'
+	AND description = 'An email that is generated whenever ONC-specified user actions on the CHPL occur.'
+);
+
+--
+-- add permissions for the new report types
+--
+INSERT INTO openchpl.notification_type_permission (notification_type_id, permission_id, last_modified_user)
+	SELECT
+		(SELECT id FROM openchpl.notification_type WHERE name = 'Summary Statistics'),
+		-2,
+		-1
+WHERE NOT EXISTS (
+    SELECT * 
+	FROM openchpl.notification_type_permission 
+	WHERE  notification_type_id = (SELECT id FROM openchpl.notification_type WHERE name = 'Summary Statistics')
+	AND permission_id = -2
+);
+
+INSERT INTO openchpl.notification_type_permission (notification_type_id, permission_id, last_modified_user)
+	SELECT
+		(SELECT id FROM openchpl.notification_type WHERE name = 'Questionable Activity'),
+		-2,
+		-1
+WHERE NOT EXISTS (
+    SELECT * 
+	FROM openchpl.notification_type_permission 
+	WHERE  notification_type_id = (SELECT id FROM openchpl.notification_type WHERE name = 'Questionable Activity')
+	AND permission_id = -2
+);
