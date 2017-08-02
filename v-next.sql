@@ -36,12 +36,12 @@ ALTER TABLE openchpl.pending_test_participant ADD COLUMN user_entered_education_
 \i dev/openchpl_grant-all.sql
 
 --
--- add two new report types for weekly statistics and questionable activity
+-- add two new report types for statistics and questionable activity
 --
 INSERT INTO openchpl.notification_type (name, description, requires_acb, last_modified_user)
 SELECT 
-   'Weekly Statistics', 
-   'A weekly email with both current and historical statistics on the CHPL.',
+   'Summary Statistics', 
+   'An email with both current and historical statistics on the CHPL.',
    false, 
    -1
 WHERE NOT EXISTS (
