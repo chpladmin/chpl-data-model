@@ -21,4 +21,4 @@ Rename `dev/openchpl_role-template.sql` to `dev/openchpl_role.sql` and set the p
 
 Next, run the script `dev/reset.sh` or `dev/reset.bat` from the `/dev` directory. These two scripts remove any previous OpenCHPL data model installation, with the associated roles, then recreate the required roles and databases, as well as fill out some of those database schemas with some required information.
 
-Next, follow the procedure.md file to load the CHPL with data. 
+Next, follow the `maint/procedure.md` file to load the CHPL with data.
