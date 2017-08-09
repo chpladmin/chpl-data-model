@@ -28,7 +28,7 @@ insert into openchpl.global_user_permission_map (user_id, user_permission_id_use
     ,((select user_id from openchpl.user where user_name = 'andlar-acb'), 2, -2)
     ,((select user_id from openchpl.user where user_name = 'kekey-icsa'), 2, -2)
     ,((select user_id from openchpl.user where user_name = 'amore-icsa'), 2, -2)
-    ,((select user_id from openchpl.user where user_name = 'blindsey'), 2, -2)
+    ,((select user_id from openchpl.user where user_name = 'blindsey'), -2, -2)
     ;
 
 /*
