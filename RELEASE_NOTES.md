@@ -1,7 +1,7 @@
 # Release Notes
 
-## Version TBD
-_Date TBD_
+## Version 12.1.0
+_14 August 2017_
 
 ### Table/view modification
 * Increased ICS Code length from 1 to 2; prepended '0' in front of any codes that were previously 1 character
