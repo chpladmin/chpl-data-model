@@ -1,5 +1,15 @@
 # Release Notes
 
+## Version 12.1.0
+_14 August 2017_
+
+### Table/view modification
+* Increased ICS Code length from 1 to 2; prepended '0' in front of any codes that were previously 1 character
+* Add columns to save the user-entered age range and education level of test participants.
+* Add ONC report types Weekly Statistics and Questionable Activity
+
+---
+
 ## Version 12.0.0
 _31 July 2017_
 
