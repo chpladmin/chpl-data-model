@@ -7,6 +7,7 @@ _14 August 2017_
 * Increased ICS Code length from 1 to 2; prepended '0' in front of any codes that were previously 1 character
 * Add columns to save the user-entered age range and education level of test participants.
 * Add ONC report types Weekly Statistics and Questionable Activity
+* Migrate participants to be linked to a test task only rather than a test task+certification result. This includes a new table and next time will result in the removal of the old table.
 
 ---
 
