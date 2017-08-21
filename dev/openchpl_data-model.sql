@@ -2713,9 +2713,6 @@ test_standard_id, deleted);
 CREATE INDEX ix_certification_result_test_task ON openchpl.certification_result_test_task (certification_result_test_task_id, certification_result_id, 
 test_task_id, deleted);
 
-CREATE INDEX ix_certification_result_test_task_participant ON openchpl.certification_result_test_task_participant (certification_result_test_task_participant_id, 
-certification_result_test_task_id, test_participant_id, deleted);
-
 CREATE INDEX ix_certification_result_test_tool ON openchpl.certification_result_test_tool (certification_result_test_tool_id, certification_result_id, 
 test_tool_id, deleted);
 
