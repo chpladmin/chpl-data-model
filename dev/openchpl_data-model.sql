@@ -478,6 +478,23 @@ CREATE TABLE openchpl.test_participant(
 	ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
+CREATE TABLE openchpl.test_task_participant_map (
+	id bigserial NOT NULL,
+	test_task_id bigint NOT NULL,
+	test_participant_id bigint NOT NULL,
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool DEFAULT false,
+	CONSTRAINT test_task_participant_map_pk PRIMARY KEY (id),
+	CONSTRAINT test_task_fk FOREIGN KEY (test_task_id) 
+		REFERENCES openchpl.test_task (test_task_id) 
+		MATCH FULL ON DELETE CASCADE ON UPDATE CASCADE,
+	CONSTRAINT test_participant_fk FOREIGN KEY (test_participant_id) 
+		REFERENCES openchpl.test_participant (test_participant_id) 
+		MATCH FULL ON DELETE CASCADE ON UPDATE CASCADE
+);
+
 --allowable values per criteria for g1/g2
 CREATE TABLE openchpl.macra_criteria_map (
 	id bigserial not null,
@@ -533,23 +550,6 @@ CREATE TABLE openchpl.certification_result_test_task (
       ON UPDATE NO ACTION ON DELETE NO ACTION,
 	CONSTRAINT test_task_fk FOREIGN KEY (test_task_id)
       REFERENCES openchpl.test_task (test_task_id) MATCH SIMPLE
-      ON UPDATE NO ACTION ON DELETE NO ACTION
-);
-
-CREATE TABLE openchpl.certification_result_test_task_participant (
-	certification_result_test_task_participant_id bigserial not null,
-	certification_result_test_task_id bigint not null,
-	test_participant_id bigint,
-	creation_date timestamp NOT NULL DEFAULT NOW(),
-	last_modified_date timestamp NOT NULL DEFAULT NOW(),
-	last_modified_user bigint NOT NULL,
-	deleted bool NOT NULL DEFAULT false,
-	constraint certification_result_test_task_participant_pk primary key (certification_result_test_task_participant_id),
-	CONSTRAINT certification_result_test_task_fk FOREIGN KEY (certification_result_test_task_id)
-      REFERENCES openchpl.certification_result_test_task (certification_result_test_task_id) MATCH SIMPLE
-      ON UPDATE NO ACTION ON DELETE NO ACTION,
-	CONSTRAINT test_participant_fk FOREIGN KEY (test_participant_id)
-      REFERENCES openchpl.test_participant (test_participant_id) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION
 );
 
@@ -2712,9 +2712,6 @@ test_standard_id, deleted);
 
 CREATE INDEX ix_certification_result_test_task ON openchpl.certification_result_test_task (certification_result_test_task_id, certification_result_id, 
 test_task_id, deleted);
-
-CREATE INDEX ix_certification_result_test_task_participant ON openchpl.certification_result_test_task_participant (certification_result_test_task_participant_id, 
-certification_result_test_task_id, test_participant_id, deleted);
 
 CREATE INDEX ix_certification_result_test_tool ON openchpl.certification_result_test_tool (certification_result_test_tool_id, certification_result_id, 
 test_tool_id, deleted);
