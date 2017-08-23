@@ -94,7 +94,7 @@ CREATE TABLE openchpl.certification_body(
 CREATE TABLE openchpl.product(
 	product_id bigserial NOT NULL,
 	vendor_id bigint NOT NULL,
-	contact_id bigint, 
+	contact_id bigint,
 	name varchar(300) NOT NULL,
 	report_file_location varchar(255),
 	creation_date timestamp NOT NULL DEFAULT NOW(),
@@ -161,9 +161,9 @@ CREATE TABLE openchpl.vendor_status_history (
 	last_modified_user bigint NOT NULL,
 	deleted bool NOT NULL DEFAULT false,
 	CONSTRAINT vendor_status_history_pk PRIMARY KEY (vendor_status_history_id),
-	CONSTRAINT vendor_fk FOREIGN KEY (vendor_id) REFERENCES openchpl.vendor (vendor_id) 
+	CONSTRAINT vendor_fk FOREIGN KEY (vendor_id) REFERENCES openchpl.vendor (vendor_id)
 		MATCH FULL ON DELETE RESTRICT ON UPDATE CASCADE,
-	CONSTRAINT vendor_status_fk FOREIGN KEY (vendor_status_id) REFERENCES openchpl.vendor_status (vendor_status_id) 
+	CONSTRAINT vendor_status_fk FOREIGN KEY (vendor_status_id) REFERENCES openchpl.vendor_status (vendor_status_id)
 		MATCH FULL ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
@@ -427,44 +427,41 @@ CREATE TABLE openchpl.education_type(
 	last_modified_user bigint NOT NULL,
 	deleted bool NOT NULL DEFAULT false,
 	CONSTRAINT education_type_pk PRIMARY KEY (education_type_id)
-
 );
 
 CREATE TABLE openchpl.test_task(
 	test_task_id bigserial NOT NULL,
-	description text,
-	task_success_avg_pct float,
-	task_success_stddev_pct float,
-	task_path_deviation_observed int,
-	task_path_deviation_optimal int,
-	task_time_avg_seconds bigint,
-	task_time_stddev_seconds int,
-	task_time_deviation_observed_avg_seconds int,
-	task_time_deviation_optimal_avg_seconds int,
-	task_errors_pct float,
-	task_errors_stddev_pct float,
-	task_rating_scale varchar(50),
-	task_rating float,
-	task_rating_stddev float,
+	description text NOT NULL,
+	task_success_avg_pct float NOT NULL,
+	task_success_stddev_pct float NOT NULL,
+	task_path_deviation_observed int NOT NULL,
+	task_path_deviation_optimal int NOT NULL,
+	task_time_avg_seconds bigint NOT NULL,
+	task_time_stddev_seconds int NOT NULL,
+	task_time_deviation_observed_avg_seconds int NOT NULL,
+	task_time_deviation_optimal_avg_seconds int NOT NULL,
+	task_errors_pct float NOT NULL,
+	task_errors_stddev_pct float NOT NULL,
+	task_rating_scale varchar(50) NOT NULL,
+	task_rating float NOT NULL,
+	task_rating_stddev float NOT NULL,
 	creation_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_user bigint NOT NULL,
 	deleted bool NOT NULL DEFAULT false,
 	CONSTRAINT test_task_pk PRIMARY KEY (test_task_id)
-
 );
 
 CREATE TABLE openchpl.test_participant(
 	test_participant_id bigserial NOT NULL,
-	gender varchar(100),
-	age smallint,
-    test_participant_age_id bigint,
-	education_type_id bigint,
-	occupation varchar(250),
-	professional_experience_months int,
-	computer_experience_months int,
-	product_experience_months int,
-	assistive_technology_needs varchar(250),
+	gender varchar(100) NOT NULL,
+    test_participant_age_id bigint NOT NULL,
+	education_type_id bigint NOT NULL,
+	occupation varchar(250) NOT NULL,
+	professional_experience_months int NOT NULL,
+	computer_experience_months int NOT NULL,
+	product_experience_months int NOT NULL,
+	assistive_technology_needs varchar(250) NOT NULL,
 	creation_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_user bigint NOT NULL,
@@ -487,11 +484,11 @@ CREATE TABLE openchpl.test_task_participant_map (
 	last_modified_user bigint NOT NULL,
 	deleted bool DEFAULT false,
 	CONSTRAINT test_task_participant_map_pk PRIMARY KEY (id),
-	CONSTRAINT test_task_fk FOREIGN KEY (test_task_id) 
-		REFERENCES openchpl.test_task (test_task_id) 
+	CONSTRAINT test_task_fk FOREIGN KEY (test_task_id)
+		REFERENCES openchpl.test_task (test_task_id)
 		MATCH FULL ON DELETE CASCADE ON UPDATE CASCADE,
-	CONSTRAINT test_participant_fk FOREIGN KEY (test_participant_id) 
-		REFERENCES openchpl.test_participant (test_participant_id) 
+	CONSTRAINT test_participant_fk FOREIGN KEY (test_participant_id)
+		REFERENCES openchpl.test_participant (test_participant_id)
 		MATCH FULL ON DELETE CASCADE ON UPDATE CASCADE
 );
 
@@ -506,9 +503,9 @@ CREATE TABLE openchpl.macra_criteria_map (
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_user bigint NOT NULL,
 	deleted bool NOT NULL DEFAULT false,
-	CONSTRAINT macra_criteria_map_pk PRIMARY KEY (id),	
-	CONSTRAINT macra_criteria_fk FOREIGN KEY (criteria_id) 
-		REFERENCES openchpl.certification_criterion (certification_criterion_id) 
+	CONSTRAINT macra_criteria_map_pk PRIMARY KEY (id),
+	CONSTRAINT macra_criteria_fk FOREIGN KEY (criteria_id)
+		REFERENCES openchpl.certification_criterion (certification_criterion_id)
 		MATCH FULL ON DELETE RESTRICT ON UPDATE CASCADE,
 	CONSTRAINT macra_criteria_unique UNIQUE (criteria_id, value)
 );
@@ -757,11 +754,11 @@ CREATE TABLE openchpl.certification_result_g1_macra (
 	last_modified_user bigint NOT NULL,
 	deleted bool NOT NULL DEFAULT false,
 	CONSTRAINT certification_result_g1_macra_pk PRIMARY KEY (id),
-	CONSTRAINT macra_g1_criteria_map_fk FOREIGN KEY (macra_id) 
-		REFERENCES openchpl.macra_criteria_map (id) 
-		MATCH FULL ON DELETE RESTRICT ON UPDATE CASCADE,	
-	CONSTRAINT g1_macra_certification_result_fk FOREIGN KEY (certification_result_id) 
-		REFERENCES openchpl.certification_result (certification_result_id) 
+	CONSTRAINT macra_g1_criteria_map_fk FOREIGN KEY (macra_id)
+		REFERENCES openchpl.macra_criteria_map (id)
+		MATCH FULL ON DELETE RESTRICT ON UPDATE CASCADE,
+	CONSTRAINT g1_macra_certification_result_fk FOREIGN KEY (certification_result_id)
+		REFERENCES openchpl.certification_result (certification_result_id)
 		MATCH FULL ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
@@ -775,11 +772,11 @@ CREATE TABLE openchpl.certification_result_g2_macra (
 	last_modified_user bigint NOT NULL,
 	deleted bool NOT NULL DEFAULT false,
 	CONSTRAINT certification_result_g2_macra_pk PRIMARY KEY (id),
-	CONSTRAINT macra_g2_criteria_map_fk FOREIGN KEY (macra_id) 
-		REFERENCES openchpl.macra_criteria_map (id) 
-		MATCH FULL ON DELETE RESTRICT ON UPDATE CASCADE,	
-	CONSTRAINT g2_macra_certification_result_fk FOREIGN KEY (certification_result_id) 
-		REFERENCES openchpl.certification_result (certification_result_id) 
+	CONSTRAINT macra_g2_criteria_map_fk FOREIGN KEY (macra_id)
+		REFERENCES openchpl.macra_criteria_map (id)
+		MATCH FULL ON DELETE RESTRICT ON UPDATE CASCADE,
+	CONSTRAINT g2_macra_certification_result_fk FOREIGN KEY (certification_result_id)
+		REFERENCES openchpl.certification_result (certification_result_id)
 		MATCH FULL ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
@@ -809,12 +806,12 @@ CREATE TABLE openchpl.product_owner_history_map (
 	last_modified_user bigint NOT NULL,
 	deleted bool NOT NULL DEFAULT false,
 	CONSTRAINT product_owner_history_map_pk PRIMARY KEY (id),
-	CONSTRAINT product_fk FOREIGN KEY (product_id) 
-		REFERENCES product (product_id) 
+	CONSTRAINT product_fk FOREIGN KEY (product_id)
+		REFERENCES product (product_id)
 		MATCH FULL ON DELETE CASCADE ON UPDATE CASCADE,
-	CONSTRAINT vendor_fk FOREIGN KEY (vendor_id) 
-		REFERENCES vendor (vendor_id) 
-		MATCH FULL ON DELETE CASCADE ON UPDATE CASCADE			
+	CONSTRAINT vendor_fk FOREIGN KEY (vendor_id)
+		REFERENCES vendor (vendor_id)
+		MATCH FULL ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 -- ddl-end --
@@ -1624,7 +1621,7 @@ CREATE TABLE openchpl.certification_status_event (
 	last_modified_user bigint NOT NULL,
 	deleted bool NOT NULL DEFAULT false,
 	CONSTRAINT certification_status_event_pk PRIMARY KEY (certification_status_event_id),
-	CONSTRAINT certification_status_fk FOREIGN KEY (certification_status_id) REFERENCES openchpl.certification_status (certification_status_id) 
+	CONSTRAINT certification_status_fk FOREIGN KEY (certification_status_id) REFERENCES openchpl.certification_status (certification_status_id)
 		MATCH FULL ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
@@ -2035,11 +2032,11 @@ CREATE TABLE openchpl.pending_certification_result_g1_macra (
 	last_modified_user bigint NOT NULL,
 	deleted bool NOT NULL DEFAULT false,
 	CONSTRAINT pending_certification_result_g1_macra_pk PRIMARY KEY (id),
-	CONSTRAINT pending_g1_macra_criteria_map_fk FOREIGN KEY (macra_id) 
-		REFERENCES openchpl.macra_criteria_map (id) 
-		MATCH FULL ON DELETE RESTRICT ON UPDATE CASCADE,	
-	CONSTRAINT g1_macra_pending_certification_result_fk FOREIGN KEY (pending_certification_result_id) 
-		REFERENCES openchpl.pending_certification_result (pending_certification_result_id) 
+	CONSTRAINT pending_g1_macra_criteria_map_fk FOREIGN KEY (macra_id)
+		REFERENCES openchpl.macra_criteria_map (id)
+		MATCH FULL ON DELETE RESTRICT ON UPDATE CASCADE,
+	CONSTRAINT g1_macra_pending_certification_result_fk FOREIGN KEY (pending_certification_result_id)
+		REFERENCES openchpl.pending_certification_result (pending_certification_result_id)
 		MATCH FULL ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
@@ -2054,11 +2051,11 @@ CREATE TABLE openchpl.pending_certification_result_g2_macra (
 	last_modified_user bigint NOT NULL,
 	deleted bool NOT NULL DEFAULT false,
 	CONSTRAINT pending_certification_result_g2_macra_pk PRIMARY KEY (id),
-	CONSTRAINT pending_g2_macra_criteria_map_fk FOREIGN KEY (macra_id) 
-		REFERENCES openchpl.macra_criteria_map (id) 
-		MATCH FULL ON DELETE RESTRICT ON UPDATE CASCADE,	
-	CONSTRAINT g2_macra_pending_certification_result_fk FOREIGN KEY (pending_certification_result_id) 
-		REFERENCES openchpl.pending_certification_result (pending_certification_result_id) 
+	CONSTRAINT pending_g2_macra_criteria_map_fk FOREIGN KEY (macra_id)
+		REFERENCES openchpl.macra_criteria_map (id)
+		MATCH FULL ON DELETE RESTRICT ON UPDATE CASCADE,
+	CONSTRAINT g2_macra_pending_certification_result_fk FOREIGN KEY (pending_certification_result_id)
+		REFERENCES openchpl.pending_certification_result (pending_certification_result_id)
 		MATCH FULL ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
@@ -2357,11 +2354,11 @@ CREATE TABLE openchpl.surveillance (
 	user_permission_id bigint NOT NULL,
 	deleted bool NOT NULL DEFAULT false,
 	CONSTRAINT surveillance_pk PRIMARY KEY (id),
-	CONSTRAINT certified_product_fk FOREIGN KEY (certified_product_id) 
-		REFERENCES openchpl.certified_product (certified_product_id) 
-		MATCH FULL ON DELETE CASCADE ON UPDATE CASCADE,	
-	CONSTRAINT type_fk FOREIGN KEY (type_id) 
-		REFERENCES openchpl.surveillance_type (id) 
+	CONSTRAINT certified_product_fk FOREIGN KEY (certified_product_id)
+		REFERENCES openchpl.certified_product (certified_product_id)
+		MATCH FULL ON DELETE CASCADE ON UPDATE CASCADE,
+	CONSTRAINT type_fk FOREIGN KEY (type_id)
+		REFERENCES openchpl.surveillance_type (id)
 		MATCH FULL ON DELETE SET NULL ON UPDATE CASCADE,
 	CONSTRAINT user_permission_id_fk FOREIGN KEY (user_permission_id)
       REFERENCES openchpl.user_permission (user_permission_id) MATCH FULL
@@ -2381,18 +2378,18 @@ CREATE TABLE openchpl.surveillance_requirement (
 	last_modified_user bigint NOT NULL,
 	deleted bool NOT NULL DEFAULT false,
 	CONSTRAINT surveillance_requirement_id PRIMARY KEY (id),
-	CONSTRAINT surveillance_fk FOREIGN KEY (surveillance_id) 
-		REFERENCES openchpl.surveillance (id) 
+	CONSTRAINT surveillance_fk FOREIGN KEY (surveillance_id)
+		REFERENCES openchpl.surveillance (id)
 		MATCH FULL ON DELETE CASCADE ON UPDATE CASCADE,
-	CONSTRAINT type_fk FOREIGN KEY (type_id) 
-		REFERENCES openchpl.surveillance_requirement_type (id) 
+	CONSTRAINT type_fk FOREIGN KEY (type_id)
+		REFERENCES openchpl.surveillance_requirement_type (id)
 		MATCH FULL ON DELETE SET NULL ON UPDATE CASCADE,
-	CONSTRAINT certification_criterion_fk FOREIGN KEY (certification_criterion_id) 
-		REFERENCES openchpl.certification_criterion (certification_criterion_id) 
-		MATCH FULL ON DELETE CASCADE ON UPDATE CASCADE,		
-	CONSTRAINT result_fk FOREIGN KEY (result_id) 
-		REFERENCES openchpl.surveillance_result (id) 
-		MATCH FULL ON DELETE SET NULL ON UPDATE CASCADE		
+	CONSTRAINT certification_criterion_fk FOREIGN KEY (certification_criterion_id)
+		REFERENCES openchpl.certification_criterion (certification_criterion_id)
+		MATCH FULL ON DELETE CASCADE ON UPDATE CASCADE,
+	CONSTRAINT result_fk FOREIGN KEY (result_id)
+		REFERENCES openchpl.surveillance_result (id)
+		MATCH FULL ON DELETE SET NULL ON UPDATE CASCADE
 );
 
 CREATE TABLE openchpl.surveillance_nonconformity (
@@ -2400,7 +2397,7 @@ CREATE TABLE openchpl.surveillance_nonconformity (
 	surveillance_requirement_id bigint not null,
 	-- either criteria or type is required
 	certification_criterion_id bigint,
-	nonconformity_type varchar(1024), 
+	nonconformity_type varchar(1024),
 	nonconformity_status_id bigint not null,
 	date_of_determination date not null,
 	corrective_action_plan_approval_date date,
@@ -2418,15 +2415,15 @@ CREATE TABLE openchpl.surveillance_nonconformity (
 	last_modified_user bigint NOT NULL,
 	deleted bool NOT NULL DEFAULT false,
 	CONSTRAINT surveillance_nonconformity_pk PRIMARY KEY (id),
-	CONSTRAINT surveillance_requirement_fk FOREIGN KEY (surveillance_requirement_id) 
-		REFERENCES openchpl.surveillance_requirement (id) 
+	CONSTRAINT surveillance_requirement_fk FOREIGN KEY (surveillance_requirement_id)
+		REFERENCES openchpl.surveillance_requirement (id)
 		MATCH FULL ON DELETE CASCADE ON UPDATE CASCADE,
-	CONSTRAINT certification_criterion_fk FOREIGN KEY (certification_criterion_id) 
-		REFERENCES openchpl.certification_criterion (certification_criterion_id) 
+	CONSTRAINT certification_criterion_fk FOREIGN KEY (certification_criterion_id)
+		REFERENCES openchpl.certification_criterion (certification_criterion_id)
 		MATCH FULL ON DELETE CASCADE ON UPDATE CASCADE,
-	CONSTRAINT nonconformity_status_fk FOREIGN KEY (nonconformity_status_id) 
-		REFERENCES openchpl.nonconformity_status (id) 
-		MATCH FULL ON DELETE SET NULL ON UPDATE CASCADE	
+	CONSTRAINT nonconformity_status_fk FOREIGN KEY (nonconformity_status_id)
+		REFERENCES openchpl.nonconformity_status (id)
+		MATCH FULL ON DELETE SET NULL ON UPDATE CASCADE
 );
 
 CREATE TABLE openchpl.surveillance_nonconformity_document (
@@ -2440,20 +2437,20 @@ CREATE TABLE openchpl.surveillance_nonconformity_document (
 	last_modified_user bigint NOT NULL,
 	deleted bool NOT NULL DEFAULT false,
 	CONSTRAINT surveillance_nonconformity_document_pk PRIMARY KEY (id),
-	CONSTRAINT surveillance_nonconformity_fk FOREIGN KEY (surveillance_nonconformity_id) 
-		REFERENCES openchpl.surveillance_nonconformity (id) 
+	CONSTRAINT surveillance_nonconformity_fk FOREIGN KEY (surveillance_nonconformity_id)
+		REFERENCES openchpl.surveillance_nonconformity (id)
 		MATCH FULL ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE openchpl.pending_surveillance (
 	id bigserial not null,
 	surveillance_id_to_replace varchar(10),
-	certified_product_id bigint, 
+	certified_product_id bigint,
 	certified_product_unique_id varchar(30),
 	start_date date,
 	end_date date,
 	type_value varchar(30),
-	randomized_sites_used integer, 
+	randomized_sites_used integer,
 	creation_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_user bigint NOT NULL,
@@ -2472,24 +2469,24 @@ CREATE TABLE openchpl.pending_surveillance_requirement (
 	last_modified_user bigint NOT NULL,
 	deleted bool NOT NULL DEFAULT false,
 	CONSTRAINT pending_surveillance_requirement_id PRIMARY KEY (id),
-	CONSTRAINT pending_surveillance_fk FOREIGN KEY (pending_surveillance_id) 
-		REFERENCES openchpl.pending_surveillance (id) 
-		MATCH FULL ON DELETE CASCADE ON UPDATE CASCADE	
+	CONSTRAINT pending_surveillance_fk FOREIGN KEY (pending_surveillance_id)
+		REFERENCES openchpl.pending_surveillance (id)
+		MATCH FULL ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE openchpl.pending_surveillance_nonconformity (
 	id bigserial not null,
 	pending_surveillance_requirement_id bigint not null,
-	nonconformity_type varchar(1024), 
+	nonconformity_type varchar(1024),
 	nonconformity_status varchar(15),
 	date_of_determination date,
 	corrective_action_plan_approval_date date,
 	corrective_action_start_date date,
 	corrective_action_must_complete_date date,
 	corrective_action_end_date date,
-	summary varchar(2048), 
-	findings text, 
-	sites_passed integer, 
+	summary varchar(2048),
+	findings text,
+	sites_passed integer,
 	total_sites integer,
 	developer_explanation text,
 	resolution text,
@@ -2498,8 +2495,8 @@ CREATE TABLE openchpl.pending_surveillance_nonconformity (
 	last_modified_user bigint NOT NULL,
 	deleted bool NOT NULL DEFAULT false,
 	CONSTRAINT pending_surveillance_nonconformity_pk PRIMARY KEY (id),
-	CONSTRAINT pending_surveillance_requirement_fk FOREIGN KEY (pending_surveillance_requirement_id) 
-		REFERENCES openchpl.pending_surveillance_requirement (id) 
+	CONSTRAINT pending_surveillance_requirement_fk FOREIGN KEY (pending_surveillance_requirement_id)
+		REFERENCES openchpl.pending_surveillance_requirement (id)
 		MATCH FULL ON DELETE CASCADE ON UPDATE CASCADE
 );
 
@@ -2513,9 +2510,9 @@ CREATE TABLE openchpl.pending_surveillance_validation (
 	last_modified_user bigint NOT NULL,
 	deleted bool NOT NULL DEFAULT false,
 	CONSTRAINT pending_surveillance_validation_pk PRIMARY KEY (id),
-	CONSTRAINT pending_surveillance_fk FOREIGN KEY (pending_surveillance_id) 
-		REFERENCES openchpl.pending_surveillance (id) 
-		MATCH FULL ON DELETE CASCADE ON UPDATE CASCADE	
+	CONSTRAINT pending_surveillance_fk FOREIGN KEY (pending_surveillance_id)
+		REFERENCES openchpl.pending_surveillance (id)
+		MATCH FULL ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE openchpl.muu_accurate_as_of_date (
@@ -2686,7 +2683,7 @@ ON openchpl.ehr_certification_id_product_map
 USING btree
 (ehr_certification_id_id);
 
-CREATE INDEX ix_certified_product ON openchpl.certified_product (certified_product_id, certification_edition_id, product_version_id, 
+CREATE INDEX ix_certified_product ON openchpl.certified_product (certified_product_id, certification_edition_id, product_version_id,
 testing_lab_id, certification_body_id, acb_certification_id, practice_type_id, product_classification_type_id, certification_status_id, deleted);
 
 CREATE INDEX ix_product ON openchpl.product (product_id, vendor_id, deleted);
@@ -2707,19 +2704,19 @@ CREATE INDEX ix_certification_result_test_functionality ON openchpl.certificatio
 
 CREATE INDEX ix_certification_result_test_procedure ON openchpl.certification_result_test_procedure (certification_result_test_procedure_id, certification_result_id, test_procedure_id, deleted);
 
-CREATE INDEX ix_certification_result_test_standard ON openchpl.certification_result_test_standard (certification_result_test_standard_id, certification_result_id, 
+CREATE INDEX ix_certification_result_test_standard ON openchpl.certification_result_test_standard (certification_result_test_standard_id, certification_result_id,
 test_standard_id, deleted);
 
-CREATE INDEX ix_certification_result_test_task ON openchpl.certification_result_test_task (certification_result_test_task_id, certification_result_id, 
+CREATE INDEX ix_certification_result_test_task ON openchpl.certification_result_test_task (certification_result_test_task_id, certification_result_id,
 test_task_id, deleted);
 
-CREATE INDEX ix_certification_result_test_tool ON openchpl.certification_result_test_tool (certification_result_test_tool_id, certification_result_id, 
+CREATE INDEX ix_certification_result_test_tool ON openchpl.certification_result_test_tool (certification_result_test_tool_id, certification_result_id,
 test_tool_id, deleted);
 
-CREATE INDEX ix_certification_result_ucd_process ON openchpl.certification_result_ucd_process (certification_result_ucd_process_id, certification_result_id, 
+CREATE INDEX ix_certification_result_ucd_process ON openchpl.certification_result_ucd_process (certification_result_ucd_process_id, certification_result_id,
 ucd_process_id, deleted);
 
-CREATE INDEX ix_certified_product_qms_standard ON openchpl.certified_product_qms_standard (certified_product_qms_standard_id, certified_product_id, 
+CREATE INDEX ix_certified_product_qms_standard ON openchpl.certified_product_qms_standard (certified_product_qms_standard_id, certified_product_id,
 qms_standard_id, deleted);
 
 CREATE INDEX ix_contact ON openchpl.contact (contact_id, deleted);
@@ -2734,7 +2731,7 @@ CREATE INDEX ix_ehr_certification_id_product_map ON openchpl.ehr_certification_i
 
 CREATE INDEX ix_global_user_permission_map ON openchpl.global_user_permission_map (user_id, user_permission_id_user_permission, deleted, global_user_permission_id);
 
-CREATE INDEX ix_pending_certification_result ON openchpl.pending_certification_result (pending_certification_result_id, certification_criterion_id, 
+CREATE INDEX ix_pending_certification_result ON openchpl.pending_certification_result (pending_certification_result_id, certification_criterion_id,
 pending_certified_product_id, deleted);
 
 CREATE INDEX ix_pending_certification_result_additional_software ON openchpl.pending_certification_result_additional_software (pending_certification_result_additional_software_id, pending_certification_result_id, certified_product_id, certified_product_chpl_id, deleted);
@@ -2743,13 +2740,13 @@ CREATE INDEX ix_pending_certification_result_test_data ON openchpl.pending_certi
 
 CREATE INDEX ix_pending_certification_result_test_functionality ON openchpl.pending_certification_result_test_functionality (pending_certification_result_test_functionality_id, pending_certification_result_id, test_functionality_id, deleted);
 
-CREATE INDEX ix_pending_certification_result_test_procedure ON openchpl.pending_certification_result_test_procedure 
+CREATE INDEX ix_pending_certification_result_test_procedure ON openchpl.pending_certification_result_test_procedure
 (pending_certification_result_test_procedure_id, pending_certification_result_id, test_procedure_id, deleted);
 
-CREATE INDEX ix_pending_certification_result_test_standard ON openchpl.pending_certification_result_test_standard 
+CREATE INDEX ix_pending_certification_result_test_standard ON openchpl.pending_certification_result_test_standard
 (pending_certification_result_test_standard_id, pending_certification_result_id, test_standard_id, deleted);
 
-CREATE INDEX ix_pending_certification_result_test_task ON openchpl.pending_certification_result_test_task 
+CREATE INDEX ix_pending_certification_result_test_task ON openchpl.pending_certification_result_test_task
 (pending_certification_result_test_task_id, pending_certification_result_id, pending_test_task_id, deleted);
 
 CREATE INDEX ix_pending_certification_result_test_task_participant ON openchpl.pending_certification_result_test_task_participant (pending_certification_result_test_task_participant_id, pending_certification_result_test_task_id, pending_test_participant_id, deleted);
@@ -2760,17 +2757,17 @@ CREATE INDEX ix_pending_certification_result_ucd_process ON openchpl.pending_cer
 
 CREATE INDEX ix_pending_certified_product ON openchpl.pending_certified_product (pending_certified_product_id, unique_id, acb_certification_id, practice_type_id, vendor_id, vendor_address_id, vendor_contact_id, product_id, product_version_id, certification_edition_id, certification_body_id, product_classification_id, testing_lab_id, deleted, certification_status_id);
 
-CREATE INDEX ix_pending_certified_product_accessibility_standard ON openchpl.pending_certified_product_accessibility_standard 
+CREATE INDEX ix_pending_certified_product_accessibility_standard ON openchpl.pending_certified_product_accessibility_standard
 (pending_certified_product_accessibility_standard_id, pending_certified_product_id, accessibility_standard_id, deleted);
 
 CREATE INDEX ix_pending_certified_product_qms_standard ON openchpl.pending_certified_product_qms_standard (pending_certified_product_qms_standard_id, 			pending_certified_product_id, qms_standard_id, deleted);
 
-CREATE INDEX ix_pending_cqm_certification_criteria ON openchpl.pending_cqm_certification_criteria (pending_cqm_certification_criteria_id, pending_cqm_criterion_id, 
+CREATE INDEX ix_pending_cqm_certification_criteria ON openchpl.pending_cqm_certification_criteria (pending_cqm_certification_criteria_id, pending_cqm_criterion_id,
 certification_criterion_id, deleted);
 
 CREATE INDEX ix_pending_cqm_criterion ON openchpl.pending_cqm_criterion (pending_cqm_criterion_id, cqm_criterion_id, pending_certified_product_id, deleted);
 
-CREATE INDEX ix_pending_test_participant ON openchpl.pending_test_participant (pending_test_participant_id, test_participant_unique_id, education_type_id, deleted, 
+CREATE INDEX ix_pending_test_participant ON openchpl.pending_test_participant (pending_test_participant_id, test_participant_unique_id, education_type_id, deleted,
 test_participant_age_id);
 
 CREATE INDEX ix_pending_test_task ON openchpl.pending_test_task (pending_test_task_id, test_task_unique_id, deleted);

@@ -1,5 +1,12 @@
 # Release Notes
 
+## OCD-1748
+* Fill in null values of Test Tasks and Test Participants
+* Add "NOT NULL" to all values of Test Tasks & Participants
+* Remove unused "Age" column from Test Participants
+
+---
+
 ## Version TBD
 _Date TBD_
 
