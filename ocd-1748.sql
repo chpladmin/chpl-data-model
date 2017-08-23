@@ -97,19 +97,18 @@ update openchpl.test_participant as tp set assistive_technology_needs = 'Unknown
 alter table openchpl.test_task
     alter column description set not null,
     alter column task_errors_pct set not null,
-    alter column task_success_avg_pct set not null,
-    alter column task_success_stddev_pct set not null,
+    alter column task_errors_stddev_pct set not null,
     alter column task_path_deviation_observed set not null,
     alter column task_path_deviation_optimal set not null,
+    alter column task_rating set not null,
+    alter column task_rating_scale set not null,
+    alter column task_rating_stddev set not null,
+    alter column task_success_avg_pct set not null,
+    alter column task_success_stddev_pct set not null,
     alter column task_time_avg_seconds set not null,
-    alter column task_time_stddev_seconds set not null,
     alter column task_time_deviation_observed_avg_seconds set not null,
     alter column task_time_deviation_optimal_avg_seconds set not null,
-    alter column task_errors_pct set not null,
-    alter column task_errors_stddev_pct set not null,
-    alter column task_rating_scale set not null,
-    alter column task_rating set not null,
-    alter column task_rating_stddev set not null
+    alter column task_time_stddev_seconds set not null
     ;
 
 alter table openchpl.test_participant
