@@ -1,17 +1,15 @@
 # Release Notes
 
-## OCD-1748
-* Fill in null values of Test Tasks and Test Participants
-* Add "NOT NULL" to all values of Test Tasks & Participants
-* Remove unused "Age" column from Test Participants
-
----
-
 ## Version TBD
 _Date TBD_
 
 ### Table/view modification
 * Migrate participants to be linked to a test task only rather than a test task+certification result. This includes a new table and next time will result in the removal of the old table.
+* Add "NOT NULL" to all values of Test Tasks & Participants
+* Remove unused "Age" column from Test Participants
+
+### Data changes
+* Fill in null values of Test Tasks and Test Participants
 
 ---
 
