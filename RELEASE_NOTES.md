@@ -10,6 +10,7 @@ _Date TBD_
 
 ### Data changes
 * Fill in null values of Test Tasks and Test Participants
+* Added ocd-1754.sql as optional report that can be run to get phantom criteria associations
 
 ---
 
