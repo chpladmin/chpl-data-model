@@ -1,5 +1,5 @@
-DROP TABLE IF EXISTS openchpl.job_type;
 DROP TABLE IF EXISTS openchpl.job;
+DROP TABLE IF EXISTS openchpl.job_type;
 
 CREATE TABLE openchpl.job_type (
 	id bigserial NOT NULL,
@@ -29,8 +29,11 @@ CREATE TABLE openchpl.job (
       ON UPDATE NO ACTION ON DELETE NO ACTION,
 	CONSTRAINT contact_fk FOREIGN KEY (contact_id)
       REFERENCES openchpl.contact (contact_id) MATCH SIMPLE
-      ON UPDATE NO ACTION ON DELETE NO ACTION,
+      ON UPDATE NO ACTION ON DELETE NO ACTION
 );
+
+INSERT INTO openchpl.job_type (name, success_message, last_modified_user)
+VALUES ('MUU Upload', 'MUU Upload is complete.', -1);
 
 CREATE TRIGGER job_type_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.job_type FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER job_type_timestamp BEFORE UPDATE on openchpl.job_type FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
