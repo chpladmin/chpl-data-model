@@ -1,5 +1,20 @@
 # Release Notes
 
+## Version TBD
+_Date TBD_
+
+### Table/view modification
+* Migrate participants to be linked to a test task only rather than a test task+certification result. This includes a new table and next time will result in the removal of the old table.
+* Add "NOT NULL" to all values of Test Tasks & Participants
+* Remove unused "Age" column from Test Participants
+
+### Data changes
+* Fill in null values of Test Tasks and Test Participants
+* Added ocd-1754.sql as optional report that can be run to get phantom criteria associations
+* Added ocd-1755.sql as optional file to delete phantom criteria associations (report should be empty after this is run)
+
+---
+
 ## Version 12.1.0
 _14 August 2017_
 
