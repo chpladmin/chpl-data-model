@@ -26,6 +26,24 @@ SET search_path TO pg_catalog,public,openchpl;
 CREATE TYPE openchpl.attestation as enum('Affirmative', 'Negative', 'N/A');
 CREATE TYPE openchpl.validation_message_type as enum('Error', 'Warning');
 
+CREATE TABLE openchpl.chart_data(
+	chart_data_id NOT NULL,
+	data_date timestamp NOT NULL DEFAULT NOW(),
+	json_data_object text,
+	type_of_stat bigint NOT NULL,
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	CONSTRAINT chart_data_pk PRIMARY KEY (chart_data_id)
+);
+
+CREATE TABLE openchpl.chart_data_stat_type(
+	chart_data_stat_type_id NOT NULL,
+	data_type varchar(64),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	CONSTRAINT chart_data_stat_type_pk PRIMARY KEY (chart_data_stat_type_id)
+);
+
 -- object: openchpl.user | type: TABLE --
 -- DROP TABLE IF EXISTS openchpl.user CASCADE;
 CREATE TABLE openchpl.user(
@@ -817,6 +835,10 @@ CREATE TABLE openchpl.product_owner_history_map (
 -- ddl-end --
 -- ALTER TABLE openchpl.testing_lab OWNER TO openchpl;
 -- ddl-end --
+
+ALTER TABLE openchpl.chart_data ADD CONSTRAINT chart_data_stat_type_fk FOREIGN KEY (chart_data_stat_type_id)
+REFERENCES openchpl.chart_data_stat_type (chart_data_stat_type_id) MATCH FULL
+ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- object: vendor_fk | type: CONSTRAINT --
 -- ALTER TABLE openchpl.product DROP CONSTRAINT IF EXISTS vendor_fk CASCADE;
