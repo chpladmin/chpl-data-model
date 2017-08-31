@@ -39,3 +39,6 @@ CREATE TRIGGER job_type_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.job_t
 CREATE TRIGGER job_type_timestamp BEFORE UPDATE on openchpl.job_type FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER job_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.job FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER job_timestamp BEFORE UPDATE on openchpl.job FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
+
+--re-run grants
+\i dev/openchpl_grant-all.sql
