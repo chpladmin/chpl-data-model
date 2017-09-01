@@ -9,6 +9,7 @@ CREATE TYPE openchpl.job_status_type as enum('In Progress', 'Complete', 'Error')
 CREATE TABLE openchpl.job_type (
 	id bigserial NOT NULL,
 	name varchar(500) NOT NULL,
+	description text,
 	success_message text NOT NULL, -- what message gets sent to users with jobs of this type that have completed?
 	creation_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
@@ -31,7 +32,7 @@ CREATE TABLE openchpl.job_status (
 CREATE TABLE openchpl.job (
 	id bigserial NOT NULL,
 	job_type_id bigint NOT NULL,
-	contact_id bigint NOT NULL,
+	user_id bigint NOT NULL,
 	job_status_id bigint,
 	start_time timestamp,
 	end_time timestamp,
@@ -44,8 +45,8 @@ CREATE TABLE openchpl.job (
 	CONSTRAINT job_type_fk FOREIGN KEY (job_type_id)
       REFERENCES openchpl.job_type (id) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION,
-	CONSTRAINT contact_fk FOREIGN KEY (contact_id)
-      REFERENCES openchpl.contact (contact_id) MATCH SIMPLE
+	CONSTRAINT user_fk FOREIGN KEY (user_id)
+      REFERENCES openchpl.user (user_id) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION,
 	CONSTRAINT status_fk FOREIGN KEY (job_status_id)
       REFERENCES openchpl.job_status (id) MATCH SIMPLE
@@ -66,8 +67,8 @@ CREATE TABLE openchpl.job_message (
       ON UPDATE NO ACTION ON DELETE NO ACTION
 );
 
-INSERT INTO openchpl.job_type (name, success_message, last_modified_user)
-VALUES ('MUU Upload', 'MUU Upload is complete.', -1);
+INSERT INTO openchpl.job_type (name, description, success_message, last_modified_user)
+VALUES ('MUU Upload', 'Uploading a potentially large CSV file with meaningful use user counts per listing.', 'MUU Upload is complete.', -1);
 
 CREATE TRIGGER job_message_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.job_message FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER job_message_timestamp BEFORE UPDATE on openchpl.job_message FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();

@@ -2677,6 +2677,7 @@ CREATE TABLE openchpl.notification_type_recipient_map(
 CREATE TABLE openchpl.job_type (
 	id bigserial NOT NULL,
 	name varchar(500) NOT NULL,
+	description text,
 	success_message text NOT NULL, -- what message gets sent to users with jobs of this type that have completed?
 	creation_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
@@ -2699,7 +2700,7 @@ CREATE TABLE openchpl.job_status (
 CREATE TABLE openchpl.job (
 	id bigserial NOT NULL,
 	job_type_id bigint NOT NULL,
-	contact_id bigint NOT NULL,
+	user_id bigint NOT NULL,
 	job_status_id bigint,
 	start_time timestamp,
 	end_time timestamp,
@@ -2712,8 +2713,8 @@ CREATE TABLE openchpl.job (
 	CONSTRAINT job_type_fk FOREIGN KEY (job_type_id)
       REFERENCES openchpl.job_type (id) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION,
-	CONSTRAINT contact_fk FOREIGN KEY (contact_id)
-      REFERENCES openchpl.contact (contact_id) MATCH SIMPLE
+	CONSTRAINT user_fk FOREIGN KEY (user_id)
+      REFERENCES openchpl.user (user_id) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION,
 	CONSTRAINT status_fk FOREIGN KEY (job_status_id)
       REFERENCES openchpl.job_status (id) MATCH SIMPLE
@@ -2730,7 +2731,7 @@ CREATE TABLE openchpl.job_message (
 	deleted bool NOT NULL DEFAULT false,
 	CONSTRAINT job_message_pk PRIMARY KEY (id),
 	CONSTRAINT job_fk FOREIGN KEY (job_id)
-      REFERENCES openchpl.job (job_id) MATCH SIMPLE
+      REFERENCES openchpl.job (id) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION
 );
 
