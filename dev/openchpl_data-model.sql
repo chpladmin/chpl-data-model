@@ -27,7 +27,7 @@ CREATE TYPE openchpl.attestation as enum('Affirmative', 'Negative', 'N/A');
 CREATE TYPE openchpl.validation_message_type as enum('Error', 'Warning');
 
 CREATE TABLE openchpl.chart_data(
-	chart_data_id NOT NULL,
+	chart_data_id bigserial NOT NULL,
 	data_date timestamp NOT NULL DEFAULT NOW(),
 	json_data_object text,
 	type_of_stat bigint NOT NULL,
@@ -37,7 +37,7 @@ CREATE TABLE openchpl.chart_data(
 );
 
 CREATE TABLE openchpl.chart_data_stat_type(
-	chart_data_stat_type_id NOT NULL,
+	chart_data_stat_type_id bigserial NOT NULL,
 	data_type varchar(64),
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_user bigint NOT NULL,
