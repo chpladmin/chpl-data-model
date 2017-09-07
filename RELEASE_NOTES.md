@@ -1,5 +1,20 @@
 # Release Notes
 
+### Table modification
+_OCD-1765_
+* Remove tables not referenced by API, and with no data
+  * `acb_contact_map`
+  * `atl_contact_map`
+  * `experience_type`
+  * `newer_standards_met`
+  * `standards_met`
+  * `test_event_details`
+  * `test_result_summary_version`
+  * `test_task_result`
+  * `utilized_test_tool`
+
+---
+
 ## Version TBD
 _Date TBD_
 
