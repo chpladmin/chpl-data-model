@@ -162,7 +162,3 @@ alter table openchpl.test_participant drop column if exists age;
 
 --re-run grants
 \i dev/openchpl_grant-all.sql
-
---TODO: 
---COPY BELOW INTO v-next.sql for the NEXT release to drop the table and associated triggers
---DROP TABLE IF EXISTS openchpl.certification_result_test_task_participant;

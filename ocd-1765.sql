@@ -7,3 +7,4 @@ DROP TABLE IF EXISTS openchpl.standards_met;
 DROP TABLE IF EXISTS openchpl.test_event_details;
 DROP TABLE IF EXISTS openchpl.test_result_summary_version;
 DROP TABLE IF EXISTS openchpl.utilized_test_tool;
+DROP TABLE IF EXISTS openchpl.certification_result_test_task_participant;
