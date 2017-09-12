@@ -22,6 +22,9 @@ changes in the `chpl-data-model/OCD-XXXX.sql` file or `chpl-data-model/v-next.sq
 
 Every time a you pull down changes that effect the database run v-next.sql to get the latest database model. Or, if you are running a specific OCD branch run the OCD-XXXX.sql file to get the correct database.
 
+Always run `--re-run grants \i dev/openchpl_grant-all.sql` at the end of the end ofthe v-next.sql script.
+
+Every two weeks when changes are pushed to PROD - the v-next.sql file becomes v-XX.X.X.sql file and the v-next.sql file is reset.
 ## Data model load
 
 Rename `dev/openchpl_role-template.sql` to `dev/openchpl_role.sql` and set the password for the `openchpl` role. These instructions assume the role/username used for the openchpl database is `openchpl`, and that the password in `openchpl_role.sql`, currently recorded as "change this password" will be update to match your installation. If the installer chooses to change the username/role, make sure it's also changed in the `openchpl.sql` file wherever the role is used.
