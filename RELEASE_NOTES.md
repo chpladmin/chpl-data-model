@@ -1,5 +1,7 @@
 # Release Notes
 
+* Add child and parent column to certified_product_search view
+
 ## Version 12.2.0
 _11 September 2017_
 
