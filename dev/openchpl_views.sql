@@ -211,8 +211,8 @@ CREATE OR REPLACE VIEW openchpl.certified_product_search AS
 
 SELECT
     cp.certified_product_id,
-    string_agg(DISTINCT child.chpl_product_number::text||'☹'||child.certified_product_id::text, '☺') as "child",
-    string_agg(DISTINCT parent.chpl_product_number::text||'☹'||parent.certified_product_id::text, '☺') as "parent",
+    string_agg(DISTINCT substring(edition.year from 3 for 2)||'.'||atl.testing_lab_code||'.'||acb.certification_body_code||'.'||vendor.vendor_code||'.'||cp.product_code||'.'||cp.version_code||'.'||cp.ics_code||'.'||cp.additional_software_code||'.'||cp.certified_date_code||'☹'||child.certified_product_id::text, '☺') as "child",
+    string_agg(DISTINCT substring(edition.year from 3 for 2)||'.'||atl.testing_lab_code||'.'||acb.certification_body_code||'.'||vendor.vendor_code||'.'||cp.product_code||'.'||cp.version_code||'.'||cp.ics_code||'.'||cp.additional_software_code||'.'||cp.certified_date_code||'☹'||parent.certified_product_id::text, '☺') as "parent",
     string_agg(DISTINCT certs.cert_number::text, '☺') as "certs",
     string_agg(DISTINCT cqms.cqm_number::text, '☺') as "cqms",
     COALESCE(cp.chpl_product_number, substring(edition.year from 3 for 2)||'.'||atl.testing_lab_code||'.'||acb.certification_body_code||'.'||vendor.vendor_code||'.'||cp.product_code||'.'||cp.version_code||'.'||cp.ics_code||'.'||cp.additional_software_code||'.'||cp.certified_date_code) as "chpl_product_number",
