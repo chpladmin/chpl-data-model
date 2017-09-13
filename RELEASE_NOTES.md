@@ -1,6 +1,15 @@
 # Release Notes
 
+## Version TBD
+_Date TBD_
+
+### Table/view modification
 * Add child and parent column to certified_product_search view
+
+### Data changes
+
+
+---
 
 ## Version 12.2.0
 _11 September 2017_
