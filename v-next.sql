@@ -1,164 +1,103 @@
-DROP TABLE IF EXISTS openchpl.test_task_participant_map;
+DROP VIEW IF EXISTS openchpl.certified_product_search;
+CREATE OR REPLACE VIEW openchpl.certified_product_search AS
+SELECT
+    cp.certified_product_id,
+    string_agg(DISTINCT substring(edition.year from 3 for 2)||'.'||atl.testing_lab_code||'.'||acb.certification_body_code||'.'||vendor.vendor_code||'.'||cp.product_code||'.'||cp.version_code||'.'||cp.ics_code||'.'||cp.additional_software_code||'.'||cp.certified_date_code||'☹'||child.certified_product_id::text, '☺') as "child",
+    string_agg(DISTINCT substring(edition.year from 3 for 2)||'.'||atl.testing_lab_code||'.'||acb.certification_body_code||'.'||vendor.vendor_code||'.'||cp.product_code||'.'||cp.version_code||'.'||cp.ics_code||'.'||cp.additional_software_code||'.'||cp.certified_date_code||'☹'||parent.certified_product_id::text, '☺') as "parent",
+    string_agg(DISTINCT certs.cert_number::text, '☺') as "certs",
+    string_agg(DISTINCT cqms.cqm_number::text, '☺') as "cqms",
+    COALESCE(cp.chpl_product_number, substring(edition.year from 3 for 2)||'.'||atl.testing_lab_code||'.'||acb.certification_body_code||'.'||vendor.vendor_code||'.'||cp.product_code||'.'||cp.version_code||'.'||cp.ics_code||'.'||cp.additional_software_code||'.'||cp.certified_date_code) as "chpl_product_number",
+	cp.meaningful_use_users,
+	cp.transparency_attestation_url,
+    edition.year,
+    atl.testing_lab_name,
+    acb.certification_body_name,
+    cp.acb_certification_id,
+    prac.practice_type_name,
+    version.product_version,
+    product.product_name,
+    vendor.vendor_name,
+    string_agg(DISTINCT history_vendor_name::text, '☺') as "owner_history",
+    certStatusEvent.certification_date,
+    certStatus.certification_status_name,
+	decert.decertification_date,
+	string_agg(DISTINCT certs_with_api_documentation.cert_number::text||'☹'||certs_with_api_documentation.api_documentation, '☺') as "api_documentation",
+    COALESCE(survs.count_surveillance_activities, 0) as "surveillance_count",
+    COALESCE(nc_open.count_open_nonconformities, 0) as "open_nonconformity_count",
+    COALESCE(nc_closed.count_closed_nonconformities, 0) as "closed_nonconformity_count"
+ FROM openchpl.certified_product cp
+	LEFT JOIN (SELECT cse.certification_status_id as "certification_status_id", cse.certified_product_id as "certified_product_id",
+			cse.event_date as "last_certification_status_change"
+				FROM openchpl.certification_status_event cse
+				INNER JOIN (
+					SELECT certified_product_id, MAX(event_date) event_date
+					FROM openchpl.certification_status_event
+					GROUP BY certified_product_id
+				) cseInner 
+				ON cse.certified_product_id = cseInner.certified_product_id AND cse.event_date = cseInner.event_date) certStatusEvents
+		ON certStatusEvents.certified_product_id = cp.certified_product_id
+    LEFT JOIN (SELECT certification_status_id, certification_status as "certification_status_name" FROM openchpl.certification_status) certStatus on certStatusEvents.certification_status_id = certStatus.certification_status_id
+    LEFT JOIN (SELECT certified_product_id, chpl_product_number, child_listing_id, parent_listing_id FROM (SELECT certified_product_id, child_listing_id, parent_listing_id, chpl_product_number FROM openchpl.listing_to_listing_map INNER JOIN openchpl.certified_product on listing_to_listing_map.child_listing_id = certified_product.certified_product_id) children) child ON cp.certified_product_id = child.parent_listing_id
+    LEFT JOIN (SELECT certified_product_id, chpl_product_number, child_listing_id, parent_listing_id FROM (SELECT certified_product_id, child_listing_id, parent_listing_id, chpl_product_number FROM openchpl.listing_to_listing_map INNER JOIN openchpl.certified_product on listing_to_listing_map.parent_listing_id = certified_product.certified_product_id) parents) parent ON cp.certified_product_id = parent.child_listing_id
+    LEFT JOIN (SELECT certification_edition_id, year FROM openchpl.certification_edition) edition on cp.certification_edition_id = edition.certification_edition_id
+    LEFT JOIN (SELECT testing_lab_id, name as "testing_lab_name", testing_lab_code from openchpl.testing_lab) atl on cp.testing_lab_id = atl.testing_lab_id
+    LEFT JOIN (SELECT certification_body_id, name as "certification_body_name", acb_code as "certification_body_code", deleted as "acb_is_deleted" FROM openchpl.certification_body) acb on cp.certification_body_id = acb.certification_body_id
+    LEFT JOIN (SELECT practice_type_id, name as "practice_type_name" FROM openchpl.practice_type) prac on cp.practice_type_id = prac.practice_type_id
+    LEFT JOIN (SELECT product_version_id, version as "product_version", product_id from openchpl.product_version) version on cp.product_version_id = version.product_version_id
+    LEFT JOIN (SELECT product_id, vendor_id, name as "product_name" FROM openchpl.product) product ON version.product_id = product.product_id
+    LEFT JOIN (SELECT vendor_id, name as "vendor_name", vendor_code FROM openchpl.vendor) vendor on product.vendor_id = vendor.vendor_id
+    LEFT JOIN (SELECT name as "history_vendor_name", product_owner_history_map.product_id as "history_product_id" FROM openchpl.vendor 
+			JOIN openchpl.product_owner_history_map ON vendor.vendor_id = product_owner_history_map.vendor_id
+			WHERE product_owner_history_map.deleted = false) owners
+    ON owners.history_product_id = product.product_id
+    LEFT JOIN (SELECT MIN(event_date) as "certification_date", certified_product_id from openchpl.certification_status_event where certification_status_id = 1 group by (certified_product_id)) certStatusEvent on cp.certified_product_id = certStatusEvent.certified_product_id
+	LEFT JOIN (SELECT MAX(event_date) as "decertification_date", certified_product_id from openchpl.certification_status_event where certification_status_id IN (3, 4, 8) group by (certified_product_id)) decert on cp.certified_product_id = decert.certified_product_id
+    LEFT JOIN (SELECT certified_product_id, count(*) as "count_surveillance_activities" 
+		FROM openchpl.surveillance 
+		WHERE openchpl.surveillance.deleted <> true  
+		GROUP BY certified_product_id) survs
+    ON cp.certified_product_id = survs.certified_product_id
+	LEFT JOIN (SELECT certified_product_id, count(*) as "count_open_nonconformities" 
+		FROM openchpl.surveillance surv
+		JOIN openchpl.surveillance_requirement surv_req ON surv.id = surv_req.surveillance_id AND surv_req.deleted <> true
+		JOIN openchpl.surveillance_nonconformity surv_nc ON surv_req.id = surv_nc.surveillance_requirement_id AND surv_nc.deleted <> true
+		JOIN openchpl.nonconformity_status nc_status ON surv_nc.nonconformity_status_id = nc_status.id
+		WHERE surv.deleted <> true 
+		AND nc_status.name = 'Open'  
+		GROUP BY certified_product_id) nc_open
+    ON cp.certified_product_id = nc_open.certified_product_id
+	LEFT JOIN (SELECT certified_product_id, count(*) as "count_closed_nonconformities" 
+		FROM openchpl.surveillance surv
+		JOIN openchpl.surveillance_requirement surv_req ON surv.id = surv_req.surveillance_id AND surv_req.deleted <> true
+		JOIN openchpl.surveillance_nonconformity surv_nc ON surv_req.id = surv_nc.surveillance_requirement_id AND surv_nc.deleted <> true
+		JOIN openchpl.nonconformity_status nc_status ON surv_nc.nonconformity_status_id = nc_status.id
+		WHERE surv.deleted <> true 
+		AND nc_status.name = 'Closed'  
+		GROUP BY certified_product_id) nc_closed
+    ON cp.certified_product_id = nc_closed.certified_product_id
+    LEFT JOIN (SELECT number as "cert_number", certified_product_id FROM openchpl.certification_criterion 
+		JOIN openchpl.certification_result ON certification_criterion.certification_criterion_id = certification_result.certification_criterion_id
+		WHERE certification_result.success = true AND certification_result.deleted = false AND certification_criterion.deleted = false) certs
+	ON certs.certified_product_id = cp.certified_product_id
+	LEFT JOIN (SELECT number as "cert_number", api_documentation, certified_product_id FROM openchpl.certification_criterion 
+		JOIN openchpl.certification_result ON certification_criterion.certification_criterion_id = certification_result.certification_criterion_id
+		WHERE certification_result.success = true 
+		AND certification_result.api_documentation IS NOT NULL 
+		AND certification_result.deleted = false 
+		AND certification_criterion.deleted = false) certs_with_api_documentation
+	ON certs_with_api_documentation.certified_product_id = cp.certified_product_id 
+    LEFT JOIN (SELECT COALESCE(cms_id, 'NQF-'||nqf_number) as "cqm_number", certified_product_id FROM openchpl.cqm_criterion 
+		JOIN openchpl.cqm_result 
+		ON cqm_criterion.cqm_criterion_id = cqm_result.cqm_criterion_id
+		WHERE cqm_result.success = true AND cqm_result.deleted = false AND cqm_criterion.deleted = false) cqms
+	ON cqms.certified_product_id = cp.certified_product_id
+	
+WHERE cp.deleted != true
+GROUP BY cp.certified_product_id, cp.acb_certification_id, edition.year, atl.testing_lab_code, acb.certification_body_code, vendor.vendor_code, cp.product_code, cp.version_code,cp.ics_code, cp.additional_software_code, cp.certified_date_code, cp.transparency_attestation_url,
+atl.testing_lab_name, acb.certification_body_name,prac.practice_type_name,version.product_version,product.product_name,vendor.vendor_name,certStatusEvent.certification_date,certStatus.certification_status_name, decert.decertification_date,
+survs.count_surveillance_activities, nc_open.count_open_nonconformities, nc_closed.count_closed_nonconformities
+;
 
-CREATE TABLE openchpl.test_task_participant_map (
-	id bigserial NOT NULL,
-	test_task_id bigint NOT NULL,
-	test_participant_id bigint NOT NULL,
-	last_modified_date timestamp NOT NULL DEFAULT NOW(),
-	creation_date timestamp NOT NULL DEFAULT NOW(),
-	last_modified_user bigint NOT NULL,
-	deleted bool DEFAULT false,
-	CONSTRAINT test_task_participant_map_pk PRIMARY KEY (id),
-	CONSTRAINT test_task_fk FOREIGN KEY (test_task_id) 
-		REFERENCES openchpl.test_task (test_task_id) 
-		MATCH FULL ON DELETE CASCADE ON UPDATE CASCADE,
-	CONSTRAINT test_participant_fk FOREIGN KEY (test_participant_id) 
-		REFERENCES openchpl.test_participant (test_participant_id) 
-		MATCH FULL ON DELETE CASCADE ON UPDATE CASCADE
-);
-
-CREATE TRIGGER test_task_participant_map_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.test_task_participant_map FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
-CREATE TRIGGER test_task_participant_map_timestamp BEFORE UPDATE on openchpl.test_task_participant_map FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
-
---fill in test task ids from certification_result_test_task_participant table
-INSERT INTO openchpl.test_task_participant_map (id, test_task_id, test_participant_id, last_modified_date, creation_date, last_modified_user, deleted)
-	SELECT nextval('openchpl.test_task_participant_map_id_seq'), test_task.test_task_id, certification_result_test_task_participant.test_participant_id, 
-	certification_result_test_task_participant.last_modified_date, certification_result_test_task_participant.creation_date,
-	certification_result_test_task_participant.last_modified_user, certification_result_test_task_participant.deleted
-	FROM openchpl.certification_result_test_task_participant
-	INNER JOIN openchpl.certification_result_test_task ON certification_result_test_task.certification_result_test_task_id = certification_result_test_task_participant.certification_result_test_task_id
-	INNER JOIN openchpl.test_task ON test_task.test_task_id = certification_result_test_task.test_task_id
-	INNER JOIN openchpl.test_participant ON test_participant.test_participant_id = certification_result_test_task_participant.test_participant_id;
-
--- drop constraints on that table for now so that other data isn't affected
-ALTER TABLE openchpl.certification_result_test_task_participant DROP CONSTRAINT IF EXISTS certification_result_test_task_fk;
-ALTER TABLE openchpl.certification_result_test_task_participant DROP CONSTRAINT IF EXISTS test_participant_fk;
-----
--- OCD-1748
-----
-
--- Report on all Tasks missing values
---   return Listing DB ID, Criteria number, and Task Description
-select tt.description, cc."number", cr.certified_product_id
-from openchpl.test_task as tt,
-    openchpl.certification_criterion as cc,
-    openchpl.certification_result as cr,
-    openchpl.certification_result_test_task as crtt
-where
-    cc.certification_criterion_id = cr.certification_criterion_id
-    and cr.certification_result_id = crtt.certification_result_id
-    and crtt.test_task_id = tt.test_task_id
-    and (
-        tt.description is null
-        or tt.task_errors_pct is null
-        or tt.task_success_avg_pct is null
-        or tt.task_success_stddev_pct is null
-        or tt.task_path_deviation_observed is null
-        or tt.task_path_deviation_optimal is null
-        or tt.task_time_avg_seconds is null
-        or tt.task_time_stddev_seconds is null
-        or tt.task_time_deviation_observed_avg_seconds is null
-        or tt.task_time_deviation_optimal_avg_seconds is null
-        or tt.task_errors_pct is null
-        or tt.task_errors_stddev_pct is null
-        or tt.task_rating_scale is null
-        or tt.task_rating is null
-        or tt.task_rating_stddev is null
-        )
-    and tt.deleted is false
-    ;
-
--- Report on all Participants missing values
---  No participants lack age-range or education-type lookup, so report those to aid in finding participants
---  Use "distinct" to only report each participant once per Listing
-select distinct on (tp.test_participant_id) cr.certified_product_id, tp.test_participant_id, tpa.age, et."name"
-from openchpl.test_task as tt,
-    openchpl.certification_criterion as cc,
-    openchpl.certification_result as cr,
-    openchpl.certification_result_test_task as crtt,
-    openchpl.test_participant as tp,
-    openchpl.test_task_participant_map as ttpm,
-    openchpl.test_participant_age as tpa,
-    openchpl.education_type as et
-where
-    cc.certification_criterion_id = cr.certification_criterion_id
-    and cr.certification_result_id = crtt.certification_result_id
-    and crtt.test_task_id = tt.test_task_id
-    and tp.test_participant_id = ttpm.test_participant_id
-    and ttpm.test_task_id = tt.test_task_id
-    and tp.test_participant_age_id = tpa.test_participant_age_id
-    and tp.education_type_id = et.education_type_id
-    and (
-        tp.gender is null
-        or tp.education_type_id is null
-        or tp.occupation is null
-        or tp.professional_experience_months is null
-        or tp.computer_experience_months is null
-        or tp.product_experience_months is null
-        or tp.assistive_technology_needs is null
-        or tp.test_participant_age_id is null
-        )
-    and tp.deleted is false
-    ;
-
--- Set all Task values to "-1" or "Unknown", depending on type, where null
---  Include 'deleted' Tasks, so the later alter won't break
-update openchpl.test_task as tt set description = 'Unknown' where tt.description is null;
-update openchpl.test_task as tt set task_errors_pct = -1 where tt.task_errors_pct is null;
-update openchpl.test_task as tt set task_success_avg_pct = -1 where tt.task_success_avg_pct is null;
-update openchpl.test_task as tt set task_success_stddev_pct = -1 where tt.task_success_stddev_pct is null;
-update openchpl.test_task as tt set task_path_deviation_observed = -1 where tt.task_path_deviation_observed is null;
-update openchpl.test_task as tt set task_path_deviation_optimal = -1 where tt.task_path_deviation_optimal is null;
-update openchpl.test_task as tt set task_time_avg_seconds = -1 where tt.task_time_avg_seconds is null;
-update openchpl.test_task as tt set task_time_stddev_seconds = -1 where tt.task_time_stddev_seconds is null;
-update openchpl.test_task as tt set task_time_deviation_observed_avg_seconds = -1 where tt.task_time_deviation_observed_avg_seconds is null;
-update openchpl.test_task as tt set task_time_deviation_optimal_avg_seconds = -1 where tt.task_time_deviation_optimal_avg_seconds is null;
-update openchpl.test_task as tt set task_errors_pct = -1 where tt.task_errors_pct is null;
-update openchpl.test_task as tt set task_errors_stddev_pct = -1 where tt.task_errors_stddev_pct is null;
-update openchpl.test_task as tt set task_rating_scale = 'Unknown' where tt.task_rating_scale is null;
-update openchpl.test_task as tt set task_rating = -1 where tt.task_rating is null;
-update openchpl.test_task as tt set task_rating_stddev = -1 where tt.task_rating_stddev is null;
-
--- Set all Participant values to "-1" or "Unknown", depending on type, where null
---  Include 'deleted' participants, so the later alter won't break
-update openchpl.test_participant as tp set gender = 'Unknown' where tp.gender is null;
-update openchpl.test_participant as tp set occupation = 'Unknown' where tp.occupation is null;
-update openchpl.test_participant as tp set professional_experience_months = -1 where tp.professional_experience_months is null;
-update openchpl.test_participant as tp set computer_experience_months = -1 where tp.computer_experience_months is null;
-update openchpl.test_participant as tp set product_experience_months = -1 where tp.product_experience_months is null;
-update openchpl.test_participant as tp set assistive_technology_needs = 'Unknown' where tp.assistive_technology_needs is null;
-
--- Update tables to be required for fields
-alter table openchpl.test_task
-    alter column description set not null,
-    alter column task_errors_pct set not null,
-    alter column task_errors_stddev_pct set not null,
-    alter column task_path_deviation_observed set not null,
-    alter column task_path_deviation_optimal set not null,
-    alter column task_rating set not null,
-    alter column task_rating_scale set not null,
-    alter column task_rating_stddev set not null,
-    alter column task_success_avg_pct set not null,
-    alter column task_success_stddev_pct set not null,
-    alter column task_time_avg_seconds set not null,
-    alter column task_time_deviation_observed_avg_seconds set not null,
-    alter column task_time_deviation_optimal_avg_seconds set not null,
-    alter column task_time_stddev_seconds set not null
-    ;
-
-alter table openchpl.test_participant
-    alter column gender set not null,
-    alter column education_type_id set not null,
-    alter column occupation set not null,
-    alter column professional_experience_months set not null,
-    alter column computer_experience_months set not null,
-    alter column product_experience_months set not null,
-    alter column assistive_technology_needs set not null,
-    alter column test_participant_age_id set not null
-    ;
-
--- Remove "age" column from test_participant; never in use
-alter table openchpl.test_participant drop column if exists age;
-
---re-run grants
+--re-run grants 
 \i dev/openchpl_grant-all.sql
+>>>>>>> development

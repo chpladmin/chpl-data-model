@@ -1,7 +1,10 @@
 # Release Notes
 
-### Table modification
-_OCD-1765_
+## Version TBD
+_Date TBD_
+
+### Table/view modification
+* Add child and parent column to certified_product_search view
 * Remove tables not referenced by API, and with no data
   * `acb_contact_map`
   * `atl_contact_map`
@@ -15,8 +18,8 @@ _OCD-1765_
 
 ---
 
-## Version TBD
-_Date TBD_
+## Version 12.2.0
+_11 September 2017_
 
 ### Table/view modification
 * Migrate participants to be linked to a test task only rather than a test task+certification result. This includes a new table and next time will result in the removal of the old table.
