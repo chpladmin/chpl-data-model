@@ -1261,7 +1261,7 @@ INSERT INTO openchpl.macra_criteria_map (criteria_id, value, name, description, 
     ;
 
 INSERT INTO openchpl.job_type (name, description, success_message, last_modified_user)
-VALUES ('MUU Upload', 'Uploading a potentially large CSV file with meaningful use user counts per listing.', 'MUU Upload is complete.', -1);
+VALUES ('MUU Upload', 'Uploading a potentially large CSV file with Meaningful Use user counts per listing.', 'MUU Upload is complete.', -1);
 
 INSERT INTO openchpl.muu_accurate_as_of_date (accurate_as_of_date, last_modified_user) values('11/30/2016', -1);
 
