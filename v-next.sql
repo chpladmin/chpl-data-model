@@ -1,6 +1,5 @@
 DROP VIEW IF EXISTS openchpl.certified_product_search;
 CREATE OR REPLACE VIEW openchpl.certified_product_search AS
-
 SELECT
     cp.certified_product_id,
     string_agg(DISTINCT substring(edition.year from 3 for 2)||'.'||atl.testing_lab_code||'.'||acb.certification_body_code||'.'||vendor.vendor_code||'.'||cp.product_code||'.'||cp.version_code||'.'||cp.ics_code||'.'||cp.additional_software_code||'.'||cp.certified_date_code||'☹'||child.certified_product_id::text, '☺') as "child",
@@ -98,5 +97,18 @@ GROUP BY cp.certified_product_id, cp.acb_certification_id, edition.year, atl.tes
 atl.testing_lab_name, acb.certification_body_name,prac.practice_type_name,version.product_version,product.product_name,vendor.vendor_name,certStatusEvent.certification_date,certStatus.certification_status_name, decert.decertification_date,
 survs.count_surveillance_activities, nc_open.count_open_nonconformities, nc_closed.count_closed_nonconformities
 ;
+
+-- OCD-1765
+DROP TABLE IF EXISTS openchpl.acb_contact_map;
+DROP TABLE IF EXISTS openchpl.atl_contact_map;
+DROP TABLE IF EXISTS openchpl.test_task_result;
+DROP TABLE IF EXISTS openchpl.experience_type;
+DROP TABLE IF EXISTS openchpl.newer_standards_met;
+DROP TABLE IF EXISTS openchpl.standards_met;
+DROP TABLE IF EXISTS openchpl.test_event_details;
+DROP TABLE IF EXISTS openchpl.test_result_summary_version;
+DROP TABLE IF EXISTS openchpl.utilized_test_tool;
+DROP TABLE IF EXISTS openchpl.certification_result_test_task_participant;
+
 --re-run grants 
 \i dev/openchpl_grant-all.sql
