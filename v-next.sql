@@ -98,6 +98,17 @@ atl.testing_lab_name, acb.certification_body_name,prac.practice_type_name,versio
 survs.count_surveillance_activities, nc_open.count_open_nonconformities, nc_closed.count_closed_nonconformities
 ;
 
+-- OCD-1765
+DROP TABLE IF EXISTS openchpl.acb_contact_map;
+DROP TABLE IF EXISTS openchpl.atl_contact_map;
+DROP TABLE IF EXISTS openchpl.test_task_result;
+DROP TABLE IF EXISTS openchpl.experience_type;
+DROP TABLE IF EXISTS openchpl.newer_standards_met;
+DROP TABLE IF EXISTS openchpl.standards_met;
+DROP TABLE IF EXISTS openchpl.test_event_details;
+DROP TABLE IF EXISTS openchpl.test_result_summary_version;
+DROP TABLE IF EXISTS openchpl.utilized_test_tool;
+DROP TABLE IF EXISTS openchpl.certification_result_test_task_participant;
+
 --re-run grants 
 \i dev/openchpl_grant-all.sql
->>>>>>> development
