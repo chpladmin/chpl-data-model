@@ -15,6 +15,7 @@ _Date TBD_
   * `test_result_summary_version`
   * `test_task_result`
   * `utilized_test_tool`
+* Add background job processing tables.
 
 ---
 
