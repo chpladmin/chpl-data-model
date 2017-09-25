@@ -1,5 +1,24 @@
 # Release Notes
 
+## Version 12.3.0
+_25 September 2017_
+
+### Table/view modification
+* Add child and parent column to certified_product_search view
+* Remove tables not referenced by API, and with no data
+  * `acb_contact_map`
+  * `atl_contact_map`
+  * `experience_type`
+  * `newer_standards_met`
+  * `standards_met`
+  * `test_event_details`
+  * `test_result_summary_version`
+  * `test_task_result`
+  * `utilized_test_tool`
+* Add background job processing tables.
+
+---
+
 ## Version 12.2.0
 _11 September 2017_
 
