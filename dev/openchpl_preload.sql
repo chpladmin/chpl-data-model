@@ -1265,6 +1265,9 @@ INSERT INTO openchpl.macra_criteria_map (criteria_id, value, name, description, 
     , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (g)(9)'), 'RT4c EH/CAH', 'View, Download, or Transmit (VDT): Eligible Hospital/Critical Access Hospital', 'Required Test 4: Stage 2 Objective 8 Measure 2 and Stage 3 Objective 6 Measure 1', -1)
     ;
 
+INSERT INTO openchpl.job_type (name, description, success_message, last_modified_user)
+VALUES ('MUU Upload', 'Uploading a potentially large CSV file with Meaningful Use user counts per listing.', 'MUU Upload is complete.', -1);
+
 INSERT INTO openchpl.muu_accurate_as_of_date (accurate_as_of_date, last_modified_user) values('11/30/2016', -1);
 
 INSERT INTO user_permission (user_permission_id, "name", description, authority, last_modified_user) VALUES

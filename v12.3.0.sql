@@ -1,6 +1,5 @@
 DROP VIEW IF EXISTS openchpl.certified_product_search;
 CREATE OR REPLACE VIEW openchpl.certified_product_search AS
-
 SELECT
     cp.certified_product_id,
     string_agg(DISTINCT substring(edition.year from 3 for 2)||'.'||atl.testing_lab_code||'.'||acb.certification_body_code||'.'||vendor.vendor_code||'.'||cp.product_code||'.'||cp.version_code||'.'||cp.ics_code||'.'||cp.additional_software_code||'.'||cp.certified_date_code||'☹'||child.certified_product_id::text, '☺') as "child",
@@ -98,5 +97,101 @@ GROUP BY cp.certified_product_id, cp.acb_certification_id, edition.year, atl.tes
 atl.testing_lab_name, acb.certification_body_name,prac.practice_type_name,version.product_version,product.product_name,vendor.vendor_name,certStatusEvent.certification_date,certStatus.certification_status_name, decert.decertification_date,
 survs.count_surveillance_activities, nc_open.count_open_nonconformities, nc_closed.count_closed_nonconformities
 ;
+
+-- OCD-1765
+DROP TABLE IF EXISTS openchpl.acb_contact_map;
+DROP TABLE IF EXISTS openchpl.atl_contact_map;
+DROP TABLE IF EXISTS openchpl.test_task_result;
+DROP TABLE IF EXISTS openchpl.experience_type;
+DROP TABLE IF EXISTS openchpl.newer_standards_met;
+DROP TABLE IF EXISTS openchpl.standards_met;
+DROP TABLE IF EXISTS openchpl.test_event_details;
+DROP TABLE IF EXISTS openchpl.test_result_summary_version;
+DROP TABLE IF EXISTS openchpl.utilized_test_tool;
+DROP TABLE IF EXISTS openchpl.certification_result_test_task_participant;
+
+-- OCD-1735
+DROP TABLE IF EXISTS openchpl.job_message;
+DROP TABLE IF EXISTS openchpl.job;
+DROP TABLE IF EXISTS openchpl.job_type;
+DROP TABLE IF EXISTS openchpl.job_status;
+DROP TYPE IF EXISTS openchpl.job_status_type;
+
+
+CREATE TYPE openchpl.job_status_type as enum('In Progress', 'Complete', 'Error');
+
+CREATE TABLE openchpl.job_type (
+	id bigserial NOT NULL,
+	name varchar(500) NOT NULL,
+	description text,
+	success_message text NOT NULL, -- what message gets sent to users with jobs of this type that have completed?
+	creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
+	CONSTRAINT job_type_pk PRIMARY KEY (id)
+);
+
+CREATE TABLE openchpl.job_status (
+	id bigserial NOT NULL,
+	name openchpl.job_status_type NOT NULL, 
+	percent_complete int,
+	creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
+	CONSTRAINT job_status_pk PRIMARY KEY (id)
+);
+
+CREATE TABLE openchpl.job (
+	id bigserial NOT NULL,
+	job_type_id bigint NOT NULL,
+	user_id bigint NOT NULL,
+	job_status_id bigint,
+	start_time timestamp,
+	end_time timestamp,
+	job_data text,
+	creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
+	CONSTRAINT job_pk PRIMARY KEY (id),
+	CONSTRAINT job_type_fk FOREIGN KEY (job_type_id)
+      REFERENCES openchpl.job_type (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+	CONSTRAINT user_fk FOREIGN KEY (user_id)
+      REFERENCES openchpl.user (user_id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+	CONSTRAINT status_fk FOREIGN KEY (job_status_id)
+      REFERENCES openchpl.job_status (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+);
+
+CREATE TABLE openchpl.job_message (
+	id bigserial NOT NULL,
+	job_id bigint NOT NULL,
+	message text NOT NULL,
+	creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
+	CONSTRAINT job_message_pk PRIMARY KEY (id),
+	CONSTRAINT job_fk FOREIGN KEY (job_id)
+      REFERENCES openchpl.job (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+);
+
+INSERT INTO openchpl.job_type (name, description, success_message, last_modified_user)
+VALUES ('MUU Upload', 'Uploading a potentially large CSV file with Meaningful Use user counts per listing.', 'MUU Upload is complete.', -1);
+
+CREATE TRIGGER job_message_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.job_message FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+CREATE TRIGGER job_message_timestamp BEFORE UPDATE on openchpl.job_message FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
+CREATE TRIGGER job_status_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.job_status FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+CREATE TRIGGER job_status_timestamp BEFORE UPDATE on openchpl.job_status FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
+CREATE TRIGGER job_type_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.job_type FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+CREATE TRIGGER job_type_timestamp BEFORE UPDATE on openchpl.job_type FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
+CREATE TRIGGER job_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.job FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+CREATE TRIGGER job_timestamp BEFORE UPDATE on openchpl.job FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
+
 --re-run grants 
 \i dev/openchpl_grant-all.sql
