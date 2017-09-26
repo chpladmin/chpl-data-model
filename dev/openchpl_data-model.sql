@@ -30,7 +30,7 @@ CREATE TABLE openchpl.chart_data(
 	chart_data_id bigserial NOT NULL,
 	data_date timestamp NOT NULL DEFAULT NOW(),
 	json_data_object text,
-	type_of_stat bigint NOT NULL,
+	chart_data_stat_type_id bigint NOT NULL,
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_user bigint NOT NULL,
 	CONSTRAINT chart_data_pk PRIMARY KEY (chart_data_id)
