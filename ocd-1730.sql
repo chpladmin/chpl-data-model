@@ -1,3 +1,5 @@
+DROP TABLE IF EXISTS openchpl.chart_data;
+DROP TABLE IF EXISTS openchpl.chart_data_stat_type;
 CREATE TABLE openchpl.chart_data(
 	chart_data_id bigserial NOT NULL,
 	data_date timestamp NOT NULL DEFAULT NOW(),
@@ -28,3 +30,4 @@ CREATE TRIGGER chart_data_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.cha
 CREATE TRIGGER chart_data_timestamp BEFORE UPDATE on openchpl.chart_data FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER chart_data_stat_type_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.chart_data_stat_type FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER chart_data_stat_type_timestamp BEFORE UPDATE on openchpl.chart_data_stat_type FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
+\i dev/openchpl_grant-all.sql
