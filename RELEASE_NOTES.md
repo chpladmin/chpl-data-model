@@ -1,5 +1,14 @@
 # Release Notes
 
+## Version TBD
+_Date TBD_
+
+### Data changes
+* Added `openchpl_dev` user to role-template
+* Change ownership of openchpl database to openchpl_dev user
+
+---
+
 ## Version 12.3.0
 _25 September 2017_
 
