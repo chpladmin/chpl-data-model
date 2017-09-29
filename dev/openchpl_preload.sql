@@ -12,6 +12,11 @@ insert into openchpl.vendor_status (name, last_modified_user) values('Active', -
 INSERT INTO openchpl.surveillance_type (name, last_modified_user)
 values ('Reactive', -1),('Randomized', -1);
 
+INSERT INTO openchpl.chart_data_stat_type (data_type, last_modified_user)
+values ('Total Number of Unique Products over time', -1),('Total Number of Unique Products w/ Active Listings Over Time', -1),
+		('Total Number of Unique Products w/ Active 2011 Listings', -1),('Total Number of Unique Products w/ Active 2014 Listings', -1),
+		('Total Number of Unique Products w/ Active 2015 Listings', -1);
+
 INSERT INTO openchpl.surveillance_requirement_type (name, last_modified_user)
 values ('Certified Capability', -1), ('Transparency or Disclosure Requirement', -1), ('Other Requirement', -1);
 
