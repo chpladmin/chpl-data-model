@@ -7,7 +7,7 @@ SELECT '170.315 (a)(1)',
 WHERE NOT EXISTS (
     SELECT * 
 	FROM openchpl.macra_criteria_map (criteria_id, value, name, description, last_modified_user)
-	WHERE  ceriteria_id = '170.315 (a)(1)',
+	WHERE  criteria_id = (SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (a)(1)',
 	AND value = 'GAP-EP',
 	AND name = '(Gap Certified) Computerized Provider Order Entry - Medications: Eligible Provider',
 	AND description = 'Required Test 10: Stage 2 Objective 3 Measure 1 and Stage 3 Objective 4 Measure 1',
@@ -22,7 +22,7 @@ SELECT '170.315 (a)(1)',
 WHERE NOT EXISTS (
     SELECT * 
 	FROM openchpl.macra_criteria_map (criteria_id, value, name, description, last_modified_user)
-	WHERE  ceriteria_id = '170.315 (a)(1)',
+	WHERE  criteria_id = (SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (a)(1)',
 	AND value = 'GAP-EH/CAH',
 	AND name = '(Gap Certified) Computerized Provider Order Entry - Medications: Eligible Hospital/Critical Access Hospital',
 	AND description = 'Required Test 10: Stage 2 Objective 3 Measure 1 and Stage 3 Objective 4 Measure 1',
@@ -37,7 +37,7 @@ SELECT '170.315 (a)(2)',
 WHERE NOT EXISTS (
     SELECT * 
 	FROM openchpl.macra_criteria_map (criteria_id, value, name, description, last_modified_user)
-	WHERE  ceriteria_id = '170.315 (a)(2)',
+	WHERE  criteria_id = (SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (a)(2)',
 	AND value = 'GAP-EP',
 	AND name = '(Gap Certified) Computerized Provider Order - Laboratory: Eligible Provider',
 	AND description = 'Required Test 11: Stage 2 Objective 3 Measure 2 and Stage 3 Objective 4 Measure 2',
@@ -52,7 +52,7 @@ SELECT '170.315 (a)(2)',
 WHERE NOT EXISTS (
     SELECT * 
 	FROM openchpl.macra_criteria_map (criteria_id, value, name, description, last_modified_user)
-	WHERE  ceriteria_id = '170.315 (a)(2)',
+	WHERE  criteria_id = (SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (a)(2)',
 	AND value = 'GAP-EH/CAH',
 	AND name = '(Gap Certified) Computerized Provider Order Entry - Laboratory: Eligible Hospital/Critical Access Hospital',
 	AND description = 'Required Test 11: Stage 2 Objective 3 Measure 2 and Stage 3 Objective 4 Measure 2',
@@ -67,7 +67,7 @@ SELECT '170.315 (a)(3)',
 WHERE NOT EXISTS (
     SELECT * 
 	FROM openchpl.macra_criteria_map (criteria_id, value, name, description, last_modified_user)
-	WHERE  ceriteria_id = '170.315 (a)(3)',
+	WHERE  criteria_id = (SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (a)(3)',
 	AND value = 'GAP-EP',
 	AND name = '(Gap Certified) Computerized Provider Order Entry - Diagnostic Imaging: Eligible Provider',
 	AND description = 'Required Test 12: Stage 2 Objective 3 Measure 3 and Stage 3 Objective 4 Measure 3',
@@ -82,7 +82,7 @@ SELECT '170.315 (a)(3)',
 WHERE NOT EXISTS (
     SELECT * 
 	FROM openchpl.macra_criteria_map (criteria_id, value, name, description, last_modified_user)
-	WHERE  ceriteria_id = '170.315 (a)(3)',
+	WHERE  criteria_id = (SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (a)(3)',
 	AND value = 'GAP-EH/CAH',
 	AND name = '(Gap Certified) Computerized Provider Order Entry - Diagnostic Imaging: Eligible Hospital/Critical Access Hospital',
 	AND description = 'Required Test 12: Stage 2 Objective 3 Measure 3 and Stage 3 Objective 4 Measure 3',
