@@ -6,6 +6,7 @@ _Date TBD_
 ### Data changes
 * Added `openchpl_dev` user to role-template
 * Change ownership of openchpl database to openchpl_dev user
+* Update allowable 2015 'Measures Successfully Tested for G1/G2' values
 
 ---
 
