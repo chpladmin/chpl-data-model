@@ -312,6 +312,8 @@ CREATE TRIGGER testing_lab_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.te
 CREATE TRIGGER testing_lab_timestamp BEFORE UPDATE on openchpl.testing_lab FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER ucd_process_timestamp BEFORE UPDATE on openchpl.ucd_process FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER ucd_process_timestamp_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.ucd_process FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+CREATE TRIGGER upload_template_version_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.upload_template_version FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+CREATE TRIGGER upload_template_version_timestamp BEFORE UPDATE on openchpl.upload_template_version FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER user_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.user FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER user_permission_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.user_permission FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER user_permission_timestamp BEFORE UPDATE on openchpl.user_permission FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();

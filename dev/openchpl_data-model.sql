@@ -2350,6 +2350,20 @@ WITH (
 -- ALTER TABLE openchpl.ehr_certification_id_product_map OWNER TO openchpl;
 GRANT ALL ON TABLE openchpl.ehr_certification_id_product_map TO openchpl;
 
+CREATE TABLE openchpl.upload_template_version (
+	id bigserial NOT NULL,
+	name varchar(500) NOT NULL,
+	description text NOT NULL,
+	available_as_of_date timestamp DEFAULT NOW(),
+	deprecated bool NOT NULL DEFAULT false,
+	header_csv text NOT NULL, --comma-separated string with each header column. used to determine which version a user is uploading.
+	creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
+	CONSTRAINT upload_template_version_pk PRIMARY KEY (id)
+);
+
 CREATE TABLE openchpl.notification_type(
 	id bigserial NOT NULL,
 	name varchar(255) NOT NULL,
