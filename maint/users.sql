@@ -16,7 +16,7 @@ insert into openchpl.user (user_name, password, account_expired, account_locked,
     ('andlar', '$2a$10$D039AXXR3qZAoDtotSCj.OlysLVNy8/K6l4Jup4AuOdRrQ1haLwnq', false, false, false, true, now(), -2, (select contact_id from openchpl.contact where first_name = 'Andrew' and last_name = 'Larned' limit 1))
     ,('andlar-acb', '$2a$10$D039AXXR3qZAoDtotSCj.OlysLVNy8/K6l4Jup4AuOdRrQ1haLwnq', false, false, false, true, now(), -2, (select contact_id from openchpl.contact where first_name = 'Andrew' and last_name = 'ACB' limit 1))
     ,('kekey-icsa', '$2a$10$/PEoddTP3Eb7HyDElyIuUOhRT52sbIEV2pvPzuUUSoC0pnVbvEwNG', false, false, false, true, now(), -2, (select contact_id from openchpl.contact where first_name = 'Katy' and last_name = 'Ekey' limit 1))
-    ,('amore-icsa', '$2a$10$Xuc4/EDtgYr9bkcfUSxN6eUN8l/S796FZZL0k/PlJLMFtoa5hXM5i', false, false, false, true, now(), -2, (select contact_id from openchpl.contact where first_name = 'Ashwini' and last_name = 'More' limit 1))
+    ,('amore-icsa', '$2a$10$f7uHfKvQGCrQNVm5twsLk.xllKQk54QAVtSk9sI2z4yTIsqbwyc1G', false, false, false, true, now(), -2, (select contact_id from openchpl.contact where first_name = 'Ashwini' and last_name = 'More' limit 1))
     ,('blindsey', '$2a$10$rryL2dT/QkwWzMcLFhw0GODNQp8cqaT5BXSEpJp.UYTBN5D6PapMu', false, false, false, true, now(), -2, (select contact_id from openchpl.contact where first_name = 'Brian' and last_name = 'Lindsey' limit 1))
     ;
 
