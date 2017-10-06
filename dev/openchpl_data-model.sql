@@ -1516,6 +1516,25 @@ CREATE TABLE openchpl.pending_certified_product_accessibility_standard (
       ON UPDATE NO ACTION ON DELETE NO ACTION
 );
 
+CREATE TABLE openchpl.pending_certified_product_parent_listing
+(
+  id bigserial NOT NULL,
+  pending_certified_product_id bigint NOT NULL,
+  parent_certified_product_id bigint,
+  parent_certified_product_unique_id character varying(50), --the entered value
+  creation_date timestamp without time zone NOT NULL DEFAULT now(),
+  last_modified_date timestamp without time zone NOT NULL DEFAULT now(),
+  last_modified_user bigint NOT NULL,
+  deleted boolean NOT NULL DEFAULT false,
+  CONSTRAINT pending_certified_product_parent_listing_pk PRIMARY KEY (id),
+  CONSTRAINT pending_certified_product_fk FOREIGN KEY (pending_certified_product_id)
+      REFERENCES openchpl.pending_certified_product (pending_certified_product_id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT parent_certified_product_id_fk FOREIGN KEY (parent_certified_product_id)
+      REFERENCES openchpl.certified_product (certified_product_id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+);
+
 CREATE TABLE openchpl.pending_test_participant (
 	pending_test_participant_id bigserial not null,
 	test_participant_unique_id varchar(20) not null,

@@ -1,3 +1,7 @@
+--
+-- add table and data for upload template versions
+--
+
 DROP TABLE IF EXISTS openchpl.upload_template_version;
 
 CREATE TABLE openchpl.upload_template_version (
@@ -22,6 +26,34 @@ VALUES
 
 CREATE TRIGGER upload_template_version_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.upload_template_version FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER upload_template_version_timestamp BEFORE UPDATE on openchpl.upload_template_version FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
+
+--
+-- add table for pending ics relationship
+--
+
+DROP TABLE IF EXISTS openchpl.pending_certified_product_parent_listing;
+
+CREATE TABLE openchpl.pending_certified_product_parent_listing
+(
+  id bigserial NOT NULL,
+  pending_certified_product_id bigint NOT NULL,
+  parent_certified_product_id bigint,
+  parent_certified_product_unique_id character varying(50), --the entered value
+  creation_date timestamp without time zone NOT NULL DEFAULT now(),
+  last_modified_date timestamp without time zone NOT NULL DEFAULT now(),
+  last_modified_user bigint NOT NULL,
+  deleted boolean NOT NULL DEFAULT false,
+  CONSTRAINT pending_certified_product_parent_listing_pk PRIMARY KEY (id),
+  CONSTRAINT pending_certified_product_fk FOREIGN KEY (pending_certified_product_id)
+      REFERENCES openchpl.pending_certified_product (pending_certified_product_id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT parent_certified_product_id_fk FOREIGN KEY (parent_certified_product_id)
+      REFERENCES openchpl.certified_product (certified_product_id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+);
+
+CREATE TRIGGER pending_certified_product_parent_listing_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.pending_certified_product_parent_listing FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+CREATE TRIGGER pending_certified_product_parent_listing_timestamp BEFORE UPDATE on openchpl.pending_certified_product_parent_listing FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 
 --re-run grants 
 \i dev/openchpl_grant-all.sql

@@ -243,6 +243,8 @@ CREATE TRIGGER pending_certification_result_ucd_process_timestamp BEFORE UPDATE 
 CREATE TRIGGER pending_certified_product_accessibility_standard_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.pending_certified_product_accessibility_standard FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER pending_certified_product_accessibility_standard_timestamp BEFORE UPDATE on openchpl.pending_certified_product_accessibility_standard FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER pending_certified_product_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.pending_certified_product FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+CREATE TRIGGER pending_certified_product_parent_listing_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.pending_certified_product_parent_listing FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+CREATE TRIGGER pending_certified_product_parent_listing_timestamp BEFORE UPDATE on openchpl.pending_certified_product_parent_listing FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER pending_certified_product_qms_standard_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.pending_certified_product_qms_standard FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER pending_certified_product_qms_standard_timestamp BEFORE UPDATE on openchpl.pending_certified_product_qms_standard FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER pending_certified_product_targeted_user_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.pending_certified_product_targeted_user FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
