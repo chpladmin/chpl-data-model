@@ -1,7 +1,7 @@
 # Release Notes
 
-## Version TBD
-_Date TBD_
+## Version 12.3.1
+_10 October 2017_
 
 ### Data changes
 * Added `openchpl_dev` user to role-template
