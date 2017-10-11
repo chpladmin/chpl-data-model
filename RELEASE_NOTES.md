@@ -1,12 +1,20 @@
 # Release Notes
 
+## Version TBD
+_Date TBD_
+
+### Data changes
+* Update allowable 2015 'Measures Successfully Tested for G1/G2 values
+* Add tables for upload version templates and pending ICS family data
+
+---
+
 ## Version 12.3.1
 _10 October 2017_
 
 ### Data changes
 * Added `openchpl_dev` user to role-template
 * Change ownership of openchpl database to openchpl_dev user
-* Update allowable 2015 'Measures Successfully Tested for G1/G2' values
 
 ---
 
