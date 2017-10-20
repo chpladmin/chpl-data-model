@@ -6,6 +6,7 @@ _Date TBD_
 ### Data changes
 * Update allowable 2015 'Measures Successfully Tested for G1/G2 values
 * Add tables for upload version templates and pending ICS family data
+* Add New 2014 CHPL Upload Template v2 to upload_template_version
 
 ---
 
