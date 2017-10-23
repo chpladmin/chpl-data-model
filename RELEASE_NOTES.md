@@ -1,5 +1,16 @@
 # Release Notes
 
+## Version 12.4.0
+_23 October 2017_
+
+### Table modification
+* Add tables for upload version templates and pending ICS family data
+
+### Data changes
+* Update allowable 2015 'Measures Successfully Tested for G1/G2 values
+
+---
+
 ## Version 12.3.1
 _10 October 2017_
 

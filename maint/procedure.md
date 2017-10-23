@@ -44,19 +44,24 @@ rsync -zP openchpl.backup $target_machine:chpl-data-model/maint
 
 If the target machine is running CHPL at the time, it is recommended that apache be stopped/started around the load, to avoid any database activity during the load process. The below lines include those steps.
 
+## If going from PRODUCTION to STG
+
+Will need to use the flag to indicate that the users & subscriptions need to be updated
+
 ```sh
 ssh $target_machine
 cd chpl-data-model/maint
-service apache2 stop && ./load.sh $DB openchpl_dev || service apache2 start
+service apache2 stop && ./load.sh -e prod -h $DB || service apache2 start
 ```
 
-## If going from PRODUCTION to STG
+## If not going from PRODUCTION to STG
 
-Load the users & update the Notifications
+Will not need to use the flag to indicate that the users & subscriptions need to be updated
 
 ```sh
-psql -U openchpl_dev -h $DB -f users.sql openchpl
-psql -U openchpl_dev -h $DB -f subscriptions.sql openchpl
+ssh $target_machine
+cd chpl-data-model/maint
+service apache2 stop && ./load.sh -h $DB || service apache2 start
 ```
 
 # Update the target machine with whatever is "new" as per git
