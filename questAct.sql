@@ -321,6 +321,9 @@ COPY questionable_activity_listing (id, questionable_activity_trigger_id, listin
 3	1	5309	\N	170.314 (a)(17)	2017-10-24 15:25:37.243	-2	2017-10-24 15:25:37.168	2017-10-24 15:25:37.168	-2	f
 4	2	5309	170.314 (a)(17)	\N	2017-10-24 15:27:12.985	-2	2017-10-24 15:27:12.915	2017-10-24 15:27:12.915	-2	f
 5	12	8125	\N	\N	2017-10-24 15:36:00.996	33	2017-10-24 15:36:00.981	2017-10-24 15:36:00.981	33	f
+10	4	8125	CMS2	\N	2017-10-24 15:51:23.916	33	2017-10-24 15:51:22.652	2017-10-24 15:51:22.652	33	f
+11	3	8125	\N	CMS52	2017-10-24 15:52:38.556	33	2017-10-24 15:52:32.714	2017-10-24 15:52:32.714	33	f
+12	3	8125	\N	CMS50	2017-10-24 15:52:38.556	33	2017-10-24 15:52:32.714	2017-10-24 15:52:32.714	33	f
 \.
 
 
@@ -328,7 +331,7 @@ COPY questionable_activity_listing (id, questionable_activity_trigger_id, listin
 -- Name: questionable_activity_listing_id_seq; Type: SEQUENCE SET; Schema: openchpl; Owner: postgres
 --
 
-SELECT pg_catalog.setval('questionable_activity_listing_id_seq', 5, true);
+SELECT pg_catalog.setval('questionable_activity_listing_id_seq', 12, true);
 
 
 --
