@@ -1,3 +1,7 @@
+-- add generated CHPL Product Number into certified_product_details view. It has all the other information needed but has been missing this piece
+-- but it is much faster to join on than the certified_product_search (the only other place this field was available).
+DROP VIEW IF EXISTS openchpl.certified_product_details CASCADE;
+	
 DROP TABLE IF EXISTS openchpl.questionable_activity_version;
 DROP TABLE IF EXISTS openchpl.questionable_activity_product;
 DROP TABLE IF EXISTS openchpl.questionable_activity_developer;
@@ -183,5 +187,7 @@ CREATE TRIGGER questionable_activity_listing_timestamp BEFORE UPDATE on openchpl
 CREATE TRIGGER questionable_activity_certification_result_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.questionable_activity_certification_result FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER questionable_activity_certification_result_timestamp BEFORE UPDATE on openchpl.questionable_activity_certification_result FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 
+--re-create views
+\i dev/openchpl_views.sql
 --re-run grants 
 \i dev/openchpl_grant-all.sql
