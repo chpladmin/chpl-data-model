@@ -21,6 +21,34 @@ values ('Non-Conformity', -1), ('No Non-Conformity', -1);
 INSERT INTO openchpl.nonconformity_status (name, last_modified_user)
 values ('Open', -1), ('Closed', -1);
 
+INSERT INTO openchpl.questionable_activity_trigger (name, level, last_modified_user)
+VALUES
+('Certification Criteria Added', 'Listing', -1),
+('Certification Criteria Removed', 'Listing', -1),
+('CQM Added', 'Listing', -1),
+('CQM Removed', 'Listing', -1),
+('Measure Successfully Tested for 170.314 (g)(1) Edited', 'Certification Criteria', -1),
+('Measure Successfully Tested for 170.314 (g)(2) Edited', 'Certification Criteria', -1),
+('Measures Successfully Tested for 170.315 (g)(1) Added', 'Certification Criteria', -1),
+('Measures Successfully Tested for 170.315 (g)(1) Removed', 'Certification Criteria', -1),
+('Measures Successfully Tested for 170.315 (g)(2) Added', 'Certification Criteria', -1),
+('Measures Successfully Tested for 170.315 (g)(2) Removed', 'Certification Criteria', -1),
+('GAP Status Edited', 'Certification Criteria', -1),
+('Surveillance Removed', 'Listing', -1),
+('2011 Listing Edited', 'Listing', -1),
+('Certification Status Edited', 'Listing', -1),
+('Developer Name Edited', 'Developer', -1),
+('Developer Status Edited', 'Developer', -1),
+('Developer Status History Edited', 'Developer', -1),
+('Developer Status History Added', 'Developer', -1),
+('Developer Status History Removed', 'Developer', -1),
+('Product Name Edited', 'Product', -1),
+('Product Owner Edited', 'Product', -1),
+('Product Owner History Edited', 'Product', -1),
+('Product Owner History Added', 'Product', -1),
+('Product Owner History Removed', 'Product', -1),
+('Version Name Edited', 'Version', -1);
+
 INSERT INTO openchpl.certification_criterion (certification_edition_id, number, title, last_modified_user) VALUES
 (3, '170.315 (a)(1)', 'Computerized Provider Order Entry (CPOE) - Medications', -1),
 (3, '170.315 (a)(2)', 'CPOE - Laboratory', -1),

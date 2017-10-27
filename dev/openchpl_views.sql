@@ -58,7 +58,7 @@ SELECT
     a.product_version_id,
     a.testing_lab_id,
     a.certification_body_id,
-    a.chpl_product_number,
+    COALESCE(a.chpl_product_number, substring(b.year from 3 for 2)||'.'||q.testing_lab_code||'.'||c.certification_body_code||'.'||h.vendor_code||'.'||a.product_code||'.'||a.version_code||'.'||a.ics_code||'.'||a.additional_software_code||'.'||a.certified_date_code) as "chpl_product_number",
     a.report_file_location,
     a.sed_report_file_location,
     a.sed_intended_user_description,
