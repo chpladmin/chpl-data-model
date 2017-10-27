@@ -1,6 +1,9 @@
 # Release Notes
 
-## OCD-1827
+## Version TBD
+_Date TBD_
+
+### Table modification
 * Add tables for questionable activity records
 
 ---
