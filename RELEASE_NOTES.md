@@ -6,6 +6,9 @@ _Date TBD_
 ### Table modification
 * Add tables for questionable activity records
 
+### Data changes
+* Add New 2014 CHPL Upload Template v2 to upload_template_version
+
 ---
 
 ## Version 12.4.0
