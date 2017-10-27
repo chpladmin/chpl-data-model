@@ -1,5 +1,13 @@
 # Release Notes
 
+## Version TBD
+_Date TBD_
+
+### Data changes
+* Add New 2014 CHPL Upload Template v2 to upload_template_version
+
+---
+
 ## Version 12.4.0
 _23 October 2017_
 
