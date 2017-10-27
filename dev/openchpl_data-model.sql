@@ -26,6 +26,7 @@ SET search_path TO pg_catalog,public,openchpl;
 CREATE TYPE openchpl.attestation as enum('Affirmative', 'Negative', 'N/A');
 CREATE TYPE openchpl.validation_message_type as enum('Error', 'Warning');
 CREATE TYPE openchpl.job_status_type as enum('In Progress', 'Complete', 'Error');
+CREATE TYPE openchpl.questionable_activity_trigger_level as enum('Version', 'Product', 'Developer', 'Listing', 'Certification Criteria');
 
 -- object: openchpl.user | type: TABLE --
 -- DROP TABLE IF EXISTS openchpl.user CASCADE;
@@ -2380,6 +2381,138 @@ CREATE TABLE openchpl.upload_template_version (
 	last_modified_user bigint NOT NULL,
 	deleted bool NOT NULL DEFAULT false,
 	CONSTRAINT upload_template_version_pk PRIMARY KEY (id)
+);
+
+-- a lookup table with all of the things that can trigger questionable activity in the system
+CREATE TABLE openchpl.questionable_activity_trigger (
+	id bigserial NOT NULL,
+	name varchar(500) NOT NULL,
+	level openchpl.questionable_activity_trigger_level NOT NULL,
+	creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
+	CONSTRAINT questionable_activity_trigger_pk PRIMARY KEY (id)
+);
+
+CREATE TABLE openchpl.questionable_activity_version (
+	id bigserial NOT NULL,
+	questionable_activity_trigger_id bigint NOT NULL,
+	version_id bigint NOT NULL,
+	before_data text,
+	after_data text,
+	activity_date timestamp NOT NULL,
+	activity_user_id bigint NOT NULL,
+	creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
+	CONSTRAINT questionable_activity_version_pk PRIMARY KEY (id),
+	CONSTRAINT version_fk FOREIGN KEY (version_id)
+		REFERENCES openchpl.product_version (product_version_id)
+		MATCH FULL ON DELETE CASCADE ON UPDATE CASCADE,
+	CONSTRAINT questionable_activity_trigger_fk FOREIGN KEY (questionable_activity_trigger_id)
+		REFERENCES openchpl.questionable_activity_trigger (id)
+		MATCH FULL ON DELETE CASCADE ON UPDATE CASCADE,
+	CONSTRAINT user_fk FOREIGN KEY (activity_user_id)
+		REFERENCES openchpl.user (user_id)
+		MATCH FULL ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE TABLE openchpl.questionable_activity_product (
+	id bigserial NOT NULL,
+	questionable_activity_trigger_id bigint NOT NULL,
+	product_id bigint NOT NULL,
+	before_data text,
+	after_data text,
+	activity_date timestamp NOT NULL,
+	activity_user_id bigint NOT NULL,
+	creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
+	CONSTRAINT questionable_activity_product_pk PRIMARY KEY (id),
+	CONSTRAINT product_fk FOREIGN KEY (product_id)
+		REFERENCES openchpl.product (product_id)
+		MATCH FULL ON DELETE CASCADE ON UPDATE CASCADE,
+	CONSTRAINT questionable_activity_trigger_fk FOREIGN KEY (questionable_activity_trigger_id)
+		REFERENCES openchpl.questionable_activity_trigger (id)
+		MATCH FULL ON DELETE CASCADE ON UPDATE CASCADE,
+	CONSTRAINT user_fk FOREIGN KEY (activity_user_id)
+		REFERENCES openchpl.user (user_id)
+		MATCH FULL ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE TABLE openchpl.questionable_activity_developer (
+	id bigserial NOT NULL,
+	questionable_activity_trigger_id bigint NOT NULL,
+	developer_id bigint NOT NULL,
+	before_data text,
+	after_data text,
+	activity_date timestamp NOT NULL,
+	activity_user_id bigint NOT NULL,
+	creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
+	CONSTRAINT questionable_activity_developer_ok PRIMARY KEY (id),
+	CONSTRAINT developer_fk FOREIGN KEY (developer_id)
+		REFERENCES openchpl.vendor (vendor_id)
+		MATCH FULL ON DELETE CASCADE ON UPDATE CASCADE,
+	CONSTRAINT questionable_activity_trigger_fk FOREIGN KEY (questionable_activity_trigger_id)
+		REFERENCES openchpl.questionable_activity_trigger (id)
+		MATCH FULL ON DELETE CASCADE ON UPDATE CASCADE,
+	CONSTRAINT user_fk FOREIGN KEY (activity_user_id)
+		REFERENCES openchpl.user (user_id)
+		MATCH FULL ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE TABLE openchpl.questionable_activity_listing (
+	id bigserial NOT NULL,
+	questionable_activity_trigger_id bigint NOT NULL,
+	listing_id bigint NOT NULL,
+	before_data text,
+	after_data text,
+	activity_date timestamp NOT NULL,
+	activity_user_id bigint NOT NULL,
+	creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
+	CONSTRAINT questionable_activity_listing_pk PRIMARY KEY (id),
+	CONSTRAINT listing_fk FOREIGN KEY (listing_id)
+		REFERENCES openchpl.certified_product (certified_product_id)
+		MATCH FULL ON DELETE CASCADE ON UPDATE CASCADE,
+	CONSTRAINT questionable_activity_trigger_fk FOREIGN KEY (questionable_activity_trigger_id)
+		REFERENCES openchpl.questionable_activity_trigger (id)
+		MATCH FULL ON DELETE CASCADE ON UPDATE CASCADE,
+	CONSTRAINT user_fk FOREIGN KEY (activity_user_id)
+		REFERENCES openchpl.user (user_id)
+		MATCH FULL ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE TABLE openchpl.questionable_activity_certification_result (
+	id bigserial NOT NULL,
+	questionable_activity_trigger_id bigint NOT NULL,
+	certification_result_id bigint NOT NULL,
+	before_data text,
+	after_data text,
+	activity_date timestamp NOT NULL,
+	activity_user_id bigint NOT NULL,
+	creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
+	CONSTRAINT questionable_activity_certification_result_pk PRIMARY KEY (id),
+	CONSTRAINT certification_result_fk FOREIGN KEY (certification_result_id)
+		REFERENCES openchpl.certification_result (certification_result_id)
+		MATCH FULL ON DELETE CASCADE ON UPDATE CASCADE,
+	CONSTRAINT questionable_activity_trigger_fk FOREIGN KEY (questionable_activity_trigger_id)
+		REFERENCES openchpl.questionable_activity_trigger (id)
+		MATCH FULL ON DELETE CASCADE ON UPDATE CASCADE,
+	CONSTRAINT user_fk FOREIGN KEY (activity_user_id)
+		REFERENCES openchpl.user (user_id)
+		MATCH FULL ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE openchpl.notification_type(
