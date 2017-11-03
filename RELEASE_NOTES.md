@@ -1,5 +1,14 @@
 # Release Notes
 
+## OCD-1845
+_Delete deprecated uploads_
+
+### Data changes
+* Mark deprecated upload templates as deleted
+* Update "new" 2014 upload template to have correct "available_as_of_date"
+
+---
+
 ## Version TBD
 _Date TBD_
 
