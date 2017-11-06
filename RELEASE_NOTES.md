@@ -1,5 +1,70 @@
 # Release Notes
 
+## Version 12.5.0
+_6 November 2017_
+
+### Table modification
+* Add tables for questionable activity records
+
+### Data changes
+* Add New 2014 CHPL Upload Template v2 to upload_template_version
+
+---
+
+## Version 12.4.0
+_23 October 2017_
+
+### Table modification
+* Add tables for upload version templates and pending ICS family data
+
+### Data changes
+* Update allowable 2015 'Measures Successfully Tested for G1/G2 values
+
+---
+
+## Version 12.3.1
+_10 October 2017_
+
+### Data changes
+* Added `openchpl_dev` user to role-template
+* Change ownership of openchpl database to openchpl_dev user
+
+---
+
+## Version 12.3.0
+_25 September 2017_
+
+### Table/view modification
+* Add child and parent column to certified_product_search view
+* Remove tables not referenced by API, and with no data
+  * `acb_contact_map`
+  * `atl_contact_map`
+  * `experience_type`
+  * `newer_standards_met`
+  * `standards_met`
+  * `test_event_details`
+  * `test_result_summary_version`
+  * `test_task_result`
+  * `utilized_test_tool`
+* Add background job processing tables.
+
+---
+
+## Version 12.2.0
+_11 September 2017_
+
+### Table/view modification
+* Migrate participants to be linked to a test task only rather than a test task+certification result. This includes a new table and next time will result in the removal of the old table.
+* Add "NOT NULL" to all values of Test Tasks & Participants
+* Remove unused "Age" column from Test Participants
+
+### Data changes
+* Fill in null values of Test Tasks and Test Participants
+* Added ocd-1754.sql as optional report that can be run to get phantom criteria associations
+* Added ocd-1755.sql as optional file to delete phantom criteria associations (report should be empty after this is run)
+
+---
+
 ## Version 12.1.0
 _14 August 2017_
 
