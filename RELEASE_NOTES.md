@@ -1,7 +1,7 @@
 # Release Notes
 
-## Version TBD
-_Date TBD_
+## Version 12.5.0
+_6 November 2017_
 
 ### Table modification
 * Add tables for questionable activity records
