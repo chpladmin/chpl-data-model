@@ -330,7 +330,10 @@ AS
 			vendor.vendor_name,
 			history_vendor_name as "prev_vendor",
 			certStatusEvent.certification_date,
-			decert.decertification_date
+			decert.decertification_date,
+			COALESCE(count_surveillance_activities, 0) as "count_surveillance_activities",
+			COALESCE(count_open_nonconformities, 0) as "count_open_nonconformities",
+			COALESCE(count_closed_nonconformities, 0) as "count_closed_nonconformities"
 		FROM openchpl.certified_product cp
 		
 		--certification date
@@ -379,6 +382,32 @@ AS
 			JOIN openchpl.product_owner_history_map ON vendor.vendor_id = product_owner_history_map.vendor_id
 			WHERE product_owner_history_map.deleted = false) prev_vendor_owners
 		ON prev_vendor_owners.history_product_id = product.product_id
+		
+		-- surveillance
+		LEFT JOIN
+                (SELECT certified_product_id, count(*) as "count_surveillance_activities"
+                FROM openchpl.surveillance 
+                WHERE openchpl.surveillance.deleted <> true  
+                GROUP BY certified_product_id) survs
+            ON cp.certified_product_id = survs.certified_product_id
+            LEFT JOIN 
+                (SELECT certified_product_id, count(*) as "count_open_nonconformities" 
+                FROM openchpl.surveillance surv
+                JOIN openchpl.surveillance_requirement surv_req ON surv.id = surv_req.surveillance_id AND surv_req.deleted <> true
+                JOIN openchpl.surveillance_nonconformity surv_nc ON surv_req.id = surv_nc.surveillance_requirement_id AND surv_nc.deleted <> true
+                JOIN openchpl.nonconformity_status nc_status ON surv_nc.nonconformity_status_id = nc_status.id
+                WHERE surv.deleted <> true AND nc_status.name = 'Open'  
+                GROUP BY certified_product_id) nc_open
+            ON cp.certified_product_id = nc_open.certified_product_id
+            LEFT JOIN 
+                (SELECT certified_product_id, count(*) as "count_closed_nonconformities" 
+                FROM openchpl.surveillance surv
+                JOIN openchpl.surveillance_requirement surv_req ON surv.id = surv_req.surveillance_id AND surv_req.deleted <> true
+                JOIN openchpl.surveillance_nonconformity surv_nc ON surv_req.id = surv_nc.surveillance_requirement_id AND surv_nc.deleted <> true
+                JOIN openchpl.nonconformity_status nc_status ON surv_nc.nonconformity_status_id = nc_status.id
+                WHERE surv.deleted <> true AND nc_status.name = 'Closed'  
+                GROUP BY certified_product_id) nc_closed
+            ON cp.certified_product_id = nc_closed.certified_product_id
 	) all_listings_simple 
 	--certs (adds so many rows to the result set it's faster to join it out here)
 	LEFT OUTER JOIN
@@ -401,7 +430,7 @@ AS
 		AND cqm_result.success = true
 		AND cqm_result.deleted = false
 	) cqms_for_listing	
-	ON cqms_for_listing.certified_product_id = all_listings_simple.certified_product_id;	
+	ON cqms_for_listing.certified_product_id = all_listings_simple.certified_product_id;
 
 CREATE OR REPLACE VIEW openchpl.developer_certification_statuses AS
 SELECT v.vendor_id,
