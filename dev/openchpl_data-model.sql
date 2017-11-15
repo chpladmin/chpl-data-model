@@ -182,7 +182,7 @@ CREATE TABLE openchpl.acb_vendor_map (
     CONSTRAINT acb_vendor_map_vendor_id_certification_body_id_key UNIQUE (vendor_id, certification_body_id)
 );
 
-ALTER TABLE openchpl.acb_vendor_map OWNER TO openchpl;
+-- ALTER TABLE openchpl.acb_vendor_map OWNER TO openchpl;
 -- ddl-end --
 
 -- object: openchpl.user_permission | type: TABLE --
