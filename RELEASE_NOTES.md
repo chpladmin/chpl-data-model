@@ -1,10 +1,16 @@
 # Release Notes
 
+## OCD-1889
+
+### Data changes
+* Mark deprecated upload templates as deleted
+
+---
+
 ## Version TBD
 _Date TBD_
 
 ### Data changes
-* Mark deprecated upload templates as deleted
 * Update "new" 2014 upload template to have correct "available_as_of_date"
 * Add new view to use for faster API searches
 
