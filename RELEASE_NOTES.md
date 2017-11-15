@@ -13,6 +13,7 @@ _Date TBD_
 ### Data changes
 * Update "new" 2014 upload template to have correct "available_as_of_date"
 * Add new view to use for faster API searches
+* Remove users.sql file. It is now in Bamboo for anyone who wants a copy.
 
 ---
 
