@@ -28,7 +28,13 @@ pg_restore --host $host --username $user --no-password --verbose --clean --if-ex
 
 case $env in
     stg)
-        psql --host $host --username $user -f users.sql openchpl
+		usersFile=users.sql
+		if [ -f $usersFile ]
+		then
+			psql --host $host --username $user -f $usersFile openchpl
+		else
+			printf 'No users file to load.'
+		fi
         psql --host $host --username $user -f subscriptions.sql openchpl
         ;;
     dev|local)
