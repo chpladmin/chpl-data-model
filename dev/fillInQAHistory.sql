@@ -1,37 +1,210 @@
 /* 1 - Certification Criteria Added */
 INSERT INTO openchpl.questionable_activity_listing (questionable_activity_trigger_id, listing_id, before_data, after_data, activity_date, activity_user_id, last_modified_user, creation_date, last_modified_date)
-(SELECT (SELECT id FROM openchpl.questionable_activity_trigger WHERE name = 'Certification Criteria Added'), listing_id, null, added_certs, creation_date, activity_user_id, last_modified_user, creation_date, creation_date FROM 
-(SELECT (new_data::json->>'id')::bigint as listing_id, null, 
-	CASE WHEN original_data::json->>'countCerts' < new_data::json->>'countCerts' 
-	THEN (SELECT string_agg(number,';') FROM ((SELECT number FROM (SELECT number FROM json_to_recordset(original_data::json->'certificationResults') as results(number text, success text) WHERE results.success = 'true') as results) 
-		EXCEPT ALL (SELECT number FROM (SELECT number FROM json_to_recordset(new_data::json->'certificationResults') as results(number text, success text) WHERE results.success = 'true') as results)) as added_certs) 
-	END as added_certs, creation_date, last_modified_user as activity_user_id, last_modified_user 
-FROM openchpl.activity WHERE activity_object_concept_id = (SELECT activity_concept_id FROM openchpl.activity_concept WHERE concept = 'CERTIFIED_PRODUCT')) as changed_name
-WHERE added_certs IS NOT NULL)
+SELECT 	
+	(SELECT id FROM openchpl.questionable_activity_trigger WHERE name = 'Certification Criteria Added') as trigger_id, 
+	all_listing_activity.listing_id, null as "before_data", cert_results_added_activity.cert_results_added as "after_data",
+	creation_date, activity_user_id, last_modified_user, creation_date, creation_date
+FROM
+(
+--get all activity of the relevant concept and pull out the fields necessary for inserting questionable activity
+(SELECT activity.activity_id, activity.creation_date, last_modified_user as activity_user_id, activity.last_modified_date, activity.last_modified_user, (new_data::json->>'id')::bigint as listing_id 
+FROM openchpl.activity 
+WHERE activity_object_concept_id = (SELECT activity_concept_id FROM openchpl.activity_concept WHERE concept = 'CERTIFIED_PRODUCT')) all_listing_activity
+
+INNER JOIN 
+
+-- This will give rows where the cert result number + cert result success field are 1 thing in 'new data' 
+-- but are something different in 'original data'. All of the cert results are listed regardless of true/false success
+-- so there will always be the same list of criteria in original data vs new data (meaning we are not looking for a 
+-- piece of data that's present in one and missing in another; all of the cert results are always present
+-- it's just the success flag that might have changed).
+-- So for example, number '170.314 (b)(7)' + success 'f' in the resultset means that b7+false is
+-- present in the new data but was NOT present in the original data. Therefore the success value of b7 is
+-- FALSE in the new data and was TRUE in the original data and we can conclude that b7 was removed.
+-- Similarly, if the success flag is 't' we know that the cert result was added (true in new data => false in original data)
+(SELECT activity_id, activity_date, string_agg(number,';') as cert_results_added
+--SELECT *
+FROM
+	-- pull back each cert result number and success value from the new data as columns
+	(SELECT activity.activity_id, activity.activity_date, certResult.number, certResult.success
+	FROM
+	openchpl.activity
+	CROSS JOIN LATERAL
+	json_to_recordset(activity.new_data::json->'certificationResults') as certResult("number" text, "success" boolean)
+	WHERE activity_object_concept_id = (SELECT activity_concept_id FROM openchpl.activity_concept WHERE concept = 'CERTIFIED_PRODUCT') 
+
+	EXCEPT ALL
+
+	-- pull back each cert result number and success value from the original data as columns
+	SELECT activity.activity_id, activity.activity_date, certResult.number, certResult.success
+	FROM
+	openchpl.activity
+	CROSS JOIN LATERAL
+	json_to_recordset(activity.original_data::json->'certificationResults') as certResult("number" text, "success" boolean)
+	WHERE activity_object_concept_id = (SELECT activity_concept_id FROM openchpl.activity_concept WHERE concept = 'CERTIFIED_PRODUCT') 
+	) diff
+WHERE success = true -- switch to success = false for criteria removed
+GROUP BY activity_id, activity_date, success
+ORDER BY diff.activity_id) cert_results_added_activity
+ON all_listing_activity.activity_id = cert_results_added_activity.activity_id
+)
+;
 
 /* 2 - Certification Criteria Removed */
 INSERT INTO openchpl.questionable_activity_listing (questionable_activity_trigger_id, listing_id, before_data, after_data, activity_date, activity_user_id, last_modified_user, creation_date, last_modified_date)
-(SELECT (SELECT id FROM openchpl.questionable_activity_trigger WHERE name = 'Certification Criteria Removed'), listing_id, removed_certs, null, creation_date, activity_user_id, last_modified_user, creation_date, creation_date FROM 
-(SELECT (new_data::json->>'id')::bigint as listing_id,
-	CASE WHEN original_data::json->>'countCerts' > new_data::json->>'countCerts' 
-	THEN (SELECT string_agg(number,';') FROM ((SELECT number FROM (SELECT number FROM json_to_recordset(original_data::json->'certificationResults') as results(number text, success text) WHERE results.success = 'true') as results) 
-		EXCEPT ALL (SELECT number FROM (SELECT number FROM json_to_recordset(new_data::json->'certificationResults') as results(number text, success text) WHERE results.success = 'true') as results)) as removed_certs) END as removed_certs, null, creation_date, last_modified_user as activity_user_id, last_modified_user 
-FROM openchpl.activity WHERE activity_object_concept_id = (SELECT activity_concept_id FROM openchpl.activity_concept WHERE concept = 'CERTIFIED_PRODUCT')) as changed_name
-WHERE removed_certs IS NOT NULL)
+SELECT 	
+	(SELECT id FROM openchpl.questionable_activity_trigger WHERE name = 'Certification Criteria Removed') as trigger_id, 
+	all_listing_activity.listing_id, null as "before_data", cert_results_added_activity.cert_results_added as "after_data",
+	creation_date, activity_user_id, last_modified_user, creation_date, creation_date
+FROM
+(
+--get all activity of the relevant concept and pull out the fields necessary for inserting questionable activity
+(SELECT activity.activity_id, activity.creation_date, last_modified_user as activity_user_id, activity.last_modified_date, activity.last_modified_user, (new_data::json->>'id')::bigint as listing_id 
+FROM openchpl.activity 
+WHERE activity_object_concept_id = (SELECT activity_concept_id FROM openchpl.activity_concept WHERE concept = 'CERTIFIED_PRODUCT')) all_listing_activity
+
+INNER JOIN 
+
+-- This will give rows where the cert result number + cert result success field are 1 thing in 'new data' 
+-- but are something different in 'original data'. All of the cert results are listed regardless of true/false success
+-- so there will always be the same list of criteria in original data vs new data (meaning we are not looking for a 
+-- piece of data that's present in one and missing in another; all of the cert results are always present
+-- it's just the success flag that might have changed).
+-- So for example, number '170.314 (b)(7)' + success 'f' in the resultset means that b7+false is
+-- present in the new data but was NOT present in the original data. Therefore the success value of b7 is
+-- FALSE in the new data and was TRUE in the original data and we can conclude that b7 was removed.
+-- Similarly, if the success flag is 't' we know that the cert result was added (true in new data => false in original data)
+(SELECT activity_id, activity_date, string_agg(number,';') as cert_results_added
+--SELECT *
+FROM
+	-- pull back each cert result number and success value from the new data as columns
+	(SELECT activity.activity_id, activity.activity_date, certResult.number, certResult.success
+	FROM
+	openchpl.activity
+	CROSS JOIN LATERAL
+	json_to_recordset(activity.new_data::json->'certificationResults') as certResult("number" text, "success" boolean)
+	WHERE activity_object_concept_id = (SELECT activity_concept_id FROM openchpl.activity_concept WHERE concept = 'CERTIFIED_PRODUCT') 
+
+	EXCEPT ALL
+
+	-- pull back each cert result number and success value from the original data as columns
+	SELECT activity.activity_id, activity.activity_date, certResult.number, certResult.success
+	FROM
+	openchpl.activity
+	CROSS JOIN LATERAL
+	json_to_recordset(activity.original_data::json->'certificationResults') as certResult("number" text, "success" boolean)
+	WHERE activity_object_concept_id = (SELECT activity_concept_id FROM openchpl.activity_concept WHERE concept = 'CERTIFIED_PRODUCT') 
+	) diff
+WHERE success = false -- switch to success = false for criteria removed
+GROUP BY activity_id, activity_date, success
+ORDER BY diff.activity_id) cert_results_added_activity
+ON all_listing_activity.activity_id = cert_results_added_activity.activity_id
+)
+;
 
 /* 3 - CQM Added */
 INSERT INTO openchpl.questionable_activity_listing (questionable_activity_trigger_id, listing_id, before_data, after_data, activity_date, activity_user_id, last_modified_user, creation_date, last_modified_date)
-(SELECT (SELECT id FROM openchpl.questionable_activity_trigger WHERE name = 'CQM Added'), listing_id, null, added_cqms, creation_date, activity_user_id, last_modified_user, creation_date, creation_date FROM 
-(SELECT (new_data::json->>'id')::bigint as listing_id, null, CASE WHEN original_data::json->>'countCqms' < new_data::json->>'countCqms' THEN (SELECT string_agg(number,';') FROM ((SELECT number FROM (SELECT number FROM json_to_recordset(original_data::json->'cqmResults') as results(number text, success text) WHERE results.success = 'true') as results) EXCEPT ALL (SELECT number FROM (SELECT number FROM json_to_recordset(new_data::json->'cqmResults') as results(number text, success text) WHERE results.success = 'true') as results)) as added_cqms) END as added_cqms, creation_date, last_modified_user as activity_user_id, last_modified_user 
-FROM openchpl.activity WHERE activity_object_concept_id = (SELECT activity_concept_id FROM openchpl.activity_concept WHERE concept = 'CERTIFIED_PRODUCT')) as changed_name
-WHERE added_cqms IS NOT NULL)
+SELECT 	
+	(SELECT id FROM openchpl.questionable_activity_trigger WHERE name = 'CQM Added') as trigger_id, 
+	all_listing_activity.listing_id, null as "before_data", cert_results_added_activity.cert_results_added as "after_data",
+	creation_date, activity_user_id, last_modified_user, creation_date, creation_date
+FROM
+(
+--get all activity of the relevant concept and pull out the fields necessary for inserting questionable activity
+(SELECT activity.activity_id, activity.creation_date, last_modified_user as activity_user_id, activity.last_modified_date, activity.last_modified_user, (new_data::json->>'id')::bigint as listing_id 
+FROM openchpl.activity 
+WHERE activity_object_concept_id = (SELECT activity_concept_id FROM openchpl.activity_concept WHERE concept = 'CERTIFIED_PRODUCT')) all_listing_activity
+
+INNER JOIN 
+
+-- This will give rows where the cert result number + cert result success field are 1 thing in 'new data' 
+-- but are something different in 'original data'. All of the cert results are listed regardless of true/false success
+-- so there will always be the same list of criteria in original data vs new data (meaning we are not looking for a 
+-- piece of data that's present in one and missing in another; all of the cert results are always present
+-- it's just the success flag that might have changed).
+-- So for example, number '170.314 (b)(7)' + success 'f' in the resultset means that b7+false is
+-- present in the new data but was NOT present in the original data. Therefore the success value of b7 is
+-- FALSE in the new data and was TRUE in the original data and we can conclude that b7 was removed.
+-- Similarly, if the success flag is 't' we know that the cert result was added (true in new data => false in original data)
+(SELECT activity_id, activity_date, string_agg(number,';') as cert_results_added
+--SELECT *
+FROM
+	-- pull back each cert result number and success value from the new data as columns
+	(SELECT activity.activity_id, activity.activity_date, certResult.number, certResult.success
+	FROM
+	openchpl.activity
+	CROSS JOIN LATERAL
+	json_to_recordset(activity.new_data::json->'cqmResults') as certResult("number" text, "success" boolean)
+	WHERE activity_object_concept_id = (SELECT activity_concept_id FROM openchpl.activity_concept WHERE concept = 'CERTIFIED_PRODUCT') 
+
+	EXCEPT ALL
+
+	-- pull back each cert result number and success value from the original data as columns
+	SELECT activity.activity_id, activity.activity_date, certResult.number, certResult.success
+	FROM
+	openchpl.activity
+	CROSS JOIN LATERAL
+	json_to_recordset(activity.original_data::json->'cqmResults') as certResult("number" text, "success" boolean)
+	WHERE activity_object_concept_id = (SELECT activity_concept_id FROM openchpl.activity_concept WHERE concept = 'CERTIFIED_PRODUCT') 
+	) diff
+WHERE success = true -- switch to success = false for criteria removed
+GROUP BY activity_id, activity_date, success
+ORDER BY diff.activity_id) cert_results_added_activity
+ON all_listing_activity.activity_id = cert_results_added_activity.activity_id
+)
+;
 
 /* 4 - CQM Removed */
 INSERT INTO openchpl.questionable_activity_listing (questionable_activity_trigger_id, listing_id, before_data, after_data, activity_date, activity_user_id, last_modified_user, creation_date, last_modified_date)
-(SELECT (SELECT id FROM openchpl.questionable_activity_trigger WHERE name = 'CQM Removed'), listing_id, removed_cqms, null, creation_date, activity_user_id, last_modified_user, creation_date, creation_date FROM 
-(SELECT (new_data::json->>'id')::bigint as listing_id, CASE WHEN original_data::json->>'countCqms' > new_data::json->>'countCqms' THEN (SELECT string_agg(number,';') FROM ((SELECT number FROM (SELECT number FROM json_to_recordset(original_data::json->'cqmResults') as results(number text, success text) WHERE results.success = 'true') as results) EXCEPT ALL (SELECT number FROM (SELECT number FROM json_to_recordset(new_data::json->'cqmResults') as results(number text, success text) WHERE results.success = 'true') as results)) as removed_cqms) END as removed_cqms, null, creation_date, last_modified_user as activity_user_id, last_modified_user 
-FROM openchpl.activity WHERE activity_object_concept_id = (SELECT activity_concept_id FROM openchpl.activity_concept WHERE concept = 'CERTIFIED_PRODUCT')) as changed_name
-WHERE removed_cqms IS NOT NULL)
+SELECT 	
+	(SELECT id FROM openchpl.questionable_activity_trigger WHERE name = 'CQM Removed') as trigger_id, 
+	all_listing_activity.listing_id, null as "before_data", cert_results_added_activity.cert_results_added as "after_data",
+	creation_date, activity_user_id, last_modified_user, creation_date, creation_date
+FROM
+(
+--get all activity of the relevant concept and pull out the fields necessary for inserting questionable activity
+(SELECT activity.activity_id, activity.creation_date, last_modified_user as activity_user_id, activity.last_modified_date, activity.last_modified_user, (new_data::json->>'id')::bigint as listing_id 
+FROM openchpl.activity 
+WHERE activity_object_concept_id = (SELECT activity_concept_id FROM openchpl.activity_concept WHERE concept = 'CERTIFIED_PRODUCT')) all_listing_activity
+
+INNER JOIN 
+
+-- This will give rows where the cert result number + cert result success field are 1 thing in 'new data' 
+-- but are something different in 'original data'. All of the cert results are listed regardless of true/false success
+-- so there will always be the same list of criteria in original data vs new data (meaning we are not looking for a 
+-- piece of data that's present in one and missing in another; all of the cert results are always present
+-- it's just the success flag that might have changed).
+-- So for example, number '170.314 (b)(7)' + success 'f' in the resultset means that b7+false is
+-- present in the new data but was NOT present in the original data. Therefore the success value of b7 is
+-- FALSE in the new data and was TRUE in the original data and we can conclude that b7 was removed.
+-- Similarly, if the success flag is 't' we know that the cert result was added (true in new data => false in original data)
+(SELECT activity_id, activity_date, string_agg(number,';') as cert_results_added
+--SELECT *
+FROM
+	-- pull back each cert result number and success value from the new data as columns
+	(SELECT activity.activity_id, activity.activity_date, certResult.number, certResult.success
+	FROM
+	openchpl.activity
+	CROSS JOIN LATERAL
+	json_to_recordset(activity.new_data::json->'cqmResults') as certResult("number" text, "success" boolean)
+	WHERE activity_object_concept_id = (SELECT activity_concept_id FROM openchpl.activity_concept WHERE concept = 'CERTIFIED_PRODUCT') 
+
+	EXCEPT ALL
+
+	-- pull back each cert result number and success value from the original data as columns
+	SELECT activity.activity_id, activity.activity_date, certResult.number, certResult.success
+	FROM
+	openchpl.activity
+	CROSS JOIN LATERAL
+	json_to_recordset(activity.original_data::json->'cqmResults') as certResult("number" text, "success" boolean)
+	WHERE activity_object_concept_id = (SELECT activity_concept_id FROM openchpl.activity_concept WHERE concept = 'CERTIFIED_PRODUCT') 
+	) diff
+WHERE success = false -- switch to success = false for criteria removed
+GROUP BY activity_id, activity_date, success
+ORDER BY diff.activity_id) cert_results_added_activity
+ON all_listing_activity.activity_id = cert_results_added_activity.activity_id
+)
+;
 
 /* TODO: 5 - Measure Successfully Tested for 170.314 (g)(1) Edited */
 INSERT INTO openchpl.questionable_activity_certification_result (questionable_activity_trigger_id, certification_result_id, before_data, after_data, activity_date, activity_user_id, last_modified_user, creation_date, last_modified_date)
@@ -52,10 +225,12 @@ FROM openchpl.activity WHERE activity_object_concept_id = (SELECT activity_conce
 WHERE new IS NOT NULL)
 
 /* TODO: 7 - Measure Successfully Tested for 170.315 (g)(1) Added */
-INSERT INTO openchpl.questionable_activity_certification_result ((SELECT id FROM openchpl.questionable_activity_trigger WHERE name = 'Measure Successfully Tested for 170.315 (g)(1) Added'), certification_result_id, null, "170.315 (b)(3):EC Individual (TIN/NPI)", 2017-09-10 18:52:30.569, 5, 5, 2017-09-10 18:52:30.569, 2017-09-10 18:52:30.569)
+INSERT INTO openchpl.questionable_activity_certification_result (questionable_activity_trigger_id, certification_result_id, before_data, after_data, activity_date, activity_user_id, last_modified_user, creation_date, last_modified_date)
+VALUES (7, 452707, null, '170.315 (b)(3):EC Individual (TIN/NPI)', '2017-09-10 14:52:30.569', 5, 5, '2017-09-10 14:52:30.569', '2017-09-10 14:52:30.569')
 
 /* TODO: 10 - Measure Successfully Tested for 170.315 (g)(2) Removed */
-INSERT INTO openchpl.questionable_activity_certification_result ((SELECT id FROM openchpl.questionable_activity_trigger WHERE name = 'Measure Successfully Tested for 170.315 (g)(2) Removed'), certification_result_id, "170.315 (a)(1):EH/CAH;170.315 (a)(10):EH/CAH;170.315 (a)(13):EH/CAH;170.315 (a)(2):EH/CAH;170.315 (a)(3):RT8 EH/CAH,RT7 EH/CAH;170.315 (b)(2):EH/CAH;170.315 (b)(3):EH/CAH;170.315 (e)(1):RT2a EH/CAH,RT4a EH/CAH;170.315 (e)(2):EH/CAH;170.315 (e)(3):EH/CAH", null, 2017-08-22 21:25:17.046, -2, -2, 2017-08-22 21:25:17.046, 2017-08-22 21:25:17.046)
+INSERT INTO openchpl.questionable_activity_certification_result (questionable_activity_trigger_id, certification_result_id, before_data, after_data, activity_date, activity_user_id, last_modified_user, creation_date, last_modified_date)
+VALUES (8, 446650, '170.315 (a)(1):EH/CAH;170.315 (a)(10):EH/CAH;170.315 (a)(13):EH/CAH;170.315 (a)(2):EH/CAH;170.315 (a)(3):RT8 EH/CAH,RT7 EH/CAH;170.315 (b)(2):EH/CAH;170.315 (b)(3):EH/CAH;170.315 (e)(1):RT2a EH/CAH,RT4a EH/CAH;170.315 (e)(2):EH/CAH;170.315 (e)(3):EH/CAH', null, '2017-08-22 17:25:17.046', -2, -2, '2017-08-22 17:25:17.046', '2017-08-22 17:25:17.046')
 
 /* TODO: 11 - GAP Status Edited */
 INSERT INTO openchpl.questionable_activity_certification_result (questionable_activity_trigger_id, certification_result_id, before_data, after_data, activity_date, activity_user_id, last_modified_user, creation_date, last_modified_date)
@@ -164,13 +339,26 @@ INSERT INTO openchpl.questionable_activity_product (questionable_activity_trigge
 (SELECT (new_data::json->>'id')::bigint as product_id, 
 CASE 
 	WHEN json_array_length(original_data::json->'ownerHistory') < json_array_length(new_data::json->'ownerHistory') 
-	THEN (SELECT string_agg(status, ';') FROM ((SELECT status FROM json_to_recordset(new_data::json->'ownerHistory') as results1(status text)) EXCEPT ALL (SELECT status FROM json_to_recordset(original_data::json->'ownerHistory') as results2(status text))) diff)
+	THEN (SELECT string_agg(status, ';') FROM ((SELECT developer::json->'status'->>'statusName' as status FROM json_to_recordset(new_data::json->'ownerHistory') as results1(developer json)) EXCEPT ALL (SELECT developer::json->'status'->>'statusName' as status FROM json_to_recordset(original_data::json->'ownerHistory') as results2(developer json))) diff)
 	WHEN json_array_length(original_data::json->'ownerHistory') = json_array_length(new_data::json->'ownerHistory') AND (original_data::json->'ownerHistory')::text !=  (new_data::json->'ownerHistory')::text 
-	THEN (SELECT string_agg(status, ';') FROM ((SELECT status FROM json_to_recordset(new_data::json->'ownerHistory') as results1(status text)) EXCEPT ALL (SELECT status FROM json_to_recordset(original_data::json->'ownerHistory') as results2(status text))) diff)
+	THEN (SELECT string_agg(status, ';') FROM ((SELECT developer::json->'status'->>'statusName' as status FROM json_to_recordset(new_data::json->'ownerHistory') as results1(developer json)) EXCEPT ALL (SELECT developer::json->'status'->>'statusName' as status FROM json_to_recordset(original_data::json->'ownerHistory') as results2(developer json))) diff)
 	END as added
 	, creation_date, last_modified_user as activity_user_id, last_modified_user 
 FROM openchpl.activity WHERE activity_object_concept_id = (SELECT activity_concept_id FROM openchpl.activity_concept WHERE concept = 'PRODUCT')) as changed_name
-WHERE added IS NOT NULL)
+WHERE added IS NOT NULL);
+
+INSERT INTO openchpl.questionable_activity_product (questionable_activity_trigger_id, product_id, before_data, after_data, activity_date, activity_user_id, last_modified_user, creation_date, last_modified_date)
+(SELECT (SELECT id FROM openchpl.questionable_activity_trigger WHERE name = 'Product Owner History Added'), product_id, null, added, creation_date, activity_user_id, last_modified_user, creation_date, creation_date FROM 
+(SELECT (new_data::json->>'id')::bigint as product_id, 
+CASE 
+	WHEN json_array_length(original_data::json->'ownerHistory') < json_array_length(new_data::json->'ownerHistory') 
+	THEN (SELECT string_agg(status, ';') FROM ((SELECT developer::json->'status'->'status'->>'statusName' as status FROM json_to_recordset(new_data::json->'ownerHistory') as results1(developer json)) EXCEPT ALL (SELECT developer::json->'status'->'status'->>'statusName' as status FROM json_to_recordset(original_data::json->'ownerHistory') as results2(developer json))) diff)
+	WHEN json_array_length(original_data::json->'ownerHistory') = json_array_length(new_data::json->'ownerHistory') AND (original_data::json->'ownerHistory')::text !=  (new_data::json->'ownerHistory')::text 
+	THEN (SELECT string_agg(status, ';') FROM ((SELECT developer::json->'status'->'status'->>'statusName' as status FROM json_to_recordset(new_data::json->'ownerHistory') as results1(developer json)) EXCEPT ALL (SELECT developer::json->'status'->'status'->>'statusName' as status FROM json_to_recordset(original_data::json->'ownerHistory') as results2(developer json))) diff)
+	END as added
+	, creation_date, last_modified_user as activity_user_id, last_modified_user 
+FROM openchpl.activity WHERE activity_object_concept_id = (SELECT activity_concept_id FROM openchpl.activity_concept WHERE concept = 'PRODUCT')) as changed_name
+WHERE added IS NOT NULL);
 
 /* 24 - Product Owner History Removed */
 INSERT INTO openchpl.questionable_activity_product (questionable_activity_trigger_id, product_id, before_data, after_data, activity_date, activity_user_id, last_modified_user, creation_date, last_modified_date)
@@ -178,9 +366,22 @@ INSERT INTO openchpl.questionable_activity_product (questionable_activity_trigge
 (SELECT (new_data::json->>'id')::bigint as product_id, 
 CASE 
 	WHEN json_array_length(original_data::json->'ownerHistory') > json_array_length(new_data::json->'ownerHistory') 
-	THEN (SELECT string_agg(status, ';') FROM ((SELECT status FROM json_to_recordset(new_data::json->'ownerHistory') as results1(status text)) EXCEPT ALL (SELECT status FROM json_to_recordset(original_data::json->'ownerHistory') as results2(status text))) diff)
+	THEN (SELECT string_agg(status, ';') FROM ((SELECT developer::json->'status'->'status'->>'statusName' as status FROM json_to_recordset(new_data::json->'ownerHistory') as results1(developer json)) EXCEPT ALL (SELECT developer::json->'status'->'status'->>'statusName' as status FROM json_to_recordset(original_data::json->'ownerHistory') as results2(developer json))) diff)
 	WHEN json_array_length(original_data::json->'ownerHistory') = json_array_length(new_data::json->'ownerHistory') AND (original_data::json->'ownerHistory')::text !=  (new_data::json->'ownerHistory')::text 
-	THEN (SELECT string_agg(status, ';') FROM ((SELECT status FROM json_to_recordset(new_data::json->'ownerHistory') as results1(status text)) EXCEPT ALL (SELECT status FROM json_to_recordset(original_data::json->'ownerHistory') as results2(status text))) diff)
+	THEN (SELECT string_agg(status, ';') FROM ((SELECT developer::json->'status'->'status'->>'statusName' as status FROM json_to_recordset(new_data::json->'ownerHistory') as results1(developer json)) EXCEPT ALL (SELECT developer::json->'status'->'status'->>'statusName' as status FROM json_to_recordset(original_data::json->'ownerHistory') as results2(developer json))) diff)
+	END as removed
+	, creation_date, last_modified_user as activity_user_id, last_modified_user 
+FROM openchpl.activity WHERE activity_object_concept_id = (SELECT activity_concept_id FROM openchpl.activity_concept WHERE concept = 'PRODUCT')) as changed_name
+WHERE removed IS NOT NULL);
+
+INSERT INTO openchpl.questionable_activity_product (questionable_activity_trigger_id, product_id, before_data, after_data, activity_date, activity_user_id, last_modified_user, creation_date, last_modified_date)
+(SELECT (SELECT id FROM openchpl.questionable_activity_trigger WHERE name = 'Product Owner History Removed'), product_id, null, removed, creation_date, activity_user_id, last_modified_user, creation_date, creation_date FROM 
+(SELECT (new_data::json->>'id')::bigint as product_id, 
+CASE 
+	WHEN json_array_length(original_data::json->'ownerHistory') > json_array_length(new_data::json->'ownerHistory') 
+	THEN (SELECT string_agg(status, ';') FROM ((SELECT developer::json->'status'->>'statusName' as status FROM json_to_recordset(new_data::json->'ownerHistory') as results1(developer json)) EXCEPT ALL (SELECT developer::json->'status'->>'statusName' as status FROM json_to_recordset(original_data::json->'ownerHistory') as results2(developer json))) diff)
+	WHEN json_array_length(original_data::json->'ownerHistory') = json_array_length(new_data::json->'ownerHistory') AND (original_data::json->'ownerHistory')::text !=  (new_data::json->'ownerHistory')::text 
+	THEN (SELECT string_agg(status, ';') FROM ((SELECT developer::json->'status'->>'statusName' as status FROM json_to_recordset(new_data::json->'ownerHistory') as results1(developer json)) EXCEPT ALL (SELECT developer::json->'status'->>'statusName' as status FROM json_to_recordset(original_data::json->'ownerHistory') as results2(developer json))) diff)
 	END as removed
 	, creation_date, last_modified_user as activity_user_id, last_modified_user 
 FROM openchpl.activity WHERE activity_object_concept_id = (SELECT activity_concept_id FROM openchpl.activity_concept WHERE concept = 'PRODUCT')) as changed_name
