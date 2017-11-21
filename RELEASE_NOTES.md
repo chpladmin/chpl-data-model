@@ -11,8 +11,8 @@
 
 ---
 
-## Version TBD
-_Date TBD_
+## Version 12.5.1
+_20 November 2017_
 
 ### Data changes
 * Update "new" 2014 upload template to have correct "available_as_of_date"
