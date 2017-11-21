@@ -1,6 +1,10 @@
 # Release Notes
 
-## OCD-1889
+### Minor Changes
+* Change ROLE_ACB_ADMIN to ROLE_ACB
+* Change ROLE_ATL_ADMIN to ROLE_ATL
+* Remove ROLE_ACB_STAFF
+* Remove ROLE_ATL_STAFF
 
 ### Data changes
 * Mark deprecated upload templates as deleted
