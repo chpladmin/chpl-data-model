@@ -51,7 +51,8 @@ CREATE TABLE openchpl.certification_result_test_procedure_temp (
 CREATE TABLE openchpl.pending_certification_result_test_procedure_temp (
 	id bigserial NOT NULL,
 	pending_certification_result_id bigint NOT NULL,
-	test_procedure_id bigint NOT NULL,
+	test_procedure_id bigint,
+	test_procedure_name text,
 	version varchar(255) NOT NULL,
 	creation_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
@@ -72,7 +73,16 @@ VALUES
 ('NCQA eCQM Test Method', -1),
 ('HIMSS-IIP Test Method', -1);
 
---allow ONC Test Method for every criteria
+--allow ONC Test Method for every 2014 criteria
+INSERT INTO openchpl.test_procedure_criteria_map_temp(criteria_id, test_procedure_id, last_modified_user)
+(
+	SELECT cc.certification_criterion_id, tpt.id, -1
+	FROM openchpl.certification_criterion cc CROSS JOIN openchpl.test_procedure_temp tpt
+	WHERE cc.certification_edition_id = (SELECT certification_edition_id FROM openchpl.certification_edition WHERE year = '2014')
+	AND tpt.name = 'ONC Test Method'
+);
+
+--allow ONC Test Method for every 2015 criteria
 INSERT INTO openchpl.test_procedure_criteria_map_temp(criteria_id, test_procedure_id, last_modified_user)
 (
 	SELECT cc.certification_criterion_id, tpt.id, -1
@@ -136,6 +146,7 @@ CREATE TRIGGER pending_certification_result_test_procedure_temp_timestamp BEFORE
 
 --remove refs to test_data
 ALTER TABLE openchpl.pending_certification_result_test_data DROP COLUMN IF EXISTS test_data_id;
+ALTER TABLE openchpl.pending_certification_result_test_data DROP COLUMN IF EXISTS test_data_name;
 ALTER TABLE openchpl.certification_result_test_data DROP COLUMN IF EXISTS test_data_id;
 DROP TABLE IF EXISTS openchpl.test_data_criteria_map;
 DROP TABLE IF EXISTS openchpl.test_data;
@@ -173,7 +184,16 @@ VALUES
 ('NCQA eCQM Test Method', -1),
 ('HIMSS-IIP Test Method', -1);
 
---allow ONC Test Method for every criteria
+--allow ONC Test Method for every 2014 criteria
+INSERT INTO openchpl.test_data_criteria_map(criteria_id, test_data_id, last_modified_user)
+(
+	SELECT cc.certification_criterion_id, td.id, -1
+	FROM openchpl.certification_criterion cc CROSS JOIN openchpl.test_data td
+	WHERE cc.certification_edition_id = (SELECT certification_edition_id FROM openchpl.certification_edition WHERE year = '2014')
+	AND td.name = 'ONC Test Method'
+);
+
+--allow ONC Test Method for every 2015 criteria
 INSERT INTO openchpl.test_data_criteria_map(criteria_id, test_data_id, last_modified_user)
 (
 	SELECT cc.certification_criterion_id, td.id, -1
@@ -226,8 +246,7 @@ ALTER TABLE openchpl.pending_certification_result_test_data ADD CONSTRAINT
 	REFERENCES openchpl.test_data (id) MATCH FULL
 	ON DELETE RESTRICT ON UPDATE CASCADE;
 UPDATE openchpl.pending_certification_result_test_data SET test_data_id = (SELECT id FROM openchpl.test_data where name = 'ONC Test Method');
-ALTER TABLE openchpl.pending_certification_result_test_data ALTER COLUMN test_data_id SET NOT NULL;
-
+ALTER TABLE openchpl.pending_certification_result_test_data ADD COLUMN test_data_name text;
 
 CREATE TRIGGER test_data_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.test_data FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER test_data_timestamp BEFORE UPDATE on openchpl.test_data FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
