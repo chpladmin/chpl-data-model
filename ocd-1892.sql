@@ -261,3 +261,10 @@ WHERE
     NOT EXISTS (
         SELECT id FROM openchpl.upload_template_version WHERE name = '2015 CHPL Upload Template v12'
     );
+	
+--re-run grants
+\i dev/openchpl_grant-all.sql	
+
+--NOTE: Must manually delete test_procedure, certification_result_test_procedure and pending_certification_result_test_procedure after
+--running this file in the test db. The following v-next (after this stuf gets deployed) should have code to delete those tables
+--and rename anything from here that has '_temp' in the name.
