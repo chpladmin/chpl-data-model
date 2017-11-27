@@ -6,9 +6,6 @@
 * Remove ROLE_ACB_STAFF
 * Remove ROLE_ATL_STAFF
 
-### Data changes
-* Mark deprecated upload templates as deleted
-
 ---
 
 ## Version 12.5.1

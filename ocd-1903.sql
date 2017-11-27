@@ -1,18 +1,26 @@
 UPDATE openchpl.global_user_permission_map as gupm
 SET user_permission_id_user_permission = 2
-WHERE user_id = 22;
+WHERE user_permission_id_user_permission = 3
+AND (SELECT count(user_id) FROM openchpl.global_user_permission_map WHERE count(user_id) = 1);
 
-DELETE FROM openchpl.global_user_permission_map as gupm
+UPDATE openchpl.global_user_permission_map as gupm
+SET user_permission_id_user_permission = 4
+WHERE user_permission_id_user_permission = 5
+AND (SELECT count(user_id) FROM openchpl.global_user_permission_map WHERE count(user_id) = 1);
+
+DELETE openchpl.global_user_permission_map as gupm
 WHERE user_permission_id_user_permission = 3;
 
-DELETE FROM openchpl.global_user_permission_map as gupm
+DELETE openchpl.global_user_permission_map as gupm
 WHERE user_permission_id_user_permission = 5;
 
-DELETE FROM openchpl.invited_user_permission as iup
-WHERE iup.user_permission_id = 3;
+UPDATE openchpl.invited_user_permission 
+SET user_permission_id = 2
+WHERE user_permission_id = 3;
 
-DELETE FROM openchpl.invited_user_permission as iup
-WHERE iup.user_permission_id = 5;
+UPDATE openchpl.invited_user_permission 
+SET user_permission_id = 4
+WHERE user_permission_id = 5;
 
 DELETE FROM openchpl.user_permission as up
 WHERE up.user_permission_id = 5;
