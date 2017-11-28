@@ -34,7 +34,7 @@ CREATE TABLE openchpl.certification_result_test_procedure_temp (
 	id bigserial NOT NULL,
 	certification_result_id bigint NOT NULL,
 	test_procedure_id bigint NOT NULL,
-	version varchar(255) NOT NULL,
+	version varchar(50) NOT NULL,
 	creation_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_user bigint NOT NULL,
@@ -53,7 +53,7 @@ CREATE TABLE openchpl.pending_certification_result_test_procedure_temp (
 	pending_certification_result_id bigint NOT NULL,
 	test_procedure_id bigint,
 	test_procedure_name text,
-	version varchar(255) NOT NULL,
+	version varchar(50) NOT NULL,
 	creation_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_user bigint NOT NULL,
@@ -231,6 +231,7 @@ INSERT INTO openchpl.test_data_criteria_map (criteria_id, test_data_id, last_mod
 	AND td.name = 'HIMSS-IIP Test Method'
 );
 
+ALTER TABLE openchpl.certification_result_test_data ALTER COLUMN version TYPE varchar(50);
 ALTER TABLE openchpl.certification_result_test_data ADD COLUMN test_data_id bigint;
 ALTER TABLE openchpl.certification_result_test_data ADD CONSTRAINT 
 	test_data_fk FOREIGN KEY (test_data_id)
@@ -266,5 +267,5 @@ WHERE
 \i dev/openchpl_grant-all.sql	
 
 --NOTE: Must manually delete test_procedure, certification_result_test_procedure and pending_certification_result_test_procedure after
---running this file in the test db. The following v-next (after this stuf gets deployed) should have code to delete those tables
+--running this file in the test db. The following v-next (after this stuff gets deployed) should have code to delete those tables
 --and rename anything from here that has '_temp' in the name.
