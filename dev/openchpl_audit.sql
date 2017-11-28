@@ -304,6 +304,10 @@ CREATE TRIGGER surveillance_type_audit AFTER INSERT OR UPDATE OR DELETE on openc
 CREATE TRIGGER surveillance_type_timestamp BEFORE UPDATE on openchpl.surveillance_type FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER targeted_user_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.targeted_user FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER targeted_user_timestamp BEFORE UPDATE on openchpl.targeted_user FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
+CREATE TRIGGER test_data_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.test_data FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+CREATE TRIGGER test_data_timestamp BEFORE UPDATE on openchpl.test_data FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
+CREATE TRIGGER test_data_criteria_map_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.test_data_criteria_map FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+CREATE TRIGGER test_data_criteria_map_timestamp BEFORE UPDATE on openchpl.test_data_criteria_map FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER test_functionality_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.test_functionality FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER test_functionality_timestamp BEFORE UPDATE on openchpl.test_functionality FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER test_participant_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.test_participant FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
@@ -312,6 +316,8 @@ CREATE TRIGGER test_participant_age_audit AFTER INSERT OR UPDATE OR DELETE on op
 CREATE TRIGGER test_participant_age_timestamp BEFORE UPDATE on openchpl.test_participant_age FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER test_procedure_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.test_procedure FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER test_procedure_timestamp BEFORE UPDATE on openchpl.test_procedure FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
+CREATE TRIGGER test_procedure_criteria_map_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.test_procedure_criteria_map FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+CREATE TRIGGER test_procedure_criteria_map_timestamp BEFORE UPDATE on openchpl.test_procedure_criteria_map FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER test_standard_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.test_standard FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER test_standard_timestamp BEFORE UPDATE on openchpl.test_standard FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER test_task_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.test_task FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
