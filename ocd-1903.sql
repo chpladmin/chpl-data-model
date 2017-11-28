@@ -8,6 +8,14 @@ SET user_permission_id_user_permission = 4
 WHERE user_permission_id_user_permission = 5
 AND NOT EXISTS (SELECT user_id FROM openchpl.global_user_permission_map WHERE (user_id, 4) IN (SELECT user_id, user_permission_id_user_permission FROM openchpl.global_user_permission_map));
 
+UPDATE openchpl.global_user_permission_map as gupm
+SET user_permission_id_user_permission = 2
+WHERE user_permission_id_user_permission = 3;
+
+UPDATE openchpl.global_user_permission_map as gupm
+SET user_permission_id_user_permission = 4
+WHERE user_permission_id_user_permission = 5;
+
 DELETE FROM openchpl.global_user_permission_map as gupm
 WHERE user_permission_id_user_permission = 3;
 
