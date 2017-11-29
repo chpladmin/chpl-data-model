@@ -244,7 +244,7 @@ WHERE new IS NOT NULL);
 /* 12 - Surveillance Removed */
 INSERT INTO openchpl.questionable_activity_listing (questionable_activity_trigger_id, listing_id, before_data, after_data, activity_date, activity_user_id, last_modified_user, creation_date, last_modified_date) 
 (SELECT (SELECT id FROM openchpl.questionable_activity_trigger WHERE name = 'Surveillance Removed'), listing_id, before_data, after_data, creation_date, activity_user_id, last_modified_user, creation_date, creation_date FROM 
-(SELECT (new_data::json->>'id')::bigint as listing_id, CASE WHEN new_data::json->>'surveillance' = '[]' THEN original_data::json->>'id' END as before_data, CASE WHEN new_data::json->>'surveillance' = '[]' THEN original_data::json->>'id' END as after_data, creation_date, last_modified_user as activity_user_id, last_modified_user
+(SELECT (new_data::json->>'id')::bigint as listing_id, CASE WHEN new_data::json->>'surveillance' = '[]' AND original_data::json->>'surveillance' != '[]' THEN original_data::json->>'id' END as before_data, CASE WHEN new_data::json->>'surveillance' = '[]' AND original_data::json->>'surveillance' != '[]' THEN original_data::json->>'id' END as after_data, creation_date, last_modified_user as activity_user_id, last_modified_user
 FROM openchpl.activity 
 WHERE activity_object_concept_id = (SELECT activity_concept_id FROM openchpl.activity_concept WHERE concept = 'CERTIFIED_PRODUCT')) as surv
 WHERE before_data IS NOT NULL AND after_data IS NOT NULL);
