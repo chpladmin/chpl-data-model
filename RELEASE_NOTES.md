@@ -1,5 +1,18 @@
 # Release Notes
 
+## Version TBD
+_Date TBD_
+
+### Table modification
+* Add test_data and test_procedure_temp tables along with criteria mapping tables for each.
+* Change test data version and test procedure version character limits to 50
+* Point certification result tables to new test data and test procedure foreign keys
+
+### Data changes
+* Add v12 2015 upload template
+
+---
+
 ## Version 12.5.1
 _20 November 2017_
 
