@@ -206,7 +206,7 @@ ON all_listing_activity.activity_id = cert_results_added_activity.activity_id
 )
 ;
 
-/* TODO: 5 - Measure Successfully Tested for 170.314 (g)(1) Edited */
+/* 5 - Measure Successfully Tested for 170.314 (g)(1) Edited */
 INSERT INTO openchpl.questionable_activity_certification_result (questionable_activity_trigger_id, certification_result_id, before_data, after_data, activity_date, activity_user_id, last_modified_user, creation_date, last_modified_date)
 (SELECT (SELECT id FROM openchpl.questionable_activity_trigger WHERE name = 'Measure Successfully Tested for 170.314 (g)(1) Edited'), certification_result_id, null, new, creation_date, activity_user_id, last_modified_user, creation_date, creation_date FROM 
 (SELECT (new_data::json->>'id')::bigint as certification_result_id,
@@ -215,7 +215,7 @@ THEN (SELECT string_agg(number || ':' || g1success, ';') FROM ((SELECT * FROM js
 FROM openchpl.activity WHERE activity_object_concept_id = (SELECT activity_concept_id FROM openchpl.activity_concept WHERE concept = 'CERTIFIED_PRODUCT')) as changed_name
 WHERE new IS NOT NULL);
 
-/* TODO: 6 - Measure Successfully Tested for 170.314 (g)(2) Edited */
+/* 6 - Measure Successfully Tested for 170.314 (g)(2) Edited */
 INSERT INTO openchpl.questionable_activity_certification_result (questionable_activity_trigger_id, certification_result_id, before_data, after_data, activity_date, activity_user_id, last_modified_user, creation_date, last_modified_date)
 (SELECT (SELECT id FROM openchpl.questionable_activity_trigger WHERE name = 'Measure Successfully Tested for 170.314 (g)(2) Edited'), certification_result_id, null, new, creation_date, activity_user_id, last_modified_user, creation_date, creation_date FROM 
 (SELECT (new_data::json->>'id')::bigint as certification_result_id,
@@ -224,15 +224,15 @@ THEN (SELECT string_agg(number || ':' || g2Success, ';') FROM ((SELECT * FROM js
 FROM openchpl.activity WHERE activity_object_concept_id = (SELECT activity_concept_id FROM openchpl.activity_concept WHERE concept = 'CERTIFIED_PRODUCT')) as changed_name
 WHERE new IS NOT NULL);
 
-/* TODO: 7 - Measure Successfully Tested for 170.315 (g)(1) Added */
+/* 7 - Measure Successfully Tested for 170.315 (g)(1) Added */
 INSERT INTO openchpl.questionable_activity_certification_result (questionable_activity_trigger_id, certification_result_id, before_data, after_data, activity_date, activity_user_id, last_modified_user, creation_date, last_modified_date)
 VALUES (7, 452707, null, '170.315 (b)(3):EC Individual (TIN/NPI)', '2017-09-10 14:52:30.569', 5, 5, '2017-09-10 14:52:30.569', '2017-09-10 14:52:30.569');
 
-/* TODO: 10 - Measure Successfully Tested for 170.315 (g)(2) Removed */
+/* 8 - Measure Successfully Tested for 170.315 (g)(2) Removed */
 INSERT INTO openchpl.questionable_activity_certification_result (questionable_activity_trigger_id, certification_result_id, before_data, after_data, activity_date, activity_user_id, last_modified_user, creation_date, last_modified_date)
 VALUES (8, 446650, '170.315 (a)(1):EH/CAH;170.315 (a)(10):EH/CAH;170.315 (a)(13):EH/CAH;170.315 (a)(2):EH/CAH;170.315 (a)(3):RT8 EH/CAH,RT7 EH/CAH;170.315 (b)(2):EH/CAH;170.315 (b)(3):EH/CAH;170.315 (e)(1):RT2a EH/CAH,RT4a EH/CAH;170.315 (e)(2):EH/CAH;170.315 (e)(3):EH/CAH', null, '2017-08-22 17:25:17.046', -2, -2, '2017-08-22 17:25:17.046', '2017-08-22 17:25:17.046');
 
-/* TODO: 11 - GAP Status Edited */
+/* 11 - GAP Status Edited */
 INSERT INTO openchpl.questionable_activity_certification_result (questionable_activity_trigger_id, certification_result_id, before_data, after_data, activity_date, activity_user_id, last_modified_user, creation_date, last_modified_date)
 (SELECT (SELECT id FROM openchpl.questionable_activity_trigger WHERE name = 'GAP Status Edited'), certification_result_id, null, new, creation_date, activity_user_id, last_modified_user, creation_date, creation_date FROM 
 (SELECT (new_data::json->>'id')::bigint as certification_result_id,
@@ -244,7 +244,7 @@ WHERE new IS NOT NULL);
 /* 12 - Surveillance Removed */
 INSERT INTO openchpl.questionable_activity_listing (questionable_activity_trigger_id, listing_id, before_data, after_data, activity_date, activity_user_id, last_modified_user, creation_date, last_modified_date) 
 (SELECT (SELECT id FROM openchpl.questionable_activity_trigger WHERE name = 'Surveillance Removed'), listing_id, before_data, after_data, creation_date, activity_user_id, last_modified_user, creation_date, creation_date FROM 
-(SELECT (new_data::json->>'id')::bigint as listing_id, CASE WHEN description like 'Surveillance was delete' THEN original_data::json->>'id' END as before_data, CASE WHEN description like 'Surveillance was delete' THEN original_data::json->>'id' END as after_data, creation_date, last_modified_user as activity_user_id, last_modified_user
+(SELECT (new_data::json->>'id')::bigint as listing_id, CASE WHEN description like '%Surveillance was delete%' THEN original_data::json->>'id' END as before_data, CASE WHEN description like '%Surveillance was delete%' THEN original_data::json->>'id' END as after_data, creation_date, last_modified_user as activity_user_id, last_modified_user
 FROM openchpl.activity 
 WHERE activity_object_concept_id = (SELECT activity_concept_id FROM openchpl.activity_concept WHERE concept = 'CERTIFIED_PRODUCT')) as surv
 WHERE before_data IS NOT NULL AND after_data IS NOT NULL);
