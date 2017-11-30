@@ -1,7 +1,13 @@
 # Release Notes
 
-## Version TBD
+##Version TBD
 _Date TBD_
+
+### Minor Changes
+* Change ROLE_ACB_ADMIN to ROLE_ACB
+* Change ROLE_ATL_ADMIN to ROLE_ATL
+* Remove ROLE_ACB_STAFF
+* Remove ROLE_ATL_STAFF
 
 ### Table modification
 * Add test_data and test_procedure_temp tables along with criteria mapping tables for each.
