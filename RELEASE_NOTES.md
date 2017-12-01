@@ -8,6 +8,7 @@ _Date TBD_
 * Change ROLE_ATL_ADMIN to ROLE_ATL
 * Remove ROLE_ACB_STAFF
 * Remove ROLE_ATL_STAFF
+* Mark duplicate ucd processes and qms standards as deleted; point criteria and listings to the appropriate non-deleted record
 
 ---
 
