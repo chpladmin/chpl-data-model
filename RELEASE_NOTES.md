@@ -1,5 +1,39 @@
 # Release Notes
 
+## Version 12.6.0
+_5 December 2017_
+
+### Table modification
+* Add test_data and test_procedure_temp tables along with criteria mapping tables for each.
+* Change test data version and test procedure version character limits to 50
+* Point certification result tables to new test data and test procedure foreign keys
+
+### Data changes
+* Add v12 2015 upload template
+
+---
+
+## Version 12.5.1
+_20 November 2017_
+
+### Data changes
+* Update "new" 2014 upload template to have correct "available_as_of_date"
+* Add new view to use for faster API searches
+* Remove users.sql file. It is now in Bamboo for anyone who wants a copy.
+
+---
+
+## Version 12.5.0
+_6 November 2017_
+
+### Table modification
+* Add tables for questionable activity records
+
+### Data changes
+* Add New 2014 CHPL Upload Template v2 to upload_template_version
+
+---
+
 ## Version 12.4.0
 _23 October 2017_
 
