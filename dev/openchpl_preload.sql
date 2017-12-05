@@ -1258,23 +1258,30 @@ VALUES
 ('NCQA eCQM Test Method', -1),
 ('HIMSS-IIP Test Method', -1);
 
---allow ONC Test Method for every 2014 criteria
-INSERT INTO openchpl.test_data_criteria_map(criteria_id, test_data_id, last_modified_user)
+--allow ONC Test Method for 2014 criteria that can have test data
+INSERT INTO openchpl.test_data_criteria_map (criteria_id, test_data_id, last_modified_user)
 (
 	SELECT cc.certification_criterion_id, td.id, -1
 	FROM openchpl.certification_criterion cc CROSS JOIN openchpl.test_data td
-	WHERE cc.certification_edition_id = (SELECT certification_edition_id FROM openchpl.certification_edition WHERE year = '2014')
+	WHERE cc.number IN ('170.314 (a)(1)', '170.314 (a)(3)', '170.314 (a)(4)', '170.314 (a)(5)', '170.314 (a)(6)', '170.314 (a)(7)', '170.314 (a)(9)', '170.314 (a)(10)',
+						'170.314 (a)(16)', '170.314 (a)(18)', '170.314 (a)(19)', '170.314 (a)(20)', '170.314 (b)(1)', '170.314 (b)(2)', '170.314 (b)(3)', '170.314 (b)(4)',
+						'170.314 (b)(5)(A)', '170.314 (b)(5)(B)', '170.314 (b)(6)', '170.314 (b)(7)', '170.314 (b)(8)', '170.314 (b)(9)', '170.314 (c)(1)', '170.314 (c)(2)',
+						'170.314 (c)(3)', '170.314 (e)(1)', '170.314 (e)(2)', '170.314 (f)(1)', '170.314 (f)(2)', '170.314 (f)(3)', '170.314 (f)(4)', '170.314 (f)(5)',
+						'170.314 (f)(6)', '170.314 (g)(1)', '170.314 (g)(2)', '170.314 (h)(1)', '170.314 (h)(2)', '170.314 (h)(3)')
 	AND td.name = 'ONC Test Method'
 );
 
---allow ONC Test Method for every 2015 criteria
-INSERT INTO openchpl.test_data_criteria_map(criteria_id, test_data_id, last_modified_user)
+--allow ONC Test Method for 2015 criteria that can have test data
+INSERT INTO openchpl.test_data_criteria_map (criteria_id, test_data_id, last_modified_user)
 (
 	SELECT cc.certification_criterion_id, td.id, -1
 	FROM openchpl.certification_criterion cc CROSS JOIN openchpl.test_data td
-	WHERE cc.certification_edition_id = (SELECT certification_edition_id FROM openchpl.certification_edition WHERE year = '2015')
+	WHERE cc.number IN ('170.315 (b)(1)', '170.315 (b)(2)', '170.315 (b)(3)', '170.315 (b)(4)', '170.315 (b)(5)', '170.315 (b)(6)', '170.315 (b)(7)', '170.315 (b)(8)', '170.315 (b)(9)',
+						'170.315 (c)(1)', '170.315 (c)(2)', '170.315 (c)(3)', '170.315 (c)(4)', '170.315 (e)(1)', '170.315 (f)(1)', '170.315 (f)(2)', '170.315 (f)(3)', '170.315 (f)(4)',
+						'170.315 (f)(7)', '170.315 (g)(1)', '170.315 (g)(2)', '170.315 (g)(6)', '170.315 (g)(9)', '170.315 (h)(1)', '170.315 (h)(2)')
 	AND td.name = 'ONC Test Method'
 );
+
 --allow the other test methods for only a few specific criteria
 INSERT INTO openchpl.test_data_criteria_map (criteria_id, test_data_id, last_modified_user)
 (

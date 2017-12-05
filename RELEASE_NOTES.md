@@ -1,7 +1,7 @@
 # Release Notes
 
-## Version TBD
-_Date TBD_
+## Version 12.6.0
+_5 December 2017_
 
 ### Minor Changes
 * Change ROLE_ACB_ADMIN to ROLE_ACB
