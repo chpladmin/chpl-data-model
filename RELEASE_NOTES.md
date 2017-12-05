@@ -1,7 +1,7 @@
 # Release Notes
 
-## Version TBD
-_Date TBD_
+## Version 12.6.0
+_5 December 2017_
 
 ### Table modification
 * Add test_data and test_procedure_temp tables along with criteria mapping tables for each.
