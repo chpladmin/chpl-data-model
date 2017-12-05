@@ -80,7 +80,6 @@ BEGIN
 			(SELECT ROW_NUMBER() OVER() AS row, ucd_process_id FROM openchpl.ucd_process WHERE name = dupName AND deleted = false) as dup_rows
 		WHERE dup_rows.row > 1)
 	AND deleted = false;
-	
     END LOOP;
     RETURN;
 END
@@ -123,7 +122,6 @@ BEGIN
 			(SELECT ROW_NUMBER() OVER() AS row, qms_standard_id FROM openchpl.qms_standard WHERE name = dupName AND deleted = false) as dup_rows
 		WHERE dup_rows.row > 1)
 	AND deleted = false;
-	
     END LOOP;
     RETURN;
 END
