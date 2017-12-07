@@ -1,8 +1,8 @@
-UPDATE openchpl.invited_user_permission 
+UPDATE openchpl.invited_user_permission
 SET user_permission_id = 2
 WHERE user_permission_id = 3;
 
-UPDATE openchpl.invited_user_permission 
+UPDATE openchpl.invited_user_permission
 SET user_permission_id = 4
 WHERE user_permission_id = 5;
 
@@ -33,7 +33,7 @@ WHERE up.user_permission_id = 4;
 UPDATE openchpl.user_permission as up
 SET authority = 'ROLE_ATL'
 WHERE up.user_permission_id = 4;
-	
+
 --
 -- FIX UCD PROCESSES
 --
@@ -135,7 +135,7 @@ DROP FUNCTION openchpl.replaceAllQmsStandardDuplicates();
 -- Fix up test procedure and test data tables with "_temp" in the names
 --
 
--- Manually delete tables that were needed for the previous v-next data migration. They could not be deleted before
+-- Manually delete tables that were needed for the previous test procedure data migration. They could not be deleted before
 -- so that we could run the migration of data from these tables multiple times.	
 CREATE OR REPLACE FUNCTION openchpl.cleanupPendingTestProcedureTemp() RETURNS void AS $$
 BEGIN
