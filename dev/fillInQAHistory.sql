@@ -54,7 +54,7 @@ ON all_listing_activity.activity_id = cert_results_added_activity.activity_id
 INSERT INTO openchpl.questionable_activity_listing (questionable_activity_trigger_id, listing_id, before_data, after_data, activity_date, activity_user_id, last_modified_user, creation_date, last_modified_date)
 SELECT 	
 	(SELECT id FROM openchpl.questionable_activity_trigger WHERE name = 'Certification Criteria Removed') as trigger_id, 
-	all_listing_activity.listing_id, null as "before_data", cert_results_added_activity.cert_results_added as "after_data",
+	all_listing_activity.listing_id, cert_results_added_activity.cert_results_removed as "before_data", null as "after_data",
 	creation_date, activity_user_id, last_modified_user, creation_date, creation_date
 FROM
 (
@@ -74,7 +74,7 @@ INNER JOIN
 -- present in the new data but was NOT present in the original data. Therefore the success value of b7 is
 -- FALSE in the new data and was TRUE in the original data and we can conclude that b7 was removed.
 -- Similarly, if the success flag is 't' we know that the cert result was added (true in new data => false in original data)
-(SELECT activity_id, activity_date, string_agg(number,';') as cert_results_added
+(SELECT activity_id, activity_date, string_agg(number,';') as cert_results_removed
 --SELECT *
 FROM
 	-- pull back each cert result number and success value from the new data as columns
@@ -158,7 +158,7 @@ ON all_listing_activity.activity_id = cert_results_added_activity.activity_id
 INSERT INTO openchpl.questionable_activity_listing (questionable_activity_trigger_id, listing_id, before_data, after_data, activity_date, activity_user_id, last_modified_user, creation_date, last_modified_date)
 SELECT 	
 	(SELECT id FROM openchpl.questionable_activity_trigger WHERE name = 'CQM Removed') as trigger_id, 
-	all_listing_activity.listing_id, null as "before_data", cert_results_added_activity.cert_results_added as "after_data",
+	all_listing_activity.listing_id, cert_results_added_activity.cqm_results_removed as "before_data", null as "after_data", 
 	creation_date, activity_user_id, last_modified_user, creation_date, creation_date
 FROM
 (
@@ -178,7 +178,7 @@ INNER JOIN
 -- present in the new data but was NOT present in the original data. Therefore the success value of b7 is
 -- FALSE in the new data and was TRUE in the original data and we can conclude that b7 was removed.
 -- Similarly, if the success flag is 't' we know that the cert result was added (true in new data => false in original data)
-(SELECT activity_id, activity_date, string_agg(number,';') as cert_results_added
+(SELECT activity_id, activity_date, string_agg(number,';') as cqm_results_removed
 --SELECT *
 FROM
 	-- pull back each cert result number and success value from the new data as columns
@@ -286,31 +286,65 @@ WHERE original IS NOT NULL AND new IS NOT NULL);
 
 /* 18 - Developer Status History Added */
 INSERT INTO openchpl.questionable_activity_developer (questionable_activity_trigger_id, developer_id, before_data, after_data, activity_date, activity_user_id, last_modified_user, creation_date, last_modified_date)
-(SELECT (SELECT id FROM openchpl.questionable_activity_trigger WHERE name = 'Developer Status History Added'), developer_id, null, added, creation_date, activity_user_id, last_modified_user, creation_date, creation_date FROM 
-(SELECT (new_data::json->>'id')::bigint as developer_id, 
-CASE 
-	WHEN json_array_length(original_data::json->'statusEvents') < json_array_length(new_data::json->'statusEvents') 
-	THEN (SELECT string_agg(status, ';') FROM ((SELECT status FROM json_to_recordset(new_data::json->'statusEvents') as results1(status text)) EXCEPT ALL (SELECT status FROM json_to_recordset(original_data::json->'statusEvents') as results2(status text))) diff)
-	WHEN json_array_length(original_data::json->'statusEvents') = json_array_length(new_data::json->'statusEvents') AND (original_data::json->'statusEvents')::text !=  (new_data::json->'statusEvents')::text 
-	THEN (SELECT string_agg(status, ';') FROM ((SELECT status FROM json_to_recordset(new_data::json->'statusEvents') as results1(status text)) EXCEPT ALL (SELECT status FROM json_to_recordset(original_data::json->'statusEvents') as results2(status text))) diff)
-	END as added
-	, creation_date, last_modified_user as activity_user_id, last_modified_user 
-FROM openchpl.activity WHERE activity_object_concept_id = (SELECT activity_concept_id FROM openchpl.activity_concept WHERE concept = 'DEVELOPER')) as changed_name
-WHERE added IS NOT NULL);
+SELECT
+	(SELECT id FROM openchpl.questionable_activity_trigger WHERE name = 'Developer Status History Added'), 
+	developer_status_added_activity.developer_id, 
+	null, 
+	developer_status_added_activity.added, 
+	activity.creation_date, 
+	activity.last_modified_user, 
+	activity.last_modified_user, 
+	activity.creation_date, 
+	activity.creation_date
+FROM openchpl.activity
+JOIN
+(SELECT activity_id, developer_id, status_name || ' (' || to_char(to_timestamp(status_date::bigint/1000), 'YYYY-MM-DD') || ')' as added
+FROM
+	((SELECT activity_id, (value::json->>'developerId')::bigint as developer_id, value::json->'status'->>'statusName' as status_name, value::json->>'statusDate' as status_date
+	FROM openchpl.activity,
+	json_array_elements(openchpl.activity.new_data::json->'statusEvents')
+	WHERE activity_object_concept_id = (SELECT activity_concept_id FROM openchpl.activity_concept WHERE concept = 'DEVELOPER')
+	AND json_array_length(original_data::json->'statusEvents') < json_array_length(new_data::json->'statusEvents'))
+
+	EXCEPT ALL
+
+	(SELECT activity_id, (value::json->>'developerId')::bigint as developer_id, value::json->'status'->>'statusName' as status_name, value::json->>'statusDate' as status_date
+	FROM openchpl.activity,
+	json_array_elements(openchpl.activity.original_data::json->'statusEvents')
+	WHERE activity_object_concept_id = (SELECT activity_concept_id FROM openchpl.activity_concept WHERE concept = 'DEVELOPER')
+	AND json_array_length(original_data::json->'statusEvents') < json_array_length(new_data::json->'statusEvents'))) diff) developer_status_added_activity
+ON developer_status_added_activity.activity_id = activity.activity_id;
 
 /* 19 - Developer Status History Removed */
 INSERT INTO openchpl.questionable_activity_developer (questionable_activity_trigger_id, developer_id, before_data, after_data, activity_date, activity_user_id, last_modified_user, creation_date, last_modified_date)
-(SELECT (SELECT id FROM openchpl.questionable_activity_trigger WHERE name = 'Developer Status History Removed'), developer_id, null, removed, creation_date, activity_user_id, last_modified_user, creation_date, creation_date FROM 
-(SELECT (new_data::json->>'id')::bigint as developer_id, 
-CASE 
-	WHEN json_array_length(original_data::json->'statusEvents') > json_array_length(new_data::json->'statusEvents') 
-	THEN (SELECT string_agg(status, ';') FROM ((SELECT status FROM json_to_recordset(new_data::json->'statusEvents') as results1(status text)) EXCEPT ALL (SELECT status FROM json_to_recordset(original_data::json->'statusEvents') as results2(status text))) diff)
-	WHEN json_array_length(original_data::json->'statusEvents') = json_array_length(new_data::json->'statusEvents') AND (original_data::json->'statusEvents')::text !=  (new_data::json->'statusEvents')::text 
-	THEN (SELECT string_agg(status, ';') FROM ((SELECT status FROM json_to_recordset(original_data::json->'statusEvents') as results1(status text)) EXCEPT ALL (SELECT status FROM json_to_recordset(new_data::json->'statusEvents') as results2(status text))) diff)
-	END as removed
-	, creation_date, last_modified_user as activity_user_id, last_modified_user 
-FROM openchpl.activity WHERE activity_object_concept_id = (SELECT activity_concept_id FROM openchpl.activity_concept WHERE concept = 'DEVELOPER')) as changed_name
-WHERE removed IS NOT NULL);
+SELECT
+	(SELECT id FROM openchpl.questionable_activity_trigger WHERE name = 'Developer Status History Removed'), 
+	developer_status_removed_activity.developer_id,
+	developer_status_removed_activity.removed, 
+	null,
+	activity.creation_date, 
+	activity.last_modified_user, 
+	activity.last_modified_user, 
+	activity.creation_date, 
+	activity.creation_date
+FROM openchpl.activity
+JOIN
+(SELECT activity_id, developer_id, status_name || ' (' || to_char(to_timestamp(status_date::bigint/1000), 'YYYY-MM-DD') || ')' as removed
+FROM
+	((SELECT activity_id, (value::json->>'developerId')::bigint as developer_id, value::json->'status'->>'statusName' as status_name, value::json->>'statusDate' as status_date
+	FROM openchpl.activity,
+	json_array_elements(openchpl.activity.new_data::json->'statusEvents')
+	WHERE activity_object_concept_id = (SELECT activity_concept_id FROM openchpl.activity_concept WHERE concept = 'DEVELOPER')
+	AND json_array_length(original_data::json->'statusEvents') > json_array_length(new_data::json->'statusEvents'))
+
+	EXCEPT ALL
+
+	(SELECT activity_id, (value::json->>'developerId')::bigint as developer_id, value::json->'status'->>'statusName' as status_name, value::json->>'statusDate' as status_date
+	FROM openchpl.activity,
+	json_array_elements(openchpl.activity.original_data::json->'statusEvents')
+	WHERE activity_object_concept_id = (SELECT activity_concept_id FROM openchpl.activity_concept WHERE concept = 'DEVELOPER')
+	AND json_array_length(original_data::json->'statusEvents') > json_array_length(new_data::json->'statusEvents'))) diff) developer_status_removed_activity
+ON developer_status_removed_activity.activity_id = activity.activity_id;
 
 /* 20 - Product name change */
 INSERT INTO openchpl.questionable_activity_product (questionable_activity_trigger_id, product_id, before_data, after_data, activity_date, activity_user_id, last_modified_user, creation_date, last_modified_date)
@@ -335,57 +369,125 @@ WHERE original IS NOT NULL AND new IS NOT NULL);
 
 /* 23 - Product Owner History Added */
 INSERT INTO openchpl.questionable_activity_product (questionable_activity_trigger_id, product_id, before_data, after_data, activity_date, activity_user_id, last_modified_user, creation_date, last_modified_date)
-(SELECT (SELECT id FROM openchpl.questionable_activity_trigger WHERE name = 'Product Owner History Added'), product_id, null, added, creation_date, activity_user_id, last_modified_user, creation_date, creation_date FROM 
-(SELECT (new_data::json->>'id')::bigint as product_id, 
-CASE 
-	WHEN json_array_length(original_data::json->'ownerHistory') < json_array_length(new_data::json->'ownerHistory') 
-	THEN (SELECT string_agg(status, ';') FROM ((SELECT developer::json->'status'->>'statusName' as status FROM json_to_recordset(new_data::json->'ownerHistory') as results1(developer json)) EXCEPT ALL (SELECT developer::json->'status'->>'statusName' as status FROM json_to_recordset(original_data::json->'ownerHistory') as results2(developer json))) diff)
-	WHEN json_array_length(original_data::json->'ownerHistory') = json_array_length(new_data::json->'ownerHistory') AND (original_data::json->'ownerHistory')::text !=  (new_data::json->'ownerHistory')::text 
-	THEN (SELECT string_agg(status, ';') FROM ((SELECT developer::json->'status'->>'statusName' as status FROM json_to_recordset(new_data::json->'ownerHistory') as results1(developer json)) EXCEPT ALL (SELECT developer::json->'status'->>'statusName' as status FROM json_to_recordset(original_data::json->'ownerHistory') as results2(developer json))) diff)
-	END as added
-	, creation_date, last_modified_user as activity_user_id, last_modified_user 
-FROM openchpl.activity WHERE activity_object_concept_id = (SELECT activity_concept_id FROM openchpl.activity_concept WHERE concept = 'PRODUCT')) as changed_name
-WHERE added IS NOT NULL);
+SELECT
+	(SELECT id FROM openchpl.questionable_activity_trigger WHERE name = 'Product Owner History Added'), 
+	developer_status_added_activity.product_id, 
+	null, 
+	developer_status_added_activity.added, 
+	activity.creation_date, 
+	activity.last_modified_user, 
+	activity.last_modified_user, 
+	activity.creation_date, 
+	activity.creation_date
+FROM openchpl.activity
+JOIN
+(SELECT activity_id, product_id, status_name || ' (' || to_char(to_timestamp(status_date::bigint/1000), 'YYYY-MM-DD') || ')' as added
+FROM
+	((SELECT activity_id, (value::json->>'id')::bigint as product_id, value::json->'status'->>'statusName' as status_name, value::json->>'statusDate' as status_date
+	FROM openchpl.activity,
+	json_array_elements(openchpl.activity.new_data::json->'ownerHistory')
+	WHERE activity_object_concept_id = (SELECT activity_concept_id FROM openchpl.activity_concept WHERE concept = 'PRODUCT')
+	AND json_array_length(original_data::json->'ownerHistory') < json_array_length(new_data::json->'ownerHistory'))
+
+	EXCEPT ALL
+
+	(SELECT activity_id, (value::json->>'id')::bigint as product_id, value::json->'status'->>'statusName' as status_name, value::json->>'statusDate' as status_date
+	FROM openchpl.activity,
+	json_array_elements(openchpl.activity.original_data::json->'ownerHistory')
+	WHERE activity_object_concept_id = (SELECT activity_concept_id FROM openchpl.activity_concept WHERE concept = 'PRODUCT')
+	AND json_array_length(original_data::json->'ownerHistory') < json_array_length(new_data::json->'ownerHistory'))) diff) developer_status_added_activity
+ON developer_status_added_activity.activity_id = activity.activity_id;
 
 INSERT INTO openchpl.questionable_activity_product (questionable_activity_trigger_id, product_id, before_data, after_data, activity_date, activity_user_id, last_modified_user, creation_date, last_modified_date)
-(SELECT (SELECT id FROM openchpl.questionable_activity_trigger WHERE name = 'Product Owner History Added'), product_id, null, added, creation_date, activity_user_id, last_modified_user, creation_date, creation_date FROM 
-(SELECT (new_data::json->>'id')::bigint as product_id, 
-CASE 
-	WHEN json_array_length(original_data::json->'ownerHistory') < json_array_length(new_data::json->'ownerHistory') 
-	THEN (SELECT string_agg(status, ';') FROM ((SELECT developer::json->'status'->'status'->>'statusName' as status FROM json_to_recordset(new_data::json->'ownerHistory') as results1(developer json)) EXCEPT ALL (SELECT developer::json->'status'->'status'->>'statusName' as status FROM json_to_recordset(original_data::json->'ownerHistory') as results2(developer json))) diff)
-	WHEN json_array_length(original_data::json->'ownerHistory') = json_array_length(new_data::json->'ownerHistory') AND (original_data::json->'ownerHistory')::text !=  (new_data::json->'ownerHistory')::text 
-	THEN (SELECT string_agg(status, ';') FROM ((SELECT developer::json->'status'->'status'->>'statusName' as status FROM json_to_recordset(new_data::json->'ownerHistory') as results1(developer json)) EXCEPT ALL (SELECT developer::json->'status'->'status'->>'statusName' as status FROM json_to_recordset(original_data::json->'ownerHistory') as results2(developer json))) diff)
-	END as added
-	, creation_date, last_modified_user as activity_user_id, last_modified_user 
-FROM openchpl.activity WHERE activity_object_concept_id = (SELECT activity_concept_id FROM openchpl.activity_concept WHERE concept = 'PRODUCT')) as changed_name
-WHERE added IS NOT NULL);
+SELECT
+	(SELECT id FROM openchpl.questionable_activity_trigger WHERE name = 'Product Owner History Added'), 
+	developer_status_added_activity.product_id, 
+	null, 
+	developer_status_added_activity.added, 
+	activity.creation_date, 
+	activity.last_modified_user, 
+	activity.last_modified_user, 
+	activity.creation_date, 
+	activity.creation_date
+FROM openchpl.activity
+JOIN
+(SELECT activity_id, product_id, status_name || ' (' || to_char(to_timestamp(status_date::bigint/1000), 'YYYY-MM-DD') || ')' as added
+FROM
+	((SELECT activity_id, (value::json->>'id')::bigint as product_id, value::json->'status'->'status'->>'statusName' as status_name, value::json->>'statusDate' as status_date
+	FROM openchpl.activity,
+	json_array_elements(openchpl.activity.new_data::json->'ownerHistory')
+	WHERE activity_object_concept_id = (SELECT activity_concept_id FROM openchpl.activity_concept WHERE concept = 'PRODUCT')
+	AND json_array_length(original_data::json->'ownerHistory') < json_array_length(new_data::json->'ownerHistory'))
+
+	EXCEPT ALL
+
+	(SELECT activity_id, (value::json->>'id')::bigint as product_id, value::json->'status'->'status'->>'statusName' as status_name, value::json->>'statusDate' as status_date
+	FROM openchpl.activity,
+	json_array_elements(openchpl.activity.original_data::json->'ownerHistory')
+	WHERE activity_object_concept_id = (SELECT activity_concept_id FROM openchpl.activity_concept WHERE concept = 'PRODUCT')
+	AND json_array_length(original_data::json->'ownerHistory') < json_array_length(new_data::json->'ownerHistory'))) diff) developer_status_added_activity
+ON developer_status_added_activity.activity_id = activity.activity_id;
 
 /* 24 - Product Owner History Removed */
 INSERT INTO openchpl.questionable_activity_product (questionable_activity_trigger_id, product_id, before_data, after_data, activity_date, activity_user_id, last_modified_user, creation_date, last_modified_date)
-(SELECT (SELECT id FROM openchpl.questionable_activity_trigger WHERE name = 'Product Owner History Removed'), product_id, null, removed, creation_date, activity_user_id, last_modified_user, creation_date, creation_date FROM 
-(SELECT (new_data::json->>'id')::bigint as product_id, 
-CASE 
-	WHEN json_array_length(original_data::json->'ownerHistory') > json_array_length(new_data::json->'ownerHistory') 
-	THEN (SELECT string_agg(status, ';') FROM ((SELECT developer::json->'status'->'status'->>'statusName' as status FROM json_to_recordset(new_data::json->'ownerHistory') as results1(developer json)) EXCEPT ALL (SELECT developer::json->'status'->'status'->>'statusName' as status FROM json_to_recordset(original_data::json->'ownerHistory') as results2(developer json))) diff)
-	WHEN json_array_length(original_data::json->'ownerHistory') = json_array_length(new_data::json->'ownerHistory') AND (original_data::json->'ownerHistory')::text !=  (new_data::json->'ownerHistory')::text 
-	THEN (SELECT string_agg(status, ';') FROM ((SELECT developer::json->'status'->'status'->>'statusName' as status FROM json_to_recordset(new_data::json->'ownerHistory') as results1(developer json)) EXCEPT ALL (SELECT developer::json->'status'->'status'->>'statusName' as status FROM json_to_recordset(original_data::json->'ownerHistory') as results2(developer json))) diff)
-	END as removed
-	, creation_date, last_modified_user as activity_user_id, last_modified_user 
-FROM openchpl.activity WHERE activity_object_concept_id = (SELECT activity_concept_id FROM openchpl.activity_concept WHERE concept = 'PRODUCT')) as changed_name
-WHERE removed IS NOT NULL);
+SELECT
+	(SELECT id FROM openchpl.questionable_activity_trigger WHERE name = 'Product Owner History Removed'), 
+	developer_status_added_activity.product_id,
+	developer_status_added_activity.removed, 
+	null, 
+	activity.creation_date, 
+	activity.last_modified_user, 
+	activity.last_modified_user, 
+	activity.creation_date, 
+	activity.creation_date
+FROM openchpl.activity
+JOIN
+(SELECT activity_id, product_id, status_name || ' (' || to_char(to_timestamp(status_date::bigint/1000), 'YYYY-MM-DD') || ')' as removed
+FROM
+	((SELECT activity_id, (value::json->>'id')::bigint as product_id, value::json->'status'->>'statusName' as status_name, value::json->>'statusDate' as status_date
+	FROM openchpl.activity,
+	json_array_elements(openchpl.activity.new_data::json->'ownerHistory')
+	WHERE activity_object_concept_id = (SELECT activity_concept_id FROM openchpl.activity_concept WHERE concept = 'PRODUCT')
+	AND json_array_length(original_data::json->'ownerHistory') > json_array_length(new_data::json->'ownerHistory'))
+
+	EXCEPT ALL
+
+	(SELECT activity_id, (value::json->>'id')::bigint as product_id, value::json->'status'->>'statusName' as status_name, value::json->>'statusDate' as status_date
+	FROM openchpl.activity,
+	json_array_elements(openchpl.activity.original_data::json->'ownerHistory')
+	WHERE activity_object_concept_id = (SELECT activity_concept_id FROM openchpl.activity_concept WHERE concept = 'PRODUCT')
+	AND json_array_length(original_data::json->'ownerHistory') > json_array_length(new_data::json->'ownerHistory'))) diff) developer_status_added_activity
+ON developer_status_added_activity.activity_id = activity.activity_id;
 
 INSERT INTO openchpl.questionable_activity_product (questionable_activity_trigger_id, product_id, before_data, after_data, activity_date, activity_user_id, last_modified_user, creation_date, last_modified_date)
-(SELECT (SELECT id FROM openchpl.questionable_activity_trigger WHERE name = 'Product Owner History Removed'), product_id, null, removed, creation_date, activity_user_id, last_modified_user, creation_date, creation_date FROM 
-(SELECT (new_data::json->>'id')::bigint as product_id, 
-CASE 
-	WHEN json_array_length(original_data::json->'ownerHistory') > json_array_length(new_data::json->'ownerHistory') 
-	THEN (SELECT string_agg(status, ';') FROM ((SELECT developer::json->'status'->>'statusName' as status FROM json_to_recordset(new_data::json->'ownerHistory') as results1(developer json)) EXCEPT ALL (SELECT developer::json->'status'->>'statusName' as status FROM json_to_recordset(original_data::json->'ownerHistory') as results2(developer json))) diff)
-	WHEN json_array_length(original_data::json->'ownerHistory') = json_array_length(new_data::json->'ownerHistory') AND (original_data::json->'ownerHistory')::text !=  (new_data::json->'ownerHistory')::text 
-	THEN (SELECT string_agg(status, ';') FROM ((SELECT developer::json->'status'->>'statusName' as status FROM json_to_recordset(new_data::json->'ownerHistory') as results1(developer json)) EXCEPT ALL (SELECT developer::json->'status'->>'statusName' as status FROM json_to_recordset(original_data::json->'ownerHistory') as results2(developer json))) diff)
-	END as removed
-	, creation_date, last_modified_user as activity_user_id, last_modified_user 
-FROM openchpl.activity WHERE activity_object_concept_id = (SELECT activity_concept_id FROM openchpl.activity_concept WHERE concept = 'PRODUCT')) as changed_name
-WHERE removed IS NOT NULL);
+SELECT
+	(SELECT id FROM openchpl.questionable_activity_trigger WHERE name = 'Product Owner History Removed'), 
+	developer_status_added_activity.product_id,
+	developer_status_added_activity.removed, 
+	null, 
+	activity.creation_date, 
+	activity.last_modified_user, 
+	activity.last_modified_user, 
+	activity.creation_date, 
+	activity.creation_date
+FROM openchpl.activity
+JOIN
+(SELECT activity_id, product_id, status_name || ' (' || to_char(to_timestamp(status_date::bigint/1000), 'YYYY-MM-DD') || ')' as removed
+FROM
+	((SELECT activity_id, (value::json->>'id')::bigint as product_id, value::json->'status'->'status'->>'statusName' as status_name, value::json->>'statusDate' as status_date
+	FROM openchpl.activity,
+	json_array_elements(openchpl.activity.new_data::json->'ownerHistory')
+	WHERE activity_object_concept_id = (SELECT activity_concept_id FROM openchpl.activity_concept WHERE concept = 'PRODUCT')
+	AND json_array_length(original_data::json->'ownerHistory') > json_array_length(new_data::json->'ownerHistory'))
+
+	EXCEPT ALL
+
+	(SELECT activity_id, (value::json->>'id')::bigint as product_id, value::json->'status'->'status'->>'statusName' as status_name, value::json->>'statusDate' as status_date
+	FROM openchpl.activity,
+	json_array_elements(openchpl.activity.original_data::json->'ownerHistory')
+	WHERE activity_object_concept_id = (SELECT activity_concept_id FROM openchpl.activity_concept WHERE concept = 'PRODUCT')
+	AND json_array_length(original_data::json->'ownerHistory') > json_array_length(new_data::json->'ownerHistory'))) diff) developer_status_added_activity
+ON developer_status_added_activity.activity_id = activity.activity_id;
 
 /* 25 - Version name change */
 INSERT INTO openchpl.questionable_activity_version (questionable_activity_trigger_id, version_id, before_data, after_data, activity_date, activity_user_id, last_modified_user, creation_date, last_modified_date) 
