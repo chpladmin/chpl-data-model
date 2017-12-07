@@ -1,18 +1,20 @@
 # Release Notes
 
-## Version 12.6.0
-_5 December 2017_
+## Version TBD
+_Date TBD_
 
 ### Minor Changes
 * Change ROLE_ACB_ADMIN to ROLE_ACB
 * Change ROLE_ATL_ADMIN to ROLE_ATL
 * Remove ROLE_ACB_STAFF
 * Remove ROLE_ATL_STAFF
+* Rename all test_procedure_temp tables and keys to their final state.
+* Mark duplicate ucd processes and qms standards as deleted; point criteria and listings to the appropriate non-deleted record
 
 ---
 
-## Version TBD
-_4 December 2017_
+## Version 12.6.0
+_5 December 2017_
 
 ### Table modification
 * Add test_data and test_procedure_temp tables along with criteria mapping tables for each.
