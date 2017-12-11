@@ -285,7 +285,7 @@ WHERE original IS NOT NULL AND new IS NOT NULL);
 INSERT INTO openchpl.questionable_activity_developer (questionable_activity_trigger_id, developer_id, before_data, after_data, activity_date, activity_user_id, last_modified_user, creation_date, last_modified_date)
 SELECT
 	(SELECT id FROM openchpl.questionable_activity_trigger WHERE name = 'Developer Status History Edited'), 
-	developer_status_added_activity.developer_id, 
+	developer_status_new_activity.developer_id, 
 	developer_status_old_activity.old_status, 
 	developer_status_new_activity.new_status, 
 	activity.creation_date, 
@@ -295,7 +295,7 @@ SELECT
 	activity.creation_date
 FROM openchpl.activity
 JOIN
-(SELECT activity_id, developer_id, status_name || ' (' || to_char(to_timestamp(status_date::bigint/1000), 'YYYY-MM-DD') || ')' as added
+(SELECT activity_id, developer_id, status_name || ' (' || to_char(to_timestamp(status_date::bigint/1000), 'YYYY-MM-DD') || ')' as new_status
 FROM
 	((SELECT activity_id, (value::json->>'developerId')::bigint as developer_id, (value::json->>'id')::bigint as id, (value::json->'status'->>'id')::bigint as status_id, value::json->'status'->>'statusName' as status_name, value::json->>'statusDate' as status_date
 	FROM openchpl.activity,
@@ -307,9 +307,24 @@ FROM
 	(SELECT activity_id, (value::json->>'developerId')::bigint as developer_id, (value::json->>'id')::bigint as id, (value::json->'status'->>'id')::bigint as status_id, value::json->'status'->>'statusName' as status_name, value::json->>'statusDate' as status_date
 	FROM openchpl.activity,
 	json_array_elements(openchpl.activity.original_data::json->'statusEvents')
-	WHERE activity_object_concept_id = (SELECT activity_concept_id FROM openchpl.activity_concept WHERE concept = 'DEVELOPER'))) diff) developer_status_added_activity
-ON developer_status_added_activity.activity_id = activity.activity_id
-WHERE developer_status_added_activity IS NOT NULL;
+	WHERE activity_object_concept_id = (SELECT activity_concept_id FROM openchpl.activity_concept WHERE concept = 'DEVELOPER'))) diff) developer_status_new_activity
+ON developer_status_new_activity.activity_id = activity.activity_id
+JOIN
+(SELECT activity_id, developer_id, status_name || ' (' || to_char(to_timestamp(status_date::bigint/1000), 'YYYY-MM-DD') || ')' as old_status
+FROM
+	((SELECT activity_id, (value::json->>'developerId')::bigint as developer_id, (value::json->>'id')::bigint as id, (value::json->'status'->>'id')::bigint as status_id, value::json->'status'->>'statusName' as status_name, value::json->>'statusDate' as status_date
+	FROM openchpl.activity,
+	json_array_elements(openchpl.activity.original_data::json->'statusEvents')
+	WHERE activity_object_concept_id = (SELECT activity_concept_id FROM openchpl.activity_concept WHERE concept = 'DEVELOPER'))
+
+	EXCEPT ALL
+
+	(SELECT activity_id, (value::json->>'developerId')::bigint as developer_id, (value::json->>'id')::bigint as id, (value::json->'status'->>'id')::bigint as status_id, value::json->'status'->>'statusName' as status_name, value::json->>'statusDate' as status_date
+	FROM openchpl.activity,
+	json_array_elements(openchpl.activity.new_data::json->'statusEvents')
+	WHERE activity_object_concept_id = (SELECT activity_concept_id FROM openchpl.activity_concept WHERE concept = 'DEVELOPER'))) diff) developer_status_old_activity
+ON developer_status_old_activity.activity_id = activity.activity_id
+WHERE developer_status_new_activity IS NOT NULL AND developer_status_old_activity IS NOT NULL;
 
 /* 18 - Developer Status History Added */
 INSERT INTO openchpl.questionable_activity_developer (questionable_activity_trigger_id, developer_id, before_data, after_data, activity_date, activity_user_id, last_modified_user, creation_date, last_modified_date)
