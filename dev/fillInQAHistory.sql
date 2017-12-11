@@ -276,10 +276,48 @@ WHERE original IS NOT NULL AND new IS NOT NULL);
 
 /* 16 - Developer Status Edited */
 INSERT INTO openchpl.questionable_activity_developer (questionable_activity_trigger_id, developer_id, before_data, after_data, activity_date, activity_user_id, last_modified_user, creation_date, last_modified_date)
-(SELECT (SELECT id FROM openchpl.questionable_activity_trigger WHERE name = 'Developer Status Edited'), developer_id, original, new, creation_date, activity_user_id, last_modified_user, creation_date, creation_date FROM 
-(SELECT (new_data::json->>'id')::bigint as developer_id, CASE WHEN (original_data::json->'statuses'->>'status')::text != (new_data::json->'statuses'->>'status')::text THEN original_data::json->'statuses'->>'status' END as original, CASE WHEN (original_data::json->'statuses'->>'status')::text != (new_data::json->'statuses'->>'status')::text THEN new_data::json->'statuses'->>'status' END as new, creation_date, last_modified_user as activity_user_id, last_modified_user 
-FROM openchpl.activity WHERE activity_object_concept_id = (SELECT activity_concept_id FROM openchpl.activity_concept WHERE concept = 'DEVELOPER')) as changed_name
-WHERE original IS NOT NULL AND new IS NOT NULL);
+SELECT
+	(SELECT id FROM openchpl.questionable_activity_trigger WHERE name = 'Developer Status Edited'), 
+	developer_status_new_activity.developer_id, 
+	developer_status_old_activity.old_status, 
+	developer_status_new_activity.new_status, 
+	activity.creation_date, 
+	activity.last_modified_user, 
+	activity.last_modified_user, 
+	activity.creation_date, 
+	activity.creation_date
+FROM openchpl.activity
+JOIN
+(SELECT activity_id, developer_id, status_name as new_status
+FROM
+	((SELECT activity_id, (value::json->>'developerId')::bigint as developer_id, (value::json->>'id')::bigint as id, (value::json->'status'->>'id')::bigint as status_id, value::json->'status'->>'statusName' as status_name
+	FROM openchpl.activity,
+	json_array_elements(openchpl.activity.new_data::json->'statusEvents')
+	WHERE activity_object_concept_id = (SELECT activity_concept_id FROM openchpl.activity_concept WHERE concept = 'DEVELOPER'))
+
+	EXCEPT ALL
+
+	(SELECT activity_id, (value::json->>'developerId')::bigint as developer_id, (value::json->>'id')::bigint as id, (value::json->'status'->>'id')::bigint as status_id, value::json->'status'->>'statusName' as status_name
+	FROM openchpl.activity,
+	json_array_elements(openchpl.activity.original_data::json->'statusEvents')
+	WHERE activity_object_concept_id = (SELECT activity_concept_id FROM openchpl.activity_concept WHERE concept = 'DEVELOPER'))) diff) developer_status_new_activity
+ON developer_status_new_activity.activity_id = activity.activity_id
+JOIN
+(SELECT activity_id, developer_id, status_name as old_status
+FROM
+	((SELECT activity_id, (value::json->>'developerId')::bigint as developer_id, (value::json->>'id')::bigint as id, (value::json->'status'->>'id')::bigint as status_id, value::json->'status'->>'statusName' as status_name
+	FROM openchpl.activity,
+	json_array_elements(openchpl.activity.original_data::json->'statusEvents')
+	WHERE activity_object_concept_id = (SELECT activity_concept_id FROM openchpl.activity_concept WHERE concept = 'DEVELOPER'))
+
+	EXCEPT ALL
+
+	(SELECT activity_id, (value::json->>'developerId')::bigint as developer_id, (value::json->>'id')::bigint as id, (value::json->'status'->>'id')::bigint as status_id, value::json->'status'->>'statusName' as status_name
+	FROM openchpl.activity,
+	json_array_elements(openchpl.activity.new_data::json->'statusEvents')
+	WHERE activity_object_concept_id = (SELECT activity_concept_id FROM openchpl.activity_concept WHERE concept = 'DEVELOPER'))) diff) developer_status_old_activity
+ON developer_status_old_activity.activity_id = activity.activity_id
+WHERE developer_status_new_activity IS NOT NULL AND developer_status_old_activity IS NOT NULL;
 
 /* 17 - Developer Status History Edited */
 INSERT INTO openchpl.questionable_activity_developer (questionable_activity_trigger_id, developer_id, before_data, after_data, activity_date, activity_user_id, last_modified_user, creation_date, last_modified_date)
