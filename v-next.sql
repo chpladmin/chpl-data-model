@@ -34,6 +34,52 @@ UPDATE openchpl.user_permission as up
 SET authority = 'ROLE_ATL'
 WHERE up.user_permission_id = 4;
 
+--
+-- Fix up test procedure and test data tables with "_temp" in the names
+--
+
+-- Manually delete tables that were needed for the previous test procedure data migration. They could not be deleted before
+-- so that we could run the migration of data from these tables multiple times.	
+CREATE OR REPLACE FUNCTION openchpl.cleanupPendingTestProcedureTemp() RETURNS void AS $$
+BEGIN
+	--if pending_certification_result_test_procedure_temp still exists then drop pending_certification_result_test_procedure
+    PERFORM * FROM openchpl.pending_certification_result_test_procedure_temp;
+	DROP TABLE IF EXISTS openchpl.pending_certification_result_test_procedure;
+    EXCEPTION
+        WHEN UNDEFINED_TABLE THEN
+		RAISE NOTICE 'pending_certification_result_test_procedure_temp has already been removed. Not removing pending_certification_result_test_procedure';
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION openchpl.cleanupCertTestProcedureTemp() RETURNS void AS $$
+BEGIN			
+	--if certification_result_test_procedure_temp still exists then drop certification_result_test_procedure
+	PERFORM * FROM openchpl.certification_result_test_procedure_temp;
+	DROP TABLE IF EXISTS openchpl.certification_result_test_procedure;
+    EXCEPTION
+        WHEN UNDEFINED_TABLE THEN
+		RAISE NOTICE 'certification_result_test_procedure_temp has already been removed. Not removing certification_result_test_procedure';
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION openchpl.cleanupTestProcedureTemp() RETURNS void AS $$
+BEGIN				
+	--if test_procedure_temp still exists then drop test_procedure
+	PERFORM * FROM openchpl.test_procedure_temp;
+	DROP TABLE IF EXISTS openchpl.test_procedure;
+    EXCEPTION
+        WHEN UNDEFINED_TABLE THEN
+		RAISE NOTICE 'test_procedure_temp has already been removed. Not removing test_procedure';
+END;
+$$ LANGUAGE plpgsql;
+
+SELECT openchpl.cleanupPendingTestProcedureTemp();
+SELECT openchpl.cleanupCertTestProcedureTemp();
+SELECT openchpl.cleanupTestProcedureTemp();
+DROP FUNCTION IF EXISTS openchpl.cleanupPendingTestProcedureTemp();
+DROP FUNCTION IF EXISTS openchpl.cleanupCertTestProcedureTemp();
+DROP FUNCTION IF EXISTS openchpl.cleanupTestProcedureTemp();
+
 -- Rename tables and constraints that had "_temp" in the name anything from here that has '_temp' in the name.
 BEGIN;
 
@@ -102,52 +148,6 @@ CREATE TRIGGER pending_certification_result_test_procedure_audit AFTER INSERT OR
 CREATE TRIGGER pending_certification_result_test_procedure_timestamp BEFORE UPDATE on openchpl.pending_certification_result_test_procedure FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 
 COMMIT;
-
---
--- Fix up test procedure and test data tables with "_temp" in the names
---
-
--- Manually delete tables that were needed for the previous test procedure data migration. They could not be deleted before
--- so that we could run the migration of data from these tables multiple times.	
-CREATE OR REPLACE FUNCTION openchpl.cleanupPendingTestProcedureTemp() RETURNS void AS $$
-BEGIN
-	--if pending_certification_result_test_procedure_temp still exists then drop pending_certification_result_test_procedure
-    PERFORM * FROM openchpl.pending_certification_result_test_procedure_temp;
-	DROP TABLE IF EXISTS openchpl.pending_certification_result_test_procedure;
-    EXCEPTION
-        WHEN UNDEFINED_TABLE THEN
-		RAISE NOTICE 'pending_certification_result_test_procedure_temp has already been removed. Not removing pending_certification_result_test_procedure';
-END;
-$$ LANGUAGE plpgsql;
-
-CREATE OR REPLACE FUNCTION openchpl.cleanupCertTestProcedureTemp() RETURNS void AS $$
-BEGIN			
-	--if certification_result_test_procedure_temp still exists then drop certification_result_test_procedure
-	PERFORM * FROM openchpl.certification_result_test_procedure_temp;
-	DROP TABLE IF EXISTS openchpl.certification_result_test_procedure;
-    EXCEPTION
-        WHEN UNDEFINED_TABLE THEN
-		RAISE NOTICE 'certification_result_test_procedure_temp has already been removed. Not removing certification_result_test_procedure';
-END;
-$$ LANGUAGE plpgsql;
-
-CREATE OR REPLACE FUNCTION openchpl.cleanupTestProcedureTemp() RETURNS void AS $$
-BEGIN				
-	--if test_procedure_temp still exists then drop test_procedure
-	PERFORM * FROM openchpl.test_procedure_temp;
-	DROP TABLE IF EXISTS openchpl.test_procedure;
-    EXCEPTION
-        WHEN UNDEFINED_TABLE THEN
-		RAISE NOTICE 'test_procedure_temp has already been removed. Not removing test_procedure';
-END;
-$$ LANGUAGE plpgsql;
-
-SELECT openchpl.cleanupPendingTestProcedureTemp();
-SELECT openchpl.cleanupCertTestProcedureTemp();
-SELECT openchpl.cleanupTestProcedureTemp();
-DROP FUNCTION IF EXISTS openchpl.cleanupPendingTestProcedureTemp();
-DROP FUNCTION IF EXISTS openchpl.cleanupCertTestProcedureTemp();
-DROP FUNCTION IF EXISTS openchpl.cleanupTestProcedureTemp();
 
 --
 -- FIX UCD PROCESSES
