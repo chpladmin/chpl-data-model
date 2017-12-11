@@ -361,15 +361,15 @@ JOIN
 FROM
 	((SELECT activity_id, (value::json->>'developerId')::bigint as developer_id, value::json->'status'->>'statusName' as status_name, value::json->>'statusDate' as status_date
 	FROM openchpl.activity,
-	json_array_elements(openchpl.activity.new_data::json->'statusEvents')
+	json_array_elements(openchpl.activity.original_data::json->'statusEvents')
 	WHERE activity_object_concept_id = (SELECT activity_concept_id FROM openchpl.activity_concept WHERE concept = 'DEVELOPER')
 	AND json_array_length(original_data::json->'statusEvents') > json_array_length(new_data::json->'statusEvents'))
-
+	
 	EXCEPT ALL
 
 	(SELECT activity_id, (value::json->>'developerId')::bigint as developer_id, value::json->'status'->>'statusName' as status_name, value::json->>'statusDate' as status_date
 	FROM openchpl.activity,
-	json_array_elements(openchpl.activity.original_data::json->'statusEvents')
+	json_array_elements(openchpl.activity.new_data::json->'statusEvents')
 	WHERE activity_object_concept_id = (SELECT activity_concept_id FROM openchpl.activity_concept WHERE concept = 'DEVELOPER')
 	AND json_array_length(original_data::json->'statusEvents') > json_array_length(new_data::json->'statusEvents'))) diff) developer_status_removed_activity
 ON developer_status_removed_activity.activity_id = activity.activity_id
