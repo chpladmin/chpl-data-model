@@ -442,13 +442,13 @@ INSERT INTO openchpl.questionable_activity_product (questionable_activity_trigge
 FROM openchpl.activity WHERE activity_object_concept_id = (SELECT activity_concept_id FROM openchpl.activity_concept WHERE concept = 'PRODUCT')) as changed_name
 WHERE original IS NOT NULL AND new IS NOT NULL);
 
-/* 22 - Product owner history change */
+/* 22 - Product owner history edited */
 INSERT INTO openchpl.questionable_activity_product (questionable_activity_trigger_id, product_id, before_data, after_data, activity_date, activity_user_id, last_modified_user, creation_date, last_modified_date)
 SELECT
 	(SELECT id FROM openchpl.questionable_activity_trigger WHERE name = 'Product Owner History Edited'), 
-	developer_status_added_activity.product_id, 
-	null, 
-	developer_status_added_activity.added, 
+	product_owner_added_activity.product_id, 
+	product_owner_removed_activity.removed, 
+	product_owner_added_activity.added, 
 	activity.creation_date, 
 	activity.last_modified_user, 
 	activity.last_modified_user, 
@@ -456,21 +456,36 @@ SELECT
 	activity.creation_date
 FROM openchpl.activity
 JOIN
-(SELECT activity_id, product_id, developer_name || ' (' || to_char(to_timestamp(status_date::bigint/1000), 'YYYY-MM-DD') || ')' as added
+(SELECT activity_id, product_id, developer_name || ' (' || to_char(to_timestamp(transfer_date::bigint/1000), 'YYYY-MM-DD') || ')' as added
 FROM
-	((SELECT activity_id, (value::json->>'id')::bigint as product_id, value::json->'developer'->>'name' as developer_name, new_data::json->>'lastModifiedDate' as status_date
+	((SELECT activity_id, (new_data::json->>'id')::bigint as product_id, value::json->'developer'->>'name' as developer_name, value::json->>'transferDate' as transfer_date
 	FROM openchpl.activity,
 	json_array_elements(openchpl.activity.new_data::json->'ownerHistory')
 	WHERE activity_object_concept_id = (SELECT activity_concept_id FROM openchpl.activity_concept WHERE concept = 'PRODUCT'))
 
 	EXCEPT ALL
 
-	(SELECT activity_id, (value::json->>'id')::bigint as product_id, value::json->'developer'->>'name' as developer_name, new_data::json->>'lastModifiedDate' as status_date
+	(SELECT activity_id, (original_data::json->>'id')::bigint as product_id, value::json->'developer'->>'name' as developer_name, value::json->>'transferDate' as transfer_date
 	FROM openchpl.activity,
 	json_array_elements(openchpl.activity.original_data::json->'ownerHistory')
-	WHERE activity_object_concept_id = (SELECT activity_concept_id FROM openchpl.activity_concept WHERE concept = 'PRODUCT'))) diff) developer_status_added_activity
-ON developer_status_added_activity.activity_id = activity.activity_id
-WHERE developer_status_added_activity IS NOT NULL;
+	WHERE activity_object_concept_id = (SELECT activity_concept_id FROM openchpl.activity_concept WHERE concept = 'PRODUCT'))) diff) product_owner_added_activity
+ON product_owner_added_activity.activity_id = activity.activity_id
+JOIN
+(SELECT activity_id, product_id, developer_name || ' (' || to_char(to_timestamp(transfer_date::bigint/1000), 'YYYY-MM-DD') || ')' as removed
+FROM
+	((SELECT activity_id, (original_data::json->>'id')::bigint as product_id, value::json->'developer'->>'name' as developer_name, value::json->>'transferDate' as transfer_date
+	FROM openchpl.activity,
+	json_array_elements(openchpl.activity.original_data::json->'ownerHistory')
+	WHERE activity_object_concept_id = (SELECT activity_concept_id FROM openchpl.activity_concept WHERE concept = 'PRODUCT'))
+
+	EXCEPT ALL
+
+	(SELECT activity_id, (new_data::json->>'id')::bigint as product_id, value::json->'developer'->>'name' as developer_name, value::json->>'transferDate' as transfer_date
+	FROM openchpl.activity,
+	json_array_elements(openchpl.activity.new_data::json->'ownerHistory')
+	WHERE activity_object_concept_id = (SELECT activity_concept_id FROM openchpl.activity_concept WHERE concept = 'PRODUCT'))) diff) product_owner_removed_activity
+ON product_owner_removed_activity.activity_id = activity.activity_id
+WHERE product_owner_removed_activity IS NOT NULL AND product_owner_added_activity IS NOT NULL;
 
 /* 23 - Product Owner History Added */
 INSERT INTO openchpl.questionable_activity_product (questionable_activity_trigger_id, product_id, before_data, after_data, activity_date, activity_user_id, last_modified_user, creation_date, last_modified_date)
