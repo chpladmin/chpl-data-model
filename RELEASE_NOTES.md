@@ -1,5 +1,10 @@
 # Release Notes
 
+## OCD-1835: Deleting deprecated upload templates- Data changes
+* Marked deprecated upload templates as deleted
+
+---
+
 ## Version TBD
 _Date TBD_
 
