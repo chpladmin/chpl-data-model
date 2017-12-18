@@ -5,30 +5,42 @@ ALTER TABLE openchpl.surveillance ADD CONSTRAINT
     REFERENCES openchpl.user_permission (user_permission_id) MATCH FULL
     ON UPDATE CASCADE ON DELETE RESTRICT;
 
--- change invitation permissions to not reference ACB_STAFF or ATL_STAFF roles
---delete any invited user permissions for acb_staff 
---if the same invited user also has a permission for acb_admin
+--
+-- Update invitation permissions to not reference ACB_STAFF or ATL_STAFF roles
+--
+
+-- Delete any invited user permissions for ACB_STAFF 
+-- if the same invited user also has a permission for ACB_ADMIN.
+-- This avoids a duplicate key error on the next step.
 DELETE
 FROM openchpl.invited_user_permission as iup
 WHERE EXISTS(SELECT * FROM openchpl.invited_user_permission iupInner WHERE iup.invited_user_id = iupInner.invited_user_id AND user_permission_id = 2)
 AND iup.user_permission_id = 3;
 
---change all acb_staff invitation permissions to acb_admin
+--Change all remaining ACB_STAFF invitation permissions to ACB_ADMIN
 UPDATE openchpl.invited_user_permission
 SET user_permission_id = 2
 WHERE user_permission_id = 3;
 
+-- Delete any invited user permissions for ATL_STAFF 
+-- if the same invited user also has a permission for ATL_ADMIN.
+-- This avoids a duplicate key error on the next step.
 DELETE
 FROM openchpl.invited_user_permission as iup
 WHERE EXISTS(SELECT * FROM openchpl.invited_user_permission iupInner WHERE iup.invited_user_id = iupInner.invited_user_id AND user_permission_id = 4)
 AND iup.user_permission_id = 5;
 
+--Change all remaining ATL_STAFF invitation permissions to ATL_ADMIN
 UPDATE openchpl.invited_user_permission
 SET user_permission_id = 4
 WHERE user_permission_id = 5;
 	  
+--	  
 -- Update global_user_permission_map to not reference ACB_STAFF or ATL_STAFF
--- NOTE: There are no records referencing ATL_STAFF. There are some records referencing ACB_STAFF but they are all already marked as deleted. We will just delete them here.
+--
+
+-- NOTE: There are no records referencing ATL_STAFF. 
+-- There are some records referencing ACB_STAFF but they are all already marked as deleted. We will just delete them here.
 DELETE FROM openchpl.global_user_permission_map  
 WHERE user_permission_id_user_permission = 3
 AND deleted = true;
