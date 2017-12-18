@@ -1,10 +1,84 @@
+-- change surveillance user_permission_id fk to RESTRICT
+ALTER TABLE openchpl.surveillance DROP CONSTRAINT IF EXISTS user_permission_id_fk;
+ALTER TABLE openchpl.surveillance ADD CONSTRAINT 
+	user_permission_id_fk FOREIGN KEY (user_permission_id)
+    REFERENCES openchpl.user_permission (user_permission_id) MATCH FULL
+    ON UPDATE CASCADE ON DELETE RESTRICT;
+
 --
---NOTE: MAKE SURE TO CHANGE ENTITY REFERENCES TO _TEMP TABLES IN THE API
+-- Update invitation permissions to not reference ACB_STAFF or ATL_STAFF roles
 --
 
--- Manually delete tables that were needed for the previous v-next data migration. They could not be deleted before
+-- Delete any invited user permissions for ACB_STAFF 
+-- if the same invited user also has a permission for ACB_ADMIN.
+-- This avoids a duplicate key error on the next step.
+DELETE
+FROM openchpl.invited_user_permission as iup
+WHERE EXISTS(SELECT * FROM openchpl.invited_user_permission iupInner WHERE iup.invited_user_id = iupInner.invited_user_id AND user_permission_id = 2)
+AND iup.user_permission_id = 3;
+
+--Change all remaining ACB_STAFF invitation permissions to ACB_ADMIN
+UPDATE openchpl.invited_user_permission
+SET user_permission_id = 2
+WHERE user_permission_id = 3;
+
+-- Delete any invited user permissions for ATL_STAFF 
+-- if the same invited user also has a permission for ATL_ADMIN.
+-- This avoids a duplicate key error on the next step.
+DELETE
+FROM openchpl.invited_user_permission as iup
+WHERE EXISTS(SELECT * FROM openchpl.invited_user_permission iupInner WHERE iup.invited_user_id = iupInner.invited_user_id AND user_permission_id = 4)
+AND iup.user_permission_id = 5;
+
+--Change all remaining ATL_STAFF invitation permissions to ATL_ADMIN
+UPDATE openchpl.invited_user_permission
+SET user_permission_id = 4
+WHERE user_permission_id = 5;
+	  
+--	  
+-- Update global_user_permission_map to not reference ACB_STAFF or ATL_STAFF
+--
+
+-- NOTE: There are no records referencing ATL_STAFF. 
+-- There are some records referencing ACB_STAFF but they are all already marked as deleted. We will just delete them here.
+DELETE FROM openchpl.global_user_permission_map  
+WHERE user_permission_id_user_permission = 3
+AND deleted = true;
+
+DELETE FROM openchpl.global_user_permission_map  
+WHERE user_permission_id_user_permission = 5
+AND deleted = true;
+
+-- Update surveillance to not reference ACB_STAFF (they can't have ATL_STAFF)
+UPDATE openchpl.surveillance
+SET user_permission_id = 2
+WHERE user_permission_id = 3;
+
+-- Notification Type is the other place the permissions are referenced as foreign keys but
+-- so far they only have ADMIN and ACB_ADMIN permissions so there are no changes needed.
+
+-- Change the names of the existing ACB and ATL roles
+UPDATE openchpl.user_permission
+SET name = 'ACB', authority = 'ROLE_ACB'
+WHERE name = 'ACB_ADMIN';
+
+UPDATE openchpl.user_permission
+SET name = 'ATL', authority = 'ROLE_ATL'
+WHERE name = 'ATL_ADMIN';
+
+-- Delete the roles we are no longer allowing
+DELETE FROM openchpl.user_permission
+WHERE name = 'ACB_STAFF';
+
+DELETE FROM openchpl.user_permission
+WHERE name = 'ATL_STAFF';
+
+--
+-- Fix up test procedure and test data tables with "_temp" in the names
+--
+
+-- Manually delete tables that were needed for the previous test procedure data migration. They could not be deleted before
 -- so that we could run the migration of data from these tables multiple times.	
-
 CREATE OR REPLACE FUNCTION openchpl.cleanupPendingTestProcedureTemp() RETURNS void AS $$
 BEGIN
 	--if pending_certification_result_test_procedure_temp still exists then drop pending_certification_result_test_procedure
@@ -113,5 +187,102 @@ CREATE TRIGGER pending_certification_result_test_procedure_audit AFTER INSERT OR
 CREATE TRIGGER pending_certification_result_test_procedure_timestamp BEFORE UPDATE on openchpl.pending_certification_result_test_procedure FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 
 COMMIT;
+
+--
+-- FIX UCD PROCESSES
+--
+
+-- delete references to ucd processes in certification results if ucd process name is blank
+UPDATE openchpl.certification_result_ucd_process 
+SET deleted = true
+WHERE ucd_process_id IN (SELECT ucd_process_id FROM openchpl.ucd_process WHERE name = '')
+AND deleted != true;
+
+-- delete the ucd_process rows that have blank names
+UPDATE openchpl.ucd_process
+SET deleted = true
+WHERE name = ''
+AND deleted != true;
+
+CREATE OR REPLACE FUNCTION openchpl.replaceAllUcdProcessDuplicates() RETURNS void AS $$
+DECLARE
+    dupName varchar(200);
+BEGIN
+    FOR dupName IN SELECT name FROM openchpl.ucd_process WHERE deleted = false GROUP BY name HAVING count(*) > 1
+    LOOP
+	-- change the references to the duplicate ucd process
+	RAISE NOTICE 'Changing all certification results pointing to ucd process %', dupName;
+
+	UPDATE openchpl.certification_result_ucd_process
+	SET ucd_process_id =
+		-- get the first one of the ucd processes with this same name
+		-- and set all certification results to point to it
+		(SELECT ucd_process_id 
+		FROM
+			(SELECT ROW_NUMBER() OVER() AS row, ucd_process_id FROM openchpl.ucd_process WHERE name = dupName AND deleted = false) as dup_rows
+		WHERE dup_rows.row = 1)
+	WHERE ucd_process_id IN (SELECT ucd_process_id FROM openchpl.ucd_process WHERE name = dupName)
+	AND deleted = false;
+
+	-- delete the duplicate ucd process(es)
+	UPDATE openchpl.ucd_process
+	SET deleted = true
+	WHERE ucd_process_id IN
+		-- get all non-first instances of this ucd process name
+	       (SELECT ucd_process_id 
+		FROM
+			(SELECT ROW_NUMBER() OVER() AS row, ucd_process_id FROM openchpl.ucd_process WHERE name = dupName AND deleted = false) as dup_rows
+		WHERE dup_rows.row > 1)
+	AND deleted = false;
+    END LOOP;
+    RETURN;
+END
+$$ LANGUAGE 'plpgsql' ;
+
+SELECT * FROM openchpl.replaceAllUcdProcessDuplicates();
+DROP FUNCTION openchpl.replaceAllUcdProcessDuplicates();
+
+--
+-- FIX QMS STANDARDS
+--
+
+CREATE OR REPLACE FUNCTION openchpl.replaceAllQmsStandardDuplicates() RETURNS void AS $$
+DECLARE
+    dupName varchar(200);
+BEGIN
+    FOR dupName IN SELECT name FROM openchpl.qms_standard WHERE deleted = false GROUP BY name HAVING count(*) > 1
+    LOOP
+	-- change the references to the duplicate ucd process
+	RAISE NOTICE 'Changing all certified products pointing to qms standard %', dupName;
+
+	UPDATE openchpl.certified_product_qms_standard
+	SET qms_standard_id =
+		-- get the first one of the qms standards with this same name
+		-- and set all certification results to point to it
+		(SELECT qms_standard_id 
+		FROM
+			(SELECT ROW_NUMBER() OVER() AS row, qms_standard_id FROM openchpl.qms_standard WHERE name = dupName AND deleted = false) as dup_rows
+		WHERE dup_rows.row = 1)
+	WHERE qms_standard_id IN (SELECT qms_standard_id FROM openchpl.qms_standard WHERE name = dupName)
+	AND deleted = false;
+
+	-- delete the duplicate qms standard(s)
+	UPDATE openchpl.qms_standard
+	SET deleted = true
+	WHERE qms_standard_id IN
+		-- get all non-first instances of this qms standard name
+	       (SELECT qms_standard_id 
+		FROM
+			(SELECT ROW_NUMBER() OVER() AS row, qms_standard_id FROM openchpl.qms_standard WHERE name = dupName AND deleted = false) as dup_rows
+		WHERE dup_rows.row > 1)
+	AND deleted = false;
+    END LOOP;
+    RETURN;
+END
+$$ LANGUAGE 'plpgsql' ;
+
+SELECT * FROM openchpl.replaceAllQmsStandardDuplicates();
+DROP FUNCTION openchpl.replaceAllQmsStandardDuplicates();
+
 --re-run grants
 \i dev/openchpl_grant-all.sql
