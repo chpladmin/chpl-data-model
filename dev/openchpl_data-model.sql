@@ -2171,7 +2171,7 @@ CREATE TABLE openchpl.surveillance (
 		MATCH FULL ON DELETE SET NULL ON UPDATE CASCADE,
 	CONSTRAINT user_permission_id_fk FOREIGN KEY (user_permission_id)
       REFERENCES openchpl.user_permission (user_permission_id) MATCH FULL
-      ON UPDATE CASCADE ON DELETE CASCADE
+      ON UPDATE CASCADE ON DELETE RESTRICT
 );
 
 CREATE TABLE openchpl.surveillance_requirement (
