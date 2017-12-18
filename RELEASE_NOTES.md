@@ -1,19 +1,25 @@
 # Release Notes
 
-## OCD-1835: Deleting deprecated upload templates- Data changes
+## Version TBD
+_Date TBD_
+
+## Data changes
 * Marked deprecated upload templates as deleted
 
 ---
 
-## Version TBD
-_Date TBD_
+## Version 13.0.0
+_18 December 2017_
 
-### Minor Changes
-* Change ROLE_ACB_ADMIN to ROLE_ACB
-* Change ROLE_ATL_ADMIN to ROLE_ATL
-* Remove ROLE_ACB_STAFF
-* Remove ROLE_ATL_STAFF
+### Table modifications
 * Rename all test_procedure_temp tables and keys to their final state.
+
+### Data changes
+* ROLE consolidation
+  * Change ROLE_ACB_ADMIN to ROLE_ACB
+  * Change ROLE_ATL_ADMIN to ROLE_ATL
+  * Remove ROLE_ACB_STAFF
+  * Remove ROLE_ATL_STAFF
 * Mark duplicate ucd processes and qms standards as deleted; point criteria and listings to the appropriate non-deleted record
 
 ---
