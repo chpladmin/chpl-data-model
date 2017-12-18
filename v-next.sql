@@ -1,38 +1,77 @@
+-- change surveillance user_permission_id fk to RESTRICT
+ALTER TABLE openchpl.surveillance DROP CONSTRAINT IF EXISTS user_permission_id_fk;
+ALTER TABLE openchpl.surveillance ADD CONSTRAINT 
+	user_permission_id_fk FOREIGN KEY (user_permission_id)
+    REFERENCES openchpl.user_permission (user_permission_id) MATCH FULL
+    ON UPDATE CASCADE ON DELETE RESTRICT;
+
+--
+-- Update invitation permissions to not reference ACB_STAFF or ATL_STAFF roles
+--
+
+-- Delete any invited user permissions for ACB_STAFF 
+-- if the same invited user also has a permission for ACB_ADMIN.
+-- This avoids a duplicate key error on the next step.
+DELETE
+FROM openchpl.invited_user_permission as iup
+WHERE EXISTS(SELECT * FROM openchpl.invited_user_permission iupInner WHERE iup.invited_user_id = iupInner.invited_user_id AND user_permission_id = 2)
+AND iup.user_permission_id = 3;
+
+--Change all remaining ACB_STAFF invitation permissions to ACB_ADMIN
 UPDATE openchpl.invited_user_permission
 SET user_permission_id = 2
 WHERE user_permission_id = 3;
 
+-- Delete any invited user permissions for ATL_STAFF 
+-- if the same invited user also has a permission for ATL_ADMIN.
+-- This avoids a duplicate key error on the next step.
+DELETE
+FROM openchpl.invited_user_permission as iup
+WHERE EXISTS(SELECT * FROM openchpl.invited_user_permission iupInner WHERE iup.invited_user_id = iupInner.invited_user_id AND user_permission_id = 4)
+AND iup.user_permission_id = 5;
+
+--Change all remaining ATL_STAFF invitation permissions to ATL_ADMIN
 UPDATE openchpl.invited_user_permission
 SET user_permission_id = 4
 WHERE user_permission_id = 5;
+	  
+--	  
+-- Update global_user_permission_map to not reference ACB_STAFF or ATL_STAFF
+--
 
-DELETE FROM openchpl.invited_user_permission as up
-WHERE up.user_permission_id = 5;
+-- NOTE: There are no records referencing ATL_STAFF. 
+-- There are some records referencing ACB_STAFF but they are all already marked as deleted. We will just delete them here.
+DELETE FROM openchpl.global_user_permission_map  
+WHERE user_permission_id_user_permission = 3
+AND deleted = true;
 
-DELETE FROM openchpl.invited_user_permission as up
-WHERE up.user_permission_id = 3;
+DELETE FROM openchpl.global_user_permission_map  
+WHERE user_permission_id_user_permission = 5
+AND deleted = true;
 
-DELETE FROM openchpl.user_permission as up
-WHERE up.user_permission_id = 5;
+-- Update surveillance to not reference ACB_STAFF (they can't have ATL_STAFF)
+UPDATE openchpl.surveillance
+SET user_permission_id = 2
+WHERE user_permission_id = 3;
 
-DELETE FROM openchpl.user_permission as up
-WHERE up.user_permission_id = 3;
+-- Notification Type is the other place the permissions are referenced as foreign keys but
+-- so far they only have ADMIN and ACB_ADMIN permissions so there are no changes needed.
 
-UPDATE openchpl.user_permission as up
-SET name = 'ACB'
-WHERE up.user_permission_id = 2;
+-- Change the names of the existing ACB and ATL roles
+UPDATE openchpl.user_permission
+SET name = 'ACB', authority = 'ROLE_ACB'
+WHERE name = 'ACB_ADMIN';
 
-UPDATE openchpl.user_permission as up
-SET authority = 'ROLE_ACB'
-WHERE up.user_permission_id = 2;
+UPDATE openchpl.user_permission
+SET name = 'ATL', authority = 'ROLE_ATL'
+WHERE name = 'ATL_ADMIN';
 
-UPDATE openchpl.user_permission as up
-SET name = 'ATL'
-WHERE up.user_permission_id = 4;
+-- Delete the roles we are no longer allowing
+DELETE FROM openchpl.user_permission
+WHERE name = 'ACB_STAFF';
 
-UPDATE openchpl.user_permission as up
-SET authority = 'ROLE_ATL'
-WHERE up.user_permission_id = 4;
+DELETE FROM openchpl.user_permission
+WHERE name = 'ATL_STAFF';
 
 --
 -- Fix up test procedure and test data tables with "_temp" in the names
