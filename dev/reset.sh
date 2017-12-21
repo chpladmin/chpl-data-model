@@ -8,6 +8,8 @@ if [ $# -ne 2 ]; then
     psql -Uopenchpl -f openchpl_data-model.sql openchpl_test
     psql -Uopenchpl -f openchpl_audit.sql openchpl
     psql -Uopenchpl -f openchpl_audit.sql openchpl_test
+    psql -Uopenchpl -f openchpl_soft-delete.sql openchpl
+    psql -Uopenchpl -f openchpl_soft-delete.sql openchpl_test
     psql -Uopenchpl -f openchpl_views.sql openchpl
     psql -Uopenchpl -f openchpl_views.sql openchpl_test
     psql -Uopenchpl -f openchpl_preload.sql openchpl
@@ -26,6 +28,8 @@ else
     psql -h $host -U $user -f openchpl_data-model.sql openchpl_test
     psql -h $host -U $user -f openchpl_audit.sql openchpl
     psql -h $host -U $user -f openchpl_audit.sql openchpl_test
+    psql -h $host -U $user -f openchpl_soft-delete.sql openchpl
+    psql -h $host -U $user -f openchpl_soft-delete.sql openchpl_test
     psql -h $host -U $user -f openchpl_views.sql openchpl
     psql -h $host -U $user -f openchpl_views.sql openchpl_test
     psql -h $host -U $user -f openchpl_preload.sql openchpl

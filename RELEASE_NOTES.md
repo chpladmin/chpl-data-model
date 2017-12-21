@@ -3,8 +3,15 @@
 ## Version TBD
 _Date TBD_
 
+## Table changes
+* Add 'deleted' column to 'ehr_certification_id_product_map' table
+* Add triggers to cascade soft-deletes (and un-deletes)
+
 ## Data changes
 * Marked deprecated upload templates as deleted
+* Make some changes to Listings related to improper uploads
+  * Set Transparency URLs
+  * Delete improperly uploaded Listings
 
 ---
 
