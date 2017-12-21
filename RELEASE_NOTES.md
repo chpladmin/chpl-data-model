@@ -5,6 +5,9 @@ _Date TBD_
 
 ## Data changes
 * Marked deprecated upload templates as deleted
+* Make some changes to Listings related to improper uploads
+  * Set Transparency URLs
+  * Delete improperly uploaded Listings
 
 ---
 
