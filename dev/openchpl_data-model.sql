@@ -2408,6 +2408,7 @@ CREATE TABLE openchpl.ehr_certification_id_product_map
   creation_date timestamp without time zone NOT NULL DEFAULT now(),
   last_modified_date timestamp without time zone NOT NULL DEFAULT now(),
   last_modified_user bigint,
+  deleted bool NOT NULL DEFAULT false,
   CONSTRAINT ehr_certification_id_product_map_pk PRIMARY KEY (ehr_certification_id_product_map_id),
   CONSTRAINT ehr_certification_id_product_map_certified_product_id_fkey FOREIGN KEY (certified_product_id)
       REFERENCES openchpl.certified_product (certified_product_id) MATCH FULL
