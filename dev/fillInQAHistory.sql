@@ -323,12 +323,7 @@ INSERT INTO openchpl.questionable_activity_certification_result (questionable_ac
 SELECT 	
 	(SELECT id FROM openchpl.questionable_activity_trigger WHERE name = 'GAP Status Edited') as trigger_id, 
 	--old activity does not have certification result id, so if that field is null look it up by listing id and cert result number
-	COALESCE(gap_edited_activity.certification_result_id::bigint, 
-		(SELECT certification_result_id::bigint 
-		FROM openchpl.certification_result 
-		INNER JOIN openchpl.certification_criterion ON certification_result.certification_criterion_id = certification_criterion.certification_criterion_id
-		WHERE certified_product_id = all_listing_activity.listing_id
-		AND certification_criterion.number = gap_edited_activity.certification_result_number)) as certification_result_id,
+	COALESCE(gap_edited_activity.certification_result_id::bigint, 1) as certification_result_id,
 	gap_edited_activity.gap_old as "before_data", 
 	gap_edited_activity.gap_new as "after_data", 
 	creation_date, activity_user_id, last_modified_user, creation_date, creation_date
