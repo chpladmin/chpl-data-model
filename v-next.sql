@@ -140,7 +140,7 @@ BEGIN
 END;
 $$ language 'plpgsql';
 DROP TRIGGER IF EXISTS test_task_participant_map_soft_delete on openchpl.test_task_participant_map;
-CREATE TRIGGER test_task_participant_map_soft_delete AFTER UPDATE of deleted of deleted on openchpl.test_task_participant_map FOR EACH ROW EXECUTE PROCEDURE openchpl.test_task_participant_map_soft_delete();
+CREATE TRIGGER test_task_participant_map_soft_delete AFTER UPDATE of deleted on openchpl.test_task_participant_map FOR EACH ROW EXECUTE PROCEDURE openchpl.test_task_participant_map_soft_delete();
 
 -- set transparency attestation URLs as requested by ICSA Labs
 update openchpl.certified_product as cp set transparency_attestation_url = 'https://www.cerner.com/cehrt-disclosure-information' where cp.certified_product_id = (select cpd.certified_product_id from openchpl.certified_product_details as cpd where chpl_product_number = '14.07.07.1221.FIA1.10.01.1.170320');
