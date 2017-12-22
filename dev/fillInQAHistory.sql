@@ -113,8 +113,8 @@ ON all_listing_activity.activity_id = cert_results_added_activity.activity_id
 /* 3 - CQM Added */
 INSERT INTO openchpl.questionable_activity_listing (questionable_activity_trigger_id, listing_id, before_data, after_data, activity_date, activity_user_id, last_modified_user, creation_date, last_modified_date)
 SELECT 	
-	(SELECT id FROM openchpl.questionable_activity_trigger WHERE name = 'CQM Removed') as trigger_id, 
-	all_listing_activity.listing_id, cqm_results_removed_activity.cqm_results_removed as "before_data", null as "after_data", 
+	(SELECT id FROM openchpl.questionable_activity_trigger WHERE name = 'CQM Added') as trigger_id, 
+	all_listing_activity.listing_id, null as "before_data", cqm_results_added_activity.cqm_results_added as "after_data", 
 	creation_date, activity_user_id, last_modified_user, creation_date, creation_date
 FROM
 (
@@ -128,7 +128,7 @@ AND activity_date < '2017-11-07 00:00:00') all_listing_activity
 
 INNER JOIN 
 
-(SELECT activity_id, activity_date, string_agg(cmsId,';') as cqm_results_removed
+(SELECT activity_id, activity_date, string_agg(cmsId,';') as cqm_results_added
 FROM
 	-- pull back each cqm result number and success value from the new data as columns
 	(SELECT activity.activity_id, activity.activity_date, value::json->>'cmsId' as cmsId, value::json->>'success' as success
@@ -151,8 +151,8 @@ FROM
 WHERE success::boolean = true
 AND diff IS NOT NULL
 GROUP BY activity_id, activity_date, success
-ORDER BY diff.activity_id) cqm_results_removed_activity
-ON all_listing_activity.activity_id = cqm_results_removed_activity.activity_id
+ORDER BY diff.activity_id) cqm_results_added_activity
+ON all_listing_activity.activity_id = cqm_results_added_activity.activity_id
 )
 ;
 
@@ -323,11 +323,11 @@ INSERT INTO openchpl.questionable_activity_certification_result (questionable_ac
 SELECT 	
 	(SELECT id FROM openchpl.questionable_activity_trigger WHERE name = 'GAP Status Edited') as trigger_id, 
 	--old activity does not have certification result id, so if that field is null look it up by listing id and cert result number
-	COALESCE(gap_edited_activity.certification_result_id::bigint, 
-		(SELECT certification_result_id::bigint 
-		FROM openchpl.certification_result 
-		INNER JOIN openchpl.certification_criterion ON certification_result.certification_criterion_id = certification_criterion.certification_criterion_id
-		WHERE certified_product_id = all_listing_activity.listing_id
+		COALESCE(gap_edited_activity.certification_result_id::bigint,
+		(SELECT certification_result_id::bigint 		
+		FROM openchpl.certification_result 		
+		INNER JOIN openchpl.certification_criterion ON certification_result.certification_criterion_id = certification_criterion.certification_criterion_id		
+		WHERE certified_product_id = all_listing_activity.listing_id		
 		AND certification_criterion.number = gap_edited_activity.certification_result_number)) as certification_result_id,
 	gap_edited_activity.gap_old as "before_data", 
 	gap_edited_activity.gap_new as "after_data", 

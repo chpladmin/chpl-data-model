@@ -1794,6 +1794,7 @@ CREATE TABLE openchpl.pending_certification_result_test_data(
 	pending_certification_result_test_data_id bigserial NOT NULL,
 	pending_certification_result_id bigint NOT NULL,
 	test_data_id bigint,
+	test_data_name text,
 	version varchar(50) not null,
 	alteration text,
 	creation_date timestamp NOT NULL DEFAULT NOW(),
