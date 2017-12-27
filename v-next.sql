@@ -125,17 +125,18 @@ CREATE TRIGGER test_task_soft_delete AFTER UPDATE of deleted on openchpl.test_ta
 CREATE OR REPLACE FUNCTION openchpl.test_task_participant_map_soft_delete()
 RETURNS TRIGGER AS $$
 BEGIN
-    UPDATE openchpl.test_participant as src SET deleted = NEW.deleted WHERE
-        src.test_participant_id IN
-        (SELECT src.test_participant_id
-        FROM openchpl.test_participant AS src
-            LEFT JOIN (SELECT ttpm.test_participant_id, ttpm.test_task_id FROM openchpl.test_task_participant_map AS ttpm WHERE ttpm.deleted = FALSE)
-            AS ttpm
-            ON (src.test_participant_id = ttpm.test_participant_id)
-        GROUP BY
-            src.test_participant_id
-        HAVING count(ttpm.test_participant_id) = 0
-    );
+	UPDATE openchpl.test_participant 
+	SET deleted = NEW.deleted 
+	WHERE test_participant_id IN ( 
+		SELECT DISTINCT tp.test_participant_id 
+		FROM openchpl.test_participant tp 
+		WHERE NOT EXISTS ( 
+			SELECT 1 
+			FROM openchpl.test_task_participant_map ttpm 
+			WHERE tp.test_participant_id = ttpm.test_participant_id 
+			AND ttpm.deleted = false 
+		) 
+	);
     RETURN NEW;
 END;
 $$ language 'plpgsql';
