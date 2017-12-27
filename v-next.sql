@@ -29,7 +29,7 @@ BEGIN
 END;
 $$ language 'plpgsql';
 DROP TRIGGER IF EXISTS certified_product_soft_delete on openchpl.certified_product;
-CREATE TRIGGER certified_product_soft_delete AFTER UPDATE on openchpl.certified_product FOR EACH ROW EXECUTE PROCEDURE openchpl.certified_product_soft_delete();
+CREATE TRIGGER certified_product_soft_delete AFTER UPDATE of deleted on openchpl.certified_product FOR EACH ROW EXECUTE PROCEDURE openchpl.certified_product_soft_delete();
 
 CREATE OR REPLACE FUNCTION openchpl.certification_result_soft_delete()
 RETURNS TRIGGER AS $$
@@ -49,7 +49,7 @@ BEGIN
 END;
 $$ language 'plpgsql';
 DROP TRIGGER IF EXISTS certification_result_soft_delete on openchpl.certification_result;
-CREATE TRIGGER certification_result_soft_delete AFTER UPDATE on openchpl.certification_result FOR EACH ROW EXECUTE PROCEDURE openchpl.certification_result_soft_delete();
+CREATE TRIGGER certification_result_soft_delete AFTER UPDATE of deleted on openchpl.certification_result FOR EACH ROW EXECUTE PROCEDURE openchpl.certification_result_soft_delete();
 
 CREATE OR REPLACE FUNCTION openchpl.corrective_action_plan_soft_delete()
 RETURNS TRIGGER AS $$
@@ -60,7 +60,7 @@ BEGIN
 END;
 $$ language 'plpgsql';
 DROP TRIGGER IF EXISTS corrective_action_plan_soft_delete on openchpl.corrective_action_plan;
-CREATE TRIGGER corrective_action_plan_soft_delete AFTER UPDATE on openchpl.corrective_action_plan FOR EACH ROW EXECUTE PROCEDURE openchpl.corrective_action_plan_soft_delete();
+CREATE TRIGGER corrective_action_plan_soft_delete AFTER UPDATE of deleted on openchpl.corrective_action_plan FOR EACH ROW EXECUTE PROCEDURE openchpl.corrective_action_plan_soft_delete();
 
 CREATE OR REPLACE FUNCTION openchpl.cqm_result_soft_delete()
 RETURNS TRIGGER AS $$
@@ -70,7 +70,7 @@ BEGIN
 END;
 $$ language 'plpgsql';
 DROP TRIGGER IF EXISTS cqm_result_soft_delete on openchpl.cqm_result;
-CREATE TRIGGER cqm_result_soft_delete AFTER UPDATE on openchpl.cqm_result FOR EACH ROW EXECUTE PROCEDURE openchpl.cqm_result_soft_delete();
+CREATE TRIGGER cqm_result_soft_delete AFTER UPDATE of deleted on openchpl.cqm_result FOR EACH ROW EXECUTE PROCEDURE openchpl.cqm_result_soft_delete();
 
 CREATE OR REPLACE FUNCTION openchpl.surveillance_soft_delete()
 RETURNS TRIGGER AS $$
@@ -80,7 +80,7 @@ BEGIN
 END;
 $$ language 'plpgsql';
 DROP TRIGGER IF EXISTS surveillance_soft_delete on openchpl.surveillance;
-CREATE TRIGGER surveillance_soft_delete AFTER UPDATE on openchpl.surveillance FOR EACH ROW EXECUTE PROCEDURE openchpl.surveillance_soft_delete();
+CREATE TRIGGER surveillance_soft_delete AFTER UPDATE of deleted on openchpl.surveillance FOR EACH ROW EXECUTE PROCEDURE openchpl.surveillance_soft_delete();
 
 CREATE OR REPLACE FUNCTION openchpl.surveillance_requirement_soft_delete()
 RETURNS TRIGGER AS $$
@@ -90,7 +90,7 @@ BEGIN
 END;
 $$ language 'plpgsql';
 DROP TRIGGER IF EXISTS surveillance_requirement_soft_delete on openchpl.surveillance_requirement;
-CREATE TRIGGER surveillance_requirement_soft_delete AFTER UPDATE on openchpl.surveillance_requirement FOR EACH ROW EXECUTE PROCEDURE openchpl.surveillance_requirement_soft_delete();
+CREATE TRIGGER surveillance_requirement_soft_delete AFTER UPDATE of deleted on openchpl.surveillance_requirement FOR EACH ROW EXECUTE PROCEDURE openchpl.surveillance_requirement_soft_delete();
 
 CREATE OR REPLACE FUNCTION openchpl.surveillance_nonconformity_soft_delete()
 RETURNS TRIGGER AS $$
@@ -100,7 +100,7 @@ BEGIN
 END;
 $$ language 'plpgsql';
 DROP TRIGGER IF EXISTS surveillance_nonconformity_soft_delete on openchpl.surveillance_nonconformity;
-CREATE TRIGGER surveillance_nonconformity_soft_delete AFTER UPDATE on openchpl.surveillance_nonconformity FOR EACH ROW EXECUTE PROCEDURE openchpl.surveillance_nonconformity_soft_delete();
+CREATE TRIGGER surveillance_nonconformity_soft_delete AFTER UPDATE of deleted on openchpl.surveillance_nonconformity FOR EACH ROW EXECUTE PROCEDURE openchpl.surveillance_nonconformity_soft_delete();
 
 CREATE OR REPLACE FUNCTION openchpl.certification_result_test_task_soft_delete()
 RETURNS TRIGGER AS $$
@@ -110,7 +110,7 @@ BEGIN
 END;
 $$ language 'plpgsql';
 DROP TRIGGER IF EXISTS certification_result_test_task_soft_delete on openchpl.certification_result_test_task;
-CREATE TRIGGER certification_result_test_task_soft_delete AFTER UPDATE on openchpl.certification_result_test_task FOR EACH ROW EXECUTE PROCEDURE openchpl.certification_result_test_task_soft_delete();
+CREATE TRIGGER certification_result_test_task_soft_delete AFTER UPDATE of deleted on openchpl.certification_result_test_task FOR EACH ROW EXECUTE PROCEDURE openchpl.certification_result_test_task_soft_delete();
 
 CREATE OR REPLACE FUNCTION openchpl.test_task_soft_delete()
 RETURNS TRIGGER AS $$
@@ -120,7 +120,28 @@ BEGIN
 END;
 $$ language 'plpgsql';
 DROP TRIGGER IF EXISTS test_task_soft_delete on openchpl.test_task;
-CREATE TRIGGER test_task_soft_delete AFTER UPDATE on openchpl.test_task FOR EACH ROW EXECUTE PROCEDURE openchpl.test_task_soft_delete();
+CREATE TRIGGER test_task_soft_delete AFTER UPDATE of deleted on openchpl.test_task FOR EACH ROW EXECUTE PROCEDURE openchpl.test_task_soft_delete();
+
+CREATE OR REPLACE FUNCTION openchpl.test_task_participant_map_soft_delete()
+RETURNS TRIGGER AS $$
+BEGIN
+	UPDATE openchpl.test_participant 
+	SET deleted = NEW.deleted 
+	WHERE test_participant_id IN ( 
+		SELECT DISTINCT tp.test_participant_id 
+		FROM openchpl.test_participant tp 
+		WHERE NOT EXISTS ( 
+			SELECT 1 
+			FROM openchpl.test_task_participant_map ttpm 
+			WHERE tp.test_participant_id = ttpm.test_participant_id 
+			AND ttpm.deleted = false 
+		) 
+	);
+    RETURN NEW;
+END;
+$$ language 'plpgsql';
+DROP TRIGGER IF EXISTS test_task_participant_map_soft_delete on openchpl.test_task_participant_map;
+CREATE TRIGGER test_task_participant_map_soft_delete AFTER UPDATE of deleted on openchpl.test_task_participant_map FOR EACH ROW EXECUTE PROCEDURE openchpl.test_task_participant_map_soft_delete();
 
 -- set transparency attestation URLs as requested by ICSA Labs
 update openchpl.certified_product as cp set transparency_attestation_url = 'https://www.cerner.com/cehrt-disclosure-information' where cp.certified_product_id = (select cpd.certified_product_id from openchpl.certified_product_details as cpd where chpl_product_number = '14.07.07.1221.FIA1.10.01.1.170320');
