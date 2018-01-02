@@ -1408,6 +1408,7 @@ CREATE TABLE openchpl.certification_status_event (
 	certified_product_id bigint NOT NULL,
 	certification_status_id bigint NOT NULL,
 	event_date timestamp NOT NULL DEFAULT NOW(),
+	reason varchar(500),
 	creation_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_user bigint NOT NULL,
