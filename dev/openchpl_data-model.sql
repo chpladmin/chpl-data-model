@@ -1794,6 +1794,7 @@ CREATE TABLE openchpl.pending_certification_result_test_data(
 	pending_certification_result_test_data_id bigserial NOT NULL,
 	pending_certification_result_id bigint NOT NULL,
 	test_data_id bigint,
+	test_data_name text,
 	version varchar(50) not null,
 	alteration text,
 	creation_date timestamp NOT NULL DEFAULT NOW(),
@@ -2408,6 +2409,7 @@ CREATE TABLE openchpl.ehr_certification_id_product_map
   creation_date timestamp without time zone NOT NULL DEFAULT now(),
   last_modified_date timestamp without time zone NOT NULL DEFAULT now(),
   last_modified_user bigint,
+  deleted bool NOT NULL DEFAULT false,
   CONSTRAINT ehr_certification_id_product_map_pk PRIMARY KEY (ehr_certification_id_product_map_id),
   CONSTRAINT ehr_certification_id_product_map_certified_product_id_fkey FOREIGN KEY (certified_product_id)
       REFERENCES openchpl.certified_product (certified_product_id) MATCH FULL

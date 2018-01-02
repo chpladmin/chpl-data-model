@@ -7,6 +7,8 @@ psql -Upostgres -f openchpl_data-model.sql openchpl
 psql -Upostgres -f openchpl_data-model.sql openchpl_test
 psql -Upostgres -f openchpl_audit.sql openchpl
 psql -Upostgres -f openchpl_audit.sql openchpl_test
+psql -Upostgres -f openchpl_soft-delete.sql openchpl
+psql -Upostgres -f openchpl_soft-delete.sql openchpl_test
 psql -Upostgres -f openchpl_views.sql openchpl
 psql -Upostgres -f openchpl_views.sql openchpl_test
 psql -Upostgres -f openchpl_preload.sql openchpl
