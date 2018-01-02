@@ -1,18 +1,21 @@
 # Release Notes
 
-## OCD-1931
+## Version TBD
+_Date TBD_
+
+### Data changes
 * Add new surveillance upload job type.
 
 ---
 
-## Version TBD
-_Date TBD_
+## Version 13.1.0
+_2 January 2018_
 
-## Table changes
+### Table changes
 * Add 'deleted' column to 'ehr_certification_id_product_map' table
 * Add triggers to cascade soft-deletes (and un-deletes)
 
-## Data changes
+### Data changes
 * Marked deprecated upload templates as deleted
 * Make some changes to Listings related to improper uploads
   * Set Transparency URLs
