@@ -1,5 +1,10 @@
 # Release Notes
 
+## OCD-1931
+* Add new surveillance upload job type.
+
+---
+
 ## Version TBD
 _Date TBD_
 
