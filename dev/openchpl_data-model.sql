@@ -1510,12 +1510,13 @@ COMMENT ON TABLE openchpl.pending_certified_product IS 'A product that has been 
 -- ddl-end --
 
 CREATE TABLE openchpl.pending_certified_product_system_update(
-	pending_certified_product_system_update_id bigserial not null,
+	pending_certified_product_system_update_id bigserial NOT NULL,
 	change_made text,
 	creation_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_user bigint NOT NULL,
 	deleted bool NOT NULL DEFAULT false,
+	CONSTRAINT pending_certified_product_system_update_pk PRIMARY KEY (pending_certified_product_system_update_id),
 	CONSTRAINT pending_certified_product_fk FOREIGN KEY (pending_certified_product_id)
       REFERENCES openchpl.pending_certified_product (pending_certified_product_id) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION
@@ -1528,7 +1529,8 @@ CREATE TABLE openchpl.fuzzy_choices(
 	creation_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_user bigint NOT NULL,
-	deleted bool NOT NULL DEFAULT false
+	deleted bool NOT NULL DEFAULT false,
+	CONSTRAINT fuzzy_choices_pk PRIMARY KEY (fuzzy_choices_id)
 );
 
 CREATE TABLE openchpl.pending_certified_product_qms_standard(
