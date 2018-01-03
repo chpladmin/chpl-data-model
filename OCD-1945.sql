@@ -28,11 +28,10 @@ INSERT INTO openchpl.fuzzy_choices(fuzzy_type, choices, last_modified_user)
 VALUES('UCD Processes', '["Multiple Standards","ISO 9241-210:2010 4.2","ISO/IEC 25062:2006","Homegrown","NISTIR 7742","(NISTIR 7741) NIST Guide to the Processes Approach for Improving the Usability of Electronic Health Records","IEC 62366","Internal Process Used","IEC 62366-1","ISO 13407","ISO 16982","ISO/IEC 62367"]', -1);
 
 INSERT INTO openchpl.fuzzy_choices(fuzzy_type, choices, last_modified_user)
-VALUES('QMS Standards', '["ISO 13485:2003","ISO 13485:2012","21 CFR Part 820","ISO 9001",ISO 13485","IEC 62304","IEEE 730","Homegrown","Food and Drug Administrations Code of Federal Regulations Title 21 Part 820 Quality System Regulation","ISMS/ISO/IEC 27001","ISO 9001:2008","Self-Develop","None","Other Federal or SDO QMS Standard"]', -1);
+VALUES('QMS Standards', '["ISO 13485:2003","ISO 13485:2012","21 CFR Part 820","ISO 9001","ISO 13485","IEC 62304","IEEE 730","Homegrown","Food and Drug Administrations Code of Federal Regulations Title 21 Part 820 Quality System Regulation","ISMS/ISO/IEC 27001","ISO 9001:2008","Self-Develop","None","Other Federal or SDO QMS Standard"]', -1);
 
 INSERT INTO openchpl.fuzzy_choices(fuzzy_type, choices, last_modified_user)
 VALUES('Accessibility Standards', '["WCAG 2.0 Level AA","W3C Web Design and Applications","W3C Web of Devices","Section 508 of the Rehabilitation Act","ISO/IEC 40500:2012","None","170.204(a)(1)","170.204(a)(2)","NIST 7741"]', -1);
-
 
 ALTER TABLE IF EXISTS openchpl.pending_certified_product_qms_standard 
 ADD COLUMN fuzzy_match_qms_standard_name varchar(255);
