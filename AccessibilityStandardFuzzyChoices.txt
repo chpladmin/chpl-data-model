@@ -1,0 +1,1 @@
+'["WCAG 2.0 Level AA","W3C Web Design and Applications","W3C Web of Devices","Section 508 of the Rehabilitation Act","ISO/IEC 40500:2012","None","170.204(a)(1)","170.204(a)(2)","NIST 7741"]'
