@@ -2,6 +2,7 @@ CREATE TYPE openchpl.fuzzy_type as enum('UCD Processes', 'QMS Standards', 'Acces
 
 CREATE TABLE openchpl.pending_certified_product_system_update(
 	pending_certified_product_system_update_id bigserial NOT NULL,
+	pending_certified_product_id bigint NOT NULL,
 	change_made text,
 	creation_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
