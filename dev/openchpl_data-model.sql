@@ -23,6 +23,7 @@ CREATE SCHEMA openchpl;
 SET search_path TO pg_catalog,public,openchpl;
 -- ddl-end --
 
+CREATE TYPE openchpl.fuzzy_type as enum('UCD Processes', 'QMS Standards', 'Accessibility Standards');
 CREATE TYPE openchpl.attestation as enum('Affirmative', 'Negative', 'N/A');
 CREATE TYPE openchpl.validation_message_type as enum('Error', 'Warning');
 CREATE TYPE openchpl.job_status_type as enum('In Progress', 'Complete', 'Error');
@@ -1508,11 +1509,34 @@ COMMENT ON TABLE openchpl.pending_certified_product IS 'A product that has been 
 -- ALTER TABLE openchpl.pending_certified_product OWNER TO openchpl;
 -- ddl-end --
 
+CREATE TABLE openchpl.pending_certified_product_system_update(
+	pending_certified_product_system_update_id bigserial not null,
+	change_made text,
+	creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
+	CONSTRAINT pending_certified_product_fk FOREIGN KEY (pending_certified_product_id)
+      REFERENCES openchpl.pending_certified_product (pending_certified_product_id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+);
+
+CREATE TABLE openchpl.fuzzy_choices(
+	fuzzy_choices_id bigserial not null,
+	fuzzy_type fuzzy_type not null,
+	choices json not null,
+	creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL DEFAULT false
+);
+
 CREATE TABLE openchpl.pending_certified_product_qms_standard(
 	pending_certified_product_qms_standard_id bigserial not null,
 	pending_certified_product_id bigint not null,
 	qms_standard_id bigint,
 	qms_standard_name varchar(255),
+	fuzzy_match_qms_standard_name varchar(255),
 	modification text,
 	applicable_criteria text,
 	creation_date timestamp NOT NULL DEFAULT NOW(),
@@ -1551,6 +1575,7 @@ CREATE TABLE openchpl.pending_certified_product_accessibility_standard (
 	pending_certified_product_id bigint not null,
 	accessibility_standard_id bigint,
 	accessibility_standard_name varchar(500),
+	fuzzy_match_accessibility_standard_name varchar(500),
 	creation_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_user bigint NOT NULL,
@@ -1734,6 +1759,7 @@ CREATE TABLE openchpl.pending_certification_result_ucd_process (
 	pending_certification_result_id bigint not null,
 	ucd_process_id bigint,
 	ucd_process_name varchar(200),
+	fuzzy_match_ucd_process_name varchar(200),
 	ucd_process_details text,
 	creation_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
