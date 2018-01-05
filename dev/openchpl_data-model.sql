@@ -1417,13 +1417,6 @@ CREATE TABLE openchpl.certification_status_event (
 		MATCH FULL ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
--- object: certification_status_fk | type: CONSTRAINT --
--- ALTER TABLE openchpl.certified_product DROP CONSTRAINT IF EXISTS certification_status_fk CASCADE;
-ALTER TABLE openchpl.certified_product ADD CONSTRAINT certification_status_fk FOREIGN KEY (certification_status_id)
-REFERENCES openchpl.certification_status (certification_status_id) MATCH FULL
-ON DELETE RESTRICT ON UPDATE CASCADE;
--- ddl-end --
-
 -- object: contact_fk | type: CONSTRAINT --
 -- ALTER TABLE openchpl.user DROP CONSTRAINT IF EXISTS contact_fk CASCADE;
 ALTER TABLE openchpl."user" ADD CONSTRAINT contact_fk FOREIGN KEY (contact_id)
