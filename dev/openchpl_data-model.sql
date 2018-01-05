@@ -23,7 +23,7 @@ CREATE SCHEMA openchpl;
 SET search_path TO pg_catalog,public,openchpl;
 -- ddl-end --
 
-CREATE TYPE openchpl.fuzzy_type as enum('UCD Processes', 'QMS Standards', 'Accessibility Standards');
+CREATE TYPE openchpl.fuzzy_type as enum('UCD Process', 'QMS Standard', 'Accessibility Standard');
 CREATE TYPE openchpl.attestation as enum('Affirmative', 'Negative', 'N/A');
 CREATE TYPE openchpl.validation_message_type as enum('Error', 'Warning');
 CREATE TYPE openchpl.job_status_type as enum('In Progress', 'Complete', 'Error');
@@ -1526,7 +1526,7 @@ CREATE TABLE openchpl.pending_certified_product_system_update(
 CREATE TABLE openchpl.fuzzy_choices(
 	fuzzy_choices_id bigserial not null,
 	fuzzy_type openchpl.fuzzy_type not null,
-	choices json not null,
+	choices text not null,
 	creation_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_user bigint NOT NULL,
