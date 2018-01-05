@@ -445,7 +445,21 @@ FROM openchpl.vendor v
     LEFT JOIN openchpl.product p ON v.vendor_id = p.vendor_id
     LEFT JOIN openchpl.product_version pv ON p.product_id = pv.product_id
     LEFT JOIN openchpl.certified_product cp ON pv.product_version_id = cp.product_version_id
-    LEFT JOIN openchpl.certification_status cs ON cp.certification_status_id = cs.certification_status_id
+	--certification status
+	LEFT JOIN (
+		SELECT cse.certification_status_id as "certification_status_id", cse.certified_product_id as "certified_product_id"
+		FROM openchpl.certification_status_event cse
+		INNER JOIN
+			(SELECT certified_product_id, extract(epoch from MAX(event_date)) event_date
+			FROM openchpl.certification_status_event
+			GROUP BY certified_product_id) maxCse
+		ON cse.certified_product_id = maxCse.certified_product_id 
+		--conversion to epoch/long comparison significantly faster than comparing the timestamp fields as-is
+		AND extract(epoch from cse.event_date) = maxCse.event_date
+	) lastCertStatusEvent
+	ON lastCertStatusEvent.certified_product_id = cp.certified_product_id
+		
+    LEFT JOIN openchpl.certification_status cs ON lastCertStatusEvent.certification_status_id = cs.certification_status_id
 GROUP BY v.vendor_id;
 
 --ALTER TABLE openchpl.developer_certification_statuses OWNER TO openchpl;
@@ -462,7 +476,21 @@ SELECT p.product_id,
 FROM openchpl.product p
     LEFT JOIN openchpl.product_version pv ON p.product_id = pv.product_id
     LEFT JOIN openchpl.certified_product cp ON pv.product_version_id = cp.product_version_id
-    LEFT JOIN openchpl.certification_status cs ON cp.certification_status_id = cs.certification_status_id
+    --certification status
+	LEFT JOIN (
+		SELECT cse.certification_status_id as "certification_status_id", cse.certified_product_id as "certified_product_id"
+		FROM openchpl.certification_status_event cse
+		INNER JOIN
+			(SELECT certified_product_id, extract(epoch from MAX(event_date)) event_date
+			FROM openchpl.certification_status_event
+			GROUP BY certified_product_id) maxCse
+		ON cse.certified_product_id = maxCse.certified_product_id 
+		--conversion to epoch/long comparison significantly faster than comparing the timestamp fields as-is
+		AND extract(epoch from cse.event_date) = maxCse.event_date
+	) lastCertStatusEvent
+	ON lastCertStatusEvent.certified_product_id = cp.certified_product_id
+		
+    LEFT JOIN openchpl.certification_status cs ON lastCertStatusEvent.certification_status_id = cs.certification_status_id
 GROUP BY p.product_id;
 
 --ALTER TABLE openchpl.product_certification_statuses OWNER TO openchpl;
