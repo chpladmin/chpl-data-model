@@ -5,6 +5,8 @@ _Date TBD_
 
 ### Data changes
 * Add new surveillance upload job type.
+* Remove certification status column from certified product table and related references in views. Certification status is now inferred from the most recent entry in the certification status event table for any listing.
+* Add reason column to certification status event table.
 
 ---
 
