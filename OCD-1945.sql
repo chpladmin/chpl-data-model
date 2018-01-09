@@ -51,3 +51,6 @@ CREATE TRIGGER pending_certified_product_system_update_audit AFTER INSERT OR UPD
 CREATE TRIGGER pending_certified_product_system_update_timestamp BEFORE UPDATE on openchpl.pending_certified_product_system_update FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER fuzzy_choices_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.fuzzy_choices FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER fuzzy_choices_timestamp BEFORE UPDATE on openchpl.fuzzy_choices FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
+
+--re-run grants
+\i dev/openchpl_grant-all.sql
