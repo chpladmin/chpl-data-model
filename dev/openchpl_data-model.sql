@@ -253,7 +253,6 @@ CREATE TABLE openchpl.certified_product(
 	product_classification_type_id bigint,
 	product_additional_software varchar(1000), -- legacy for ETL
 	other_acb character varying(64),
-	certification_status_id bigint NOT NULL,
 	transparency_attestation_url varchar(1024),
 	ics boolean,
 	sed boolean,
@@ -1409,6 +1408,7 @@ CREATE TABLE openchpl.certification_status_event (
 	certified_product_id bigint NOT NULL,
 	certification_status_id bigint NOT NULL,
 	event_date timestamp NOT NULL DEFAULT NOW(),
+	reason varchar(500),
 	creation_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_user bigint NOT NULL,
@@ -1417,13 +1417,6 @@ CREATE TABLE openchpl.certification_status_event (
 	CONSTRAINT certification_status_fk FOREIGN KEY (certification_status_id) REFERENCES openchpl.certification_status (certification_status_id)
 		MATCH FULL ON DELETE RESTRICT ON UPDATE CASCADE
 );
-
--- object: certification_status_fk | type: CONSTRAINT --
--- ALTER TABLE openchpl.certified_product DROP CONSTRAINT IF EXISTS certification_status_fk CASCADE;
-ALTER TABLE openchpl.certified_product ADD CONSTRAINT certification_status_fk FOREIGN KEY (certification_status_id)
-REFERENCES openchpl.certification_status (certification_status_id) MATCH FULL
-ON DELETE RESTRICT ON UPDATE CASCADE;
--- ddl-end --
 
 -- object: contact_fk | type: CONSTRAINT --
 -- ALTER TABLE openchpl.user DROP CONSTRAINT IF EXISTS contact_fk CASCADE;
@@ -2730,7 +2723,7 @@ USING btree
 (ehr_certification_id_id);
 
 CREATE INDEX ix_certified_product ON openchpl.certified_product (certified_product_id, certification_edition_id, product_version_id,
-testing_lab_id, certification_body_id, acb_certification_id, practice_type_id, product_classification_type_id, certification_status_id, deleted);
+testing_lab_id, certification_body_id, acb_certification_id, practice_type_id, product_classification_type_id, deleted);
 
 CREATE INDEX ix_product ON openchpl.product (product_id, vendor_id, deleted);
 
@@ -2801,7 +2794,7 @@ CREATE INDEX ix_pending_certification_result_test_tool ON openchpl.pending_certi
 
 CREATE INDEX ix_pending_certification_result_ucd_process ON openchpl.pending_certification_result_ucd_process (pending_certification_result_ucd_process_id, pending_certification_result_id, ucd_process_id, deleted);
 
-CREATE INDEX ix_pending_certified_product ON openchpl.pending_certified_product (pending_certified_product_id, unique_id, acb_certification_id, practice_type_id, vendor_id, vendor_address_id, vendor_contact_id, product_id, product_version_id, certification_edition_id, certification_body_id, product_classification_id, testing_lab_id, deleted, certification_status_id);
+CREATE INDEX ix_pending_certified_product ON openchpl.pending_certified_product (pending_certified_product_id, unique_id, acb_certification_id, practice_type_id, vendor_id, vendor_address_id, vendor_contact_id, product_id, product_version_id, certification_edition_id, certification_body_id, product_classification_id, testing_lab_id, deleted);
 
 CREATE INDEX ix_pending_certified_product_accessibility_standard ON openchpl.pending_certified_product_accessibility_standard
 (pending_certified_product_accessibility_standard_id, pending_certified_product_id, accessibility_standard_id, deleted);
