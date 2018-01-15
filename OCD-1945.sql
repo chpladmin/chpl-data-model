@@ -38,15 +38,6 @@ VALUES('QMS Standard', '["ISO 13485:2003","ISO 13485:2012","21 CFR Part 820","IS
 INSERT INTO openchpl.fuzzy_choices(fuzzy_type, choices, last_modified_user)
 VALUES('Accessibility Standard', '["WCAG 2.0 Level AA","W3C Web Design and Applications","W3C Web of Devices","Section 508 of the Rehabilitation Act","ISO/IEC 40500:2012","None","170.204(a)(1)","170.204(a)(2)","NIST 7741"]', -1);
 
-ALTER TABLE openchpl.pending_certified_product_qms_standard DROP COLUMN IF EXISTS fuzzy_match_qms_standard_name;
-ALTER TABLE openchpl.pending_certified_product_qms_standard ADD COLUMN fuzzy_match_qms_standard_name varchar(255);
-
-ALTER TABLE openchpl.pending_certified_product_accessibility_standard DROP COLUMN IF EXISTS fuzzy_match_accessibility_standard_name;
-ALTER TABLE openchpl.pending_certified_product_accessibility_standard ADD COLUMN fuzzy_match_accessibility_standard_name varchar(500);
-
-ALTER TABLE openchpl.pending_certification_result_ucd_process DROP COLUMN IF EXISTS fuzzy_match_ucd_process_name;
-ALTER TABLE openchpl.pending_certification_result_ucd_process ADD COLUMN fuzzy_match_ucd_process_name varchar(200);
-
 CREATE TRIGGER pending_certified_product_system_update_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.pending_certified_product_system_update FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER pending_certified_product_system_update_timestamp BEFORE UPDATE on openchpl.pending_certified_product_system_update FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER fuzzy_choices_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.fuzzy_choices FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
