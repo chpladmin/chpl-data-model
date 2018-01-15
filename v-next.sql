@@ -32,12 +32,12 @@ FROM openchpl.vendor v
 			(SELECT certified_product_id, extract(epoch from MAX(event_date)) event_date
 			FROM openchpl.certification_status_event
 			GROUP BY certified_product_id) maxCse
-		ON cse.certified_product_id = maxCse.certified_product_id 
+		ON cse.certified_product_id = maxCse.certified_product_id
 		--conversion to epoch/long comparison significantly faster than comparing the timestamp fields as-is
 		AND extract(epoch from cse.event_date) = maxCse.event_date
 	) lastCertStatusEvent
 	ON lastCertStatusEvent.certified_product_id = cp.certified_product_id
-		
+
     LEFT JOIN openchpl.certification_status cs ON lastCertStatusEvent.certification_status_id = cs.certification_status_id
 GROUP BY v.vendor_id;
 
@@ -61,12 +61,12 @@ FROM openchpl.product p
 			(SELECT certified_product_id, extract(epoch from MAX(event_date)) event_date
 			FROM openchpl.certification_status_event
 			GROUP BY certified_product_id) maxCse
-		ON cse.certified_product_id = maxCse.certified_product_id 
+		ON cse.certified_product_id = maxCse.certified_product_id
 		--conversion to epoch/long comparison significantly faster than comparing the timestamp fields as-is
 		AND extract(epoch from cse.event_date) = maxCse.event_date
 	) lastCertStatusEvent
 	ON lastCertStatusEvent.certified_product_id = cp.certified_product_id
-		
+
     LEFT JOIN openchpl.certification_status cs ON lastCertStatusEvent.certification_status_id = cs.certification_status_id
 GROUP BY p.product_id;
 
@@ -76,5 +76,9 @@ ALTER TABLE openchpl.certified_product DROP COLUMN IF EXISTS certification_statu
 ALTER TABLE openchpl.certification_status_event DROP COLUMN IF EXISTS reason;
 ALTER TABLE openchpl.certification_status_event ADD COLUMN reason varchar(500);
 
---re-run grants 
+
+-- OCD-1988: deprecate 2015 v11 template
+update openchpl.upload_template_version set deprecated = true where "name"='2015 CHPL Upload Template v11';
+
+--re-run grants
 \i dev/openchpl_grant-all.sql
