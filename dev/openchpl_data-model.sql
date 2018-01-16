@@ -1474,6 +1474,7 @@ CREATE TABLE openchpl.pending_certified_product(
 	sed_intended_user_description text,
 	sed_testing_end timestamp,
 	ics varchar(1024),
+	has_qms boolean,
 
 	-- foreign keys that have meaning if they are not mapped
 	practice_type_id bigint, -- should never be null
