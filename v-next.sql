@@ -76,6 +76,11 @@ ALTER TABLE openchpl.certified_product DROP COLUMN IF EXISTS certification_statu
 ALTER TABLE openchpl.certification_status_event DROP COLUMN IF EXISTS reason;
 ALTER TABLE openchpl.certification_status_event ADD COLUMN reason varchar(500);
 
+ALTER TABLE openchpl.pending_certified_product
+DROP COLUMN IF EXISTS has_qms;
+
+ALTER TABLE openchpl.pending_certified_product
+ADD COLUMN has_qms boolean;
 
 -- OCD-1988: deprecate 2015 v11 template
 update openchpl.upload_template_version set deprecated = true where "name"='2015 CHPL Upload Template v11';
