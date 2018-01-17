@@ -1,5 +1,20 @@
 # Release Notes
 
+## Version 13.2.0
+_17 January 2018_
+
+### Table alterations
+* Add reason column to certification status event table.
+* Add has qms column to to pendingCertifiedProduct table
+* Remove certification status column from certified product table and related references in views. Certification status is now inferred from the most recent entry in the certification status event table for any listing.
+
+### Data changes
+* Add new surveillance upload job type.
+* Deprecate 2015 v11 Upload Template
+* Added new grouping of CQMs
+
+---
+
 ## Version 13.1.0
 _2 January 2018_
 
