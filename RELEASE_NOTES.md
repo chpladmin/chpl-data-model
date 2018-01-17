@@ -1,5 +1,11 @@
 # Release Notes
 
+## OCD-1996
+* Add reason column to some questionable activity tables that can result from listing update.
+
+---
+
+
 ## Version TBD
 _Date TBD_
 
