@@ -1,1 +1,0 @@
-'["ISO 13485:2003","ISO 13485:2012","21 CFR Part 820","ISO 9001",ISO 13485","IEC 62304","IEEE 730","Homegrown","Food and Drug Administrations Code of Federal Regulations Title 21 Part 820 Quality System Regulation","ISMS/ISO/IEC 27001","ISO 9001:2008","Self-Develop","None","Other Federal or SDO QMS Standard"]'

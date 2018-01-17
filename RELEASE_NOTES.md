@@ -4,7 +4,9 @@
 * Add reason column to some questionable activity tables that can result from listing update.
 
 ---
-
+## OCD-1923 
+* Add pending_certified_product_system_update table
+* Add fuzzy_choices table 
 
 ## Version TBD
 _Date TBD_
