@@ -1,21 +1,25 @@
 # Release Notes
 
-## OCD-1996
-* Add reason column to some questionable activity tables that can result from listing update.
-
----
-## OCD-1923 
-* Add pending_certified_product_system_update table
-* Add fuzzy_choices table 
-
 ## Version TBD
 _Date TBD_
 
-### Data changes
-* Add new surveillance upload job type.
-* Remove certification status column from certified product table and related references in views. Certification status is now inferred from the most recent entry in the certification status event table for any listing.
+### Table modifications
+* Add reason column to some questionable activity tables that can result from listing update.
+* Add pending_certified_product_system_update table
+* Add fuzzy_choices table 
+
+---
+
+## Version 13.2.0
+_17 January 2018_
+
+### Table alterations
 * Add reason column to certification status event table.
 * Add has qms column to to pendingCertifiedProduct table
+* Remove certification status column from certified product table and related references in views. Certification status is now inferred from the most recent entry in the certification status event table for any listing.
+
+### Data changes
+* Add new surveillance upload job type.
 * Deprecate 2015 v11 Upload Template
 * Added new grouping of CQMs
 
