@@ -1,5 +1,11 @@
 # Release Notes
 
+## OCD-1996
+* Add reason column to some questionable activity tables that can result from listing update.
+
+---
+
+
 ## Version TBD
 _Date TBD_
 
@@ -9,6 +15,7 @@ _Date TBD_
 * Add reason column to certification status event table.
 * Add has qms column to to pendingCertifiedProduct table
 * Deprecate 2015 v11 Upload Template
+* Added new grouping of CQMs
 
 ---
 
