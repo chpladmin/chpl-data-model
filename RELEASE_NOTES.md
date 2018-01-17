@@ -9,6 +9,7 @@ _Date TBD_
 * Add reason column to certification status event table.
 * Add has qms column to to pendingCertifiedProduct table
 * Deprecate 2015 v11 Upload Template
+* Added new grouping of CQMs
 
 ---
 
