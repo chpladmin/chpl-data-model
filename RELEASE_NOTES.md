@@ -8,6 +8,11 @@ _Date TBD_
 * Add pending_certified_product_system_update table
 * Add fuzzy_choices table
 
+---
+
+## Version TBD
+_Date TBD_
+
 ### Data modifications
 * Insert some CMS IDs that were lost due to database issues
 
