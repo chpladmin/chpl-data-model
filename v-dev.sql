@@ -38,5 +38,17 @@ VALUES('Accessibility Standard', '["WCAG 2.0 Level AA","W3C Web Design and Appli
 CREATE TRIGGER fuzzy_choices_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.fuzzy_choices FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER fuzzy_choices_timestamp BEFORE UPDATE on openchpl.fuzzy_choices FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 
+
+--
+-- OCD-2024
+--
+ALTER TABLE openchpl.certified_product DROP COLUMN IF EXISTS pending_certified_product_id;
+ALTER TABLE openchpl.certified_product ADD COLUMN pending_certified_product_id bigint;
+ALTER TABLE openchpl.certified_product 
+	ADD CONSTRAINT pending_certified_product_fk 
+	FOREIGN KEY (pending_certified_product_id)
+	REFERENCES openchpl.pending_certified_product (pending_certified_product_id) MATCH SIMPLE
+	ON UPDATE NO ACTION ON DELETE NO ACTION;
+
 --re-run grants
 \i dev/openchpl_grant-all.sql

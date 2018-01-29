@@ -263,6 +263,7 @@ CREATE TABLE openchpl.certified_product(
 	ics_code varchar(2),
 	additional_software_code varchar(1),
 	certified_date_code varchar(6),
+	pending_certified_product_id bigint,
 	creation_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_user bigint NOT NULL,
@@ -1499,6 +1500,12 @@ CREATE TABLE openchpl.pending_certified_product(
 );
 -- ddl-end --
 COMMENT ON TABLE openchpl.pending_certified_product IS 'A product that has been uploaded but not confirmed by the user';
+
+ALTER TABLE openchpl.certified_product ADD CONSTRAINT pending_certified_product_fk 
+	FOREIGN KEY (pending_certified_product_id)
+	REFERENCES openchpl.pending_certified_product (pending_certified_product_id) MATCH SIMPLE
+	ON UPDATE NO ACTION ON DELETE NO ACTION;
+	
 -- ddl-end --
 -- ALTER TABLE openchpl.pending_certified_product OWNER TO openchpl;
 -- ddl-end --
