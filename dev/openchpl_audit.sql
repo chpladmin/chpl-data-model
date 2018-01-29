@@ -181,6 +181,8 @@ CREATE TRIGGER ehr_certification_id_product_map_audit AFTER INSERT OR UPDATE OR 
 CREATE TRIGGER ehr_certification_id_product_map_timestamp BEFORE UPDATE on openchpl.ehr_certification_id_product_map FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER event_type_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.event_type FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER event_type_timestamp BEFORE UPDATE on openchpl.event_type FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
+CREATE TRIGGER fuzzy_choices_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.fuzzy_choices FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+CREATE TRIGGER fuzzy_choices_timestamp BEFORE UPDATE on openchpl.fuzzy_choices FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER global_user_permission_map_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.global_user_permission_map FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER global_user_permission_map_timestamp BEFORE UPDATE on openchpl.global_user_permission_map FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER invited_user_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.invited_user FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
@@ -211,7 +213,6 @@ CREATE TRIGGER notification_type_permission_audit AFTER INSERT OR UPDATE OR DELE
 CREATE TRIGGER notification_type_permission_timestamp BEFORE UPDATE on openchpl.notification_type_permission FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER notification_type_recipient_map_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.notification_type_recipient_map FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER notification_type_recipient_map_timestamp BEFORE UPDATE on openchpl.notification_type_recipient_map FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
-
 CREATE TRIGGER optional_functionality_met_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.optional_functionality_met FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER optional_functionality_met_timestamp BEFORE UPDATE on openchpl.optional_functionality_met FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER pending_certification_result_additional_software_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.pending_certification_result_additional_software FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
@@ -245,6 +246,8 @@ CREATE TRIGGER pending_certified_product_parent_listing_audit AFTER INSERT OR UP
 CREATE TRIGGER pending_certified_product_parent_listing_timestamp BEFORE UPDATE on openchpl.pending_certified_product_parent_listing FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER pending_certified_product_qms_standard_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.pending_certified_product_qms_standard FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER pending_certified_product_qms_standard_timestamp BEFORE UPDATE on openchpl.pending_certified_product_qms_standard FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
+CREATE TRIGGER pending_certified_product_system_update_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.pending_certified_product_system_update FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+CREATE TRIGGER pending_certified_product_system_update_timestamp BEFORE UPDATE on openchpl.pending_certified_product_system_update FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER pending_certified_product_targeted_user_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.pending_certified_product_targeted_user FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER pending_certified_product_targeted_user_timestamp BEFORE UPDATE on openchpl.pending_certified_product_targeted_user FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER pending_certified_product_timestamp BEFORE UPDATE on openchpl.pending_certified_product FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();

@@ -23,6 +23,7 @@ CREATE SCHEMA openchpl;
 SET search_path TO pg_catalog,public,openchpl;
 -- ddl-end --
 
+CREATE TYPE openchpl.fuzzy_type as enum('UCD Process', 'QMS Standard', 'Accessibility Standard');
 CREATE TYPE openchpl.attestation as enum('Affirmative', 'Negative', 'N/A');
 CREATE TYPE openchpl.validation_message_type as enum('Error', 'Warning');
 CREATE TYPE openchpl.job_status_type as enum('In Progress', 'Complete', 'Error');
@@ -1502,6 +1503,31 @@ COMMENT ON TABLE openchpl.pending_certified_product IS 'A product that has been 
 -- ALTER TABLE openchpl.pending_certified_product OWNER TO openchpl;
 -- ddl-end --
 
+CREATE TABLE openchpl.pending_certified_product_system_update(
+	pending_certified_product_system_update_id bigserial NOT NULL,
+	pending_certified_product_id bigint NOT NULL,
+	change_made text,
+	creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
+	CONSTRAINT pending_certified_product_system_update_pk PRIMARY KEY (pending_certified_product_system_update_id),
+	CONSTRAINT pending_certified_product_fk FOREIGN KEY (pending_certified_product_id)
+      REFERENCES openchpl.pending_certified_product (pending_certified_product_id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+);
+
+CREATE TABLE openchpl.fuzzy_choices(
+	fuzzy_choices_id bigserial not null,
+	fuzzy_type openchpl.fuzzy_type not null,
+	choices text not null,
+	creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
+	CONSTRAINT fuzzy_choices_pk PRIMARY KEY (fuzzy_choices_id)
+);
+
 CREATE TABLE openchpl.pending_certified_product_qms_standard(
 	pending_certified_product_qms_standard_id bigserial not null,
 	pending_certified_product_id bigint not null,
@@ -2521,6 +2547,7 @@ CREATE TABLE openchpl.questionable_activity_listing (
 	listing_id bigint NOT NULL,
 	before_data text,
 	after_data text,
+	reason text,
 	activity_date timestamp NOT NULL,
 	activity_user_id bigint NOT NULL,
 	creation_date timestamp NOT NULL DEFAULT NOW(),
@@ -2545,6 +2572,7 @@ CREATE TABLE openchpl.questionable_activity_certification_result (
 	certification_result_id bigint NOT NULL,
 	before_data text,
 	after_data text,
+	reason text,
 	activity_date timestamp NOT NULL,
 	activity_user_id bigint NOT NULL,
 	creation_date timestamp NOT NULL DEFAULT NOW(),
