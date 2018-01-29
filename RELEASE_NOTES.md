@@ -1,5 +1,13 @@
 # Release Notes
 
+## Version 13.2.1
+_29 January 2018_
+
+### Data modifications
+* Insert some CMS IDs that were lost due to database issues
+
+---
+
 ## Version 13.2.0
 _17 January 2018_
 
