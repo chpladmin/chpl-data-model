@@ -1,17 +1,7 @@
 # Release Notes
 
-## Version TBD
-_Date TBD_
-
-### Table modifications
-* Add reason column to some questionable activity tables that can result from listing update.
-* Add pending_certified_product_system_update table
-* Add fuzzy_choices table
-
----
-
-## Version TBD
-_Date TBD_
+## Version 13.2.1
+_29 January 2018_
 
 ### Data modifications
 * Insert some CMS IDs that were lost due to database issues
