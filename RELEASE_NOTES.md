@@ -9,7 +9,7 @@ _Date TBD_
 * Add FK from pending_certified_product to certified_product table to track listings from pending to confirmed
 
 ### Data modifications
-* Cleanup of QMS, Accessibility, UCD Standards
+* Cleanup of QMS Standards, Accessibility Standards, UCD Processes
 
 ---
 
