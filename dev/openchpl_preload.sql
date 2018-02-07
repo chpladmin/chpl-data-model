@@ -22,13 +22,13 @@ INSERT INTO openchpl.nonconformity_status (name, last_modified_user)
 values ('Open', -1), ('Closed', -1);
 
 INSERT INTO openchpl.fuzzy_choices(fuzzy_type, choices, last_modified_user)
-VALUES('UCD Process', '["Multiple Standards","ISO 9241-210:2010 4.2","ISO/IEC 25062:2006","Homegrown","NISTIR 7742","(NISTIR 7741) NIST Guide to the Processes Approach for Improving the Usability of Electronic Health Records","IEC 62366","Internal Process Used","IEC 62366-1","ISO 13407","ISO 16982","ISO/IEC 62367"]', -1);
+values ('UCD Process', '["Home Grown","ISO 13407","ISO 16982","ISO 9001","ISO 9241","ISO 9241-10","ISO 9241-11","ISO 9241-210","ISO 9241-210:2010 4.2","ISO/IEC 25062:2006","ISO/IEC 62366","ISO/IEC 62366-1","ISO/IEC 62367","Internal Process Used","Multiple Standards","NISTIR 7741","NISTIR 7742","See User Centered Design document"]', -1);
 
 INSERT INTO openchpl.fuzzy_choices(fuzzy_type, choices, last_modified_user)
-VALUES('QMS Standard', '["ISO 13485:2003","ISO 13485:2012","21 CFR Part 820","ISO 9001","ISO 13485","IEC 62304","IEEE 730","Homegrown","Food and Drug Administrations Code of Federal Regulations Title 21 Part 820 Quality System Regulation","ISMS/ISO/IEC 27001","ISO 9001:2008","Self-Develop","None","Other Federal or SDO QMS Standard"]', -1);
+values ('QMS Standard', '["(Deming) PDCA Cycle","21 CFR Part 820","21 CFR Part 820;IS0 9001","Agile Scrum","Home Grown","Home Grown mapped to ISO 12207","Home Grown mapped to ISO 9001","IEC 62304","IEEE 730","IS0 9001","IS0 9001;ISM/ISO/IEC 27001","IS0 9001;ISO 13485","ISO 12207","ISO 13485","ISO 13485:2003","ISO 13485:2003;ISO 13485:2012;ISO 9001:2008","ISO 13485:2003;ISO 9001:2008","ISO 13485:2012","ISO 14971","ISO 80001","ISO 9001:2000","ISO 9001:2008","ISO 9001:2015","ISO PDCA;ISO 9001:2015","Microsoft Solution Framework; Microsoft Operations Framework","Modified ISO 9001:2015","Modified QMS/Mapped","N/A","None","Other Federal or SDO QMS Standard","Other QMS","Scrum mapped to ISO 9001"]', -1);
 
 INSERT INTO openchpl.fuzzy_choices(fuzzy_type, choices, last_modified_user)
-VALUES('Accessibility Standard', '["WCAG 2.0 Level AA","W3C Web Design and Applications","W3C Web of Devices","Section 508 of the Rehabilitation Act","ISO/IEC 40500:2012","None","170.204(a)(1)","170.204(a)(2)","NIST 7741"]', -1);
+values ('Accessibility Standard', '["170.204(a)(1)","170.204(a)(2)","ETSI ES 202 076","ICO/IEC 24786: 2009","IEC 17398","IEC 1743","IEC 80416-1","IEC 80416-2","IEC 80416-3","IEC 80416-4","IEC 80416-71","IEC 80416-74","IEC ISO 3864","ISO 9001","ISO 9241-110","ISO 9241-171: 2008","ISO/IEC 40500","ISO/IEC 40500:2012","NISTIR 7741","None","Section 508 of the Rehabilitation Act","Section 508 of the Rehabilitation Act;WCAG 2.0 Level AA","W3C Web Design and Applications","W3C Web of Devices","WCAG","WCAG 2.0","WCAG 2.0 Level A","WCAG 2.0 Level A;ISO/IEC 40500","WCAG 2.0 Level AA","WCAG Level"]', -1);
 
 INSERT INTO openchpl.questionable_activity_trigger (name, level, last_modified_user)
 VALUES
