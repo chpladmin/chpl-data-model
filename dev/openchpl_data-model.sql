@@ -2540,6 +2540,7 @@ CREATE TABLE openchpl.questionable_activity_listing (
 	listing_id bigint NOT NULL,
 	before_data text,
 	after_data text,
+	certification_status_change_reason text,
 	reason text,
 	activity_date timestamp NOT NULL,
 	activity_user_id bigint NOT NULL,
