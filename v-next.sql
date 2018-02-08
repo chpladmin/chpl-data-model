@@ -317,5 +317,12 @@ insert into openchpl.ehr_certification_id_product_map (ehr_certification_id_id, 
 insert into openchpl.ehr_certification_id_product_map (ehr_certification_id_id, certified_product_id, creation_date, last_modified_user, deleted) select ec.ehr_certification_id_id, 6733, '2018-01-19 18:05:03.53', -1, false from openchpl.ehr_certification_id as ec where ec.certification_id = '0015H3K3FVF3QLF' and not exists (select * from openchpl.ehr_certification_id_product_map where ehr_certification_id_id = (select ec.ehr_certification_id_id from openchpl.ehr_certification_id as ec where ec.certification_id = '0015H3K3FVF3QLF') and certified_product_id = 6733);
 insert into openchpl.ehr_certification_id_product_map (ehr_certification_id_id, certified_product_id, creation_date, last_modified_user, deleted) select ec.ehr_certification_id_id, 6735, '2018-01-19 18:05:03.53', -1, false from openchpl.ehr_certification_id as ec where ec.certification_id = '0015H3K3FVF3QLF' and not exists (select * from openchpl.ehr_certification_id_product_map where ehr_certification_id_id = (select ec.ehr_certification_id_id from openchpl.ehr_certification_id as ec where ec.certification_id = '0015H3K3FVF3QLF') and certified_product_id = 6735);
 
+--
+-- OCD-2068
+--
+ALTER TABLE openchpl.questionable_activity_listing DROP COLUMN IF EXISTS certification_status_change_reason;
+ALTER TABLE openchpl.questionable_activity_listing ADD COLUMN certification_status_change_reason text;
+
+
 --re-run grants
 \i dev/openchpl_grant-all.sql

@@ -7,6 +7,7 @@ _Date TBD_
 * Add reason column to some questionable activity tables that can result from listing update
 * Add fuzzy_choices table
 * Add FK from pending_certified_product to certified_product table to track listings from pending to confirmed
+* Add reason for status change column to questionable activity listing table
 
 ### Data modifications
 * Cleanup of QMS Standards, Accessibility Standards, UCD Processes
