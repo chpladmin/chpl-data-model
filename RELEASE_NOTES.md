@@ -1,7 +1,7 @@
 # Release Notes
 
-## Version TBD
-_Date TBD_
+## Version 13.3.0
+_12 February 2018_
 
 ### Table modifications
 * Add reason column to some questionable activity tables that can result from listing update
