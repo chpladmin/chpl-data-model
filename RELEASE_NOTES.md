@@ -1,5 +1,20 @@
 # Release Notes
 
+## Version 13.3.0
+_12 February 2018_
+
+### Table modifications
+* Add reason column to some questionable activity tables that can result from listing update
+* Add fuzzy_choices table
+* Add FK from pending_certified_product to certified_product table to track listings from pending to confirmed
+* Add reason for status change column to questionable activity listing table
+
+### Data modifications
+* Cleanup of QMS Standards, Accessibility Standards, UCD Processes
+* Add 3 "duplicate" missing CMS IDs
+
+---
+
 ## Version 13.2.1
 _29 January 2018_
 

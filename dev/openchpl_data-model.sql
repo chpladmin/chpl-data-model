@@ -263,6 +263,7 @@ CREATE TABLE openchpl.certified_product(
 	ics_code varchar(2),
 	additional_software_code varchar(1),
 	certified_date_code varchar(6),
+	pending_certified_product_id bigint,
 	creation_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_user bigint NOT NULL,
@@ -1499,23 +1500,15 @@ CREATE TABLE openchpl.pending_certified_product(
 );
 -- ddl-end --
 COMMENT ON TABLE openchpl.pending_certified_product IS 'A product that has been uploaded but not confirmed by the user';
+
+ALTER TABLE openchpl.certified_product ADD CONSTRAINT pending_certified_product_fk 
+	FOREIGN KEY (pending_certified_product_id)
+	REFERENCES openchpl.pending_certified_product (pending_certified_product_id) MATCH SIMPLE
+	ON UPDATE NO ACTION ON DELETE NO ACTION;
+	
 -- ddl-end --
 -- ALTER TABLE openchpl.pending_certified_product OWNER TO openchpl;
 -- ddl-end --
-
-CREATE TABLE openchpl.pending_certified_product_system_update(
-	pending_certified_product_system_update_id bigserial NOT NULL,
-	pending_certified_product_id bigint NOT NULL,
-	change_made text,
-	creation_date timestamp NOT NULL DEFAULT NOW(),
-	last_modified_date timestamp NOT NULL DEFAULT NOW(),
-	last_modified_user bigint NOT NULL,
-	deleted bool NOT NULL DEFAULT false,
-	CONSTRAINT pending_certified_product_system_update_pk PRIMARY KEY (pending_certified_product_system_update_id),
-	CONSTRAINT pending_certified_product_fk FOREIGN KEY (pending_certified_product_id)
-      REFERENCES openchpl.pending_certified_product (pending_certified_product_id) MATCH SIMPLE
-      ON UPDATE NO ACTION ON DELETE NO ACTION
-);
 
 CREATE TABLE openchpl.fuzzy_choices(
 	fuzzy_choices_id bigserial not null,
@@ -2547,6 +2540,7 @@ CREATE TABLE openchpl.questionable_activity_listing (
 	listing_id bigint NOT NULL,
 	before_data text,
 	after_data text,
+	certification_status_change_reason text,
 	reason text,
 	activity_date timestamp NOT NULL,
 	activity_user_id bigint NOT NULL,
