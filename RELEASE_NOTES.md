@@ -1,5 +1,14 @@
 # Release Notes
 
+## Version TBD
+_Date TBD_
+
+### Data modifications
+* Modified certified product questionable activity trigger description
+* Added two new types of certified product questionable activity trigger descriptions
+
+---
+
 ## Version 13.3.0
 _12 February 2018_
 
