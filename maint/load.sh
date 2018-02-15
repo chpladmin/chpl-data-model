@@ -28,14 +28,16 @@ pg_restore --host $host --username $user --no-password --verbose --clean --if-ex
 
 case $env in
     stg)
-		usersFile=users.sql
-		if [ -f $usersFile ]
-		then
-			psql --host $host --username $user -f $usersFile openchpl
-		else
-			printf 'No users file to load.'
-		fi
+        # always update subscriptions
         psql --host $host --username $user -f subscriptions.sql openchpl
+        # add users if we're on "stg" environment
+        usersFile=users.sql
+        if [ -f $usersFile ]
+        then
+            psql --host $host --username $user -f $usersFile openchpl
+        else
+            printf 'No users file to load.'
+        fi
         ;;
     dev|local)
         printf 'Not loading users or subscriptions\n'
