@@ -6,6 +6,7 @@ _Date TBD_
 ### Data modifications
 * Modified certified product questionable activity trigger description
 * Added two new types of certified product questionable activity trigger descriptions
+* Mark 2015 v11 upload template as deleted
 
 ---
 
