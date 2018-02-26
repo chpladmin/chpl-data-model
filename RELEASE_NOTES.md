@@ -1,7 +1,7 @@
 # Release Notes
 
-## Version TBD
-_Date TBD_
+## Version 13.3.1
+_26 February 2018_
 
 ### Data modifications
 * Modified certified product questionable activity trigger description
