@@ -1,5 +1,10 @@
 # Release Notes
 
+### OCD-2100 Data modifications
+* Mark three Listings as deleted
+
+---
+
 ## Version TBD
 _Date TBD_
 
