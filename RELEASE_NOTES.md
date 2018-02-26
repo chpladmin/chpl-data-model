@@ -1,12 +1,15 @@
 # Release Notes
 
-### OCD-2100 Data modifications
+## Version TBD
+_Date TBD_
+
+### Data modifications
 * Mark three Listings as deleted
 
 ---
 
-## Version TBD
-_Date TBD_
+## Version 13.3.1
+_26 February 2018_
 
 ### Data modifications
 * Modified certified product questionable activity trigger description
