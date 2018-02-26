@@ -1,5 +1,15 @@
 # Release Notes
 
+## Version 13.3.1
+_26 February 2018_
+
+### Data modifications
+* Modified certified product questionable activity trigger description
+* Added two new types of certified product questionable activity trigger descriptions
+* Mark 2015 v11 upload template as deleted
+
+---
+
 ## Version 13.3.0
 _12 February 2018_
 
