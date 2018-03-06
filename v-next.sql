@@ -1,7 +1,3 @@
-update openchpl.questionable_activity_trigger set name = 'Current Certification Status Edited' where name = 'Certification Status Edited';
-INSERT INTO openchpl.questionable_activity_trigger (name, level, last_modified_user) select 'Current Certification Date Edited', 'Listing', -1 where not exists (select * from openchpl.questionable_activity_trigger where name = 'Current Certification Date Edited');
-INSERT INTO openchpl.questionable_activity_trigger (name, level, last_modified_user) select 'Historical Certification Status Edited', 'Listing', -1 where not exists (select * from openchpl.questionable_activity_trigger where name = 'Historical Certification Status Edited');
-
 -- BEGIN OCD-2082
 
 DROP SEQUENCE IF EXISTS openchpl.sed_participants_statistics_count_seq;
