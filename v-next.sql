@@ -29,3 +29,6 @@ CREATE TRIGGER sed_participants_statistics_count_timestamp BEFORE UPDATE on open
 update openchpl.certified_product set deleted = true where certified_product_id = 9102;
 update openchpl.certified_product set deleted = true where certified_product_id = 9241;
 update openchpl.certified_product set deleted = true where certified_product_id = 9252;
+
+--re-run grants
+\i dev/openchpl_grant-all.sql
