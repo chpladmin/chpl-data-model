@@ -3,6 +3,9 @@
 ## Version TBD
 _Date TBD_
 
+### Table modifications
+* Add sed_participant_statistics_count table
+
 ### Data modifications
 * Mark three Listings as deleted
 
