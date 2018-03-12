@@ -2706,6 +2706,19 @@ CREATE TABLE openchpl.job_message (
       ON UPDATE NO ACTION ON DELETE NO ACTION
 );
 
+CREATE TABLE openchpl.sed_participants_statistics_count
+(
+  	id bigserial NOT NULL,
+	participant_count bigint NOT NULL,
+	sed_count bigint NOT NULL,
+  	creation_date timestamp without time zone NOT NULL DEFAULT now(),
+  	last_modified_date timestamp without time zone NOT NULL DEFAULT now(),
+  	last_modified_user bigint NOT NULL,
+  	deleted boolean NOT NULL DEFAULT false,
+  	CONSTRAINT sed_participants_statistics_count_pk PRIMARY KEY (id)
+);
+
+
 CREATE INDEX fki_certified_product_id_fk
 ON openchpl.ehr_certification_id_product_map
 USING btree

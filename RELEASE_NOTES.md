@@ -1,5 +1,16 @@
 # Release Notes
 
+## Version 13.4.0
+_12 March 2018_
+
+### Table modifications
+* Add sed_participant_statistics_count table
+
+### Data modifications
+* Mark three Listings as deleted
+
+---
+
 ## Version 13.3.1
 _26 February 2018_
 
