@@ -1,7 +1,7 @@
 # Release Notes
 
-## Version TBD
-_Date TBD_
+## Version 13.4.0
+_12 March 2018_
 
 ### Table modifications
 * Add sed_participant_statistics_count table
