@@ -2718,6 +2718,54 @@ CREATE TABLE openchpl.sed_participants_statistics_count
   	CONSTRAINT sed_participants_statistics_count_pk PRIMARY KEY (id)
 );
 
+CREATE TABLE openchpl.participant_gender_statistics
+(
+  	id bigserial NOT NULL,
+  	male_count bigint NOT NULL,
+	female_count bigint NOT NULL,
+  	creation_date timestamp without time zone NOT NULL DEFAULT now(),
+  	last_modified_date timestamp without time zone NOT NULL DEFAULT now(),
+  	last_modified_user bigint NOT NULL,
+  	deleted boolean NOT NULL DEFAULT false,
+  CONSTRAINT participant_gender_statistics_pk PRIMARY KEY (id)
+);
+
+CREATE TABLE openchpl.participant_age_statistics
+(
+  	id bigserial NOT NULL,
+  	age_count bigint NOT NULL,
+	test_participant_age_id bigint NOT NULL,
+  	creation_date timestamp without time zone NOT NULL DEFAULT now(),
+  	last_modified_date timestamp without time zone NOT NULL DEFAULT now(),
+  	last_modified_user bigint NOT NULL,
+  	deleted boolean NOT NULL DEFAULT false,
+  CONSTRAINT participant_age_statistics_pk PRIMARY KEY (id)
+);
+
+CREATE TABLE openchpl.participant_education_statistics
+(
+  	id bigserial NOT NULL,
+  	education_count bigint NOT NULL,
+	education_type_id bigint NOT NULL,
+  	creation_date timestamp without time zone NOT NULL DEFAULT now(),
+  	last_modified_date timestamp without time zone NOT NULL DEFAULT now(),
+  	last_modified_user bigint NOT NULL,
+  	deleted boolean NOT NULL DEFAULT false,
+  CONSTRAINT participant_education_statistics_pk PRIMARY KEY (id)
+);
+
+CREATE TABLE openchpl.participant_experience_statistics
+(
+  	id bigserial NOT NULL,
+	experience_type_id bigint NOT NULL,
+  	participant_count bigint NOT NULL,
+	experience_months bigint NOT NULL,
+  	creation_date timestamp without time zone NOT NULL DEFAULT now(),
+  	last_modified_date timestamp without time zone NOT NULL DEFAULT now(),
+  	last_modified_user bigint NOT NULL,
+  	deleted boolean NOT NULL DEFAULT false,
+  CONSTRAINT participant_experience_statistics_pk PRIMARY KEY (id)
+);
 
 CREATE INDEX fki_certified_product_id_fk
 ON openchpl.ehr_certification_id_product_map

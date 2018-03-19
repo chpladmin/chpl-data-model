@@ -1,5 +1,16 @@
 # Release Notes
 
+## Version TBD
+_Date TBD_
+
+### Table Modifications
+* Add participant_gender_statistics table
+* Add participant_age_statistics table
+* Add participant_education_statistics table
+* Add participant_experience_statistics table
+
+---
+
 ## Version 13.4.0
 _12 March 2018_
 
