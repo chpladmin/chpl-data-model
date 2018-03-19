@@ -29,7 +29,8 @@ create trigger certified_product_testing_lab_map_audit after insert or update or
 create trigger certified_product_testing_lab_map_timestamp before update on openchpl.certified_product_testing_lab_map for each row execute procedure openchpl.update_last_modified_date_column();
 
 drop table if exists openchpl.pending_certified_product_testing_lab;
-create table openchpl.pending_certified_product_testing_lab (
+drop table if exists openchpl.pending_certified_product_testing_lab_map;
+create table openchpl.pending_certified_product_testing_lab_map (
   	id bigserial not null,
   	pending_certified_product_id bigint not null,
 	testing_lab_id bigint not null,
@@ -37,7 +38,7 @@ create table openchpl.pending_certified_product_testing_lab (
   	last_modified_date timestamp without time zone not null default now(),
   	last_modified_user bigint not null,
   	deleted boolean not null default false,
-        constraint pending_certified_product_testing_lab_pk primary key (id),
+        constraint pending_certified_product_testing_lab_map_pk primary key (id),
 	constraint pending_certified_product_fk foreign key (pending_certified_product_id)
         references openchpl.pending_certified_product (pending_certified_product_id) match simple
         on update no action on delete no action,
@@ -46,10 +47,8 @@ create table openchpl.pending_certified_product_testing_lab (
         on update no action on delete no action
 );
 
-insert into openchpl.pending_certified_product_testing_lab (pending_certified_product_id, testing_lab_id, last_modified_user) select pending_certified_product_id, testing_lab_id, -1 from openchpl.pending_certified_product as cp where cp.testing_lab_id is not null;
-
-create trigger pending_certified_product_testing_lab_audit after insert or update or delete on openchpl.pending_certified_product_testing_lab for each row execute procedure audit.if_modified_func();
-create trigger pending_certified_product_testing_lab_timestamp before update on openchpl.pending_certified_product_testing_lab for each row execute procedure openchpl.update_last_modified_date_column();
+create trigger pending_certified_product_testing_lab_map_audit after insert or update or delete on openchpl.pending_certified_product_testing_lab_map for each row execute procedure audit.if_modified_func();
+create trigger pending_certified_product_testing_lab_map_timestamp before update on openchpl.pending_certified_product_testing_lab_map for each row execute procedure openchpl.update_last_modified_date_column();
 
 --
 -- OCD-1897 CHPL Product Number function & Views
