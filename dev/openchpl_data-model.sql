@@ -335,23 +335,6 @@ CREATE TABLE openchpl.certified_product_targeted_user (
       ON UPDATE NO ACTION ON DELETE NO ACTION
 );
 
-create table openchpl.certified_product_testing_lab_map (
-  	id bigserial not null,
-  	certified_product_id bigint not null,
-	testing_lab_id bigint not null,
-  	creation_date timestamp without time zone not null default now(),
-  	last_modified_date timestamp without time zone not null default now(),
-  	last_modified_user bigint not null,
-  	deleted boolean not null default false,
-        constraint certified_product_testing_lab_map_pk primary key (id),
-	constraint certified_product_fk foreign key (certified_product_id)
-        references openchpl.certified_product (certified_product_id) match simple
-        on update no action on delete no action,
-	constraint testing_lab_fk foreign key (testing_lab_id)
-        references openchpl.testing_lab (testing_lab_id) match simple
-        on update no action on delete no action
-);
-
 CREATE TABLE openchpl.certified_product_accessibility_standard (
 	certified_product_accessibility_standard_id bigserial not null,
 	certified_product_id bigint not null,
@@ -861,6 +844,23 @@ CREATE TABLE openchpl.testing_lab(
 	last_modified_user bigint NOT NULL,
 	deleted bool NOT NULL DEFAULT false,
 	CONSTRAINT testing_lab_pk PRIMARY KEY (testing_lab_id)
+);
+
+create table openchpl.certified_product_testing_lab_map (
+  	id bigserial not null,
+  	certified_product_id bigint not null,
+	testing_lab_id bigint not null,
+  	creation_date timestamp without time zone not null default now(),
+  	last_modified_date timestamp without time zone not null default now(),
+  	last_modified_user bigint not null,
+  	deleted boolean not null default false,
+        constraint certified_product_testing_lab_map_pk primary key (id),
+	constraint certified_product_fk foreign key (certified_product_id)
+        references openchpl.certified_product (certified_product_id) match simple
+        on update no action on delete no action,
+	constraint testing_lab_fk foreign key (testing_lab_id)
+        references openchpl.testing_lab (testing_lab_id) match simple
+        on update no action on delete no action
 );
 
 CREATE TABLE openchpl.product_owner_history_map (
