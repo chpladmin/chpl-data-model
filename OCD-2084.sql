@@ -19,9 +19,9 @@ DROP TABLE IF EXISTS openchpl.participant_age_statistics;
 
 CREATE TABLE openchpl.participant_age_statistics
 (
-  	id bigserial NOT NULL,
+  	id bigserial NOT NULL, 
   	age_count bigint NOT NULL,
-	test_participant_age_id bigint NOT NULL,
+	test_participant_age_id bigint NOT NULL REFERENCES openchpl.test_participant_age (test_participant_age_id),
   	creation_date timestamp without time zone NOT NULL DEFAULT now(),
   	last_modified_date timestamp without time zone NOT NULL DEFAULT now(),
   	last_modified_user bigint NOT NULL,
@@ -38,7 +38,7 @@ CREATE TABLE openchpl.participant_education_statistics
 (
   	id bigserial NOT NULL,
   	education_count bigint NOT NULL,
-	education_type_id bigint NOT NULL,
+	education_type_id bigint NOT NULL REFERENCES openchpl.education_type (education_type_id),
   	creation_date timestamp without time zone NOT NULL DEFAULT now(),
   	last_modified_date timestamp without time zone NOT NULL DEFAULT now(),
   	last_modified_user bigint NOT NULL,
