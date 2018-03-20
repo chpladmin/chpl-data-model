@@ -2723,6 +2723,7 @@ CREATE TABLE openchpl.participant_gender_statistics
   	id bigserial NOT NULL,
   	male_count bigint NOT NULL,
 	female_count bigint NOT NULL,
+	unknown_count bigint NOT NULL,
   	creation_date timestamp without time zone NOT NULL DEFAULT now(),
   	last_modified_date timestamp without time zone NOT NULL DEFAULT now(),
   	last_modified_user bigint NOT NULL,

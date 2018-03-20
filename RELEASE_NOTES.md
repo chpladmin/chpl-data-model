@@ -4,10 +4,11 @@
 _Date TBD_
 
 ### Table Modifications
-* Add participant_gender_statistics table
-* Add participant_age_statistics table
-* Add participant_education_statistics table
-* Add participant_experience_statistics table
+*Added tables to support statistics related to SED Participant demographics:
+	*Gender
+	*Age
+	*Education Type
+	*Experience Levels
 
 ---
 
