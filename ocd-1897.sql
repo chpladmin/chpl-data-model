@@ -68,7 +68,8 @@ create or replace function openchpl.get_testing_lab_code(input_id bigint) return
                 else '99'
             end;
 end;
-$$ language plpgsql;
+$$ language plpgsql
+stable;
 
 create or replace function openchpl.get_chpl_product_number(id bigint) returns
     table (
@@ -86,7 +87,8 @@ create or replace function openchpl.get_chpl_product_number(id bigint) returns
                     LEFT JOIN (SELECT vendor_id, name as "vendor_name", vendor_code, website as "vendor_website", address_id as "vendor_address", contact_id as "vendor_contact", vendor_status_id from openchpl.vendor) h on g.vendor_id = h.vendor_id
                 WHERE a.certified_product_id = id;
 end;
-$$ language plpgsql;
+$$ language plpgsql
+stable;
 
 DROP VIEW IF EXISTS openchpl.certified_product_details CASCADE;
 CREATE OR REPLACE VIEW openchpl.certified_product_details AS
