@@ -217,6 +217,14 @@ CREATE TRIGGER notification_type_recipient_map_audit AFTER INSERT OR UPDATE OR D
 CREATE TRIGGER notification_type_recipient_map_timestamp BEFORE UPDATE on openchpl.notification_type_recipient_map FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER optional_functionality_met_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.optional_functionality_met FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER optional_functionality_met_timestamp BEFORE UPDATE on openchpl.optional_functionality_met FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
+CREATE TRIGGER participant_age_statistics_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.participant_age_statistics FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+CREATE TRIGGER participant_age_statistics_timestamp BEFORE UPDATE on openchpl.participant_age_statistics FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
+CREATE TRIGGER participant_education_statistics_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.participant_education_statistics FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+CREATE TRIGGER participant_education_statistics_timestamp BEFORE UPDATE on openchpl.participant_education_statistics FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
+CREATE TRIGGER participant_experience_statistics_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.participant_experience_statistics FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+CREATE TRIGGER participant_experience_statistics_timestamp BEFORE UPDATE on openchpl.participant_experience_statistics FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
+CREATE TRIGGER participant_gender_statistics_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.participant_gender_statistics FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+CREATE TRIGGER participant_gender_statistics_timestamp BEFORE UPDATE on openchpl.participant_gender_statistics FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER pending_certification_result_additional_software_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.pending_certification_result_additional_software FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER pending_certification_result_additional_software_timestamp BEFORE UPDATE on openchpl.pending_certification_result_additional_software FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER pending_certification_result_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.pending_certification_result FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
