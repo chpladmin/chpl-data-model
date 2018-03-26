@@ -1,14 +1,15 @@
 # Release Notes
 
-## Version TBD
-_Date TBD_
+## Version 13.5.0
+_26 March 2018_
 
 ### Table Modifications
-*Added tables to support statistics related to SED Participant demographics:
-	*Gender
-	*Age
-	*Education Type
-	*Experience Levels
+
+* Added tables to support statistics related to SED Participant demographics:
+  * Gender
+  * Age
+  * Education Type
+  * Experience Levels
 
 ---
 
