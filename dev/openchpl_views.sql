@@ -4,15 +4,17 @@ create or replace function openchpl.get_testing_lab_code(input_id bigint) return
         ) as $$
     begin
     return query
-select
-    case
-    when (select count(*) from openchpl.certified_product_testing_lab_map as a where a.certified_product_id = input_id) = 1
-    then (select b.testing_lab_code from openchpl.testing_lab b, openchpl.certified_product_testing_lab_map c
-    where b.testing_lab_id = c.testing_lab_id
-	and c.certified_product_id = input_id)
-    else '99'
-    end;
-    end;
+        select
+            case
+            when (select count(*) from openchpl.certified_product_testing_lab_map as a
+            where a.certified_product_id = input_id
+                and a.deleted = false) = 1
+                    then (select b.testing_lab_code from openchpl.testing_lab b, openchpl.certified_product_testing_lab_map c
+                        where b.testing_lab_id = c.testing_lab_id
+	                    and c.certified_product_id = input_id
+                            and c.deleted = false)
+                else '99'
+            end;
     $$ language plpgsql;
 
 create or replace function openchpl.get_chpl_product_number(id bigint) returns
