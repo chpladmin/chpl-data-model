@@ -11,11 +11,17 @@ create or replace function openchpl.get_testing_lab_code(input_id bigint) return
                 and a.deleted = false) = 1
                     then (select b.testing_lab_code from openchpl.testing_lab b, openchpl.certified_product_testing_lab_map c
                         where b.testing_lab_id = c.testing_lab_id
-	                    and c.certified_product_id = input_id
+                     and c.certified_product_id = input_id
                             and c.deleted = false)
+            when (select count(*) from openchpl.certified_product_testing_lab_map as a
+            where a.certified_product_id = input_id
+                and a.deleted = false) = 0
+            then null
                 else '99'
             end;
-    $$ language plpgsql;
+end;
+$$ language plpgsql
+stable;
 
 create or replace function openchpl.get_chpl_product_number(id bigint) returns
     table (
@@ -34,7 +40,8 @@ FROM openchpl.certified_product a
     LEFT JOIN (SELECT testing_lab_id, name as "testing_lab_name", testing_lab_code from openchpl.testing_lab) q on a.testing_lab_id = q.testing_lab_id
 WHERE a.certified_product_id = id;
     end;
-    $$ language plpgsql;
+    $$ language plpgsql
+stable;
 
 CREATE OR REPLACE VIEW openchpl.certification_result_details AS
 
@@ -558,6 +565,7 @@ SELECT
     ehr.creation_date as ehr_certification_id_creation_date,
     cp.certified_product_id,
     (select chpl_product_number from openchpl.get_chpl_product_number(cp.certified_product_id)),
+    (select testing_lab_code from openchpl.get_testing_lab_code(cp.certified_product_id)),
     ed.year,
     acb.certification_body_code,
     v.vendor_code,
