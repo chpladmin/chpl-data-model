@@ -5,7 +5,7 @@ drop table if exists openchpl.certified_product_testing_lab_map;
 create table openchpl.certified_product_testing_lab_map (
    id bigserial not null,
    certified_product_id bigint not null,
- testing_lab_id bigint not null,
+   testing_lab_id bigint not null,
    creation_date timestamp without time zone not null default now(),
    last_modified_date timestamp without time zone not null default now(),
    last_modified_user bigint not null,
@@ -32,7 +32,8 @@ drop table if exists openchpl.pending_certified_product_testing_lab_map;
 create table openchpl.pending_certified_product_testing_lab_map (
    id bigserial not null,
    pending_certified_product_id bigint not null,
- testing_lab_id bigint not null,
+   testing_lab_id bigint not null,
+   testing_lab_name varchar(300),
    creation_date timestamp without time zone not null default now(),
    last_modified_date timestamp without time zone not null default now(),
    last_modified_user bigint not null,
