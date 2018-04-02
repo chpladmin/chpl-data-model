@@ -51,6 +51,11 @@ create trigger pending_certified_product_testing_lab_map_audit after insert or u
 create trigger pending_certified_product_testing_lab_map_timestamp before update on openchpl.pending_certified_product_testing_lab_map for each row execute procedure openchpl.update_last_modified_date_column();
 
 --
+-- Questionable activity trigger
+--
+INSERT INTO openchpl.questionable_activity_trigger (name, level, last_modified_user) select 'Testing Lab Changed', 'Listing', -1 where not exists (select * from openchpl.questionable_activity_trigger where name = 'Testing Lab Changed');
+
+--
 -- OCD-1897 CHPL Product Number function & Views
 --
 create or replace function openchpl.get_testing_lab_code(input_id bigint) returns
