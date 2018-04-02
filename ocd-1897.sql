@@ -21,10 +21,6 @@ create table openchpl.certified_product_testing_lab_map (
 
 insert into openchpl.certified_product_testing_lab_map (certified_product_id, testing_lab_id, last_modified_user) select certified_product_id, testing_lab_id, -1 from openchpl.certified_product as cp where cp.testing_lab_id is not null;
 
--- debug
-insert into openchpl.certified_product_testing_lab_map (certified_product_id, testing_lab_id, last_modified_user) values (9111, 4, -1);
--- end debug
-
 create trigger certified_product_testing_lab_map_audit after insert or update or delete on openchpl.certified_product_testing_lab_map for each row execute procedure audit.if_modified_func();
 create trigger certified_product_testing_lab_map_timestamp before update on openchpl.certified_product_testing_lab_map for each row execute procedure openchpl.update_last_modified_date_column();
 
