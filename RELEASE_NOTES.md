@@ -1,14 +1,20 @@
 # Release Notes
 
-## Version TBD
-_Date TBD_
-
+## OCD-1897
 ### Table modifications
 * Added tables to support multiple ATLs
   * Added functions to retrieve CHPL ID
   * Added mapping tables
   * Migrated data to fill mapping table
   * Added Questionable Activity trigger
+
+---
+
+## Version TBD
+_Date TBD_
+
+### Data modifications
+* Mark one listing as deleted.  Duplicate due to bug in upload process.
 
 ---
 
