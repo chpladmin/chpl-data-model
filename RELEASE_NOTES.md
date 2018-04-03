@@ -1,5 +1,13 @@
 # Release Notes
 
+## Version TBD
+_Date TBD_
+
+### Data modifications
+* Mark one listing as deleted.  Duplicate due to bug in upload process.
+
+---
+
 ## Version 13.5.0
 _26 March 2018_
 
