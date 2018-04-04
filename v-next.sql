@@ -6,6 +6,7 @@ WHERE certified_product_id = 9275;
 
 -- OCD-2142
 -- bulk withdrawal of Listings
+-- function returns false if one of a variety of conditions is true, indicated in comments
 create or replace function openchpl.can_add_new_status(db_id bigint, eff_date timestamp, chpl_id varchar(64)) returns boolean as $$
     begin
 -- most recent status is after effective date
@@ -16,6 +17,11 @@ create or replace function openchpl.can_add_new_status(db_id bigint, eff_date ti
 -- most recent status is already "Withdrawn by Developer"
     if (select cse.certification_status_id from openchpl.certification_status_event cse where cse.certified_product_id = db_id order by cse.event_date desc limit 1) = 3 then
     raise warning 'ID % cannot be updated as it would be a double status CHPL ID: %', db_id, chpl_id;
+    return false;
+    end if;
+-- most recent status anything other than "Active"
+    if (select cse.certification_status_id from openchpl.certification_status_event cse where cse.certified_product_id = db_id order by cse.event_date desc limit 1) != 1 then
+    raise warning 'ID % cannot be updated as Listing is not in status: Active CHPL ID: %', db_id, chpl_id;
     return false;
     end if;
 -- has open surveillance
