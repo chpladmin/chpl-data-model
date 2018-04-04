@@ -6,7 +6,7 @@ WHERE certified_product_id = 9275;
 
 -- OCD-2142
 -- bulk withdrawal of Listings
-create or replace function openchpl.can_add_new_status(db_id bigint, eff_date timestamp, chpl_id varchar(32)) returns boolean as $$
+create or replace function openchpl.can_add_new_status(db_id bigint, eff_date timestamp, chpl_id varchar(64)) returns boolean as $$
     begin
 -- most recent status is after effective date
     if (select cse.event_date from openchpl.certification_status_event cse where cse.certified_product_id = db_id order by cse.event_date desc limit 1) > eff_date then
@@ -38,7 +38,7 @@ create or replace function openchpl.can_add_new_status(db_id bigint, eff_date ti
     $$ language plpgsql
     stable;
 
-create or replace function openchpl.add_new_status(db_id bigint, eff_date timestamp, chpl_id varchar(32)) returns void as $$
+create or replace function openchpl.add_new_status(db_id bigint, eff_date timestamp, chpl_id varchar(64)) returns void as $$
     begin
 insert into openchpl.certification_status_event (certified_product_id, certification_status_id, event_date, last_modified_user) select db_id, 3, eff_date, -1
 where openchpl.can_add_new_status(db_id, eff_date, chpl_id) = true;
@@ -1372,5 +1372,5 @@ select openchpl.add_new_status(5784, '2018-04-04', 'CHP-029223');
 select openchpl.add_new_status(5787, '2018-04-04', 'CHP-029224');
 select openchpl.add_new_status(5793, '2018-04-04', 'CHP-029226');
 
-drop function openchpl.add_new_status(bigint, timestamp, varchar(32));
-drop function openchpl.can_add_new_status(bigint, timestamp, varchar(32));
+drop function openchpl.add_new_status(bigint, timestamp, varchar(64));
+drop function openchpl.can_add_new_status(bigint, timestamp, varchar(64));
