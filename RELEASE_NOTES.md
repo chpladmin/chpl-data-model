@@ -4,14 +4,15 @@
 _Date TBD_
 
 ### Data modifications
-* Mark one listing as deleted.  Duplicate due to bug in upload process.
+* Mark one Listing as deleted. Duplicate due to bug in upload process
+* Mark ~1300 Listings as "Withdrawn by Developer"
 
 ---
 
 ## Version 13.5.0
 _26 March 2018_
 
-### Table Modifications
+### Table modifications
 
 * Added tables to support statistics related to SED Participant demographics:
   * Gender
