@@ -4,14 +4,31 @@
 ### View Modifications
 * Modified certfied_product_details view for improved performance
 
+---
+
 ### Table Modifications
 * Added indexes to listing_to_listing_map for improved performance
+=======
+## OCD-1897
+### Table modifications
+* Added tables to support multiple ATLs
+  * Added functions to retrieve CHPL ID
+  * Added mapping tables
+  * Migrated data to fill mapping table
+  * Added Questionable Activity trigger
+
+---
+
+## OCD-2142
+* Mark ~1300 Listings as "Withdrawn by Developer"
+
+---
 
 ## Version TBD
 _Date TBD_
 
 ### Data modifications
-* Mark one listing as deleted.  Duplicate due to bug in upload process.
+* Mark one Listing as deleted. Duplicate due to bug in upload process
 
 ---
 
@@ -19,7 +36,6 @@ _Date TBD_
 _26 March 2018_
 
 ### Table Modifications
-
 * Added tables to support statistics related to SED Participant demographics:
   * Gender
   * Age

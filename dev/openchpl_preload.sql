@@ -58,6 +58,7 @@ VALUES
 ('Product Owner History Edited', 'Product', -1),
 ('Product Owner History Added', 'Product', -1),
 ('Product Owner History Removed', 'Product', -1),
+('Testing Lab Changed', 'Listing', -1),
 ('Version Name Edited', 'Version', -1);
 
 INSERT INTO openchpl.certification_criterion (certification_edition_id, number, title, last_modified_user) VALUES
