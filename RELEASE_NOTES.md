@@ -1,5 +1,15 @@
 # Release Notes
 
+## OCD-1897
+### Table modifications
+* Added tables to support multiple ATLs
+  * Added functions to retrieve CHPL ID
+  * Added mapping tables
+  * Migrated data to fill mapping table
+  * Added Questionable Activity trigger
+
+---
+
 ## OCD-2142
 * Mark ~1300 Listings as "Withdrawn by Developer"
 
@@ -16,8 +26,7 @@ _Date TBD_
 ## Version 13.5.0
 _26 March 2018_
 
-### Table modifications
-
+### Table Modifications
 * Added tables to support statistics related to SED Participant demographics:
   * Gender
   * Age
