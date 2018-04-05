@@ -10,11 +10,16 @@
 
 ---
 
+## OCD-2142
+* Mark ~1300 Listings as "Withdrawn by Developer"
+
+---
+
 ## Version TBD
 _Date TBD_
 
 ### Data modifications
-* Mark one listing as deleted.  Duplicate due to bug in upload process.
+* Mark one Listing as deleted. Duplicate due to bug in upload process
 
 ---
 
