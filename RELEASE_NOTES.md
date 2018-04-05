@@ -1,17 +1,22 @@
 # Release Notes
 
+## OCD-2142
+* Mark ~1300 Listings as "Withdrawn by Developer"
+
+---
+
 ## Version TBD
 _Date TBD_
 
 ### Data modifications
-* Mark one listing as deleted.  Duplicate due to bug in upload process.
+* Mark one Listing as deleted. Duplicate due to bug in upload process
 
 ---
 
 ## Version 13.5.0
 _26 March 2018_
 
-### Table Modifications
+### Table modifications
 
 * Added tables to support statistics related to SED Participant demographics:
   * Gender
