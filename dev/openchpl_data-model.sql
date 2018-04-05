@@ -2884,3 +2884,7 @@ CREATE INDEX ix_test_participant ON openchpl.test_participant (test_participant_
 CREATE INDEX ix_test_procedure ON openchpl.test_procedure (id, deleted);
 
 CREATE INDEX ix_test_standard ON openchpl.test_standard (test_standard_id, deleted);
+
+CREATE INDEX ix_listing_to_listing_map_parent_id_deleted ON openchpl.listing_to_listing_map (parent_listing_id, deleted);
+
+CREATE INDEX ix_listing_to_listing_map_child_id_deleted ON openchpl.listing_to_listing_map (child_listing_id, deleted);
