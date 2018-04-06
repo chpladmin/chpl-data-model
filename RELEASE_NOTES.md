@@ -1,14 +1,20 @@
 # Release Notes
 
+## OCD-2132
+### View Modifications
+* Modified certfied_product_details view to respect certification_status_event deleted flag
+
+---
+
 ## OCD-PERF
 ### View Modifications
 * Modified certfied_product_details view for improved performance
 
----
-
 ### Table Modifications
 * Added indexes to listing_to_listing_map for improved performance
-=======
+
+---
+
 ## OCD-1897
 ### Table modifications
 * Added tables to support multiple ATLs
