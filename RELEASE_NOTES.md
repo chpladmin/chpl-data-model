@@ -1,7 +1,7 @@
 # Release Notes
 
-## Version TBD
-_Date TBD_
+## Version 13.5.1
+_9 April 2018_
 
 ### Data modifications
 * Mark one listing as deleted.  Duplicate due to bug in upload process.
@@ -12,7 +12,6 @@ _Date TBD_
 _26 March 2018_
 
 ### Table Modifications
-
 * Added tables to support statistics related to SED Participant demographics:
   * Gender
   * Age
