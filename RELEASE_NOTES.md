@@ -1,31 +1,26 @@
 # Release Notes
 
-## OCD-PERF
+## Version TBD
+_Date TBD_
+
 ### View Modifications
 * Modified certfied_product_details view for improved performance
 
----
-
-### Table Modifications
-* Added indexes to listing_to_listing_map for improved performance
-=======
-## OCD-1897
 ### Table modifications
+* Added indexes to listing_to_listing_map for improved performance
 * Added tables to support multiple ATLs
   * Added functions to retrieve CHPL ID
   * Added mapping tables
   * Migrated data to fill mapping table
   * Added Questionable Activity trigger
 
----
-
-## OCD-2142
+### Data modifications
 * Mark ~1300 Listings as "Withdrawn by Developer"
 
 ---
 
-## Version TBD
-_Date TBD_
+## Version 13.5.1
+_9 April 2018_
 
 ### Data modifications
 * Mark one Listing as deleted. Duplicate due to bug in upload process
