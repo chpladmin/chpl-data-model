@@ -1518,7 +1518,8 @@ VALUES ('ONC-ACB Daily Surveillance Broken Rules', 'A daily email of surveillanc
 ('ONC Weekly Surveillance Broken Rules', 'A weekly email of all surveillance rules that are currently broken for any listing.', false, -1),
 ('ONC Weekly ICS Family Errors', 'A weekly email of all listings that are marked as having ICS but do not specify a parent.', false, -1),
 ('Summary Statistics', 'An email with both current and historical statistics on the CHPL.', false, -1),
-('Questionable Activity', 'An email that is generated whenever ONC-specified user actions on the CHPL occur.', false, -1);
+('Questionable Activity', 'An email that is generated whenever ONC-specified user actions on the CHPL occur.', false, -1),
+('Cache Status Age Notification', 'A notification that is sent to subscribers when the Listing Cache is too old.', false, -1);
 
 INSERT INTO openchpl.upload_template_version (name, available_as_of_date, header_csv, last_modified_user, deprecated, deleted)
 VALUES
