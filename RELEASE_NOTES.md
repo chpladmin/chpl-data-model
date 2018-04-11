@@ -1,5 +1,10 @@
 # Release Notes
 
+## OCD-2031
+* Add "Cache Status Age Warning" notification type
+
+---
+
 ## Version TBD
 _Date TBD_
 
