@@ -1,32 +1,8 @@
 # Release Notes
 
-## OCD-2132
-### View Modifications
-* Modified certified_product_details view to respect certification_status_event deleted flag
-
----
-
-## OCD-2031
-* Add "Cache Status Age Warning" notification type
-
----
-
 ## Version TBD
 _Date TBD_
 
----
-
-## OCD-PERF
-### View Modifications
-* Modified certified_product_details view for improved performance
-
-### Table Modifications
-* Added indexes to listing_to_listing_map for improved performance
-
----
-
-## Version TBD
-_Date TBD_
 ### Table modifications
 * Added indexes to listing_to_listing_map for improved performance
 * Added tables to support multiple ATLs
@@ -34,9 +10,15 @@ _Date TBD_
   * Added mapping tables
   * Migrated data to fill mapping table
   * Added Questionable Activity trigger
+* Added indexes to listing_to_listing_map for improved performance
+
+### View Modifications
+* Modified certified_product_details view to respect certification_status_event deleted flag
+* Modified certified_product_details view for improved performance
 
 ### Data modifications
 * Mark ~1300 Listings as "Withdrawn by Developer"
+* Add "Cache Status Age Warning" notification type
 
 ---
 
