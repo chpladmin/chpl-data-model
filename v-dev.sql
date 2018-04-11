@@ -62,6 +62,8 @@ create table openchpl.pending_certified_product_testing_lab_map (
         on update no action on delete no action
 );
 
+insert into openchpl.pending_certified_product_testing_lab_map (pending_certified_product_id, testing_lab_id, testing_lab_name, last_modified_user) select pending_certified_product_id, testing_lab_id, testing_lab_name, -1 from openchpl.pending_certified_product as cp where cp.deleted = false;
+
 create trigger pending_certified_product_testing_lab_map_audit after insert or update or delete on openchpl.pending_certified_product_testing_lab_map for each row execute procedure audit.if_modified_func();
 create trigger pending_certified_product_testing_lab_map_timestamp before update on openchpl.pending_certified_product_testing_lab_map for each row execute procedure openchpl.update_last_modified_date_column();
 
@@ -69,6 +71,22 @@ create trigger pending_certified_product_testing_lab_map_timestamp before update
 -- Questionable activity trigger
 --
 INSERT INTO openchpl.questionable_activity_trigger (name, level, last_modified_user) select 'Testing Lab Changed', 'Listing', -1 where not exists (select * from openchpl.questionable_activity_trigger where name = 'Testing Lab Changed');
+
+--
+-- OCD-2031
+--
+insert into openchpl.notification_type (name, description, requires_acb, last_modified_user) select 'Cache Status Age Notification', 'A notification that is sent to subscribers when the Listing Cache is too old.', false, -1 where not exists (select * from openchpl.notification_type where name = 'Cache Status Age Notification');
+create or replace function openchpl.add_permission() returns void as $$
+    begin
+    if (select count(*) from openchpl.notification_type_permission where notification_type_id =
+	(select id from openchpl.notification_type where name = 'Cache Status Age Notification')) = 0 then
+insert into openchpl.notification_type_permission (notification_type_id, permission_id, last_modified_user)
+select id, -2, -1 from openchpl.notification_type where name = 'Cache Status Age Notification';
+    end if;
+    end;
+    $$ language plpgsql;
+select openchpl.add_permission();
+drop function openchpl.add_permission();
 
 --
 -- OCD-1897 CHPL Product Number function & Views
