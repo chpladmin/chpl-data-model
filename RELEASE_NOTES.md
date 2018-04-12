@@ -15,6 +15,7 @@ _Date TBD_
 ### View Modifications
 * Modified certified_product_details view to respect certification_status_event deleted flag
 * Modified certified_product_details view for improved performance
+* Modified certified_product_search view for improved performance
 
 ### Data modifications
 * Mark ~1300 Listings as "Withdrawn by Developer"
