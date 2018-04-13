@@ -62,6 +62,7 @@ create table openchpl.pending_certified_product_testing_lab_map (
         on update no action on delete no action
 );
 
+update openchpl.pending_certified_product set deleted = true where testing_lab_name is null;
 insert into openchpl.pending_certified_product_testing_lab_map (pending_certified_product_id, testing_lab_id, testing_lab_name, last_modified_user) select pending_certified_product_id, testing_lab_id, testing_lab_name, -1 from openchpl.pending_certified_product as cp where cp.deleted = false;
 
 create trigger pending_certified_product_testing_lab_map_audit after insert or update or delete on openchpl.pending_certified_product_testing_lab_map for each row execute procedure audit.if_modified_func();
