@@ -43,6 +43,23 @@ WHERE a.certified_product_id = id;
     $$ language plpgsql
 stable;
 
+CREATE OR REPLACE FUNCTION openchpl.get_chpl_product_number_as_text(
+    id bigint
+    )
+RETURNS text
+    LANGUAGE 'plpgsql'
+    COST 100
+    VOLATILE
+AS $BODY$
+declare
+    cpn text;
+BEGIN
+    SELECT chpl_product_number into cpn
+    FROM openchpl.get_chpl_product_number(id);
+    RETURN cpn;
+END;
+$BODY$;
+
 CREATE OR REPLACE VIEW openchpl.certification_result_details AS
 SELECT
     a.certification_result_id,

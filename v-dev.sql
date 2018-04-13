@@ -136,6 +136,23 @@ end;
 $$ language plpgsql
 stable;
 
+CREATE OR REPLACE FUNCTION openchpl.get_chpl_product_number_as_text(
+    id bigint
+    )
+RETURNS text
+    LANGUAGE 'plpgsql'
+    COST 100
+    VOLATILE
+AS $BODY$
+declare
+    cpn text;
+BEGIN
+    SELECT chpl_product_number into cpn
+    FROM openchpl.get_chpl_product_number(id);
+    RETURN cpn;
+END;
+$BODY$;
+
 DROP VIEW IF EXISTS openchpl.certified_product_details CASCADE;
 
 CREATE OR REPLACE VIEW openchpl.certified_product_details AS
