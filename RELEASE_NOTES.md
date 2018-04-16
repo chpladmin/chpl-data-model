@@ -15,10 +15,14 @@ _Date TBD_
 ### View Modifications
 * Modified certified_product_details view to respect certification_status_event deleted flag
 * Modified certified_product_details view for improved performance
+* Modified certified_product_search view for improved performance
 
 ### Data modifications
 * Mark ~1300 Listings as "Withdrawn by Developer"
 * Add "Cache Status Age Warning" notification type
+
+### Script Modifications
+* dump.sh - Changed to not include logged_actions table by default.  Can use the -i options if you want the table included.
 
 ---
 
