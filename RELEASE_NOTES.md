@@ -21,6 +21,9 @@ _Date TBD_
 * Mark ~1300 Listings as "Withdrawn by Developer"
 * Add "Cache Status Age Warning" notification type
 
+### Script Modifications
+* dump.sh - Changed to not include logged_actions table by default.  Can use the -i options if you want the table included.
+
 ---
 
 ## Version 13.5.1
