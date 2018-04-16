@@ -62,6 +62,7 @@ create table openchpl.pending_certified_product_testing_lab_map (
         on update no action on delete no action
 );
 
+update openchpl.pending_certified_product set deleted = true where testing_lab_name is null or testing_lab_id is null;
 insert into openchpl.pending_certified_product_testing_lab_map (pending_certified_product_id, testing_lab_id, testing_lab_name, last_modified_user) select pending_certified_product_id, testing_lab_id, testing_lab_name, -1 from openchpl.pending_certified_product as cp where cp.deleted = false;
 
 create trigger pending_certified_product_testing_lab_map_audit after insert or update or delete on openchpl.pending_certified_product_testing_lab_map for each row execute procedure audit.if_modified_func();
@@ -134,6 +135,23 @@ create or replace function openchpl.get_chpl_product_number(id bigint) returns
 end;
 $$ language plpgsql
 stable;
+
+CREATE OR REPLACE FUNCTION openchpl.get_chpl_product_number_as_text(
+    id bigint
+    )
+RETURNS text
+    LANGUAGE 'plpgsql'
+    COST 100
+    VOLATILE
+AS $BODY$
+declare
+    cpn text;
+BEGIN
+    SELECT chpl_product_number into cpn
+    FROM openchpl.get_chpl_product_number(id);
+    RETURN cpn;
+END;
+$BODY$;
 
 DROP VIEW IF EXISTS openchpl.certified_product_details CASCADE;
 
