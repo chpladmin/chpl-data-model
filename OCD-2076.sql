@@ -1,3 +1,5 @@
+-- insert newly mapped values into the macra_criteria_map table based on what the old value is
+
 -- 170.315 (a)(1)
 UPDATE openchpl.macra_criteria_map 
 SET value = 'EP Stage 2',  name = 'Computerized Provider Order Entry - Medications: Eligible Provider', description = 'Required Test 10: Stage 2 Objective 3 Measure 1'
@@ -407,6 +409,9 @@ WHERE criteria_id = (SELECT certification_criterion_id from openchpl.certificati
 INSERT INTO openchpl.macra_criteria_map (criteria_id, value, name, description, last_modified_user) values
 ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (g)(9)'), 'RT4c EH/CAH Stage 3', 'View, Download, or Transmit (VDT): Eligible Hospital/Critical Access Hospital', 'Required Test 4: Stage 3 Objective 6 Measure 1', -1);
 
+
+-- for every new pair add the second mapped value that corresponds to the first
+-- i.e. if EP maps to EP Stage 2 and EP Stage 3, if EP stage 2 is in any related table (i.e certification_result_g1_macra) then add EP Stage 3 to that table also
 create or replace function openchpl.add_macra_measures() returns void as $$
 	declare g1_macra record;
 	declare g2_macra record;
@@ -1162,7 +1167,7 @@ create or replace function openchpl.add_macra_measures() returns void as $$
 select openchpl.add_macra_measures();
 drop function openchpl.add_macra_measures();
 
--- Update pending certification results g1 macra macra_values
+-- Update pending certification results g1, g2 macra macra_values (macra name)
 UPDATE openchpl.pending_certification_result_g1_macra
 SET macra_value = 'EP Stage 2'
 WHERE macra_value = 'EP';
