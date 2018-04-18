@@ -1,5 +1,13 @@
 # Release Notes
 
+## Later Release
+_Date TBD_
+
+### Data Modifications
+* Update g1 and g2 macra measures to their new mappings
+
+---
+
 ## Version TBD
 _Date TBD_
 
@@ -20,7 +28,6 @@ _Date TBD_
 ### Data modifications
 * Mark ~1300 Listings as "Withdrawn by Developer"
 * Add "Cache Status Age Warning" notification type
-* Update g1 and g2 macra measures to their new mappings
 
 ### Script Modifications
 * dump.sh - Changed to not include logged_actions table by default.  Can use the -i options if you want the table included.
