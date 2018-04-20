@@ -23,6 +23,7 @@ _Date TBD_
 
 ### Script Modifications
 * dump.sh - Changed to not include logged_actions table by default.  Can use the -i options if you want the table included.
+* load.sh - Changed to kill existing processes in the DB before DROPing the schema
 
 ---
 
