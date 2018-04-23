@@ -20,6 +20,7 @@ insert into openchpl.notification_type_recipient_map (recipient_id, notification
     ,((select id from openchpl.notification_recipient where email = 'amore@ainq.com' and deleted = false), (select id from openchpl.notification_type where "name" = 'ONC Weekly ICS Family Errors'), -2)
     ,((select id from openchpl.notification_recipient where email = 'amore@ainq.com' and deleted = false), (select id from openchpl.notification_type where "name" = 'Questionable Activity'), -2)
     ,((select id from openchpl.notification_recipient where email = 'amore@ainq.com' and deleted = false), (select id from openchpl.notification_type where "name" = 'Summary Statistics'), -2)
+    ,((select id from openchpl.notification_recipient where email = 'amore@ainq.com' and deleted = false), (select id from openchpl.notification_type where "name" = 'Cache Status Age Notification'), -2)
     ;
 
     /*
@@ -35,4 +36,7 @@ insert into openchpl.notification_type_recipient_map (recipient_id, notification
     ,((select id from openchpl.notification_recipient where email = 'amore@ainq.com' and deleted = false), (select id from openchpl.notification_type where "name" = 'ONC-ACB Daily Surveillance Broken Rules'), (select certification_body_id from openchpl.certification_body where "name" = 'ICSA Labs'), -2)
     ,((select id from openchpl.notification_recipient where email = 'amore@ainq.com' and deleted = false), (select id from openchpl.notification_type where "name" = 'ONC-ACB Weekly Surveillance Broken Rules'), (select certification_body_id from openchpl.certification_body where "name" = 'ICSA Labs'), -2)
     ,((select id from openchpl.notification_recipient where email = 'amore@ainq.com' and deleted = false), (select id from openchpl.notification_type where "name" = 'ONC-ACB Weekly ICS Family Errors'), (select certification_body_id from openchpl.certification_body where "name" = 'ICSA Labs'), -2)
+    ,((select id from openchpl.notification_recipient where email = 'amore@ainq.com' and deleted = false), (select id from openchpl.notification_type where "name" = 'ONC-ACB Daily Surveillance Broken Rules'), (select certification_body_id from openchpl.certification_body where "name" = 'SLI Compliance'), -2)
+    ,((select id from openchpl.notification_recipient where email = 'amore@ainq.com' and deleted = false), (select id from openchpl.notification_type where "name" = 'ONC-ACB Weekly Surveillance Broken Rules'), (select certification_body_id from openchpl.certification_body where "name" = 'SLI Compliance'), -2)
+    ,((select id from openchpl.notification_recipient where email = 'amore@ainq.com' and deleted = false), (select id from openchpl.notification_type where "name" = 'ONC-ACB Weekly ICS Family Errors'), (select certification_body_id from openchpl.certification_body where "name" = 'SLI Compliance'), -2)
     ;

@@ -846,6 +846,23 @@ CREATE TABLE openchpl.testing_lab(
 	CONSTRAINT testing_lab_pk PRIMARY KEY (testing_lab_id)
 );
 
+create table openchpl.certified_product_testing_lab_map (
+  	id bigserial not null,
+  	certified_product_id bigint not null,
+	testing_lab_id bigint not null,
+  	creation_date timestamp without time zone not null default now(),
+  	last_modified_date timestamp without time zone not null default now(),
+  	last_modified_user bigint not null,
+  	deleted boolean not null default false,
+        constraint certified_product_testing_lab_map_pk primary key (id),
+	constraint certified_product_fk foreign key (certified_product_id)
+        references openchpl.certified_product (certified_product_id) match simple
+        on update no action on delete no action,
+	constraint testing_lab_fk foreign key (testing_lab_id)
+        references openchpl.testing_lab (testing_lab_id) match simple
+        on update no action on delete no action
+);
+
 CREATE TABLE openchpl.product_owner_history_map (
 	id bigserial NOT NULL,
 	product_id bigint NOT NULL,
@@ -1509,6 +1526,24 @@ ALTER TABLE openchpl.certified_product ADD CONSTRAINT pending_certified_product_
 -- ddl-end --
 -- ALTER TABLE openchpl.pending_certified_product OWNER TO openchpl;
 -- ddl-end --
+
+create table openchpl.pending_certified_product_testing_lab_map (
+  	id bigserial not null,
+  	pending_certified_product_id bigint not null,
+	testing_lab_id bigint not null,
+	testing_lab_name varchar(300),
+  	creation_date timestamp without time zone not null default now(),
+  	last_modified_date timestamp without time zone not null default now(),
+  	last_modified_user bigint not null,
+  	deleted boolean not null default false,
+        constraint pending_certified_product_testing_lab_map_pk primary key (id),
+	constraint pending_certified_product_fk foreign key (pending_certified_product_id)
+        references openchpl.pending_certified_product (pending_certified_product_id) match simple
+        on update no action on delete no action,
+	constraint testing_lab_fk foreign key (testing_lab_id)
+        references openchpl.testing_lab (testing_lab_id) match simple
+        on update no action on delete no action
+);
 
 CREATE TABLE openchpl.fuzzy_choices(
 	fuzzy_choices_id bigserial not null,
@@ -2884,3 +2919,7 @@ CREATE INDEX ix_test_participant ON openchpl.test_participant (test_participant_
 CREATE INDEX ix_test_procedure ON openchpl.test_procedure (id, deleted);
 
 CREATE INDEX ix_test_standard ON openchpl.test_standard (test_standard_id, deleted);
+
+CREATE INDEX ix_listing_to_listing_map_parent_id_deleted ON openchpl.listing_to_listing_map (parent_listing_id, deleted);
+
+CREATE INDEX ix_listing_to_listing_map_child_id_deleted ON openchpl.listing_to_listing_map (child_listing_id, deleted);
