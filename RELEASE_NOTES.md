@@ -1,16 +1,7 @@
 # Release Notes
 
-## Version TBD
-_Date TBD_
-
-### Data Modifications
-* Update g1 and g2 macra measures to their new mappings
-
----
-
 ## Version 14.0.0
 _23 April 2018_
->>>>>>> 514aa1a8ced7542c2221ef7593bf0736b81bf015
 
 ### Table modifications
 * Added indexes to listing_to_listing_map for improved performance
