@@ -1,6 +1,6 @@
 # Release Notes
 
-## Later Release
+## Version TBD
 _Date TBD_
 
 ### Data Modifications
@@ -8,8 +8,9 @@ _Date TBD_
 
 ---
 
-## Version TBD
-_Date TBD_
+## Version 14.0.0
+_23 April 2018_
+>>>>>>> 514aa1a8ced7542c2221ef7593bf0736b81bf015
 
 ### Table modifications
 * Added indexes to listing_to_listing_map for improved performance
@@ -31,6 +32,7 @@ _Date TBD_
 
 ### Script Modifications
 * dump.sh - Changed to not include logged_actions table by default.  Can use the -i options if you want the table included.
+* load.sh - Changed to kill existing processes in the DB before DROPing the schema
 
 ---
 
