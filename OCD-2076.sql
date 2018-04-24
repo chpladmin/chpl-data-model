@@ -81,7 +81,7 @@ WHERE criteria_id = (SELECT certification_criterion_id from openchpl.certificati
 INSERT INTO openchpl.macra_criteria_map (criteria_id, value, name, description, last_modified_user) values
 ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (a)(13)'), 'EH/CAH Stage 3', 'Patient-Specific Education: Eligible Hospital/Critical Access Hospital', 'Required Test 3: Stage 3 Objective 5 Measure 2', -1);
 
-/*
+
 -- 170.315 (b)(1)
 UPDATE openchpl.macra_criteria_map 
 SET value = 'RT7 EP Stage 2',  name = 'Patient Care Record Exchange: Eligible Provider', description = 'Required Test 7: Stage 2 Objective 5'
@@ -90,23 +90,28 @@ INSERT INTO openchpl.macra_criteria_map (criteria_id, value, name, description, 
 ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (b)(1)'), 'RT7 EP Stage 3', 'Patient Care Record Exchange: Eligible Provider', 'Required Test 7: Stage 3 Objective 7 Measure 1', -1);
 
 UPDATE openchpl.macra_criteria_map 
-SET value = 'RT8 EP Stage 2',  name = 'Patient Care Record Exchange: Eligible Provider', description = 'Required Test 7: Stage 2 Objective 5'
+SET value = 'RT8 EP Stage 3',  name = 'Request/Accept Patient Care Record: Eligible Provider', description = 'Required Test 8: Stage 3 Objective 7 Measure 2'
 WHERE criteria_id = (SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (b)(1)') AND value = 'RT8 EP Individual';
-INSERT INTO openchpl.macra_criteria_map (criteria_id, value, name, description, last_modified_user) values
-((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (b)(1)'), 'RT8 EP Stage 3', 'Patient Care Record Exchange: Eligible Provider', 'Required Test 7: Stage 3 Objective 7 Measure 1', -1);
 
 UPDATE openchpl.macra_criteria_map 
-SET value = 'RT7 EC ACI Transition',  name = 'Patient Care Record Exchange: Eligible Clinician Group', description = 'Required Test 7: ACI Transition Objective 6 Measure 1'
+SET value = 'RT7 EC ACI Transition',  name = 'Patient Care Record Exchange: Eligible Clinician', description = 'Required Test 7: ACI Transition Objective 6 Measure 1'
 WHERE criteria_id = (SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (b)(1)') AND value = 'RT7 EC Individual (TIN/NPI)';
 INSERT INTO openchpl.macra_criteria_map (criteria_id, value, name, description, last_modified_user) values
-((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (b)(1)'), 'RT7 EC ACI', 'Patient Care Record Exchange: Eligible Clinician Group', 'Required Test 7: ACI Objective 5 Measure 1', -1);
+((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (b)(1)'), 'RT7 EC ACI', 'Patient Care Record Exchange: Eligible Clinician', 'Required Test 7: ACI Objective 5 Measure 1', -1);
 
 UPDATE openchpl.macra_criteria_map 
-SET value = 'RT8 EC ACI Transition',  name = 'Patient Care Record Exchange: Eligible Clinician Group', description = 'Required Test 7: ACI Transition Objective 6 Measure 1'
+SET value = 'RT8 EC ACI',  name = 'Patient Care Record Exchange: Eligible Clinician', description = 'Required Test 8: ACI Objective 5 Measure 2'
 WHERE criteria_id = (SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (b)(1)') AND value = 'RT8 EC Group';
+
+UPDATE openchpl.macra_criteria_map 
+SET value = 'RT7 EH/CAH Stage 2',  name = 'Patient Care Record Exchange:  Eligible Hospital/Critical Access Hospital', description = 'Required Test 7: Stage 2 Objective 5'
+WHERE criteria_id = (SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (b)(1)') AND value = 'RT7 EH/CAH';
 INSERT INTO openchpl.macra_criteria_map (criteria_id, value, name, description, last_modified_user) values
-((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (b)(1)'), 'RT8 EC ACI', 'Patient Care Record Exchange: Eligible Clinician Group', 'Required Test 7: ACI Objective 5 Measure 1', -1);
-*/
+((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (b)(1)'), 'RT7 EH/CAH Stage 3', 'Patient Care Record Exchange: Eligible Hospital/Critical Access Hospital', 'Required Test 7: Stage 3 Objective 7 Measure 1', -1);
+
+UPDATE openchpl.macra_criteria_map 
+SET value = 'RT8 EH/CAH Stage 3',  name = 'Request/Accept Patient Care Record: Eligible Hospital/Critical Access Hospital', description = 'Required Test 8: Stage 3 Objective 7 Measure 2'
+WHERE criteria_id = (SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (b)(1)') AND value = 'RT8 EH/CAH';
 
 -- 170.315 (b)(2)
 UPDATE openchpl.macra_criteria_map 
@@ -256,11 +261,20 @@ UPDATE openchpl.macra_criteria_map
 SET value = 'EC ACI',  name = 'Patient-Generated Health Data: Eligible Clinician Individual (TIN/NPI)', description ='Required Test 6: ACI Objective 4 Measure 3'
 WHERE criteria_id = (SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (e)(3)') AND value = 'EC Individual (TIN/NPI)';
 
+DELETE FROM openchpl.certification_result_g1_macra 
+WHERE macra_id = (SELECT id from openchpl.macra_criteria_map where value = 'EC Group' AND name = 'Patient-Generated Health Data: Eligible Clinician Group' AND description = 'Required Test 6: Stage 3 Objective 6 Measure 3, ACI Objective 4 Measure 3');
+
+DELETE FROM openchpl.certification_result_g2_macra 
+WHERE macra_id = (SELECT id from openchpl.macra_criteria_map where value = 'EC Group' AND name = 'Patient-Generated Health Data: Eligible Clinician Group' AND description = 'Required Test 6: Stage 3 Objective 6 Measure 3, ACI Objective 4 Measure 3');
+
+DELETE FROM openchpl.pending_certification_result_g1_macra 
+WHERE macra_id = (SELECT id from openchpl.macra_criteria_map where value = 'EC Group' AND name = 'Patient-Generated Health Data: Eligible Clinician Group' AND description = 'Required Test 6: Stage 3 Objective 6 Measure 3, ACI Objective 4 Measure 3');
+
+DELETE FROM openchpl.pending_certification_result_g2_macra 
+WHERE macra_id = (SELECT id from openchpl.macra_criteria_map where value = 'EC Group' AND name = 'Patient-Generated Health Data: Eligible Clinician Group' AND description = 'Required Test 6: Stage 3 Objective 6 Measure 3, ACI Objective 4 Measure 3');
+
 DELETE FROM openchpl.macra_criteria_map 
 WHERE criteria_id = (SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (e)(3)') AND value = 'EC Group';
-
-DELETE FROM openchpl.certification_result_g1_macra 
-WHERE id = (SELECT id from openchpl.macra_criteria_map where value = 'EC Group' AND name = 'Patient-Generated Health Data: Eligible Clinician Group' AND description = 'Required Test 6: Stage 3 Objective 6 Measure 3, ACI Objective 4 Measure 3');
 
 -- 170.315 (g)(8)
 UPDATE openchpl.macra_criteria_map 
@@ -438,9 +452,9 @@ create or replace function openchpl.add_macra_measures() returns void as $$
     			INSERT INTO openchpl.certification_result_g1_macra (macra_id, certification_result_id, last_modified_user) values
     			((SELECT id FROM openchpl.macra_criteria_map WHERE criteria_id = 13 AND value = 'EP Stage 3' LIMIT 1), g1_macra.certification_result_id, -1);
     		END IF;
-    		IF (SELECT (criteria_id, value) FROM openchpl.macra_criteria_map WHERE id = g1_macra.macra_id) = (CAST(16 AS BIGINT), 'EP Stage 2'::varchar) THEN
+    		IF (SELECT (criteria_id, value) FROM openchpl.macra_criteria_map WHERE id = g1_macra.macra_id) = (CAST(16 AS BIGINT), 'RT7 EP Stage 2'::varchar) THEN
     			INSERT INTO openchpl.certification_result_g1_macra (macra_id, certification_result_id, last_modified_user) values
-    			((SELECT id FROM openchpl.macra_criteria_map WHERE criteria_id = 16 AND value = 'EP Stage 3' LIMIT 1), g1_macra.certification_result_id, -1);
+    			((SELECT id FROM openchpl.macra_criteria_map WHERE criteria_id = 16 AND value = 'RT7 EP Stage 3' LIMIT 1), g1_macra.certification_result_id, -1);
     		END IF;
     		IF (SELECT (criteria_id, value) FROM openchpl.macra_criteria_map WHERE id = g1_macra.macra_id) = (CAST(17 AS BIGINT), 'EP Stage 2'::varchar) THEN
     			INSERT INTO openchpl.certification_result_g1_macra (macra_id, certification_result_id, last_modified_user) values
@@ -476,6 +490,10 @@ create or replace function openchpl.add_macra_measures() returns void as $$
     			INSERT INTO openchpl.certification_result_g1_macra (macra_id, certification_result_id, last_modified_user) values
     			((SELECT id FROM openchpl.macra_criteria_map WHERE criteria_id = 13 AND value = 'EH/CAH Stage 3' LIMIT 1), g1_macra.certification_result_id, -1);
     		END IF;
+    		IF (SELECT (criteria_id, value) FROM openchpl.macra_criteria_map WHERE id = g1_macra.macra_id) = (CAST(16 AS BIGINT), 'RT7 EH/CAH Stage 2'::varchar) THEN
+    			INSERT INTO openchpl.certification_result_g1_macra (macra_id, certification_result_id, last_modified_user) values
+    			((SELECT id FROM openchpl.macra_criteria_map WHERE criteria_id = 16 AND value = 'RT7 EH/CAH Stage 3' LIMIT 1), g1_macra.certification_result_id, -1);
+    		END IF;
     		IF (SELECT (criteria_id, value) FROM openchpl.macra_criteria_map WHERE id = g1_macra.macra_id) = (CAST(17 AS BIGINT), 'EH/CAH Stage 2'::varchar) THEN
     			INSERT INTO openchpl.certification_result_g1_macra (macra_id, certification_result_id, last_modified_user) values
     			((SELECT id FROM openchpl.macra_criteria_map WHERE criteria_id = 17 AND value = 'EH/CAH Stage 3' LIMIT 1), g1_macra.certification_result_id, -1);
@@ -490,14 +508,10 @@ create or replace function openchpl.add_macra_measures() returns void as $$
     		END IF;
 
     		-- for 170.315 (b)(1)
-    		/*IF (SELECT (criteria_id, value) FROM openchpl.macra_criteria_map WHERE id = g1_macra.macra_id) = (CAST(16 AS BIGINT), 'RT7 EC ACI Transition'::varchar) THEN
+    		IF (SELECT (criteria_id, value) FROM openchpl.macra_criteria_map WHERE id = g1_macra.macra_id) = (CAST(16 AS BIGINT), 'RT7 EC ACI Transition'::varchar) THEN
     			INSERT INTO openchpl.certification_result_g1_macra (macra_id, certification_result_id, last_modified_user) values
     			((SELECT id FROM openchpl.macra_criteria_map WHERE criteria_id = 16 AND value = 'RT7 EC ACI' LIMIT 1), g1_macra.certification_result_id, -1);
     		END IF;
-    		IF (SELECT (criteria_id, value) FROM openchpl.macra_criteria_map WHERE id = g1_macra.macra_id) = (CAST(16 AS BIGINT), 'RT8 EC ACI Transition'::varchar) THEN
-    			INSERT INTO openchpl.certification_result_g1_macra (macra_id, certification_result_id, last_modified_user) values
-    			((SELECT id FROM openchpl.macra_criteria_map WHERE criteria_id = 16 AND value = 'RT8 EC ACI' LIMIT 1), g1_macra.certification_result_id, -1);
-    		END IF;*/
 
     		-- 170.315 (e)(1)
     		IF (SELECT (criteria_id, value) FROM openchpl.macra_criteria_map WHERE id = g1_macra.macra_id) = (CAST(40 AS BIGINT), 'RT2a EP Stage 2'::varchar) THEN
@@ -625,9 +639,9 @@ create or replace function openchpl.add_macra_measures() returns void as $$
                 INSERT INTO openchpl.certification_result_g2_macra (macra_id, certification_result_id, last_modified_user) values
                 ((SELECT id FROM openchpl.macra_criteria_map WHERE criteria_id = 13 AND value = 'EP Stage 3' LIMIT 1), g2_macra.certification_result_id, -1);
             END IF;
-            IF (SELECT (criteria_id, value) FROM openchpl.macra_criteria_map WHERE id = g2_macra.macra_id) = (CAST(16 AS BIGINT), 'EP Stage 2'::varchar) THEN
+            IF (SELECT (criteria_id, value) FROM openchpl.macra_criteria_map WHERE id = g2_macra.macra_id) = (CAST(16 AS BIGINT), 'RT7 EP Stage 2'::varchar) THEN
                 INSERT INTO openchpl.certification_result_g2_macra (macra_id, certification_result_id, last_modified_user) values
-                ((SELECT id FROM openchpl.macra_criteria_map WHERE criteria_id = 16 AND value = 'EP Stage 3' LIMIT 1), g2_macra.certification_result_id, -1);
+                ((SELECT id FROM openchpl.macra_criteria_map WHERE criteria_id = 16 AND value = 'RT7 EP Stage 3' LIMIT 1), g2_macra.certification_result_id, -1);
             END IF;
             IF (SELECT (criteria_id, value) FROM openchpl.macra_criteria_map WHERE id = g2_macra.macra_id) = (CAST(17 AS BIGINT), 'EP Stage 2'::varchar) THEN
                 INSERT INTO openchpl.certification_result_g2_macra (macra_id, certification_result_id, last_modified_user) values
@@ -663,6 +677,10 @@ create or replace function openchpl.add_macra_measures() returns void as $$
                 INSERT INTO openchpl.certification_result_g2_macra (macra_id, certification_result_id, last_modified_user) values
                 ((SELECT id FROM openchpl.macra_criteria_map WHERE criteria_id = 13 AND value = 'EH/CAH Stage 3' LIMIT 1), g2_macra.certification_result_id, -1);
             END IF;
+            IF (SELECT (criteria_id, value) FROM openchpl.macra_criteria_map WHERE id = g2_macra.macra_id) = (CAST(13 AS BIGINT), 'RT7 EH/CAH Stage 2'::varchar) THEN
+                INSERT INTO openchpl.certification_result_g2_macra (macra_id, certification_result_id, last_modified_user) values
+                ((SELECT id FROM openchpl.macra_criteria_map WHERE criteria_id = 16 AND value = 'RT7 EH/CAH Stage 3' LIMIT 1), g2_macra.certification_result_id, -1);
+            END IF;
             IF (SELECT (criteria_id, value) FROM openchpl.macra_criteria_map WHERE id = g2_macra.macra_id) = (CAST(17 AS BIGINT), 'EH/CAH Stage 2'::varchar) THEN
                 INSERT INTO openchpl.certification_result_g2_macra (macra_id, certification_result_id, last_modified_user) values
                 ((SELECT id FROM openchpl.macra_criteria_map WHERE criteria_id = 17 AND value = 'EH/CAH Stage 3' LIMIT 1), g2_macra.certification_result_id, -1);
@@ -677,15 +695,11 @@ create or replace function openchpl.add_macra_measures() returns void as $$
             END IF;
 
             -- for 170.315 (b)(1)
-            /*IF (SELECT (criteria_id, value) FROM openchpl.macra_criteria_map WHERE id = g2_macra.macra_id) = (CAST(16 AS BIGINT), 'RT7 EC ACI Transition'::varchar) THEN
+            IF (SELECT (criteria_id, value) FROM openchpl.macra_criteria_map WHERE id = g2_macra.macra_id) = (CAST(16 AS BIGINT), 'RT7 EC ACI Transition'::varchar) THEN
                 INSERT INTO openchpl.certification_result_g2_macra (macra_id, certification_result_id, last_modified_user) values
                 ((SELECT id FROM openchpl.macra_criteria_map WHERE criteria_id = 16 AND value = 'RT7 EC ACI' LIMIT 1), g2_macra.certification_result_id, -1);
             END IF;
-            IF (SELECT (criteria_id, value) FROM openchpl.macra_criteria_map WHERE id = g2_macra.macra_id) = (CAST(16 AS BIGINT), 'RT8 EC ACI Transition'::varchar) THEN
-                INSERT INTO openchpl.certification_result_g2_macra (macra_id, certification_result_id, last_modified_user) values
-                ((SELECT id FROM openchpl.macra_criteria_map WHERE criteria_id = 16 AND value = 'RT8 EC ACI' LIMIT 1), g2_macra.certification_result_id, -1);
-            END IF;
-			*/
+
             -- 170.315 (e)(1)
             IF (SELECT (criteria_id, value) FROM openchpl.macra_criteria_map WHERE id = g2_macra.macra_id) = (CAST(40 AS BIGINT), 'RT2a EP Stage 2'::varchar) THEN
                 INSERT INTO openchpl.certification_result_g2_macra (macra_id, certification_result_id, last_modified_user) values
@@ -812,9 +826,9 @@ create or replace function openchpl.add_macra_measures() returns void as $$
                 INSERT INTO openchpl.pending_certification_result_g1_macra (macra_id, macra_value, pending_certification_result_id, last_modified_user) values
                 ((SELECT id FROM openchpl.macra_criteria_map WHERE criteria_id = 13 AND value = 'EP Stage 3' LIMIT 1), 'EP Stage 3', g1_macra.pending_certification_result_id, -1);
             END IF;
-            IF (SELECT (criteria_id, value) FROM openchpl.macra_criteria_map WHERE id = g1_macra.macra_id) = (CAST(16 AS BIGINT), 'EP Stage 2'::varchar) THEN
+            IF (SELECT (criteria_id, value) FROM openchpl.macra_criteria_map WHERE id = g1_macra.macra_id) = (CAST(16 AS BIGINT), 'RT7 EP Stage 2'::varchar) THEN
                 INSERT INTO openchpl.pending_certification_result_g1_macra (macra_id, macra_value, pending_certification_result_id, last_modified_user) values
-                ((SELECT id FROM openchpl.macra_criteria_map WHERE criteria_id = 16 AND value = 'EP Stage 3' LIMIT 1), 'EP Stage 3', g1_macra.pending_certification_result_id, -1);
+                ((SELECT id FROM openchpl.macra_criteria_map WHERE criteria_id = 16 AND value = 'RT7 EP Stage 3' LIMIT 1), 'RT7 EP Stage 3', g1_macra.pending_certification_result_id, -1);
             END IF;
             IF (SELECT (criteria_id, value) FROM openchpl.macra_criteria_map WHERE id = g1_macra.macra_id) = (CAST(17 AS BIGINT), 'EP Stage 2'::varchar) THEN
                 INSERT INTO openchpl.pending_certification_result_g1_macra (macra_id, macra_value, pending_certification_result_id, last_modified_user) values
@@ -850,6 +864,10 @@ create or replace function openchpl.add_macra_measures() returns void as $$
                 INSERT INTO openchpl.pending_certification_result_g1_macra (macra_id, macra_value, pending_certification_result_id, last_modified_user) values
                 ((SELECT id FROM openchpl.macra_criteria_map WHERE criteria_id = 13 AND value = 'EH/CAH Stage 3' LIMIT 1), 'EH/CAH Stage 3', g1_macra.pending_certification_result_id, -1);
             END IF;
+            IF (SELECT (criteria_id, value) FROM openchpl.macra_criteria_map WHERE id = g1_macra.macra_id) = (CAST(13 AS BIGINT), 'RT7 EH/CAH Stage 2'::varchar) THEN
+                INSERT INTO openchpl.pending_certification_result_g1_macra (macra_id, macra_value, pending_certification_result_id, last_modified_user) values
+                ((SELECT id FROM openchpl.macra_criteria_map WHERE criteria_id = 13 AND value = 'RT7 EH/CAH Stage 3' LIMIT 1), 'RT7 EH/CAH Stage 3', g1_macra.pending_certification_result_id, -1);
+            END IF;
             IF (SELECT (criteria_id, value) FROM openchpl.macra_criteria_map WHERE id = g1_macra.macra_id) = (CAST(17 AS BIGINT), 'EH/CAH Stage 2'::varchar) THEN
                 INSERT INTO openchpl.pending_certification_result_g1_macra (macra_id, macra_value, pending_certification_result_id, last_modified_user) values
                 ((SELECT id FROM openchpl.macra_criteria_map WHERE criteria_id = 17 AND value = 'EH/CAH Stage 3' LIMIT 1), 'EH/CAH Stage 3', g1_macra.pending_certification_result_id, -1);
@@ -864,15 +882,11 @@ create or replace function openchpl.add_macra_measures() returns void as $$
             END IF;
 
             -- for 170.315 (b)(1)
-            /*IF (SELECT (criteria_id, value) FROM openchpl.macra_criteria_map WHERE id = g1_macra.macra_id) = (CAST(16 AS BIGINT), 'RT7 EC ACI Transition'::varchar) THEN
+            IF (SELECT (criteria_id, value) FROM openchpl.macra_criteria_map WHERE id = g1_macra.macra_id) = (CAST(16 AS BIGINT), 'RT7 EC ACI Transition'::varchar) THEN
                 INSERT INTO openchpl.pending_certification_result_g1_macra (macra_id, macra_value, pending_certification_result_id, last_modified_user) values
                 ((SELECT id FROM openchpl.macra_criteria_map WHERE criteria_id = 16 AND value = 'RT7 EC ACI' LIMIT 1), 'RT7 EC ACI', g1_macra.pending_certification_result_id, -1);
             END IF;
-            IF (SELECT (criteria_id, value) FROM openchpl.macra_criteria_map WHERE id = g1_macra.macra_id) = (CAST(16 AS BIGINT), 'RT8 EC ACI Transition'::varchar) THEN
-                INSERT INTO openchpl.pending_certification_result_g1_macra (macra_id, macra_value, pending_certification_result_id, last_modified_user) values
-                ((SELECT id FROM openchpl.macra_criteria_map WHERE criteria_id = 16 AND value = 'RT8 EC ACI' LIMIT 1), 'RT7 EC ACI', g1_macra.pending_certification_result_id, -1);
-            END IF;
-			*/
+
             -- 170.315 (e)(1)
             IF (SELECT (criteria_id, value) FROM openchpl.macra_criteria_map WHERE id = g1_macra.macra_id) = (CAST(40 AS BIGINT), 'RT2a EP Stage 2'::varchar) THEN
                 INSERT INTO openchpl.pending_certification_result_g1_macra (macra_id, macra_value, pending_certification_result_id, last_modified_user) values
@@ -999,9 +1013,9 @@ create or replace function openchpl.add_macra_measures() returns void as $$
                 INSERT INTO openchpl.pending_certification_result_g2_macra (macra_id, macra_value, pending_certification_result_id, last_modified_user) values
                 ((SELECT id FROM openchpl.macra_criteria_map WHERE criteria_id = 13 AND value = 'EP Stage 3' LIMIT 1), 'EP Stage 3', g2_macra.pending_certification_result_id, -1);
             END IF;
-            IF (SELECT (criteria_id, value) FROM openchpl.macra_criteria_map WHERE id = g2_macra.macra_id) = (CAST(16 AS BIGINT), 'EP Stage 2'::varchar) THEN
+            IF (SELECT (criteria_id, value) FROM openchpl.macra_criteria_map WHERE id = g2_macra.macra_id) = (CAST(16 AS BIGINT), 'RT7 EP Stage 2'::varchar) THEN
                 INSERT INTO openchpl.pending_certification_result_g2_macra (macra_id, macra_value, pending_certification_result_id, last_modified_user) values
-                ((SELECT id FROM openchpl.macra_criteria_map WHERE criteria_id = 16 AND value = 'EP Stage 3' LIMIT 1), 'EP Stage 3', g2_macra.pending_certification_result_id, -1);
+                ((SELECT id FROM openchpl.macra_criteria_map WHERE criteria_id = 16 AND value = 'RT7 EP Stage 3' LIMIT 1), 'RT7 EP Stage 3', g2_macra.pending_certification_result_id, -1);
             END IF;
             IF (SELECT (criteria_id, value) FROM openchpl.macra_criteria_map WHERE id = g2_macra.macra_id) = (CAST(17 AS BIGINT), 'EP Stage 2'::varchar) THEN
                 INSERT INTO openchpl.pending_certification_result_g2_macra (macra_id, macra_value, pending_certification_result_id, last_modified_user) values
@@ -1037,6 +1051,10 @@ create or replace function openchpl.add_macra_measures() returns void as $$
                 INSERT INTO openchpl.pending_certification_result_g2_macra (macra_id, macra_value, pending_certification_result_id, last_modified_user) values
                 ((SELECT id FROM openchpl.macra_criteria_map WHERE criteria_id = 13 AND value = 'EH/CAH Stage 3' LIMIT 1), 'EH/CAH Stage 3', g2_macra.pending_certification_result_id, -1);
             END IF;
+            IF (SELECT (criteria_id, value) FROM openchpl.macra_criteria_map WHERE id = g2_macra.macra_id) = (CAST(13 AS BIGINT), 'RT7 EH/CAH Stage 2'::varchar) THEN
+                INSERT INTO openchpl.pending_certification_result_g2_macra (macra_id, macra_value, pending_certification_result_id, last_modified_user) values
+                ((SELECT id FROM openchpl.macra_criteria_map WHERE criteria_id = 13 AND value = 'RT7 EH/CAH Stage 3' LIMIT 1), 'RT7 EH/CAH Stage 3', g2_macra.pending_certification_result_id, -1);
+            END IF;
             IF (SELECT (criteria_id, value) FROM openchpl.macra_criteria_map WHERE id = g2_macra.macra_id) = (CAST(17 AS BIGINT), 'EH/CAH Stage 2'::varchar) THEN
                 INSERT INTO openchpl.pending_certification_result_g2_macra (macra_id, macra_value, pending_certification_result_id, last_modified_user) values
                 ((SELECT id FROM openchpl.macra_criteria_map WHERE criteria_id = 17 AND value = 'EH/CAH Stage 3' LIMIT 1), 'EH/CAH Stage 3', g2_macra.pending_certification_result_id, -1);
@@ -1051,15 +1069,11 @@ create or replace function openchpl.add_macra_measures() returns void as $$
             END IF;
 
             -- for 170.315 (b)(1)
-            /*IF (SELECT (criteria_id, value) FROM openchpl.macra_criteria_map WHERE id = g2_macra.macra_id) = (CAST(16 AS BIGINT), 'RT7 EC ACI Transition'::varchar) THEN
+            IF (SELECT (criteria_id, value) FROM openchpl.macra_criteria_map WHERE id = g2_macra.macra_id) = (CAST(16 AS BIGINT), 'RT7 EC ACI Transition'::varchar) THEN
                 INSERT INTO openchpl.pending_certification_result_g2_macra (macra_id, macra_value, pending_certification_result_id, last_modified_user) values
                 ((SELECT id FROM openchpl.macra_criteria_map WHERE criteria_id = 16 AND value = 'RT7 EC ACI' LIMIT 1), 'RT7 EC ACI', g2_macra.pending_certification_result_id, -1);
             END IF;
-            IF (SELECT (criteria_id, value) FROM openchpl.macra_criteria_map WHERE id = g2_macra.macra_id) = (CAST(16 AS BIGINT), 'RT8 EC ACI Transition'::varchar) THEN
-                INSERT INTO openchpl.pending_certification_result_g2_macra (macra_id, macra_value, pending_certification_result_id, last_modified_user) values
-                ((SELECT id FROM openchpl.macra_criteria_map WHERE criteria_id = 16 AND value = 'RT8 EC ACI' LIMIT 1), 'RT7 EC ACI', g2_macra.pending_certification_result_id, -1);
-            END IF;
-			*/
+
             -- 170.315 (e)(1)
             IF (SELECT (criteria_id, value) FROM openchpl.macra_criteria_map WHERE id = g2_macra.macra_id) = (CAST(40 AS BIGINT), 'RT2a EP Stage 2'::varchar) THEN
                 INSERT INTO openchpl.pending_certification_result_g2_macra (macra_id, macra_value, pending_certification_result_id, last_modified_user) values
@@ -1189,8 +1203,12 @@ SET macra_value = 'EH/CAH Stage 2'
 WHERE macra_value = 'EH/CAH';
 
 UPDATE openchpl.pending_certification_result_g1_macra
-SET macra_value = 'EP Stage 2'
-WHERE macra_value = 'RT7 EP Individual' OR  macra_value = 'RT8 EP Individual';
+SET macra_value = 'RT7 EP Stage 2'
+WHERE macra_value = 'RT7 EP Individual';
+
+UPDATE openchpl.pending_certification_result_g1_macra
+SET macra_value = 'RT8 EP Stage 3'
+WHERE macra_value = 'RT8 EP Individual';
 
 UPDATE openchpl.pending_certification_result_g1_macra
 SET macra_value = 'RT7 EC ACI Transition'
@@ -1201,11 +1219,7 @@ SET macra_value = 'RT7 EC ACI Transition'
 WHERE macra_value = 'RT7 EC Group';
 
 UPDATE openchpl.pending_certification_result_g1_macra
-SET macra_value = 'RT7 EC ACI Transition'
-WHERE macra_value = 'RT8 EC ACI Transition';
-
-UPDATE openchpl.pending_certification_result_g1_macra
-SET macra_value = 'RT8 EC ACI Transition'
+SET macra_value = 'RT8 EC ACI'
 WHERE macra_value = 'RT8 EC Group';
 
 UPDATE openchpl.pending_certification_result_g1_macra
@@ -1213,7 +1227,7 @@ SET macra_value = 'RT7 EH/CAH Stage 2'
 WHERE macra_value = 'RT7 EH/CAH';
 
 UPDATE openchpl.pending_certification_result_g1_macra
-SET macra_value = 'RT8 EH/CAH Stage 2'
+SET macra_value = 'RT8 EH/CAH Stage 3'
 WHERE macra_value = 'RT8 EH/CAH';
 
 UPDATE openchpl.pending_certification_result_g1_macra
@@ -1366,32 +1380,32 @@ UPDATE openchpl.pending_certification_result_g2_macra
 SET macra_value = 'EH/CAH Stage 2'
 WHERE macra_value = 'EH/CAH';
 
-UPDATE openchpl.pending_certification_result_g2_macra
-SET macra_value = 'EP Stage 2'
-WHERE macra_value = 'RT7 EP Individual' OR  macra_value = 'RT8 EP Individual';
+UPDATE openchpl.pending_certification_result_g1_macra
+SET macra_value = 'RT7 EP Stage 2'
+WHERE macra_value = 'RT7 EP Individual';
 
-UPDATE openchpl.pending_certification_result_g2_macra
+UPDATE openchpl.pending_certification_result_g1_macra
+SET macra_value = 'RT8 EP Stage 3'
+WHERE macra_value = 'RT8 EP Individual';
+
+UPDATE openchpl.pending_certification_result_g1_macra
 SET macra_value = 'RT7 EC ACI Transition'
 WHERE macra_value = 'RT7 EC Individual (TIN/NPI)';
 
-UPDATE openchpl.pending_certification_result_g2_macra
+UPDATE openchpl.pending_certification_result_g1_macra
 SET macra_value = 'RT7 EC ACI Transition'
 WHERE macra_value = 'RT7 EC Group';
 
-UPDATE openchpl.pending_certification_result_g2_macra
-SET macra_value = 'RT7 EC ACI Transition'
-WHERE macra_value = 'RT8 EC ACI Transition';
-
-UPDATE openchpl.pending_certification_result_g2_macra
-SET macra_value = 'RT8 EC ACI Transition'
+UPDATE openchpl.pending_certification_result_g1_macra
+SET macra_value = 'RT8 EC ACI'
 WHERE macra_value = 'RT8 EC Group';
 
-UPDATE openchpl.pending_certification_result_g2_macra
+UPDATE openchpl.pending_certification_result_g1_macra
 SET macra_value = 'RT7 EH/CAH Stage 2'
 WHERE macra_value = 'RT7 EH/CAH';
 
-UPDATE openchpl.pending_certification_result_g2_macra
-SET macra_value = 'RT8 EH/CAH Stage 2'
+UPDATE openchpl.pending_certification_result_g1_macra
+SET macra_value = 'RT8 EH/CAH Stage 3'
 WHERE macra_value = 'RT8 EH/CAH';
 
 UPDATE openchpl.pending_certification_result_g2_macra
