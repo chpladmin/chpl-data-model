@@ -1395,6 +1395,9 @@ INSERT INTO openchpl.test_data_criteria_map (criteria_id, test_data_id, last_mod
 	AND td.name = 'HIMSS-IIP Test Method'
 );
 
+-- ln 1424 EP STAGE 3 paren
+-- ln 1449 b3 eh/cah stage 2
+
 INSERT INTO openchpl.macra_criteria_map (criteria_id, value, name, description, last_modified_user) values
     ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (a)(1)'), 'EP Stage 2', 'Computerized Provider Order Entry - Medications: Eligible Provider', 'Required Test 10: Stage 2 Objective 3 Measure 1 ', -1)
     , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (a)(1)'), 'EP Stage 3', 'Computerized Provider Order Entry - Medications: Eligible Provider', 'Required Test 10: Stage 3 Objective 4 Measure 1', -1)
@@ -1421,7 +1424,7 @@ INSERT INTO openchpl.macra_criteria_map (criteria_id, value, name, description, 
     , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (a)(10)'), 'EH/CAH Stage 2', 'Electronic Prescribing: Eligible Hospital/Critical Access Hospital', 'Required Test 1: Stage 2 Objective 4 ', -1)
     , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (a)(10)'), 'EH/CAH Stage 3', 'Electronic Prescribing: Eligible Hospital/Critical Access Hospital', 'Required Test 1: Stage 3 Objective 2', -1)
     , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (a)(13)'), 'EP Stage 2', 'Patient-Specific Education: Eligible Provider ', 'Required Test 3: Stage 2 Objective 6 ', -1)
-    , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (a)(13)'), 'EP Stage 3', 'Patient-Specific Education: Eligible Provider ', 'Required Test 3: Stage 3 Objective 5 Measure 2', -1
+    , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (a)(13)'), 'EP Stage 3', 'Patient-Specific Education: Eligible Provider ', 'Required Test 3: Stage 3 Objective 5 Measure 2', -1)
     , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (a)(13)'), 'EC ACI Transition', 'Patient-Specific Education: Eligible Clinician ', 'Required Test 3: ACI Transition Objective 4 Measure 2', -1)
     , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (a)(13)'), 'EC ACI', 'Patient-Specific Education: Eligible Clinician ', 'Required Test 3: ACI Objective 3 Measure 2', -1)
     , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (a)(13)'), 'EH/CAH Stage 2', 'Patient-Specific Education: Eligible Hospital/Critical Access Hospital', 'Required Test 3: Stage 2 Objective 6', -1)
@@ -1434,7 +1437,7 @@ INSERT INTO openchpl.macra_criteria_map (criteria_id, value, name, description, 
     , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (b)(1)'), 'RT7 EH/CAH Stage 3', 'Patient Care Record Exchange: Eligible Hospital/Critical Access Hospital', 'Required Test 7: Stage 3 Objective 7 Measure 1', -1)
     , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (b)(1)'), 'RT8 EP Stage 3', 'Request/Accept Patient Care Record: Eligible Provider', 'Required Test 8: Stage 3 Objective 7 Measure 2', -1)
     , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (b)(1)'), 'RT8 EC ACI', 'Request/Accept Patient Care Record: Eligible Clinician', 'Required Test 8: ACI Objective 5 Measure 2', -1)
-    , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (b)(1)'), 'RT8 EH/CAH Stage 3', 'Request/Accept Patient Care Record: Eligible Hospital/Critical Access Hospital', 'Required Test 8: Stage 3 Objective 7 Measure 2', -1), 
+    , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (b)(1)'), 'RT8 EH/CAH Stage 3', 'Request/Accept Patient Care Record: Eligible Hospital/Critical Access Hospital', 'Required Test 8: Stage 3 Objective 7 Measure 2', -1)
     , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (b)(2)'), 'EC ACI Transition', 'Medication/Clinical Information Reconciliation: Eligible Clinician', 'Required Test 9: ACI Transition Objective 7 Measure 1', -1)
     , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (b)(2)'), 'EC ACI', 'Medication/Clinical Information Reconciliation: Eligible Clinician', 'Required Test 9: ACI Objective 5 Measure 3', -1)
     , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (b)(2)'), 'EH/CAH Stage 2', 'Medication/Clinical Information Reconciliation: Eligible Hospital/Critical Access Hospital', 'Required Test 9: Stage 2 Objective 7 ', -1)
@@ -1446,7 +1449,7 @@ INSERT INTO openchpl.macra_criteria_map (criteria_id, value, name, description, 
     , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (b)(3)'), 'EC ACI Transition', 'Electronic Prescribing: Eligible Clinician Individual (TIN/NPI)', 'Required Test 1: ACI Transition Objective 2 Measure 1', -1)
     , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (b)(3)'), 'EC ACI', 'Electronic Prescribing: Eligible Clinician Group', 'Required Test 1: ACI Objective 2 Measure 1', -1)
     , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (b)(3)'), 'EH/CAH Stage 2', 'Electronic Prescribing: Eligible Hospital/Critical Access Hospital', 'Required Test 1: Stage 2 Objective 4', -1)
-    , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (b)(3)'), 'EH/CAH Stage 2', 'Electronic Prescribing: Eligible Hospital/Critical Access Hospital', 'Required Test 1: Stage 3 Objective 2', -1)
+    , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (b)(3)'), 'EH/CAH Stage 3', 'Electronic Prescribing: Eligible Hospital/Critical Access Hospital', 'Required Test 1: Stage 3 Objective 2', -1)
     , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (e)(1)'), 'RT2a EP Stage 2', 'Patient Electronic Access: Eligible Provider', 'Required Test 2: Stage 2 Objective 8 Measure 1 ', -1)
     , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (e)(1)'), 'RT2a EP Stage 3', 'Patient Electronic Access: Eligible Provider', 'Required Test 2: Stage 3 Objective 5 Measure 1', -1)
     , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (e)(1)'), 'RT2a EC ACI Transition', 'Patient Electronic Access: Eligible Clinician Group', 'Required Test 2: ACI Transition Objective 3 Measure 1 ', -1)

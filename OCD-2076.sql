@@ -424,6 +424,14 @@ INSERT INTO openchpl.macra_criteria_map (criteria_id, value, name, description, 
 ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (g)(9)'), 'RT4c EH/CAH Stage 3', 'View, Download, or Transmit (VDT): Eligible Hospital/Critical Access Hospital', 'Required Test 4: Stage 3 Objective 6 Measure 1', -1);
 
 
+-- In order for this script to be able to be run twice we need to add a constraint on
+-- certification_result_g1_macra, certification_result_g2_macra, pending_certification_result_g1_macra, pending_certification_result_g2_macra
+-- so that macra_id and certification_result_id are unique for every row (i.e. no certification_result_id can have more than one macra_id)
+ALTER TABLE openchpl.certification_result_g1_macra ADD CONSTRAINT macra_id_certification_result_id_unique UNIQUE (macra_id, certification_result_id);
+ALTER TABLE openchpl.certification_result_g2_macra ADD CONSTRAINT macra_id_certification_result_id_unique UNIQUE (macra_id, certification_result_id);
+ALTER TABLE openchpl.pending_certification_result_g1_macra ADD CONSTRAINT macra_id_certification_result_id_unique UNIQUE (macra_id, pending_certification_result_id);
+ALTER TABLE openchpl.pending_certification_result_g2_macra ADD CONSTRAINT macra_id_certification_result_id_unique UNIQUE (macra_id, pending_certification_result_id);
+
 -- for every new pair add the second mapped value that corresponds to the first
 -- i.e. if EP maps to EP Stage 2 and EP Stage 3, if EP stage 2 is in any related table (i.e certification_result_g1_macra) then add EP Stage 3 to that table also
 create or replace function openchpl.add_macra_measures() returns void as $$
