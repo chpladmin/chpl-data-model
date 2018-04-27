@@ -1395,9 +1395,6 @@ INSERT INTO openchpl.test_data_criteria_map (criteria_id, test_data_id, last_mod
 	AND td.name = 'HIMSS-IIP Test Method'
 );
 
--- ln 1424 EP STAGE 3 paren
--- ln 1449 b3 eh/cah stage 2
-
 INSERT INTO openchpl.macra_criteria_map (criteria_id, value, name, description, last_modified_user) values
     ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (a)(1)'), 'EP Stage 2', 'Computerized Provider Order Entry - Medications: Eligible Provider', 'Required Test 10: Stage 2 Objective 3 Measure 1 ', -1)
     , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (a)(1)'), 'EP Stage 3', 'Computerized Provider Order Entry - Medications: Eligible Provider', 'Required Test 10: Stage 3 Objective 4 Measure 1', -1)
