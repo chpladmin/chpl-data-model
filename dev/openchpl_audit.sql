@@ -3,7 +3,7 @@
 --
 CREATE schema audit;
 REVOKE CREATE ON schema audit FROM public;
--- ALTER schema audit OWNER TO openchpl;
+ALTER schema audit OWNER TO openchpl_dev;
 
 CREATE TABLE audit.logged_actions (
     schema_name text NOT NULL,
