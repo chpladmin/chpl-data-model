@@ -1543,3 +1543,181 @@ WHERE macra_value = 'RT4a EH/CAH';
 UPDATE openchpl.pending_certification_result_g2_macra
 SET macra_value = 'RT4c EH/CAH Stage 2'
 WHERE macra_value = 'RT4c EH/CAH';
+
+--
+-- OCD-2245: Adding missing Listings
+-- Add new Version for Listings to connect to
+-- must be run as openchpl_dev to support function create/drop
+insert into openchpl.product_version (product_id, version, last_modified_user) select 245, '4', -1
+where not exists (select 1 from openchpl.product_version pv where pv.product_id = 245 and pv.version = '4');
+
+-- create function to add listings
+create or replace function openchpl.insert_missing_listings() returns void as $$
+    begin
+    -- if listing doesn't exist
+    if (select count(*) from openchpl.certified_product cp where cp.chpl_product_number = 'CHP-029232') = 0 then
+
+        -- create listing
+        insert into openchpl.certified_product (certification_edition_id, product_version_id, certification_body_id, chpl_product_number, report_file_location, acb_certification_id, practice_type_id, product_classification_type_id, product_additional_software, last_modified_user) values
+            (2, (select product_version_id from openchpl.product_version pv where pv.product_id = 245 and pv.version = '4'), 1, 'CHP-029232', 'http://infogard.com/images/cms/files/16-3150-R-0011-PRA-V1.0-NexGenic-PTR.pdf', 'IG-3150-16-0011', 1, 1, 'Java Runtime Enviroment', 1);
+
+        -- set status (figure out correct one first)
+        insert into openchpl.certification_status_event (certified_product_id, certification_status_id, event_date, last_modified_user) values
+            ((select certified_product_id from openchpl.certified_product cp where cp.chpl_product_number = 'CHP-029232'), 1, '2016-03-29', -1);
+
+        -- set first certification event (uploaded to chpl)
+        insert into openchpl.certification_event (certified_product_id, event_type_id, event_date, last_modified_user) values
+            ((select certified_product_id from openchpl.certified_product cp where cp.chpl_product_number = 'CHP-029232'), 1, '2016-03-29', -1);
+
+        -- set all certification results
+        insert into openchpl.certification_result (certification_criterion_id, certified_product_id, success, last_modified_user) values
+            (61, (select certified_product_id from openchpl.certified_product cp where cp.chpl_product_number = 'CHP-029232'), false, -1),
+            (62, (select certified_product_id from openchpl.certified_product cp where cp.chpl_product_number = 'CHP-029232'), false, -1),
+            (63, (select certified_product_id from openchpl.certified_product cp where cp.chpl_product_number = 'CHP-029232'), false, -1),
+            (64, (select certified_product_id from openchpl.certified_product cp where cp.chpl_product_number = 'CHP-029232'), false, -1),
+            (65, (select certified_product_id from openchpl.certified_product cp where cp.chpl_product_number = 'CHP-029232'), false, -1),
+            (66, (select certified_product_id from openchpl.certified_product cp where cp.chpl_product_number = 'CHP-029232'), false, -1),
+            (67, (select certified_product_id from openchpl.certified_product cp where cp.chpl_product_number = 'CHP-029232'), false, -1),
+            (68, (select certified_product_id from openchpl.certified_product cp where cp.chpl_product_number = 'CHP-029232'), false, -1),
+            (69, (select certified_product_id from openchpl.certified_product cp where cp.chpl_product_number = 'CHP-029232'), false, -1),
+            (70, (select certified_product_id from openchpl.certified_product cp where cp.chpl_product_number = 'CHP-029232'), false, -1),
+            (71, (select certified_product_id from openchpl.certified_product cp where cp.chpl_product_number = 'CHP-029232'), false, -1),
+            (72, (select certified_product_id from openchpl.certified_product cp where cp.chpl_product_number = 'CHP-029232'), true, -1),
+            (73, (select certified_product_id from openchpl.certified_product cp where cp.chpl_product_number = 'CHP-029232'), false, -1),
+            (74, (select certified_product_id from openchpl.certified_product cp where cp.chpl_product_number = 'CHP-029232'), false, -1),
+            (75, (select certified_product_id from openchpl.certified_product cp where cp.chpl_product_number = 'CHP-029232'), false, -1),
+            (76, (select certified_product_id from openchpl.certified_product cp where cp.chpl_product_number = 'CHP-029232'), false, -1),
+            (77, (select certified_product_id from openchpl.certified_product cp where cp.chpl_product_number = 'CHP-029232'), false, -1),
+            (78, (select certified_product_id from openchpl.certified_product cp where cp.chpl_product_number = 'CHP-029232'), false, -1),
+            (79, (select certified_product_id from openchpl.certified_product cp where cp.chpl_product_number = 'CHP-029232'), false, -1),
+            (80, (select certified_product_id from openchpl.certified_product cp where cp.chpl_product_number = 'CHP-029232'), false, -1),
+            (81, (select certified_product_id from openchpl.certified_product cp where cp.chpl_product_number = 'CHP-029232'), false, -1),
+            (82, (select certified_product_id from openchpl.certified_product cp where cp.chpl_product_number = 'CHP-029232'), false, -1),
+            (83, (select certified_product_id from openchpl.certified_product cp where cp.chpl_product_number = 'CHP-029232'), false, -1),
+            (84, (select certified_product_id from openchpl.certified_product cp where cp.chpl_product_number = 'CHP-029232'), false, -1),
+            (85, (select certified_product_id from openchpl.certified_product cp where cp.chpl_product_number = 'CHP-029232'), false, -1),
+            (86, (select certified_product_id from openchpl.certified_product cp where cp.chpl_product_number = 'CHP-029232'), false, -1),
+            (87, (select certified_product_id from openchpl.certified_product cp where cp.chpl_product_number = 'CHP-029232'), false, -1),
+            (88, (select certified_product_id from openchpl.certified_product cp where cp.chpl_product_number = 'CHP-029232'), false, -1),
+            (89, (select certified_product_id from openchpl.certified_product cp where cp.chpl_product_number = 'CHP-029232'), false, -1),
+            (90, (select certified_product_id from openchpl.certified_product cp where cp.chpl_product_number = 'CHP-029232'), false, -1),
+            (91, (select certified_product_id from openchpl.certified_product cp where cp.chpl_product_number = 'CHP-029232'), false, -1),
+            (92, (select certified_product_id from openchpl.certified_product cp where cp.chpl_product_number = 'CHP-029232'), false, -1),
+            (93, (select certified_product_id from openchpl.certified_product cp where cp.chpl_product_number = 'CHP-029232'), false, -1),
+            (94, (select certified_product_id from openchpl.certified_product cp where cp.chpl_product_number = 'CHP-029232'), false, -1),
+            (95, (select certified_product_id from openchpl.certified_product cp where cp.chpl_product_number = 'CHP-029232'), false, -1),
+            (96, (select certified_product_id from openchpl.certified_product cp where cp.chpl_product_number = 'CHP-029232'), false, -1),
+            (97, (select certified_product_id from openchpl.certified_product cp where cp.chpl_product_number = 'CHP-029232'), false, -1),
+            (98, (select certified_product_id from openchpl.certified_product cp where cp.chpl_product_number = 'CHP-029232'), false, -1),
+            (99, (select certified_product_id from openchpl.certified_product cp where cp.chpl_product_number = 'CHP-029232'), false, -1),
+            (100, (select certified_product_id from openchpl.certified_product cp where cp.chpl_product_number = 'CHP-029232'), false, -1),
+            (101, (select certified_product_id from openchpl.certified_product cp where cp.chpl_product_number = 'CHP-029232'), false, -1),
+            (102, (select certified_product_id from openchpl.certified_product cp where cp.chpl_product_number = 'CHP-029232'), false, -1),
+            (103, (select certified_product_id from openchpl.certified_product cp where cp.chpl_product_number = 'CHP-029232'), false, -1),
+            (104, (select certified_product_id from openchpl.certified_product cp where cp.chpl_product_number = 'CHP-029232'), false, -1),
+            (105, (select certified_product_id from openchpl.certified_product cp where cp.chpl_product_number = 'CHP-029232'), true, -1),
+            (106, (select certified_product_id from openchpl.certified_product cp where cp.chpl_product_number = 'CHP-029232'), false, -1),
+            (107, (select certified_product_id from openchpl.certified_product cp where cp.chpl_product_number = 'CHP-029232'), false, -1),
+            (108, (select certified_product_id from openchpl.certified_product cp where cp.chpl_product_number = 'CHP-029232'), false, -1),
+            (109, (select certified_product_id from openchpl.certified_product cp where cp.chpl_product_number = 'CHP-029232'), false, -1),
+            (110, (select certified_product_id from openchpl.certified_product cp where cp.chpl_product_number = 'CHP-029232'), false, -1),
+            (111, (select certified_product_id from openchpl.certified_product cp where cp.chpl_product_number = 'CHP-029232'), false, -1),
+            (112, (select certified_product_id from openchpl.certified_product cp where cp.chpl_product_number = 'CHP-029232'), false, -1),
+            (113, (select certified_product_id from openchpl.certified_product cp where cp.chpl_product_number = 'CHP-029232'), true, -1),
+            (114, (select certified_product_id from openchpl.certified_product cp where cp.chpl_product_number = 'CHP-029232'), false, -1),
+            (115, (select certified_product_id from openchpl.certified_product cp where cp.chpl_product_number = 'CHP-029232'), false, -1),
+            (116, (select certified_product_id from openchpl.certified_product cp where cp.chpl_product_number = 'CHP-029232'), true, -1),
+            (117, (select certified_product_id from openchpl.certified_product cp where cp.chpl_product_number = 'CHP-029232'), false, -1),
+            (118, (select certified_product_id from openchpl.certified_product cp where cp.chpl_product_number = 'CHP-029232'), false, -1),
+            (119, (select certified_product_id from openchpl.certified_product cp where cp.chpl_product_number = 'CHP-029232'), false, -1);
+
+        -- listing has now CQM results
+    end if;
+
+    -- if listing doesn't exist
+    if (select count(*) from openchpl.certified_product cp where cp.chpl_product_number = 'CHP-029233') = 0 then
+
+        -- create listing
+        insert into openchpl.certified_product (certification_edition_id, product_version_id, certification_body_id, chpl_product_number, report_file_location, acb_certification_id, practice_type_id, product_classification_type_id, product_additional_software, last_modified_user) values
+            (2, (select product_version_id from openchpl.product_version pv where pv.product_id = 245 and pv.version = '4'), 1, 'CHP-029233', 'http://infogard.com/images/cms/files/16-3150-R-0011-PRA-V1.0-NexGenic-PTR.pdf', 'IG-3150-16-0012', 2, 1, 'Java Runtime Enviroment', 1);
+
+        -- set status (figure out correct one first)
+        insert into openchpl.certification_status_event (certified_product_id, certification_status_id, event_date, last_modified_user) values
+            ((select certified_product_id from openchpl.certified_product cp where cp.chpl_product_number = 'CHP-029233'), 1, '2016-03-29', -1);
+
+        -- set first certification event (uploaded to chpl)
+        insert into openchpl.certification_event (certified_product_id, event_type_id, event_date, last_modified_user) values
+            ((select certified_product_id from openchpl.certified_product cp where cp.chpl_product_number = 'CHP-029233'), 1, '2016-03-29', -1);
+
+        -- set all certification results
+        insert into openchpl.certification_result (certification_criterion_id, certified_product_id, success, last_modified_user) values
+            (61, (select certified_product_id from openchpl.certified_product cp where cp.chpl_product_number = 'CHP-029233'), false, -1),
+            (62, (select certified_product_id from openchpl.certified_product cp where cp.chpl_product_number = 'CHP-029233'), false, -1),
+            (63, (select certified_product_id from openchpl.certified_product cp where cp.chpl_product_number = 'CHP-029233'), false, -1),
+            (64, (select certified_product_id from openchpl.certified_product cp where cp.chpl_product_number = 'CHP-029233'), false, -1),
+            (65, (select certified_product_id from openchpl.certified_product cp where cp.chpl_product_number = 'CHP-029233'), false, -1),
+            (66, (select certified_product_id from openchpl.certified_product cp where cp.chpl_product_number = 'CHP-029233'), false, -1),
+            (67, (select certified_product_id from openchpl.certified_product cp where cp.chpl_product_number = 'CHP-029233'), false, -1),
+            (68, (select certified_product_id from openchpl.certified_product cp where cp.chpl_product_number = 'CHP-029233'), false, -1),
+            (69, (select certified_product_id from openchpl.certified_product cp where cp.chpl_product_number = 'CHP-029233'), false, -1),
+            (70, (select certified_product_id from openchpl.certified_product cp where cp.chpl_product_number = 'CHP-029233'), false, -1),
+            (71, (select certified_product_id from openchpl.certified_product cp where cp.chpl_product_number = 'CHP-029233'), false, -1),
+            (72, (select certified_product_id from openchpl.certified_product cp where cp.chpl_product_number = 'CHP-029233'), true, -1),
+            (73, (select certified_product_id from openchpl.certified_product cp where cp.chpl_product_number = 'CHP-029233'), false, -1),
+            (74, (select certified_product_id from openchpl.certified_product cp where cp.chpl_product_number = 'CHP-029233'), false, -1),
+            (75, (select certified_product_id from openchpl.certified_product cp where cp.chpl_product_number = 'CHP-029233'), false, -1),
+            (76, (select certified_product_id from openchpl.certified_product cp where cp.chpl_product_number = 'CHP-029233'), false, -1),
+            (77, (select certified_product_id from openchpl.certified_product cp where cp.chpl_product_number = 'CHP-029233'), false, -1),
+            (78, (select certified_product_id from openchpl.certified_product cp where cp.chpl_product_number = 'CHP-029233'), false, -1),
+            (79, (select certified_product_id from openchpl.certified_product cp where cp.chpl_product_number = 'CHP-029233'), false, -1),
+            (80, (select certified_product_id from openchpl.certified_product cp where cp.chpl_product_number = 'CHP-029233'), false, -1),
+            (81, (select certified_product_id from openchpl.certified_product cp where cp.chpl_product_number = 'CHP-029233'), false, -1),
+            (82, (select certified_product_id from openchpl.certified_product cp where cp.chpl_product_number = 'CHP-029233'), false, -1),
+            (83, (select certified_product_id from openchpl.certified_product cp where cp.chpl_product_number = 'CHP-029233'), false, -1),
+            (84, (select certified_product_id from openchpl.certified_product cp where cp.chpl_product_number = 'CHP-029233'), false, -1),
+            (85, (select certified_product_id from openchpl.certified_product cp where cp.chpl_product_number = 'CHP-029233'), false, -1),
+            (86, (select certified_product_id from openchpl.certified_product cp where cp.chpl_product_number = 'CHP-029233'), false, -1),
+            (87, (select certified_product_id from openchpl.certified_product cp where cp.chpl_product_number = 'CHP-029233'), false, -1),
+            (88, (select certified_product_id from openchpl.certified_product cp where cp.chpl_product_number = 'CHP-029233'), false, -1),
+            (89, (select certified_product_id from openchpl.certified_product cp where cp.chpl_product_number = 'CHP-029233'), false, -1),
+            (90, (select certified_product_id from openchpl.certified_product cp where cp.chpl_product_number = 'CHP-029233'), false, -1),
+            (91, (select certified_product_id from openchpl.certified_product cp where cp.chpl_product_number = 'CHP-029233'), false, -1),
+            (92, (select certified_product_id from openchpl.certified_product cp where cp.chpl_product_number = 'CHP-029233'), false, -1),
+            (93, (select certified_product_id from openchpl.certified_product cp where cp.chpl_product_number = 'CHP-029233'), false, -1),
+            (94, (select certified_product_id from openchpl.certified_product cp where cp.chpl_product_number = 'CHP-029233'), false, -1),
+            (95, (select certified_product_id from openchpl.certified_product cp where cp.chpl_product_number = 'CHP-029233'), false, -1),
+            (96, (select certified_product_id from openchpl.certified_product cp where cp.chpl_product_number = 'CHP-029233'), false, -1),
+            (97, (select certified_product_id from openchpl.certified_product cp where cp.chpl_product_number = 'CHP-029233'), false, -1),
+            (98, (select certified_product_id from openchpl.certified_product cp where cp.chpl_product_number = 'CHP-029233'), false, -1),
+            (99, (select certified_product_id from openchpl.certified_product cp where cp.chpl_product_number = 'CHP-029233'), false, -1),
+            (100, (select certified_product_id from openchpl.certified_product cp where cp.chpl_product_number = 'CHP-029233'), false, -1),
+            (101, (select certified_product_id from openchpl.certified_product cp where cp.chpl_product_number = 'CHP-029233'), false, -1),
+            (102, (select certified_product_id from openchpl.certified_product cp where cp.chpl_product_number = 'CHP-029233'), false, -1),
+            (103, (select certified_product_id from openchpl.certified_product cp where cp.chpl_product_number = 'CHP-029233'), false, -1),
+            (104, (select certified_product_id from openchpl.certified_product cp where cp.chpl_product_number = 'CHP-029233'), false, -1),
+            (105, (select certified_product_id from openchpl.certified_product cp where cp.chpl_product_number = 'CHP-029233'), false, -1),
+            (106, (select certified_product_id from openchpl.certified_product cp where cp.chpl_product_number = 'CHP-029233'), false, -1),
+            (107, (select certified_product_id from openchpl.certified_product cp where cp.chpl_product_number = 'CHP-029233'), false, -1),
+            (108, (select certified_product_id from openchpl.certified_product cp where cp.chpl_product_number = 'CHP-029233'), false, -1),
+            (109, (select certified_product_id from openchpl.certified_product cp where cp.chpl_product_number = 'CHP-029233'), false, -1),
+            (110, (select certified_product_id from openchpl.certified_product cp where cp.chpl_product_number = 'CHP-029233'), false, -1),
+            (111, (select certified_product_id from openchpl.certified_product cp where cp.chpl_product_number = 'CHP-029233'), false, -1),
+            (112, (select certified_product_id from openchpl.certified_product cp where cp.chpl_product_number = 'CHP-029233'), false, -1),
+            (113, (select certified_product_id from openchpl.certified_product cp where cp.chpl_product_number = 'CHP-029233'), true, -1),
+            (114, (select certified_product_id from openchpl.certified_product cp where cp.chpl_product_number = 'CHP-029233'), false, -1),
+            (115, (select certified_product_id from openchpl.certified_product cp where cp.chpl_product_number = 'CHP-029233'), false, -1),
+            (116, (select certified_product_id from openchpl.certified_product cp where cp.chpl_product_number = 'CHP-029233'), true, -1),
+            (117, (select certified_product_id from openchpl.certified_product cp where cp.chpl_product_number = 'CHP-029233'), false, -1),
+            (118, (select certified_product_id from openchpl.certified_product cp where cp.chpl_product_number = 'CHP-029233'), false, -1),
+            (119, (select certified_product_id from openchpl.certified_product cp where cp.chpl_product_number = 'CHP-029233'), false, -1);
+
+        -- listing has now CQM results
+    end if;
+    end;
+$$ language plpgsql;
+
+-- execute function
+select openchpl.insert_missing_listings();
+
+-- remove function
+drop function openchpl.insert_missing_listings();
