@@ -1279,7 +1279,7 @@ INSERT INTO contact (contact_id, first_name, last_name, email, phone_number, sig
 SELECT pg_catalog.setval('contact_contact_id_seq', 2, true);
 
 INSERT INTO "user" (user_id, user_name, password, compliance_signature, account_expired, account_locked, credentials_expired, account_enabled, last_modified_user, contact_id) VALUES
-(-2, 'admin', '$2a$10$vVXOupd9DckGsQPtZ5h9seYCGzqYb3A35r/GNuP/rRbK2eq2KxtA2', CURRENT_DATE, false, false, false, true, -1, -2);
+(-2, 'admin', '$2a$10$C3ASSiGSo4EA084rMn5aNe23kdbs5ctTi7RV684HPXnJq8/RlsAO.', CURRENT_DATE, false, false, false, true, -1, -2);
 SELECT pg_catalog.setval('user_user_id_seq', 2, true);
 
 INSERT INTO openchpl.test_procedure (name, last_modified_user)
