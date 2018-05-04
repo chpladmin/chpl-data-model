@@ -966,9 +966,11 @@ INSERT INTO openchpl.test_tool(name, last_modified_user, retired) VALUES
 ('Transport Test Tool', -1, true),
 ('Edge Test Tool', -1, false),
 ('2015 Direct Certificate Discovery Tool', -1, false),
+('NCQA ONC Health IT Testing', -1, false),
+('HIMSS Immunization Integration Program', -1, false),
 --2015
 ('N/A', -1, false),
-    ('', -1, false);
+('', -1, false);
 -- Faking 'not required'; remove after Validator changed
 
 INSERT INTO openchpl.test_standard(number, name, certification_edition_id, last_modified_user) VALUES
