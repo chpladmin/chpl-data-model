@@ -17,7 +17,7 @@
 -- DROP SCHEMA IF EXISTS openchpl CASCADE;
 CREATE SCHEMA openchpl;
 -- ddl-end --
--- ALTER SCHEMA openchpl OWNER TO openchpl;
+ ALTER SCHEMA openchpl OWNER TO openchpl_dev;
 -- ddl-end --
 
 SET search_path TO pg_catalog,public,openchpl;
