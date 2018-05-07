@@ -1,5 +1,14 @@
 # Release Notes
 
+## Version 14.0.1
+_7 May 2018_
+
+### Data modifications
+* Add 2 new testing tools
+
+---
+
+
 ## Version 14.0.0
 _23 April 2018_
 
