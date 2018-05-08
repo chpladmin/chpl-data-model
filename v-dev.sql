@@ -1557,8 +1557,8 @@ create or replace function openchpl.insert_missing_listings() returns void as $$
     if (select count(*) from openchpl.certified_product cp where cp.chpl_product_number = 'CHP-029232') = 0 then
 
         -- create listing
-        insert into openchpl.certified_product (certification_edition_id, product_version_id, certification_body_id, chpl_product_number, report_file_location, acb_certification_id, practice_type_id, product_classification_type_id, product_additional_software, last_modified_user) values
-            (2, (select product_version_id from openchpl.product_version pv where pv.product_id = 245 and pv.version = '4'), 1, 'CHP-029232', 'http://infogard.com/images/cms/files/16-3150-R-0011-PRA-V1.0-NexGenic-PTR.pdf', 'IG-3150-16-0011', 1, 1, 'Java Runtime Enviroment', 1);
+        insert into openchpl.certified_product (certification_edition_id, product_version_id, certification_body_id, chpl_product_number, transparency_attestation_url, report_file_location, acb_certification_id, practice_type_id, product_classification_type_id, product_additional_software, last_modified_user) values
+            (2, (select product_version_id from openchpl.product_version pv where pv.product_id = 245 and pv.version = '4'), 1, 'CHP-029232', 'http://www.nexgenic.com/onc-certification', 'http://connect.ul.com/rs/365-LEA-623/images/16-3150-R-0011-PRA-V1.0-NexGenic-PTR.pdf', 'IG-3150-16-0011', 1, 1, 'Java Runtime Enviroment', 1);
 
         -- set status (figure out correct one first)
         insert into openchpl.certification_status_event (certified_product_id, certification_status_id, event_date, last_modified_user) values
@@ -1637,8 +1637,8 @@ create or replace function openchpl.insert_missing_listings() returns void as $$
     if (select count(*) from openchpl.certified_product cp where cp.chpl_product_number = 'CHP-029233') = 0 then
 
         -- create listing
-        insert into openchpl.certified_product (certification_edition_id, product_version_id, certification_body_id, chpl_product_number, report_file_location, acb_certification_id, practice_type_id, product_classification_type_id, product_additional_software, last_modified_user) values
-            (2, (select product_version_id from openchpl.product_version pv where pv.product_id = 245 and pv.version = '4'), 1, 'CHP-029233', 'http://infogard.com/images/cms/files/16-3150-R-0011-PRA-V1.0-NexGenic-PTR.pdf', 'IG-3150-16-0012', 2, 1, 'Java Runtime Enviroment', 1);
+        insert into openchpl.certified_product (certification_edition_id, product_version_id, certification_body_id, chpl_product_number, transparency_attestation_url, report_file_location, acb_certification_id, practice_type_id, product_classification_type_id, product_additional_software, last_modified_user) values
+            (2, (select product_version_id from openchpl.product_version pv where pv.product_id = 245 and pv.version = '4'), 1, 'CHP-029233', 'http://www.nexgenic.com/onc-certification', 'http://connect.ul.com/rs/365-LEA-623/images/16-3150-R-0011-PRI-V1.0-NexGenic-PTR.pdf', 'IG-3150-16-0012', 2, 1, 'Java Runtime Enviroment', 1);
 
         -- set status (figure out correct one first)
         insert into openchpl.certification_status_event (certified_product_id, certification_status_id, event_date, last_modified_user) values
