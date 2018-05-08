@@ -182,7 +182,7 @@ INSERT INTO openchpl.macra_criteria_map (criteria_id, value, name, description, 
 
 UPDATE openchpl.macra_criteria_map 
 SET value = 'RT4b EC ACI Transition',  name = 'Patient Electronic Access: Eligible Clinician Group', description = 'Required Test 4: ACI Transition Objective 3 Measure 2 '
-WHERE criteria_id = (SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (e)(1)') AND value = 'RT2a EC Individual (TIN/NPI)';
+WHERE criteria_id = (SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (e)(1)') AND value = 'RT4b EC Individual (TIN/NPI)';
 INSERT INTO openchpl.macra_criteria_map (criteria_id, value, name, description, last_modified_user) values
 ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (e)(1)'), 'RT4b EC ACI', 'Patient Electronic Access: Eligible Clinician Group', 'Required Test 4: ACI Objective 4 Measure 1', -1);
 
@@ -244,7 +244,7 @@ WHERE criteria_id = (SELECT certification_criterion_id from openchpl.certificati
 
 UPDATE openchpl.macra_criteria_map 
 SET value = 'EH/CAH Stage 2',  name = 'Secure Electronic Messaging: Eligible Hospital/Critical Access Hospital', description ='Required Test 5: Stage 2 Objective 9'
-WHERE criteria_id = (SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (e)(2)') AND value = 'EP Individual';
+WHERE criteria_id = (SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (e)(2)') AND value = 'EH/CAH';
 INSERT INTO openchpl.macra_criteria_map (criteria_id, value, name, description, last_modified_user) values
 ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (e)(2)'), 'EH/CAH Stage 3', 'Secure Electronic Messaging: Eligible Hospital/Critical Access Hospital', 'Required Test 5: Stage 3 Objective 6 Measure 2', -1);
 
