@@ -2803,6 +2803,17 @@ CREATE TABLE openchpl.participant_experience_statistics
   CONSTRAINT participant_experience_statistics_pk PRIMARY KEY (id)
 );
 
+CREATE TABLE openchpl.criterion_product_statistics (
+        id bigserial NOT NULL,
+        product_count bigint NOT NULL,
+        certification_criterion_id bigint NOT NULL REFERENCES openchpl.certification_criterion (certification_criterion_id),
+        creation_date timestamp without time zone NOT NULL DEFAULT now(),
+        last_modified_date timestamp without time zone NOT NULL DEFAULT now(),
+        last_modified_user bigint NOT NULL,
+        deleted boolean NOT NULL DEFAULT false,
+        CONSTRAINT criterion_product_statistics_pk PRIMARY KEY (id)
+        );
+
 CREATE INDEX fki_certified_product_id_fk
 ON openchpl.ehr_certification_id_product_map
 USING btree
