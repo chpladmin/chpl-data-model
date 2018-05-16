@@ -948,7 +948,6 @@ INSERT INTO openchpl.ucd_process(name, last_modified_user) VALUES
 -- same for 2014 and 2015
 
 INSERT INTO openchpl.test_tool(name, last_modified_user, retired) VALUES
-('ePrescribing Validation Tool', -1, false),
 ('HL7 CDA Cancer Registry Reporting Validation Tool', -1, false),
 ('HL7 v2 Electronic Laboratory Reporting (ELR) Validation Tool', -1, false),
 ('HL7 v2 Immunization Information System (IIS) Reporting Validation Tool', -1, false),
@@ -962,8 +961,8 @@ INSERT INTO openchpl.test_tool(name, last_modified_user, retired) VALUES
 ('HL7v2 Syndromic Surveillance Test Suite', -1, false),
 ('Electronic Prescribing', -1, false),
 ('HL7 CDA National Health Care Surveys Validator', -1, false),
-('Transport Test Tool', -1, true),
-('Edge Test Tool', -1, false),
+('Edge Testing Tool', -1, false),
+('CDC''s NHSN CDA Validator', -1, false),
 ('NCQA ONC Health IT Testing', -1, false),
 ('HIMSS Immunization Integration Program', -1, false);
 --2015
