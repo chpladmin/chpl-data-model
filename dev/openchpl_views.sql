@@ -263,11 +263,13 @@ SELECT
             certification_status_event.certified_product_id
            FROM openchpl.certification_status_event
           WHERE certification_status_event.certification_status_id = 1
+		  AND certification_status_event.deleted <> true
           GROUP BY certification_status_event.certified_product_id) i ON a.certified_product_id = i.certified_product_id
      LEFT JOIN ( SELECT max(certification_status_event.event_date) AS decertification_date,
             certification_status_event.certified_product_id
            FROM openchpl.certification_status_event
           WHERE certification_status_event.certification_status_id = ANY (ARRAY[3::bigint, 4::bigint, 8::bigint])
+		  AND certification_status_event.deleted <> true
           GROUP BY certification_status_event.certified_product_id) decert ON a.certified_product_id = decert.certified_product_id
      LEFT JOIN ( SELECT j.certified_product_id,
             count(*) AS count_certifications

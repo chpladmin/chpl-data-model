@@ -7,6 +7,7 @@ _Date TBD_
 
 ### View Modifications
 * Update `certified_product_search` to respect deleted certification_status_events when getting "latest" status name
+* Update `certified_product_details` to respect deleted certification_status_events when calculating certification_date and decertification_date columns.
 
 ### Data Modifications
 * Update g1 and g2 macra measures to their new mappings
