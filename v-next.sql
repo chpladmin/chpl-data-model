@@ -113,34 +113,44 @@ UPDATE openchpl.macra_criteria_map
 SET value = 'RT8 EH/CAH Stage 3',  name = 'Request/Accept Patient Care Record: Eligible Hospital/Critical Access Hospital', description = 'Required Test 8: Stage 3 Objective 7 Measure 2'
 WHERE criteria_id = (SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (b)(1)') AND value = 'RT8 EH/CAH';
 
-DELETE FROM openchpl.certification_result_g1_macra 
+UPDATE openchpl.certification_result_g1_macra 
+SET deleted = true
 WHERE macra_id = (SELECT id from openchpl.macra_criteria_map where value = 'RT7 EC Group' AND name = 'Patient Care Record Exchange: Eligible Clinician Group' AND description = 'Required Test 7: Stage 2 Objective 5 and Stage 3 Objective 7 Measure 1, ACI Transition Objective 6 Measure 1 and ACI Objective 5 Measure 1');
 
-DELETE FROM openchpl.certification_result_g2_macra 
+UPDATE openchpl.certification_result_g2_macra 
+SET deleted = true
 WHERE macra_id = (SELECT id from openchpl.macra_criteria_map where value = 'RT7 EC Group' AND name = 'Patient Care Record Exchange: Eligible Clinician Group' AND description = 'Required Test 7: Stage 2 Objective 5 and Stage 3 Objective 7 Measure 1, ACI Transition Objective 6 Measure 1 and ACI Objective 5 Measure 1');
 
-DELETE FROM openchpl.pending_certification_result_g1_macra 
+UPDATE openchpl.pending_certification_result_g1_macra 
+SET deleted = true
 WHERE macra_id = (SELECT id from openchpl.macra_criteria_map where value = 'RT7 EC Group' AND name = 'Patient Care Record Exchange: Eligible Clinician Group' AND description = 'Required Test 7: Stage 2 Objective 5 and Stage 3 Objective 7 Measure 1, ACI Transition Objective 6 Measure 1 and ACI Objective 5 Measure 1');
 
-DELETE FROM openchpl.pending_certification_result_g2_macra 
+UPDATE openchpl.pending_certification_result_g2_macra 
+SET deleted = true
 WHERE macra_id = (SELECT id from openchpl.macra_criteria_map where value = 'RT7 EC Group' AND name = 'Patient Care Record Exchange: Eligible Clinician Group' AND description = 'Required Test 7: Stage 2 Objective 5 and Stage 3 Objective 7 Measure 1, ACI Transition Objective 6 Measure 1 and ACI Objective 5 Measure 1');
 
-DELETE FROM openchpl.macra_criteria_map
+UPDATE openchpl.macra_criteria_map
+SET deleted = true
 WHERE id = (SELECT id from openchpl.macra_criteria_map where value = 'RT7 EC Group' AND name = 'Patient Care Record Exchange: Eligible Clinician Group' AND description = 'Required Test 7: Stage 2 Objective 5 and Stage 3 Objective 7 Measure 1, ACI Transition Objective 6 Measure 1 and ACI Objective 5 Measure 1');
 
-DELETE FROM openchpl.certification_result_g1_macra 
+UPDATE openchpl.certification_result_g1_macra 
+SET deleted = true
 WHERE macra_id = (SELECT id from openchpl.macra_criteria_map where value = 'RT8 EC Individual (TIN/NPI)' AND name = 'Request/Accept Patient Care Record: Eligible Clinician Individual (TIN/NPI)' AND description = 'Required Test 8: Stage 3 Objective 7 Measure 2, ACI Objective 5 Measure 2');
 
-DELETE FROM openchpl.certification_result_g2_macra 
+UPDATE openchpl.certification_result_g2_macra 
+SET deleted = true
 WHERE macra_id = (SELECT id from openchpl.macra_criteria_map where value = 'RT8 EC Individual (TIN/NPI)' AND name = 'Request/Accept Patient Care Record: Eligible Clinician Individual (TIN/NPI)' AND description = 'Required Test 8: Stage 3 Objective 7 Measure 2, ACI Objective 5 Measure 2');
 
-DELETE FROM openchpl.pending_certification_result_g1_macra 
+UPDATE openchpl.pending_certification_result_g1_macra 
+SET deleted = true
 WHERE macra_id = (SELECT id from openchpl.macra_criteria_map where value = 'RT8 EC Individual (TIN/NPI)' AND name = 'Request/Accept Patient Care Record: Eligible Clinician Individual (TIN/NPI)' AND description = 'Required Test 8: Stage 3 Objective 7 Measure 2, ACI Objective 5 Measure 2');
 
-DELETE FROM openchpl.pending_certification_result_g2_macra 
+UPDATE openchpl.pending_certification_result_g2_macra 
+SET deleted = true
 WHERE macra_id = (SELECT id from openchpl.macra_criteria_map where value = 'RT8 EC Individual (TIN/NPI)' AND name = 'Request/Accept Patient Care Record: Eligible Clinician Individual (TIN/NPI)' AND description = 'Required Test 8: Stage 3 Objective 7 Measure 2, ACI Objective 5 Measure 2');
 
-DELETE FROM openchpl.macra_criteria_map
+UPDATE openchpl.macra_criteria_map
+SET deleted = true
 WHERE id = (SELECT id from openchpl.macra_criteria_map where value = 'RT8 EC Individual (TIN/NPI)' AND name = 'Request/Accept Patient Care Record: Eligible Clinician Individual (TIN/NPI)' AND description = 'Required Test 8: Stage 3 Objective 7 Measure 2, ACI Objective 5 Measure 2');
 
 -- 170.315 (b)(2)
@@ -258,64 +268,84 @@ WHERE criteria_id = (SELECT certification_criterion_id from openchpl.certificati
 INSERT INTO openchpl.macra_criteria_map (criteria_id, value, name, description, last_modified_user) values
 ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (e)(1)'), 'RT4b EH/CAH Stage 3', 'View, Download, or Transmit (VDT): Eligible Hospital/Critical Access Hospital', 'Required Test 4: Stage 3 Objective 6 Measure 1', -1);
 
-DELETE FROM openchpl.certification_result_g1_macra 
+UPDATE openchpl.certification_result_g1_macra 
+SET deleted = true
 WHERE macra_id = (SELECT id from openchpl.macra_criteria_map where criteria_id = 40 AND value = 'RT2a EC Group' AND name = 'Patient Electronic Access: Eligible Clinician Group' AND description = 'Required Test 2: Stage 2 Objective 8 Measure 1 and Stage 3 Objective 5 Measure 1, ACI Transition Objective 3 Measure 1 and ACI Objective 3 Measure 1');
 
-DELETE FROM openchpl.certification_result_g2_macra 
+UPDATE openchpl.certification_result_g2_macra 
+SET deleted = true
 WHERE macra_id = (SELECT id from openchpl.macra_criteria_map where criteria_id = 40 AND value = 'RT2a EC Group' AND name = 'Patient Electronic Access: Eligible Clinician Group' AND description = 'Required Test 2: Stage 2 Objective 8 Measure 1 and Stage 3 Objective 5 Measure 1, ACI Transition Objective 3 Measure 1 and ACI Objective 3 Measure 1');
 
-DELETE FROM openchpl.pending_certification_result_g1_macra 
+UPDATE openchpl.pending_certification_result_g1_macra 
+SET deleted = true
 WHERE macra_id = (SELECT id from openchpl.macra_criteria_map where criteria_id = 40 AND value = 'RT2a EC Group' AND name = 'Patient Electronic Access: Eligible Clinician Group' AND description = 'Required Test 2: Stage 2 Objective 8 Measure 1 and Stage 3 Objective 5 Measure 1, ACI Transition Objective 3 Measure 1 and ACI Objective 3 Measure 1');
 
-DELETE FROM openchpl.pending_certification_result_g2_macra 
+UPDATE openchpl.pending_certification_result_g2_macra 
+SET deleted = true
 WHERE macra_id = (SELECT id from openchpl.macra_criteria_map where criteria_id = 40 AND value = 'RT2a EC Group' AND name = 'Patient Electronic Access: Eligible Clinician Group' AND description = 'Required Test 2: Stage 2 Objective 8 Measure 1 and Stage 3 Objective 5 Measure 1, ACI Transition Objective 3 Measure 1 and ACI Objective 3 Measure 1');
 
-DELETE FROM openchpl.macra_criteria_map
+UPDATE openchpl.macra_criteria_map
+SET deleted = true
 WHERE id = (SELECT id from openchpl.macra_criteria_map where criteria_id = 40 AND value = 'RT2a EC Group' AND name = 'Patient Electronic Access: Eligible Clinician Group' AND description = 'Required Test 2: Stage 2 Objective 8 Measure 1 and Stage 3 Objective 5 Measure 1, ACI Transition Objective 3 Measure 1 and ACI Objective 3 Measure 1');
 
-DELETE FROM openchpl.certification_result_g1_macra 
+UPDATE openchpl.certification_result_g1_macra 
+SET deleted = true
 WHERE macra_id = (SELECT id from openchpl.macra_criteria_map where criteria_id = 40 AND value = 'RT2b EC Group' AND name = 'Patient Electronic Access: Eligible Clinician Group' AND description = 'Required Test 2: Stage 2 Objective 8 Measure 1 and Stage 3 Objective 5 Measure 1, ACI Transition Objective 3 Measure 1 and ACI Objective 3 Measure 1');
 
-DELETE FROM openchpl.certification_result_g2_macra 
+UPDATE openchpl.certification_result_g2_macra 
+SET deleted = true
 WHERE macra_id = (SELECT id from openchpl.macra_criteria_map where criteria_id = 40 AND value = 'RT2b EC Group' AND name = 'Patient Electronic Access: Eligible Clinician Group' AND description = 'Required Test 2: Stage 2 Objective 8 Measure 1 and Stage 3 Objective 5 Measure 1, ACI Transition Objective 3 Measure 1 and ACI Objective 3 Measure 1');
 
-DELETE FROM openchpl.pending_certification_result_g1_macra 
+UPDATE openchpl.pending_certification_result_g1_macra 
+SET deleted = true
 WHERE macra_id = (SELECT id from openchpl.macra_criteria_map where criteria_id = 40 AND value = 'RT2b EC Group' AND name = 'Patient Electronic Access: Eligible Clinician Group' AND description = 'Required Test 2: Stage 2 Objective 8 Measure 1 and Stage 3 Objective 5 Measure 1, ACI Transition Objective 3 Measure 1 and ACI Objective 3 Measure 1');
 
-DELETE FROM openchpl.pending_certification_result_g2_macra 
+UPDATE openchpl.pending_certification_result_g2_macra 
+SET deleted = true
 WHERE macra_id = (SELECT id from openchpl.macra_criteria_map where criteria_id = 40 AND value = 'RT2b EC Group' AND name = 'Patient Electronic Access: Eligible Clinician Group' AND description = 'Required Test 2: Stage 2 Objective 8 Measure 1 and Stage 3 Objective 5 Measure 1, ACI Transition Objective 3 Measure 1 and ACI Objective 3 Measure 1');
 
-DELETE FROM openchpl.macra_criteria_map
+UPDATE openchpl.macra_criteria_map
+SET deleted = true
 WHERE id = (SELECT id from openchpl.macra_criteria_map where criteria_id = 40 AND value = 'RT2b EC Group' AND name = 'Patient Electronic Access: Eligible Clinician Group' AND description = 'Required Test 2: Stage 2 Objective 8 Measure 1 and Stage 3 Objective 5 Measure 1, ACI Transition Objective 3 Measure 1 and ACI Objective 3 Measure 1');
 
-DELETE FROM openchpl.certification_result_g1_macra 
+UPDATE openchpl.certification_result_g1_macra 
+SET deleted = true
 WHERE macra_id = (SELECT id from openchpl.macra_criteria_map where criteria_id = 40 AND value = 'RT4a EC Group' AND name = 'View, Download, or Transmit (VDT): Eligible Clinician Group' AND description = 'Required Test 4: Stage 2 Objective 8 Measure 2 and Stage 3 Objective 6 Measure 1, ACI Transition Objective 3 Measure 2 and ACI Objective 4 Measure 1');
 
-DELETE FROM openchpl.certification_result_g2_macra 
+UPDATE openchpl.certification_result_g2_macra 
+SET deleted = true
 WHERE macra_id = (SELECT id from openchpl.macra_criteria_map where criteria_id = 40 AND value = 'RT4a EC Group' AND name = 'View, Download, or Transmit (VDT): Eligible Clinician Group' AND description = 'Required Test 4: Stage 2 Objective 8 Measure 2 and Stage 3 Objective 6 Measure 1, ACI Transition Objective 3 Measure 2 and ACI Objective 4 Measure 1');
 
-DELETE FROM openchpl.pending_certification_result_g1_macra 
+UPDATE openchpl.pending_certification_result_g1_macra 
+SET deleted = true
 WHERE macra_id = (SELECT id from openchpl.macra_criteria_map where criteria_id = 40 AND value = 'RT4a EC Group' AND name = 'View, Download, or Transmit (VDT): Eligible Clinician Group' AND description = 'Required Test 4: Stage 2 Objective 8 Measure 2 and Stage 3 Objective 6 Measure 1, ACI Transition Objective 3 Measure 2 and ACI Objective 4 Measure 1');
 
-DELETE FROM openchpl.pending_certification_result_g2_macra 
+UPDATE openchpl.pending_certification_result_g2_macra 
+SET deleted = true
 WHERE macra_id = (SELECT id from openchpl.macra_criteria_map where criteria_id = 40 AND value = 'RT4a EC Group' AND name = 'View, Download, or Transmit (VDT): Eligible Clinician Group' AND description = 'Required Test 4: Stage 2 Objective 8 Measure 2 and Stage 3 Objective 6 Measure 1, ACI Transition Objective 3 Measure 2 and ACI Objective 4 Measure 1');
 
-DELETE FROM openchpl.macra_criteria_map
+UPDATE openchpl.macra_criteria_map
+SET deleted = true
 WHERE id = (SELECT id from openchpl.macra_criteria_map where criteria_id = 40 AND value = 'RT4a EC Group' AND name = 'View, Download, or Transmit (VDT): Eligible Clinician Group' AND description = 'Required Test 4: Stage 2 Objective 8 Measure 2 and Stage 3 Objective 6 Measure 1, ACI Transition Objective 3 Measure 2 and ACI Objective 4 Measure 1');
 
-DELETE FROM openchpl.certification_result_g1_macra 
+UPDATE openchpl.certification_result_g1_macra 
+SET deleted = true
 WHERE macra_id = (SELECT id from openchpl.macra_criteria_map where criteria_id = 40 AND value = 'RT4b EC Group' AND name = 'View, Download, or Transmit (VDT): Eligible Clinician Group' AND description = 'Required Test 4: Stage 2 Objective 8 Measure 2 and Stage 3 Objective 6 Measure 1, ACI Transition Objective 3 Measure 2 and ACI Objective 4 Measure 1');
 
-DELETE FROM openchpl.certification_result_g2_macra 
+UPDATE openchpl.certification_result_g2_macra 
+SET deleted = true
 WHERE macra_id = (SELECT id from openchpl.macra_criteria_map where criteria_id = 40 AND value = 'RT4b EC Group' AND name = 'View, Download, or Transmit (VDT): Eligible Clinician Group' AND description = 'Required Test 4: Stage 2 Objective 8 Measure 2 and Stage 3 Objective 6 Measure 1, ACI Transition Objective 3 Measure 2 and ACI Objective 4 Measure 1');
 
-DELETE FROM openchpl.pending_certification_result_g1_macra 
+UPDATE openchpl.pending_certification_result_g1_macra 
+SET deleted = true
 WHERE macra_id = (SELECT id from openchpl.macra_criteria_map where criteria_id = 40 AND value = 'RT4b EC Group' AND name = 'View, Download, or Transmit (VDT): Eligible Clinician Group' AND description = 'Required Test 4: Stage 2 Objective 8 Measure 2 and Stage 3 Objective 6 Measure 1, ACI Transition Objective 3 Measure 2 and ACI Objective 4 Measure 1');
 
-DELETE FROM openchpl.pending_certification_result_g2_macra 
+UPDATE openchpl.pending_certification_result_g2_macra 
+SET deleted = true
 WHERE macra_id = (SELECT id from openchpl.macra_criteria_map where criteria_id = 40 AND value = 'RT4b EC Group' AND name = 'View, Download, or Transmit (VDT): Eligible Clinician Group' AND description = 'Required Test 4: Stage 2 Objective 8 Measure 2 and Stage 3 Objective 6 Measure 1, ACI Transition Objective 3 Measure 2 and ACI Objective 4 Measure 1');
 
-DELETE FROM openchpl.macra_criteria_map
+UPDATE openchpl.macra_criteria_map
+SET deleted = true
 WHERE id = (SELECT id from openchpl.macra_criteria_map where criteria_id = 40 AND value = 'RT4b EC Group' AND name = 'View, Download, or Transmit (VDT): Eligible Clinician Group' AND description = 'Required Test 4: Stage 2 Objective 8 Measure 2 and Stage 3 Objective 6 Measure 1, ACI Transition Objective 3 Measure 2 and ACI Objective 4 Measure 1');
 
 -- 170.315 (e)(2)
@@ -351,19 +381,24 @@ UPDATE openchpl.macra_criteria_map
 SET value = 'EC ACI',  name = 'Patient-Generated Health Data: Eligible Clinician Individual (TIN/NPI)', description ='Required Test 6: ACI Objective 4 Measure 3'
 WHERE criteria_id = (SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (e)(3)') AND value = 'EC Individual (TIN/NPI)';
 
-DELETE FROM openchpl.certification_result_g1_macra 
+UPDATE openchpl.certification_result_g1_macra 
+SET deleted = true
 WHERE macra_id = (SELECT id from openchpl.macra_criteria_map where value = 'EC Group' AND name = 'Patient-Generated Health Data: Eligible Clinician Group' AND description = 'Required Test 6: Stage 3 Objective 6 Measure 3, ACI Objective 4 Measure 3');
 
-DELETE FROM openchpl.certification_result_g2_macra 
+UPDATE openchpl.certification_result_g2_macra 
+SET deleted = true
 WHERE macra_id = (SELECT id from openchpl.macra_criteria_map where value = 'EC Group' AND name = 'Patient-Generated Health Data: Eligible Clinician Group' AND description = 'Required Test 6: Stage 3 Objective 6 Measure 3, ACI Objective 4 Measure 3');
 
-DELETE FROM openchpl.pending_certification_result_g1_macra 
+UPDATE openchpl.pending_certification_result_g1_macra 
+SET deleted = true
 WHERE macra_id = (SELECT id from openchpl.macra_criteria_map where value = 'EC Group' AND name = 'Patient-Generated Health Data: Eligible Clinician Group' AND description = 'Required Test 6: Stage 3 Objective 6 Measure 3, ACI Objective 4 Measure 3');
 
-DELETE FROM openchpl.pending_certification_result_g2_macra 
+UPDATE openchpl.pending_certification_result_g2_macra 
+SET deleted = true
 WHERE macra_id = (SELECT id from openchpl.macra_criteria_map where value = 'EC Group' AND name = 'Patient-Generated Health Data: Eligible Clinician Group' AND description = 'Required Test 6: Stage 3 Objective 6 Measure 3, ACI Objective 4 Measure 3');
 
-DELETE FROM openchpl.macra_criteria_map 
+UPDATE openchpl.macra_criteria_map 
+SET deleted = true
 WHERE criteria_id = (SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (e)(3)') AND value = 'EC Group';
 
 -- 170.315 (g)(8)
@@ -439,66 +474,85 @@ WHERE criteria_id = (SELECT certification_criterion_id from openchpl.certificati
 INSERT INTO openchpl.macra_criteria_map (criteria_id, value, name, description, last_modified_user) values
 ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (g)(8)'), 'RT4c EH/CAH Stage 3', 'View, Download, or Transmit (VDT): Eligible Hospital/Critical Access Hospital', 'Required Test 4: Stage 3 Objective 6 Measure 1', -1);
 
-DELETE FROM openchpl.certification_result_g1_macra 
+UPDATE openchpl.certification_result_g1_macra 
+SET deleted = true
 WHERE macra_id = (SELECT id from openchpl.macra_criteria_map where criteria_id = 57 AND value = 'RT2a EC Group' AND name = 'Patient Electronic Access: Eligible Clinician Group' AND description = 'Required Test 2: Stage 2 Objective 8 Measure 1 and Stage 3 Objective 5 Measure 1, ACI Transition Objective 3 Measure 1 and ACI Objective 3 Measure 1');
 
-DELETE FROM openchpl.certification_result_g2_macra 
+UPDATE openchpl.certification_result_g2_macra 
+SET deleted = true
 WHERE macra_id = (SELECT id from openchpl.macra_criteria_map where criteria_id = 57 AND value = 'RT2a EC Group' AND name = 'Patient Electronic Access: Eligible Clinician Group' AND description = 'Required Test 2: Stage 2 Objective 8 Measure 1 and Stage 3 Objective 5 Measure 1, ACI Transition Objective 3 Measure 1 and ACI Objective 3 Measure 1');
 
-DELETE FROM openchpl.pending_certification_result_g1_macra 
+UPDATE openchpl.pending_certification_result_g1_macra 
+SET deleted = true
 WHERE macra_id = (SELECT id from openchpl.macra_criteria_map where criteria_id = 57 AND value = 'RT2a EC Group' AND name = 'Patient Electronic Access: Eligible Clinician Group' AND description = 'Required Test 2: Stage 2 Objective 8 Measure 1 and Stage 3 Objective 5 Measure 1, ACI Transition Objective 3 Measure 1 and ACI Objective 3 Measure 1');
 
-DELETE FROM openchpl.pending_certification_result_g2_macra 
+UPDATE openchpl.pending_certification_result_g2_macra 
+SET deleted = true
 WHERE macra_id = (SELECT id from openchpl.macra_criteria_map where criteria_id = 57 AND value = 'RT2a EC Group' AND name = 'Patient Electronic Access: Eligible Clinician Group' AND description = 'Required Test 2: Stage 2 Objective 8 Measure 1 and Stage 3 Objective 5 Measure 1, ACI Transition Objective 3 Measure 1 and ACI Objective 3 Measure 1');
 
-DELETE FROM openchpl.macra_criteria_map
+UPDATE openchpl.macra_criteria_map
+SET deleted = true
 WHERE id = (SELECT id from openchpl.macra_criteria_map where criteria_id = 57 AND value = 'RT2a EC Group' AND name = 'Patient Electronic Access: Eligible Clinician Group' AND description = 'Required Test 2: Stage 2 Objective 8 Measure 1 and Stage 3 Objective 5 Measure 1, ACI Transition Objective 3 Measure 1 and ACI Objective 3 Measure 1');
 
-DELETE FROM openchpl.certification_result_g1_macra 
+UPDATE openchpl.certification_result_g1_macra 
+SET deleted = true
 WHERE macra_id = (SELECT id from openchpl.macra_criteria_map where criteria_id = 57 AND  value = 'RT2c EC Group' AND name = 'Patient Electronic Access: Eligible Clinician Group' AND description = 'Required Test 2: Stage 2 Objective 8 Measure 1 and Stage 3 Objective 5 Measure 1, ACI Transition Objective 3 Measure 1 and ACI Objective 3 Measure 1');
 
-DELETE FROM openchpl.certification_result_g2_macra 
+UPDATE openchpl.certification_result_g2_macra 
+SET deleted = true
 WHERE macra_id = (SELECT id from openchpl.macra_criteria_map where criteria_id = 57 AND value = 'RT2c EC Group' AND name = 'Patient Electronic Access: Eligible Clinician Group' AND description = 'Required Test 2: Stage 2 Objective 8 Measure 1 and Stage 3 Objective 5 Measure 1, ACI Transition Objective 3 Measure 1 and ACI Objective 3 Measure 1');
 
-DELETE FROM openchpl.pending_certification_result_g1_macra 
+UPDATE openchpl.pending_certification_result_g1_macra 
+SET deleted = true
 WHERE macra_id = (SELECT id from openchpl.macra_criteria_map where criteria_id = 57 AND value = 'RT2c EC Group' AND name = 'Patient Electronic Access: Eligible Clinician Group' AND description = 'Required Test 2: Stage 2 Objective 8 Measure 1 and Stage 3 Objective 5 Measure 1, ACI Transition Objective 3 Measure 1 and ACI Objective 3 Measure 1');
 
-DELETE FROM openchpl.pending_certification_result_g2_macra 
+UPDATE openchpl.pending_certification_result_g2_macra 
+SET deleted = true
 WHERE macra_id = (SELECT id from openchpl.macra_criteria_map where criteria_id = 57 AND value = 'RT2c EC Group' AND name = 'Patient Electronic Access: Eligible Clinician Group' AND description = 'Required Test 2: Stage 2 Objective 8 Measure 1 and Stage 3 Objective 5 Measure 1, ACI Transition Objective 3 Measure 1 and ACI Objective 3 Measure 1');
 
-DELETE FROM openchpl.macra_criteria_map
+UPDATE openchpl.macra_criteria_map
+SET deleted = true
 WHERE id = (SELECT id from openchpl.macra_criteria_map where criteria_id = 57 AND value = 'RT2c EC Group' AND name = 'Patient Electronic Access: Eligible Clinician Group' AND description = 'Required Test 2: Stage 2 Objective 8 Measure 1 and Stage 3 Objective 5 Measure 1, ACI Transition Objective 3 Measure 1 and ACI Objective 3 Measure 1');
 
-DELETE FROM openchpl.certification_result_g1_macra 
+UPDATE openchpl.certification_result_g1_macra 
+SET deleted = true
 WHERE macra_id = (SELECT id from openchpl.macra_criteria_map where criteria_id = 57 AND value = 'RT4a EC Group' AND name = 'View, Download, or Transmit (VDT): Eligible Clinician Group' AND description = 'Required Test 4: Stage 2 Objective 8 Measure 2 and Stage 3 Objective 6 Measure 1, ACI Transition Objective 3 Measure 2 and ACI Objective 4 Measure 1');
 
-DELETE FROM openchpl.certification_result_g2_macra 
+UPDATE openchpl.certification_result_g2_macra 
+SET deleted = true
 WHERE macra_id = (SELECT id from openchpl.macra_criteria_map where criteria_id = 57 AND value = 'RT4a EC Group' AND name = 'View, Download, or Transmit (VDT): Eligible Clinician Group' AND description = 'Required Test 4: Stage 2 Objective 8 Measure 2 and Stage 3 Objective 6 Measure 1, ACI Transition Objective 3 Measure 2 and ACI Objective 4 Measure 1');
 
-DELETE FROM openchpl.pending_certification_result_g1_macra 
+UPDATE openchpl.pending_certification_result_g1_macra 
+SET deleted = true
 WHERE macra_id = (SELECT id from openchpl.macra_criteria_map where criteria_id = 57 AND value = 'RT4a EC Group' AND name = 'View, Download, or Transmit (VDT): Eligible Clinician Group' AND description = 'Required Test 4: Stage 2 Objective 8 Measure 2 and Stage 3 Objective 6 Measure 1, ACI Transition Objective 3 Measure 2 and ACI Objective 4 Measure 1');
 
-DELETE FROM openchpl.pending_certification_result_g2_macra 
+UPDATE openchpl.pending_certification_result_g2_macra 
+SET deleted = true
 WHERE macra_id = (SELECT id from openchpl.macra_criteria_map where criteria_id = 57 AND value = 'RT4a EC Group' AND name = 'View, Download, or Transmit (VDT): Eligible Clinician Group' AND description = 'Required Test 4: Stage 2 Objective 8 Measure 2 and Stage 3 Objective 6 Measure 1, ACI Transition Objective 3 Measure 2 and ACI Objective 4 Measure 1');
 
-DELETE FROM openchpl.macra_criteria_map
+UPDATE openchpl.macra_criteria_map
+SET deleted = true
 WHERE id = (SELECT id from openchpl.macra_criteria_map where criteria_id = 57 AND value = 'RT4a EC Group' AND name = 'View, Download, or Transmit (VDT): Eligible Clinician Group' AND description = 'Required Test 4: Stage 2 Objective 8 Measure 2 and Stage 3 Objective 6 Measure 1, ACI Transition Objective 3 Measure 2 and ACI Objective 4 Measure 1');
 
-DELETE FROM openchpl.certification_result_g1_macra 
+UPDATE openchpl.certification_result_g1_macra 
+SET deleted = true
 WHERE macra_id = (SELECT id from openchpl.macra_criteria_map where criteria_id = 57 AND value = 'RT4c EC Group' AND name = 'View, Download, or Transmit (VDT): Eligible Clinician Group' AND description = 'Required Test 4: Stage 2 Objective 8 Measure 2 and Stage 3 Objective 6 Measure 1, ACI Transition Objective 3 Measure 2 and ACI Objective 4 Measure 1');
 
-DELETE FROM openchpl.certification_result_g2_macra 
+UPDATE openchpl.certification_result_g2_macra 
+SET deleted = true
 WHERE macra_id = (SELECT id from openchpl.macra_criteria_map where criteria_id = 57 AND value = 'RT4c EC Group' AND name = 'View, Download, or Transmit (VDT): Eligible Clinician Group' AND description = 'Required Test 4: Stage 2 Objective 8 Measure 2 and Stage 3 Objective 6 Measure 1, ACI Transition Objective 3 Measure 2 and ACI Objective 4 Measure 1');
 
-DELETE FROM openchpl.pending_certification_result_g1_macra 
+UPDATE openchpl.pending_certification_result_g1_macra 
+SET deleted = true
 WHERE macra_id = (SELECT id from openchpl.macra_criteria_map where criteria_id = 57 AND value = 'RT4c EC Group' AND name = 'View, Download, or Transmit (VDT): Eligible Clinician Group' AND description = 'Required Test 4: Stage 2 Objective 8 Measure 2 and Stage 3 Objective 6 Measure 1, ACI Transition Objective 3 Measure 2 and ACI Objective 4 Measure 1');
 
-DELETE FROM openchpl.pending_certification_result_g2_macra 
+UPDATE openchpl.pending_certification_result_g2_macra 
+SET deleted = true
 WHERE macra_id = (SELECT id from openchpl.macra_criteria_map where criteria_id = 57 AND value = 'RT4c EC Group' AND name = 'View, Download, or Transmit (VDT): Eligible Clinician Group' AND description = 'Required Test 4: Stage 2 Objective 8 Measure 2 and Stage 3 Objective 6 Measure 1, ACI Transition Objective 3 Measure 2 and ACI Objective 4 Measure 1');
 
-DELETE FROM openchpl.macra_criteria_map
+UPDATE openchpl.macra_criteria_map
+SET deleted = true
 WHERE id = (SELECT id from openchpl.macra_criteria_map where criteria_id = 57 AND value = 'RT4c EC Group' AND name = 'View, Download, or Transmit (VDT): Eligible Clinician Group' AND description = 'Required Test 4: Stage 2 Objective 8 Measure 2 and Stage 3 Objective 6 Measure 1, ACI Transition Objective 3 Measure 2 and ACI Objective 4 Measure 1');
-
 
 -- 170.315 (g)(9)
 
@@ -574,66 +628,85 @@ WHERE criteria_id = (SELECT certification_criterion_id from openchpl.certificati
 INSERT INTO openchpl.macra_criteria_map (criteria_id, value, name, description, last_modified_user) values
 ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (g)(9)'), 'RT4c EH/CAH Stage 3', 'View, Download, or Transmit (VDT): Eligible Hospital/Critical Access Hospital', 'Required Test 4: Stage 3 Objective 6 Measure 1', -1);
 
-DELETE FROM openchpl.certification_result_g1_macra 
+UPDATE openchpl.certification_result_g1_macra 
+SET deleted = true
 WHERE macra_id = (SELECT id from openchpl.macra_criteria_map where criteria_id = 58 AND value = 'RT2a EC Group' AND name = 'Patient Electronic Access: Eligible Clinician Group' AND description = 'Required Test 2: Stage 2 Objective 8 Measure 1 and Stage 3 Objective 5 Measure 1, ACI Transition Objective 3 Measure 1 and ACI Objective 3 Measure 1');
 
-DELETE FROM openchpl.certification_result_g2_macra 
+UPDATE openchpl.certification_result_g2_macra 
+SET deleted = true
 WHERE macra_id = (SELECT id from openchpl.macra_criteria_map where criteria_id = 58 AND value = 'RT2a EC Group' AND name = 'Patient Electronic Access: Eligible Clinician Group' AND description = 'Required Test 2: Stage 2 Objective 8 Measure 1 and Stage 3 Objective 5 Measure 1, ACI Transition Objective 3 Measure 1 and ACI Objective 3 Measure 1');
 
-DELETE FROM openchpl.pending_certification_result_g1_macra 
+UPDATE openchpl.pending_certification_result_g1_macra 
+SET deleted = true
 WHERE macra_id = (SELECT id from openchpl.macra_criteria_map where criteria_id = 58 AND value = 'RT2a EC Group' AND name = 'Patient Electronic Access: Eligible Clinician Group' AND description = 'Required Test 2: Stage 2 Objective 8 Measure 1 and Stage 3 Objective 5 Measure 1, ACI Transition Objective 3 Measure 1 and ACI Objective 3 Measure 1');
 
-DELETE FROM openchpl.pending_certification_result_g2_macra 
+UPDATE openchpl.pending_certification_result_g2_macra 
+SET deleted = true
 WHERE macra_id = (SELECT id from openchpl.macra_criteria_map where criteria_id = 58 AND value = 'RT2a EC Group' AND name = 'Patient Electronic Access: Eligible Clinician Group' AND description = 'Required Test 2: Stage 2 Objective 8 Measure 1 and Stage 3 Objective 5 Measure 1, ACI Transition Objective 3 Measure 1 and ACI Objective 3 Measure 1');
 
-DELETE FROM openchpl.macra_criteria_map
+UPDATE openchpl.macra_criteria_map
+SET deleted = true
 WHERE id = (SELECT id from openchpl.macra_criteria_map where criteria_id = 58 AND value = 'RT2a EC Group' AND name = 'Patient Electronic Access: Eligible Clinician Group' AND description = 'Required Test 2: Stage 2 Objective 8 Measure 1 and Stage 3 Objective 5 Measure 1, ACI Transition Objective 3 Measure 1 and ACI Objective 3 Measure 1');
 
-DELETE FROM openchpl.certification_result_g1_macra 
+UPDATE openchpl.certification_result_g1_macra 
+SET deleted = true
 WHERE macra_id = (SELECT id from openchpl.macra_criteria_map where criteria_id = 58 AND value = 'RT2c EC Group' AND name = 'Patient Electronic Access: Eligible Clinician Group' AND description = 'Required Test 2: Stage 2 Objective 8 Measure 1 and Stage 3 Objective 5 Measure 1, ACI Transition Objective 3 Measure 1 and ACI Objective 3 Measure 1');
 
-DELETE FROM openchpl.certification_result_g2_macra 
+UPDATE openchpl.certification_result_g2_macra 
+SET deleted = true
 WHERE macra_id = (SELECT id from openchpl.macra_criteria_map where criteria_id = 58 AND value = 'RT2c EC Group' AND name = 'Patient Electronic Access: Eligible Clinician Group' AND description = 'Required Test 2: Stage 2 Objective 8 Measure 1 and Stage 3 Objective 5 Measure 1, ACI Transition Objective 3 Measure 1 and ACI Objective 3 Measure 1');
 
-DELETE FROM openchpl.pending_certification_result_g1_macra 
+UPDATE openchpl.pending_certification_result_g1_macra 
+SET deleted = true
 WHERE macra_id = (SELECT id from openchpl.macra_criteria_map where criteria_id = 58 AND value = 'RT2c EC Group' AND name = 'Patient Electronic Access: Eligible Clinician Group' AND description = 'Required Test 2: Stage 2 Objective 8 Measure 1 and Stage 3 Objective 5 Measure 1, ACI Transition Objective 3 Measure 1 and ACI Objective 3 Measure 1');
 
-DELETE FROM openchpl.pending_certification_result_g2_macra 
+UPDATE openchpl.pending_certification_result_g2_macra 
+SET deleted = true
 WHERE macra_id = (SELECT id from openchpl.macra_criteria_map where criteria_id = 58 AND value = 'RT2c EC Group' AND name = 'Patient Electronic Access: Eligible Clinician Group' AND description = 'Required Test 2: Stage 2 Objective 8 Measure 1 and Stage 3 Objective 5 Measure 1, ACI Transition Objective 3 Measure 1 and ACI Objective 3 Measure 1');
 
-DELETE FROM openchpl.macra_criteria_map
+UPDATE openchpl.macra_criteria_map
+SET deleted = true
 WHERE id = (SELECT id from openchpl.macra_criteria_map where criteria_id = 58 AND value = 'RT2c EC Group' AND name = 'Patient Electronic Access: Eligible Clinician Group' AND description = 'Required Test 2: Stage 2 Objective 8 Measure 1 and Stage 3 Objective 5 Measure 1, ACI Transition Objective 3 Measure 1 and ACI Objective 3 Measure 1');
 
-DELETE FROM openchpl.certification_result_g1_macra 
+UPDATE openchpl.certification_result_g1_macra 
+SET deleted = true
 WHERE macra_id = (SELECT id from openchpl.macra_criteria_map where criteria_id = 58 AND value = 'RT4a EC Group' AND name = 'View, Download, or Transmit (VDT): Eligible Clinician Group' AND description = 'Required Test 4: Stage 2 Objective 8 Measure 2 and Stage 3 Objective 6 Measure 1, ACI Transition Objective 3 Measure 2 and ACI Objective 4 Measure 1');
 
-DELETE FROM openchpl.certification_result_g2_macra 
+UPDATE openchpl.certification_result_g2_macra 
+SET deleted = true
 WHERE macra_id = (SELECT id from openchpl.macra_criteria_map where criteria_id = 58 AND value = 'RT4a EC Group' AND name = 'View, Download, or Transmit (VDT): Eligible Clinician Group' AND description = 'Required Test 4: Stage 2 Objective 8 Measure 2 and Stage 3 Objective 6 Measure 1, ACI Transition Objective 3 Measure 2 and ACI Objective 4 Measure 1');
 
-DELETE FROM openchpl.pending_certification_result_g1_macra 
+UPDATE openchpl.pending_certification_result_g1_macra 
+SET deleted = true
 WHERE macra_id = (SELECT id from openchpl.macra_criteria_map where criteria_id = 58 AND value = 'RT4a EC Group' AND name = 'View, Download, or Transmit (VDT): Eligible Clinician Group' AND description = 'Required Test 4: Stage 2 Objective 8 Measure 2 and Stage 3 Objective 6 Measure 1, ACI Transition Objective 3 Measure 2 and ACI Objective 4 Measure 1');
 
-DELETE FROM openchpl.pending_certification_result_g2_macra 
+UPDATE openchpl.pending_certification_result_g2_macra 
+SET deleted = true
 WHERE macra_id = (SELECT id from openchpl.macra_criteria_map where criteria_id = 58 AND value = 'RT4a EC Group' AND name = 'View, Download, or Transmit (VDT): Eligible Clinician Group' AND description = 'Required Test 4: Stage 2 Objective 8 Measure 2 and Stage 3 Objective 6 Measure 1, ACI Transition Objective 3 Measure 2 and ACI Objective 4 Measure 1');
 
-DELETE FROM openchpl.macra_criteria_map
+UPDATE openchpl.macra_criteria_map
+SET deleted = true
 WHERE id = (SELECT id from openchpl.macra_criteria_map where criteria_id = 58 AND value = 'RT4a EC Group' AND name = 'View, Download, or Transmit (VDT): Eligible Clinician Group' AND description = 'Required Test 4: Stage 2 Objective 8 Measure 2 and Stage 3 Objective 6 Measure 1, ACI Transition Objective 3 Measure 2 and ACI Objective 4 Measure 1');
 
-DELETE FROM openchpl.certification_result_g1_macra 
+UPDATE openchpl.certification_result_g1_macra 
+SET deleted = true
 WHERE macra_id = (SELECT id from openchpl.macra_criteria_map where criteria_id = 58 AND value = 'RT4c EC Group' AND name = 'View, Download, or Transmit (VDT): Eligible Clinician Group' AND description = 'Required Test 4: Stage 2 Objective 8 Measure 2 and Stage 3 Objective 6 Measure 1, ACI Transition Objective 3 Measure 2 and ACI Objective 4 Measure 1');
 
-DELETE FROM openchpl.certification_result_g2_macra 
+UPDATE openchpl.certification_result_g2_macra 
+SET deleted = true
 WHERE macra_id = (SELECT id from openchpl.macra_criteria_map where criteria_id = 58 AND value = 'RT4c EC Group' AND name = 'View, Download, or Transmit (VDT): Eligible Clinician Group' AND description = 'Required Test 4: Stage 2 Objective 8 Measure 2 and Stage 3 Objective 6 Measure 1, ACI Transition Objective 3 Measure 2 and ACI Objective 4 Measure 1');
 
-DELETE FROM openchpl.pending_certification_result_g1_macra 
+UPDATE openchpl.pending_certification_result_g1_macra 
+SET deleted = true
 WHERE macra_id = (SELECT id from openchpl.macra_criteria_map where criteria_id = 58 AND value = 'RT4c EC Group' AND name = 'View, Download, or Transmit (VDT): Eligible Clinician Group' AND description = 'Required Test 4: Stage 2 Objective 8 Measure 2 and Stage 3 Objective 6 Measure 1, ACI Transition Objective 3 Measure 2 and ACI Objective 4 Measure 1');
 
-DELETE FROM openchpl.pending_certification_result_g2_macra 
+UPDATE openchpl.pending_certification_result_g2_macra 
+SET deleted = true
 WHERE macra_id = (SELECT id from openchpl.macra_criteria_map where criteria_id = 58 AND value = 'RT4c EC Group' AND name = 'View, Download, or Transmit (VDT): Eligible Clinician Group' AND description = 'Required Test 4: Stage 2 Objective 8 Measure 2 and Stage 3 Objective 6 Measure 1, ACI Transition Objective 3 Measure 2 and ACI Objective 4 Measure 1');
 
-DELETE FROM openchpl.macra_criteria_map
+UPDATE openchpl.macra_criteria_map
+SET deleted = true
 WHERE id = (SELECT id from openchpl.macra_criteria_map where criteria_id = 58 AND value = 'RT4c EC Group' AND name = 'View, Download, or Transmit (VDT): Eligible Clinician Group' AND description = 'Required Test 4: Stage 2 Objective 8 Measure 2 and Stage 3 Objective 6 Measure 1, ACI Transition Objective 3 Measure 2 and ACI Objective 4 Measure 1');
-
 
 -- In order for this script to be able to be run twice we need to add a constraint on
 -- certification_result_g1_macra, certification_result_g2_macra, pending_certification_result_g1_macra, pending_certification_result_g2_macra
