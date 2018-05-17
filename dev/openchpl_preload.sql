@@ -948,7 +948,6 @@ INSERT INTO openchpl.ucd_process(name, last_modified_user) VALUES
 -- same for 2014 and 2015
 
 INSERT INTO openchpl.test_tool(name, last_modified_user, retired) VALUES
-('ePrescribing Validation Tool', -1, false),
 ('HL7 CDA Cancer Registry Reporting Validation Tool', -1, false),
 ('HL7 v2 Electronic Laboratory Reporting (ELR) Validation Tool', -1, false),
 ('HL7 v2 Immunization Information System (IIS) Reporting Validation Tool', -1, false),
@@ -960,18 +959,13 @@ INSERT INTO openchpl.test_tool(name, last_modified_user, retired) VALUES
 -- 2014
 ('HL7v2 Immunization Test Suite', -1, false),
 ('HL7v2 Syndromic Surveillance Test Suite', -1, false),
-('HL7v2 Electronic Laboratory Reporting Validation Tool', -1, false),
 ('Electronic Prescribing', -1, false),
 ('HL7 CDA National Health Care Surveys Validator', -1, false),
-('Transport Test Tool', -1, true),
-('Edge Test Tool', -1, false),
-('2015 Direct Certificate Discovery Tool', -1, false),
+('Edge Testing Tool', -1, false),
+('CDC''s NHSN CDA Validator', -1, false),
 ('NCQA ONC Health IT Testing', -1, false),
-('HIMSS Immunization Integration Program', -1, false),
+('HIMSS Immunization Integration Program', -1, false);
 --2015
-('N/A', -1, false),
-('', -1, false);
--- Faking 'not required'; remove after Validator changed
 
 INSERT INTO openchpl.test_standard(number, name, certification_edition_id, last_modified_user) VALUES
 ('170.202(a)', 'DIRECT: Applicability Statement for Secure Health Transport, Version 1.1, July 10, 2012', 2, -1),
