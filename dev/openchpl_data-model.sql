@@ -2814,8 +2814,8 @@ CREATE TABLE openchpl.criterion_product_statistics (
         CONSTRAINT criterion_product_statistics_pk PRIMARY KEY (id)
         );
 
-DROP TABLE IF EXISTS openchpl.new_vs_incumbent_statistics;
-CREATE TABLE openchpl.new_vs_incumbent_statistics (
+DROP TABLE IF EXISTS openchpl.incumbent_developers_statistics;
+CREATE TABLE openchpl.incumbent_developers_statistics (
         id bigserial NOT NULL,
         new_2011_to_2014 bigint NOT NULL,
         new_2011_to_2015 bigint NOT NULL,
@@ -2827,7 +2827,7 @@ CREATE TABLE openchpl.new_vs_incumbent_statistics (
         last_modified_date timestamp without time zone NOT NULL DEFAULT now(),
         last_modified_user bigint NOT NULL,
         deleted boolean NOT NULL DEFAULT false,
-        CONSTRAINT new_vs_incumbent_statistics_pk PRIMARY KEY (id)
+        CONSTRAINT incumbent_developers_statistics_pk PRIMARY KEY (id)
         );
 
 CREATE INDEX fki_certified_product_id_fk

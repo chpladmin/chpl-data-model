@@ -189,6 +189,8 @@ CREATE TRIGGER fuzzy_choices_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.
 CREATE TRIGGER fuzzy_choices_timestamp BEFORE UPDATE on openchpl.fuzzy_choices FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER global_user_permission_map_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.global_user_permission_map FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER global_user_permission_map_timestamp BEFORE UPDATE on openchpl.global_user_permission_map FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
+CREATE TRIGGER incumbent_developers_statistics_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.incumbent_developers_statistics FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+CREATE TRIGGER incumbent_developers_statistics_timestamp BEFORE UPDATE on openchpl.incumbent_developers_statistics FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER invited_user_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.invited_user FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER invited_user_permission_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.invited_user_permission FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER invited_user_permission_timestamp BEFORE UPDATE on openchpl.invited_user_permission FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
@@ -207,8 +209,6 @@ CREATE TRIGGER muu_accurate_as_of_date_audit AFTER INSERT OR UPDATE OR DELETE ON
 CREATE TRIGGER muu_accurate_as_of_date_timestamp BEFORE UPDATE ON openchpl.muu_accurate_as_of_date FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER macra_criteria_map_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.macra_criteria_map FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER macra_criteria_map_timestamp BEFORE UPDATE on openchpl.macra_criteria_map FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
-CREATE TRIGGER new_vs_incumbent_statistics_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.new_vs_incumbent_statistics FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
-CREATE TRIGGER new_vs_incumbent_statistics_timestamp BEFORE UPDATE on openchpl.new_vs_incumbent_statistics FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER nonconformity_status_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.nonconformity_status FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER nonconformity_status_timestamp BEFORE UPDATE on openchpl.nonconformity_status FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER notification_recipient_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.notification_recipient FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
