@@ -73,17 +73,17 @@ CREATE TABLE openchpl.incumbent_developers_statistics (
         id bigserial NOT NULL,
         new_count bigint NOT NULL,
         incumbent_count bigint NOT NULL,
-        old_edition_id bigint NOT NULL,
-        new_edition_id bigint NOT NULL,
+        old_certification_edition_id bigint NOT NULL,
+        new_certification_edition_id bigint NOT NULL,
         creation_date timestamp without time zone NOT NULL DEFAULT now(),
         last_modified_date timestamp without time zone NOT NULL DEFAULT now(),
         last_modified_user bigint NOT NULL,
         deleted boolean NOT NULL DEFAULT false,
         CONSTRAINT incumbent_developers_statistics_pk PRIMARY KEY (id),
-        CONSTRAINT old_edition_fk FOREIGN KEY (old_edition_id)
+        CONSTRAINT old_certification_edition_fk FOREIGN KEY (old_certification_edition_id)
         REFERENCES openchpl.certification_edition (certification_edition_id) MATCH FULL
         ON DELETE RESTRICT ON UPDATE CASCADE,
-        CONSTRAINT new_edition_fk FOREIGN KEY (new_edition_id)
+        CONSTRAINT new_certification_edition_fk FOREIGN KEY (new_certification_edition_id)
         REFERENCES openchpl.certification_edition (certification_edition_id) MATCH FULL
         ON DELETE RESTRICT ON UPDATE CASCADE
         );
