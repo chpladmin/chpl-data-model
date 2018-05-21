@@ -1,6 +1,9 @@
 
-## Version 14.1.1
+## Version 14.2.0
 _Date TBD_
+
+### Table changes
+* Create table to hold "new" vs "incumbent" Developer statistics
 
 ### Data Modifications
 * Consolidation/rename of test tools
