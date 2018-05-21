@@ -3,3 +3,4 @@
 /maint/openchpl.backup
 /maint/users.sql
 prod-data-model.sh
+thaw-data-model.sh

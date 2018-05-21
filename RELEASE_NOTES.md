@@ -1,5 +1,21 @@
 # Release Notes
 
+## Version 14.1.0
+_21 May 2018_
+
+### Table Modifications
+* Added table to support criterion/product chart statistics
+
+### View Modifications
+* Update `certified_product_search` to respect deleted certification_status_events when getting "latest" status name
+* Update `certified_product_details` to respect deleted certification_status_events when calculating certification_date and decertification_date columns.
+
+### Data Modifications
+* Update g1 and g2 macra measures to their new mappings
+* Add two "lost" Listings from legacy CHPL
+
+---
+
 ## Version 14.0.1
 _7 May 2018_
 
@@ -7,7 +23,6 @@ _7 May 2018_
 * Add 2 new testing tools
 
 ---
-
 
 ## Version 14.0.0
 _23 April 2018_
