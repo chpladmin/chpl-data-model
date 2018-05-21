@@ -236,7 +236,7 @@ UPDATE openchpl.macra_criteria_map
 SET value = 'RT2b EC ACI Transition',  name = 'Patient Electronic Access: Eligible Clinician', description ='Required Test 2: ACI Transition Objective 3 Measure 1'
 WHERE criteria_id = (SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (e)(1)') AND value = 'RT2b EC Individual (TIN/NPI)';
 INSERT INTO openchpl.macra_criteria_map (criteria_id, value, name, description, last_modified_user) values
-((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (e)(1)'), 'RT2b EC ACI', 'Patient Electronic Access: Eligible Clinician', 'Required Test 2: ACI Transition Objective 3 Measure 1', -1);
+((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (e)(1)'), 'RT2b EC ACI', 'Patient Electronic Access: Eligible Clinician', 'Required Test 2: ACI Objective 3 Measure 1', -1);
 
 UPDATE openchpl.macra_criteria_map 
 SET value = 'RT4a EC ACI Transition',  name = 'View, Download, or Transmit (VDT): Eligible Clinician', description ='Required Test 4: ACI Transition Objective 3 Measure 2'
