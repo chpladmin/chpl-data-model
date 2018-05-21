@@ -18,7 +18,7 @@ UPDATE openchpl.macra_criteria_map
 SET value = 'EP Stage 2',  name = 'Computerized Provider Order - Laboratory: Eligible Provider', description = 'Required Test 11: Stage 2 Objective 3 Measure 2'
 WHERE criteria_id = (SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (a)(2)') AND value = 'EP';
 INSERT INTO openchpl.macra_criteria_map (criteria_id, value, name, description, last_modified_user) values
-((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (a)(2)'), 'EP Stage 3', 'Computerized Provider Order - Laboratory: Eligible Provider', 'Required Test 11: Stage 3 Objective 4 Measure 2', -1);
+((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (a)(2)'), 'EP Stage 3', 'Computerized Provider Order Entry - Laboratory: Eligible Provider', 'Required Test 11: Stage 3 Objective 4 Measure 2', -1);
 
 UPDATE openchpl.macra_criteria_map 
 SET value = 'EH/CAH Stage 2',  name = 'Computerized Provider Order Entry - Laboratory: Eligible Hospital/Critical Access Hospital', description = 'Required Test 11: Stage 2 Objective 3 Measure 2'
@@ -100,7 +100,7 @@ INSERT INTO openchpl.macra_criteria_map (criteria_id, value, name, description, 
 ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (b)(1)'), 'RT7 EC ACI', 'Patient Care Record Exchange: Eligible Clinician', 'Required Test 7: ACI Objective 5 Measure 1', -1);
 
 UPDATE openchpl.macra_criteria_map 
-SET value = 'RT8 EC ACI',  name = 'Patient Care Record Exchange: Eligible Clinician', description = 'Required Test 8: ACI Objective 5 Measure 2'
+SET value = 'RT8 EC ACI',  name = 'Request/Accept Patient Care Record: Eligible Clinician', description = 'Required Test 8: ACI Objective 5 Measure 2'
 WHERE criteria_id = (SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (b)(1)') AND value = 'RT8 EC Group';
 
 UPDATE openchpl.macra_criteria_map 
@@ -221,10 +221,10 @@ INSERT INTO openchpl.macra_criteria_map (criteria_id, value, name, description, 
 ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (e)(1)'), 'RT4b EP Stage 3', 'View, Download, or Transmit (VDT): Eligible Provider ', 'Required Test 4: Stage 3 Objective 6 Measure 1', -1);
 
 UPDATE openchpl.macra_criteria_map 
-SET value = 'RT4b EC ACI Transition',  name = 'Patient Electronic Access: Eligible Clinician', description = 'Required Test 4: ACI Transition Objective 3 Measure 2 '
+SET value = 'RT4b EC ACI Transition',  name = 'View, Download, or Transmit (VDT): Eligible Clinician', description = 'Required Test 4: ACI Transition Objective 3 Measure 2 '
 WHERE criteria_id = (SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (e)(1)') AND value = 'RT4b EC Individual (TIN/NPI)';
 INSERT INTO openchpl.macra_criteria_map (criteria_id, value, name, description, last_modified_user) values
-((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (e)(1)'), 'RT4b EC ACI', 'Patient Electronic Access: Eligible Clinician', 'Required Test 4: ACI Objective 4 Measure 1', -1);
+((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (e)(1)'), 'RT4b EC ACI', 'View, Download, or Transmit (VDT): Eligible Clinician ', 'Required Test 4: ACI Objective 4 Measure 1', -1);
 
 UPDATE openchpl.macra_criteria_map 
 SET value = 'RT2a EC ACI Transition',  name = 'Patient Electronic Access: Eligible Clinician Group', description ='Required Test 2: ACI Transition Objective 3 Measure 1'
@@ -236,7 +236,7 @@ UPDATE openchpl.macra_criteria_map
 SET value = 'RT2b EC ACI Transition',  name = 'Patient Electronic Access: Eligible Clinician', description ='Required Test 2: ACI Transition Objective 3 Measure 1'
 WHERE criteria_id = (SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (e)(1)') AND value = 'RT2b EC Individual (TIN/NPI)';
 INSERT INTO openchpl.macra_criteria_map (criteria_id, value, name, description, last_modified_user) values
-((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (e)(1)'), 'RT2b EC ACI', 'Patient Electronic Access: Eligible Clinician', 'Required Test 2: ACI Transition Objective 3 Measure 1', -1);
+((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (e)(1)'), 'RT2b EC ACI', 'Patient Electronic Access: Eligible Clinician', 'Required Test 2: ACI Objective 3 Measure 1', -1);
 
 UPDATE openchpl.macra_criteria_map 
 SET value = 'RT4a EC ACI Transition',  name = 'View, Download, or Transmit (VDT): Eligible Clinician', description ='Required Test 4: ACI Transition Objective 3 Measure 2'
@@ -457,7 +457,7 @@ INSERT INTO openchpl.macra_criteria_map (criteria_id, value, name, description, 
 ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (g)(8)'), 'RT2a EH/CAH Stage 3', 'Patient Electronic Access: Eligible Hospital/Critical Access Hospital', 'Required Test 2: Stage 3 Objective 5 Measure 1', -1);
 
 UPDATE openchpl.macra_criteria_map 
-SET value = 'RT2c EH/CAH Stage 2',  name = 'View, Download, or Transmit (VDT): Eligible Hospital/Critical Access Hospital', description ='Required Test 2: Stage 2 Objective 8 Measure 1'
+SET value = 'RT2c EH/CAH Stage 2',  name = 'Patient Electronic Access:  Eligible Hospital/Critical Access Hospital', description ='Required Test 2: Stage 2 Objective 8 Measure 1'
 WHERE criteria_id = (SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (g)(8)') AND value = 'RT2c EH/CAH';
 INSERT INTO openchpl.macra_criteria_map (criteria_id, value, name, description, last_modified_user) values
 ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (g)(8)'), 'RT2c EH/CAH Stage 3', 'Patient Electronic Access: Eligible Hospital/Critical Access Hospital', 'Required Test 2: Stage 3 Objective 5 Measure 1', -1);
