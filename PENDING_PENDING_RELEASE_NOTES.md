@@ -13,5 +13,6 @@ _Date TBD_
   * "Transport Test Tool" + "Transport Testing Tool" = "Transport Testing Tool"
   * "Healthcare Associated Infections (HAI) Validator" -> CDC's NHSN CDA Validator
   * "Edge Test Tool" -> "Edge Testing Tool"
+* Add activity concept for legacy corrective action plans to distinguish from certified product activities.
 
 ---
