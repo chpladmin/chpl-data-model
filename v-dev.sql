@@ -64,3 +64,30 @@ where test_tool_id = 24;
 update openchpl.test_tool tt
 set name = 'Edge Testing Tool'
 where test_tool_id = 16;
+
+--
+-- OCD-2104: new vs. incumbent statistics
+--
+DROP TABLE IF EXISTS openchpl.incumbent_developers_statistics;
+CREATE TABLE openchpl.incumbent_developers_statistics (
+        id bigserial NOT NULL,
+        new_count bigint NOT NULL,
+        incumbent_count bigint NOT NULL,
+        old_certification_edition_id bigint NOT NULL,
+        new_certification_edition_id bigint NOT NULL,
+        creation_date timestamp without time zone NOT NULL DEFAULT now(),
+        last_modified_date timestamp without time zone NOT NULL DEFAULT now(),
+        last_modified_user bigint NOT NULL,
+        deleted boolean NOT NULL DEFAULT false,
+        CONSTRAINT incumbent_developers_statistics_pk PRIMARY KEY (id),
+        CONSTRAINT old_certification_edition_fk FOREIGN KEY (old_certification_edition_id)
+        REFERENCES openchpl.certification_edition (certification_edition_id) MATCH FULL
+        ON DELETE RESTRICT ON UPDATE CASCADE,
+        CONSTRAINT new_certification_edition_fk FOREIGN KEY (new_certification_edition_id)
+        REFERENCES openchpl.certification_edition (certification_edition_id) MATCH FULL
+        ON DELETE RESTRICT ON UPDATE CASCADE
+        );
+CREATE TRIGGER incumbent_developers_statistics_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.incumbent_developers_statistics FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+CREATE TRIGGER incumbent_developers_statistics_timestamp BEFORE UPDATE on openchpl.incumbent_developers_statistics FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
+--re-run grants
+\i dev/openchpl_grant-all.sql
