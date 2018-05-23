@@ -14,5 +14,5 @@ _Date TBD_
   * "Healthcare Associated Infections (HAI) Validator" -> CDC's NHSN CDA Validator
   * "Edge Test Tool" -> "Edge Testing Tool"
 * Add activity concept for legacy corrective action plans to distinguish from certified product activities.
-
+* Update InfoGard listings Public Test Summary Report and UCD URLs
 ---
