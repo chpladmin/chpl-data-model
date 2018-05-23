@@ -4,6 +4,7 @@ _Date TBD_
 
 ### Table changes
 * Create table to hold "new" vs "incumbent" Developer statistics
+* Create table to hold number of products and developers with active listings by edition
 
 ### Data Modifications
 * Consolidation/rename of test tools
