@@ -2833,18 +2833,22 @@ CREATE TABLE openchpl.incumbent_developers_statistics (
         ON DELETE RESTRICT ON UPDATE CASCADE
         );
 
-CREATE TABLE openchpl.active_listings_statistics (
+CREATE TABLE openchpl.listing_count_statistics (
         id bigserial NOT NULL,
         developer_count bigint NOT NULL,
         product_count bigint NOT NULL,
         certification_edition_id bigint NOT NULL,
+        certification_status_id bigint NOT NULL,
         creation_date timestamp without time zone NOT NULL DEFAULT now(),
         last_modified_date timestamp without time zone NOT NULL DEFAULT now(),
         last_modified_user bigint NOT NULL,
         deleted boolean NOT NULL DEFAULT false,
-        CONSTRAINT active_listings_statistics_pk PRIMARY KEY (id),
+        CONSTRAINT listing_count_statistics_pk PRIMARY KEY (id),
         CONSTRAINT certification_edition_fk FOREIGN KEY (certification_edition_id)
         REFERENCES openchpl.certification_edition (certification_edition_id) MATCH FULL
+        ON DELETE RESTRICT ON UPDATE CASCADE,
+        CONSTRAINT certification_status_fk FOREIGN KEY (certification_status_id)
+        REFERENCES openchpl.certification_status (certification_status_id) MATCH FULL
         ON DELETE RESTRICT ON UPDATE CASCADE
         );
 
