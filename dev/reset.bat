@@ -15,5 +15,6 @@ psql -Upostgres -f openchpl_preload.sql openchpl
 psql -Upostgres -f openchpl_preload.sql openchpl_test
 psql -Upostgres -f openchpl_api-key.sql openchpl
 psql -Upostgres -f openchpl_api-key.sql openchpl_test
+psql -Upostgres -f openchpl_quartz.sql openchpl
 psql -Upostgres -f openchpl_grant-all.sql openchpl
 psql -Upostgres -f openchpl_grant-all.sql openchpl_test
