@@ -5,12 +5,6 @@ update openchpl.notification_recipient set deleted = true;
 update openchpl.notification_type_recipient_map set deleted = true;
 
 /*
- * delete old triggers
- */
-delete from quartz.qrtz_cron_triggers;
-delete from quartz.qrtz_triggers;
-
-    /*
  * create emails
  */
 insert into openchpl.notification_recipient (email, last_modified_user) values
