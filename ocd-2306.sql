@@ -1,6 +1,6 @@
 update openchpl.notification_type nt set deleted = true where nt.name = 'Cache Status Age Notification';
 update openchpl.notification_type_recipient_map ntrm set deleted = true where ntrm.notification_type_id = (select nt.id from openchpl.notification_type nt where nt.name = 'Cache Status Age Notification');
-
+update openchpl.notification_type_permission ntp set deleted = true where ntp.notification_type_id = (select nt.id from openchpl.notification_type nt where nt.name = 'Cache Status Age Notification');
 -- SCHEMA: quartz
 
 DROP SCHEMA IF EXISTS quartz CASCADE ;
