@@ -4,7 +4,7 @@
 update openchpl.notification_recipient set deleted = true;
 update openchpl.notification_type_recipient_map set deleted = true;
 
-    /*
+/*
  * create emails
  */
 insert into openchpl.notification_recipient (email, last_modified_user) values
