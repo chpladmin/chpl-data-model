@@ -583,6 +583,23 @@ CREATE TABLE openchpl.certification_result_test_standard (
 
 );
 
+-- object: openchpl.practice_type | type: TABLE --
+-- DROP TABLE IF EXISTS openchpl.practice_type CASCADE;
+CREATE TABLE openchpl.practice_type(
+	practice_type_id bigserial NOT NULL,
+	name varchar(50) NOT NULL,
+	description varchar(250) NOT NULL,
+	creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
+	CONSTRAINT practice_type_pk PRIMARY KEY (practice_type_id)
+
+);
+-- ddl-end --
+-- ALTER TABLE openchpl.practice_type OWNER TO openchpl;
+-- ddl-end --
+
 CREATE TABLE openchpl.test_functionality (
 	test_functionality_id bigserial not null,
 	number varchar(200) not null,
@@ -1210,22 +1227,6 @@ CREATE TABLE openchpl.product_classification_type(
 -- ALTER TABLE openchpl.product_classification_type OWNER TO openchpl;
 -- ddl-end --
 
--- object: openchpl.practice_type | type: TABLE --
--- DROP TABLE IF EXISTS openchpl.practice_type CASCADE;
-CREATE TABLE openchpl.practice_type(
-	practice_type_id bigserial NOT NULL,
-	name varchar(50) NOT NULL,
-	description varchar(250) NOT NULL,
-	creation_date timestamp NOT NULL DEFAULT NOW(),
-	last_modified_date timestamp NOT NULL DEFAULT NOW(),
-	last_modified_user bigint NOT NULL,
-	deleted bool NOT NULL DEFAULT false,
-	CONSTRAINT practice_type_pk PRIMARY KEY (practice_type_id)
-
-);
--- ddl-end --
--- ALTER TABLE openchpl.practice_type OWNER TO openchpl;
--- ddl-end --
 
 -- object: openchpl.optional_functionality_met | type: TABLE --
 -- DROP TABLE IF EXISTS openchpl.optional_functionality_met CASCADE;

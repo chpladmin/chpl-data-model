@@ -5,4 +5,5 @@ psql -Upostgres -f openchpl_soft-delete.sql openchpl_test
 psql -Upostgres -f openchpl_views.sql openchpl_test
 psql -Upostgres -f openchpl_preload.sql openchpl_test
 psql -Upostgres -f openchpl_api-key.sql openchpl_test
+psql -Upostgres -f openchpl_quartz.sql openchpl_test
 psql -Upostgres -f openchpl_grant-all.sql openchpl_test
