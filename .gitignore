@@ -2,5 +2,5 @@
 /dev/openchpl_api-key.sql
 /maint/openchpl.backup
 /maint/users.sql
-prod-data-model.sh
-thaw-data-model.sh
+*-data-model.sh
+push-*.sh
