@@ -48,7 +48,7 @@ echo "i = $INCLUDE"
 
 if [ $INCLUDE -eq 1 ]
 then
-    pg_dump --host $HOST --username $USER --no-password --format custom --blobs --verbose --file $FILE openchpl
+    pg_dump --host $HOST --username $USER --no-password --format custom --blobs --verbose --exclude-table-data=quartz.* --file $FILE openchpl
 else
-    pg_dump --host $HOST --username $USER --no-password --format custom --blobs --verbose --exclude-table-data=audit.logged_actions --file $FILE openchpl
+    pg_dump --host $HOST --username $USER --no-password --format custom --blobs --verbose --exclude-table-data=quartz.* --exclude-table-data=audit.logged_actions --file $FILE openchpl
 fi
