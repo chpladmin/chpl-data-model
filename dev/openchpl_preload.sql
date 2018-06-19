@@ -1103,9 +1103,10 @@ INSERT INTO openchpl.test_functionality(number, name, certification_edition_id, 
 ('(e)(1)(i)(B)(1)(ii)','Inpatient setting: 170.314(e)(1)(i)(B)(1)(ii) All of the data in the Common MU Data Set (which should be in their English (i.e., noncoded) representation if they associate with a vocabulary/code set) and the admission and discharge dates and locations; discharge instructions; and reason(s) for hospitalization', 2, 2, 103,-1),
 ('(e)(1)(i)(B)(2)','Inpatient setting: 170.314(e)(1)(i)(B)(2) Electronically download transition of care/referral summaries that were created as a result of a transition of care (pursuant to the capability expressed in the certification criterion adopted at paragraph (b)(2) of this section)', 2, 2, 103, -1),
 ('(e)(1)(i)(C)(2)','Inpatient setting: 170.314(e)(1)(i)(C)(2) Electronically transmit transition of care/referral summaries (as a result of a transition of care/referral) selected by the patient (or their authorized representative) in accordance with at least one of the following: (i) The standard specified in §170.202(a). (ii) Through a method that conforms to the standard specified at §170.202(d) and that leads to such summary being processed by a service that has implemented the standard specified in §170.202(a)', 2, 2, 103, -1),
-('(f)(3)(ii)','Inpatient setting: 170.314(f)(3)(ii)  The standard (and applicable implementation specifications) specified in §170.205(d)(3)', 2, 2, 108, -1),
+('(f)(3)(ii)','Inpatient setting: 170.314(f)(3)(ii)  The standard (and applicable implementation specifications) specified in §170.205(d)(3)', 2, 2, 108, -1);
 --2014
 
+INSERT INTO openchpl.test_functionality(number, name, certification_edition_id, last_modified_user) VALUES
 ('(a)(4)(ii)(B)(1)','Alternative: 170.315(a)(4)(ii)(B)(1) To a specific set of identified users', 3, -1),
 ('(a)(4)(ii)(B)(2)','Alternative: 170.315(a)(4)(ii)(B)(2) As a system administrative function', 3, -1),
 ('(a)(10)(i)','Alternative: 170.315(a)(10)(i) Drug formulary checks. Automatically check whether a drug formulary exists for a given patient and medication', 3, -1),
