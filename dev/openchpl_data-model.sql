@@ -605,11 +605,21 @@ CREATE TABLE openchpl.test_functionality (
 	number varchar(200) not null,
 	name varchar(1000),
 	certification_edition_id bigint NOT NULL,
+	practice_type_id bigint,
+	certification_criterion_id bigint,
 	creation_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_user bigint NOT NULL,
 	deleted bool NOT NULL DEFAULT false,
-	constraint test_functionality_pk primary key (test_functionality_id)
+	constraint test_functionality_pk primary key (test_functionality_id),
+    CONSTRAINT certification_criterion_fk FOREIGN KEY (certification_criterion_id)
+        REFERENCES openchpl.certification_criterion (certification_criterion_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT practice_type_fk FOREIGN KEY (practice_type_id)
+        REFERENCES openchpl.practice_type (practice_type_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
 );
 
 CREATE TABLE openchpl.certification_result_test_functionality
