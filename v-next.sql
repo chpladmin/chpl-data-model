@@ -23,129 +23,137 @@ ALTER TABLE openchpl.test_functionality
         ON DELETE NO ACTION;
 		
 --Update the appropriate test_functionality records with practice type and certification criterion		
+--Update the appropriate test_functionality records with practice type and certification criterion		
 UPDATE openchpl.test_functionality 
 	SET practice_type_id = (SELECT practice_type_id FROM openchpl.practice_type WHERE name = 'Ambulatory'), 
 		certification_criterion_id = (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (a)(5)')
-WHERE test_functionality_id = 6; 
+WHERE test_functionality_id = (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(a)(5)(i)' AND certification_edition_id = 2); 
 
 UPDATE openchpl.test_functionality 
 	SET practice_type_id = (SELECT practice_type_id FROM openchpl.practice_type WHERE name = 'Ambulatory'), 
 		certification_criterion_id = (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (a)(6)')
-WHERE test_functionality_id = 7;
+WHERE test_functionality_id = (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(a)(6)(i)' AND certification_edition_id = 2); 
 
 UPDATE openchpl.test_functionality 
 	SET practice_type_id = (SELECT practice_type_id FROM openchpl.practice_type WHERE name = 'Ambulatory'), 
 		certification_criterion_id = (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (a)(7)')
-WHERE test_functionality_id = 8;
+WHERE test_functionality_id = (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(a)(7)(i)' AND certification_edition_id = 2); 
 
 UPDATE openchpl.test_functionality 
 	SET practice_type_id = (SELECT practice_type_id FROM openchpl.practice_type WHERE name = 'Ambulatory'), 
 		certification_criterion_id = (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (a)(8)')
-WHERE test_functionality_id = 9;
+WHERE test_functionality_id = (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(a)(8)(iii)(B)(3)' AND certification_edition_id = 2); 
 
 UPDATE openchpl.test_functionality 
 	SET practice_type_id = (SELECT practice_type_id FROM openchpl.practice_type WHERE name = 'Ambulatory'), 
 		certification_criterion_id = (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (a)(14)')
-WHERE test_functionality_id = 10;
+WHERE test_functionality_id = (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(a)(14)(vi)' AND certification_edition_id = 2); 
 
 UPDATE openchpl.test_functionality 
 	SET practice_type_id = (SELECT practice_type_id FROM openchpl.practice_type WHERE name = 'Ambulatory'), 
 		certification_criterion_id = (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (b)(2)')
-WHERE test_functionality_id = 11;
+WHERE test_functionality_id = (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(b)(2)(i)(E)' AND certification_edition_id = 2); 
 
 UPDATE openchpl.test_functionality 
 	SET practice_type_id = (SELECT practice_type_id FROM openchpl.practice_type WHERE name = 'Ambulatory'), 
 		certification_criterion_id = (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (b)(7)')
-WHERE test_functionality_id = 12;
+WHERE test_functionality_id = (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(b)(7)(v)' AND certification_edition_id = 2); 
 
 UPDATE openchpl.test_functionality 
 	SET practice_type_id = (SELECT practice_type_id FROM openchpl.practice_type WHERE name = 'Ambulatory'), 
 		certification_criterion_id = (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (b)(8)')
-WHERE test_functionality_id = 13;
+WHERE test_functionality_id = (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(b)(8)(iii)(E)' AND certification_edition_id = 2); 
 
 UPDATE openchpl.test_functionality 
 	SET practice_type_id = (SELECT practice_type_id FROM openchpl.practice_type WHERE name = 'Ambulatory'), 
 		certification_criterion_id = (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (e)(1)')
-WHERE test_functionality_id = 14;
+WHERE test_functionality_id = (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(e)(1)(i)(A)(2)' AND certification_edition_id = 2); 
 
 UPDATE openchpl.test_functionality 
 	SET practice_type_id = (SELECT practice_type_id FROM openchpl.practice_type WHERE name = 'Ambulatory'), 
 		certification_criterion_id = (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (e)(1)')
-WHERE test_functionality_id = 15;
+WHERE test_functionality_id = (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(e)(1)(i)(B)(1)(i)' AND certification_edition_id = 2); 
+
+UPDATE openchpl.test_functionality 
+	SET practice_type_id = (SELECT practice_type_id FROM openchpl.practice_type WHERE name = 'Ambulatory'), 
+		certification_criterion_id = (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (f)(3)')
+WHERE test_functionality_id = (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(f)(3)(i)' AND certification_edition_id = 2);
 -----------------
 UPDATE openchpl.test_functionality 
 	SET practice_type_id = (SELECT practice_type_id FROM openchpl.practice_type WHERE name = 'Inpatient'), 
 		certification_criterion_id = (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (a)(5)')
-WHERE test_functionality_id = 16;
+WHERE test_functionality_id = (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(a)(5)(ii)' AND certification_edition_id = 2); 
 
 UPDATE openchpl.test_functionality 
 	SET practice_type_id = (SELECT practice_type_id FROM openchpl.practice_type WHERE name = 'Inpatient'), 
 		certification_criterion_id = (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (a)(6)')
-WHERE test_functionality_id = 17;
+WHERE test_functionality_id = (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(a)(6)(ii)' AND certification_edition_id = 2); 
 
 UPDATE openchpl.test_functionality 
 	SET practice_type_id = (SELECT practice_type_id FROM openchpl.practice_type WHERE name = 'Inpatient'), 
 		certification_criterion_id = (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (a)(7)')
-WHERE test_functionality_id = 18;
+WHERE test_functionality_id = (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(a)(7)(ii)' AND certification_edition_id = 2); 
 
 UPDATE openchpl.test_functionality 
 	SET practice_type_id = (SELECT practice_type_id FROM openchpl.practice_type WHERE name = 'Inpatient'), 
 		certification_criterion_id = (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (b)(2)')
-WHERE test_functionality_id = 19;
+WHERE test_functionality_id = (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(b)(2)(i)(F)' AND certification_edition_id = 2); 
 
 UPDATE openchpl.test_functionality 
 	SET practice_type_id = (SELECT practice_type_id FROM openchpl.practice_type WHERE name = 'Inpatient'), 
 		certification_criterion_id = (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (b)(7)')
-WHERE test_functionality_id = 20;
+WHERE test_functionality_id = (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(b)(7)(vi)' AND certification_edition_id = 2); 
 
 UPDATE openchpl.test_functionality 
 	SET practice_type_id = (SELECT practice_type_id FROM openchpl.practice_type WHERE name = 'Inpatient'), 
 		certification_criterion_id = (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (b)(8)')
-WHERE test_functionality_id = 21;
+WHERE test_functionality_id = (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(b)(8)(iii)(F)' AND certification_edition_id = 2); 
 
 UPDATE openchpl.test_functionality 
 	SET practice_type_id = (SELECT practice_type_id FROM openchpl.practice_type WHERE name = 'Inpatient'), 
 		certification_criterion_id = (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (e)(1)')
-WHERE test_functionality_id = 22;
+WHERE test_functionality_id = (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(e)(1)(i)(A)(3)' AND certification_edition_id = 2); 
 
 UPDATE openchpl.test_functionality 
 	SET practice_type_id = (SELECT practice_type_id FROM openchpl.practice_type WHERE name = 'Inpatient'), 
 		certification_criterion_id = (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (e)(1)')
-WHERE test_functionality_id = 23;
+WHERE test_functionality_id = (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(e)(1)(i)(B)(1)(ii)' AND certification_edition_id = 2); 
 
 UPDATE openchpl.test_functionality 
 	SET practice_type_id = (SELECT practice_type_id FROM openchpl.practice_type WHERE name = 'Inpatient'), 
 		certification_criterion_id = (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (e)(1)')
-WHERE test_functionality_id = 24;
+WHERE test_functionality_id = (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(e)(1)(i)(B)(2)' AND certification_edition_id = 2); 
 
 UPDATE openchpl.test_functionality 
 	SET practice_type_id = (SELECT practice_type_id FROM openchpl.practice_type WHERE name = 'Inpatient'), 
 		certification_criterion_id = (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (e)(1)')
-WHERE test_functionality_id = 25;
+WHERE test_functionality_id = (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(e)(1)(i)(C)(2)' AND certification_edition_id = 2); 
 
 UPDATE openchpl.test_functionality 
 	SET practice_type_id = (SELECT practice_type_id FROM openchpl.practice_type WHERE name = 'Inpatient'), 
 		certification_criterion_id = (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (f)(3)')
-WHERE test_functionality_id = 26;
+WHERE test_functionality_id = (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(f)(3)(i)' AND certification_edition_id = 2); 
 ------------------------
 UPDATE openchpl.test_functionality 
 	SET certification_criterion_id = (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (a)(4)')
-WHERE test_functionality_id = 1;
+WHERE test_functionality_id = (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(a)(4)(iii)' AND certification_edition_id = 2); 
 
 UPDATE openchpl.test_functionality 
 	SET certification_criterion_id = (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (b)(1)')
-WHERE test_functionality_id = 2;
+WHERE test_functionality_id = (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(b)(1)(i)(B)' AND certification_edition_id = 2); 
 
 UPDATE openchpl.test_functionality 
 	SET certification_criterion_id = (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (b)(1)')
-WHERE test_functionality_id = 3;
+WHERE test_functionality_id = (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(b)(1)(i)(C)' AND certification_edition_id = 2); 
 
 UPDATE openchpl.test_functionality 
 	SET certification_criterion_id = (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (f)(3)')
-WHERE test_functionality_id = 4;
+WHERE test_functionality_id = (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(f)(3)(i)(B)' AND certification_edition_id = 2); 
 
 UPDATE openchpl.test_functionality 
 	SET certification_criterion_id = (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (f)(7)')
-WHERE test_functionality_id = 5;
+WHERE test_functionality_id = (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(f)(7)(i)' AND certification_edition_id = 2); 
+
+
 
 
