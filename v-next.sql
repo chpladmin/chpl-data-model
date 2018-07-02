@@ -132,7 +132,7 @@ WHERE test_functionality_id = (SELECT test_functionality_id FROM openchpl.test_f
 UPDATE openchpl.test_functionality 
 	SET practice_type_id = (SELECT practice_type_id FROM openchpl.practice_type WHERE name = 'Inpatient'), 
 		certification_criterion_id = (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (f)(3)')
-WHERE test_functionality_id = (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(f)(3)(i)' AND certification_edition_id = 2); 
+WHERE test_functionality_id = (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(f)(3)(ii)' AND certification_edition_id = 2); 
 ------------------------
 UPDATE openchpl.test_functionality 
 	SET certification_criterion_id = (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (a)(4)')
