@@ -148,4 +148,19 @@ UPDATE openchpl.test_functionality
 	SET certification_criterion_id = (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (f)(7)')
 WHERE test_functionality_id = 5;
 
+-- OCD - 2351 - nonconformity chart statistics
 
+DROP TABLE openchpl.nonconformity_type_statistics IF EXISTS;
+CREATE TABLE openchpl.nonconformity_type_statistics
+(
+  	id bigserial NOT NULL,
+  	nonconformity_count bigint NOT NULL,
+	nonconformity_type bigint NOT NULL,
+  	creation_date timestamp without time zone NOT NULL DEFAULT now(),
+  	last_modified_date timestamp without time zone NOT NULL DEFAULT now(),
+  	last_modified_user bigint NOT NULL,
+  	deleted boolean NOT NULL DEFAULT false,
+  	CONSTRAINT nonconformity_type_statistics_pk PRIMARY KEY (id)
+);
+CREATE TRIGGER nonconformity_type_statistics_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.nonconformity_type_statistics FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+CREATE TRIGGER nonconformity_type_statistics_timestamp BEFORE UPDATE on openchpl.nonconformity_type_statistics FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
