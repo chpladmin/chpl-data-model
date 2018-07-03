@@ -2752,6 +2752,18 @@ CREATE TABLE openchpl.job_message (
       ON UPDATE NO ACTION ON DELETE NO ACTION
 );
 
+CREATE TABLE openchpl.nonconformity_type_statistics
+(
+  	id bigserial NOT NULL,
+	nonconformity_type bigint NOT NULL,
+	nonconformity_count bigint NOT NULL,
+  	creation_date timestamp without time zone NOT NULL DEFAULT now(),
+  	last_modified_date timestamp without time zone NOT NULL DEFAULT now(),
+  	last_modified_user bigint NOT NULL,
+  	deleted boolean NOT NULL DEFAULT false,
+  	CONSTRAINT nonconformity_type_statistics_pk PRIMARY KEY (id)
+);
+
 CREATE TABLE openchpl.sed_participants_statistics_count
 (
   	id bigserial NOT NULL,
