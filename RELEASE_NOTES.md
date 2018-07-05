@@ -1,5 +1,17 @@
 # Release Notes
 
+## Version 14.4.0
+_5 July 2018_
+
+### Table changes
+* Added column to relate test functionality to practice type
+* Added column to relate test functionality to certification criteria
+
+### Data modifications
+* Updated 2014 test functionalities to have appropriate practice types and certification criterion
+
+---
+
 ## Version 14.3.0
 _18 June 2018_
 

@@ -1076,36 +1076,177 @@ ITU-T E. 164, Series E: Overall Network Operation, Telephone Service, Service Op
 ('170.204(a)(2)','Web Content Accessibility Guidelines (WCAG) 2.0, Level AA Conformance', 3, -1);
 --2015
 
-INSERT INTO openchpl.test_functionality(number, name, certification_edition_id, last_modified_user) VALUES
-('(a)(4)(iii)','Optional: 170.314(a)(4)(iii) Plot and electronically display, upon request, growth charts for patients', 2, -1),
-('(b)(1)(i)(B)','Optional: 170.314(b)(1)(i)(B) Receive summary care record using the standards specified at §170.202(a) and (b) (Direct and XDM Validation)', 2, -1),
-('(b)(1)(i)(C)','Optional: 170.314(b)(1)(i)(C) Receive summary care record using the standards specified at §170.202(b) and (c) (SOAP Protocols)', 2, -1),
-('(f)(3)(i)(B)','Optional: 170.314(f)(3)(i)(B) Create syndrome-based public health surveillance information for transmission using the standard specified at §170.205(d)(3) (urgent care visit scenario)', 2, -1),
-('(f)(7)(i)','Optional: (f)(7)(i) EHR technology must be able to electronically create syndrome-based public health surveillance information for electronic transmission that contains the following data: (A) Patient demographics; (B) Provider specialty; (C) Provider address; (D) Problem list; (E) Vital signs; (F) Laboratory test values/results; (G) Procedures; (H) Medication list; and (I) Insurance', 2, -1),
-('(a)(5)(i)','Ambulatory setting: 170.314(a)(5)(i) Over multiple encounters in accordance with, at a minimum, the version of the standard specified in §170.207(a)(3)', 2, -1),
-('(a)(6)(i)','Ambulatory setting: 170.314(a)(6)(i) Over multiple encounters', 2, -1),
-('(a)(7)(i)','Ambulatory setting: 170.314(a)(7)(i) Over multiple encounters', 2, -1),
-('(a)(8)(iii)(B)(3)','Ambulatory setting: 170.314(a)(8)(iii)(B)(3) When a patient''s laboratory tests and values/results are incorporated pursuant to paragraph (b)(5)(i)(A)(1) of this section', 2, -1),
-('(a)(14)(vi)','Ambulatory setting: 170.314(a)(14)(vi) Patient communication preferences', 2, -1),
-('(b)(2)(i)(E)','Ambulatory setting: 170.314(b)(2)(i)(E) The reason for referral; and referring or transitioning provider''s name and office contact information', 2, -1),
-('(b)(7)(v)','Ambulatory setting: 170.314(b)(7)(v) The reason for referral; and referring or transitioning provider''s name and office contact information', 2, -1),
-('(b)(8)(iii)(E)','Ambulatory setting: 170.314(b)(8)(iii)(E) The reason for referral; and referring or transitioning provider''s name and office contact information', 2, -1),
-('(e)(1)(i)(A)(2)','Ambulatory setting: 170.314(e)(1)(i)(A)(2) Provider''s name and office contact information', 2, -1),
-('(e)(1)(i)(B)(1)(i)','Ambulatory setting: 170.314(e)(1)(i)(B)(1)(i) All of the data in the Common MU Data Set (which should be in their English (i.e., noncoded) representation if they associate with a vocabulary/code set) and the Provider''s name and office contact information', 2, -1),
-('(f)(3)(i)','Ambulatory setting: 170.314(f)(3)(i) (A) The standard specified in §170.205(d)(2). (B) Optional. The standard (and applicable implementation specifications) specified in §170.205(d)(3)', 2, -1),
-('(a)(5)(ii)','Inpatient setting: 170.314(a)(5)(ii) For the duration of an entire hospitalization in accordance with, at a minimum, the version of the standard specified in §170.207(a)(3)', 2, -1),
-('(a)(6)(ii)','Inpatient setting: 170.314(a)(6)(ii) For the duration of an entire hospitalization', 2, -1),
-('(a)(7)(ii)','Inpatient setting: 170.314(a)(7)(ii) For the duration of an entire hospitalization', 2, -1),
-('(b)(2)(i)(F)','Inpatient setting: 170.314(b)(2)(i)(F) Discharge instructions', 2, -1),
-('(b)(7)(vi)','Inpatient setting: 170.314(b)(7)(vi) Discharge Instructions', 2, -1),
-('(b)(8)(iii)(F)','Inpatient setting: 170.314(b)(8)(iii)(F) Discharge Instructions', 2, -1),
-('(e)(1)(i)(A)(3)','Inpatient setting: 170.314(e)(1)(i)(A)(3) Admission and discharge dates and locations; discharge instructions; and reason(s) for hospitalization', 2, -1),
-('(e)(1)(i)(B)(1)(ii)','Inpatient setting: 170.314(e)(1)(i)(B)(1)(ii) All of the data in the Common MU Data Set (which should be in their English (i.e., noncoded) representation if they associate with a vocabulary/code set) and the admission and discharge dates and locations; discharge instructions; and reason(s) for hospitalization', 2, -1),
-('(e)(1)(i)(B)(2)','Inpatient setting: 170.314(e)(1)(i)(B)(2) Electronically download transition of care/referral summaries that were created as a result of a transition of care (pursuant to the capability expressed in the certification criterion adopted at paragraph (b)(2) of this section)', 2, -1),
-('(e)(1)(i)(C)(2)','Inpatient setting: 170.314(e)(1)(i)(C)(2) Electronically transmit transition of care/referral summaries (as a result of a transition of care/referral) selected by the patient (or their authorized representative) in accordance with at least one of the following: (i) The standard specified in §170.202(a). (ii) Through a method that conforms to the standard specified at §170.202(d) and that leads to such summary being processed by a service that has implemented the standard specified in §170.202(a)', 2, -1),
-('(f)(3)(ii)','Inpatient setting: 170.314(f)(3)(ii)  The standard (and applicable implementation specifications) specified in §170.205(d)(3)', 2, -1),
+INSERT INTO openchpl.test_functionality(number, name, certification_edition_id, practice_type_id, certification_criterion_id, last_modified_user) VALUES
+('(a)(4)(iii)','Optional: 170.314(a)(4)(iii) Plot and electronically display, upon request, growth charts for patients', 
+	(SELECT certification_edition_id FROM openchpl.certification_edition WHERE year = '2014'), 
+	null, 
+	(SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (a)(4)'),
+	-1
+),
+('(b)(1)(i)(B)','Optional: 170.314(b)(1)(i)(B) Receive summary care record using the standards specified at §170.202(a) and (b) (Direct and XDM Validation)',
+	(SELECT certification_edition_id FROM openchpl.certification_edition WHERE year = '2014'), 
+	null, 
+	(SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (b)(1)'),
+	-1
+),
+('(b)(1)(i)(C)','Optional: 170.314(b)(1)(i)(C) Receive summary care record using the standards specified at §170.202(b) and (c) (SOAP Protocols)',
+	(SELECT certification_edition_id FROM openchpl.certification_edition WHERE year = '2014'), 
+	null, 
+	(SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (b)(1)'),
+	-1
+),
+('(f)(3)(i)(B)','Optional: 170.314(f)(3)(i)(B) Create syndrome-based public health surveillance information for transmission using the standard specified at §170.205(d)(3) (urgent care visit scenario)',
+	(SELECT certification_edition_id FROM openchpl.certification_edition WHERE year = '2014'), 
+	null, 
+	(SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (f)(3)'),
+	-1
+),
+('(f)(7)(i)','Optional: (f)(7)(i) EHR technology must be able to electronically create syndrome-based public health surveillance information for electronic transmission that contains the following data: (A) Patient demographics; (B) Provider specialty; (C) Provider address; (D) Problem list; (E) Vital signs; (F) Laboratory test values/results; (G) Procedures; (H) Medication list; and (I) Insurance',
+	(SELECT certification_edition_id FROM openchpl.certification_edition WHERE year = '2014'), 
+	null, 
+	(SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (f)(7)'),
+	-1
+),
+('(a)(5)(i)','Ambulatory setting: 170.314(a)(5)(i) Over multiple encounters in accordance with, at a minimum, the version of the standard specified in §170.207(a)(3)',
+	(SELECT certification_edition_id FROM openchpl.certification_edition WHERE year = '2014'), 
+	null, 
+	(SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (a)(5)'),
+	-1
+),
+('(a)(6)(i)','Ambulatory setting: 170.314(a)(6)(i) Over multiple encounters',
+	(SELECT certification_edition_id FROM openchpl.certification_edition WHERE year = '2014'), 
+	(SELECT practice_type_id FROM openchpl.practice_type WHERE name = 'Ambulatory'),
+	(SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (a)(6)'),
+	-1
+),
+('(a)(7)(i)','Ambulatory setting: 170.314(a)(7)(i) Over multiple encounters',
+	(SELECT certification_edition_id FROM openchpl.certification_edition WHERE year = '2014'), 
+	(SELECT practice_type_id FROM openchpl.practice_type WHERE name = 'Ambulatory'),
+	(SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (a)(7)'),
+	-1
+),
+('(a)(8)(iii)(B)(3)','Ambulatory setting: 170.314(a)(8)(iii)(B)(3) When a patient''s laboratory tests and values/results are incorporated pursuant to paragraph (b)(5)(i)(A)(1) of this section',
+	(SELECT certification_edition_id FROM openchpl.certification_edition WHERE year = '2014'), 
+	(SELECT practice_type_id FROM openchpl.practice_type WHERE name = 'Ambulatory'),
+	(SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (a)(8)'),
+	-1
+),
+('(a)(14)(vi)','Ambulatory setting: 170.314(a)(14)(vi) Patient communication preferences',
+	(SELECT certification_edition_id FROM openchpl.certification_edition WHERE year = '2014'), 
+	(SELECT practice_type_id FROM openchpl.practice_type WHERE name = 'Ambulatory'),
+	(SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (a)(14)'),
+	-1
+),
+('(b)(2)(i)(E)','Ambulatory setting: 170.314(b)(2)(i)(E) The reason for referral; and referring or transitioning provider''s name and office contact information',
+	(SELECT certification_edition_id FROM openchpl.certification_edition WHERE year = '2014'), 
+	(SELECT practice_type_id FROM openchpl.practice_type WHERE name = 'Ambulatory'),
+	(SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (b)(2)'),
+	-1
+),
+('(b)(7)(v)','Ambulatory setting: 170.314(b)(7)(v) The reason for referral; and referring or transitioning provider''s name and office contact information',
+	(SELECT certification_edition_id FROM openchpl.certification_edition WHERE year = '2014'), 
+	(SELECT practice_type_id FROM openchpl.practice_type WHERE name = 'Ambulatory'),
+	(SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (b)(7)'),
+	-1
+),
+('(b)(8)(iii)(E)','Ambulatory setting: 170.314(b)(8)(iii)(E) The reason for referral; and referring or transitioning provider''s name and office contact information',
+	(SELECT certification_edition_id FROM openchpl.certification_edition WHERE year = '2014'), 
+	(SELECT practice_type_id FROM openchpl.practice_type WHERE name = 'Ambulatory'),
+	(SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (b)(8)'),
+	-1
+),
+('(e)(1)(i)(A)(2)','Ambulatory setting: 170.314(e)(1)(i)(A)(2) Provider''s name and office contact information',
+	(SELECT certification_edition_id FROM openchpl.certification_edition WHERE year = '2014'), 
+	(SELECT practice_type_id FROM openchpl.practice_type WHERE name = 'Ambulatory'),
+	(SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (e)(1)'),
+	-1
+),
+('(e)(1)(i)(B)(1)(i)','Ambulatory setting: 170.314(e)(1)(i)(B)(1)(i) All of the data in the Common MU Data Set (which should be in their English (i.e., noncoded) representation if they associate with a vocabulary/code set) and the Provider''s name and office contact information',
+	(SELECT certification_edition_id FROM openchpl.certification_edition WHERE year = '2014'), 
+	(SELECT practice_type_id FROM openchpl.practice_type WHERE name = 'Ambulatory'),
+	(SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (e)(1)'),
+	-1
+),
+('(f)(3)(i)','Ambulatory setting: 170.314(f)(3)(i) (A) The standard specified in §170.205(d)(2). (B) Optional. The standard (and applicable implementation specifications) specified in §170.205(d)(3)',
+	(SELECT certification_edition_id FROM openchpl.certification_edition WHERE year = '2014'), 
+	(SELECT practice_type_id FROM openchpl.practice_type WHERE name = 'Ambulatory'),
+	(SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (f)(3)'),
+	-1
+),
+('(a)(5)(ii)','Inpatient setting: 170.314(a)(5)(ii) For the duration of an entire hospitalization in accordance with, at a minimum, the version of the standard specified in §170.207(a)(3)',
+	(SELECT certification_edition_id FROM openchpl.certification_edition WHERE year = '2014'), 
+	(SELECT practice_type_id FROM openchpl.practice_type WHERE name = 'Inpatient'),
+	(SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (a)(5)'),
+	-1
+),
+('(a)(6)(ii)','Inpatient setting: 170.314(a)(6)(ii) For the duration of an entire hospitalization',
+
+	(SELECT certification_edition_id FROM openchpl.certification_edition WHERE year = '2014'), 
+	(SELECT practice_type_id FROM openchpl.practice_type WHERE name = 'Inpatient'),
+	(SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (a)(6)'),
+	-1
+),
+('(a)(7)(ii)','Inpatient setting: 170.314(a)(7)(ii) For the duration of an entire hospitalization',
+
+	(SELECT certification_edition_id FROM openchpl.certification_edition WHERE year = '2014'), 
+	(SELECT practice_type_id FROM openchpl.practice_type WHERE name = 'Inpatient'),
+	(SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (a)(7)'),
+	-1
+),
+('(b)(2)(i)(F)','Inpatient setting: 170.314(b)(2)(i)(F) Discharge instructions',
+	(SELECT certification_edition_id FROM openchpl.certification_edition WHERE year = '2014'), 
+	(SELECT practice_type_id FROM openchpl.practice_type WHERE name = 'Inpatient'),
+	(SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (b)(2)'),
+	-1
+),
+('(b)(7)(vi)','Inpatient setting: 170.314(b)(7)(vi) Discharge Instructions',
+
+	(SELECT certification_edition_id FROM openchpl.certification_edition WHERE year = '2014'), 
+	(SELECT practice_type_id FROM openchpl.practice_type WHERE name = 'Inpatient'),
+	(SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (b)(7)'),
+	-1
+),
+('(b)(8)(iii)(F)','Inpatient setting: 170.314(b)(8)(iii)(F) Discharge Instructions',
+
+	(SELECT certification_edition_id FROM openchpl.certification_edition WHERE year = '2014'), 
+	(SELECT practice_type_id FROM openchpl.practice_type WHERE name = 'Inpatient'),
+	(SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (b)(8)'),
+	-1
+),
+('(e)(1)(i)(A)(3)','Inpatient setting: 170.314(e)(1)(i)(A)(3) Admission and discharge dates and locations; discharge instructions; and reason(s) for hospitalization',
+
+	(SELECT certification_edition_id FROM openchpl.certification_edition WHERE year = '2014'), 
+	(SELECT practice_type_id FROM openchpl.practice_type WHERE name = 'Inpatient'),
+	(SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (e)(1)'),
+	-1
+),
+('(e)(1)(i)(B)(1)(ii)','Inpatient setting: 170.314(e)(1)(i)(B)(1)(ii) All of the data in the Common MU Data Set (which should be in their English (i.e., noncoded) representation if they associate with a vocabulary/code set) and the admission and discharge dates and locations; discharge instructions; and reason(s) for hospitalization',
+	(SELECT certification_edition_id FROM openchpl.certification_edition WHERE year = '2014'), 
+	(SELECT practice_type_id FROM openchpl.practice_type WHERE name = 'Inpatient'),
+	(SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (e)(1)'),
+	-1
+),
+('(e)(1)(i)(B)(2)','Inpatient setting: 170.314(e)(1)(i)(B)(2) Electronically download transition of care/referral summaries that were created as a result of a transition of care (pursuant to the capability expressed in the certification criterion adopted at paragraph (b)(2) of this section)',
+	(SELECT certification_edition_id FROM openchpl.certification_edition WHERE year = '2014'), 
+	(SELECT practice_type_id FROM openchpl.practice_type WHERE name = 'Inpatient'),
+	(SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (e)(1)'),
+	-1
+),
+('(e)(1)(i)(C)(2)','Inpatient setting: 170.314(e)(1)(i)(C)(2) Electronically transmit transition of care/referral summaries (as a result of a transition of care/referral) selected by the patient (or their authorized representative) in accordance with at least one of the following: (i) The standard specified in §170.202(a). (ii) Through a method that conforms to the standard specified at §170.202(d) and that leads to such summary being processed by a service that has implemented the standard specified in §170.202(a)', 
+	(SELECT certification_edition_id FROM openchpl.certification_edition WHERE year = '2014'), 
+	(SELECT practice_type_id FROM openchpl.practice_type WHERE name = 'Inpatient'),
+	(SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (e)(1)'),
+	-1
+),
+('(f)(3)(ii)','Inpatient setting: 170.314(f)(3)(ii)  The standard (and applicable implementation specifications) specified in §170.205(d)(3)',
+	(SELECT certification_edition_id FROM openchpl.certification_edition WHERE year = '2014'), 
+	(SELECT practice_type_id FROM openchpl.practice_type WHERE name = 'Inpatient'),
+	(SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (f)(3)'),
+	-1
+);
 --2014
 
+INSERT INTO openchpl.test_functionality(number, name, certification_edition_id, last_modified_user) VALUES
 ('(a)(4)(ii)(B)(1)','Alternative: 170.315(a)(4)(ii)(B)(1) To a specific set of identified users', 3, -1),
 ('(a)(4)(ii)(B)(2)','Alternative: 170.315(a)(4)(ii)(B)(2) As a system administrative function', 3, -1),
 ('(a)(10)(i)','Alternative: 170.315(a)(10)(i) Drug formulary checks. Automatically check whether a drug formulary exists for a given patient and medication', 3, -1),
