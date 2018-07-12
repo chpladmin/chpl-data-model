@@ -2755,7 +2755,7 @@ CREATE TABLE openchpl.job_message (
 CREATE TABLE openchpl.nonconformity_type_statistics
 (
   	id bigserial NOT NULL,
-	nonconformity_type bigint NOT NULL,
+	nonconformity_type varchar(1024),
 	nonconformity_count bigint NOT NULL,
   	creation_date timestamp without time zone NOT NULL DEFAULT now(),
   	last_modified_date timestamp without time zone NOT NULL DEFAULT now(),
