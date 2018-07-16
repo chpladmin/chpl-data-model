@@ -1,5 +1,13 @@
 # Release Notes
 
+## Version 14.4.1
+_16 July 2018_
+
+### Data modifications
+* Marked 269 Listings as "Withdrawn by Developer"
+
+---
+
 ## Version 14.4.0
 _5 July 2018_
 
