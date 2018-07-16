@@ -47,12 +47,12 @@ where openchpl.can_add_new_status(db_id, eff_date, chpl_id) = true;
 
 -- OCD - 2351 - nonconformity chart statistics
 
-DROP TABLE openchpl.nonconformity_type_statistics IF EXISTS;
+DROP TABLE openchpl.nonconformity_type_statistics;
 CREATE TABLE openchpl.nonconformity_type_statistics
 (
   	id bigserial NOT NULL,
-  	nonconformity_count bigint NOT NULL,
-	nonconformity_type bigint NOT NULL,
+  	nonconformity_type varchar(1024),
+	nonconformity_count bigint NOT NULL,
   	creation_date timestamp without time zone NOT NULL DEFAULT now(),
   	last_modified_date timestamp without time zone NOT NULL DEFAULT now(),
   	last_modified_user bigint NOT NULL,
