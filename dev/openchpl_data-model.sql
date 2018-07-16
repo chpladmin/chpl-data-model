@@ -17,12 +17,13 @@
 -- DROP SCHEMA IF EXISTS openchpl CASCADE;
 CREATE SCHEMA openchpl;
 -- ddl-end --
--- ALTER SCHEMA openchpl OWNER TO openchpl;
+ ALTER SCHEMA openchpl OWNER TO openchpl_dev;
 -- ddl-end --
 
 SET search_path TO pg_catalog,public,openchpl;
 -- ddl-end --
 
+CREATE TYPE openchpl.fuzzy_type as enum('UCD Process', 'QMS Standard', 'Accessibility Standard');
 CREATE TYPE openchpl.attestation as enum('Affirmative', 'Negative', 'N/A');
 CREATE TYPE openchpl.validation_message_type as enum('Error', 'Warning');
 CREATE TYPE openchpl.job_status_type as enum('In Progress', 'Complete', 'Error');
@@ -252,7 +253,6 @@ CREATE TABLE openchpl.certified_product(
 	product_classification_type_id bigint,
 	product_additional_software varchar(1000), -- legacy for ETL
 	other_acb character varying(64),
-	certification_status_id bigint NOT NULL,
 	transparency_attestation_url varchar(1024),
 	ics boolean,
 	sed boolean,
@@ -263,6 +263,7 @@ CREATE TABLE openchpl.certified_product(
 	ics_code varchar(2),
 	additional_software_code varchar(1),
 	certified_date_code varchar(6),
+	pending_certified_product_id bigint,
 	creation_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_user bigint NOT NULL,
@@ -582,16 +583,43 @@ CREATE TABLE openchpl.certification_result_test_standard (
 
 );
 
+-- object: openchpl.practice_type | type: TABLE --
+-- DROP TABLE IF EXISTS openchpl.practice_type CASCADE;
+CREATE TABLE openchpl.practice_type(
+	practice_type_id bigserial NOT NULL,
+	name varchar(50) NOT NULL,
+	description varchar(250) NOT NULL,
+	creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
+	CONSTRAINT practice_type_pk PRIMARY KEY (practice_type_id)
+
+);
+-- ddl-end --
+-- ALTER TABLE openchpl.practice_type OWNER TO openchpl;
+-- ddl-end --
+
 CREATE TABLE openchpl.test_functionality (
 	test_functionality_id bigserial not null,
 	number varchar(200) not null,
 	name varchar(1000),
 	certification_edition_id bigint NOT NULL,
+	practice_type_id bigint,
+	certification_criterion_id bigint,
 	creation_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_user bigint NOT NULL,
 	deleted bool NOT NULL DEFAULT false,
-	constraint test_functionality_pk primary key (test_functionality_id)
+	constraint test_functionality_pk primary key (test_functionality_id),
+    CONSTRAINT certification_criterion_fk FOREIGN KEY (certification_criterion_id)
+        REFERENCES openchpl.certification_criterion (certification_criterion_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT practice_type_fk FOREIGN KEY (practice_type_id)
+        REFERENCES openchpl.practice_type (practice_type_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
 );
 
 CREATE TABLE openchpl.certification_result_test_functionality
@@ -665,35 +693,78 @@ CREATE TABLE openchpl.certification_result_additional_software
       ON UPDATE NO ACTION ON DELETE NO ACTION
 );
 
-create table openchpl.test_procedure (
-	test_procedure_id bigserial not null,
-	version varchar(255) not null,
+CREATE TABLE openchpl.test_procedure (
+	id bigserial NOT NULL,
+	name varchar(255) NOT NULL,
 	creation_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_user bigint NOT NULL,
 	deleted bool NOT NULL DEFAULT false,
-	CONSTRAINT test_procedure_pk PRIMARY KEY (test_procedure_id)
+	CONSTRAINT test_procedure_pk PRIMARY KEY (id)
 );
 
--- object: openchpl.test_procedure_version | type: TABLE --
--- DROP TABLE IF EXISTS openchpl.test_procedure_version CASCADE;
-CREATE TABLE openchpl.certification_result_test_procedure (
-	certification_result_test_procedure_id bigserial NOT NULL,
-	certification_result_id bigint NOT NULL,
-	test_procedure_id bigint not null,
+CREATE TABLE openchpl.test_procedure_criteria_map (
+	id bigserial NOT NULL,
+	criteria_id bigint NOT NULL,
+	test_procedure_id bigint NOT NULL,
 	creation_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_user bigint NOT NULL,
 	deleted bool NOT NULL DEFAULT false,
-	CONSTRAINT certification_result_test_procedure_pk PRIMARY KEY (certification_result_test_procedure_id),
+	CONSTRAINT test_procedure_criteria_map_pk PRIMARY KEY (id),
+	CONSTRAINT test_procedure_criteria_fk FOREIGN KEY (criteria_id)
+		REFERENCES openchpl.certification_criterion (certification_criterion_id)
+		MATCH FULL ON DELETE RESTRICT ON UPDATE CASCADE,
+	CONSTRAINT test_procedure_fk FOREIGN KEY (test_procedure_id)
+		REFERENCES openchpl.test_procedure (id)
+		MATCH FULL ON DELETE RESTRICT ON UPDATE CASCADE
+);
+
+CREATE TABLE openchpl.test_data (
+	id bigserial NOT NULL,
+	name varchar(255) NOT NULL,
+	creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
+	CONSTRAINT test_data_pk PRIMARY KEY (id)
+);
+
+CREATE TABLE openchpl.test_data_criteria_map (
+	id bigserial NOT NULL,
+	criteria_id bigint NOT NULL,
+	test_data_id bigint NOT NULL,
+	creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
+	CONSTRAINT test_data_criteria_map_pk PRIMARY KEY (id),
+	CONSTRAINT test_procedure_criteria_fk FOREIGN KEY (criteria_id)
+		REFERENCES openchpl.certification_criterion (certification_criterion_id)
+		MATCH FULL ON DELETE RESTRICT ON UPDATE CASCADE,
+	CONSTRAINT test_data_fk FOREIGN KEY (test_data_id)
+		REFERENCES openchpl.test_data (id)
+		MATCH FULL ON DELETE RESTRICT ON UPDATE CASCADE
+);
+
+CREATE TABLE openchpl.certification_result_test_procedure (
+	id bigserial NOT NULL,
+	certification_result_id bigint NOT NULL,
+	test_procedure_id bigint NOT NULL,
+	version varchar(50) NOT NULL,
+	creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
+	CONSTRAINT certification_result_test_procedure_pk PRIMARY KEY (id),
 	CONSTRAINT certification_result_fk FOREIGN KEY (certification_result_id)
 		REFERENCES openchpl.certification_result (certification_result_id) MATCH FULL
 		ON DELETE RESTRICT ON UPDATE CASCADE,
 	CONSTRAINT test_procedure_fk FOREIGN KEY (test_procedure_id)
-		REFERENCES openchpl.test_procedure (test_procedure_id) MATCH FULL
+		REFERENCES openchpl.test_procedure (id) MATCH FULL
 		ON DELETE RESTRICT ON UPDATE CASCADE
-
 );
+
 -- ddl-end --
 -- ALTER TABLE openchpl.test_procedure_version OWNER TO openchpl;
 -- ddl-end --
@@ -703,7 +774,8 @@ CREATE TABLE openchpl.certification_result_test_procedure (
 CREATE TABLE openchpl.certification_result_test_data(
 	certification_result_test_data_id bigserial NOT NULL,
 	certification_result_id bigint NOT NULL,
-	version varchar(100) not null,
+	test_data_id bigint NOT NULL,
+	version varchar(50) not null,
 	alteration text,
 	creation_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
@@ -712,6 +784,9 @@ CREATE TABLE openchpl.certification_result_test_data(
 	CONSTRAINT certification_result_test_data_pk PRIMARY KEY (certification_result_test_data_id),
 	CONSTRAINT certification_result_fk FOREIGN KEY (certification_result_id)
 		REFERENCES openchpl.certification_result (certification_result_id) MATCH FULL
+		ON DELETE RESTRICT ON UPDATE CASCADE,
+	CONSTRAINT test_data_fk FOREIGN KEY (test_data_id)
+		REFERENCES openchpl.test_data (id) MATCH FULL
 		ON DELETE RESTRICT ON UPDATE CASCADE
 
 );
@@ -796,6 +871,23 @@ CREATE TABLE openchpl.testing_lab(
 	last_modified_user bigint NOT NULL,
 	deleted bool NOT NULL DEFAULT false,
 	CONSTRAINT testing_lab_pk PRIMARY KEY (testing_lab_id)
+);
+
+create table openchpl.certified_product_testing_lab_map (
+  	id bigserial not null,
+  	certified_product_id bigint not null,
+	testing_lab_id bigint not null,
+  	creation_date timestamp without time zone not null default now(),
+  	last_modified_date timestamp without time zone not null default now(),
+  	last_modified_user bigint not null,
+  	deleted boolean not null default false,
+        constraint certified_product_testing_lab_map_pk primary key (id),
+	constraint certified_product_fk foreign key (certified_product_id)
+        references openchpl.certified_product (certified_product_id) match simple
+        on update no action on delete no action,
+	constraint testing_lab_fk foreign key (testing_lab_id)
+        references openchpl.testing_lab (testing_lab_id) match simple
+        on update no action on delete no action
 );
 
 CREATE TABLE openchpl.product_owner_history_map (
@@ -1141,22 +1233,6 @@ CREATE TABLE openchpl.product_classification_type(
 -- ALTER TABLE openchpl.product_classification_type OWNER TO openchpl;
 -- ddl-end --
 
--- object: openchpl.practice_type | type: TABLE --
--- DROP TABLE IF EXISTS openchpl.practice_type CASCADE;
-CREATE TABLE openchpl.practice_type(
-	practice_type_id bigserial NOT NULL,
-	name varchar(50) NOT NULL,
-	description varchar(250) NOT NULL,
-	creation_date timestamp NOT NULL DEFAULT NOW(),
-	last_modified_date timestamp NOT NULL DEFAULT NOW(),
-	last_modified_user bigint NOT NULL,
-	deleted bool NOT NULL DEFAULT false,
-	CONSTRAINT practice_type_pk PRIMARY KEY (practice_type_id)
-
-);
--- ddl-end --
--- ALTER TABLE openchpl.practice_type OWNER TO openchpl;
--- ddl-end --
 
 -- object: openchpl.optional_functionality_met | type: TABLE --
 -- DROP TABLE IF EXISTS openchpl.optional_functionality_met CASCADE;
@@ -1361,6 +1437,7 @@ CREATE TABLE openchpl.certification_status_event (
 	certified_product_id bigint NOT NULL,
 	certification_status_id bigint NOT NULL,
 	event_date timestamp NOT NULL DEFAULT NOW(),
+	reason varchar(500),
 	creation_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_user bigint NOT NULL,
@@ -1369,13 +1446,6 @@ CREATE TABLE openchpl.certification_status_event (
 	CONSTRAINT certification_status_fk FOREIGN KEY (certification_status_id) REFERENCES openchpl.certification_status (certification_status_id)
 		MATCH FULL ON DELETE RESTRICT ON UPDATE CASCADE
 );
-
--- object: certification_status_fk | type: CONSTRAINT --
--- ALTER TABLE openchpl.certified_product DROP CONSTRAINT IF EXISTS certification_status_fk CASCADE;
-ALTER TABLE openchpl.certified_product ADD CONSTRAINT certification_status_fk FOREIGN KEY (certification_status_id)
-REFERENCES openchpl.certification_status (certification_status_id) MATCH FULL
-ON DELETE RESTRICT ON UPDATE CASCADE;
--- ddl-end --
 
 -- object: contact_fk | type: CONSTRAINT --
 -- ALTER TABLE openchpl.user DROP CONSTRAINT IF EXISTS contact_fk CASCADE;
@@ -1434,6 +1504,7 @@ CREATE TABLE openchpl.pending_certified_product(
 	sed_intended_user_description text,
 	sed_testing_end timestamp,
 	ics varchar(1024),
+	has_qms boolean,
 
 	-- foreign keys that have meaning if they are not mapped
 	practice_type_id bigint, -- should never be null
@@ -1457,9 +1528,44 @@ CREATE TABLE openchpl.pending_certified_product(
 );
 -- ddl-end --
 COMMENT ON TABLE openchpl.pending_certified_product IS 'A product that has been uploaded but not confirmed by the user';
+
+ALTER TABLE openchpl.certified_product ADD CONSTRAINT pending_certified_product_fk 
+	FOREIGN KEY (pending_certified_product_id)
+	REFERENCES openchpl.pending_certified_product (pending_certified_product_id) MATCH SIMPLE
+	ON UPDATE NO ACTION ON DELETE NO ACTION;
+	
 -- ddl-end --
 -- ALTER TABLE openchpl.pending_certified_product OWNER TO openchpl;
 -- ddl-end --
+
+create table openchpl.pending_certified_product_testing_lab_map (
+  	id bigserial not null,
+  	pending_certified_product_id bigint not null,
+	testing_lab_id bigint not null,
+	testing_lab_name varchar(300),
+  	creation_date timestamp without time zone not null default now(),
+  	last_modified_date timestamp without time zone not null default now(),
+  	last_modified_user bigint not null,
+  	deleted boolean not null default false,
+        constraint pending_certified_product_testing_lab_map_pk primary key (id),
+	constraint pending_certified_product_fk foreign key (pending_certified_product_id)
+        references openchpl.pending_certified_product (pending_certified_product_id) match simple
+        on update no action on delete no action,
+	constraint testing_lab_fk foreign key (testing_lab_id)
+        references openchpl.testing_lab (testing_lab_id) match simple
+        on update no action on delete no action
+);
+
+CREATE TABLE openchpl.fuzzy_choices(
+	fuzzy_choices_id bigserial not null,
+	fuzzy_type openchpl.fuzzy_type not null,
+	choices text not null,
+	creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
+	CONSTRAINT fuzzy_choices_pk PRIMARY KEY (fuzzy_choices_id)
+);
 
 CREATE TABLE openchpl.pending_certified_product_qms_standard(
 	pending_certified_product_qms_standard_id bigserial not null,
@@ -1725,27 +1831,30 @@ CREATE TABLE openchpl.pending_certification_result_additional_software
 );
 
 CREATE TABLE openchpl.pending_certification_result_test_procedure (
-	pending_certification_result_test_procedure_id bigserial NOT NULL,
+	id bigserial NOT NULL,
 	pending_certification_result_id bigint NOT NULL,
 	test_procedure_id bigint,
-	test_procedure_version varchar(255),
+	test_procedure_name text,
+	version varchar(50) NOT NULL,
 	creation_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_user bigint NOT NULL,
 	deleted bool NOT NULL DEFAULT false,
-	CONSTRAINT pending_certification_result_test_procedure_pk PRIMARY KEY (pending_certification_result_test_procedure_id),
+	CONSTRAINT pending_certification_result_test_procedure_pk PRIMARY KEY (id),
 	CONSTRAINT pending_certification_result_fk FOREIGN KEY (pending_certification_result_id)
-		REFERENCES openchpl.pending_certification_result (pending_certification_result_id) MATCH FULL
-		ON DELETE RESTRICT ON UPDATE CASCADE,
+		REFERENCES openchpl.pending_certification_result (pending_certification_result_id) MATCH SIMPLE
+		ON UPDATE CASCADE ON DELETE RESTRICT,
 	CONSTRAINT test_procedure_fk FOREIGN KEY (test_procedure_id)
-		REFERENCES openchpl.test_procedure (test_procedure_id) MATCH FULL
+		REFERENCES openchpl.test_procedure (id) MATCH FULL
 		ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
 CREATE TABLE openchpl.pending_certification_result_test_data(
 	pending_certification_result_test_data_id bigserial NOT NULL,
 	pending_certification_result_id bigint NOT NULL,
-	version varchar(100) not null,
+	test_data_id bigint,
+	test_data_name text,
+	version varchar(50) not null,
 	alteration text,
 	creation_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
@@ -1754,6 +1863,9 @@ CREATE TABLE openchpl.pending_certification_result_test_data(
 	CONSTRAINT pending_certification_result_test_data_pk PRIMARY KEY (pending_certification_result_test_data_id),
 	CONSTRAINT pending_certification_result_fk FOREIGN KEY (pending_certification_result_id)
 		REFERENCES openchpl.pending_certification_result (pending_certification_result_id) MATCH FULL
+		ON DELETE RESTRICT ON UPDATE CASCADE,
+	CONSTRAINT test_data_fk FOREIGN KEY (test_data_id)
+		REFERENCES openchpl.test_data (id) MATCH FULL
 		ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
@@ -2119,7 +2231,7 @@ CREATE TABLE openchpl.surveillance (
 		MATCH FULL ON DELETE SET NULL ON UPDATE CASCADE,
 	CONSTRAINT user_permission_id_fk FOREIGN KEY (user_permission_id)
       REFERENCES openchpl.user_permission (user_permission_id) MATCH FULL
-      ON UPDATE CASCADE ON DELETE CASCADE
+      ON UPDATE CASCADE ON DELETE RESTRICT
 );
 
 CREATE TABLE openchpl.surveillance_requirement (
@@ -2356,6 +2468,7 @@ CREATE TABLE openchpl.ehr_certification_id_product_map
   creation_date timestamp without time zone NOT NULL DEFAULT now(),
   last_modified_date timestamp without time zone NOT NULL DEFAULT now(),
   last_modified_user bigint,
+  deleted bool NOT NULL DEFAULT false,
   CONSTRAINT ehr_certification_id_product_map_pk PRIMARY KEY (ehr_certification_id_product_map_id),
   CONSTRAINT ehr_certification_id_product_map_certified_product_id_fkey FOREIGN KEY (certified_product_id)
       REFERENCES openchpl.certified_product (certified_product_id) MATCH FULL
@@ -2473,6 +2586,8 @@ CREATE TABLE openchpl.questionable_activity_listing (
 	listing_id bigint NOT NULL,
 	before_data text,
 	after_data text,
+	certification_status_change_reason text,
+	reason text,
 	activity_date timestamp NOT NULL,
 	activity_user_id bigint NOT NULL,
 	creation_date timestamp NOT NULL DEFAULT NOW(),
@@ -2497,6 +2612,7 @@ CREATE TABLE openchpl.questionable_activity_certification_result (
 	certification_result_id bigint NOT NULL,
 	before_data text,
 	after_data text,
+	reason text,
 	activity_date timestamp NOT NULL,
 	activity_user_id bigint NOT NULL,
 	creation_date timestamp NOT NULL DEFAULT NOW(),
@@ -2636,6 +2752,117 @@ CREATE TABLE openchpl.job_message (
       ON UPDATE NO ACTION ON DELETE NO ACTION
 );
 
+CREATE TABLE openchpl.sed_participants_statistics_count
+(
+  	id bigserial NOT NULL,
+	participant_count bigint NOT NULL,
+	sed_count bigint NOT NULL,
+  	creation_date timestamp without time zone NOT NULL DEFAULT now(),
+  	last_modified_date timestamp without time zone NOT NULL DEFAULT now(),
+  	last_modified_user bigint NOT NULL,
+  	deleted boolean NOT NULL DEFAULT false,
+  	CONSTRAINT sed_participants_statistics_count_pk PRIMARY KEY (id)
+);
+
+CREATE TABLE openchpl.participant_gender_statistics
+(
+  	id bigserial NOT NULL,
+  	male_count bigint NOT NULL,
+	female_count bigint NOT NULL,
+	unknown_count bigint NOT NULL,
+  	creation_date timestamp without time zone NOT NULL DEFAULT now(),
+  	last_modified_date timestamp without time zone NOT NULL DEFAULT now(),
+  	last_modified_user bigint NOT NULL,
+  	deleted boolean NOT NULL DEFAULT false,
+  CONSTRAINT participant_gender_statistics_pk PRIMARY KEY (id)
+);
+
+CREATE TABLE openchpl.participant_age_statistics
+(
+  	id bigserial NOT NULL,
+  	age_count bigint NOT NULL,
+	test_participant_age_id bigint NOT NULL REFERENCES openchpl.test_participant_age (test_participant_age_id),
+  	creation_date timestamp without time zone NOT NULL DEFAULT now(),
+  	last_modified_date timestamp without time zone NOT NULL DEFAULT now(),
+  	last_modified_user bigint NOT NULL,
+  	deleted boolean NOT NULL DEFAULT false,
+  CONSTRAINT participant_age_statistics_pk PRIMARY KEY (id)
+);
+
+CREATE TABLE openchpl.participant_education_statistics
+(
+  	id bigserial NOT NULL,
+  	education_count bigint NOT NULL,
+	education_type_id bigint NOT NULL REFERENCES openchpl.education_type (education_type_id),
+  	creation_date timestamp without time zone NOT NULL DEFAULT now(),
+  	last_modified_date timestamp without time zone NOT NULL DEFAULT now(),
+  	last_modified_user bigint NOT NULL,
+  	deleted boolean NOT NULL DEFAULT false,
+  CONSTRAINT participant_education_statistics_pk PRIMARY KEY (id)
+);
+
+CREATE TABLE openchpl.participant_experience_statistics
+(
+  	id bigserial NOT NULL,
+	experience_type_id bigint NOT NULL,
+  	participant_count bigint NOT NULL,
+	experience_months bigint NOT NULL,
+  	creation_date timestamp without time zone NOT NULL DEFAULT now(),
+  	last_modified_date timestamp without time zone NOT NULL DEFAULT now(),
+  	last_modified_user bigint NOT NULL,
+  	deleted boolean NOT NULL DEFAULT false,
+  CONSTRAINT participant_experience_statistics_pk PRIMARY KEY (id)
+);
+
+CREATE TABLE openchpl.criterion_product_statistics (
+        id bigserial NOT NULL,
+        product_count bigint NOT NULL,
+        certification_criterion_id bigint NOT NULL REFERENCES openchpl.certification_criterion (certification_criterion_id),
+        creation_date timestamp without time zone NOT NULL DEFAULT now(),
+        last_modified_date timestamp without time zone NOT NULL DEFAULT now(),
+        last_modified_user bigint NOT NULL,
+        deleted boolean NOT NULL DEFAULT false,
+        CONSTRAINT criterion_product_statistics_pk PRIMARY KEY (id)
+        );
+
+CREATE TABLE openchpl.incumbent_developers_statistics (
+        id bigserial NOT NULL,
+        new_count bigint NOT NULL,
+        incumbent_count bigint NOT NULL,
+        old_certification_edition_id bigint NOT NULL,
+        new_certification_edition_id bigint NOT NULL,
+        creation_date timestamp without time zone NOT NULL DEFAULT now(),
+        last_modified_date timestamp without time zone NOT NULL DEFAULT now(),
+        last_modified_user bigint NOT NULL,
+        deleted boolean NOT NULL DEFAULT false,
+        CONSTRAINT incumbent_developers_statistics_pk PRIMARY KEY (id),
+        CONSTRAINT old_certification_edition_fk FOREIGN KEY (old_certification_edition_id)
+        REFERENCES openchpl.certification_edition (certification_edition_id) MATCH FULL
+        ON DELETE RESTRICT ON UPDATE CASCADE,
+        CONSTRAINT new_certification_edition_fk FOREIGN KEY (new_certification_edition_id)
+        REFERENCES openchpl.certification_edition (certification_edition_id) MATCH FULL
+        ON DELETE RESTRICT ON UPDATE CASCADE
+        );
+
+CREATE TABLE openchpl.listing_count_statistics (
+        id bigserial NOT NULL,
+        developer_count bigint NOT NULL,
+        product_count bigint NOT NULL,
+        certification_edition_id bigint NOT NULL,
+        certification_status_id bigint NOT NULL,
+        creation_date timestamp without time zone NOT NULL DEFAULT now(),
+        last_modified_date timestamp without time zone NOT NULL DEFAULT now(),
+        last_modified_user bigint NOT NULL,
+        deleted boolean NOT NULL DEFAULT false,
+        CONSTRAINT listing_count_statistics_pk PRIMARY KEY (id),
+        CONSTRAINT certification_edition_fk FOREIGN KEY (certification_edition_id)
+        REFERENCES openchpl.certification_edition (certification_edition_id) MATCH FULL
+        ON DELETE RESTRICT ON UPDATE CASCADE,
+        CONSTRAINT certification_status_fk FOREIGN KEY (certification_status_id)
+        REFERENCES openchpl.certification_status (certification_status_id) MATCH FULL
+        ON DELETE RESTRICT ON UPDATE CASCADE
+        );
+
 CREATE INDEX fki_certified_product_id_fk
 ON openchpl.ehr_certification_id_product_map
 USING btree
@@ -2647,7 +2874,7 @@ USING btree
 (ehr_certification_id_id);
 
 CREATE INDEX ix_certified_product ON openchpl.certified_product (certified_product_id, certification_edition_id, product_version_id,
-testing_lab_id, certification_body_id, acb_certification_id, practice_type_id, product_classification_type_id, certification_status_id, deleted);
+testing_lab_id, certification_body_id, acb_certification_id, practice_type_id, product_classification_type_id, deleted);
 
 CREATE INDEX ix_product ON openchpl.product (product_id, vendor_id, deleted);
 
@@ -2665,7 +2892,7 @@ CREATE INDEX ix_certification_result_test_data ON openchpl.certification_result_
 
 CREATE INDEX ix_certification_result_test_functionality ON openchpl.certification_result_test_functionality (certification_result_test_functionality_id, certification_result_id, test_functionality_id, deleted);
 
-CREATE INDEX ix_certification_result_test_procedure ON openchpl.certification_result_test_procedure (certification_result_test_procedure_id, certification_result_id, test_procedure_id, deleted);
+CREATE INDEX ix_certification_result_test_procedure ON openchpl.certification_result_test_procedure (id, certification_result_id, test_procedure_id, deleted);
 
 CREATE INDEX ix_certification_result_test_standard ON openchpl.certification_result_test_standard (certification_result_test_standard_id, certification_result_id,
 test_standard_id, deleted);
@@ -2704,7 +2931,7 @@ CREATE INDEX ix_pending_certification_result_test_data ON openchpl.pending_certi
 CREATE INDEX ix_pending_certification_result_test_functionality ON openchpl.pending_certification_result_test_functionality (pending_certification_result_test_functionality_id, pending_certification_result_id, test_functionality_id, deleted);
 
 CREATE INDEX ix_pending_certification_result_test_procedure ON openchpl.pending_certification_result_test_procedure
-(pending_certification_result_test_procedure_id, pending_certification_result_id, test_procedure_id, deleted);
+(id, pending_certification_result_id, test_procedure_id, deleted);
 
 CREATE INDEX ix_pending_certification_result_test_standard ON openchpl.pending_certification_result_test_standard
 (pending_certification_result_test_standard_id, pending_certification_result_id, test_standard_id, deleted);
@@ -2718,7 +2945,7 @@ CREATE INDEX ix_pending_certification_result_test_tool ON openchpl.pending_certi
 
 CREATE INDEX ix_pending_certification_result_ucd_process ON openchpl.pending_certification_result_ucd_process (pending_certification_result_ucd_process_id, pending_certification_result_id, ucd_process_id, deleted);
 
-CREATE INDEX ix_pending_certified_product ON openchpl.pending_certified_product (pending_certified_product_id, unique_id, acb_certification_id, practice_type_id, vendor_id, vendor_address_id, vendor_contact_id, product_id, product_version_id, certification_edition_id, certification_body_id, product_classification_id, testing_lab_id, deleted, certification_status_id);
+CREATE INDEX ix_pending_certified_product ON openchpl.pending_certified_product (pending_certified_product_id, unique_id, acb_certification_id, practice_type_id, vendor_id, vendor_address_id, vendor_contact_id, product_id, product_version_id, certification_edition_id, certification_body_id, product_classification_id, testing_lab_id, deleted);
 
 CREATE INDEX ix_pending_certified_product_accessibility_standard ON openchpl.pending_certified_product_accessibility_standard
 (pending_certified_product_accessibility_standard_id, pending_certified_product_id, accessibility_standard_id, deleted);
@@ -2749,6 +2976,10 @@ CREATE INDEX ix_test_functionality ON openchpl.test_functionality (test_function
 
 CREATE INDEX ix_test_participant ON openchpl.test_participant (test_participant_id, education_type_id, deleted, test_participant_age_id);
 
-CREATE INDEX ix_test_procedure ON openchpl.test_procedure (test_procedure_id, deleted);
+CREATE INDEX ix_test_procedure ON openchpl.test_procedure (id, deleted);
 
 CREATE INDEX ix_test_standard ON openchpl.test_standard (test_standard_id, deleted);
+
+CREATE INDEX ix_listing_to_listing_map_parent_id_deleted ON openchpl.listing_to_listing_map (parent_listing_id, deleted);
+
+CREATE INDEX ix_listing_to_listing_map_child_id_deleted ON openchpl.listing_to_listing_map (child_listing_id, deleted);
