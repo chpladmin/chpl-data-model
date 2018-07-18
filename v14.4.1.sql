@@ -45,8 +45,6 @@ where openchpl.can_add_new_status(db_id, eff_date, chpl_id) = true;
     end;
     $$ language plpgsql;
 
-CREATE TRIGGER nonconformity_type_statistics_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.nonconformity_type_statistics FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
-CREATE TRIGGER nonconformity_type_statistics_timestamp BEFORE UPDATE on openchpl.nonconformity_type_statistics FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 --Cerner
 select openchpl.add_new_status(7864,'2018-07-16','14.03.07.1221.HEI2.03.01.1.160711');
 select openchpl.add_new_status(7867,'2018-07-16','14.03.07.1221.HEI3.03.01.1.160711');
