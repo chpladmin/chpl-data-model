@@ -1,6 +1,6 @@
 -- OCD - 2351 - nonconformity chart statistics
 
-DROP TABLE openchpl.nonconformity_type_statistics;
+DROP TABLE IF EXISTS openchpl.nonconformity_type_statistics;
 CREATE TABLE openchpl.nonconformity_type_statistics
 (
   	id bigserial NOT NULL,
