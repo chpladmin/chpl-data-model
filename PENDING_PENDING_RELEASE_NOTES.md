@@ -4,5 +4,7 @@ _Date TBD_
 
 ### Table Addition
 * Add new nonconformity statistics table
+* Add new summary statistics table
+* Add new view for certified products summary
 
 ---
