@@ -6,5 +6,6 @@ _Date TBD_
 * Add new nonconformity statistics table
 * Add new summary statistics table
 * Add new view for certified products summary
+* Add table for inherited certification status errors report
 
 ---
