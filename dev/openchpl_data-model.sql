@@ -2902,7 +2902,7 @@ CREATE TABLE openchpl.inheritance_errors_report
     last_modified_date timestamp without time zone NOT NULL DEFAULT now(),
     last_modified_user bigint NOT NULL,
     deleted boolean NOT NULL DEFAULT false,
-    CONSTRAINT id_pk PRIMARY KEY (id)
+    CONSTRAINT inheritance_errors_report_id_pk PRIMARY KEY (id)
 );
 
 CREATE INDEX fki_certified_product_id_fk
