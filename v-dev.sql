@@ -161,5 +161,23 @@ CREATE TABLE openchpl.broken_surveillance_rules
 CREATE TRIGGER broken_surveillance_rules_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.broken_surveillance_rules FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER broken_surveillance_rules_timestamp BEFORE UPDATE on openchpl.broken_surveillance_rules FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 
+update openchpl.notification_type set deleted = true where "name" = 'ONC-ACB Daily Surveillance Broken Rules';
+update openchpl.notification_type set deleted = true where "name" = 'ONC-ACB Weekly Surveillance Broken Rules';
+update openchpl.notification_type set deleted = true where "name" = 'ONC Daily Surveillance Broken Rules';
+update openchpl.notification_type set deleted = true where "name" = 'ONC Weekly Surveillance Broken Rules';
+update openchpl.notification_type set deleted = true where "name" = 'ONC-ACB Weekly ICS Family Errors';
+update openchpl.notification_type set deleted = true where "name" = 'ONC Weekly ICS Family Errors';
+update openchpl.notification_type set deleted = true where "name" = 'Summary Statistics';
+update openchpl.notification_type set deleted = true where "name" = 'Cache Status Age Notification';
+
+update openchpl.notification_type_permission set deleted = true where notification_type_id = (select id from openchpl.notification_type where "name" = 'ONC-ACB Daily Surveillance Broken Rules');
+update openchpl.notification_type_permission set deleted = true where notification_type_id = (select id from openchpl.notification_type where "name" = 'ONC-ACB Weekly Surveillance Broken Rules');
+update openchpl.notification_type_permission set deleted = true where notification_type_id = (select id from openchpl.notification_type where "name" = 'ONC Daily Surveillance Broken Rules');
+update openchpl.notification_type_permission set deleted = true where notification_type_id = (select id from openchpl.notification_type where "name" = 'ONC Weekly Surveillance Broken Rules');
+update openchpl.notification_type_permission set deleted = true where notification_type_id = (select id from openchpl.notification_type where "name" = 'ONC-ACB Weekly ICS Family Errors');
+update openchpl.notification_type_permission set deleted = true where notification_type_id = (select id from openchpl.notification_type where "name" = 'ONC Weekly ICS Family Errors');
+update openchpl.notification_type_permission set deleted = true where notification_type_id = (select id from openchpl.notification_type where "name" = 'Summary Statistics');
+update openchpl.notification_type_permission set deleted = true where notification_type_id = (select id from openchpl.notification_type where "name" = 'Cache Status Age Notification');
+
 --re-run grants
 \i dev/openchpl_grant-all.sql
