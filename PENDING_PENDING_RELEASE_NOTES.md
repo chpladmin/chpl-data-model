@@ -7,5 +7,6 @@ _Date TBD_
 * Add new summary statistics table
 * Add new view for certified products summary
 * Add table for inherited certification status errors report
+* Add table for broken surveillance rules report data
 
 ---
