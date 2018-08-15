@@ -117,7 +117,6 @@ DROP TABLE IF EXISTS openchpl.broken_surveillance_rules;
 CREATE TABLE openchpl.broken_surveillance_rules
 (
     id bigserial NOT NULL,
-
     developer varchar(300) NOT NULL,
     product varchar(300) NOT NULL,
     version varchar(250) NOT NULL,
@@ -151,7 +150,6 @@ CREATE TABLE openchpl.broken_surveillance_rules
     number_of_days_from_cap_began_to_cap_completed bigint,
     number_of_days_from_cap_began_to_present bigint,
     difference_from_cap_completed_and_cap_must_be_completed bigint,
-
     creation_date timestamp without time zone NOT NULL DEFAULT now(),
     last_modified_date timestamp without time zone NOT NULL DEFAULT now(),
     last_modified_user bigint NOT NULL,
