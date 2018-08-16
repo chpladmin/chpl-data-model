@@ -1,11 +1,8 @@
 
-## Version 14.5.0
+## Version 14.6.0
 _Date TBD_
 
 ### Table Addition
-* Add new nonconformity statistics table
-* Add new summary statistics table
-* Add new view for certified products summary
 * Add table for inherited certification status errors report
 * Add table for broken surveillance rules report data
 
