@@ -2752,6 +2752,18 @@ CREATE TABLE openchpl.job_message (
       ON UPDATE NO ACTION ON DELETE NO ACTION
 );
 
+CREATE TABLE openchpl.nonconformity_type_statistics
+(
+  	id bigserial NOT NULL,
+	nonconformity_type varchar(1024),
+	nonconformity_count bigint NOT NULL,
+  	creation_date timestamp without time zone NOT NULL DEFAULT now(),
+  	last_modified_date timestamp without time zone NOT NULL DEFAULT now(),
+  	last_modified_user bigint NOT NULL,
+  	deleted boolean NOT NULL DEFAULT false,
+  	CONSTRAINT nonconformity_type_statistics_pk PRIMARY KEY (id)
+);
+
 CREATE TABLE openchpl.sed_participants_statistics_count
 (
   	id bigserial NOT NULL,
@@ -2863,6 +2875,19 @@ CREATE TABLE openchpl.listing_count_statistics (
         ON DELETE RESTRICT ON UPDATE CASCADE
         );
 
+CREATE TABLE openchpl.summary_statistics
+(
+    summary_statistics_id bigserial NOT NULL,
+    end_date timestamp without time zone NOT NULL,
+    summary_statistics json,
+    creation_date timestamp without time zone NOT NULL DEFAULT now(),
+    last_modified_date timestamp without time zone NOT NULL DEFAULT now(),
+    last_modified_user bigint NOT NULL,
+    deleted boolean NOT NULL DEFAULT false,
+    CONSTRAINT summary_statistics_pk PRIMARY KEY (summary_statistics_id)
+);
+		
+		
 CREATE INDEX fki_certified_product_id_fk
 ON openchpl.ehr_certification_id_product_map
 USING btree
