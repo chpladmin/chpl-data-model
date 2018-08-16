@@ -1689,27 +1689,9 @@ INSERT INTO global_user_permission_map (user_id, user_permission_id_user_permiss
 SELECT pg_catalog.setval('global_user_permission_map_global_user_permission_id_seq', 16, true);
 
 INSERT INTO openchpl.notification_type (name, description, requires_acb, last_modified_user)
-VALUES ('ONC-ACB Daily Surveillance Broken Rules', 'A daily email of surveillance rules that have been broken within the last day for listings certified by a specific ONC-ACB.', true, -1),
-('ONC-ACB Weekly Surveillance Broken Rules', 'A weekly email of all surveillance rules that are currently broken for listings certified by a specific ONC-ACB.', true, -1),
-('ONC-ACB Weekly ICS Family Errors', 'A weekly email of listings certified by a specific ONC-ACB that are marked as having ICS but do not specify a parent.', true, -1),
-('ONC Daily Surveillance Broken Rules', 'A daily email of surveillance rules that have been broken within the last day for any listing.', false, -1),
-('ONC Weekly Surveillance Broken Rules', 'A weekly email of all surveillance rules that are currently broken for any listing.', false, -1),
-('ONC Weekly ICS Family Errors', 'A weekly email of all listings that are marked as having ICS but do not specify a parent.', false, -1),
-('Summary Statistics', 'An email with both current and historical statistics on the CHPL.', false, -1),
-('Questionable Activity', 'An email that is generated whenever ONC-specified user actions on the CHPL occur.', false, -1);
+VALUES ('Questionable Activity', 'An email that is generated whenever ONC-specified user actions on the CHPL occur.', false, -1);
 
-INSERT INTO openchpl.notification_type_permission (notification_type_id, permission_id, last_modified_user) SELECT id, -2, -1 FROM openchpl.notification_type WHERE name = 'ONC-ACB Daily Surveillance Broken Rules';
-INSERT INTO openchpl.notification_type_permission (notification_type_id, permission_id, last_modified_user) SELECT id, 2, -1 FROM openchpl.notification_type WHERE name = 'ONC-ACB Daily Surveillance Broken Rules';
-INSERT INTO openchpl.notification_type_permission (notification_type_id, permission_id, last_modified_user) SELECT id, -2, -1 FROM openchpl.notification_type WHERE name = 'ONC-ACB Weekly Surveillance Broken Rules';
-INSERT INTO openchpl.notification_type_permission (notification_type_id, permission_id, last_modified_user) SELECT id, 2, -1 FROM openchpl.notification_type WHERE name = 'ONC-ACB Weekly Surveillance Broken Rules';
-INSERT INTO openchpl.notification_type_permission (notification_type_id, permission_id, last_modified_user) SELECT id, -2, -1 FROM openchpl.notification_type WHERE name = 'ONC-ACB Weekly ICS Family Errors';
-INSERT INTO openchpl.notification_type_permission (notification_type_id, permission_id, last_modified_user) SELECT id, 2, -1 FROM openchpl.notification_type WHERE name = 'ONC-ACB Weekly ICS Family Errors';
-INSERT INTO openchpl.notification_type_permission (notification_type_id, permission_id, last_modified_user) SELECT id, -2, -1 FROM openchpl.notification_type WHERE name = 'ONC Daily Surveillance Broken Rules';
-INSERT INTO openchpl.notification_type_permission (notification_type_id, permission_id, last_modified_user) SELECT id, -2, -1 FROM openchpl.notification_type WHERE name = 'ONC Weekly Surveillance Broken Rules';
-INSERT INTO openchpl.notification_type_permission (notification_type_id, permission_id, last_modified_user) SELECT id, -2, -1 FROM openchpl.notification_type WHERE name = 'ONC Weekly ICS Family Errors';
-INSERT INTO openchpl.notification_type_permission (notification_type_id, permission_id, last_modified_user) SELECT id, -2, -1 FROM openchpl.notification_type WHERE name = 'Summary Statistics';
 INSERT INTO openchpl.notification_type_permission (notification_type_id, permission_id, last_modified_user) SELECT id, -2, -1 FROM openchpl.notification_type WHERE name = 'Questionable Activity';
-INSERT INTO openchpl.notification_type_permission (notification_type_id, permission_id, last_modified_user) SELECT id, -2, -1 FROM openchpl.notification_type WHERE name = 'Cache Status Age Notification';
 
 INSERT INTO openchpl.upload_template_version (name, available_as_of_date, header_csv, last_modified_user, deprecated, deleted)
 VALUES
