@@ -91,6 +91,9 @@ CREATE OR REPLACE VIEW openchpl.certified_product_summary AS
      JOIN openchpl.vendor v ON p.vendor_id = v.vendor_id
      JOIN openchpl.certification_body cb ON cp.certification_body_id = cb.certification_body_id;
 
+-- OCD_2407 add reason to developer status
+ALTER TABLE openchpl.vendor_status_history DROP COLUMN IF EXISTS reason;
+ALTER TABLE openchpl.vendor_status_history ADD COLUMN reason text;
 
 --re-run grants	
 \i dev/openchpl_grant-all.sql
