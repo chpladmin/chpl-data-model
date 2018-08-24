@@ -1412,8 +1412,8 @@ SELECT pg_catalog.setval('acl_sid_id_seq', 2, true);
 
 --user contacts.
 -- one contact for each user that's getting pre-loaded. there are 2 chpl admins and 7 acb admins
-INSERT INTO contact (contact_id, first_name, last_name, email, phone_number, signature_date, last_modified_user) VALUES
-(-2, 'Administrator', 'Administrator', 'info@ainq.com', '(301) 560-6999', CURRENT_DATE, -1);
+INSERT INTO contact (contact_id, full_name, friendly_name, email, phone_number, signature_date, last_modified_user) VALUES
+(-2, 'Administrator', 'Admin', 'info@ainq.com', '(301) 560-6999', CURRENT_DATE, -1);
 SELECT pg_catalog.setval('contact_contact_id_seq', 2, true);
 
 INSERT INTO "user" (user_id, user_name, password, compliance_signature, account_expired, account_locked, credentials_expired, account_enabled, last_modified_user, contact_id) VALUES

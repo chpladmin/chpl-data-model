@@ -159,8 +159,7 @@ SELECT
     t.zipcode,
     t.country,
     u.contact_id,
-    u.first_name,
-    u.last_name,
+    u.full_name,
     u.email,
     u.phone_number,
     u.title,
@@ -241,8 +240,7 @@ SELECT
             address.country
            FROM openchpl.address) t ON h.vendor_address = t.address_id
      LEFT JOIN ( SELECT contact.contact_id,
-            contact.first_name,
-            contact.last_name,
+            contact.full_name,
             contact.email,
             contact.phone_number,
             contact.title
