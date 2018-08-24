@@ -2140,6 +2140,7 @@ CREATE TABLE openchpl.api_key
   api_key character varying(32) NOT NULL,
   email character varying(256) NOT NULL,
   name_organization character varying(256),
+  whitelisted boolean NOT NULL DEFAULT false,
   creation_date timestamp without time zone NOT NULL DEFAULT now(),
   last_modified_date timestamp without time zone NOT NULL DEFAULT now(),
   last_modified_user bigint NOT NULL,
