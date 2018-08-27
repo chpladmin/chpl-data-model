@@ -1,5 +1,157 @@
 # Release Notes
 
+## Version 14.6.0
+_27 August 2018_
+
+### Table Addition
+* Add table for inherited certification status errors report
+* Add table for broken surveillance rules report data
+
+---
+
+## Version 14.5.0
+_16 August 2018_
+
+### Table Addition
+* Add new nonconformity statistics table
+* Add new summary statistics table
+* Add new view for certified products summary
+
+---
+
+## Version 14.4.1
+_16 July 2018_
+
+### Data modifications
+* Marked 269 Listings as "Withdrawn by Developer"
+
+---
+
+## Version 14.4.0
+_5 July 2018_
+
+### Table changes
+* Added column to relate test functionality to practice type
+* Added column to relate test functionality to certification criteria
+
+### Data modifications
+* Updated 2014 test functionalities to have appropriate practice types and certification criterion
+
+---
+
+## Version 14.3.0
+_18 June 2018_
+
+## Schema changes
+* Create new schema for Quartz Scheduler
+
+### Data modifications
+* Remove "cache status age app" notification type; replaced by Quartz trigger
+
+---
+
+## Version 14.2.0
+_4 June 2018_
+
+### Table changes
+* Create table to hold "new" vs "incumbent" Developer statistics
+* Create table to hold number of products and developers with active listings by edition
+
+### Data Modifications
+* Consolidation/rename of test tools
+  * "Direct Certificate Discovery Tool" + "2015 Direct Certificate Discovery Tool" = "Direct Certificate Discovery Tool"
+  * "HL7 v2 Electronic Laboratory Reporting (ELR) Validation Tool" + "HL7 v2 Electronic Laboratory Reporting Validation Tool" = "HL7 v2 Electronic Laboratory Reporting (ELR) Validation Tool"
+  * "Electronic Prescribing" + "ePrescribing Validation Tool" = "Electronic Prescribing"
+  * "Transport Test Tool" + "Transport Testing Tool" = "Transport Testing Tool"
+  * "Healthcare Associated Infections (HAI) Validator" -> CDC's NHSN CDA Validator
+  * "Edge Test Tool" -> "Edge Testing Tool"
+* Add activity concept for legacy corrective action plans to distinguish from certified product activities.
+* Update InfoGard listings Public Test Summary Report and UCD URLs
+
+---
+
+## Version 14.1.0
+_21 May 2018_
+
+### Table Modifications
+* Added table to support criterion/product chart statistics
+
+### View Modifications
+* Update `certified_product_search` to respect deleted certification_status_events when getting "latest" status name
+* Update `certified_product_details` to respect deleted certification_status_events when calculating certification_date and decertification_date columns.
+
+### Data Modifications
+* Update g1 and g2 macra measures to their new mappings
+* Add two "lost" Listings from legacy CHPL
+
+---
+
+## Version 14.0.1
+_7 May 2018_
+
+### Data modifications
+* Add 2 new testing tools
+
+---
+
+## Version 14.0.0
+_23 April 2018_
+
+### Table modifications
+* Added indexes to listing_to_listing_map for improved performance
+* Added tables to support multiple ATLs
+  * Added functions to retrieve CHPL ID
+  * Added mapping tables
+  * Migrated data to fill mapping table
+  * Added Questionable Activity trigger
+* Added indexes to listing_to_listing_map for improved performance
+
+### View Modifications
+* Modified certified_product_details view to respect certification_status_event deleted flag
+* Modified certified_product_details view for improved performance
+* Modified certified_product_search view for improved performance
+
+### Data modifications
+* Mark ~1300 Listings as "Withdrawn by Developer"
+* Add "Cache Status Age Warning" notification type
+
+### Script Modifications
+* dump.sh - Changed to not include logged_actions table by default.  Can use the -i options if you want the table included.
+* load.sh - Changed to kill existing processes in the DB before DROPing the schema
+
+---
+
+## Version 13.5.1
+_9 April 2018_
+
+### Data modifications
+* Mark one Listing as deleted. Duplicate due to bug in upload process
+
+---
+
+## Version 13.5.0
+_26 March 2018_
+
+### Table Modifications
+* Added tables to support statistics related to SED Participant demographics:
+  * Gender
+  * Age
+  * Education Type
+  * Experience Levels
+
+---
+
+## Version 13.4.0
+_12 March 2018_
+
+### Table modifications
+* Add sed_participant_statistics_count table
+
+### Data modifications
+* Mark three Listings as deleted
+
+---
+
 ## Version 13.3.1
 _26 February 2018_
 

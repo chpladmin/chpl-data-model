@@ -22,6 +22,7 @@ while getopts 'e:f:h:u:' flag; do
     esac
 done
 
+psql --host $host --username openchpl --no-password -c "SELECT pg_terminate_backend(pg_stat_activity.pid) FROM pg_stat_activity WHERE pg_stat_activity.datname = 'openchpl' AND pid <> pg_backend_pid();" openchpl
 psql --host $host --username $user --no-password -c "drop schema if exists audit cascade;" openchpl
 psql --host $host --username $user --no-password -c "drop schema if exists openchpl cascade;" openchpl
 pg_restore --host $host --username $user --no-password --verbose --clean --if-exists --dbname openchpl $filename
