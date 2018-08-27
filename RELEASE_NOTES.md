@@ -1,5 +1,14 @@
 # Release Notes
 
+## Version 14.6.0
+_27 August 2018_
+
+### Table Addition
+* Add table for inherited certification status errors report
+* Add table for broken surveillance rules report data
+
+---
+
 ## Version 14.5.0
 _16 August 2018_
 
