@@ -1,5 +1,24 @@
 # Release Notes
 
+## Version 14.6.0
+_27 August 2018_
+
+### Table Addition
+* Add table for inherited certification status errors report
+* Add table for broken surveillance rules report data
+
+---
+
+## Version 14.5.0
+_16 August 2018_
+
+### Table Addition
+* Add new nonconformity statistics table
+* Add new summary statistics table
+* Add new view for certified products summary
+
+---
+
 ## Version 14.4.1
 _16 July 2018_
 
