@@ -7,5 +7,9 @@ _Date TBD_
 * Use "full name" and "friendly name" for users/contacts
 * Add reason for developer ban
 
+### Data Modifications
+* Updated UI display values for select G1G2 Macra Measures
+* Added new G1G2 Macra Measures
+
 ---
 
