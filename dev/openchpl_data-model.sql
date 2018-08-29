@@ -158,6 +158,7 @@ CREATE TABLE openchpl.vendor_status_history (
 	vendor_status_history_id  bigserial NOT NULL,
 	vendor_id bigint NOT NULL,
 	vendor_status_id bigint NOT NULL,
+	reason text,
 	status_date timestamp NOT NULL DEFAULT NOW(),
 	creation_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),

@@ -603,5 +603,9 @@ FROM openchpl.vendor v
 WHERE v.deleted != true
 GROUP BY v.vendor_id, v.name, s.name;
 
+-- OCD_2407 add reason to developer status
+ALTER TABLE openchpl.vendor_status_history DROP COLUMN IF EXISTS reason;
+ALTER TABLE openchpl.vendor_status_history ADD COLUMN reason text;
+
 --re-run grants
 \i dev/openchpl_grant-all.sql
