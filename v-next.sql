@@ -78,6 +78,15 @@ where "id" = (select mcm."id"
 			and cc.number = '170.315 (e)(1)');
 
 update openchpl.macra_criteria_map
+set "name" = 'Provider to Patient Exchange (formerly Patient Electronic Access):  Eligible Hospital/Critical Access Hospital'
+where "id" = (select mcm."id"
+			from openchpl.macra_criteria_map mcm
+				inner join openchpl.certification_criterion cc
+					on mcm.criteria_id = cc.certification_criterion_id
+			where mcm."value" = 'RT2b EH/CAH Stage 3'
+			and cc.number = '170.315 (e)(1)');
+
+update openchpl.macra_criteria_map
 set "name" = 'Patient-Generated Health Data: Eligible Provider'
 where "id" = (select mcm."id"
 			from openchpl.macra_criteria_map mcm
@@ -150,7 +159,7 @@ where "id" = (select mcm."id"
 			and cc.number = '170.315 (g)(8)');
 
 update openchpl.macra_criteria_map
-set "name" = 'View, Download, or Transmit (VDT):  Eligible Provider'
+set "name" = 'View, Download, or Transmit (VDT):  Eligible Clinician'
 where "id" = (select mcm."id"
 			from openchpl.macra_criteria_map mcm
 				inner join openchpl.certification_criterion cc
@@ -159,7 +168,7 @@ where "id" = (select mcm."id"
 			and cc.number = '170.315 (g)(8)');
 
 update openchpl.macra_criteria_map
-set "name" = 'View, Download, or Transmit (VDT):  Eligible Provider'
+set "name" = 'View, Download, or Transmit (VDT):  Eligible Clinician'
 where "id" = (select mcm."id"
 			from openchpl.macra_criteria_map mcm
 				inner join openchpl.certification_criterion cc
