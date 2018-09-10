@@ -1,5 +1,20 @@
 # Release Notes
 
+## Version 14.7.0
+_10 September 2018_
+
+### Table Additions
+* Add whitelist column to api key table
+* Use "full name" and "friendly name" for users/contacts
+* Add reason for developer ban
+
+### Data Modifications
+* Updated UI display values for select G1G2 Macra Measures
+* Added new G1G2 Macra Measures
+
+---
+
+
 ## Version 14.6.0
 _27 August 2018_
 
