@@ -158,6 +158,7 @@ CREATE TABLE openchpl.vendor_status_history (
 	vendor_status_history_id  bigserial NOT NULL,
 	vendor_id bigint NOT NULL,
 	vendor_status_id bigint NOT NULL,
+	reason text,
 	status_date timestamp NOT NULL DEFAULT NOW(),
 	creation_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
@@ -1052,8 +1053,8 @@ ON DELETE RESTRICT ON UPDATE CASCADE;
 -- DROP TABLE IF EXISTS openchpl.contact CASCADE;
 CREATE TABLE openchpl.contact(
 	contact_id bigserial NOT NULL,
-	first_name varchar(250),
-	last_name varchar(250) NOT NULL,
+        full_name varchar(500) NOT NULL,
+        friendly_name varchar(250),
 	email varchar(250) NOT NULL,
 	phone_number varchar(100) NOT NULL,
 	title varchar(250),
@@ -2140,6 +2141,7 @@ CREATE TABLE openchpl.api_key
   api_key character varying(32) NOT NULL,
   email character varying(256) NOT NULL,
   name_organization character varying(256),
+  whitelisted boolean NOT NULL DEFAULT false,
   creation_date timestamp without time zone NOT NULL DEFAULT now(),
   last_modified_date timestamp without time zone NOT NULL DEFAULT now(),
   last_modified_user bigint NOT NULL,
