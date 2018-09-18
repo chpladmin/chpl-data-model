@@ -160,22 +160,18 @@ update openchpl.test_standard as ts set deleted = true where ts.number = 'SHA3-3
 
 \! echo "Adding multi-row"
 insert into openchpl.certification_result_test_standard (certification_result_id, test_standard_id, last_modified_user, deleted)
-    values (
-        (select crts.certification_result_id from openchpl.certification_result_test_standard crts where crts.test_standard_id = (select ts.test_standard_id from openchpl.test_standard ts where ts.number like 'Annex A of the FIPS Publication 140-2_(e)(1)(ii)(A)(2): 170.210(g) NTP v3 _Common MU Data Set: 170.207(a)(3)')),
-            (select ts.test_standard_id from openchpl.test_standard ts where ts.number = 'Annex A of the FIPS Publication 140-2' and ts.deleted = false),
-            -1, false),
-			(
-        (select crts.certification_result_id from openchpl.certification_result_test_standard crts where crts.test_standard_id = (select ts.test_standard_id from openchpl.test_standard ts where ts.number like 'Annex A of the FIPS Publication 140-2_(e)(1)(ii)(A)(2): 170.210(g) NTP v3 _Common MU Data Set: 170.207(a)(3)')),
-            (select ts.test_standard_id from openchpl.test_standard ts where ts.number = 'Common MU Data Set: 170.207(a)(3)' and ts.deleted = false),
-            -1, false),
-			(
-        (select crts.certification_result_id from openchpl.certification_result_test_standard crts where crts.test_standard_id = (select ts.test_standard_id from openchpl.test_standard ts where ts.number like 'Annex A of the FIPS Publication 140-2_(e)(1)(ii)(A)(2): 170.210(g) NTP v3 OR 170.210(g) NTPv4_Common MU Data Set: 170.207(a)(3), 170.207(b)(2) or 170.207 (b)(3)')),
-            (select ts.test_standard_id from openchpl.test_standard ts where ts.number = 'Annex A of the FIPS Publication 140-2' and ts.deleted = false),
-            -1, false),
-			(
-        (select crts.certification_result_id from openchpl.certification_result_test_standard crts where crts.test_standard_id = (select ts.test_standard_id from openchpl.test_standard ts where ts.number like 'Annex A of the FIPS Publication 140-2_(e)(1)(ii)(A)(2): 170.210(g) NTP v3 OR 170.210(g) NTPv4_Common MU Data Set: 170.207(a)(3), 170.207(b)(2) or 170.207 (b)(3)')),
-            (select ts.test_standard_id from openchpl.test_standard ts where ts.number = 'Common MU Data Set: 170.207(a)(3), 170.207(b)(2) or 170.207 (b)(3)' and ts.deleted = false),
-            -1, false);
+    values ((select crts.certification_result_id from openchpl.certification_result_test_standard crts where crts.test_standard_id = (select ts.test_standard_id from openchpl.test_standard ts where ts.number like 'Annex A of the FIPS Publication 140-2_(e)(1)(ii)(A)(2): 170.210(g) NTP v3 _Common MU Data Set: 170.207(a)(3)')),
+        (select ts.test_standard_id from openchpl.test_standard ts where ts.number = 'Annex A of the FIPS Publication 140-2' and ts.deleted = false),
+        -1, false),
+    ((select crts.certification_result_id from openchpl.certification_result_test_standard crts where crts.test_standard_id = (select ts.test_standard_id from openchpl.test_standard ts where ts.number like 'Annex A of the FIPS Publication 140-2_(e)(1)(ii)(A)(2): 170.210(g) NTP v3 _Common MU Data Set: 170.207(a)(3)')),
+        (select ts.test_standard_id from openchpl.test_standard ts where ts.number = 'Common MU Data Set: 170.207(a)(3)' and ts.deleted = false),
+        -1, false),
+    ((select crts.certification_result_id from openchpl.certification_result_test_standard crts where crts.test_standard_id = (select ts.test_standard_id from openchpl.test_standard ts where ts.number like 'Annex A of the FIPS Publication 140-2_(e)(1)(ii)(A)(2): 170.210(g) NTP v3 OR 170.210(g) NTPv4_Common MU Data Set: 170.207(a)(3), 170.207(b)(2) or 170.207 (b)(3)')),
+        (select ts.test_standard_id from openchpl.test_standard ts where ts.number = 'Annex A of the FIPS Publication 140-2' and ts.deleted = false),
+        -1, false),
+    ((select crts.certification_result_id from openchpl.certification_result_test_standard crts where crts.test_standard_id = (select ts.test_standard_id from openchpl.test_standard ts where ts.number like 'Annex A of the FIPS Publication 140-2_(e)(1)(ii)(A)(2): 170.210(g) NTP v3 OR 170.210(g) NTPv4_Common MU Data Set: 170.207(a)(3), 170.207(b)(2) or 170.207 (b)(3)')),
+        (select ts.test_standard_id from openchpl.test_standard ts where ts.number = 'Common MU Data Set: 170.207(a)(3), 170.207(b)(2) or 170.207 (b)(3)' and ts.deleted = false),
+        -1, false);
 
 update openchpl.test_standard ts set number = '(e)(1)(ii)(A)(2): 170.210(g) NTP v3 OR 170.210(g) NTPv4' where ts.number like 'Annex A of the FIPS Publication 140-2_(e)(1)(ii)(A)(2): 170.210(g) NTP v3 OR 170.210(g) NTPv4_Common MU Data Set: 170.207(a)(3), 170.207(b)(2) or 170.207 (b)(3)';
 update openchpl.test_standard ts set number = '(e)(1)(ii)(A)(2): 170.210(g) NTP v3' where ts.number like 'Annex A of the FIPS Publication 140-2_(e)(1)(ii)(A)(2): 170.210(g) NTP v3 _Common MU Data Set: 170.207(a)(3)';
