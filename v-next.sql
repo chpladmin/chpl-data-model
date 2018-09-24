@@ -1258,20 +1258,3 @@ insert into openchpl.certification_result_test_tool (certification_result_id, te
     ((select cr.certification_result_id from openchpl.certification_result cr where cr.certified_product_id = 8299 and cr.certification_criterion_id = (select cc.certification_criterion_id from openchpl.certification_criterion cc where cc.number = '170.314 (c)(1)')), (select tt.test_tool_id from openchpl.test_tool tt where tt.name = 'Cypress' and tt.deleted = false), -1, '2.4.1'),
     ((select cr.certification_result_id from openchpl.certification_result cr where cr.certified_product_id = 8300 and cr.certification_criterion_id = (select cc.certification_criterion_id from openchpl.certification_criterion cc where cc.number = '170.314 (c)(1)')), (select tt.test_tool_id from openchpl.test_tool tt where tt.name = 'Cypress' and tt.deleted = false), -1, '2.4.1'),
     ((select cr.certification_result_id from openchpl.certification_result cr where cr.certified_product_id = 8370 and cr.certification_criterion_id = (select cc.certification_criterion_id from openchpl.certification_criterion cc where cc.number = '170.314 (c)(1)')), (select tt.test_tool_id from openchpl.test_tool tt where tt.name = 'Cypress' and tt.deleted = false), -1, '2.4.1');
-
--- OCD-2377 -  Cleanup of unused API keys
-ALTER TABLE openchpl.api_key ADD COLUMN last_used_date timestamp without time zone DEFAULT now();
-ALTER TABLE openchpl.api_key ADD COLUMN delete_warning_sent_date timestamp without time zone;
-
-CREATE OR REPLACE FUNCTION openchpl.reset_api_key_delete_warning_sent_date_func()
-RETURNS TRIGGER 
-AS $$
-BEGIN
-	IF NEW.last_used_date <> OLD.last_used_date THEN
-		NEW.delete_warning_sent_date = NULL;
-	END IF;
-	RETURN NEW;
-END;
-$$ language 'plpgsql';
-
-CREATE TRIGGER reset_api_key_delete_warning_sent_date BEFORE UPDATE on openchpl.api_key FOR EACH ROW EXECUTE PROCEDURE openchpl.reset_api_key_delete_warning_sent_date_func();
