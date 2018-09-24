@@ -1,5 +1,18 @@
 # Release Notes
 
+## Version 14.7.1
+_24 September 2018_
+
+### Data modifications
+* Test Standards
+  * Consolidated some duplicates
+  * Expanded some multi-rows
+  * Removed invalid one
+* Criteria modifications
+  * Added Privacy & Security Framework values for missing 170.315 (a)(7) criteria
+  * Added Test Tools for missing 170.314 (c)(1) criteria
+---
+
 ## Version 14.7.0
 _10 September 2018_
 
