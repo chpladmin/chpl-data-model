@@ -7,5 +7,6 @@ _Date TBD_
   * Add column delete_warning_sent_date
   * Add column last_used_date
   * Add trigger to set delete_warning_sent_date = null when last_used_date is updated
+* Add Developer status to search results view
 
 ---
