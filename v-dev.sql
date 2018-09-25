@@ -17,3 +17,5 @@ $$ language 'plpgsql';
 
 DROP TRIGGER IF EXISTS reset_api_key_delete_warning_sent_date on openchpl.api_key;
 CREATE TRIGGER reset_api_key_delete_warning_sent_date BEFORE UPDATE on openchpl.api_key FOR EACH ROW EXECUTE PROCEDURE openchpl.reset_api_key_delete_warning_sent_date_func();
+
+/i dev/grant-all.sql
