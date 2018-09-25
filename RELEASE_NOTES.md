@@ -11,6 +11,7 @@ _24 September 2018_
 * Criteria modifications
   * Added Privacy & Security Framework values for missing 170.315 (a)(7) criteria
   * Added Test Tools for missing 170.314 (c)(1) criteria
+
 ---
 
 ## Version 14.7.0
@@ -26,7 +27,6 @@ _10 September 2018_
 * Added new G1G2 Macra Measures
 
 ---
-
 
 ## Version 14.6.0
 _27 August 2018_
