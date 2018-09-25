@@ -489,7 +489,7 @@ SELECT cp.certified_product_id,
        version.product_version,
        product.product_name,
        vendor.vendor_name,
-       v.vendor_status_name,
+       vendor_status.vendor_status_name,
        owners.history_vendor_name AS owner_history,
        certstatusevent.certification_date,
        certstatus.certification_status_name,
@@ -572,10 +572,10 @@ LEFT JOIN
                     max(vendor_status_history.status_date) AS status_date
                    FROM openchpl.vendor_status_history
                   WHERE vendor_status_history.deleted = false
-                  GROUP BY vendor_status_history.vendor_id) vsinner ON vshistory.vendor_id = vsinner.vendor_id AND vshistory.status_date = vsinner.status_date) vendorstatus ON vendorstatus.vendor_id = vendor.vendor_id
+                  GROUP BY vendor_status_history.vendor_id) vsinner ON vshistory.vendor_id = vsinner.vendor_id AND vshistory.status_date = vsinner.status_date) vendor_status_history ON vendor_status_history.vendor_id = vendor.vendor_id
      LEFT JOIN ( SELECT vendor_status.vendor_status_id,
             vendor_status.name AS vendor_status_name
-           FROM openchpl.vendor_status) v ON vendorstatus.vendor_status_id = v.vendor_status_id
+           FROM openchpl.vendor_status) vendor_status ON vendor_status_history.vendor_status_id = vendor_status.vendor_status_id
 LEFT JOIN
   (SELECT string_agg(vendor_1.name, '|') AS history_vendor_name,
           product_owner_history_map.product_id AS history_product_id
