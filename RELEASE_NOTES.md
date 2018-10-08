@@ -1,5 +1,72 @@
 # Release Notes
 
+## Version 14.8.0
+_8 October 2018_
+
+### Table Modifications
+* API Key table
+  * Add column delete_warning_sent_date
+  * Add column last_used_date
+  * Add trigger to set delete_warning_sent_date = null when last_used_date is updated
+* Add Developer status to search results view
+
+---
+
+## Version 14.7.1
+_24 September 2018_
+
+### Data modifications
+* Test Standards
+  * Consolidated some duplicates
+  * Expanded some multi-rows
+  * Removed invalid one
+* Criteria modifications
+  * Added Privacy & Security Framework values for missing 170.315 (a)(7) criteria
+  * Added Test Tools for missing 170.314 (c)(1) criteria
+
+---
+
+## Version 14.7.0
+_10 September 2018_
+
+### Table Additions
+* Add whitelist column to api key table
+* Use "full name" and "friendly name" for users/contacts
+* Add reason for developer ban
+
+### Data Modifications
+* Updated UI display values for select G1G2 Macra Measures
+* Added new G1G2 Macra Measures
+
+---
+
+## Version 14.6.0
+_27 August 2018_
+
+### Table Addition
+* Add table for inherited certification status errors report
+* Add table for broken surveillance rules report data
+
+---
+
+## Version 14.5.0
+_16 August 2018_
+
+### Table Addition
+* Add new nonconformity statistics table
+* Add new summary statistics table
+* Add new view for certified products summary
+
+---
+
+## Version 14.4.1
+_16 July 2018_
+
+### Data modifications
+* Marked 269 Listings as "Withdrawn by Developer"
+
+---
+
 ## Version 14.4.0
 _5 July 2018_
 

@@ -159,8 +159,7 @@ SELECT
     t.zipcode,
     t.country,
     u.contact_id,
-    u.first_name,
-    u.last_name,
+    u.full_name,
     u.email,
     u.phone_number,
     u.title,
@@ -241,8 +240,7 @@ SELECT
             address.country
            FROM openchpl.address) t ON h.vendor_address = t.address_id
      LEFT JOIN ( SELECT contact.contact_id,
-            contact.first_name,
-            contact.last_name,
+            contact.full_name,
             contact.email,
             contact.phone_number,
             contact.title
@@ -491,6 +489,7 @@ SELECT cp.certified_product_id,
        version.product_version,
        product.product_name,
        vendor.vendor_name,
+       vendor_status.vendor_status_name,
        owners.history_vendor_name AS owner_history,
        certstatusevent.certification_date,
        certstatus.certification_status_name,
@@ -562,8 +561,21 @@ LEFT JOIN
 LEFT JOIN
   (SELECT vendor_1.vendor_id,
           vendor_1.name AS vendor_name,
-          vendor_1.vendor_code
+          vendor_1.vendor_code,
+          vendor_1.vendor_status_id
    FROM openchpl.vendor vendor_1) vendor ON product.vendor_id = vendor.vendor_id
+     LEFT JOIN ( SELECT vshistory.vendor_status_id,
+            vshistory.vendor_id,
+            vshistory.status_date AS last_vendor_status_change
+           FROM openchpl.vendor_status_history vshistory
+             JOIN ( SELECT vendor_status_history.vendor_id,
+                    max(vendor_status_history.status_date) AS status_date
+                   FROM openchpl.vendor_status_history
+                  WHERE vendor_status_history.deleted = false
+                  GROUP BY vendor_status_history.vendor_id) vsinner ON vshistory.vendor_id = vsinner.vendor_id AND vshistory.status_date = vsinner.status_date) vendor_status_history ON vendor_status_history.vendor_id = vendor.vendor_id
+     LEFT JOIN ( SELECT vendor_status.vendor_status_id,
+            vendor_status.name AS vendor_status_name
+           FROM openchpl.vendor_status) vendor_status ON vendor_status_history.vendor_status_id = vendor_status.vendor_status_id
 LEFT JOIN
   (SELECT string_agg(vendor_1.name, '|') AS history_vendor_name,
           product_owner_history_map.product_id AS history_product_id
@@ -911,3 +923,61 @@ SELECT id,
     deleted
 FROM openchpl.product_owner_history_map
 WHERE deleted = false;
+
+CREATE OR REPLACE VIEW openchpl.certified_product_summary AS
+ SELECT cp.certified_product_id,
+    cp.certification_edition_id,
+    cp.product_version_id,
+    cp.testing_lab_id,
+    cp.certification_body_id,
+    cp.chpl_product_number,
+    cp.report_file_location,
+    cp.sed_report_file_location,
+    cp.sed_intended_user_description,
+    cp.sed_testing_end,
+    cp.acb_certification_id,
+    cp.practice_type_id,
+    cp.product_classification_type_id,
+    cp.product_additional_software,
+    cp.other_acb,
+    cp.transparency_attestation_url,
+    cp.ics,
+    cp.sed,
+    cp.qms,
+    cp.accessibility_certified,
+    cp.product_code,
+    cp.version_code,
+    cp.ics_code,
+    cp.additional_software_code,
+    cp.certified_date_code,
+    cp.creation_date,
+    cp.last_modified_date,
+    cp.last_modified_user,
+    cp.deleted,
+    cp.meaningful_use_users,
+    cp.pending_certified_product_id,
+    ce.year,
+    p.name AS product_name,
+    v.name AS vendor_name,
+    v.vendor_code,
+    cs.certification_status,
+    cb.acb_code,
+    cb.name AS certification_body_name,
+    cb.website AS certification_body_website
+   FROM openchpl.certified_product cp
+     JOIN openchpl.certification_edition ce ON cp.certification_edition_id = ce.certification_edition_id
+     JOIN ( SELECT cse.certification_status_id,
+            cse.certified_product_id,
+            cse.event_date AS last_certification_status_change
+           FROM openchpl.certification_status_event cse
+             JOIN ( SELECT certification_status_event.certified_product_id,
+                    max(certification_status_event.event_date) AS event_date
+                   FROM openchpl.certification_status_event
+                  WHERE certification_status_event.deleted <> true
+                  GROUP BY certification_status_event.certified_product_id) cseinner ON cse.certified_product_id = cseinner.certified_product_id AND cse.event_date = cseinner.event_date
+          WHERE cse.deleted <> true) max_cse ON max_cse.certified_product_id = cp.certified_product_id
+     JOIN openchpl.certification_status cs ON cs.certification_status_id = max_cse.certification_status_id
+     JOIN openchpl.product_version pv ON cp.product_version_id = pv.product_version_id
+     JOIN openchpl.product p ON pv.product_id = p.product_id
+     JOIN openchpl.vendor v ON p.vendor_id = v.vendor_id
+     JOIN openchpl.certification_body cb ON cp.certification_body_id = cb.certification_body_id;
