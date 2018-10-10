@@ -135,6 +135,7 @@ SELECT
     a.product_additional_software,
     a.last_modified_date,
 	muuResult.meaningful_use_users,
+	muuResult.meaningful_use_users_date,
     b.year,
     c.certification_body_name,
     c.certification_body_code,
@@ -495,6 +496,7 @@ SELECT cp.certified_product_id,
        cqms.cqm_number AS cqms,
        openchpl.get_chpl_product_number(cp.certified_product_id) AS chpl_product_number,
        muuResult.meaningful_use_users,
+	   muuResult.meaningful_use_users_date,
        cp.transparency_attestation_url,
        edition.year,
        acb.certification_body_name,
@@ -699,6 +701,7 @@ FROM
         (select chpl_product_number from openchpl.get_chpl_product_number(cp.certified_product_id)),
 	lastCertStatusEvent.certification_status_name,
 	muuResult.meaningful_use_users,
+	muuResult.meaningful_use_users_date,
 	cp.transparency_attestation_url,
 	edition.year,
 	acb.certification_body_name,
@@ -742,7 +745,9 @@ FROM
 	ON lastCertStatusEvent.certified_product_id = cp.certified_product_id
 	-- meaningful use users count
 	LEFT JOIN (
-		SELECT muu.meaningful_use_users as "meaningful_use_users", muu.certified_product_id as "certified_product_id"
+		SELECT muu.meaningful_use_users as "meaningful_use_users", 
+		muu.certified_product_id as "certified_product_id",
+		muu.meaningful_use_users_date as "meaningful_use_users_date"
 		FROM openchpl.meaningful_use_user muu
 			INNER JOIN
 			(SELECT certified_product_id, extract(epoch from MAX(meaningful_use_users_date)) meaningful_use_users_date
