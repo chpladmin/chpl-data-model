@@ -357,7 +357,7 @@ CREATE TABLE openchpl.meaningful_use_user (
 	id  bigserial NOT NULL,
 	certified_product_id bigint NOT NULL,
 	meaningful_use_users bigint NOT NULL,
-	eaningful_use_users_date timestamp NOT NULL,
+	meaningful_use_users_date timestamp NOT NULL,
 	creation_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_user bigint NOT NULL,
