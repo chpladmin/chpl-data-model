@@ -1028,7 +1028,7 @@ CREATE OR REPLACE VIEW openchpl.certified_product_summary AS
      JOIN openchpl.product p ON pv.product_id = p.product_id
      JOIN openchpl.vendor v ON p.vendor_id = v.vendor_id
      JOIN openchpl.certification_body cb ON cp.certification_body_id = cb.certification_body_id
-	 JOIN ( SELECT muu.meaningful_use_users,
+	 LEFT OUTER JOIN ( SELECT muu.meaningful_use_users,
             muu.certified_product_id,
             muu.meaningful_use_users_date AS meaningful_use_users_date
            FROM openchpl.meaningful_use_user muu
