@@ -53,6 +53,17 @@ CREATE TABLE openchpl.user(
 -- ALTER TABLE openchpl.user OWNER TO openchpl;
 -- ddl-end --
 
+CREATE TABLE openchpl.user_reset_token(
+	user_reset_token_id bigserial NOT NULL,
+	user_reset_token varchar(15) NOT NULL,
+	user_id bigint,
+	creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
+	CONSTRAINT user_reset_token_pk PRIMARY KEY (user_reset_token_id)
+);
+
 -- object: openchpl.announcements | type: TABLE --
 -- DROP TABLE IF EXISTS openchpl.announcements CASCADE;
 CREATE TABLE openchpl.announcement(
