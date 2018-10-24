@@ -1,5 +1,14 @@
 # Release Notes
 
+## Version 14.9.1
+_24 October 2018_
+
+### Bugs Fixed
+* Include listings without MUU counts in certified_product_summary view. 
+
+---
+
+
 ## Version 14.9.0
 _22 October 2018_
 
