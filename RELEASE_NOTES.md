@@ -1,5 +1,14 @@
 # Release Notes
 
+## Version 14.9.2
+_5 November 2018_
+
+### View Modification
+* Properly handle developer status history in certified_product_details view
+  * When there was a deleted developer status history that occured at the exact same time, a duplicate row was in the view
+
+---
+
 ## Version 14.9.1
 _24 October 2018_
 
