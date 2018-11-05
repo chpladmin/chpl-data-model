@@ -106,12 +106,12 @@ FROM openchpl.cqm_result a
     LEFT JOIN openchpl.cqm_version c ON b.cqm_version_id = c.cqm_version_id;
 
 CREATE OR REPLACE VIEW openchpl.certified_product_details AS
-SELECT
-    a.certified_product_id,
+ SELECT a.certified_product_id,
     a.certification_edition_id,
     a.product_version_id,
     a.certification_body_id,
-    (select chpl_product_number from openchpl.get_chpl_product_number(a.certified_product_id)),
+    ( SELECT get_chpl_product_number.chpl_product_number
+           FROM openchpl.get_chpl_product_number(a.certified_product_id) get_chpl_product_number(chpl_product_number)) AS chpl_product_number,
     a.report_file_location,
     a.sed_report_file_location,
     a.sed_intended_user_description,
@@ -134,7 +134,8 @@ SELECT
     a.accessibility_certified,
     a.product_additional_software,
     a.last_modified_date,
-    a.meaningful_use_users,
+    muuresult.meaningful_use_users,
+    muuresult.meaningful_use_users_date,
     b.year,
     c.certification_body_name,
     c.certification_body_code,
@@ -179,24 +180,29 @@ SELECT
     q.testing_lab_name,
     q.testing_lab_code
    FROM openchpl.certified_product a
-     LEFT JOIN ( 
-	   SELECT cse.certification_status_id,
-       		cse.certified_product_id,
+     LEFT JOIN ( SELECT cse.certification_status_id,
+            cse.certified_product_id,
             cse.event_date AS last_certification_status_change
-       FROM openchpl.certification_status_event cse
-         INNER JOIN ( 
-		   SELECT certification_status_event.certified_product_id,
-           		max(certification_status_event.event_date) AS event_date
-           FROM openchpl.certification_status_event
-		   WHERE deleted <> true
-           GROUP BY certification_status_event.certified_product_id) cseinner 
-		 ON cse.certified_product_id = cseinner.certified_product_id 
-		 AND cse.event_date = cseinner.event_date 
-		WHERE cse.deleted <> true) r
-	   ON r.certified_product_id = a.certified_product_id
+           FROM openchpl.certification_status_event cse
+             JOIN ( SELECT certification_status_event.certified_product_id,
+                    max(certification_status_event.event_date) AS event_date
+                   FROM openchpl.certification_status_event
+                  WHERE certification_status_event.deleted <> true
+                  GROUP BY certification_status_event.certified_product_id) cseinner ON cse.certified_product_id = cseinner.certified_product_id AND cse.event_date = cseinner.event_date
+          WHERE cse.deleted <> true) r ON r.certified_product_id = a.certified_product_id
      LEFT JOIN ( SELECT certification_status.certification_status_id,
             certification_status.certification_status AS certification_status_name
            FROM openchpl.certification_status) n ON r.certification_status_id = n.certification_status_id
+     LEFT JOIN ( SELECT muu.meaningful_use_users,
+            muu.certified_product_id,
+            muu.meaningful_use_users_date
+           FROM openchpl.meaningful_use_user muu
+             JOIN ( SELECT meaningful_use_user.certified_product_id,
+                    max(meaningful_use_user.meaningful_use_users_date) AS meaningful_use_users_date
+                   FROM openchpl.meaningful_use_user
+                  WHERE meaningful_use_user.deleted <> true
+                  GROUP BY meaningful_use_user.certified_product_id) muuinner ON muu.certified_product_id = muuinner.certified_product_id AND muu.meaningful_use_users_date = muuinner.meaningful_use_users_date
+          WHERE muu.deleted <> true) muuresult ON muuresult.certified_product_id = a.certified_product_id
      LEFT JOIN ( SELECT certification_edition.certification_edition_id,
             certification_edition.year
            FROM openchpl.certification_edition) b ON a.certification_edition_id = b.certification_edition_id
@@ -253,21 +259,22 @@ SELECT
                     max(vendor_status_history.status_date) AS status_date
                    FROM openchpl.vendor_status_history
                   WHERE vendor_status_history.deleted = false
-                  GROUP BY vendor_status_history.vendor_id) vsinner ON vshistory.vendor_id = vsinner.vendor_id AND vshistory.status_date = vsinner.status_date) vendorstatus ON vendorstatus.vendor_id = h.vendor_id
+                  GROUP BY vendor_status_history.vendor_id) vsinner 
+				ON vshistory.vendor_id = vsinner.vendor_id 
+				AND vshistory.status_date = vsinner.status_date
+				AND vshistory.deleted = false) vendorstatus ON vendorstatus.vendor_id = h.vendor_id
      LEFT JOIN ( SELECT vendor_status.vendor_status_id,
             vendor_status.name AS vendor_status_name
            FROM openchpl.vendor_status) v ON vendorstatus.vendor_status_id = v.vendor_status_id
      LEFT JOIN ( SELECT min(certification_status_event.event_date) AS certification_date,
             certification_status_event.certified_product_id
            FROM openchpl.certification_status_event
-          WHERE certification_status_event.certification_status_id = 1
-		  AND certification_status_event.deleted <> true
+          WHERE certification_status_event.certification_status_id = 1 AND certification_status_event.deleted <> true
           GROUP BY certification_status_event.certified_product_id) i ON a.certified_product_id = i.certified_product_id
      LEFT JOIN ( SELECT max(certification_status_event.event_date) AS decertification_date,
             certification_status_event.certified_product_id
            FROM openchpl.certification_status_event
-          WHERE certification_status_event.certification_status_id = ANY (ARRAY[3::bigint, 4::bigint, 8::bigint])
-		  AND certification_status_event.deleted <> true
+          WHERE (certification_status_event.certification_status_id = ANY (ARRAY[3::bigint, 4::bigint, 8::bigint])) AND certification_status_event.deleted <> true
           GROUP BY certification_status_event.certified_product_id) decert ON a.certified_product_id = decert.certified_product_id
      LEFT JOIN ( SELECT j.certified_product_id,
             count(*) AS count_certifications
@@ -290,15 +297,11 @@ SELECT
           GROUP BY j.certified_product_id) k ON a.certified_product_id = k.certified_product_id
      LEFT JOIN ( SELECT l.certified_product_id,
             count(*) AS count_cqms
-           FROM (SELECT DISTINCT
-    						a.certified_product_id,
-    						COALESCE(b.cms_id, b.nqf_number) AS cqm_id
-   					FROM openchpl.cqm_result a
-     					LEFT JOIN openchpl.cqm_criterion b 
-							ON a.cqm_criterion_id = b.cqm_criterion_id
-					WHERE a.success = true
-					AND a.deleted <> true
-					AND b.deleted <> true) l
+           FROM ( SELECT DISTINCT a_1.certified_product_id,
+                    COALESCE(b_1.cms_id, b_1.nqf_number) AS cqm_id
+                   FROM openchpl.cqm_result a_1
+                     LEFT JOIN openchpl.cqm_criterion b_1 ON a_1.cqm_criterion_id = b_1.cqm_criterion_id
+                  WHERE a_1.success = true AND a_1.deleted <> true AND b_1.deleted <> true) l
           GROUP BY l.certified_product_id
           ORDER BY l.certified_product_id) m ON a.certified_product_id = m.certified_product_id
      LEFT JOIN ( SELECT n_1.certified_product_id,
@@ -468,7 +471,6 @@ SELECT
             testing_lab.name AS testing_lab_name,
             testing_lab.testing_lab_code
            FROM openchpl.testing_lab) q ON a.testing_lab_id = q.testing_lab_id;
-
 -- ALTER VIEW openchpl.certified_product_details OWNER TO openchpl;
 
 DROP VIEW IF EXISTS openchpl.certified_product_search;
@@ -480,7 +482,8 @@ SELECT cp.certified_product_id,
        certs.cert_number AS certs,
        cqms.cqm_number AS cqms,
        openchpl.get_chpl_product_number(cp.certified_product_id) AS chpl_product_number,
-       cp.meaningful_use_users,
+       muuResult.meaningful_use_users,
+	   muuResult.meaningful_use_users_date,
        cp.transparency_attestation_url,
        edition.year,
        acb.certification_body_name,
@@ -489,6 +492,7 @@ SELECT cp.certified_product_id,
        version.product_version,
        product.product_name,
        vendor.vendor_name,
+       vendor_status.vendor_status_name,
        owners.history_vendor_name AS owner_history,
        certstatusevent.certification_date,
        certstatus.certification_status_name,
@@ -515,6 +519,21 @@ LEFT JOIN
   (SELECT certification_status.certification_status_id,
           certification_status.certification_status AS certification_status_name
    FROM openchpl.certification_status) certstatus ON certstatusevents.certification_status_id = certstatus.certification_status_id
+LEFT JOIN ( 
+	SELECT muu.meaningful_use_users,
+		muu.certified_product_id,
+		muu.meaningful_use_users_date
+	FROM openchpl.meaningful_use_user muu
+	 INNER JOIN ( 
+	   SELECT meaningful_use_user.certified_product_id,
+			max(meaningful_use_user.meaningful_use_users_date) as meaningful_use_users_date
+	   FROM openchpl.meaningful_use_user
+	   WHERE deleted <> true
+	   GROUP BY meaningful_use_user.certified_product_id) muuInner 
+	 ON muu.certified_product_id = muuInner.certified_product_id 
+	 AND muu.meaningful_use_users_date = muuInner.meaningful_use_users_date
+	WHERE muu.deleted <> true) muuResult
+ON muuResult.certified_product_id = cp.certified_product_id
 LEFT JOIN
   (SELECT string_agg(DISTINCT child_chpl_product_number||'☹'||children.child_listing_id::text, '☹'::text) AS child,
           parent_listing_id FROM
@@ -560,8 +579,21 @@ LEFT JOIN
 LEFT JOIN
   (SELECT vendor_1.vendor_id,
           vendor_1.name AS vendor_name,
-          vendor_1.vendor_code
+          vendor_1.vendor_code,
+          vendor_1.vendor_status_id
    FROM openchpl.vendor vendor_1) vendor ON product.vendor_id = vendor.vendor_id
+     LEFT JOIN ( SELECT vshistory.vendor_status_id,
+            vshistory.vendor_id,
+            vshistory.status_date AS last_vendor_status_change
+           FROM openchpl.vendor_status_history vshistory
+             JOIN ( SELECT vendor_status_history.vendor_id,
+                    max(vendor_status_history.status_date) AS status_date
+                   FROM openchpl.vendor_status_history
+                  WHERE vendor_status_history.deleted = false
+                  GROUP BY vendor_status_history.vendor_id) vsinner ON vshistory.vendor_id = vsinner.vendor_id AND vshistory.status_date = vsinner.status_date) vendor_status_history ON vendor_status_history.vendor_id = vendor.vendor_id
+     LEFT JOIN ( SELECT vendor_status.vendor_status_id,
+            vendor_status.name AS vendor_status_name
+           FROM openchpl.vendor_status) vendor_status ON vendor_status_history.vendor_status_id = vendor_status.vendor_status_id
 LEFT JOIN
   (SELECT string_agg(vendor_1.name, '|') AS history_vendor_name,
           product_owner_history_map.product_id AS history_product_id
@@ -655,7 +687,8 @@ FROM
 	cp.certified_product_id,
         (select chpl_product_number from openchpl.get_chpl_product_number(cp.certified_product_id)),
 	lastCertStatusEvent.certification_status_name,
-	cp.meaningful_use_users,
+	muuResult.meaningful_use_users,
+	muuResult.meaningful_use_users_date,
 	cp.transparency_attestation_url,
 	edition.year,
 	acb.certification_body_name,
@@ -697,6 +730,21 @@ FROM
 	    AND extract(epoch from cse.event_date) = maxCse.event_date
 	    ) lastCertStatusEvent
 	ON lastCertStatusEvent.certified_product_id = cp.certified_product_id
+	-- meaningful use users count
+	LEFT JOIN (
+		SELECT muu.meaningful_use_users as "meaningful_use_users", 
+		muu.certified_product_id as "certified_product_id",
+		muu.meaningful_use_users_date as "meaningful_use_users_date"
+		FROM openchpl.meaningful_use_user muu
+			INNER JOIN
+			(SELECT certified_product_id, extract(epoch from MAX(meaningful_use_users_date)) meaningful_use_users_date
+			FROM openchpl.meaningful_use_user
+			GROUP BY certified_product_id) maxMuu
+			ON muu.certified_product_id = maxMuu.certified_product_id
+		--conversion to epoch/long comparison significantly faster than comparing the timestamp fields as-is
+			AND extract(epoch from muu.meaningful_use_users_date) = maxMuu.meaningful_use_users_date
+			) muuResult
+	ON muuResult.certified_product_id = cp.certified_product_id
     -- Practice type (2014 only)
 	LEFT JOIN (SELECT practice_type_id, name as "practice_type_name" FROM openchpl.practice_type) prac on cp.practice_type_id = prac.practice_type_id
     --decertification date
@@ -940,8 +988,8 @@ CREATE OR REPLACE VIEW openchpl.certified_product_summary AS
     cp.last_modified_date,
     cp.last_modified_user,
     cp.deleted,
-    cp.meaningful_use_users,
     cp.pending_certified_product_id,
+	muuResult.meaningful_use_users,
     ce.year,
     p.name AS product_name,
     v.name AS vendor_name,
@@ -966,4 +1014,14 @@ CREATE OR REPLACE VIEW openchpl.certified_product_summary AS
      JOIN openchpl.product_version pv ON cp.product_version_id = pv.product_version_id
      JOIN openchpl.product p ON pv.product_id = p.product_id
      JOIN openchpl.vendor v ON p.vendor_id = v.vendor_id
-     JOIN openchpl.certification_body cb ON cp.certification_body_id = cb.certification_body_id;
+     JOIN openchpl.certification_body cb ON cp.certification_body_id = cb.certification_body_id
+	 LEFT OUTER JOIN ( SELECT muu.meaningful_use_users,
+            muu.certified_product_id,
+            muu.meaningful_use_users_date AS meaningful_use_users_date
+           FROM openchpl.meaningful_use_user muu
+             JOIN ( SELECT meaningful_use_user.certified_product_id,
+                    max(meaningful_use_user.meaningful_use_users_date) AS meaningful_use_users_date
+                   FROM openchpl.meaningful_use_user
+                  WHERE meaningful_use_user.deleted <> true
+                  GROUP BY meaningful_use_user.certified_product_id) muuInner ON muu.certified_product_id = muuInner.certified_product_id AND muu.meaningful_use_users_date = muuInner.meaningful_use_users_date
+          WHERE muu.deleted <> true) muuResult ON muuResult.certified_product_id = cp.certified_product_id;

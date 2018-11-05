@@ -1,5 +1,62 @@
 # Release Notes
 
+## Version 14.9.2
+_5 November 2018_
+
+### View Modification
+* Properly handle developer status history in certified_product_details view
+  * When there was a deleted developer status history that occured at the exact same time, a duplicate row was in the view
+
+---
+
+## Version 14.9.1
+_24 October 2018_
+
+### Bugs Fixed
+* Include listings without MUU counts in certified_product_summary view. 
+
+---
+
+
+## Version 14.9.0
+_22 October 2018_
+
+### Table Modifications
+* Add meaningful_use_user table to capture current and historical muu counts per listing.
+* Modified all views that calculate meaningful_use_users.
+
+### Data Modifications
+* Migrated data from certified_product meaningful_use_users column into new meaningful_use_user table.
+
+---
+
+
+## Version 14.8.0
+_8 October 2018_
+
+### Table Modifications
+* API Key table
+  * Add column delete_warning_sent_date
+  * Add column last_used_date
+  * Add trigger to set delete_warning_sent_date = null when last_used_date is updated
+* Add Developer status to search results view
+
+---
+
+## Version 14.7.1
+_24 September 2018_
+
+### Data modifications
+* Test Standards
+  * Consolidated some duplicates
+  * Expanded some multi-rows
+  * Removed invalid one
+* Criteria modifications
+  * Added Privacy & Security Framework values for missing 170.315 (a)(7) criteria
+  * Added Test Tools for missing 170.314 (c)(1) criteria
+
+---
+
 ## Version 14.7.0
 _10 September 2018_
 
@@ -13,7 +70,6 @@ _10 September 2018_
 * Added new G1G2 Macra Measures
 
 ---
-
 
 ## Version 14.6.0
 _27 August 2018_

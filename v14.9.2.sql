@@ -1,221 +1,11 @@
--- OCD-2392 - add whitelisting to api keys
-ALTER TABLE openchpl.api_key DROP COLUMN IF EXISTS whitelisted;
-ALTER TABLE openchpl.api_key ADD COLUMN whitelisted boolean DEFAULT false;
-UPDATE openchpl.api_key SET whitelisted = true WHERE api_key_id = 1;
-
--- OCD-2414 - Update UI display values for a few G1G2 Macra Measures and Add a couple additional input values
-insert into openchpl.macra_criteria_map
-(criteria_id, "value", "name", description, last_modified_user)
-values
-(
-	(select certification_criterion_id from openchpl.certification_criterion where "number" = '170.315 (a)(10)'),
-	'RT13 EH/CAH Stage 3',
-	'Query of Prescription Drug Monitoring Program (PDMP): Eligible Hospital/Critical Access Hospital',
-	'Required Test 13: Stage 3',
-	-1
-),
-(
-	(select certification_criterion_id from openchpl.certification_criterion where "number" = '170.315 (a)(10)'),
-	'RT14 EH/CAH Stage 3',
-	'Verify Opioid Treatment Agreement: Eligible Hospital/Critical Access Hospital',
-	'Required Test 14: Stage 3',
-	-1
-),
-(
-	(select certification_criterion_id from openchpl.certification_criterion where "number" = '170.315 (b)(1)'),
-	'RT15 EH/CAH Stage 3',
-	'Support Electronic Referral Loops by Receiving and Incorporating Health Information: Eligible Hospital/Critical Access Hospital',
-	'Required Test 15: Stage 3',
-	-1
-),
-(
-	(select certification_criterion_id from openchpl.certification_criterion where "number" = '170.315 (b)(2)'),
-	'RT15 EH/CAH Stage 3',
-	'Support Electronic Referral Loops by Receiving and Incorporating Health Information: Eligible Hospital/Critical Access Hospital',
-	'Required Test 15: Stage 3',
-	-1
-),
-(
-	(select certification_criterion_id from openchpl.certification_criterion where "number" = '170.315 (b)(3)'),
-	'RT13 EH/CAH Stage 3',
-	'Query of Prescription Drug Monitoring Program (PDMP): Eligible Hospital/Critical Access Hospital',
-	'Required Test 13: Stage 3',
-	-1
-),
-(
-	(select certification_criterion_id from openchpl.certification_criterion where "number" = '170.315 (b)(3)'),
-	'RT14 EH/CAH Stage 3',
-	'Verify Opioid Treatment Agreement: Eligible Hospital/Critical Access Hospital',
-	'Required Test 14: Stage 3',
-	-1
-);
-
-update openchpl.macra_criteria_map
-set "name" = 'Support Electronic Referral Loops by Sending Health Information (formerly Patient Care Record Exchange):  Eligible Hospital/Critical Access Hospital'
-where "id" = (select mcm."id"
-			from openchpl.macra_criteria_map mcm
-				inner join openchpl.certification_criterion cc
-					on mcm.criteria_id = cc.certification_criterion_id
-			where mcm."value" = 'RT7 EH/CAH Stage 3'
-			and cc.number = '170.315 (b)(1)');
-			
-update openchpl.macra_criteria_map
-set "name" = 'Patient Electronic Access: Eligible Clinician'
-where "id" = (select mcm."id"
-			from openchpl.macra_criteria_map mcm
-				inner join openchpl.certification_criterion cc
-					on mcm.criteria_id = cc.certification_criterion_id
-			where mcm."value" = 'RT2a EC ACI Transition'
-			and cc.number = '170.315 (e)(1)');
-
-update openchpl.macra_criteria_map
-set "name" = 'Provider to Patient Exchange (formerly Patient Electronic Access):  Eligible Hospital/Critical Access Hospital'
-where "id" = (select mcm."id"
-			from openchpl.macra_criteria_map mcm
-				inner join openchpl.certification_criterion cc
-					on mcm.criteria_id = cc.certification_criterion_id
-			where mcm."value" = 'RT2a EH/CAH Stage 3'
-			and cc.number = '170.315 (e)(1)');
-
-update openchpl.macra_criteria_map
-set "name" = 'Provider to Patient Exchange (formerly Patient Electronic Access):  Eligible Hospital/Critical Access Hospital'
-where "id" = (select mcm."id"
-			from openchpl.macra_criteria_map mcm
-				inner join openchpl.certification_criterion cc
-					on mcm.criteria_id = cc.certification_criterion_id
-			where mcm."value" = 'RT2b EH/CAH Stage 3'
-			and cc.number = '170.315 (e)(1)');
-
-update openchpl.macra_criteria_map
-set "name" = 'Patient-Generated Health Data: Eligible Provider'
-where "id" = (select mcm."id"
-			from openchpl.macra_criteria_map mcm
-				inner join openchpl.certification_criterion cc
-					on mcm.criteria_id = cc.certification_criterion_id
-			where mcm."value" = 'EP Stage 3'
-			and cc.number = '170.315 (e)(3)');
-
-update openchpl.macra_criteria_map
-set "name" = 'Patient-Generated Health Data: Eligible Clinician'
-where "id" = (select mcm."id"
-			from openchpl.macra_criteria_map mcm
-				inner join openchpl.certification_criterion cc
-					on mcm.criteria_id = cc.certification_criterion_id
-			where mcm."value" = 'EC ACI'
-			and cc.number = '170.315 (e)(3)');
-
-update openchpl.macra_criteria_map
-set "name" = 'Provider to Patient Exchange (formerly Patient Electronic Access):  Eligible Hospital/Critical Access Hospital'
-where "id" = (select mcm."id"
-			from openchpl.macra_criteria_map mcm
-				inner join openchpl.certification_criterion cc
-					on mcm.criteria_id = cc.certification_criterion_id
-			where mcm."value" = 'RT2a EH/CAH Stage 3'
-			and cc.number = '170.315 (g)(8)');
-
-update openchpl.macra_criteria_map
-set "name" = 'Provider to Patient Exchange (formerly Patient Electronic Access):  Eligible Hospital/Critical Access Hospital'
-where "id" = (select mcm."id"
-			from openchpl.macra_criteria_map mcm
-				inner join openchpl.certification_criterion cc
-					on mcm.criteria_id = cc.certification_criterion_id
-			where mcm."value" = 'RT2c EH/CAH Stage 3'
-			and cc.number = '170.315 (g)(8)');
-			
-update openchpl.macra_criteria_map
-set "name" = 'View, Download, or Transmit (VDT):  Eligible Clinician'
-where "id" = (select mcm."id"
-			from openchpl.macra_criteria_map mcm
-				inner join openchpl.certification_criterion cc
-					on mcm.criteria_id = cc.certification_criterion_id
-			where mcm."value" = 'RT4a EC ACI'
-			and cc.number = '170.315 (g)(8)');
-
-update openchpl.macra_criteria_map
-set "name" = 'View, Download, or Transmit (VDT):  Eligible Clinician'
-where "id" = (select mcm."id"
-			from openchpl.macra_criteria_map mcm
-				inner join openchpl.certification_criterion cc
-					on mcm.criteria_id = cc.certification_criterion_id
-			where mcm."value" = 'RT4a EC ACI Transition'
-			and cc.number = '170.315 (g)(8)');
-
-update openchpl.macra_criteria_map
-set "name" = 'View, Download, or Transmit (VDT):  Eligible Provider'
-where "id" = (select mcm."id"
-			from openchpl.macra_criteria_map mcm
-				inner join openchpl.certification_criterion cc
-					on mcm.criteria_id = cc.certification_criterion_id
-			where mcm."value" = 'RT4c EP Stage 2'
-			and cc.number = '170.315 (g)(8)');
-
-update openchpl.macra_criteria_map
-set "name" = 'View, Download, or Transmit (VDT):  Eligible Provider'
-where "id" = (select mcm."id"
-			from openchpl.macra_criteria_map mcm
-				inner join openchpl.certification_criterion cc
-					on mcm.criteria_id = cc.certification_criterion_id
-			where mcm."value" = 'RT4c EP Stage 3'
-			and cc.number = '170.315 (g)(8)');
-
-update openchpl.macra_criteria_map
-set "name" = 'View, Download, or Transmit (VDT):  Eligible Clinician'
-where "id" = (select mcm."id"
-			from openchpl.macra_criteria_map mcm
-				inner join openchpl.certification_criterion cc
-					on mcm.criteria_id = cc.certification_criterion_id
-			where mcm."value" = 'RT4c EC ACI'
-			and cc.number = '170.315 (g)(8)');
-
-update openchpl.macra_criteria_map
-set "name" = 'View, Download, or Transmit (VDT):  Eligible Clinician'
-where "id" = (select mcm."id"
-			from openchpl.macra_criteria_map mcm
-				inner join openchpl.certification_criterion cc
-					on mcm.criteria_id = cc.certification_criterion_id
-			where mcm."value" = 'RT4c EC ACI Transition'
-			and cc.number = '170.315 (g)(8)');
-
-update openchpl.macra_criteria_map
-set "name" = 'Provider to Patient Exchange (formerly Patient Electronic Access):  Eligible Hospital/Critical Access Hospital'
-where "id" = (select mcm."id"
-			from openchpl.macra_criteria_map mcm
-				inner join openchpl.certification_criterion cc
-					on mcm.criteria_id = cc.certification_criterion_id
-			where mcm."value" = 'RT2a EH/CAH Stage 3'
-			and cc.number = '170.315 (g)(9)');
-
-update openchpl.macra_criteria_map
-set "name" = 'Provider to Patient Exchange (formerly Patient Electronic Access):  Eligible Hospital/Critical Access Hospital'
-where "id" = (select mcm."id"
-			from openchpl.macra_criteria_map mcm
-				inner join openchpl.certification_criterion cc
-					on mcm.criteria_id = cc.certification_criterion_id
-			where mcm."value" = 'RT2c EH/CAH Stage 3'
-			and cc.number = '170.315 (g)(9)');
-
--- OCD-794: Name field changes
-drop view if exists openchpl.developers_with_attestations;
-drop view if exists openchpl.certified_product_details;
-alter table openchpl.contact drop column if exists full_name;
-alter table openchpl.contact drop column if exists friendly_name;
-alter table openchpl.contact add column full_name varchar(500);
-alter table openchpl.contact add column friendly_name varchar(250);
-
-update openchpl.contact set full_name = trim (first_name || ' ' || last_name) where first_name is not null;
-update openchpl.contact set friendly_name = trim(first_name) where first_name is not null and char_length(first_name) > 0;
-update openchpl.contact set full_name = trim(last_name) where first_name is null;
-
-alter table openchpl.contact alter column full_name set not null;
-alter table openchpl.contact alter column last_name drop not null;
-
+--Fix duplicate row issue when there is a deleted vendor status history record
 CREATE OR REPLACE VIEW openchpl.certified_product_details AS
-SELECT
-    a.certified_product_id,
+ SELECT a.certified_product_id,
     a.certification_edition_id,
     a.product_version_id,
     a.certification_body_id,
-    (select chpl_product_number from openchpl.get_chpl_product_number(a.certified_product_id)),
+    ( SELECT get_chpl_product_number.chpl_product_number
+           FROM openchpl.get_chpl_product_number(a.certified_product_id) get_chpl_product_number(chpl_product_number)) AS chpl_product_number,
     a.report_file_location,
     a.sed_report_file_location,
     a.sed_intended_user_description,
@@ -238,7 +28,8 @@ SELECT
     a.accessibility_certified,
     a.product_additional_software,
     a.last_modified_date,
-    a.meaningful_use_users,
+    muuresult.meaningful_use_users,
+    muuresult.meaningful_use_users_date,
     b.year,
     c.certification_body_name,
     c.certification_body_code,
@@ -283,24 +74,29 @@ SELECT
     q.testing_lab_name,
     q.testing_lab_code
    FROM openchpl.certified_product a
-     LEFT JOIN ( 
-	   SELECT cse.certification_status_id,
-       		cse.certified_product_id,
+     LEFT JOIN ( SELECT cse.certification_status_id,
+            cse.certified_product_id,
             cse.event_date AS last_certification_status_change
-       FROM openchpl.certification_status_event cse
-         INNER JOIN ( 
-		   SELECT certification_status_event.certified_product_id,
-           		max(certification_status_event.event_date) AS event_date
-           FROM openchpl.certification_status_event
-		   WHERE deleted <> true
-           GROUP BY certification_status_event.certified_product_id) cseinner 
-		 ON cse.certified_product_id = cseinner.certified_product_id 
-		 AND cse.event_date = cseinner.event_date 
-		WHERE cse.deleted <> true) r
-	   ON r.certified_product_id = a.certified_product_id
+           FROM openchpl.certification_status_event cse
+             JOIN ( SELECT certification_status_event.certified_product_id,
+                    max(certification_status_event.event_date) AS event_date
+                   FROM openchpl.certification_status_event
+                  WHERE certification_status_event.deleted <> true
+                  GROUP BY certification_status_event.certified_product_id) cseinner ON cse.certified_product_id = cseinner.certified_product_id AND cse.event_date = cseinner.event_date
+          WHERE cse.deleted <> true) r ON r.certified_product_id = a.certified_product_id
      LEFT JOIN ( SELECT certification_status.certification_status_id,
             certification_status.certification_status AS certification_status_name
            FROM openchpl.certification_status) n ON r.certification_status_id = n.certification_status_id
+     LEFT JOIN ( SELECT muu.meaningful_use_users,
+            muu.certified_product_id,
+            muu.meaningful_use_users_date
+           FROM openchpl.meaningful_use_user muu
+             JOIN ( SELECT meaningful_use_user.certified_product_id,
+                    max(meaningful_use_user.meaningful_use_users_date) AS meaningful_use_users_date
+                   FROM openchpl.meaningful_use_user
+                  WHERE meaningful_use_user.deleted <> true
+                  GROUP BY meaningful_use_user.certified_product_id) muuinner ON muu.certified_product_id = muuinner.certified_product_id AND muu.meaningful_use_users_date = muuinner.meaningful_use_users_date
+          WHERE muu.deleted <> true) muuresult ON muuresult.certified_product_id = a.certified_product_id
      LEFT JOIN ( SELECT certification_edition.certification_edition_id,
             certification_edition.year
            FROM openchpl.certification_edition) b ON a.certification_edition_id = b.certification_edition_id
@@ -357,21 +153,22 @@ SELECT
                     max(vendor_status_history.status_date) AS status_date
                    FROM openchpl.vendor_status_history
                   WHERE vendor_status_history.deleted = false
-                  GROUP BY vendor_status_history.vendor_id) vsinner ON vshistory.vendor_id = vsinner.vendor_id AND vshistory.status_date = vsinner.status_date) vendorstatus ON vendorstatus.vendor_id = h.vendor_id
+                  GROUP BY vendor_status_history.vendor_id) vsinner 
+				ON vshistory.vendor_id = vsinner.vendor_id 
+				AND vshistory.status_date = vsinner.status_date
+				AND vshistory.deleted = false) vendorstatus ON vendorstatus.vendor_id = h.vendor_id
      LEFT JOIN ( SELECT vendor_status.vendor_status_id,
             vendor_status.name AS vendor_status_name
            FROM openchpl.vendor_status) v ON vendorstatus.vendor_status_id = v.vendor_status_id
      LEFT JOIN ( SELECT min(certification_status_event.event_date) AS certification_date,
             certification_status_event.certified_product_id
            FROM openchpl.certification_status_event
-          WHERE certification_status_event.certification_status_id = 1
-		  AND certification_status_event.deleted <> true
+          WHERE certification_status_event.certification_status_id = 1 AND certification_status_event.deleted <> true
           GROUP BY certification_status_event.certified_product_id) i ON a.certified_product_id = i.certified_product_id
      LEFT JOIN ( SELECT max(certification_status_event.event_date) AS decertification_date,
             certification_status_event.certified_product_id
            FROM openchpl.certification_status_event
-          WHERE certification_status_event.certification_status_id = ANY (ARRAY[3::bigint, 4::bigint, 8::bigint])
-		  AND certification_status_event.deleted <> true
+          WHERE (certification_status_event.certification_status_id = ANY (ARRAY[3::bigint, 4::bigint, 8::bigint])) AND certification_status_event.deleted <> true
           GROUP BY certification_status_event.certified_product_id) decert ON a.certified_product_id = decert.certified_product_id
      LEFT JOIN ( SELECT j.certified_product_id,
             count(*) AS count_certifications
@@ -394,15 +191,11 @@ SELECT
           GROUP BY j.certified_product_id) k ON a.certified_product_id = k.certified_product_id
      LEFT JOIN ( SELECT l.certified_product_id,
             count(*) AS count_cqms
-           FROM (SELECT DISTINCT
-    						a.certified_product_id,
-    						COALESCE(b.cms_id, b.nqf_number) AS cqm_id
-   					FROM openchpl.cqm_result a
-     					LEFT JOIN openchpl.cqm_criterion b 
-							ON a.cqm_criterion_id = b.cqm_criterion_id
-					WHERE a.success = true
-					AND a.deleted <> true
-					AND b.deleted <> true) l
+           FROM ( SELECT DISTINCT a_1.certified_product_id,
+                    COALESCE(b_1.cms_id, b_1.nqf_number) AS cqm_id
+                   FROM openchpl.cqm_result a_1
+                     LEFT JOIN openchpl.cqm_criterion b_1 ON a_1.cqm_criterion_id = b_1.cqm_criterion_id
+                  WHERE a_1.success = true AND a_1.deleted <> true AND b_1.deleted <> true) l
           GROUP BY l.certified_product_id
           ORDER BY l.certified_product_id) m ON a.certified_product_id = m.certified_product_id
      LEFT JOIN ( SELECT n_1.certified_product_id,
@@ -572,49 +365,6 @@ SELECT
             testing_lab.name AS testing_lab_name,
             testing_lab.testing_lab_code
            FROM openchpl.testing_lab) q ON a.testing_lab_id = q.testing_lab_id;
-
-CREATE OR REPLACE VIEW openchpl.developers_with_attestations AS
-SELECT
-    v.vendor_id as vendor_id,
-    v.name as vendor_name,
-    s.name as status_name,
-    sum(case when certification_status.certification_status = 'Active' then 1 else 0 end) as countActiveListings,
-    sum(case when certification_status.certification_status = 'Retired' then 1 else 0 end) as countRetiredListings,
-    sum(case when certification_status.certification_status = 'Pending' then 1 else 0 end) as countPendingListings,
-    sum(case when certification_status.certification_status = 'Withdrawn by Developer' then 1 else 0 end) as countWithdrawnByDeveloperListings,
-    sum(case when certification_status.certification_status = 'Withdrawn by ONC-ACB' then 1 else 0 end) as countWithdrawnByOncAcbListings,
-    sum(case when certification_status.certification_status = 'Suspended by ONC-ACB' then 1 else 0 end) as countSuspendedByOncAcbListings,
-    sum(case when certification_status.certification_status = 'Suspended by ONC' then 1 else 0 end) as countSuspendedByOncListings,
-    sum(case when certification_status.certification_status = 'Terminated by ONC' then 1 else 0 end) as countTerminatedByOncListings,
-    sum(case when certification_status.certification_status = 'Withdrawn by Developer Under Surveillance/Review' then 1 else 0 end) as countWithdrawnByDeveloperUnderSurveillanceListings,
---only include urls that are not empty strings and come from
--- a listing with one of the active... or suspended... statuses
-    string_agg(DISTINCT
-	case when
-	listings.transparency_attestation_url::text != ''
-	and
-	(certification_status.certification_status = 'Active'
-	    or
-	    certification_status.certification_status = 'Suspended by ONC'
-	    or
-	    certification_status.certification_status = 'Suspended by ONC-ACB')
-	then listings.transparency_attestation_url::text else null end, '☺')
-    as "transparency_attestation_urls",
---using coalesce here because the attestation can be null and concatting null with anything just gives null
---so null/empty attestations are left out unless we replace null with empty string
-    string_agg(DISTINCT acb.name::text||':'||COALESCE(attestations.transparency_attestation::text, ''), '☺') as "attestations"
-FROM openchpl.vendor v
-    LEFT OUTER JOIN openchpl.vendor_status s ON v.vendor_status_id = s.vendor_status_id
-    LEFT OUTER JOIN openchpl.certified_product_details listings ON listings.vendor_id = v.vendor_id AND listings.deleted != true
-    LEFT OUTER JOIN openchpl.certification_status ON listings.certification_status_id = certification_status.certification_status_id
-    LEFT OUTER JOIN openchpl.acb_vendor_map attestations ON attestations.vendor_id = v.vendor_id AND attestations.deleted != true
-    LEFT OUTER JOIN openchpl.certification_body acb ON attestations.certification_body_id = acb.certification_body_id AND acb.deleted != true
-WHERE v.deleted != true
-GROUP BY v.vendor_id, v.name, s.name;
-
--- OCD_2407 add reason to developer status
-ALTER TABLE openchpl.vendor_status_history DROP COLUMN IF EXISTS reason;
-ALTER TABLE openchpl.vendor_status_history ADD COLUMN reason text;
-
+		   
 --re-run grants
 \i dev/openchpl_grant-all.sql

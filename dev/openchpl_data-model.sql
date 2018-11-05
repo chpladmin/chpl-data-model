@@ -353,6 +353,20 @@ CREATE TABLE openchpl.certified_product_accessibility_standard (
       ON UPDATE NO ACTION ON DELETE NO ACTION
 );
 
+CREATE TABLE openchpl.meaningful_use_user (
+	id  bigserial NOT NULL,
+	certified_product_id bigint NOT NULL,
+	meaningful_use_users bigint NOT NULL,
+	meaningful_use_users_date timestamp NOT NULL,
+	creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
+	CONSTRAINT meaningful_use_user_pk PRIMARY KEY (id),
+	CONSTRAINT certified_product_fk FOREIGN KEY (certified_product_id) REFERENCES openchpl.certified_product (certified_product_id)
+		MATCH FULL ON DELETE RESTRICT ON UPDATE CASCADE
+);
+
 -- object: openchpl.product_version | type: TABLE --
 -- DROP TABLE IF EXISTS openchpl.product_version CASCADE;
 CREATE TABLE openchpl.product_version(
@@ -2142,6 +2156,8 @@ CREATE TABLE openchpl.api_key
   email character varying(256) NOT NULL,
   name_organization character varying(256),
   whitelisted boolean NOT NULL DEFAULT false,
+  last_used_date timestamp without time zone DEFAULT now(),
+  delete_warning_sent_date timestamp without time zone,
   creation_date timestamp without time zone NOT NULL DEFAULT now(),
   last_modified_date timestamp without time zone NOT NULL DEFAULT now(),
   last_modified_user bigint NOT NULL,
@@ -2149,7 +2165,18 @@ CREATE TABLE openchpl.api_key
   CONSTRAINT pk_api_key_id PRIMARY KEY (api_key_id)
 );
 
--- ALTER TABLE openchpl.api_key  OWNER TO openchpl;
+CREATE OR REPLACE FUNCTION openchpl.reset_api_key_delete_warning_sent_date_func()
+RETURNS TRIGGER 
+AS $$
+BEGIN
+	IF NEW.last_used_date <> OLD.last_used_date THEN
+		NEW.delete_warning_sent_date = NULL;
+	END IF;
+	RETURN NEW;
+END;
+$$ language 'plpgsql';
+
+CREATE TRIGGER reset_api_key_delete_warning_sent_date BEFORE UPDATE on openchpl.api_key FOR EACH ROW EXECUTE PROCEDURE openchpl.reset_api_key_delete_warning_sent_date_func();
 
 CREATE TABLE openchpl.api_key_activity
 (
