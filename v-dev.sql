@@ -9,3 +9,10 @@ CREATE TABLE openchpl.user_reset_token(
 	deleted bool NOT NULL DEFAULT false,
 	CONSTRAINT user_reset_token_pk PRIMARY KEY (user_reset_token_id)
 );
+
+--
+-- OCD-2531: Require a reset
+--
+alter table openchpl.user drop column if exists password_reset_required;
+alter table openchpl.user add column password_reset_required boolean not null default false;
+\i dev/openchpl_grant-all.sql
