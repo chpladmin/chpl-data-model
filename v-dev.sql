@@ -1246,3 +1246,5 @@ VALUES (
 -- END OCD-2532
 ----------------------------------------------------
 
+--re-run grants
+\i dev/openchpl_grant-all.sql
