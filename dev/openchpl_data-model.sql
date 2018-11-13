@@ -75,12 +75,13 @@ CREATE TABLE openchpl.announcement(
 
 -- object: openchpl.certification_body | type: TABLE --
 -- DROP TABLE IF EXISTS openchpl.certification_body CASCADE;
-CREATE TABLE openchpl.certification_body(
+CREATE TABLE openchpl.certification_body (
 	certification_body_id bigserial NOT NULL,
 	acb_code varchar(16),
 	address_id bigint,
 	name varchar(250),
 	website varchar(300),
+	retired boolean NOT NULL DEFAULT false,
 	creation_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_user smallint NOT NULL,
