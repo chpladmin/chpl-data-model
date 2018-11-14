@@ -621,7 +621,6 @@ CREATE TABLE openchpl.test_functionality (
 	name varchar(1000),
 	certification_edition_id bigint NOT NULL,
 	practice_type_id bigint,
-	certification_criterion_id_deleted bigint,
 	creation_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_user bigint NOT NULL,
