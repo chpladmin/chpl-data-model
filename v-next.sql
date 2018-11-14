@@ -1111,7 +1111,7 @@ INSERT INTO openchpl.test_functionality_criteria_map (criteria_id, test_function
 VALUES (
     (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (a)(6)'),
     (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(a)(6)(i)' AND  certification_edition_id = 2),
-	-12
+	-1
 ),
 (
     (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (a)(7)'),
