@@ -708,7 +708,7 @@ CREATE TRIGGER test_functionality_criteria_map_timestamp BEFORE UPDATE on opench
 -- Rename the column that will no longer be used
 DO $$
 BEGIN
-  IF NOT EXISTS(SELECT *
+  IF EXISTS(SELECT *
                 FROM information_schema.columns
                 WHERE table_catalog = 'openchpl'
                 AND table_name = 'test_functionality'
