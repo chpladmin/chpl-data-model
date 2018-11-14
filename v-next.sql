@@ -714,7 +714,7 @@ BEGIN
                 AND table_name = 'test_functionality'
                 AND column_name = 'certification_criterion_id')
   THEN
-      ALTER TABLE "openchpl"."test_functionality" RENAME COLUMN "certification_criterion_id" TO "certification_criterion_id";
+      ALTER TABLE "openchpl"."test_functionality" RENAME COLUMN "certification_criterion_id" TO "certification_criterion_id_deleted";
   END IF;
 END $$;
 
