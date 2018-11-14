@@ -1,0 +1,2 @@
+--Remove the column test_functionality.certification_criterion_id_deleted
+ALTER TABLE openchpl.test_functionality DROP COLUMN certification_criterion_id_deleted;
