@@ -9,3 +9,5 @@ CREATE TABLE openchpl.user_reset_token(
 	deleted bool NOT NULL DEFAULT false,
 	CONSTRAINT user_reset_token_pk PRIMARY KEY (user_reset_token_id)
 );
+--re-run grants
+\i dev/openchpl_grant-all.sql
