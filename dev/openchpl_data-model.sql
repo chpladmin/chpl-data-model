@@ -55,7 +55,7 @@ CREATE TABLE openchpl.user(
 
 CREATE TABLE openchpl.user_reset_token(
 	user_reset_token_id bigserial NOT NULL,
-	user_reset_token varchar(15) NOT NULL,
+	user_reset_token varchar(128) NOT NULL,
 	user_id bigint NOT NULL,
 	creation_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
