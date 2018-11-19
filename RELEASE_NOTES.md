@@ -1,5 +1,16 @@
 # Release Notes
 
+## Version 14.10.0
+_19 November 2018_
+
+### Data Modifications
+* CQM Criterion table
+  * Add new versions to 70 existing CQMs
+  * Add 2 new CQMs
+
+---
+
+
 ## Version 14.9.2
 _5 November 2018_
 
