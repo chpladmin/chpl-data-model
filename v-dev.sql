@@ -574,5 +574,21 @@ VALUES (
 -- END OCD-2532
 ----------------------------------------------------
 
+-- OCD-2560 - Add Reason to Questionable Activity when changing Developer status
+-- Add column reason to questionable_activity_developer table
+DO $$
+BEGIN
+  IF NOT EXISTS(SELECT *
+                FROM information_schema.columns
+                WHERE table_catalog = 'openchpl'
+                AND table_name = 'questionable_activity_developer'
+                AND column_name = 'reason')
+  THEN
+      ALTER TABLE openchpl.questionable_activity_developer ADD COLUMN reason TEXT DEFAULT null;
+  END IF;
+END $$;
+
+
+
 --re-run grants
 \i dev/openchpl_grant-all.sql
