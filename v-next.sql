@@ -669,3 +669,4 @@ AND NOT EXISTS (SELECT * FROM openchpl.cqm_criterion cc INNER JOIN openchpl.cqm_
 
 -- END OCD-2533
 ----------------------------------------------------
+
