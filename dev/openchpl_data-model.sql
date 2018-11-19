@@ -63,7 +63,7 @@ CREATE TABLE openchpl.user_reset_token(
 	deleted bool NOT NULL DEFAULT false,
 	CONSTRAINT user_reset_token_pk PRIMARY KEY (user_reset_token_id),
 	CONSTRAINT user_fk FOREIGN KEY (user_id) REFERENCES openchpl.user (user_id)
-		ON UPDATE NO ACTION ON DELETE NO ACTION
+		MATCH FULL ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
 -- object: openchpl.announcements | type: TABLE --
