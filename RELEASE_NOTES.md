@@ -1,5 +1,13 @@
 # Release Notes
 
+## Version 14.10.1
+_20 November 2018_
+
+### Data Modifications
+* Marked incorrectly uploaded Listing as deleted
+
+---
+
 ## Version 14.10.0
 _19 November 2018_
 
