@@ -574,6 +574,9 @@ VALUES (
 -- END OCD-2532
 ----------------------------------------------------
 
+----------------------------------------------------
+-- OCD-1665 Retire ACBs and ATLS
+----------------------------------------------------
 -- Update certification_body table
 ALTER TABLE openchpl.certification_body DROP COLUMN IF EXISTS retired;
 ALTER TABLE openchpl.certification_body ADD COLUMN retired boolean default false;
@@ -643,6 +646,23 @@ where name = 'National Committee for Quality Assurance (NCQA)';
 
 UPDATE openchpl.testing_lab
 SET deleted = false;
+----------------------------------------------------
+-- END OCD-1665 Retire ACBs and ATLS
+----------------------------------------------------
+
+-- OCD-2560 - Add Reason to Questionable Activity when changing Developer status
+-- Add column reason to questionable_activity_developer table
+DO $$
+BEGIN
+  IF NOT EXISTS(SELECT *
+                FROM information_schema.columns
+                WHERE table_catalog = 'openchpl'
+                AND table_name = 'questionable_activity_developer'
+                AND column_name = 'reason')
+  THEN
+      ALTER TABLE openchpl.questionable_activity_developer ADD COLUMN reason TEXT DEFAULT null;
+  END IF;
+END $$;
 
 --re-run grants
 \i dev/openchpl_grant-all.sql

@@ -2588,6 +2588,7 @@ CREATE TABLE openchpl.questionable_activity_developer (
 	developer_id bigint NOT NULL,
 	before_data text,
 	after_data text,
+	reason text,
 	activity_date timestamp NOT NULL,
 	activity_user_id bigint NOT NULL,
 	creation_date timestamp NOT NULL DEFAULT NOW(),
