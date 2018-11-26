@@ -3,7 +3,7 @@ insert into openchpl.product_classification_type (name, description, last_modifi
 insert into openchpl.certification_edition (year, retired, last_modified_user) values (2011, true, -1), (2014, false, -1), (2015, false, -1);
 insert into openchpl.cqm_criterion_type (name, description, last_modified_user) values ('Ambulatory', 'Ambulatory', -1), ('Inpatient','Inpatient',-1);
 insert into openchpl.event_type (name, description, last_modified_user) values ('Certification','Product is certified', -1), ('Active', 'Product moved from Pending to Active', -1);
-insert into openchpl.cqm_version (version, last_modified_user) values ('v0', -1), ('v1', -1), ('v2', -1), ('v3', -1), ('v4', -1), ('v5', -1), ('v6', -1), ('v7', -1);
+insert into openchpl.cqm_version (version, last_modified_user) values ('v0', -1), ('v1', -1), ('v2', -1), ('v3', -1), ('v4', -1), ('v5', -1), ('v6', -1), ('v7', -1), ('v8', -1);
 insert into openchpl.certification_status (certification_status, last_modified_user) values ('Active', -1), ('Retired', -1), ('Withdrawn by Developer', -1), ('Withdrawn by ONC-ACB', -1), ('Pending', -1), ('Suspended by ONC-ACB', -1), ('Suspended by ONC', -1), ('Terminated by ONC', -1), ('Withdrawn by Developer Under Surveillance/Review', -1);
 insert into openchpl.education_type (name, last_modified_user) values ('No high school degree', -1), ('High school graduate, diploma or the equivalent (for example: GED)', -1), ('Some college credit, no degree', -1), ('Trade/technical/vocational training', -1), ('Associate degree', -1), ('Bachelor''s degree', -1), ('Master''s degree', -1), ('Doctorate degree (e.g., MD, DNP, DMD, PhD)', -1);
 insert into openchpl.test_participant_age (age, last_modified_user) values ('0-9', -1),('10-19', -1),('20-29', -1),('30-39', -1),('40-49', -1),('50-59', -1),('60-69', -1),('70-79', -1),('80-89', -1),('90-99', -1),('100+', -1);
@@ -936,7 +936,77 @@ INSERT INTO openchpl.cqm_criterion (cms_id, cqm_version_id, title, nqf_number, n
 ('CMS177', 7, 'Child and Adolescent Major Depressive Disorder (MDD): Suicide Risk Assessment', '1365', null, 'Percentage of patient visits for those patients aged 6 through 17 years with a diagnosis of major depressive disorder with an assessment for suicide risk', 'Patient Safety', 1, -1, false),
 ('CMS190', 7, 'Intensive Care Unit Venous Thromboembolism Prophylaxis', '372', null, 'This measure assesses the number of patients who received VTE prophylaxis or have documentation why no VTE prophylaxis was given the day of or the day after the initial admission (or transfer) to the Intensive Care Unit (ICU) or surgery end date for surgeries that start the day of or the day after ICU admission (or transfer)', '', 2, -1, false),
 ('CMS347', 2, 'Statin Therapy for the Prevention and Treatment of Cardiovascular Disease', 'N/A', null, 'Percentage of the following patients - all considered at high risk of cardiovascular events - who were prescribed or were on statin therapy during the measurement period: Adults aged >= 21 years who were previously diagnosed with or currently have an active diagnosis of clinical atherosclerotic cardiovascular disease (ASCVD); OR Adults aged >= 21 years who have ever had a fasting or direct low-density lipoprotein cholesterol (LDL-C) level >= 190 mg/dL or were previously diagnosed with or currently have an active diagnosis of familial or pure hypercholesterolemia; OR Adults aged 40-75 years with a diagnosis of diabetes with a fasting or direct LDL-C level of 70-189 mg/dL', 'Effective Clinical Care', 1, -1, false),
-('CMS645', 2, 'Bone density evaluation for patients with prostate cancer and receiving androgen deprivation therapy', 'N/A', null, 'Patients determined as having prostate cancer who are currently starting or undergoing androgen deprivation therapy (ADT), for an anticipated period of 12 months or greater and who receive an initial bone density evaluation. The bone density evaluation must be prior to the start of ADT or within 3 months of the start of ADT.', 'Effective Clinical Care', 1, -1, false);
+('CMS645', 2, 'Bone density evaluation for patients with prostate cancer and receiving androgen deprivation therapy', 'N/A', null, 'Patients determined as having prostate cancer who are currently starting or undergoing androgen deprivation therapy (ADT), for an anticipated period of 12 months or greater and who receive an initial bone density evaluation. The bone density evaluation must be prior to the start of ADT or within 3 months of the start of ADT.', 'Effective Clinical Care', 1, -1, false),
+('CMS2', 9, 'Preventive Care and Screening: Screening for Depression and Follow-Up Plan', '418', null, 'Percentage of patients aged 12 years and older screened for depression on the date of the encounter using an age appropriate standardized depression screening tool AND if positive, a follow-up plan is documented on the date of the positive screen', 'Community/Population Health', 1, -1, false), 
+('CMS9', 8, 'Exclusive Breast Milk Feeding', '480', null, 'Exclusive breast milk feeding during the newborn''s entire hospitalization', '', 2, -1, false), 
+('CMS22', 8, 'Preventive Care and Screening: Screening for High Blood Pressure and Follow-Up Documented', 'N/A', null, 'Percentage of patients aged 18 years and older seen during the reporting period who were screened for high blood pressure AND a recommended follow-up plan is documented based on the current blood pressure (BP) reading as indicated', 'Community/Population Health', 1, -1, false), 
+('CMS26', 7, 'Home Management Plan of Care (HMPC) Document Given to Patient/Caregiver', 'N/A', null, 'An assessment that there is documentation in the medical record that a Home Management Plan of Care (HMPC) document was given to the pediatric asthma patient/caregiver', '', 2, -1, false), 
+('CMS31', 8, 'Hearing Screening Prior To Hospital Discharge', '1354', null, 'This measure assesses the proportion of births that have been screened for hearing loss before hospital discharge', '', 2, -1, false), 
+('CMS32', 9, 'Median Time from ED Arrival to ED Departure for Discharged ED Patients', '496', null, 'Median elapsed time from emergency department arrival to emergency room departure for patients discharged from the emergency department', '', 2, -1, false), 
+('CMS50', 8, 'Closing the Referral Loop: Receipt of Specialist Report', 'N/A', null, 'Percentage of patients with referrals, regardless of age, for which the referring provider receives a report from the provider to whom the patient was referred', 'Communication and Care Coordination', 1, -1, false), 
+('CMS52', 8, 'HIV/AIDS: Pneumocystis Jiroveci Pneumonia (PCP) Prophylaxis', '405', null, 'Percentage of patients aged 6 weeks and older with a diagnosis of HIV/AIDS who were prescribed Pneumocystis jiroveci pneumonia (PCP) prophylaxis', 'Effective Clinical Care', 1, -1, false), 
+('CMS53', 8, 'Primary PCI Received Within 90 Minutes of Hospital Arrival', 'N/A', null, 'Acute myocardial infarction (AMI) patients with ST-segment elevation on the ECG closest to arrival time receiving primary PCI during the hospital stay with a time from hospital arrival to PCI of 90 minutes or less', '', 2, -1, false), 
+('CMS55', 8, 'Median Time from ED Arrival to ED Departure for Admitted ED Patients', '495', null, 'Median time from emergency department arrival to time of departure from the emergency room for patients admitted to the facility from the emergency department', '', 2, -1, false), 
+('CMS56', 8, 'Functional Status Assessment for Total Hip Replacement', 'N/A', null, 'Percentage of patients 18 years of age and older who received an elective primary total hip arthroplasty (THA) and completed a functional status assessment within 90 days prior to the surgery and in the 270-365 days after the surgery', 'Person and Caregiver-Centered Experience and Outcome', 1, -1, false), 
+('CMS65', 9, 'Hypertension: Improvement in Blood Pressure', 'N/A', null, 'Percentage of patients aged 18-85 years of age with a diagnosis of hypertension whose blood pressure improved during the measurement period', 'Effective Clinical Care', 1, -1, false), 
+('CMS66', 8, 'Functional Status Assessment for Total Knee Replacement', 'N/A', null, 'Percentage of patients 18 years of age and older who received an elective primary total knee arthroplasty (TKA) and completed a functional status assessment within 90 days prior to the surgery and in the 270-365 days after the surgery', 'Person and Caregiver-Centered Experience and Outcome', 1, -1, false), 
+('CMS68', 9, 'Documentation of Current Medications in the Medical Record', '419', null, 'Percentage of visits for patients aged 18 years and older for which the eligible professional or eligible clinician attests to documenting a list of current medications using all immediate resources available on the date of the encounter. This list must include ALL known prescriptions, over-the-counters, herbals, and vitamin/mineral/dietary (nutritional) supplements AND must contain the medications'' name, dosage, frequency and route of administration.', 'Patient Safety', 1, -1, false), 
+('CMS69', 8, 'Preventive Care and Screening: Body Mass Index (BMI) Screening and Follow-Up Plan', '421', null, 'Percentage of patients aged 18 years and older with a BMI documented during the current encounter or during the previous twelve months AND with a BMI outside of normal parameters, a follow-up plan is documented during the encounter or during the previous twelve months of the current encounter. Normal Parameters: Age 18 years and older BMI => 18.5 and < 25 kg/m2', 'Community/Population Health', 1, -1, false), 
+('CMS71', 9, 'Anticoagulation Therapy for Atrial Fibrillation/Flutter', 'N/A', null, 'Ischemic stroke patients with atrial fibrillation/flutter who are prescribed or continuing to take anticoagulation therapy at hospital discharge', '', 2, -1, false), 
+('CMS72', 8, 'Antithrombotic Therapy By End of Hospital Day 2', 'N/A', null, 'Ischemic stroke patients administered antithrombotic therapy by the end of hospital day 2', '', 2, -1, false), 
+('CMS74', 9, 'Primary Caries Prevention Intervention as Offered by Primary Care Providers, including Dentists', 'N/A', null, 'Percentage of children, age 0-20 years, who received a fluoride varnish application during the measurement period', 'Effective Clinical Care', 1, -1, false), 
+('CMS75', 8, 'Children Who Have Dental Decay or Cavities', 'N/A', null, 'Percentage of children, age 0-20 years, who have had tooth decay or cavities during the measurement period', 'Community/Population Health', 1, -1, false), 
+('CMS82', 7, 'Maternal Depression Screening', 'N/A', null, 'The percentage of children who turned 6 months of age during the measurement year, who had a face-to-face visit between the clinician and the child during child''s first 6 months, and who had a maternal depression screening for the mother at least once between 0 and 6 months of life', 'Community/Population Health', 1, -1, false), 
+('CMS90', 9, 'Functional Status Assessments for Congestive Heart Failure', 'N/A', null, 'Percentage of patients 18 years of age and older with congestive heart failure who completed initial and follow-up patient-reported functional status assessments', 'Person and Caregiver-Centered Experience and Outcome', 1, -1, false), 
+('CMS102', 8, 'Assessed for Rehabilitation', 'N/A', null, 'Ischemic or hemorrhagic stroke patients who were assessed for rehabilitation services', '', 2, -1, false), 
+('CMS104', 8, 'Discharged on Antithrombotic Therapy', 'N/A', null, 'Ischemic stroke patients prescribed or continuing to take antithrombotic therapy at hospital discharge', '', 2, -1, false), 
+('CMS105', 8, 'Discharged on Statin Medication', 'N/A', null, 'Ischemic stroke patients who are prescribed or continuing to take statin medication at hospital discharge', '', 2, -1, false), 
+('CMS107', 8, 'Stroke Education', 'N/A', null, 'Ischemic or hemorrhagic stroke patients or their caregivers who were given educational materials during the hospital stay addressing all of the following: activation of emergency medical system, need for follow-up after discharge, medications prescribed at discharge, risk factors for stroke, and warning signs and symptoms of stroke', '', 2, -1, false), 
+('CMS108', 8, 'Venous Thromboembolism Prophylaxis', '371', null, 'This measure assesses the number of patients who received VTE prophylaxis or have documentation why no VTE prophylaxis was given the day of or the day after hospital admission or surgery end date for surgeries that start the day of or the day after hospital admission', '', 2, -1, false), 
+('CMS111', 8, 'Median Admit Decision Time to ED Departure Time for Admitted Patients', '497', null, 'Median time (in minutes) from admit decision time to time of departure from the emergency department for emergency department patients admitted to inpatient status.', '', 2, -1, false), 
+('CMS113', 8, 'Elective Delivery', '469', null, 'Patients with elective vaginal deliveries or elective cesarean births at >= 37 and < 39 weeks of gestation completed', '', 2, -1, false), 
+('CMS117', 8, 'Childhood Immunization Status', '38', null, 'Percentage of children 2 years of age who had four diphtheria, tetanus and acellular pertussis (DTaP); three polio (IPV), one measles, mumps and rubella (MMR); three H influenza type B (HiB); three hepatitis B (Hep B); one chicken pox (VZV); four pneumococcal conjugate (PCV); one hepatitis A (Hep A); two or three rotavirus (RV); and two influenza (flu) vaccines by their second birthday', 'Community/Population Health', 1, -1, false), 
+('CMS122', 8, 'Diabetes: Hemoglobin A1c (HbA1c) Poor Control (> 9%)', '59', null, 'Percentage of patients 18-75 years of age with diabetes who had hemoglobin A1c > 9.0% during the measurement period', 'Effective Clinical Care', 1, -1, false), 
+('CMS123', 8, 'Diabetes: Foot Exam', '56', null, 'The percentage of patients 18-75 years of age with diabetes (type 1 and type 2) who received a foot exam (visual inspection and sensory exam with mono filament and a pulse exam) during the measurement year', 'Effective Clinical Care', 1, -1, false), 
+('CMS124', 8, 'Cervical Cancer Screening', '32', null, 'Percentage of women 21-64 years of age who were screened for cervical cancer using either of the following criteria: Women age 21-64 who had cervical cytology performed every 3 years; Women age 30-64 who had cervical cytology/human papillomavirus (HPV) co-testing performed every 5 years', 'Effective Clinical Care', 1, -1, false), 
+('CMS125', 8, 'Breast Cancer Screening', '2372', null, 'Percentage of women 50-74 years of age who had a mammogram to screen for breast cancer', 'Effective Clinical Care', 1, -1, false), 
+('CMS127', 8, 'Pneumococcal Vaccination Status for Older Adults', 'N/A', null, 'Percentage of patients 65 years of age and older who have ever received a pneumococcal vaccine', 'Community/Population Health', 1, -1, false), 
+('CMS128', 8, 'Anti-depressant Medication Management', '105', null, 'Percentage of patients 18 years of age and older who were treated with antidepressant medication, had a diagnosis of major depression, and who remained on an antidepressant medication treatment. Two rates are reported: a. Percentage of patients who remained on an antidepressant medication for at least 84 days (12 weeks).; b. Percentage of patients who remained on an antidepressant medication for at least 180 days (6 months).', 'Effective Clinical Care', 1, -1, false), 
+('CMS129', 9, 'Prostate Cancer: Avoidance of Overuse of Bone Scan for Staging Low Risk Prostate Cancer Patients', '389', null, 'Percentage of patients, regardless of age, with a diagnosis of prostate cancer at low (or very low) risk of recurrence receiving interstitial prostate brachytherapy, OR external beam radiotherapy to the prostate, OR radical prostatectomy, OR cryotherapy who did not have a bone scan performed at any time since diagnosis of prostate cancer', 'Efficiency and Cost Reduction', 1, -1, false), 
+('CMS130', 8, 'Colorectal Cancer Screening', '34', null, 'Percentage of adults 50-75 years of age who had appropriate screening for colorectal cancer', 'Effective Clinical Care', 1, -1, false), 
+('CMS131', 8, 'Diabetes: Eye Exam', '55', null, 'Percentage of patients 18-75 years of age with diabetes who had a retinal or dilated eye exam by an eye care professional during the measurement period or a negative retinal exam (no evidence of retinopathy) in the 12 months prior to the measurement period', 'Effective Clinical Care', 1, -1, false), 
+('CMS132', 8, 'Cataracts: Complications within 30 Days Following Cataract Surgery Requiring Additional Surgical Procedures', '564', null, 'Percentage of patients aged 18 years and older with a diagnosis of uncomplicated cataract who had cataract surgery and had any of a specified list of surgical procedures in the 30 days following cataract surgery which would indicate the occurrence of any of the following major complications: retained nuclear fragments, endophthalmitis, dislocated or wrong power IOL, retinal detachment, or wound dehiscence', 'Patient Safety', 1, -1, false), 
+('CMS133', 8, 'Cataracts: 20/40 or Better Visual Acuity within 90 Days Following Cataract Surgery', '565', null, 'Percentage of patients aged 18 years and older with a diagnosis of uncomplicated cataract who had cataract surgery and no significant ocular conditions impacting the visual outcome of surgery and had best-corrected visual acuity of 20/40 or better (distance or near) achieved within 90 days following the cataract surgery', 'Effective Clinical Care', 1, -1, false), 
+('CMS134', 8, 'Diabetes: Medical Attention for Nephropathy', '62', null, 'The percentage of patients 18-75 years of age with diabetes who had a nephropathy screening test or evidence of nephropathy during the measurement period', 'Effective Clinical Care', 1, -1, false), 
+('CMS135', 8, 'Heart Failure (HF): Angiotensin-Converting Enzyme (ACE) Inhibitor or Angiotensin Receptor Blocker (ARB) Therapy for Left Ventricular Systolic Dysfunction (LVSD)', '81', null, 'Percentage of patients aged 18 years and older with a diagnosis of heart failure (HF) with a current or prior left ventricular ejection fraction (LVEF) < 40% who were prescribed ACE inhibitor or ARB therapy either within a 12 month period when seen in the outpatient setting OR at each hospital discharge', 'Effective Clinical Care', 1, -1, false), 
+('CMS136', 9, 'Follow-Up Care for Children Prescribed ADHD Medication (ADD)', '108', null, 'Percentage of children 6-12 years of age and newly dispensed a medication for attention-deficit/hyperactivity disorder (ADHD) who had appropriate follow-up care. Two rates are reported: a. Percentage of children who had one follow-up visit with a practitioner with prescribing authority during the 30-Day Initiation Phase.; b. Percentage of children who remained on ADHD medication for at least 210 days and who, in addition to the visit in the Initiation Phase, had at least two additional follow-up visits with a practitioner within 270 days (9 months) after the Initiation Phase ended.', 'Effective Clinical Care', 1, -1, false), 
+('CMS137', 8, 'Initiation and Engagement of Alcohol and Other Drug Dependence Treatment', '4', null, 'Percentage of patients 13 years of age and older with a new episode of alcohol and other drug (AOD) dependence who received the following. Two rates are reported: a. Percentage of patients who initiated treatment within 14 days of the diagnosis.; b. Percentage of patients who initiated treatment and who had two or more additional services with an AOD diagnosis within 30 days of the initiation visit.', 'Effective Clinical Care', 1, -1, false), 
+('CMS138', 8, 'Preventive Care and Screening: Tobacco Use: Screening and Cessation Intervention', '28', null, 'Percentage of patients aged 18 years and older who were screened for tobacco use one or more times within 24 months AND who received tobacco cessation intervention if identified as a tobacco user. Three rates are reported: a. Percentage of patients aged 18 years and older who were screened for tobacco use one or more times within 24 months; b. Percentage of patients aged 18 years and older who were screened for tobacco use and identified as a tobacco user who received tobacco cessation intervention; c. Percentage of patients aged 18 years and older who were screened for tobacco use one or more times within 24 months AND who received tobacco cessation intervention if identified as a tobacco user', 'Community/Population Health', 1, -1, false), 
+('CMS139', 8, 'Falls: Screening for Future Fall Risk', '101', null, 'Percentage of patients 65 years of age and older who were screened for future fall risk during the measurement period', 'Patient Safety', 1, -1, false), 
+('CMS142', 8, 'Diabetic Retinopathy: Communication with the Physician Managing Ongoing Diabetes Care', '89', null, 'Percentage of patients aged 18 years and older with a diagnosis of diabetic retinopathy who had a dilated macular or fundus exam performed with documented communication to the physician who manages the ongoing care of the patient with diabetes mellitus regarding the findings of the macular or fundus exam at least once within 12 months', 'Communication and Care Coordination', 1, -1, false), 
+('CMS143', 8, 'Primary Open-Angle Glaucoma (POAG): Optic Nerve Evaluation', '86', null, 'Percentage of patients aged 18 years and older with a diagnosis of primary open-angle glaucoma (POAG) who have an optic nerve head evaluation during one or more office visits within 12 months', 'Effective Clinical Care', 1, -1, false), 
+('CMS144', 8, 'Heart Failure (HF): Beta-Blocker Therapy for Left Ventricular Systolic Dysfunction (LVSD)', '83', null, 'Percentage of patients aged 18 years and older with a diagnosis of heart failure (HF) with a current or prior left ventricular ejection fraction (LVEF) < 40% who were prescribed beta-blocker therapy either within a 12 month period when seen in the outpatient setting OR at each hospital discharge', 'Effective Clinical Care', 1, -1, false), 
+('CMS145', 8, 'Coronary Artery Disease (CAD): Beta-Blocker Therapy-Prior Myocardial Infarction (MI) or Left Ventricular Systolic Dysfunction (LVEF <40%)', '70', null, 'Percentage of patients aged 18 years and older with a diagnosis of coronary artery disease seen within a 12 month period who also have a prior MI or a current or prior LVEF <40% who were prescribed beta-blocker therapy', 'Effective Clinical Care', 1, -1, false), 
+('CMS146', 8, 'Appropriate Testing for Children with Pharyngitis', 'N/A', null, 'Percentage of children 3-18 years of age who were diagnosed with pharyngitis, ordered an antibiotic and received a group A streptococcus (strep) test for the episode', 'Efficiency and Cost Reduction', 1, -1, false), 
+('CMS147', 9, 'Preventive Care and Screening: Influenza Immunization', '41', null, 'Percentage of patients aged 6 months and older seen for a visit between October 1 and March 31 who received an influenza immunization OR who reported previous receipt of an influenza immunization', 'Community/Population Health', 1, -1, false), 
+('CMS149', 8, 'Dementia: Cognitive Assessment', '2872', null, 'Percentage of patients, regardless of age, with a diagnosis of dementia for whom an assessment of cognition is performed and the results reviewed at least once within a 12 month period', 'Effective Clinical Care', 1, -1, false), 
+('CMS153', 8, 'Chlamydia Screening for Women', '33', null, 'Percentage of women 16-24 years of age who were identified as sexually active and who had at least one test for chlamydia during the measurement period', 'Community/Population Health', 1, -1, false), 
+('CMS154', 8, 'Appropriate Treatment for Children with Upper Respiratory Infection (URI)', '69', null, 'Percentage of children 3 months-18 years of age who were diagnosed with upper respiratory infection (URI) and were not dispensed an antibiotic prescription on or three days after the episode', 'Efficiency and Cost Reduction', 1, -1, false), 
+('CMS155', 8, 'Weight Assessment and Counseling for Nutrition and Physical Activity for Children and Adolescents', '24', null, 'Percentage of patients 3-17 years of age who had an outpatient visit with a Primary Care Physician (PCP) or Obstetrician/Gynecologist (OB/GYN) and who had evidence of the following during the measurement period. Three rates are reported: Percentage of patients with height, weight, and body mass index (BMI) percentile documentation; Percentage of patients with counseling for nutrition; Percentage of patients with counseling for physical activity', 'Community/Population Health', 1, -1, false), 
+('CMS156', 8, 'Use of High-Risk Medications in the Elderly', '22', null, 'Percentage of patients 65 years of age and older who were ordered high-risk medications. Two rates are reported: a. Percentage of patients who were ordered at least one high-risk medication.; b. Percentage of patients who were ordered at least two of the same high-risk medications.', 'Patient Safety', 1, -1, false), 
+('CMS157', 8, 'Oncology: Medical and Radiation - Pain Intensity Quantified', '384', null, 'Percentage of patient visits, regardless of patient age, with a diagnosis of cancer currently receiving chemotherapy or radiation therapy in which pain intensity is quantified', 'Person and Caregiver-Centered Experience and Outcome', 1, -1, false), 
+('CMS158', 8, 'Pregnant women that had HBsAg testing', 'N/A', null, 'This measure identifies pregnant women who had a HBsAg (hepatitis B) test during their pregnancy', 'Effective Clinical Care', 1, -1, false), 
+('CMS159', 8, 'Depression Remission at Twelve Months', '710', null, 'The percentage of patients 18 years of age or older with major depression or dysthymia who reached remission 12 months (+/- 30 days) after an index visit.', 'Effective Clinical Care', 1, -1, false), 
+('CMS160', 8, 'Depression Utilization of the PHQ-9 Tool', '712', null, 'The percentage of patients age 18 and older with the diagnosis of major depression or dysthymia who have a completed PHQ-9 during each applicable 4 month period in which there was a qualifying visit', 'Effective Clinical Care', 1, -1, false), 
+('CMS161', 8, 'Adult Major Depressive Disorder (MDD): Suicide Risk Assessment', '104', null, 'Percentage of patients aged 18 years and older with a diagnosis of major depressive disorder (MDD) with a suicide risk assessment completed during the visit in which a new diagnosis or recurrent episode was identified', 'Effective Clinical Care', 1, -1, false), 
+('CMS164', 8, 'Ischemic Vascular Disease (IVD): Use of Aspirin or Another Antiplatelet', '68', null, 'Percentage of patients 18 years of age and older who were diagnosed with acute myocardial infarction (AMI), coronary artery bypass graft (CABG) or percutaneous coronary interventions (PCI) in the 12 months prior to the measurement period, or who had an active diagnosis of ischemic vascular disease (IVD) during the measurement period, and who had documentation of use of aspirin or another antiplatelet during the measurement period', 'Effective Clinical Care', 1, -1, false), 
+('CMS165', 8, 'Controlling High Blood Pressure', '18', null, 'Percentage of patients 18-85 years of age who had a diagnosis of hypertension and whose blood pressure was adequately controlled (<140/90mmHg) during the measurement period', 'Effective Clinical Care', 1, -1, false), 
+('CMS167', 8, 'Diabetic Retinopathy: Documentation of Presence or Absence of Macular Edema and Level of Severity of Retinopathy', '88', null, 'Percentage of patients aged 18 years and older with a diagnosis of diabetic retinopathy who had a dilated macular or fundus exam performed which included documentation of the level of severity of retinopathy and the presence or absence of macular edema during one or more office visits within 12 months', 'Effective Clinical Care', 1, -1, false), 
+('CMS169', 8, 'Bipolar Disorder and Major Depression: Appraisal for alcohol or chemical substance use', 'N/A', null, 'Percentage of patients with depression or bipolar disorder with evidence of an initial assessment that includes an appraisal for alcohol or chemical substance use', 'Effective Clinical Care', 1, -1, false), 
+('CMS177', 8, 'Child and Adolescent Major Depressive Disorder (MDD): Suicide Risk Assessment', '1365', null, 'Percentage of patient visits for those patients aged 6 through 17 years with a diagnosis of major depressive disorder with an assessment for suicide risk', 'Patient Safety', 1, -1, false), 
+('CMS190', 8, 'Intensive Care Unit Venous Thromboembolism Prophylaxis', '372', null, 'This measure assesses the number of patients who received VTE prophylaxis or have documentation why no VTE prophylaxis was given the day of or the day after the initial admission (or transfer) to the Intensive Care Unit (ICU) or surgery end date for surgeries that start the day of or the day after ICU admission (or transfer)', '', 2, -1, false), 
+('CMS347', 3, 'Statin Therapy for the Prevention and Treatment of Cardiovascular Disease', 'N/A', null, 'Percentage of the following patients - all considered at high risk of cardiovascular events - who were prescribed or were on statin therapy during the measurement period: Adults aged >= 21 years who were previously diagnosed with or currently have an active diagnosis of clinical atherosclerotic cardiovascular disease (ASCVD); OR Adults aged >= 21 years who have ever had a fasting or direct low-density lipoprotein cholesterol (LDL-C) level >= 190 mg/dL or were previously diagnosed with or currently have an active diagnosis of familial or pure hypercholesterolemia; OR Adults aged 40-75 years with a diagnosis of diabetes with a fasting or direct LDL-C level of 70-189 mg/dL', 'Effective Clinical Care', 1, -1, false), 
+('CMS645', 3, 'Bone density evaluation for patients with prostate cancer and receiving androgen deprivation therapy', 'N/A', null, 'Patients determined as having prostate cancer who are currently starting or undergoing androgen deprivation therapy (ADT), for an anticipated period of 12 months or greater and who receive an initial bone density evaluation. The bone density evaluation must be prior to the start of ADT or within 3 months of the start of ADT.', 'Effective Clinical Care', 1, -1, false);
 
 INSERT INTO openchpl.ucd_process(name, last_modified_user) VALUES
 ('ISO 9241-11', -1),
@@ -1076,172 +1146,140 @@ ITU-T E. 164, Series E: Overall Network Operation, Telephone Service, Service Op
 ('170.204(a)(2)','Web Content Accessibility Guidelines (WCAG) 2.0, Level AA Conformance', 3, -1);
 --2015
 
-INSERT INTO openchpl.test_functionality(number, name, certification_edition_id, practice_type_id, certification_criterion_id, last_modified_user) VALUES
+INSERT INTO openchpl.test_functionality(number, name, certification_edition_id, practice_type_id, last_modified_user) VALUES
 ('(a)(4)(iii)','Optional: 170.314(a)(4)(iii) Plot and electronically display, upon request, growth charts for patients', 
 	(SELECT certification_edition_id FROM openchpl.certification_edition WHERE year = '2014'), 
 	null, 
-	(SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (a)(4)'),
 	-1
 ),
 ('(b)(1)(i)(B)','Optional: 170.314(b)(1)(i)(B) Receive summary care record using the standards specified at §170.202(a) and (b) (Direct and XDM Validation)',
 	(SELECT certification_edition_id FROM openchpl.certification_edition WHERE year = '2014'), 
 	null, 
-	(SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (b)(1)'),
 	-1
 ),
 ('(b)(1)(i)(C)','Optional: 170.314(b)(1)(i)(C) Receive summary care record using the standards specified at §170.202(b) and (c) (SOAP Protocols)',
 	(SELECT certification_edition_id FROM openchpl.certification_edition WHERE year = '2014'), 
 	null, 
-	(SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (b)(1)'),
 	-1
 ),
 ('(f)(3)(i)(B)','Optional: 170.314(f)(3)(i)(B) Create syndrome-based public health surveillance information for transmission using the standard specified at §170.205(d)(3) (urgent care visit scenario)',
 	(SELECT certification_edition_id FROM openchpl.certification_edition WHERE year = '2014'), 
 	null, 
-	(SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (f)(3)'),
 	-1
 ),
 ('(f)(7)(i)','Optional: (f)(7)(i) EHR technology must be able to electronically create syndrome-based public health surveillance information for electronic transmission that contains the following data: (A) Patient demographics; (B) Provider specialty; (C) Provider address; (D) Problem list; (E) Vital signs; (F) Laboratory test values/results; (G) Procedures; (H) Medication list; and (I) Insurance',
 	(SELECT certification_edition_id FROM openchpl.certification_edition WHERE year = '2014'), 
 	null, 
-	(SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (f)(7)'),
 	-1
 ),
 ('(a)(5)(i)','Ambulatory setting: 170.314(a)(5)(i) Over multiple encounters in accordance with, at a minimum, the version of the standard specified in §170.207(a)(3)',
 	(SELECT certification_edition_id FROM openchpl.certification_edition WHERE year = '2014'), 
 	null, 
-	(SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (a)(5)'),
 	-1
 ),
 ('(a)(6)(i)','Ambulatory setting: 170.314(a)(6)(i) Over multiple encounters',
 	(SELECT certification_edition_id FROM openchpl.certification_edition WHERE year = '2014'), 
 	(SELECT practice_type_id FROM openchpl.practice_type WHERE name = 'Ambulatory'),
-	(SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (a)(6)'),
 	-1
 ),
 ('(a)(7)(i)','Ambulatory setting: 170.314(a)(7)(i) Over multiple encounters',
 	(SELECT certification_edition_id FROM openchpl.certification_edition WHERE year = '2014'), 
 	(SELECT practice_type_id FROM openchpl.practice_type WHERE name = 'Ambulatory'),
-	(SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (a)(7)'),
 	-1
 ),
 ('(a)(8)(iii)(B)(3)','Ambulatory setting: 170.314(a)(8)(iii)(B)(3) When a patient''s laboratory tests and values/results are incorporated pursuant to paragraph (b)(5)(i)(A)(1) of this section',
 	(SELECT certification_edition_id FROM openchpl.certification_edition WHERE year = '2014'), 
 	(SELECT practice_type_id FROM openchpl.practice_type WHERE name = 'Ambulatory'),
-	(SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (a)(8)'),
 	-1
 ),
 ('(a)(14)(vi)','Ambulatory setting: 170.314(a)(14)(vi) Patient communication preferences',
 	(SELECT certification_edition_id FROM openchpl.certification_edition WHERE year = '2014'), 
 	(SELECT practice_type_id FROM openchpl.practice_type WHERE name = 'Ambulatory'),
-	(SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (a)(14)'),
 	-1
 ),
 ('(b)(2)(i)(E)','Ambulatory setting: 170.314(b)(2)(i)(E) The reason for referral; and referring or transitioning provider''s name and office contact information',
 	(SELECT certification_edition_id FROM openchpl.certification_edition WHERE year = '2014'), 
 	(SELECT practice_type_id FROM openchpl.practice_type WHERE name = 'Ambulatory'),
-	(SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (b)(2)'),
 	-1
 ),
 ('(b)(7)(v)','Ambulatory setting: 170.314(b)(7)(v) The reason for referral; and referring or transitioning provider''s name and office contact information',
 	(SELECT certification_edition_id FROM openchpl.certification_edition WHERE year = '2014'), 
 	(SELECT practice_type_id FROM openchpl.practice_type WHERE name = 'Ambulatory'),
-	(SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (b)(7)'),
 	-1
 ),
 ('(b)(8)(iii)(E)','Ambulatory setting: 170.314(b)(8)(iii)(E) The reason for referral; and referring or transitioning provider''s name and office contact information',
 	(SELECT certification_edition_id FROM openchpl.certification_edition WHERE year = '2014'), 
 	(SELECT practice_type_id FROM openchpl.practice_type WHERE name = 'Ambulatory'),
-	(SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (b)(8)'),
 	-1
 ),
 ('(e)(1)(i)(A)(2)','Ambulatory setting: 170.314(e)(1)(i)(A)(2) Provider''s name and office contact information',
 	(SELECT certification_edition_id FROM openchpl.certification_edition WHERE year = '2014'), 
 	(SELECT practice_type_id FROM openchpl.practice_type WHERE name = 'Ambulatory'),
-	(SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (e)(1)'),
 	-1
 ),
 ('(e)(1)(i)(B)(1)(i)','Ambulatory setting: 170.314(e)(1)(i)(B)(1)(i) All of the data in the Common MU Data Set (which should be in their English (i.e., noncoded) representation if they associate with a vocabulary/code set) and the Provider''s name and office contact information',
 	(SELECT certification_edition_id FROM openchpl.certification_edition WHERE year = '2014'), 
 	(SELECT practice_type_id FROM openchpl.practice_type WHERE name = 'Ambulatory'),
-	(SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (e)(1)'),
 	-1
 ),
 ('(f)(3)(i)','Ambulatory setting: 170.314(f)(3)(i) (A) The standard specified in §170.205(d)(2). (B) Optional. The standard (and applicable implementation specifications) specified in §170.205(d)(3)',
 	(SELECT certification_edition_id FROM openchpl.certification_edition WHERE year = '2014'), 
 	(SELECT practice_type_id FROM openchpl.practice_type WHERE name = 'Ambulatory'),
-	(SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (f)(3)'),
 	-1
 ),
 ('(a)(5)(ii)','Inpatient setting: 170.314(a)(5)(ii) For the duration of an entire hospitalization in accordance with, at a minimum, the version of the standard specified in §170.207(a)(3)',
 	(SELECT certification_edition_id FROM openchpl.certification_edition WHERE year = '2014'), 
 	(SELECT practice_type_id FROM openchpl.practice_type WHERE name = 'Inpatient'),
-	(SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (a)(5)'),
 	-1
 ),
 ('(a)(6)(ii)','Inpatient setting: 170.314(a)(6)(ii) For the duration of an entire hospitalization',
-
 	(SELECT certification_edition_id FROM openchpl.certification_edition WHERE year = '2014'), 
 	(SELECT practice_type_id FROM openchpl.practice_type WHERE name = 'Inpatient'),
-	(SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (a)(6)'),
 	-1
 ),
 ('(a)(7)(ii)','Inpatient setting: 170.314(a)(7)(ii) For the duration of an entire hospitalization',
-
 	(SELECT certification_edition_id FROM openchpl.certification_edition WHERE year = '2014'), 
 	(SELECT practice_type_id FROM openchpl.practice_type WHERE name = 'Inpatient'),
-	(SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (a)(7)'),
 	-1
 ),
 ('(b)(2)(i)(F)','Inpatient setting: 170.314(b)(2)(i)(F) Discharge instructions',
 	(SELECT certification_edition_id FROM openchpl.certification_edition WHERE year = '2014'), 
 	(SELECT practice_type_id FROM openchpl.practice_type WHERE name = 'Inpatient'),
-	(SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (b)(2)'),
 	-1
 ),
 ('(b)(7)(vi)','Inpatient setting: 170.314(b)(7)(vi) Discharge Instructions',
-
 	(SELECT certification_edition_id FROM openchpl.certification_edition WHERE year = '2014'), 
 	(SELECT practice_type_id FROM openchpl.practice_type WHERE name = 'Inpatient'),
-	(SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (b)(7)'),
 	-1
 ),
 ('(b)(8)(iii)(F)','Inpatient setting: 170.314(b)(8)(iii)(F) Discharge Instructions',
-
 	(SELECT certification_edition_id FROM openchpl.certification_edition WHERE year = '2014'), 
 	(SELECT practice_type_id FROM openchpl.practice_type WHERE name = 'Inpatient'),
-	(SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (b)(8)'),
 	-1
 ),
 ('(e)(1)(i)(A)(3)','Inpatient setting: 170.314(e)(1)(i)(A)(3) Admission and discharge dates and locations; discharge instructions; and reason(s) for hospitalization',
-
 	(SELECT certification_edition_id FROM openchpl.certification_edition WHERE year = '2014'), 
 	(SELECT practice_type_id FROM openchpl.practice_type WHERE name = 'Inpatient'),
-	(SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (e)(1)'),
 	-1
 ),
 ('(e)(1)(i)(B)(1)(ii)','Inpatient setting: 170.314(e)(1)(i)(B)(1)(ii) All of the data in the Common MU Data Set (which should be in their English (i.e., noncoded) representation if they associate with a vocabulary/code set) and the admission and discharge dates and locations; discharge instructions; and reason(s) for hospitalization',
 	(SELECT certification_edition_id FROM openchpl.certification_edition WHERE year = '2014'), 
 	(SELECT practice_type_id FROM openchpl.practice_type WHERE name = 'Inpatient'),
-	(SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (e)(1)'),
 	-1
 ),
 ('(e)(1)(i)(B)(2)','Inpatient setting: 170.314(e)(1)(i)(B)(2) Electronically download transition of care/referral summaries that were created as a result of a transition of care (pursuant to the capability expressed in the certification criterion adopted at paragraph (b)(2) of this section)',
 	(SELECT certification_edition_id FROM openchpl.certification_edition WHERE year = '2014'), 
 	(SELECT practice_type_id FROM openchpl.practice_type WHERE name = 'Inpatient'),
-	(SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (e)(1)'),
 	-1
 ),
 ('(e)(1)(i)(C)(2)','Inpatient setting: 170.314(e)(1)(i)(C)(2) Electronically transmit transition of care/referral summaries (as a result of a transition of care/referral) selected by the patient (or their authorized representative) in accordance with at least one of the following: (i) The standard specified in §170.202(a). (ii) Through a method that conforms to the standard specified at §170.202(d) and that leads to such summary being processed by a service that has implemented the standard specified in §170.202(a)', 
 	(SELECT certification_edition_id FROM openchpl.certification_edition WHERE year = '2014'), 
 	(SELECT practice_type_id FROM openchpl.practice_type WHERE name = 'Inpatient'),
-	(SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (e)(1)'),
 	-1
 ),
 ('(f)(3)(ii)','Inpatient setting: 170.314(f)(3)(ii)  The standard (and applicable implementation specifications) specified in §170.205(d)(3)',
 	(SELECT certification_edition_id FROM openchpl.certification_edition WHERE year = '2014'), 
 	(SELECT practice_type_id FROM openchpl.practice_type WHERE name = 'Inpatient'),
-	(SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (f)(3)'),
 	-1
 );
 --2014
@@ -1313,6 +1351,530 @@ INSERT INTO openchpl.test_functionality(number, name, certification_edition_id, 
 (i) Email transmission to any email address; and
 (ii)An encrypted method of electronic transmission', 3, -1);
 --2015
+
+INSERT INTO openchpl.test_functionality_criteria_map (criteria_id, test_functionality_id, last_modified_user)
+VALUES (
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (a)(1)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(a)(1)(ii)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (a)(2)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(a)(2)(ii)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (a)(3)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(a)(3)(ii)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (a)(4)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(a)(4)(ii)(B)(1)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (a)(4)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(a)(4)(ii)(B)(2)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (a)(5)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(a)(5)(ii)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (a)(6)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(a)(6)(i)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (a)(6)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(a)(6)(ii)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (a)(7)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(a)(7)(i)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (a)(7)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(a)(7)(ii)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (a)(8)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(a)(8)(i)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (a)(8)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(a)(8)(ii)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (a)(10)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(a)(10)(i)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (a)(10)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(a)(10)(ii)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (a)(13)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(a)(13)(ii)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (a)(14)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(a)(14)(iii)(A)(1)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (a)(14)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(a)(14)(iii)(A)(2)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (b)(1)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(b)(1)(ii)(A)(5)(i)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (b)(1)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(b)(1)(ii)(A)(5)(ii)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (b)(1)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(b)(1)(iii)(E)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (b)(1)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(b)(1)(iii)(F)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (b)(1)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(b)(1)(iii)(G)(1)(ii)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (b)(3)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(b)(3)(iii)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (b)(4)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(b)(4)(v)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (b)(4)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(b)(4)(vi)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (b)(4)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(b)(4)(vii)(A)(2)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (b)(5)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(b)(5)(i)(E)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (b)(5)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(b)(5)(i)(F)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (b)(5)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(b)(5)(ii)(A)(5)(i)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (b)(5)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(b)(5)(ii)(A)(5)(ii)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (b)(6)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(b)(6)(i)(B)(1)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (b)(6)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(b)(6)(i)(B)(2)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (b)(6)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(b)(6)(ii)(E)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (b)(6)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(b)(6)(ii)(F)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (c)(3)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(c)(3)(ii)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (d)(7)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(d)(7)(i)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (d)(7)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(d)(7)(ii)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (d)(9)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(d)(9)(i)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (d)(9)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(d)(9)(ii)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (e)(1)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(e)(1)(i)(A)(2)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (e)(1)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(e)(1)(i)(A)(3)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (e)(1)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(e)(1)(i)(B)(2)(i)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (e)(1)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(e)(1)(i)(B)(2)(ii)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (e)(1)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(e)(1)(i)(B)(3)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (e)(1)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(e)(1)(i)(C)(2)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (g)(4)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(g)(4)(i)(A)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (g)(4)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(g)(4)(i)(B)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (g)(5)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(g)(5)(i)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (g)(5)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(g)(5)(ii)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (g)(5)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(g)(5)(iii)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (b)(1)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '170.102(13)(ii)(C)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (b)(4)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '170.102(13)(ii)(C)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (b)(5)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '170.102(13)(ii)(C)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (b)(6)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '170.102(13)(ii)(C)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (e)(1)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '170.102(13)(ii)(C)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (f)(5)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '170.102(13)(ii)(C)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (g)(6)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '170.102(13)(ii)(C)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (g)(8)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '170.102(13)(ii)(C)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (g)(9)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '170.102(13)(ii)(C)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (b)(1)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '170.102(19)(i)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (b)(4)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '170.102(19)(i)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (b)(5)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '170.102(19)(i)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (b)(6)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '170.102(19)(i)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (e)(1)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '170.102(19)(i)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (f)(5)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '170.102(19)(i)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (g)(6)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '170.102(19)(i)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (g)(8)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '170.102(19)(i)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (g)(9)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '170.102(19)(i)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (b)(1)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '170.102(19)(ii)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (b)(4)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '170.102(19)(ii)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (b)(5)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '170.102(19)(ii)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (b)(6)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '170.102(19)(ii)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (e)(1)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '170.102(19)(ii)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (f)(5)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '170.102(19)(ii)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (g)(6)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '170.102(19)(ii)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (g)(8)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '170.102(19)(ii)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (g)(9)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '170.102(19)(ii)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (a)(6)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(a)(6)(i)' AND  certification_edition_id = 2),
+	-12
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (a)(7)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(a)(7)(i)' AND  certification_edition_id = 2),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (a)(14)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(a)(14)(vi)' AND  certification_edition_id = 2),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (b)(2)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(b)(2)(i)(E)' AND  certification_edition_id = 2),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (b)(7)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(b)(7)(v)' AND  certification_edition_id = 2),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (b)(8)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(b)(8)(iii)(E)' AND  certification_edition_id = 2),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (e)(1)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(e)(1)(i)(A)(2)' AND  certification_edition_id = 2),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (e)(1)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(e)(1)(i)(B)(1)(i)' AND  certification_edition_id = 2),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (f)(3)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(f)(3)(i)' AND  certification_edition_id = 2),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (a)(5)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(a)(5)(ii)' AND  certification_edition_id = 2),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (a)(6)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(a)(6)(ii)' AND  certification_edition_id = 2),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (a)(7)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(a)(7)(ii)' AND  certification_edition_id = 2),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (b)(2)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(b)(2)(i)(F)' AND  certification_edition_id = 2),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (b)(7)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(b)(7)(vi)' AND  certification_edition_id = 2),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (b)(8)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(b)(8)(iii)(F)' AND  certification_edition_id = 2),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (e)(1)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(e)(1)(i)(A)(3)' AND  certification_edition_id = 2),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (e)(1)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(e)(1)(i)(B)(2)' AND  certification_edition_id = 2),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (e)(1)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(e)(1)(i)(C)(2)' AND  certification_edition_id = 2),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (f)(3)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(f)(3)(ii)' AND  certification_edition_id = 2),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (a)(4)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(a)(4)(iii)' AND  certification_edition_id = 2),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (b)(1)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(b)(1)(i)(B)' AND  certification_edition_id = 2),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (b)(1)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(b)(1)(i)(C)' AND  certification_edition_id = 2),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (f)(3)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(f)(3)(i)(B)' AND  certification_edition_id = 2),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (f)(7)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(f)(7)(i)' AND  certification_edition_id = 2),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (a)(5)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(a)(5)(i)' AND  certification_edition_id = 2),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (a)(8)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(a)(8)(iii)(B)(3)' AND  certification_edition_id = 2),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (e)(1)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(e)(1)(i)(B)(1)(ii)' AND  certification_edition_id = 2),
+	-1
+);
+
+
 
 INSERT INTO openchpl.accessibility_standard(name, last_modified_user) VALUES
 ('170.204(a)(1)', -1),

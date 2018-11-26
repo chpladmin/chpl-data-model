@@ -1,13 +1,39 @@
 # Release Notes
 
+## Version 14.10.1
+_20 November 2018_
+
+### Data Modifications
+* Marked incorrectly uploaded Listing as deleted
+
+---
+
+## Version 14.10.0
+_19 November 2018_
+
+### Data Modifications
+* CQM Criterion table
+  * Add new versions to 70 existing CQMs
+  * Add 2 new CQMs
+
+---
+
+## Version 14.9.2
+_5 November 2018_
+
+### View Modification
+* Properly handle developer status history in certified_product_details view
+  * When there was a deleted developer status history that occured at the exact same time, a duplicate row was in the view
+
+---
+
 ## Version 14.9.1
 _24 October 2018_
 
 ### Bugs Fixed
-* Include listings without MUU counts in certified_product_summary view. 
+* Include listings without MUU counts in certified_product_summary view.
 
 ---
-
 
 ## Version 14.9.0
 _22 October 2018_
@@ -20,7 +46,6 @@ _22 October 2018_
 * Migrated data from certified_product meaningful_use_users column into new meaningful_use_user table.
 
 ---
-
 
 ## Version 14.8.0
 _8 October 2018_
