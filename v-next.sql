@@ -664,7 +664,6 @@ BEGIN
   END IF;
 END $$;
 
-
 DROP TABLE IF EXISTS openchpl.user_reset_token;
 CREATE TABLE openchpl.user_reset_token(
 	user_reset_token_id bigserial NOT NULL,
