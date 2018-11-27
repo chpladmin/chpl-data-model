@@ -8,9 +8,11 @@ _Date TBD_
 * Add column 'reason' to questionable_activity_developer table
 * Add user_reset_token table to use with user reset of their password
 * Add column to user table to indicate if a password change is required
+* Add retired column for certification bodies and testing labs.
 
 ### Data Modifications
 * Migrate data from test_functionality.certification_criterion_id column to new table test_functionality_criteria_map
 * Add data to test_functionality_criteria_map to restrict available functinality tests based on criterion
+* Retire ACBs and ATLs currently marked as deleted. Do not mark any as deleted.
 
 ---
