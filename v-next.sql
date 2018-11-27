@@ -682,5 +682,11 @@ CREATE TABLE openchpl.user_reset_token(
 CREATE TRIGGER user_reset_token_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.user_reset_token FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER user_reset_token_timestamp BEFORE UPDATE on openchpl.user_reset_token FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 
+--
+-- OCD-2531: Require a reset
+--
+alter table openchpl.user drop column if exists password_reset_required;
+alter table openchpl.user add column password_reset_required boolean not null default false;
+
 --re-run grants
 \i dev/openchpl_grant-all.sql
