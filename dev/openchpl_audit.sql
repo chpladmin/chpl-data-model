@@ -343,6 +343,8 @@ CREATE TRIGGER test_data_criteria_map_audit AFTER INSERT OR UPDATE OR DELETE on 
 CREATE TRIGGER test_data_criteria_map_timestamp BEFORE UPDATE on openchpl.test_data_criteria_map FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER test_functionality_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.test_functionality FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER test_functionality_timestamp BEFORE UPDATE on openchpl.test_functionality FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
+CREATE TRIGGER test_functionality_criteria_map_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.test_functionality_criteria_map FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+CREATE TRIGGER test_functionality_criteria_map_timestamp BEFORE UPDATE on openchpl.test_functionality_criteria_map FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER test_participant_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.test_participant FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER test_participant_timestamp BEFORE UPDATE on openchpl.test_participant FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER test_participant_age_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.test_participant_age FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
@@ -369,6 +371,8 @@ CREATE TRIGGER user_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.user FOR 
 CREATE TRIGGER user_permission_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.user_permission FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER user_permission_timestamp BEFORE UPDATE on openchpl.user_permission FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER user_timestamp BEFORE UPDATE on openchpl.user FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
+CREATE TRIGGER user_reset_token_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.user_reset_token FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+CREATE TRIGGER user_reset_token_timestamp BEFORE UPDATE on openchpl.user_reset_token FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER vendor_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.vendor FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER vendor_timestamp BEFORE UPDATE on openchpl.vendor FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER vendor_status_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.vendor_status FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
