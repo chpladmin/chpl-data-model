@@ -3006,6 +3006,37 @@ CREATE TABLE openchpl.test_functionality_criteria_map
         ON DELETE RESTRICT
 );
 
+CREATE TABLE openchpl.file_type
+(
+    file_type_id bigserial NOT NULL,
+    name text NOT NULL,
+    description text,
+    creation_date timestamp without time zone NOT NULL DEFAULT now(),
+    last_modified_date timestamp without time zone NOT NULL DEFAULT now(),
+    last_modified_user bigint NOT NULL,
+    deleted boolean NOT NULL DEFAULT false,
+    CONSTRAINT file_type_pk PRIMARY KEY (file_type_id)
+);
+
+CREATE TABLE openchpl.chpl_file
+(
+    chpl_file_id bigserial NOT NULL,
+    file_type_id bigint NOT NULL,
+    file_name text,
+    content_type text,
+    file_data bytea NOT NULL,
+    associated_date timestamp without time zone NULL,
+    creation_date timestamp without time zone NOT NULL DEFAULT now(),
+    last_modified_date timestamp without time zone NOT NULL DEFAULT now(),
+    last_modified_user bigint NOT NULL,
+    deleted boolean NOT NULL DEFAULT false,
+    CONSTRAINT chpl_file_pk PRIMARY KEY (chpl_file_id),
+    CONSTRAINT file_type_fk FOREIGN KEY (file_type_id)
+        REFERENCES openchpl.file_type (file_type_id) MATCH FULL
+        ON UPDATE CASCADE
+		ON DELETE RESTRICT
+);
+
 CREATE INDEX fki_certified_product_id_fk
 ON openchpl.ehr_certification_id_product_map
 USING btree
