@@ -1,5 +1,6 @@
 -- OCD-2575
 
+DROP TABLE IF EXISTS openchpl.files;
 DROP TABLE IF EXISTS openchpl.file_type;
 
 CREATE TABLE openchpl.file_type
@@ -14,17 +15,14 @@ CREATE TABLE openchpl.file_type
     CONSTRAINT file_type_pk PRIMARY KEY (file_type_id)
 );
 
-CREATE TRIGGER file_type AFTER INSERT OR UPDATE OR DELETE on openchpl.file_type FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
-CREATE TRIGGER file_type BEFORE UPDATE on openchpl.file_type FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
+CREATE TRIGGER file_type_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.file_type FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+CREATE TRIGGER file_type_timestamp BEFORE UPDATE on openchpl.file_type FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 
 -- Add the intial file_type value for API Documentation
 INSERT INTO openchpl.file_type
 (name, description, last_modified_user)
 VALUES
 ('Api Documentation', 'Api Documentation', -1);
-
-
-DROP TABLE IF EXISTS openchpl.files;
 
 CREATE TABLE openchpl.files
 (
@@ -44,8 +42,8 @@ CREATE TABLE openchpl.files
         ON UPDATE CASCADE
 );
 
-CREATE TRIGGER files AFTER INSERT OR UPDATE OR DELETE on openchpl.files FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
-CREATE TRIGGER files BEFORE UPDATE on openchpl.files FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
+CREATE TRIGGER files_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.files FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+CREATE TRIGGER files_timestamp BEFORE UPDATE on openchpl.files FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 
 --re-run grants
 \i dev/openchpl_grant-all.sql
