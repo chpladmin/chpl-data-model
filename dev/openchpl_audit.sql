@@ -187,8 +187,8 @@ CREATE TRIGGER event_type_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.eve
 CREATE TRIGGER event_type_timestamp BEFORE UPDATE on openchpl.event_type FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER file_type_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.file_type FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER file_type_timestamp BEFORE UPDATE on openchpl.file_type FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
-CREATE TRIGGER files_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.files FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
-CREATE TRIGGER files_timestamp BEFORE UPDATE on openchpl.files FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
+CREATE TRIGGER chpl_file_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.chpl_file FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+CREATE TRIGGER chpl_file_timestamp BEFORE UPDATE on openchpl.chpl_file FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER fuzzy_choices_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.fuzzy_choices FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER fuzzy_choices_timestamp BEFORE UPDATE on openchpl.fuzzy_choices FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER global_user_permission_map_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.global_user_permission_map FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();

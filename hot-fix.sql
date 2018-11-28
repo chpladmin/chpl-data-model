@@ -1,6 +1,6 @@
 -- OCD-2575
 
-DROP TABLE IF EXISTS openchpl.files;
+DROP TABLE IF EXISTS openchpl.chpl_file;
 DROP TABLE IF EXISTS openchpl.file_type;
 
 CREATE TABLE openchpl.file_type
@@ -24,26 +24,26 @@ INSERT INTO openchpl.file_type
 VALUES
 ('Api Documentation', 'Api Documentation', -1);
 
-CREATE TABLE openchpl.files
+CREATE TABLE openchpl.chpl_file
 (
-    file_id bigserial NOT NULL,
-	file_type_id bigint NOT NULL,
-	file_name text,
-	content_type text,
+    chpl_file_id bigserial NOT NULL,
+    file_type_id bigint NOT NULL,
+    file_name text,
+    content_type text,
     file_data bytea NOT NULL,
     associated_date timestamp without time zone NULL,
     creation_date timestamp without time zone NOT NULL DEFAULT now(),
     last_modified_date timestamp without time zone NOT NULL DEFAULT now(),
     last_modified_user bigint NOT NULL,
     deleted boolean NOT NULL DEFAULT false,
-    CONSTRAINT file_pk PRIMARY KEY (file_id),
+    CONSTRAINT chpl_file_pk PRIMARY KEY (chpl_file_id),
 	CONSTRAINT file_type_fk FOREIGN KEY (file_type_id)
         REFERENCES openchpl.file_type (file_type_id) MATCH FULL
         ON UPDATE CASCADE
 );
 
-CREATE TRIGGER files_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.files FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
-CREATE TRIGGER files_timestamp BEFORE UPDATE on openchpl.files FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
+CREATE TRIGGER chpl_file_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.chpl_file FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+CREATE TRIGGER chpl_file_timestamp BEFORE UPDATE on openchpl.chpl_file FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 
 --re-run grants
 \i dev/openchpl_grant-all.sql
