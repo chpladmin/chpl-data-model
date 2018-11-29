@@ -89,12 +89,13 @@ CREATE TABLE openchpl.announcement(
 
 -- object: openchpl.certification_body | type: TABLE --
 -- DROP TABLE IF EXISTS openchpl.certification_body CASCADE;
-CREATE TABLE openchpl.certification_body(
+CREATE TABLE openchpl.certification_body (
 	certification_body_id bigserial NOT NULL,
 	acb_code varchar(16),
 	address_id bigint,
 	name varchar(250),
 	website varchar(300),
+	retired boolean NOT NULL DEFAULT false,
 	creation_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_user smallint NOT NULL,
@@ -883,13 +884,14 @@ CREATE TABLE openchpl.certification_result_g2_macra (
 
 -- object: openchpl.testing_lab | type: TABLE --
 -- DROP TABLE IF EXISTS openchpl.testing_lab CASCADE;
-CREATE TABLE openchpl.testing_lab(
+CREATE TABLE openchpl.testing_lab (
 	testing_lab_id bigserial NOT NULL,
 	testing_lab_code varchar(16),
 	address_id bigint,
 	name varchar(300) NOT NULL,
 	accredidation_number varchar(25),
 	website varchar(300),
+	retired boolean not null default false,
 	creation_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_user bigint NOT NULL,
