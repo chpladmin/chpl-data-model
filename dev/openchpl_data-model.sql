@@ -40,6 +40,7 @@ CREATE TABLE openchpl.user(
 	credentials_expired bool NOT NULL,
 	account_enabled bool NOT NULL,
 	compliance_signature timestamp,
+        password_reset_required bool not null default false,
 	failed_login_count int not null default 0,
 	creation_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
@@ -52,6 +53,19 @@ CREATE TABLE openchpl.user(
 -- ddl-end --
 -- ALTER TABLE openchpl.user OWNER TO openchpl;
 -- ddl-end --
+
+CREATE TABLE openchpl.user_reset_token(
+	user_reset_token_id bigserial NOT NULL,
+	user_reset_token varchar(128) NOT NULL,
+	user_id bigint NOT NULL,
+	creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
+	CONSTRAINT user_reset_token_pk PRIMARY KEY (user_reset_token_id),
+	CONSTRAINT user_fk FOREIGN KEY (user_id) REFERENCES openchpl.user (user_id)
+		MATCH FULL ON DELETE RESTRICT ON UPDATE CASCADE
+);
 
 -- object: openchpl.announcements | type: TABLE --
 -- DROP TABLE IF EXISTS openchpl.announcements CASCADE;
@@ -621,16 +635,11 @@ CREATE TABLE openchpl.test_functionality (
 	name varchar(1000),
 	certification_edition_id bigint NOT NULL,
 	practice_type_id bigint,
-	certification_criterion_id bigint,
 	creation_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_user bigint NOT NULL,
 	deleted bool NOT NULL DEFAULT false,
 	constraint test_functionality_pk primary key (test_functionality_id),
-    CONSTRAINT certification_criterion_fk FOREIGN KEY (certification_criterion_id)
-        REFERENCES openchpl.certification_criterion (certification_criterion_id) MATCH SIMPLE
-        ON UPDATE NO ACTION
-        ON DELETE NO ACTION,
     CONSTRAINT practice_type_fk FOREIGN KEY (practice_type_id)
         REFERENCES openchpl.practice_type (practice_type_id) MATCH SIMPLE
         ON UPDATE NO ACTION
@@ -2591,6 +2600,7 @@ CREATE TABLE openchpl.questionable_activity_developer (
 	developer_id bigint NOT NULL,
 	before_data text,
 	after_data text,
+	reason text,
 	activity_date timestamp NOT NULL,
 	activity_user_id bigint NOT NULL,
 	creation_date timestamp NOT NULL DEFAULT NOW(),
@@ -2974,6 +2984,57 @@ CREATE TABLE openchpl.broken_surveillance_rules
     last_modified_user bigint NOT NULL,
     deleted boolean NOT NULL DEFAULT false,
     CONSTRAINT broken_surveillance_rules_id_pk PRIMARY KEY (id)
+);
+
+CREATE TABLE openchpl.test_functionality_criteria_map
+(
+    id bigserial NOT NULL,
+    criteria_id bigint NOT NULL,
+    test_functionality_id bigint NOT NULL,
+    creation_date timestamp without time zone NOT NULL DEFAULT now(),
+    last_modified_date timestamp without time zone NOT NULL DEFAULT now(),
+    last_modified_user bigint NOT NULL,
+    deleted boolean NOT NULL DEFAULT false,
+    CONSTRAINT test_functionality_criteria_map_pk PRIMARY KEY (id),
+    CONSTRAINT test_functionality_criteria_fk FOREIGN KEY (criteria_id)
+        REFERENCES openchpl.certification_criterion (certification_criterion_id) MATCH FULL
+        ON UPDATE CASCADE
+        ON DELETE RESTRICT,
+    CONSTRAINT test_functionality_fk FOREIGN KEY (test_functionality_id)
+        REFERENCES openchpl.test_functionality (test_functionality_id) MATCH FULL
+        ON UPDATE CASCADE
+        ON DELETE RESTRICT
+);
+
+CREATE TABLE openchpl.file_type
+(
+    file_type_id bigserial NOT NULL,
+    name text NOT NULL,
+    description text,
+    creation_date timestamp without time zone NOT NULL DEFAULT now(),
+    last_modified_date timestamp without time zone NOT NULL DEFAULT now(),
+    last_modified_user bigint NOT NULL,
+    deleted boolean NOT NULL DEFAULT false,
+    CONSTRAINT file_type_pk PRIMARY KEY (file_type_id)
+);
+
+CREATE TABLE openchpl.chpl_file
+(
+    chpl_file_id bigserial NOT NULL,
+    file_type_id bigint NOT NULL,
+    file_name text,
+    content_type text,
+    file_data bytea NOT NULL,
+    associated_date timestamp without time zone NULL,
+    creation_date timestamp without time zone NOT NULL DEFAULT now(),
+    last_modified_date timestamp without time zone NOT NULL DEFAULT now(),
+    last_modified_user bigint NOT NULL,
+    deleted boolean NOT NULL DEFAULT false,
+    CONSTRAINT chpl_file_pk PRIMARY KEY (chpl_file_id),
+    CONSTRAINT file_type_fk FOREIGN KEY (file_type_id)
+        REFERENCES openchpl.file_type (file_type_id) MATCH FULL
+        ON UPDATE CASCADE
+		ON DELETE RESTRICT
 );
 
 CREATE INDEX fki_certified_product_id_fk

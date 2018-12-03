@@ -1146,172 +1146,140 @@ ITU-T E. 164, Series E: Overall Network Operation, Telephone Service, Service Op
 ('170.204(a)(2)','Web Content Accessibility Guidelines (WCAG) 2.0, Level AA Conformance', 3, -1);
 --2015
 
-INSERT INTO openchpl.test_functionality(number, name, certification_edition_id, practice_type_id, certification_criterion_id, last_modified_user) VALUES
+INSERT INTO openchpl.test_functionality(number, name, certification_edition_id, practice_type_id, last_modified_user) VALUES
 ('(a)(4)(iii)','Optional: 170.314(a)(4)(iii) Plot and electronically display, upon request, growth charts for patients', 
 	(SELECT certification_edition_id FROM openchpl.certification_edition WHERE year = '2014'), 
 	null, 
-	(SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (a)(4)'),
 	-1
 ),
 ('(b)(1)(i)(B)','Optional: 170.314(b)(1)(i)(B) Receive summary care record using the standards specified at §170.202(a) and (b) (Direct and XDM Validation)',
 	(SELECT certification_edition_id FROM openchpl.certification_edition WHERE year = '2014'), 
 	null, 
-	(SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (b)(1)'),
 	-1
 ),
 ('(b)(1)(i)(C)','Optional: 170.314(b)(1)(i)(C) Receive summary care record using the standards specified at §170.202(b) and (c) (SOAP Protocols)',
 	(SELECT certification_edition_id FROM openchpl.certification_edition WHERE year = '2014'), 
 	null, 
-	(SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (b)(1)'),
 	-1
 ),
 ('(f)(3)(i)(B)','Optional: 170.314(f)(3)(i)(B) Create syndrome-based public health surveillance information for transmission using the standard specified at §170.205(d)(3) (urgent care visit scenario)',
 	(SELECT certification_edition_id FROM openchpl.certification_edition WHERE year = '2014'), 
 	null, 
-	(SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (f)(3)'),
 	-1
 ),
 ('(f)(7)(i)','Optional: (f)(7)(i) EHR technology must be able to electronically create syndrome-based public health surveillance information for electronic transmission that contains the following data: (A) Patient demographics; (B) Provider specialty; (C) Provider address; (D) Problem list; (E) Vital signs; (F) Laboratory test values/results; (G) Procedures; (H) Medication list; and (I) Insurance',
 	(SELECT certification_edition_id FROM openchpl.certification_edition WHERE year = '2014'), 
 	null, 
-	(SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (f)(7)'),
 	-1
 ),
 ('(a)(5)(i)','Ambulatory setting: 170.314(a)(5)(i) Over multiple encounters in accordance with, at a minimum, the version of the standard specified in §170.207(a)(3)',
 	(SELECT certification_edition_id FROM openchpl.certification_edition WHERE year = '2014'), 
 	null, 
-	(SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (a)(5)'),
 	-1
 ),
 ('(a)(6)(i)','Ambulatory setting: 170.314(a)(6)(i) Over multiple encounters',
 	(SELECT certification_edition_id FROM openchpl.certification_edition WHERE year = '2014'), 
 	(SELECT practice_type_id FROM openchpl.practice_type WHERE name = 'Ambulatory'),
-	(SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (a)(6)'),
 	-1
 ),
 ('(a)(7)(i)','Ambulatory setting: 170.314(a)(7)(i) Over multiple encounters',
 	(SELECT certification_edition_id FROM openchpl.certification_edition WHERE year = '2014'), 
 	(SELECT practice_type_id FROM openchpl.practice_type WHERE name = 'Ambulatory'),
-	(SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (a)(7)'),
 	-1
 ),
 ('(a)(8)(iii)(B)(3)','Ambulatory setting: 170.314(a)(8)(iii)(B)(3) When a patient''s laboratory tests and values/results are incorporated pursuant to paragraph (b)(5)(i)(A)(1) of this section',
 	(SELECT certification_edition_id FROM openchpl.certification_edition WHERE year = '2014'), 
 	(SELECT practice_type_id FROM openchpl.practice_type WHERE name = 'Ambulatory'),
-	(SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (a)(8)'),
 	-1
 ),
 ('(a)(14)(vi)','Ambulatory setting: 170.314(a)(14)(vi) Patient communication preferences',
 	(SELECT certification_edition_id FROM openchpl.certification_edition WHERE year = '2014'), 
 	(SELECT practice_type_id FROM openchpl.practice_type WHERE name = 'Ambulatory'),
-	(SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (a)(14)'),
 	-1
 ),
 ('(b)(2)(i)(E)','Ambulatory setting: 170.314(b)(2)(i)(E) The reason for referral; and referring or transitioning provider''s name and office contact information',
 	(SELECT certification_edition_id FROM openchpl.certification_edition WHERE year = '2014'), 
 	(SELECT practice_type_id FROM openchpl.practice_type WHERE name = 'Ambulatory'),
-	(SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (b)(2)'),
 	-1
 ),
 ('(b)(7)(v)','Ambulatory setting: 170.314(b)(7)(v) The reason for referral; and referring or transitioning provider''s name and office contact information',
 	(SELECT certification_edition_id FROM openchpl.certification_edition WHERE year = '2014'), 
 	(SELECT practice_type_id FROM openchpl.practice_type WHERE name = 'Ambulatory'),
-	(SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (b)(7)'),
 	-1
 ),
 ('(b)(8)(iii)(E)','Ambulatory setting: 170.314(b)(8)(iii)(E) The reason for referral; and referring or transitioning provider''s name and office contact information',
 	(SELECT certification_edition_id FROM openchpl.certification_edition WHERE year = '2014'), 
 	(SELECT practice_type_id FROM openchpl.practice_type WHERE name = 'Ambulatory'),
-	(SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (b)(8)'),
 	-1
 ),
 ('(e)(1)(i)(A)(2)','Ambulatory setting: 170.314(e)(1)(i)(A)(2) Provider''s name and office contact information',
 	(SELECT certification_edition_id FROM openchpl.certification_edition WHERE year = '2014'), 
 	(SELECT practice_type_id FROM openchpl.practice_type WHERE name = 'Ambulatory'),
-	(SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (e)(1)'),
 	-1
 ),
 ('(e)(1)(i)(B)(1)(i)','Ambulatory setting: 170.314(e)(1)(i)(B)(1)(i) All of the data in the Common MU Data Set (which should be in their English (i.e., noncoded) representation if they associate with a vocabulary/code set) and the Provider''s name and office contact information',
 	(SELECT certification_edition_id FROM openchpl.certification_edition WHERE year = '2014'), 
 	(SELECT practice_type_id FROM openchpl.practice_type WHERE name = 'Ambulatory'),
-	(SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (e)(1)'),
 	-1
 ),
 ('(f)(3)(i)','Ambulatory setting: 170.314(f)(3)(i) (A) The standard specified in §170.205(d)(2). (B) Optional. The standard (and applicable implementation specifications) specified in §170.205(d)(3)',
 	(SELECT certification_edition_id FROM openchpl.certification_edition WHERE year = '2014'), 
 	(SELECT practice_type_id FROM openchpl.practice_type WHERE name = 'Ambulatory'),
-	(SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (f)(3)'),
 	-1
 ),
 ('(a)(5)(ii)','Inpatient setting: 170.314(a)(5)(ii) For the duration of an entire hospitalization in accordance with, at a minimum, the version of the standard specified in §170.207(a)(3)',
 	(SELECT certification_edition_id FROM openchpl.certification_edition WHERE year = '2014'), 
 	(SELECT practice_type_id FROM openchpl.practice_type WHERE name = 'Inpatient'),
-	(SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (a)(5)'),
 	-1
 ),
 ('(a)(6)(ii)','Inpatient setting: 170.314(a)(6)(ii) For the duration of an entire hospitalization',
-
 	(SELECT certification_edition_id FROM openchpl.certification_edition WHERE year = '2014'), 
 	(SELECT practice_type_id FROM openchpl.practice_type WHERE name = 'Inpatient'),
-	(SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (a)(6)'),
 	-1
 ),
 ('(a)(7)(ii)','Inpatient setting: 170.314(a)(7)(ii) For the duration of an entire hospitalization',
-
 	(SELECT certification_edition_id FROM openchpl.certification_edition WHERE year = '2014'), 
 	(SELECT practice_type_id FROM openchpl.practice_type WHERE name = 'Inpatient'),
-	(SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (a)(7)'),
 	-1
 ),
 ('(b)(2)(i)(F)','Inpatient setting: 170.314(b)(2)(i)(F) Discharge instructions',
 	(SELECT certification_edition_id FROM openchpl.certification_edition WHERE year = '2014'), 
 	(SELECT practice_type_id FROM openchpl.practice_type WHERE name = 'Inpatient'),
-	(SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (b)(2)'),
 	-1
 ),
 ('(b)(7)(vi)','Inpatient setting: 170.314(b)(7)(vi) Discharge Instructions',
-
 	(SELECT certification_edition_id FROM openchpl.certification_edition WHERE year = '2014'), 
 	(SELECT practice_type_id FROM openchpl.practice_type WHERE name = 'Inpatient'),
-	(SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (b)(7)'),
 	-1
 ),
 ('(b)(8)(iii)(F)','Inpatient setting: 170.314(b)(8)(iii)(F) Discharge Instructions',
-
 	(SELECT certification_edition_id FROM openchpl.certification_edition WHERE year = '2014'), 
 	(SELECT practice_type_id FROM openchpl.practice_type WHERE name = 'Inpatient'),
-	(SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (b)(8)'),
 	-1
 ),
 ('(e)(1)(i)(A)(3)','Inpatient setting: 170.314(e)(1)(i)(A)(3) Admission and discharge dates and locations; discharge instructions; and reason(s) for hospitalization',
-
 	(SELECT certification_edition_id FROM openchpl.certification_edition WHERE year = '2014'), 
 	(SELECT practice_type_id FROM openchpl.practice_type WHERE name = 'Inpatient'),
-	(SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (e)(1)'),
 	-1
 ),
 ('(e)(1)(i)(B)(1)(ii)','Inpatient setting: 170.314(e)(1)(i)(B)(1)(ii) All of the data in the Common MU Data Set (which should be in their English (i.e., noncoded) representation if they associate with a vocabulary/code set) and the admission and discharge dates and locations; discharge instructions; and reason(s) for hospitalization',
 	(SELECT certification_edition_id FROM openchpl.certification_edition WHERE year = '2014'), 
 	(SELECT practice_type_id FROM openchpl.practice_type WHERE name = 'Inpatient'),
-	(SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (e)(1)'),
 	-1
 ),
 ('(e)(1)(i)(B)(2)','Inpatient setting: 170.314(e)(1)(i)(B)(2) Electronically download transition of care/referral summaries that were created as a result of a transition of care (pursuant to the capability expressed in the certification criterion adopted at paragraph (b)(2) of this section)',
 	(SELECT certification_edition_id FROM openchpl.certification_edition WHERE year = '2014'), 
 	(SELECT practice_type_id FROM openchpl.practice_type WHERE name = 'Inpatient'),
-	(SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (e)(1)'),
 	-1
 ),
 ('(e)(1)(i)(C)(2)','Inpatient setting: 170.314(e)(1)(i)(C)(2) Electronically transmit transition of care/referral summaries (as a result of a transition of care/referral) selected by the patient (or their authorized representative) in accordance with at least one of the following: (i) The standard specified in §170.202(a). (ii) Through a method that conforms to the standard specified at §170.202(d) and that leads to such summary being processed by a service that has implemented the standard specified in §170.202(a)', 
 	(SELECT certification_edition_id FROM openchpl.certification_edition WHERE year = '2014'), 
 	(SELECT practice_type_id FROM openchpl.practice_type WHERE name = 'Inpatient'),
-	(SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (e)(1)'),
 	-1
 ),
 ('(f)(3)(ii)','Inpatient setting: 170.314(f)(3)(ii)  The standard (and applicable implementation specifications) specified in §170.205(d)(3)',
 	(SELECT certification_edition_id FROM openchpl.certification_edition WHERE year = '2014'), 
 	(SELECT practice_type_id FROM openchpl.practice_type WHERE name = 'Inpatient'),
-	(SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (f)(3)'),
 	-1
 );
 --2014
@@ -1383,6 +1351,530 @@ INSERT INTO openchpl.test_functionality(number, name, certification_edition_id, 
 (i) Email transmission to any email address; and
 (ii)An encrypted method of electronic transmission', 3, -1);
 --2015
+
+INSERT INTO openchpl.test_functionality_criteria_map (criteria_id, test_functionality_id, last_modified_user)
+VALUES (
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (a)(1)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(a)(1)(ii)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (a)(2)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(a)(2)(ii)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (a)(3)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(a)(3)(ii)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (a)(4)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(a)(4)(ii)(B)(1)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (a)(4)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(a)(4)(ii)(B)(2)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (a)(5)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(a)(5)(ii)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (a)(6)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(a)(6)(i)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (a)(6)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(a)(6)(ii)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (a)(7)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(a)(7)(i)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (a)(7)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(a)(7)(ii)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (a)(8)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(a)(8)(i)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (a)(8)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(a)(8)(ii)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (a)(10)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(a)(10)(i)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (a)(10)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(a)(10)(ii)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (a)(13)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(a)(13)(ii)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (a)(14)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(a)(14)(iii)(A)(1)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (a)(14)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(a)(14)(iii)(A)(2)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (b)(1)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(b)(1)(ii)(A)(5)(i)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (b)(1)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(b)(1)(ii)(A)(5)(ii)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (b)(1)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(b)(1)(iii)(E)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (b)(1)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(b)(1)(iii)(F)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (b)(1)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(b)(1)(iii)(G)(1)(ii)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (b)(3)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(b)(3)(iii)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (b)(4)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(b)(4)(v)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (b)(4)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(b)(4)(vi)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (b)(4)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(b)(4)(vii)(A)(2)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (b)(5)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(b)(5)(i)(E)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (b)(5)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(b)(5)(i)(F)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (b)(5)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(b)(5)(ii)(A)(5)(i)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (b)(5)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(b)(5)(ii)(A)(5)(ii)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (b)(6)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(b)(6)(i)(B)(1)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (b)(6)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(b)(6)(i)(B)(2)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (b)(6)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(b)(6)(ii)(E)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (b)(6)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(b)(6)(ii)(F)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (c)(3)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(c)(3)(ii)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (d)(7)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(d)(7)(i)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (d)(7)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(d)(7)(ii)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (d)(9)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(d)(9)(i)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (d)(9)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(d)(9)(ii)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (e)(1)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(e)(1)(i)(A)(2)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (e)(1)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(e)(1)(i)(A)(3)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (e)(1)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(e)(1)(i)(B)(2)(i)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (e)(1)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(e)(1)(i)(B)(2)(ii)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (e)(1)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(e)(1)(i)(B)(3)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (e)(1)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(e)(1)(i)(C)(2)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (g)(4)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(g)(4)(i)(A)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (g)(4)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(g)(4)(i)(B)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (g)(5)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(g)(5)(i)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (g)(5)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(g)(5)(ii)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (g)(5)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(g)(5)(iii)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (b)(1)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '170.102(13)(ii)(C)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (b)(4)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '170.102(13)(ii)(C)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (b)(5)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '170.102(13)(ii)(C)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (b)(6)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '170.102(13)(ii)(C)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (e)(1)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '170.102(13)(ii)(C)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (f)(5)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '170.102(13)(ii)(C)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (g)(6)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '170.102(13)(ii)(C)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (g)(8)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '170.102(13)(ii)(C)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (g)(9)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '170.102(13)(ii)(C)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (b)(1)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '170.102(19)(i)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (b)(4)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '170.102(19)(i)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (b)(5)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '170.102(19)(i)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (b)(6)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '170.102(19)(i)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (e)(1)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '170.102(19)(i)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (f)(5)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '170.102(19)(i)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (g)(6)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '170.102(19)(i)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (g)(8)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '170.102(19)(i)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (g)(9)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '170.102(19)(i)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (b)(1)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '170.102(19)(ii)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (b)(4)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '170.102(19)(ii)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (b)(5)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '170.102(19)(ii)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (b)(6)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '170.102(19)(ii)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (e)(1)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '170.102(19)(ii)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (f)(5)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '170.102(19)(ii)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (g)(6)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '170.102(19)(ii)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (g)(8)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '170.102(19)(ii)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (g)(9)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '170.102(19)(ii)' AND  certification_edition_id = 3),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (a)(6)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(a)(6)(i)' AND  certification_edition_id = 2),
+	-12
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (a)(7)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(a)(7)(i)' AND  certification_edition_id = 2),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (a)(14)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(a)(14)(vi)' AND  certification_edition_id = 2),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (b)(2)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(b)(2)(i)(E)' AND  certification_edition_id = 2),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (b)(7)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(b)(7)(v)' AND  certification_edition_id = 2),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (b)(8)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(b)(8)(iii)(E)' AND  certification_edition_id = 2),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (e)(1)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(e)(1)(i)(A)(2)' AND  certification_edition_id = 2),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (e)(1)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(e)(1)(i)(B)(1)(i)' AND  certification_edition_id = 2),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (f)(3)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(f)(3)(i)' AND  certification_edition_id = 2),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (a)(5)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(a)(5)(ii)' AND  certification_edition_id = 2),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (a)(6)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(a)(6)(ii)' AND  certification_edition_id = 2),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (a)(7)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(a)(7)(ii)' AND  certification_edition_id = 2),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (b)(2)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(b)(2)(i)(F)' AND  certification_edition_id = 2),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (b)(7)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(b)(7)(vi)' AND  certification_edition_id = 2),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (b)(8)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(b)(8)(iii)(F)' AND  certification_edition_id = 2),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (e)(1)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(e)(1)(i)(A)(3)' AND  certification_edition_id = 2),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (e)(1)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(e)(1)(i)(B)(2)' AND  certification_edition_id = 2),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (e)(1)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(e)(1)(i)(C)(2)' AND  certification_edition_id = 2),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (f)(3)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(f)(3)(ii)' AND  certification_edition_id = 2),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (a)(4)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(a)(4)(iii)' AND  certification_edition_id = 2),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (b)(1)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(b)(1)(i)(B)' AND  certification_edition_id = 2),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (b)(1)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(b)(1)(i)(C)' AND  certification_edition_id = 2),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (f)(3)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(f)(3)(i)(B)' AND  certification_edition_id = 2),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (f)(7)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(f)(7)(i)' AND  certification_edition_id = 2),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (a)(5)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(a)(5)(i)' AND  certification_edition_id = 2),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (a)(8)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(a)(8)(iii)(B)(3)' AND  certification_edition_id = 2),
+	-1
+),
+(
+    (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.314 (e)(1)'),
+    (SELECT test_functionality_id FROM openchpl.test_functionality WHERE number = '(e)(1)(i)(B)(1)(ii)' AND  certification_edition_id = 2),
+	-1
+);
+
+
 
 INSERT INTO openchpl.accessibility_standard(name, last_modified_user) VALUES
 ('170.204(a)(1)', -1),
@@ -1786,3 +2278,8 @@ VALUES
 ('2015 CHPL Upload Template v12', '2017-12-04',
     'UNIQUE_CHPL_ID__C,RECORD_STATUS__C,VENDOR__C,PRODUCT__C,VERSION__C,CERT_YEAR__C,ACB_CERTIFICATION_ID__C,CERTIFYING_ACB__C,TESTING_ATL__C,CERTIFICATION_DATE__C,VENDOR_STREET_ADDRESS__C,VENDOR_STATE__C,VENDOR_CITY__C,VENDOR_ZIP__C,VENDOR_WEBSITE__C,VENDOR_EMAIL__C,VENDOR_PHONE__C,VENDOR_CONTACT_NAME__C,Developer-Identified Target Users,QMS Standard,QMS Standard Applicable Criteria,QMS Modification Description,ICS,ICS Source,Accessibility Certified,Accessibility Standard,170.523(k)(1) URL,170.523(k)(2) ATTESTATION,CQM Number,CQM Version,CQM Criteria,SED Report Hyperlink,Description of the Intended Users,Date SED Testing was Concluded,Participant Identifier,Participant Gender,Participant Age,Participant Education,Participant Occupation/Role,Participant Professional Experience,Participant Computer Experience,Participant Product Experience,Participant Assistive Technology Needs,Task Identifier,Task Description,Task Success - Mean (%),Task Success - Standard Deviation (%),Task Path Deviation - Observed #,Task Path Deviation - Optimal #,Task Time - Mean (seconds),Task Time - Standard Deviation (seconds),Task Time Deviation - Mean Observed Seconds,Task Time Deviation - Mean Optimal Seconds,Task Errors  Mean(%),Task Errors - Standard Deviation (%),Task Rating - Scale Type,Task Rating,Task Rating - Standard Deviation,CRITERIA_170_315_A_1__C,GAP,Privacy and Security Framework,Functionality Tested,Measure Successfully Tested for G1,Measure Successfully Tested for G2,Additional Software,CP Source,CP Source Grouping,Non CP Source,Non CP Source Version,Non CP Source Grouping,Test procedure version,UCD Process Selected,UCD Process Details,Task Identifier,Participant Identifier,CRITERIA_170_315_A_2__C,GAP,Privacy and Security Framework,Functionality Tested,Measure Successfully Tested for G1,Measure Successfully Tested for G2,Additional Software,CP Source,CP Source Grouping,Non CP Source,Non CP Source Version,Non CP Source Grouping,Test procedure version,UCD Process Selected,UCD Process Details,Task Identifier,Participant Identifier,CRITERIA_170_315_A_3__C,GAP,Privacy and Security Framework,Functionality Tested,Measure Successfully Tested for G1,Measure Successfully Tested for G2,Additional Software,CP Source,CP Source Grouping,Non CP Source,Non CP Source Version,Non CP Source Grouping,Test procedure version,UCD Process Selected,UCD Process Details,Task Identifier,Participant Identifier,CRITERIA_170_315_A_4__C,GAP,Privacy and Security Framework,Functionality Tested,Additional Software,CP Source,CP Source Grouping,Non CP Source,Non CP Source Version,Non CP Source Grouping,Test procedure version,UCD Process Selected,UCD Process Details,Task Identifier,Participant Identifier,CRITERIA_170_315_A_5__C,Privacy and Security Framework,Standard Tested Against,Functionality Tested,Additional Software,CP Source,CP Source Grouping,Non CP Source,Non CP Source Version,Non CP Source Grouping,Test procedure version,UCD Process Selected,UCD Process Details,Task Identifier,Participant Identifier,CRITERIA_170_315_A_6__C,Privacy and Security Framework,Standard Tested Against,Functionality Tested,Additional Software,CP Source,CP Source Grouping,Non CP Source,Non CP Source Version,Non CP Source Grouping,Test procedure version,UCD Process Selected,UCD Process Details,Task Identifier,Participant Identifier,CRITERIA_170_315_A_7__C,GAP,Privacy and Security Framework,Functionality Tested,Additional Software,CP Source,CP Source Grouping,Non CP Source,Non CP Source Version,Non CP Source Grouping,Test procedure version,UCD Process Selected,UCD Process Details,Task Identifier,Participant Identifier,CRITERIA_170_315_A_8__C,GAP,Privacy and Security Framework,Functionality Tested,Additional Software,CP Source,CP Source Grouping,Non CP Source,Non CP Source Version,Non CP Source Grouping,Test procedure version,UCD Process Selected,UCD Process Details,Task Identifier,Participant Identifier,CRITERIA_170_315_A_9__C,Privacy and Security Framework,Standard Tested Against,Additional Software,CP Source,CP Source Grouping,Non CP Source,Non CP Source Version,Non CP Source Grouping,Test procedure version,UCD Process Selected,UCD Process Details,Task Identifier,Participant Identifier,CRITERIA_170_315_A_10__C,GAP,Privacy and Security Framework,Functionality Tested,Measure Successfully Tested for G1,Measure Successfully Tested for G2,Additional Software,CP Source,CP Source Grouping,Non CP Source,Non CP Source Version,Non CP Source Grouping,Test procedure version,CRITERIA_170_315_A_11__C,GAP,Privacy and Security Framework,Additional Software,CP Source,CP Source Grouping,Non CP Source,Non CP Source Version,Non CP Source Grouping,Test procedure version,CRITERIA_170_315_A_12__C,Privacy and Security Framework,Standard Tested Against,Additional Software,CP Source,CP Source Grouping,Non CP Source,Non CP Source Version,Non CP Source Grouping,Test procedure version,CRITERIA_170_315_A_13__C,Privacy and Security Framework,Standard Tested Against,Functionality Tested,Measure Successfully Tested for G1,Measure Successfully Tested for G2,Additional Software,CP Source,CP Source Grouping,Non CP Source,Non CP Source Version,Non CP Source Grouping,Test procedure version,CRITERIA_170_315_A_14__C,Privacy and Security Framework,Standard Tested Against,Functionality Tested,Additional Software,CP Source,CP Source Grouping,Non CP Source,Non CP Source Version,Non CP Source Grouping,Test procedure version,UCD Process Selected,UCD Process Details,Task Identifier,Participant Identifier,CRITERIA_170_315_A_15__C,Privacy and Security Framework,Standard Tested Against,Additional Software,CP Source,CP Source Grouping,Non CP Source,Non CP Source Version,Non CP Source Grouping,Test procedure version,CRITERIA_170_315_B_1__C,Privacy and Security Framework,Standard Tested Against,Functionality Tested,Measure Successfully Tested for G1,Measure Successfully Tested for G2,Additional Software,CP Source,CP Source Grouping,Non CP Source,Non CP Source Version,Non CP Source Grouping,Test tool name,Test tool version,Test Procedure,Test procedure version,Test Data,Test data version,Test data alteration,Test data alteration description,CRITERIA_170_315_B_2__C,Privacy and Security Framework,Standard Tested Against,Functionality Tested,Measure Successfully Tested for G1,Measure Successfully Tested for G2,Additional Software,CP Source,CP Source Grouping,Non CP Source,Non CP Source Version,Non CP Source Grouping,Test tool name,Test tool version,Test Procedure,Test procedure version,Test Data,Test data version,Test data alteration,Test data alteration description,UCD Process Selected,UCD Process Details,Task Identifier,Participant Identifier,CRITERIA_170_315_B_3__C,Privacy and Security Framework,Standard Tested Against,Functionality Tested,Measure Successfully Tested for G1,Measure Successfully Tested for G2,Additional Software,CP Source,CP Source Grouping,Non CP Source,Non CP Source Version,Non CP Source Grouping,Test tool name,Test tool version,Test Procedure,Test procedure version,Test Data,Test data version,Test data alteration,Test data alteration description,UCD Process Selected,UCD Process Details,Task Identifier,Participant Identifier,CRITERIA_170_315_B_4__C,Privacy and Security Framework,Standard Tested Against,Functionality Tested,Additional Software,CP Source,CP Source Grouping,Non CP Source,Non CP Source Version,Non CP Source Grouping,Test tool name,Test tool version,Test Procedure,Test procedure version,Test Data,Test data version,Test data alteration,Test data alteration description,CRITERIA_170_315_B_5__C,Privacy and Security Framework,Standard Tested Against,Functionality Tested,Additional Software,CP Source,CP Source Grouping,Non CP Source,Non CP Source Version,Non CP Source Grouping,Test tool name,Test tool version,Test Procedure,Test procedure version,Test Data,Test data version,Test data alteration,Test data alteration description,CRITERIA_170_315_B_6__C,Privacy and Security Framework,Standard Tested Against,Functionality Tested,Additional Software,CP Source,CP Source Grouping,Non CP Source,Non CP Source Version,Non CP Source Grouping,Test tool name,Test tool version,Test Procedure,Test procedure version,Test Data,Test data version,Test data alteration,Test data alteration description,CRITERIA_170_315_B_7__C,Privacy and Security Framework,Standard Tested Against,Additional Software,CP Source,CP Source Grouping,Non CP Source,Non CP Source Version,Non CP Source Grouping,Test tool name,Test tool version,Test Procedure,Test procedure version,CRITERIA_170_315_B_8__C,Privacy and Security Framework,Standard Tested Against,Additional Software,CP Source,CP Source Grouping,Non CP Source,Non CP Source Version,Non CP Source Grouping,Test tool name,Test tool version,Test Procedure,Test procedure version,Test Data,Test data version,Test data alteration,Test data alteration description,CRITERIA_170_315_B_9__C,Privacy and Security Framework,Standard Tested Against,Additional Software,CP Source,CP Source Grouping,Non CP Source,Non CP Source Version,Non CP Source Grouping,Test tool name,Test tool version,Test Procedure,Test procedure version,Test Data,Test data version,Test data alteration,Test data alteration description,CRITERIA_170_315_C_1__C,Privacy and Security Framework,Standard Tested Against,Additional Software,CP Source,CP Source Grouping,Non CP Source,Non CP Source Version,Non CP Source Grouping,Test tool name,Test tool version,Test Procedure,Test procedure version,Test Data,Test data version,Test data alteration,Test data alteration description,CRITERIA_170_315_C_2__C,Privacy and Security Framework,Standard Tested Against,Additional Software,CP Source,CP Source Grouping,Non CP Source,Non CP Source Version,Non CP Source Grouping,Test tool name,Test tool version,Test Procedure,Test procedure version,Test Data,Test data version,Test data alteration,Test data alteration description,CRITERIA_170_315_C_3__C,Privacy and Security Framework,Standard Tested Against,Functionality Tested,Additional Software,CP Source,CP Source Grouping,Non CP Source,Non CP Source Version,Non CP Source Grouping,Test tool name,Test tool version,Test Procedure,Test procedure version,Test Data,Test data version,Test data alteration,Test data alteration description,CRITERIA_170_315_C_4__C,Privacy and Security Framework,Standard Tested Against,Additional Software,CP Source,CP Source Grouping,Non CP Source,Non CP Source Version,Non CP Source Grouping,Test tool name,Test tool version,Test Procedure,Test procedure version,Test Data,Test data version,Test data alteration,Test data alteration description,CRITERIA_170_315_D_1__C,GAP,Additional Software,CP Source,CP Source Grouping,Non CP Source,Non CP Source Version,Non CP Source Grouping,Test procedure version,CRITERIA_170_315_D_2__C,Standard Tested Against,Additional Software,CP Source,CP Source Grouping,Non CP Source,Non CP Source Version,Non CP Source Grouping,Test procedure version,CRITERIA_170_315_D_3__C,Standard Tested Against,Additional Software,CP Source,CP Source Grouping,Non CP Source,Non CP Source Version,Non CP Source Grouping,Test procedure version,CRITERIA_170_315_D_4__C,GAP,Additional Software,CP Source,CP Source Grouping,Non CP Source,Non CP Source Version,Non CP Source Grouping,Test procedure version,CRITERIA_170_315_D_5__C,GAP,Additional Software,CP Source,CP Source Grouping,Non CP Source,Non CP Source Version,Non CP Source Grouping,Test procedure version,CRITERIA_170_315_D_6__C,GAP,Additional Software,CP Source,CP Source Grouping,Non CP Source,Non CP Source Version,Non CP Source Grouping,Test procedure version,CRITERIA_170_315_D_7__C,GAP,Standard Tested Against,Functionality Tested,Additional Software,CP Source,CP Source Grouping,Non CP Source,Non CP Source Version,Non CP Source Grouping,Test procedure version,CRITERIA_170_315_D_8__C,Standard Tested Against,Additional Software,CP Source,CP Source Grouping,Non CP Source,Non CP Source Version,Non CP Source Grouping,Test procedure version,CRITERIA_170_315_D_9__C,Standard Tested Against,Functionality Tested,Additional Software,CP Source,CP Source Grouping,Non CP Source,Non CP Source Version,Non CP Source Grouping,Test procedure version,CRITERIA_170_315_D_10__C,Standard Tested Against,Additional Software,CP Source,CP Source Grouping,Non CP Source,Non CP Source Version,Non CP Source Grouping,Test procedure version,CRITERIA_170_315_D_11__C,GAP,Standard Tested Against,Additional Software,CP Source,CP Source Grouping,Non CP Source,Non CP Source Version,Non CP Source Grouping,Test procedure version,CRITERIA_170_315_E_1__C,Privacy and Security Framework,Standard Tested Against,Functionality Tested,Measure Successfully Tested for G1,Measure Successfully Tested for G2,Additional Software,CP Source,CP Source Grouping,Non CP Source,Non CP Source Version,Non CP Source Grouping,Test tool name,Test tool version,Test Procedure,Test procedure version,Test Data,Test data version,Test data alteration,Test data alteration description,CRITERIA_170_315_E_2__C,Privacy and Security Framework,Measure Successfully Tested for G1,Measure Successfully Tested for G2,Additional Software,CP Source,CP Source Grouping,Non CP Source,Non CP Source Version,Non CP Source Grouping,Test procedure version,CRITERIA_170_315_E_3__C,Privacy and Security Framework,Measure Successfully Tested for G1,Measure Successfully Tested for G2,Additional Software,CP Source,CP Source Grouping,Non CP Source,Non CP Source Version,Non CP Source Grouping,Test procedure version,CRITERIA_170_315_F_1__C,Privacy and Security Framework,Standard Tested Against,Additional Software,CP Source,CP Source Grouping,Non CP Source,Non CP Source Version,Non CP Source Grouping,Test tool name,Test tool version,Test Procedure,Test procedure version,Test Data,Test data version,Test data alteration,Test data alteration description,CRITERIA_170_315_F_2__C,Privacy and Security Framework,Standard Tested Against,Additional Software,CP Source,CP Source Grouping,Non CP Source,Non CP Source Version,Non CP Source Grouping,Test tool name,Test tool version,Test Procedure,Test procedure version,Test Data,Test data version,Test data alteration,Test data alteration description,CRITERIA_170_315_F_3__C,GAP,Privacy and Security Framework,Standard Tested Against,Additional Software,CP Source,CP Source Grouping,Non CP Source,Non CP Source Version,Non CP Source Grouping,Test tool name,Test tool version,Test Procedure,Test procedure version,Test Data,Test data version,Test data alteration,Test data alteration description,CRITERIA_170_315_F_4__C,Privacy and Security Framework,Standard Tested Against,Additional Software,CP Source,CP Source Grouping,Non CP Source,Non CP Source Version,Non CP Source Grouping,Test tool name,Test tool version,Test Procedure,Test procedure version,Test Data,Test data version,Test data alteration,Test data alteration description,CRITERIA_170_315_F_5__C,Privacy and Security Framework,Standard Tested Against,Functionality Tested,Additional Software,CP Source,CP Source Grouping,Non CP Source,Non CP Source Version,Non CP Source Grouping,Test procedure version,CRITERIA_170_315_F_6__C,Privacy and Security Framework,Standard Tested Against,Additional Software,CP Source,CP Source Grouping,Non CP Source,Non CP Source Version,Non CP Source Grouping,Test tool name,Test tool version,Test Procedure,Test procedure version,CRITERIA_170_315_F_7__C,Privacy and Security Framework,Standard Tested Against,Additional Software,CP Source,CP Source Grouping,Non CP Source,Non CP Source Version,Non CP Source Grouping,Test tool name,Test tool version,Test Procedure,Test procedure version,Test Data,Test data version,Test data alteration,Test data alteration description,CRITERIA_170_315_G_1__C,Additional Software,CP Source,CP Source Grouping,Non CP Source,Non CP Source Version,Non CP Source Grouping,Test Procedure,Test procedure version,Test Data,Test data version,Test data alteration,Test data alteration description,CRITERIA_170_315_G_2__C,Additional Software,CP Source,CP Source Grouping,Non CP Source,Non CP Source Version,Non CP Source Grouping,Test Procedure,Test procedure version,Test Data,Test data version,Test data alteration,Test data alteration description,CRITERIA_170_315_G_3__C,Additional Software,CP Source,CP Source Grouping,Non CP Source,Non CP Source Version,Non CP Source Grouping,Test Procedure,Test procedure version,CRITERIA_170_315_G_4__C,Functionality Tested,Additional Software,CP Source,CP Source Grouping,Non CP Source,Non CP Source Version,Non CP Source Grouping,Test Procedure,Test procedure version,CRITERIA_170_315_G_5__C,Functionality Tested,Additional Software,CP Source,CP Source Grouping,Non CP Source,Non CP Source Version,Non CP Source Grouping,Test Procedure,Test procedure version,CRITERIA_170_315_G_6__C,Standard Tested Against,Functionality Tested,Additional Software,CP Source,CP Source Grouping,Non CP Source,Non CP Source Version,Non CP Source Grouping,Test tool name,Test tool version,Test Procedure,Test procedure version,Test Data,Test data version,Test data alteration,Test data alteration description,CRITERIA_170_315_G_7__C,Privacy and Security Framework,API Documentation Link,Additional Software,CP Source,CP Source Grouping,Non CP Source,Non CP Source Version,Non CP Source Grouping,Test procedure version,CRITERIA_170_315_G_8__C,Privacy and Security Framework,Standard Tested Against,Functionality Tested,API Documentation Link,Measure Successfully Tested for G1,Measure Successfully Tested for G2,Additional Software,CP Source,CP Source Grouping,Non CP Source,Non CP Source Version,Non CP Source Grouping,Test Procedure,Test procedure version,CRITERIA_170_315_G_9__C,Privacy and Security Framework,Standard Tested Against,Functionality Tested,API Documentation Link,Measure Successfully Tested for G1,Measure Successfully Tested for G2,Additional Software,CP Source,CP Source Grouping,Non CP Source,Non CP Source Version,Non CP Source Grouping,Test tool name,Test tool version,Test Procedure,Test procedure version,Test Data,Test data version,Test data alteration,Test data alteration description,CRITERIA_170_315_H_1__C,Privacy and Security Framework,Standard Tested Against,Additional Software,CP Source,CP Source Grouping,Non CP Source,Non CP Source Version,Non CP Source Grouping,Test tool name,Test tool version,Test Procedure,Test procedure version,Test Data,Test data version,Test data alteration,Test data alteration description,CRITERIA_170_315_H_2__C,Privacy and Security Framework,Standard Tested Against,Additional Software,CP Source,CP Source Grouping,Non CP Source,Non CP Source Version,Non CP Source Grouping,Test tool name,Test tool version,Test Procedure,Test procedure version,Test Data,Test data version,Test data alteration,Test data alteration description', 
     -1, false, false);
+
+INSERT INTO openchpl.file_type
+(name, description, last_modified_user)
+VALUES
+('Api Documentation', 'Api Documentation', -1);
