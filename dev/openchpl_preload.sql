@@ -2271,10 +2271,6 @@ SELECT pg_catalog.setval('user_permission_user_permission_id_seq', 8, true);
 INSERT INTO global_user_permission_map (user_id, user_permission_id_user_permission, last_modified_user) VALUES (-2, -2, -1);
 SELECT pg_catalog.setval('global_user_permission_map_global_user_permission_id_seq', 16, true);
 
-INSERT INTO openchpl.notification_type (name, description, requires_acb, last_modified_user)
-VALUES ('Questionable Activity', 'An email that is generated whenever ONC-specified user actions on the CHPL occur.', false, -1);
-
-INSERT INTO openchpl.notification_type_permission (notification_type_id, permission_id, last_modified_user) SELECT id, -2, -1 FROM openchpl.notification_type WHERE name = 'Questionable Activity';
 
 INSERT INTO openchpl.upload_template_version (name, available_as_of_date, header_csv, last_modified_user, deprecated, deleted)
 VALUES

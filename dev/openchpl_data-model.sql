@@ -2672,66 +2672,6 @@ CREATE TABLE openchpl.questionable_activity_certification_result (
 		MATCH FULL ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-CREATE TABLE openchpl.notification_type(
-	id bigserial NOT NULL,
-	name varchar(255) NOT NULL,
-	description varchar(1024),
-	requires_acb boolean NOT NULL,
-	creation_date timestamp NOT NULL DEFAULT NOW(),
-	last_modified_date timestamp NOT NULL DEFAULT NOW(),
-	last_modified_user bigint NOT NULL,
-	deleted bool NOT NULL DEFAULT false,
-	CONSTRAINT notification_type_pk PRIMARY KEY (id)
-);
-
-CREATE TABLE openchpl.notification_type_permission(
-	id bigserial NOT NULL,
-	notification_type_id bigint NOT NULL,
-	permission_id bigint NOT NULL,
-	creation_date timestamp NOT NULL DEFAULT NOW(),
-	last_modified_date timestamp NOT NULL DEFAULT NOW(),
-	last_modified_user bigint NOT NULL,
-	deleted bool NOT NULL DEFAULT false,
-	CONSTRAINT notification_type_permission_pk PRIMARY KEY (id),
-	CONSTRAINT notification_type_fk FOREIGN KEY (notification_type_id)
-      REFERENCES openchpl.notification_type (id) MATCH SIMPLE
-      ON UPDATE NO ACTION ON DELETE RESTRICT,
-	CONSTRAINT permission_fk FOREIGN KEY (permission_id)
-      REFERENCES openchpl.user_permission (user_permission_id) MATCH SIMPLE
-      ON UPDATE NO ACTION ON DELETE RESTRICT
-);
-
-CREATE TABLE openchpl.notification_recipient(
-	id bigserial NOT NULL,
-	email varchar(255) NOT NULL,
-	creation_date timestamp NOT NULL DEFAULT NOW(),
-	last_modified_date timestamp NOT NULL DEFAULT NOW(),
-	last_modified_user bigint NOT NULL,
-	deleted bool NOT NULL DEFAULT false,
-	CONSTRAINT notification_recipient_pk PRIMARY KEY (id)
-);
-
-CREATE TABLE openchpl.notification_type_recipient_map(
-	id bigserial NOT NULL,
-	recipient_id bigint NOT NULL,
-	notification_type_id bigint NOT NULL,
-	acb_id bigint,
-	creation_date timestamp NOT NULL DEFAULT NOW(),
-	last_modified_date timestamp NOT NULL DEFAULT NOW(),
-	last_modified_user bigint NOT NULL,
-	deleted bool NOT NULL DEFAULT false,
-	CONSTRAINT notification_type_recipient_map_pk PRIMARY KEY (id),
-	CONSTRAINT recipient_fk FOREIGN KEY (recipient_id)
-      REFERENCES openchpl.notification_recipient (id) MATCH SIMPLE
-      ON UPDATE NO ACTION ON DELETE RESTRICT,
-	CONSTRAINT notification_type_fk FOREIGN KEY (notification_type_id)
-      REFERENCES openchpl.notification_type (id) MATCH SIMPLE
-      ON UPDATE NO ACTION ON DELETE RESTRICT,
-	CONSTRAINT acb_fk FOREIGN KEY (acb_id)
-      REFERENCES openchpl.certification_body (certification_body_id) MATCH SIMPLE
-      ON UPDATE NO ACTION ON DELETE RESTRICT
-);
-
 CREATE TABLE openchpl.job_type (
 	id bigserial NOT NULL,
 	name varchar(500) NOT NULL,

@@ -73,3 +73,14 @@ SET deleted = false;
 ----------------------------------------------------
 -- END OCD-1665 Retire ACBs and ATLS
 ----------------------------------------------------
+
+----------------------------------------------------
+-- OCD-2554: Remove old notification infrastructure
+----------------------------------------------------
+DROP TABLE IF EXISTS openchpl.notification_type_recipient_map;
+DROP TABLE IF EXISTS openchpl.notification_recipient;
+DROP TABLE IF EXISTS openchpl.notification_type_permission;
+DROP TABLE IF EXISTS openchpl.notification_type;
+----------------------------------------------------
+-- End Remove old notification infrastructure
+----------------------------------------------------

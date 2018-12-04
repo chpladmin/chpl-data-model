@@ -1,6 +1,9 @@
 
-## Version 14.12.0
+## Version 15.0.0
 _Date TBD_
+
+### Major changes
+* Removed the following tables: notification_type_recipient_map, notification_recipient, notification_type_permission, and notification_type.
 
 ### Table Modifications
 * Add retired column for certification bodies and testing labs.
