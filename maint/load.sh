@@ -29,8 +29,6 @@ pg_restore --host $host --username $user --no-password --verbose --clean --if-ex
 
 case $env in
     stg)
-        # always update subscriptions
-        psql --host $host --username $user -f subscriptions.sql openchpl
         # add users if we're on "stg" environment
         usersFile=users.sql
         if [ -f $usersFile ]
