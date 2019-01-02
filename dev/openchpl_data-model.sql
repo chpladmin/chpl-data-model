@@ -2424,19 +2424,6 @@ CREATE TABLE openchpl.pending_surveillance_validation (
 		MATCH FULL ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-CREATE TABLE openchpl.muu_accurate_as_of_date (
-	muu_accurate_as_of_date_id bigserial NOT NULL,
-	accurate_as_of_date timestamp without time zone NOT NULL,
-	creation_date timestamp without time zone NOT NULL DEFAULT now(),
-	last_modified_date timestamp without time zone NOT NULL DEFAULT now(),
-	last_modified_user bigint NOT NULL,
-	deleted boolean NOT NULL DEFAULT false,
-	CONSTRAINT muu_accurate_as_of_date_pk PRIMARY KEY (muu_accurate_as_of_date_id)
-)
-WITH (
-  OIDS=FALSE
-);
-
 -- friendly id trigger/function
 
 CREATE OR REPLACE FUNCTION openchpl.friendly_surveillance_id_func()

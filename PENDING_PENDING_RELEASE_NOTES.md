@@ -3,7 +3,8 @@
 _Date TBD_
 
 ### Table Modifications
-* Remov unused Contact fields
+* Remove unused Contact fields
+* Remove obsolete MUU table; MUU value from certified product
 
 ### Data Modifications
 * Change a variety of test functionalities to correct values

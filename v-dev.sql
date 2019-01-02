@@ -136,3 +136,7 @@ update only openchpl.certification_result_test_functionality as crtf set test_fu
 -- OCD-794
 alter table openchpl.contact drop column if exists first_name;
 alter table openchpl.contact drop column if exists last_name;
+
+-- OCD-1739
+DROP TABLE IF EXISTS openchpl.accurate_as_of_date;
+ALTER TABLE openchpl.certified_product DROP COLUMN IF EXISTS meaningful_use_users;
