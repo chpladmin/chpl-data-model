@@ -140,3 +140,13 @@ alter table openchpl.contact drop column if exists last_name;
 -- OCD-1739
 DROP TABLE IF EXISTS openchpl.accurate_as_of_date;
 ALTER TABLE openchpl.certified_product DROP COLUMN IF EXISTS meaningful_use_users;
+
+--OCD-1897 Cleanup
+-- * removing old ATL column from certified_product table
+-- * as well as pending_certified_product table
+alter table openchpl.certified_product
+drop column if exists testing_lab_id;
+alter table openchpl.pending_certified_product
+drop column if exists testing_lab_id;
+alter table openchpl.pending_certified_product
+drop column if exists testing_lab_name;
