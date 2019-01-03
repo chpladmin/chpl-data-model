@@ -623,3 +623,6 @@ drop column if exists testing_lab_name;
 
 --OCD-2532
 ALTER TABLE openchpl.test_functionality DROP COLUMN IF EXISTS certification_criterion_id_deleted;
+
+--re-run grants
+\i dev/openchpl_grant-all.sql
