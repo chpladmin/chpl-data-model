@@ -2256,8 +2256,6 @@ VALUES
 ('MUU Upload', 'Uploading a potentially large CSV file with Meaningful Use user counts per listing.', 'MUU Upload is complete.', -1),
 ('Surveillance Upload', 'Uploading a file with many surveillance items.', 'Surveillance upload is complete', -1);
 
-INSERT INTO openchpl.muu_accurate_as_of_date (accurate_as_of_date, last_modified_user) values('11/30/2016', -1);
-
 INSERT INTO user_permission (user_permission_id, "name", description, authority, last_modified_user) VALUES
 (-2, 'ADMIN', 'This permission confers administrative privileges to its owner.', 'ROLE_ADMIN', -1),
 (1, 'USER_CREATOR' ,'This permission allows a user to create other users', 'ROLE_USER_CREATOR' , -1),
