@@ -120,3 +120,12 @@ BEGIN
 END;
 $$ language 'plpgsql';
 CREATE TRIGGER test_task_participant_map_soft_delete AFTER UPDATE of deleted on openchpl.test_task_participant_map FOR EACH ROW EXECUTE PROCEDURE openchpl.test_task_participant_map_soft_delete();
+
+CREATE OR REPLACE FUNCTION openchpl.certified_product_testing_lab_map_soft_delete()
+RETURNS TRIGGER AS $$
+BEGIN
+    UPDATE openchpl.certified_product_testing_lab_map as src SET deleted = NEW.deleted WHERE src.certified_product_id = NEW.certified_product_id;
+    RETURN NEW;
+END;
+$$ language 'plpgsql';
+CREATE TRIGGER certified_product_testing_lab_map AFTER UPDATE of deleted on openchpl.certified_product FOR EACH ROW EXECUTE PROCEDURE openchpl.certified_product_testing_lab_map_soft_delete();
