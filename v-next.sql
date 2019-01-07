@@ -618,8 +618,6 @@ alter table openchpl.certified_product
 drop column if exists testing_lab_id;
 alter table openchpl.pending_certified_product
 drop column if exists testing_lab_id;
-alter table openchpl.pending_certified_product
-drop column if exists testing_lab_name;
 
 --OCD-2532
 ALTER TABLE openchpl.test_functionality DROP COLUMN IF EXISTS certification_criterion_id_deleted;
