@@ -631,6 +631,25 @@ FROM openchpl.vendor v
 WHERE v.deleted != true
 GROUP BY v.vendor_id, v.name, s.name;
 
+create or replace function openchpl.get_chpl_product_number(id bigint) returns
+    table (
+        chpl_product_number varchar
+        ) as $$
+    begin
+    return query
+select
+    COALESCE(a.chpl_product_number, substring(b.year from 3 for 2)||'.'||(select openchpl.get_testing_lab_code(a.certified_product_id))||'.'||c.certification_body_code||'.'||h.vendor_code||'.'||a.product_code||'.'||a.version_code||'.'||a.ics_code||'.'||a.additional_software_code||'.'||a.certified_date_code) as "chpl_product_number"
+FROM openchpl.certified_product a
+    LEFT JOIN (SELECT certification_edition_id, year FROM openchpl.certification_edition) b on a.certification_edition_id = b.certification_edition_id
+    LEFT JOIN (SELECT certification_body_id, name as "certification_body_name", acb_code as "certification_body_code", deleted as "acb_is_deleted" FROM openchpl.certification_body) c on a.certification_body_id = c.certification_body_id
+    LEFT JOIN (SELECT product_version_id, version as "product_version", product_id from openchpl.product_version) f on a.product_version_id = f.product_version_id
+    LEFT JOIN (SELECT product_id, vendor_id, name as "product_name" FROM openchpl.product) g ON f.product_id = g.product_id
+    LEFT JOIN (SELECT vendor_id, name as "vendor_name", vendor_code, website as "vendor_website", address_id as "vendor_address", contact_id as "vendor_contact", vendor_status_id from openchpl.vendor) h on g.vendor_id = h.vendor_id
+WHERE a.certified_product_id = id;
+    end;
+    $$ language plpgsql
+stable;
+
 -- * removing old ATL column from certified_product table
 -- * as well as pending_certified_product table
 alter table openchpl.certified_product
