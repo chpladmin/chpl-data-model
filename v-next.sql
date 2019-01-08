@@ -643,5 +643,3 @@ ALTER TABLE openchpl.test_functionality DROP COLUMN IF EXISTS certification_crit
 
 --re-run grants
 \i dev/openchpl_grant-all.sql
---re-add soft delete triggers
-\i dev/openchpl_soft-delete.sql
