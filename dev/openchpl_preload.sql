@@ -1,4 +1,4 @@
-insert into openchpl.data_model_version (version, deploy_date, last_modified_user) values ('0.0.1', now(), -1),
+insert into openchpl.data_model_version (version, deploy_date, last_modified_user) values ('0.0.1', now(), -1);
 insert into openchpl.practice_type (name, description, last_modified_user) values ('Ambulatory', 'Ambulatory', -1), ('Inpatient', 'Inpatient', -1);
 insert into openchpl.product_classification_type (name, description, last_modified_user) values ('Modular EHR', 'Modular EHR', -1), ('Complete EHR', 'Complete EHR', -1);
 insert into openchpl.certification_edition (year, retired, last_modified_user) values (2011, true, -1), (2014, false, -1), (2015, false, -1);
