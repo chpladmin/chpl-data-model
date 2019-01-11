@@ -641,6 +641,8 @@ drop column if exists testing_lab_id;
 --OCD-2532
 ALTER TABLE openchpl.test_functionality DROP COLUMN IF EXISTS certification_criterion_id_deleted;
 
+--OCD-2648
+ALTER TABLE openchpl.pending_certified_product_targeted_user ALTER COLUMN targeted_user_name TYPE text;
 drop table if exists openchpl.data_model_version;
 create table openchpl.data_model_version(
         id bigserial not null,

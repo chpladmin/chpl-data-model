@@ -7,6 +7,7 @@ _Date TBD_
 * Remove obsolete MUU table; MUU value from certified product
 * Remove unused ATL references due to change to multiple ATL capability
 * Remove old test functionality reference
+* Change targeted user name type to be text
 * Add and populate Data-Model Version table
 
 ### Data Modifications
