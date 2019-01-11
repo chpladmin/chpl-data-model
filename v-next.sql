@@ -641,5 +641,12 @@ drop column if exists testing_lab_id;
 --OCD-2532
 ALTER TABLE openchpl.test_functionality DROP COLUMN IF EXISTS certification_criterion_id_deleted;
 
+--OCD-2635
+ALTER TABLE openchpl.pending_test_participant DROP COLUMN IF EXISTS test_participant_unique_id;
+ALTER TABLE openchpl.pending_test_participant ADD COLUMN test_participant_unique_id text;
+
+ALTER TABLE openchpl.pending_test_task DROP COLUMN IF EXISTS test_task_unique_id;
+ALTER TABLE openchpl.pending_test_task ADD COLUMN test_task_unique_id text;
+
 --re-run grants
 \i dev/openchpl_grant-all.sql
