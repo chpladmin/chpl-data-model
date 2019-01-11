@@ -646,6 +646,8 @@ ALTER TABLE openchpl.pending_test_participant ALTER COLUMN test_participant_uniq
 
 ALTER TABLE openchpl.pending_test_task ALTER COLUMN test_task_unique_id TYPE text;
 
+--OCD-2648
+ALTER TABLE openchpl.pending_certified_product_targeted_user ALTER COLUMN targeted_user_name TYPE text;
 drop table if exists openchpl.data_model_version;
 create table openchpl.data_model_version(
         id bigserial not null,

@@ -1627,7 +1627,7 @@ CREATE TABLE openchpl.pending_certified_product_targeted_user (
 	pending_certified_product_targeted_user_id bigserial not null,
 	pending_certified_product_id bigint not null,
 	targeted_user_id bigint,
-	targeted_user_name varchar(300),
+	targeted_user_name text,
 	creation_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_user bigint NOT NULL,
