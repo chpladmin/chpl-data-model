@@ -642,11 +642,7 @@ drop column if exists testing_lab_id;
 ALTER TABLE openchpl.test_functionality DROP COLUMN IF EXISTS certification_criterion_id_deleted;
 
 --OCD-2648
-ALTER TABLE openchpl.pending_certified_product_targeted_user
-DROP COLUMN IF EXISTS targeted_user_name;
-
-ALTER TABLE openchpl.pending_certified_product_targeted_user
-ADD COLUMN targeted_user_name text;
+ALTER TABLE openchpl.pending_certified_product_targeted_user ALTER COLUMN targeted_user_name TYPE text;
 
 --re-run grants
 \i dev/openchpl_grant-all.sql
