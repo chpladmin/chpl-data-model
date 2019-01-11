@@ -22,7 +22,7 @@ _3 December 2018_
 * Add user_reset_token table to use with user reset of their password
 * Add column to user table to indicate if a password change is required
 * Add file_type table to inidcate the type/purpose of a saved file_type
-* Add chpl_file table to store files in a byte array format 
+* Add chpl_file table to store files in a byte array format
 
 ### Data Modifications
 * Migrate data from test_functionality.certification_criterion_id column to new table test_functionality_criteria_map
