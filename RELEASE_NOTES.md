@@ -1,5 +1,22 @@
 # Release Notes
 
+## Version 15.1.0
+_14 January 2019_
+
+### Table Modifications
+* Remove unused Contact fields
+* Remove obsolete MUU table; MUU value from certified product
+* Remove unused ATL references due to change to multiple ATL capability
+* Remove old test functionality reference
+* Change type of test task id and test participant id to be text
+* Change targeted user name type to be text
+* Add and populate Data-Model Version table
+
+### Data Modifications
+* Change a variety of test functionalities to correct values
+
+---
+
 ## Version 15.0.0
 _17 December 2018_
 
