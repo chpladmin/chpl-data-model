@@ -25,6 +25,10 @@ UPDATE openchpl.global_user_permission_map
 SET deleted = true, last_modified_user = -1
 WHERE user_permission_id_user_permission = (SELECT user_permission_id FROM openchpl.user_permission WHERE name = 'ONC_STAFF');
 
+UPDATE openchpl.invited_user_permission
+SET deleted = true, last_modified_user = -1
+WHERE user_permission_id = (SELECT user_permission_id FROM openchpl.user_permission WHERE name = 'ONC_STAFF');
+
 -- insert a row for a ROLE_ONC role where there was a row for ROLE_ONC_STAFF
 INSERT INTO openchpl.global_user_permission_map (user_id, user_permission_id_user_permission, last_modified_user)
 SELECT user_id, (SELECT user_permission_id FROM openchpl.user_permission WHERE name = 'ONC'), -1
