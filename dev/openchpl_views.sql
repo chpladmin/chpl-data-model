@@ -37,7 +37,6 @@ FROM openchpl.certified_product a
     LEFT JOIN (SELECT product_version_id, version as "product_version", product_id from openchpl.product_version) f on a.product_version_id = f.product_version_id
     LEFT JOIN (SELECT product_id, vendor_id, name as "product_name" FROM openchpl.product) g ON f.product_id = g.product_id
     LEFT JOIN (SELECT vendor_id, name as "vendor_name", vendor_code, website as "vendor_website", address_id as "vendor_address", contact_id as "vendor_contact", vendor_status_id from openchpl.vendor) h on g.vendor_id = h.vendor_id
-    LEFT JOIN (SELECT testing_lab_id, name as "testing_lab_name", testing_lab_code from openchpl.testing_lab) q on a.testing_lab_id = q.testing_lab_id
 WHERE a.certified_product_id = id;
     end;
     $$ language plpgsql
@@ -176,9 +175,7 @@ CREATE OR REPLACE VIEW openchpl.certified_product_details AS
     r.certification_status_id,
     r.last_certification_status_change,
     n.certification_status_name,
-    p.transparency_attestation,
-    q.testing_lab_name,
-    q.testing_lab_code
+    p.transparency_attestation
    FROM openchpl.certified_product a
      LEFT JOIN ( SELECT cse.certification_status_id,
             cse.certified_product_id,
@@ -466,11 +463,7 @@ CREATE OR REPLACE VIEW openchpl.certified_product_details AS
                      JOIN openchpl.surveillance_nonconformity surv_nc ON surv_req.id = surv_nc.surveillance_requirement_id AND surv_nc.deleted <> true
                      JOIN openchpl.nonconformity_status nc_status ON surv_nc.nonconformity_status_id = nc_status.id
                   WHERE surv_1.deleted <> true AND nc_status.name::text = 'Closed'::text) n_1(id, certified_product_id, friendly_id, start_date, end_date, type_id, randomized_sites_used, creation_date, last_modified_date, last_modified_user, deleted, user_permission_id, id_1, surveillance_id, type_id_1, certification_criterion_id, requirement, result_id, creation_date_1, last_modified_date_1, last_modified_user_1, deleted_1, id_2, surveillance_requirement_id, certification_criterion_id_1, nonconformity_type, nonconformity_status_id, date_of_determination, corrective_action_plan_approval_date, corrective_action_start_date, corrective_action_must_complete_date, corrective_action_end_date, summary, findings, sites_passed, total_sites, developer_explanation, resolution, creation_date_2, last_modified_date_2, last_modified_user_2, deleted_2, id_3, name, creation_date_3, last_modified_date_3, last_modified_user_3, deleted_3)
-          GROUP BY n_1.certified_product_id) nc_closed ON a.certified_product_id = nc_closed.certified_product_id
-     LEFT JOIN ( SELECT testing_lab.testing_lab_id,
-            testing_lab.name AS testing_lab_name,
-            testing_lab.testing_lab_code
-           FROM openchpl.testing_lab) q ON a.testing_lab_id = q.testing_lab_id;
+          GROUP BY n_1.certified_product_id) nc_closed ON a.certified_product_id = nc_closed.certified_product_id;
 -- ALTER VIEW openchpl.certified_product_details OWNER TO openchpl;
 
 DROP VIEW IF EXISTS openchpl.certified_product_search;
@@ -962,7 +955,6 @@ CREATE OR REPLACE VIEW openchpl.certified_product_summary AS
  SELECT cp.certified_product_id,
     cp.certification_edition_id,
     cp.product_version_id,
-    cp.testing_lab_id,
     cp.certification_body_id,
     cp.chpl_product_number,
     cp.report_file_location,
