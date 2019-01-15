@@ -1627,7 +1627,7 @@ CREATE TABLE openchpl.pending_certified_product_targeted_user (
 	pending_certified_product_targeted_user_id bigserial not null,
 	pending_certified_product_id bigint not null,
 	targeted_user_id bigint,
-	targeted_user_name varchar(300),
+	targeted_user_name text,
 	creation_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_user bigint NOT NULL,
@@ -1680,7 +1680,7 @@ CREATE TABLE openchpl.pending_certified_product_parent_listing
 
 CREATE TABLE openchpl.pending_test_participant (
 	pending_test_participant_id bigserial not null,
-	test_participant_unique_id varchar(20) not null,
+	test_participant_unique_id text not null,
 	gender varchar(100),
     test_participant_age_id bigint,
 	user_entered_age varchar(32),
@@ -1703,7 +1703,7 @@ CREATE TABLE openchpl.pending_test_participant (
 
 CREATE TABLE openchpl.pending_test_task (
 	pending_test_task_id bigserial not null,
-	test_task_unique_id varchar(20) not null,
+	test_task_unique_id text not null,
 	description text,
 	task_success_avg_pct float,
 	task_success_stddev_pct float,
