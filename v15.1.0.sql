@@ -612,6 +612,25 @@ FROM openchpl.vendor v
 WHERE v.deleted != true
 GROUP BY v.vendor_id, v.name, s.name;
 
+create or replace function openchpl.get_chpl_product_number(id bigint) returns
+    table (
+        chpl_product_number varchar
+        ) as $$
+    begin
+    return query
+select
+    COALESCE(a.chpl_product_number, substring(b.year from 3 for 2)||'.'||(select openchpl.get_testing_lab_code(a.certified_product_id))||'.'||c.certification_body_code||'.'||h.vendor_code||'.'||a.product_code||'.'||a.version_code||'.'||a.ics_code||'.'||a.additional_software_code||'.'||a.certified_date_code) as "chpl_product_number"
+FROM openchpl.certified_product a
+    LEFT JOIN (SELECT certification_edition_id, year FROM openchpl.certification_edition) b on a.certification_edition_id = b.certification_edition_id
+    LEFT JOIN (SELECT certification_body_id, name as "certification_body_name", acb_code as "certification_body_code", deleted as "acb_is_deleted" FROM openchpl.certification_body) c on a.certification_body_id = c.certification_body_id
+    LEFT JOIN (SELECT product_version_id, version as "product_version", product_id from openchpl.product_version) f on a.product_version_id = f.product_version_id
+    LEFT JOIN (SELECT product_id, vendor_id, name as "product_name" FROM openchpl.product) g ON f.product_id = g.product_id
+    LEFT JOIN (SELECT vendor_id, name as "vendor_name", vendor_code, website as "vendor_website", address_id as "vendor_address", contact_id as "vendor_contact", vendor_status_id from openchpl.vendor) h on g.vendor_id = h.vendor_id
+WHERE a.certified_product_id = id;
+    end;
+    $$ language plpgsql
+stable;
+
 -- * removing old ATL column from certified_product table
 -- * as well as pending_certified_product table
 alter table openchpl.certified_product
@@ -621,6 +640,111 @@ drop column if exists testing_lab_id;
 
 --OCD-2532
 ALTER TABLE openchpl.test_functionality DROP COLUMN IF EXISTS certification_criterion_id_deleted;
+
+--OCD-2635
+ALTER TABLE openchpl.pending_test_participant ALTER COLUMN test_participant_unique_id TYPE text;
+
+ALTER TABLE openchpl.pending_test_task ALTER COLUMN test_task_unique_id TYPE text;
+
+--OCD-2648
+ALTER TABLE openchpl.pending_certified_product_targeted_user ALTER COLUMN targeted_user_name TYPE text;
+drop table if exists openchpl.data_model_version;
+create table openchpl.data_model_version(
+        id bigserial not null,
+        version varchar(16) not null,
+        deploy_date timestamp not null,
+	creation_date timestamp not null default now(),
+	last_modified_date timestamp not null default now(),
+	last_modified_user bigint not null,
+	deleted bool not null default false,
+        constraint data_model_version_pk primary key (id)
+        );
+
+insert into openchpl.data_model_version (version, deploy_date, last_modified_user) values
+    ('0.0.1', '2015-11-13', -1),
+    ('0.0.2', '2015-12-07', -1),
+    ('0.1.0', '2016-01-05', -1),
+    ('0.1.1', '2016-01-12', -1),
+    ('0.2.0', '2016-02-03', -1),
+    ('0.3.0', '2016-02-18', -1),
+    ('0.3.2', '2016-02-29', -1),
+    ('0.4.0', '2016-03-14', -1),
+    ('0.5.0', '2016-03-25', -1),
+    ('1.0.0', '2016-03-30', -1),
+    ('1.1.0', '2016-04-12', -1),
+    ('1.2.0', '2016-04-20', -1),
+    ('1.3.0', '2016-04-27', -1),
+    ('1.4.0', '2016-05-16', -1),
+    ('1.5.0', '2016-05-24', -1),
+    ('1.5.1', '2016-06-13', -1),
+    ('1.6.0', '2016-06-16', -1),
+    ('1.7.0', '2016-07-25', -1),
+    ('2.0.0', '2016-08-02', -1),
+    ('3.0.0', '2016-08-10', -1),
+    ('4.0.0', '2016-08-30', -1),
+    ('5.0.0', '2016-09-19', -1),
+    ('5.1.0', '2016-10-04', -1),
+    ('5.1.1', '2016-10-04', -1),
+    ('5.2.0', '2016-10-21', -1),
+    ('6.0.0', '2016-11-15', -1),
+    ('7.0.0', '2017-01-06', -1),
+    ('7.0.1', '2017-01-09', -1),
+    ('7.0.2', '2017-01-10', -1),
+    ('7.1.0', '2017-01-23', -1),
+    ('8.0.0', '2017-02-07', -1),
+    ('8.0.1', '2017-02-21', -1),
+    ('8.1.0', '2017-02-27', -1),
+    ('8.2.0', '2017-03-13', -1),
+    ('8.3.0', '2017-03-27', -1),
+    ('8.4.0', '2017-04-10', -1),
+    ('8.5.0', '2017-04-24', -1),
+    ('9.0.0', '2017-05-08', -1),
+    ('10.0.0', '2017-05-22', -1),
+    ('10.1.0', '2017-06-19', -1),
+    ('10.1.1', '2017-06-19', -1),
+    ('11.0.0', '2017-07-03', -1),
+    ('11.0.1', '2017-07-03', -1),
+    ('11.1.0', '2017-07-17', -1),
+    ('12.0.0', '2017-07-31', -1),
+    ('12.1.0', '2017-08-14', -1),
+    ('12.2.0', '2017-09-11', -1),
+    ('12.3.0', '2017-09-25', -1),
+    ('12.3.1', '2017-10-10', -1),
+    ('12.4.0', '2017-10-23', -1),
+    ('12.5.0', '2017-11-06', -1),
+    ('12.5.1', '2017-11-20', -1),
+    ('12.6.0', '2017-12-05', -1),
+    ('13.0.0', '2017-12-18', -1),
+    ('13.1.0', '2018-01-02', -1),
+    ('13.2.0', '2018-01-17', -1),
+    ('13.2.1', '2018-01-29', -1),
+    ('13.3.0', '2018-02-12', -1),
+    ('13.3.1', '2018-02-26', -1),
+    ('13.4.0', '2018-03-12', -1),
+    ('13.5.0', '2018-03-26', -1),
+    ('13.5.1', '2018-04-09', -1),
+    ('14.0.0', '2018-04-23', -1),
+    ('14.0.1', '2018-05-07', -1),
+    ('14.1.0', '2018-05-21', -1),
+    ('14.2.0', '2018-06-04', -1),
+    ('14.3.0', '2018-06-18', -1),
+    ('14.4.0', '2018-07-05', -1),
+    ('14.4.1', '2018-07-16', -1),
+    ('14.5.0', '2018-08-16', -1),
+    ('14.6.0', '2018-08-27', -1),
+    ('14.7.0', '2018-09-10', -1),
+    ('14.7.1', '2018-09-24', -1),
+    ('14.8.0', '2018-10-08', -1),
+    ('14.9.0', '2018-10-22', -1),
+    ('14.9.1', '2018-10-24', -1),
+    ('14.9.2', '2018-11-05', -1),
+    ('14.10.0', '2018-11-19', -1),
+    ('14.10.1', '2018-11-20', -1),
+    ('14.11.0', '2018-12-03', -1),
+    ('15.0.0', '2018-12-17', -1);
+
+create trigger data_model_version_audit after insert or update or delete on openchpl.data_model_version for each row execute procedure audit.if_modified_func();
+create trigger data_model_version_timestamp before update on openchpl.data_model_version for each row execute procedure openchpl.update_last_modified_date_column();
 
 --re-run grants
 \i dev/openchpl_grant-all.sql

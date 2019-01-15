@@ -29,6 +29,17 @@ CREATE TYPE openchpl.validation_message_type as enum('Error', 'Warning');
 CREATE TYPE openchpl.job_status_type as enum('In Progress', 'Complete', 'Error');
 CREATE TYPE openchpl.questionable_activity_trigger_level as enum('Version', 'Product', 'Developer', 'Listing', 'Certification Criteria');
 
+create table openchpl.data_model_version(
+        id bigserial not null,
+        version varchar(16) not null,
+        deploy_date timestamp not null,
+	creation_date timestamp not null default now(),
+	last_modified_date timestamp not null default now(),
+	last_modified_user bigint not null,
+	deleted bool not null default false,
+        constraint data_model_version_pk primary key (id)
+        );
+
 -- object: openchpl.user | type: TABLE --
 -- DROP TABLE IF EXISTS openchpl.user CASCADE;
 CREATE TABLE openchpl.user(
@@ -1616,7 +1627,7 @@ CREATE TABLE openchpl.pending_certified_product_targeted_user (
 	pending_certified_product_targeted_user_id bigserial not null,
 	pending_certified_product_id bigint not null,
 	targeted_user_id bigint,
-	targeted_user_name varchar(300),
+	targeted_user_name text,
 	creation_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_user bigint NOT NULL,
@@ -1669,7 +1680,7 @@ CREATE TABLE openchpl.pending_certified_product_parent_listing
 
 CREATE TABLE openchpl.pending_test_participant (
 	pending_test_participant_id bigserial not null,
-	test_participant_unique_id varchar(20) not null,
+	test_participant_unique_id text not null,
 	gender varchar(100),
     test_participant_age_id bigint,
 	user_entered_age varchar(32),
@@ -1692,7 +1703,7 @@ CREATE TABLE openchpl.pending_test_participant (
 
 CREATE TABLE openchpl.pending_test_task (
 	pending_test_task_id bigserial not null,
-	test_task_unique_id varchar(20) not null,
+	test_task_unique_id text not null,
 	description text,
 	task_success_avg_pct float,
 	task_success_stddev_pct float,
