@@ -2370,6 +2370,7 @@ CREATE TABLE openchpl.pending_surveillance (
 	end_date date,
 	type_value varchar(30),
 	randomized_sites_used integer,
+	user_permission_id bigint NOT NULL,
 	creation_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_user bigint NOT NULL,
