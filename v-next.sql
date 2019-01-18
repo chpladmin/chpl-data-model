@@ -41,5 +41,11 @@ SELECT user_id, (SELECT user_permission_id FROM openchpl.user_permission WHERE n
 
 UPDATE openchpl.user_permission SET deleted = true, last_modified_user = -1 WHERE name = 'ONC_STAFF';
 
+--OCD-2635
+ALTER TABLE openchpl.pending_test_participant ALTER COLUMN test_participant_unique_id TYPE varchar(20);
+
+ALTER TABLE openchpl.pending_test_task ALTER COLUMN test_task_unique_id TYPE varchar(20);
+
+
 --re-add soft delete triggers
 \i dev/openchpl_soft-delete.sql
