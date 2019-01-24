@@ -58,3 +58,11 @@ ALTER TABLE openchpl.pending_test_task ALTER COLUMN test_task_unique_id TYPE var
 
 --re-add soft delete triggers
 \i dev/openchpl_soft-delete.sql
+
+insert into openchpl.data_model_version (version, deploy_date, last_modified_user) values
+    ('15.1.0', '2019-01-14', -1);
+
+alter table openchpl.certification_body drop column if exists retirement_date;
+alter table openchpl.testing_lab drop column if exists retirement_date;
+alter table openchpl.certification_body add column retirement_date timestamp;
+alter table openchpl.testing_lab add column retirement_date timestamp;
