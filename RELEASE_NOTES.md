@@ -1,5 +1,45 @@
 # Release Notes
 
+## Version 15.2.0
+_28 January 2019_
+
+### Data Modifications
+* Add ROLE_ONC to the user_permission table and convert all existing users except Ai's admin account from ROLE_ADMIN to ROLE_ONC.
+* Update soft delete triggers to include recently added references to certified products.
+* Remove ROLE_ONC_STAFF permission and convert existing ROLE_ONC_STAFF user accounts to be ROLE_ONC.
+* Restrict participant unique id and test task id to be 20 characters
+
+---
+
+## Version 15.1.0
+_14 January 2019_
+
+### Table Modifications
+* Remove unused Contact fields
+* Remove obsolete MUU table; MUU value from certified product
+* Remove unused ATL references due to change to multiple ATL capability
+* Remove old test functionality reference
+* Change type of test task id and test participant id to be text
+* Change targeted user name type to be text
+* Add and populate Data-Model Version table
+
+### Data Modifications
+* Change a variety of test functionalities to correct values
+
+---
+
+## Version 15.0.0
+_17 December 2018_
+
+### Table Modifications
+* Removed the following tables: notification_type_recipient_map, notification_recipient, notification_type_permission, and notification_type.
+* Add retired column for certification bodies and testing labs.
+
+### Data Modifications
+* Retire ACBs and ATLs currently marked as deleted. Do not mark any as deleted.
+
+---
+
 ## Version 14.11.0
 _3 December 2018_
 
@@ -10,7 +50,7 @@ _3 December 2018_
 * Add user_reset_token table to use with user reset of their password
 * Add column to user table to indicate if a password change is required
 * Add file_type table to inidcate the type/purpose of a saved file_type
-* Add chpl_file table to store files in a byte array format 
+* Add chpl_file table to store files in a byte array format
 
 ### Data Modifications
 * Migrate data from test_functionality.certification_criterion_id column to new table test_functionality_criteria_map

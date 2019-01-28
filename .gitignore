@@ -4,3 +4,4 @@
 /maint/users.sql
 *-data-model.sh
 push-*.sh
+node_modules/

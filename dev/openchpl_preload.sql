@@ -1,3 +1,4 @@
+insert into openchpl.data_model_version (version, deploy_date, last_modified_user) values ('0.0.1', now(), -1);
 insert into openchpl.practice_type (name, description, last_modified_user) values ('Ambulatory', 'Ambulatory', -1), ('Inpatient', 'Inpatient', -1);
 insert into openchpl.product_classification_type (name, description, last_modified_user) values ('Modular EHR', 'Modular EHR', -1), ('Complete EHR', 'Complete EHR', -1);
 insert into openchpl.certification_edition (year, retired, last_modified_user) values (2011, true, -1), (2014, false, -1), (2015, false, -1);
@@ -1912,8 +1913,23 @@ SET check_function_bodies = false;
 SET client_min_messages = warning;
 SET search_path = openchpl, pg_catalog;
 
-insert into openchpl.certification_body (name, acb_code, last_modified_user) values ('InfoGard', '02', -1), ('CCHIT', '03', -1), ('Drummond Group', '04', -1), ('SLI Global', '05', -1), ('Surescripts LLC', '06', -1), ('ICSA Labs', '07', -1), ('Pending', '08', -1);
-insert into openchpl.testing_lab (name, testing_lab_code, last_modified_user) values ('InfoGard', '02', -1), ('CCHIT', '03', -1), ('Drummond Group Inc.', '04', -1), ('SLI Global', '05', -1), ('ICSA Labs', '07', -1), ('National Technical Systems', '09', -1);
+insert into openchpl.certification_body (name, acb_code, retired, last_modified_user) 
+values 
+('InfoGard', '02', false, -1), 
+('CCHIT', '03', true, -1), 
+('Drummond Group', '04', false, -1), 
+('SLI Global', '05', false, -1), 
+('Surescripts LLC', '06', true, -1), 
+('ICSA Labs', '07', false, -1), 
+('Pending', '08', true, -1);
+insert into openchpl.testing_lab (name, testing_lab_code, retired, last_modified_user) 
+values 
+('InfoGard', '02', false, -1), 
+('CCHIT', '03', true, -1), 
+('Drummond Group Inc.', '04', false, -1), 
+('SLI Global', '05', false, -1), 
+('ICSA Labs', '07', false, -1), 
+('National Technical Systems', '09', true, -1);
 
 INSERT INTO acl_class VALUES (1, 'gov.healthit.chpl.auth.dto.UserDTO'), (2, 'gov.healthit.chpl.dto.CertificationBodyDTO'), (3, 'gov.healthit.chpl.dto.TestingLabDTO');
 SELECT pg_catalog.setval('acl_class_id_seq', 4, true);
@@ -2241,25 +2257,19 @@ VALUES
 ('MUU Upload', 'Uploading a potentially large CSV file with Meaningful Use user counts per listing.', 'MUU Upload is complete.', -1),
 ('Surveillance Upload', 'Uploading a file with many surveillance items.', 'Surveillance upload is complete', -1);
 
-INSERT INTO openchpl.muu_accurate_as_of_date (accurate_as_of_date, last_modified_user) values('11/30/2016', -1);
-
 INSERT INTO user_permission (user_permission_id, "name", description, authority, last_modified_user) VALUES
 (-2, 'ADMIN', 'This permission confers administrative privileges to its owner.', 'ROLE_ADMIN', -1),
 (1, 'USER_CREATOR' ,'This permission allows a user to create other users', 'ROLE_USER_CREATOR' , -1),
 (2, 'ACB' ,'This permission gives a user write access to their ACBs.', 'ROLE_ACB' , -1),
 (4, 'ATL' ,'This permission gives a user write access to their ATLs.', 'ROLE_ATL' , -1),
 (6, 'CMS_STAFF' ,'This permission gives a user read access to CMS reports.', 'ROLE_CMS_STAFF' , -1),
-(7, 'ONC_STAFF' ,'This permission gives a user access to the CMS Download file and report navigation section. It denies editing of Users/Products/CPs/ACBs/etc. No user invitation ability.', 'ROLE_ONC_STAFF' , -1);
+(7, 'ONC', 'This permission gives ONC users administrative privileges.', 'ROLE_ONC', -1);
 
 SELECT pg_catalog.setval('user_permission_user_permission_id_seq', 8, true);
 
 INSERT INTO global_user_permission_map (user_id, user_permission_id_user_permission, last_modified_user) VALUES (-2, -2, -1);
 SELECT pg_catalog.setval('global_user_permission_map_global_user_permission_id_seq', 16, true);
 
-INSERT INTO openchpl.notification_type (name, description, requires_acb, last_modified_user)
-VALUES ('Questionable Activity', 'An email that is generated whenever ONC-specified user actions on the CHPL occur.', false, -1);
-
-INSERT INTO openchpl.notification_type_permission (notification_type_id, permission_id, last_modified_user) SELECT id, -2, -1 FROM openchpl.notification_type WHERE name = 'Questionable Activity';
 
 INSERT INTO openchpl.upload_template_version (name, available_as_of_date, header_csv, last_modified_user, deprecated, deleted)
 VALUES
