@@ -1,3 +1,16 @@
+DROP VIEW IF EXISTS openchpl.developers_with_attestations;
+DROP VIEW IF EXISTS openchpl.acb_developer_transparency_mappings;
+DROP VIEW IF EXISTS openchpl.product_certification_statuses;
+DROP VIEW IF EXISTS openchpl.developer_certification_statuses;
+DROP VIEW IF EXISTS openchpl.certified_product_search_result;
+DROP VIEW IF EXISTS openchpl.certified_product_search;
+DROP VIEW IF EXISTS openchpl.certified_product_details;
+DROP VIEW IF EXISTS openchpl.cqm_result_details;
+DROP VIEW IF EXISTS openchpl.certification_result_details;
+DROP VIEW IF EXISTS openchpl.product_active_owner_history_map;
+DROP VIEW IF EXISTS openchpl.certified_product_summary;
+DROP VIEW IF EXISTS openchpl.ehr_certification_ids_and_products;
+
 create or replace function openchpl.get_testing_lab_code(input_id bigint) returns
     table (
         testing_lab_code varchar
@@ -59,7 +72,7 @@ BEGIN
 END;
 $BODY$;
 
-CREATE OR REPLACE VIEW openchpl.certification_result_details AS
+CREATE VIEW openchpl.certification_result_details AS
 SELECT
     a.certification_result_id,
     a.certified_product_id,
@@ -83,7 +96,7 @@ FROM openchpl.certification_result a
 	(SELECT * FROM openchpl.certification_result_additional_software WHERE deleted <> true) c GROUP BY certification_result_id) d
     ON a.certification_result_id = d.certification_result_id;
 
-CREATE OR REPLACE VIEW openchpl.cqm_result_details AS
+CREATE VIEW openchpl.cqm_result_details AS
 SELECT
     a.cqm_result_id,
     a.certified_product_id,
@@ -104,7 +117,7 @@ FROM openchpl.cqm_result a
     LEFT JOIN openchpl.cqm_criterion b ON a.cqm_criterion_id = b.cqm_criterion_id
     LEFT JOIN openchpl.cqm_version c ON b.cqm_version_id = c.cqm_version_id;
 
-CREATE OR REPLACE VIEW openchpl.certified_product_details AS
+CREATE VIEW openchpl.certified_product_details AS
  SELECT a.certified_product_id,
     a.certification_edition_id,
     a.product_version_id,
@@ -466,9 +479,7 @@ CREATE OR REPLACE VIEW openchpl.certified_product_details AS
           GROUP BY n_1.certified_product_id) nc_closed ON a.certified_product_id = nc_closed.certified_product_id;
 -- ALTER VIEW openchpl.certified_product_details OWNER TO openchpl;
 
-DROP VIEW IF EXISTS openchpl.certified_product_search;
-
-CREATE OR REPLACE VIEW openchpl.certified_product_search AS
+CREATE VIEW openchpl.certified_product_search AS
 SELECT cp.certified_product_id,
        child.child,
        parent.parent,
@@ -670,8 +681,7 @@ LEFT JOIN
    GROUP BY certified_product_id) cqms ON cqms.certified_product_id = cp.certified_product_id
 WHERE cp.deleted <> TRUE;
 
-CREATE OR REPLACE VIEW openchpl.certified_product_search_result
-    AS
+CREATE VIEW openchpl.certified_product_search_result as
 SELECT all_listings_simple.*,
     certs_for_listing.cert_number,
     COALESCE(cqms_for_listing.cms_id, 'NQF-'||cqms_for_listing.nqf_number) as "cqm_number"
@@ -797,7 +807,7 @@ FROM
 	) cqms_for_listing
     ON cqms_for_listing.certified_product_id = all_listings_simple.certified_product_id;
 
-CREATE OR REPLACE VIEW openchpl.developer_certification_statuses AS
+CREATE VIEW openchpl.developer_certification_statuses AS
 SELECT v.vendor_id,
     count(cp.certified_product_id) FILTER (WHERE cs.certification_status::text = 'Active'::text) AS active,
     count(cp.certified_product_id) FILTER (WHERE cs.certification_status::text = 'Retired'::text) AS retired,
@@ -828,7 +838,7 @@ GROUP BY v.vendor_id;
 
 --ALTER TABLE openchpl.developer_certification_statuses OWNER TO openchpl;
 
-CREATE OR REPLACE VIEW openchpl.product_certification_statuses AS
+CREATE VIEW openchpl.product_certification_statuses AS
 SELECT p.product_id,
     count(cp.certified_product_id) FILTER (WHERE cs.certification_status::text = 'Active'::text) AS active,
     count(cp.certified_product_id) FILTER (WHERE cs.certification_status::text = 'Retired'::text) AS retired,
@@ -857,7 +867,7 @@ FROM openchpl.product p
     LEFT JOIN openchpl.certification_status cs ON lastCertStatusEvent.certification_status_id = cs.certification_status_id
 GROUP BY p.product_id;
 
-CREATE OR REPLACE VIEW openchpl.acb_developer_transparency_mappings AS
+CREATE VIEW openchpl.acb_developer_transparency_mappings AS
 SELECT row_number() OVER () AS id,
     certification_body.certification_body_id,
     certification_body."name" AS acb_name,
@@ -869,8 +879,7 @@ FROM openchpl.vendor
     LEFT JOIN openchpl.certification_body ON acb_vendor_map.certification_body_id = certification_body.certification_body_id
 WHERE (certification_body.deleted = false OR certification_body.deleted IS NULL) AND vendor.deleted = false;
 
-DROP VIEW IF EXISTS openchpl.developers_with_attestations;
-CREATE OR REPLACE VIEW openchpl.developers_with_attestations AS
+CREATE VIEW openchpl.developers_with_attestations AS
 SELECT
     v.vendor_id as vendor_id,
     v.name as vendor_name,
@@ -909,7 +918,7 @@ FROM openchpl.vendor v
 WHERE v.deleted != true
 GROUP BY v.vendor_id, v.name, s.name;
 
-CREATE OR REPLACE VIEW openchpl.ehr_certification_ids_and_products AS
+CREATE VIEW openchpl.ehr_certification_ids_and_products AS
 SELECT
     row_number() OVER () AS id,
     ehr.ehr_certification_id_id as ehr_certification_id,
@@ -939,7 +948,7 @@ FROM openchpl.ehr_certification_id ehr
     LEFT JOIN (SELECT vendor_id, vendor_code from openchpl.vendor) v ON prod.vendor_id = v.vendor_id
     ;
 
-CREATE OR REPLACE VIEW openchpl.product_active_owner_history_map AS
+CREATE VIEW openchpl.product_active_owner_history_map AS
 SELECT id,
     product_id,
     vendor_id,
@@ -951,7 +960,7 @@ SELECT id,
 FROM openchpl.product_owner_history_map
 WHERE deleted = false;
 
-CREATE OR REPLACE VIEW openchpl.certified_product_summary AS
+CREATE VIEW openchpl.certified_product_summary AS
  SELECT cp.certified_product_id,
     cp.certification_edition_id,
     cp.product_version_id,
