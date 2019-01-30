@@ -3,5 +3,6 @@
 /maint/openchpl.*backup
 /maint/users.sql
 *-data-model.sh
-push-*.sh
+push.sh
+promote.sh
 node_modules/
