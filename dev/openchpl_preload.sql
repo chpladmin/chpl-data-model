@@ -1915,7 +1915,7 @@ SET search_path = openchpl, pg_catalog;
 
 insert into openchpl.certification_body (name, acb_code, retired, retirement_date, last_modified_user)
 values
-('InfoGard', '02', false, null, -1),
+('UL LLC', '02', false, null, -1),
 ('CCHIT', '03', true, '2014-05-01', -1),
 ('Drummond Group', '04', false, null, -1),
 ('SLI Global', '05', false, null, -1),
@@ -1924,7 +1924,7 @@ values
 ('Pending', '08', true, null, -1);
 insert into openchpl.testing_lab (name, testing_lab_code, retired, retirement_date, last_modified_user)
 values
-('InfoGard', '02', false, null, -1),
+('UL LLC', '02', false, null, -1),
 ('CCHIT', '03', true, '2014-05-01', -1),
 ('Drummond Group Inc.', '04', false, null, -1),
 ('SLI Global', '05', false, null, -1),
