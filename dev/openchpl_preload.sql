@@ -1913,23 +1913,23 @@ SET check_function_bodies = false;
 SET client_min_messages = warning;
 SET search_path = openchpl, pg_catalog;
 
-insert into openchpl.certification_body (name, acb_code, retired, last_modified_user) 
-values 
-('InfoGard', '02', false, -1), 
-('CCHIT', '03', true, -1), 
-('Drummond Group', '04', false, -1), 
-('SLI Global', '05', false, -1), 
-('Surescripts LLC', '06', true, -1), 
-('ICSA Labs', '07', false, -1), 
-('Pending', '08', true, -1);
-insert into openchpl.testing_lab (name, testing_lab_code, retired, last_modified_user) 
-values 
-('InfoGard', '02', false, -1), 
-('CCHIT', '03', true, -1), 
-('Drummond Group Inc.', '04', false, -1), 
-('SLI Global', '05', false, -1), 
-('ICSA Labs', '07', false, -1), 
-('National Technical Systems', '09', true, -1);
+insert into openchpl.certification_body (name, acb_code, retired, retirement_date, last_modified_user)
+values
+('UL LLC', '02', false, null, -1),
+('CCHIT', '03', true, '2014-05-01', -1),
+('Drummond Group', '04', false, null, -1),
+('SLI Global', '05', false, null, -1),
+('Surescripts LLC', '06', true, '2013-04-04', -1),
+('ICSA Labs', '07', false, null, -1),
+('Pending', '08', true, null, -1);
+insert into openchpl.testing_lab (name, testing_lab_code, retired, retirement_date, last_modified_user)
+values
+('UL LLC', '02', false, null, -1),
+('CCHIT', '03', true, '2014-05-01', -1),
+('Drummond Group Inc.', '04', false, null, -1),
+('SLI Global', '05', false, null, -1),
+('ICSA Labs', '07', false, null, -1),
+('National Technical Systems', '09', true, '2016-07-28', -1);
 
 INSERT INTO acl_class VALUES (1, 'gov.healthit.chpl.auth.dto.UserDTO'), (2, 'gov.healthit.chpl.dto.CertificationBodyDTO'), (3, 'gov.healthit.chpl.dto.TestingLabDTO');
 SELECT pg_catalog.setval('acl_class_id_seq', 4, true);
