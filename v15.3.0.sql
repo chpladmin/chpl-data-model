@@ -434,6 +434,7 @@ IF NOT EXISTS (SELECT column_name FROM information_schema.columns WHERE table_sc
  END IF;
 END
 $$
+;
 
 -- Deployment file for version 15.3.0
 --     as of 2019-02-11
