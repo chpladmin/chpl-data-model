@@ -32,6 +32,10 @@ from openchpl.acl_sid sid
 where c.class = 'gov.healthit.chpl.dto.CertificationBodyDTO'
 and exists (select * from openchpl.user where user_id = sid.id);
 
+--Add audit triggers
+CREATE TRIGGER user_certification_body_map_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.user_certification_body_map FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+CREATE TRIGGER user_certification_body_map_timestamp BEFORE UPDATE on openchpl.user_certification_body_map FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
+
 -- Backup acl_object_identity table
 CREATE TABLE openchpl.acl_object_identity_backup AS
 SELECT * FROM openchpl.acl_object_identity;
