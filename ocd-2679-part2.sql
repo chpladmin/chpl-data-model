@@ -1,3 +1,10 @@
+---------------------------------------
+-- OCD-2679
+-- Step 2
+-- Delete ACB related information from 
+-- ACL tables
+---------------------------------------
+
 -- Delete rows from acl_entry relacted to ACBs
 DELETE FROM openchpl.acl_entry
 WHERE acl_object_identity IN 

@@ -1,3 +1,10 @@
+---------------------------------------
+-- OCD-2679
+-- Step 1
+-- Setup CHPL managed user/acb
+-- relationship
+---------------------------------------
+
 -- Create new table to support relationship between user and certification_body table
 DROP TABLE IF EXISTS openchpl.user_certification_body_map;
 CREATE TABLE IF NOT EXISTS openchpl.user_certification_body_map (
