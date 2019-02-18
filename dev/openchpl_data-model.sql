@@ -1526,7 +1526,7 @@ CREATE TABLE openchpl.pending_certified_product(
 	certification_body_name varchar(250),
 	product_classification_name varchar(250),
 	product_classification_module varchar(260), -- we have no field in the db for this (it is only for Modular EHRs)
-	certification_date varchar(50),
+	certification_date timestamp,
 	vendor_street_address varchar(250), -- not broken out into line1/line2
 	vendor_city varchar(250),
 	vendor_state varchar(250),
@@ -1535,15 +1535,15 @@ CREATE TABLE openchpl.pending_certified_product(
 	vendor_email varchar(250),
 	vendor_contact_name varchar(250),
 	vendor_phone varchar(100),
-	vendor_transparency_attestation varchar(50),
+	vendor_transparency_attestation attestation,
 	vendor_transparency_attestation_url varchar(1024),
-	accessibility_certified varchar(25),
+	accessibility_certified boolean default false,
 	test_report_url varchar(255), -- report_file_location
 	sed_report_file_location varchar(255),
 	sed_intended_user_description text,
-	sed_testing_end varchar(50),
+	sed_testing_end timestamp,
 	ics varchar(1024),
-	has_qms varchar(25),
+	has_qms boolean,
 
 	-- foreign keys that have meaning if they are not mapped
 	practice_type_id bigint, -- should never be null
@@ -1733,11 +1733,11 @@ CREATE TABLE openchpl.pending_certification_result(
 	pending_certification_result_id bigserial NOT NULL,
 	certification_criterion_id bigint NOT NULL,
 	pending_certified_product_id bigint NOT NULL,
-	meets_criteria varchar(25),
-	gap varchar(25),
-	sed varchar(25),
-	g1_success varchar(25),
-	g2_success varchar(25),
+	meets_criteria boolean not null,
+	gap bool,
+	sed bool,
+	g1_success bool,
+	g2_success bool,
 	api_documentation varchar(1024),
 	privacy_security_framework varchar(100),
 
@@ -1972,7 +1972,7 @@ CREATE TABLE openchpl.pending_cqm_criterion(
 	pending_cqm_criterion_id bigserial NOT NULL,
 	cqm_criterion_id bigint NOT NULL,
 	pending_certified_product_id bigint NOT NULL,
-	meets_criteria varchar(25),
+	meets_criteria boolean NOT NULL,
 
 	-- fields we need for auditing/tracking
 	creation_date timestamp without time zone NOT NULL DEFAULT now(),

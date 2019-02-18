@@ -3,6 +3,6 @@
 _Date TBD_
 
 ### Table modifications
-* Changed type of columns in five "pending list" tables to support more generous upload parsing ability
+* Changed type of columns in two "pending list" tables to support more generous upload parsing ability
 
 ---
