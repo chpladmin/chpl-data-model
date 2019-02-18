@@ -9,6 +9,6 @@ _Date TBD_
 ### Data Modifications
 * Change Title & Descriptions for some G1/G2 Macra measures
 * Populate user_certification_body_map based on ACL tables
-* Backup ACL tables and delete ACB related information from them
+* Backup ACL tables and delete that have ACB related information
 
 ---
