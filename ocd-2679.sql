@@ -37,33 +37,16 @@ CREATE TRIGGER user_certification_body_map_audit AFTER INSERT OR UPDATE OR DELET
 CREATE TRIGGER user_certification_body_map_timestamp BEFORE UPDATE on openchpl.user_certification_body_map FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 
 -- Backup acl_object_identity table
+DROP TABLE IF EXISTS openchpl.acl_object_identity_backup;
 CREATE TABLE openchpl.acl_object_identity_backup AS
 SELECT * FROM openchpl.acl_object_identity;
 
 -- Backup acl_class table
+DROP TABLE IF EXISTS openchpl.acl_class_backup;
 CREATE TABLE openchpl.acl_class_backup AS
 SELECT * FROM openchpl.acl_class;
 
 -- Backup acl_entry table
+DROP TABLE IF EXISTS openchpl.acl_entry_backup;
 CREATE TABLE openchpl.acl_entry_backup AS
 SELECT * FROM openchpl.acl_entry;
-
--- Delete rows from acl_entry relacted to ACBs
-DELETE FROM openchpl.acl_entry
-WHERE acl_object_identity IN 
-	(SELECT aoi."id" 
-	FROM openchpl.acl_object_identity aoi
-		INNER JOIN openchpl.acl_class ac
-			ON aoi.object_id_class = ac."id"
-	WHERE ac."class" = 'gov.healthit.chpl.dto.CertificationBodyDTO');
-
--- Delete rows from acl_object_identity related to ACBs
-DELETE FROM openchpl.acl_object_identity
-WHERE object_id_class IN 
-	(SELECT "id" 
-	 FROM openchpl.acl_class 
-	 WHERE "class" = 'gov.healthit.chpl.dto.CertificationBodyDTO');
-
--- Delete rows from acl_class related ro ACBs
-DELETE FROM openchpl.acl_class
-WHERE "class" = 'gov.healthit.chpl.dto.CertificationBodyDTO';
