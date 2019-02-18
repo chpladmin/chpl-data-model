@@ -2,8 +2,9 @@
 ## Version 15.4
 _Date TBD_
 
-### Data Modifications
+### Table Modifications
 * Add table user_certification_body_map to store relationship between users and ACBs
+* Create temporary backup tables for ACL data
 
 ### Data Modifications
 * Change Title & Descriptions for some G1/G2 Macra measures
