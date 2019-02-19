@@ -4,8 +4,6 @@ _Date TBD_
 
 ### Table Modifications
 * Updated ehr certification id with products view to not include unused columns; speeded things up 
-
-### Data Modifications
-* Change Title & Descriptions for some G1/G2 Macra measures
+* Add user_permission_id column to pending_surveillance table to track the authority that owns the pending surveillance.
 
 ---
