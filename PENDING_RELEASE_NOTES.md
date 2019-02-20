@@ -1,8 +1,9 @@
 
-## Version 15.5.0
+## Version 16.0.0
 _Date TBD_
 
-### Table Modifications
+### Table modifications
 * Updated ehr certification id with products view to not include unused columns; speeded things up 
+* Changed type of columns in two "pending list" tables to support more generous upload parsing ability
 
 ---
