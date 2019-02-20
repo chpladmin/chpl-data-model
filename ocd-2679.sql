@@ -43,17 +43,83 @@ and exists (select * from openchpl.user where user_id = sid.id);
 CREATE TRIGGER user_certification_body_map_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.user_certification_body_map FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER user_certification_body_map_timestamp BEFORE UPDATE on openchpl.user_certification_body_map FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 
--- Backup acl_object_identity table
-DROP TABLE IF EXISTS openchpl.acl_object_identity_backup;
-CREATE TABLE openchpl.acl_object_identity_backup AS
-SELECT * FROM openchpl.acl_object_identity;
 
--- Backup acl_class table
-DROP TABLE IF EXISTS openchpl.acl_class_backup;
-CREATE TABLE openchpl.acl_class_backup AS
-SELECT * FROM openchpl.acl_class;
+DO $$
+BEGIN
+  -- Clear out the ACL tables, if necessary
+  -- This needs to be done in a particular order due to FK constraints
 
--- Backup acl_entry table
-DROP TABLE IF EXISTS openchpl.acl_entry_backup;
-CREATE TABLE openchpl.acl_entry_backup AS
-SELECT * FROM openchpl.acl_entry;
+  IF EXISTS(SELECT * FROM information_schema.tables WHERE table_catalog = 'openchpl' AND table_name = 'acl_entry_backup')
+  THEN
+      DELETE FROM openchpl.acl_entry;
+  END IF;
+  
+  IF EXISTS(SELECT * FROM information_schema.tables WHERE table_catalog = 'openchpl' AND table_name = 'acl_object_identity_backup')
+  THEN
+      DELETE FROM openchpl.acl_object_identity;
+  END IF;
+    
+  IF EXISTS(SELECT * FROM information_schema.tables WHERE table_catalog = 'openchpl' AND table_name = 'acl_class_backup')
+  THEN
+      DELETE FROM openchpl.acl_class;
+  END IF;
+  
+  IF EXISTS(SELECT * FROM information_schema.tables WHERE table_catalog = 'openchpl' AND table_name = 'acl_class_backup')
+  THEN
+	  INSERT INTO openchpl.acl_class
+	  SELECT * FROM openchpl.acl_class_backup;
+  END IF;
+
+  IF EXISTS(SELECT * FROM information_schema.tables WHERE table_catalog = 'openchpl' AND table_name = 'acl_class_backup')
+  THEN
+	  INSERT INTO openchpl.acl_object_identity
+	  SELECT * FROM openchpl.acl_object_identity_backup;
+  END IF;
+
+  IF EXISTS(SELECT * FROM information_schema.tables WHERE table_catalog = 'openchpl' AND table_name = 'acl_entry_backup')
+  THEN
+	  INSERT INTO openchpl.acl_entry
+	  SELECT * FROM openchpl.acl_entry_backup;
+  END IF;
+  
+
+  -- Backup acl_entry table
+  DROP TABLE IF EXISTS openchpl.acl_entry_backup;
+
+  CREATE TABLE openchpl.acl_entry_backup AS
+  SELECT * FROM openchpl.acl_entry;
+
+  DELETE FROM openchpl.acl_entry
+  WHERE acl_object_identity IN 
+	(SELECT aoi."id" 
+	FROM openchpl.acl_object_identity aoi
+		INNER JOIN openchpl.acl_class ac
+			ON aoi.object_id_class = ac."id"
+	WHERE ac."class" = 'gov.healthit.chpl.dto.CertificationBodyDTO');
+  
+
+  -- Backup acl_object_identity table
+  DROP TABLE IF EXISTS openchpl.acl_object_identity_backup;
+
+  CREATE TABLE openchpl.acl_object_identity_backup AS
+  SELECT * FROM openchpl.acl_object_identity;
+
+  DELETE FROM openchpl.acl_object_identity
+  WHERE object_id_class IN 
+	(SELECT "id" 
+	 FROM openchpl.acl_class 
+	 WHERE "class" = 'gov.healthit.chpl.dto.CertificationBodyDTO');
+
+
+  -- Backup acl_class table
+  DROP TABLE IF EXISTS openchpl.acl_class_backup;
+
+  CREATE TABLE openchpl.acl_class_backup AS
+  SELECT * FROM openchpl.acl_class;
+
+  DELETE FROM openchpl.acl_class
+  WHERE "class" = 'gov.healthit.chpl.dto.CertificationBodyDTO';
+
+END $$;
+
+
