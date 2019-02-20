@@ -1033,9 +1033,11 @@ INSERT INTO openchpl.test_tool(name, last_modified_user, retired) VALUES
 ('Electronic Prescribing', -1, false),
 ('HL7 CDA National Health Care Surveys Validator', -1, false),
 ('Edge Testing Tool', -1, false),
-('CDC''s NHSN CDA Validator', -1, false),
+('CDC''s NHSN CDA Validator', -1, true),
 ('NCQA ONC Health IT Testing', -1, false),
 ('HIMSS Immunization Integration Program', -1, false);
+('NHCS IG Release 1 Validator', -1, false);
+('NHCS IG Release 1.2 Validator', -1, false);
 --2015
 
 INSERT INTO openchpl.test_standard(number, name, certification_edition_id, last_modified_user) VALUES
