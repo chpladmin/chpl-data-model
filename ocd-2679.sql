@@ -5,6 +5,46 @@
 -- relationship
 ---------------------------------------
 
+DO $$
+BEGIN
+  -- Clear out the ACL tables, if necessary
+  -- This needs to be done in a particular order due to FK constraints
+
+  IF EXISTS(SELECT * FROM information_schema.tables WHERE table_catalog = 'openchpl' AND table_name = 'acl_entry_backup')
+  THEN
+      DELETE FROM openchpl.acl_entry;
+  END IF;
+  
+  IF EXISTS(SELECT * FROM information_schema.tables WHERE table_catalog = 'openchpl' AND table_name = 'acl_object_identity_backup')
+  THEN
+      DELETE FROM openchpl.acl_object_identity;
+  END IF;
+    
+  IF EXISTS(SELECT * FROM information_schema.tables WHERE table_catalog = 'openchpl' AND table_name = 'acl_class_backup')
+  THEN
+      DELETE FROM openchpl.acl_class;
+  END IF;
+  
+  IF EXISTS(SELECT * FROM information_schema.tables WHERE table_catalog = 'openchpl' AND table_name = 'acl_class_backup')
+  THEN
+	  INSERT INTO openchpl.acl_class
+	  SELECT * FROM openchpl.acl_class_backup;
+  END IF;
+
+  IF EXISTS(SELECT * FROM information_schema.tables WHERE table_catalog = 'openchpl' AND table_name = 'acl_class_backup')
+  THEN
+	  INSERT INTO openchpl.acl_object_identity
+	  SELECT * FROM openchpl.acl_object_identity_backup;
+  END IF;
+
+  IF EXISTS(SELECT * FROM information_schema.tables WHERE table_catalog = 'openchpl' AND table_name = 'acl_entry_backup')
+  THEN
+	  INSERT INTO openchpl.acl_entry
+	  SELECT * FROM openchpl.acl_entry_backup;
+  END IF;
+END $$;
+
+
 -- Create new table to support relationship between user and certification_body table
 DROP TABLE IF EXISTS openchpl.user_certification_body_map;
 CREATE TABLE IF NOT EXISTS openchpl.user_certification_body_map (
@@ -46,43 +86,6 @@ CREATE TRIGGER user_certification_body_map_timestamp BEFORE UPDATE on openchpl.u
 
 DO $$
 BEGIN
-  -- Clear out the ACL tables, if necessary
-  -- This needs to be done in a particular order due to FK constraints
-
-  IF EXISTS(SELECT * FROM information_schema.tables WHERE table_catalog = 'openchpl' AND table_name = 'acl_entry_backup')
-  THEN
-      DELETE FROM openchpl.acl_entry;
-  END IF;
-  
-  IF EXISTS(SELECT * FROM information_schema.tables WHERE table_catalog = 'openchpl' AND table_name = 'acl_object_identity_backup')
-  THEN
-      DELETE FROM openchpl.acl_object_identity;
-  END IF;
-    
-  IF EXISTS(SELECT * FROM information_schema.tables WHERE table_catalog = 'openchpl' AND table_name = 'acl_class_backup')
-  THEN
-      DELETE FROM openchpl.acl_class;
-  END IF;
-  
-  IF EXISTS(SELECT * FROM information_schema.tables WHERE table_catalog = 'openchpl' AND table_name = 'acl_class_backup')
-  THEN
-	  INSERT INTO openchpl.acl_class
-	  SELECT * FROM openchpl.acl_class_backup;
-  END IF;
-
-  IF EXISTS(SELECT * FROM information_schema.tables WHERE table_catalog = 'openchpl' AND table_name = 'acl_class_backup')
-  THEN
-	  INSERT INTO openchpl.acl_object_identity
-	  SELECT * FROM openchpl.acl_object_identity_backup;
-  END IF;
-
-  IF EXISTS(SELECT * FROM information_schema.tables WHERE table_catalog = 'openchpl' AND table_name = 'acl_entry_backup')
-  THEN
-	  INSERT INTO openchpl.acl_entry
-	  SELECT * FROM openchpl.acl_entry_backup;
-  END IF;
-  
-
   -- Backup acl_entry table
   DROP TABLE IF EXISTS openchpl.acl_entry_backup;
 
