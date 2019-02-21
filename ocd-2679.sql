@@ -67,16 +67,17 @@ CONSTRAINT certification_body_fk FOREIGN KEY (certification_body_id)
 -- Populate the new table based on the ACL tables
 INSERT INTO openchpl.user_certification_body_map
 (user_id, certification_body_id, last_modified_user)
-select sid.id, oi.object_id_identity, -2
+select u.user_id, oi.object_id_identity, -2
 from openchpl.acl_sid sid
-inner join openchpl.acl_entry entry
+  inner join openchpl.acl_entry entry
 	on sid.id = entry.sid
-inner join openchpl.acl_object_identity oi
+  inner join openchpl.acl_object_identity oi
 	on entry.acl_object_identity = oi.id
-inner join openchpl.acl_class c
+  inner join openchpl.acl_class c
 	on oi.object_id_class = c.id
-where c.class = 'gov.healthit.chpl.dto.CertificationBodyDTO'
-and exists (select * from openchpl.user where user_id = sid.id);
+  inner join openchpl.user u
+	on sid.sid like u.user_name
+where c.class = 'gov.healthit.chpl.dto.CertificationBodyDTO';
 
 --Add audit triggers
 CREATE TRIGGER user_certification_body_map_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.user_certification_body_map FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
