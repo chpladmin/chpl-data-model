@@ -1,3 +1,29 @@
+-- Deployment file for version 16.0.0
+--     as of 2019-02-25
+-- ocd-2697.sql
+--
+-- OCD-2697: accept bad characters in number fields for test/participant data during upload
+--
+alter table openchpl.pending_test_participant
+alter column professional_experience_months type text,
+alter column computer_experience_months type text,
+alter column product_experience_months type text;
+
+alter table openchpl.pending_test_task
+alter column task_success_avg_pct type text,
+alter column task_success_stddev_pct type text,
+alter column task_path_deviation_observed type text,
+alter column task_path_deviation_optimal type text,
+alter column task_time_avg_seconds type text,
+alter column task_time_stddev_seconds type text,
+alter column task_time_deviation_observed_avg_seconds type text,
+alter column task_time_deviation_optimal_avg_seconds type text,
+alter column task_errors_pct type text,
+alter column task_errors_stddev_pct type text,
+alter column task_rating type text,
+alter column task_rating_stddev type text;
+;
+-- ocd-2633.sql
 --
 -- OCD-2633: update G1/G2 text / descriptions
 --
@@ -104,3 +130,29 @@ update openchpl.macra_criteria_map set description = 'Required Test 4: Promoting
 update openchpl.macra_criteria_map set description = 'Required Test 4: Promoting Interoperability Transition Objective 3 Measure 2 ' where value = 'RT4a EC ACI Transition' and criteria_id = (select cc.certification_criterion_id from openchpl.certification_criterion cc where cc.number = '170.315 (g)(9)');
 update openchpl.macra_criteria_map set description = 'Required Test 4: Promoting Interoperability Objective 4 Measure 1' where value = 'RT4c EC ACI' and criteria_id = (select cc.certification_criterion_id from openchpl.certification_criterion cc where cc.number = '170.315 (g)(9)');
 update openchpl.macra_criteria_map set description = 'Required Test 4: Promoting Interoperability Transition Objective 3 Measure 2 ' where value = 'RT4c EC ACI Transition' and criteria_id = (select cc.certification_criterion_id from openchpl.certification_criterion cc where cc.number = '170.315 (g)(9)');
+;
+-- ocd-2655.sql
+DO $$
+BEGIN
+IF NOT EXISTS (SELECT column_name FROM information_schema.columns WHERE table_schema='openchpl' AND table_name='pending_surveillance' AND column_name='user_permission_id') THEN
+	ALTER TABLE openchpl.pending_surveillance
+	ADD COLUMN user_permission_id BIGINT;
+
+	UPDATE openchpl.pending_surveillance
+	SET user_permission_id = (SELECT user_permission_id FROM openchpl.user_permission WHERE name LIKE 'ACB');
+
+	ALTER TABLE openchpl.pending_surveillance
+	ALTER COLUMN user_permission_id SET NOT NULL;
+
+	ALTER TABLE openchpl.pending_surveillance
+	ADD CONSTRAINT user_permission_fk
+	FOREIGN KEY (user_permission_id)
+	REFERENCES openchpl.user_permission (user_permission_id)
+	MATCH FULL ON DELETE CASCADE ON UPDATE CASCADE;
+END IF;
+END $$ ;
+;
+insert into openchpl.data_model_version (version, deploy_date, last_modified_user) values ('16.0.0', '2019-02-25', -1);
+\i dev/openchpl_soft-delete.sql
+\i dev/openchpl_views.sql
+\i dev/openchpl_grant-all.sql
