@@ -1,5 +1,43 @@
 # Release Notes
 
+## Version 16.0.0
+_25 February 2019_
+
+### Table modifications
+* Add user_permission_id column to pending_surveillance table to track the authority that owns the pending surveillance.
+* Updated ehr certification id with products view to not include unused columns; speeded things up 
+* Changed type of columns in two "pending list" tables to support more generous upload parsing ability
+
+### Data Modifications
+* Change Title & Descriptions for some G1/G2 Macra measures
+
+---
+
+## Version 15.3.0
+_11 February 2019_
+
+### Table Modifications
+* Add "retirement date" for ACB and ATL tables
+
+### Data Modifications
+* Restore missing targeted user data
+* Change InfoGard => UL LLC in preload data, but not in live data
+
+---
+
+## Version 15.2.0
+_28 January 2019_
+
+### Table Modifications
+* Restrict participant unique id and test task id to be 20 characters
+
+### Data Modifications
+* Add ROLE_ONC to the user_permission table and convert all existing users except Ai's admin account from ROLE_ADMIN to ROLE_ONC.
+* Update soft delete triggers to include recently added references to certified products.
+* Remove ROLE_ONC_STAFF permission and convert existing ROLE_ONC_STAFF user accounts to be ROLE_ONC.
+
+---
+
 ## Version 15.1.0
 _14 January 2019_
 

@@ -107,6 +107,7 @@ CREATE TABLE openchpl.certification_body (
 	name varchar(250),
 	website varchar(300),
 	retired boolean NOT NULL DEFAULT false,
+        retirement_date timestamp,
 	creation_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_user smallint NOT NULL,
@@ -903,6 +904,7 @@ CREATE TABLE openchpl.testing_lab (
 	accredidation_number varchar(25),
 	website varchar(300),
 	retired boolean not null default false,
+        retirement_date timestamp,
 	creation_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_user bigint NOT NULL,
@@ -1680,16 +1682,16 @@ CREATE TABLE openchpl.pending_certified_product_parent_listing
 
 CREATE TABLE openchpl.pending_test_participant (
 	pending_test_participant_id bigserial not null,
-	test_participant_unique_id text not null,
+	test_participant_unique_id varchar(20) not null,
 	gender varchar(100),
     test_participant_age_id bigint,
 	user_entered_age varchar(32),
 	education_type_id bigint,
 	user_entered_education_type varchar(250),
 	occupation varchar(250),
-	professional_experience_months int,
-	computer_experience_months int,
-	product_experience_months int,
+	professional_experience_months text,
+	computer_experience_months text,
+	product_experience_months text,
 	assistive_technology_needs varchar(250),
 	creation_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
@@ -1703,21 +1705,21 @@ CREATE TABLE openchpl.pending_test_participant (
 
 CREATE TABLE openchpl.pending_test_task (
 	pending_test_task_id bigserial not null,
-	test_task_unique_id text not null,
+	test_task_unique_id varchar(20) not null,
 	description text,
-	task_success_avg_pct float,
-	task_success_stddev_pct float,
-	task_path_deviation_observed int,
-	task_path_deviation_optimal int,
-	task_time_avg_seconds bigint,
-	task_time_stddev_seconds int,
-	task_time_deviation_observed_avg_seconds int,
-	task_time_deviation_optimal_avg_seconds int,
-	task_errors_pct float,
-	task_errors_stddev_pct float,
+	task_success_avg_pct text,
+	task_success_stddev_pct text,
+	task_path_deviation_observed text,
+	task_path_deviation_optimal text,
+	task_time_avg_seconds text,
+	task_time_stddev_seconds text,
+	task_time_deviation_observed_avg_seconds text,
+	task_time_deviation_optimal_avg_seconds text,
+	task_errors_pct text,
+	task_errors_stddev_pct text,
 	task_rating_scale varchar(50),
-	task_rating float,
-	task_rating_stddev float,
+	task_rating text,
+	task_rating_stddev text,
 	creation_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_user bigint NOT NULL,
@@ -1731,7 +1733,7 @@ CREATE TABLE openchpl.pending_certification_result(
 	pending_certification_result_id bigserial NOT NULL,
 	certification_criterion_id bigint NOT NULL,
 	pending_certified_product_id bigint NOT NULL,
-	meets_criteria boolean NOT NULL,
+	meets_criteria boolean not null,
 	gap bool,
 	sed bool,
 	g1_success bool,
@@ -2370,11 +2372,15 @@ CREATE TABLE openchpl.pending_surveillance (
 	end_date date,
 	type_value varchar(30),
 	randomized_sites_used integer,
+	user_permission_id bigint NOT NULL,
 	creation_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_user bigint NOT NULL,
 	deleted bool NOT NULL DEFAULT false,
-	CONSTRAINT pending_surveillance_pk PRIMARY KEY (id)
+	CONSTRAINT pending_surveillance_pk PRIMARY KEY (id),
+	CONSTRAINT user_permission_fk FOREIGN KEY (user_permission_id)
+		REFERENCES openchpl.user_permission (user_permission_id)
+		MATCH FULL ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE openchpl.pending_surveillance_requirement (
@@ -3058,7 +3064,7 @@ CREATE INDEX ix_pending_certification_result_test_tool ON openchpl.pending_certi
 
 CREATE INDEX ix_pending_certification_result_ucd_process ON openchpl.pending_certification_result_ucd_process (pending_certification_result_ucd_process_id, pending_certification_result_id, ucd_process_id, deleted);
 
-CREATE INDEX ix_pending_certified_product ON openchpl.pending_certified_product (pending_certified_product_id, unique_id, acb_certification_id, practice_type_id, vendor_id, vendor_address_id, vendor_contact_id, product_id, product_version_id, certification_edition_id, certification_body_id, product_classification_id, testing_lab_id, deleted);
+CREATE INDEX ix_pending_certified_product ON openchpl.pending_certified_product (pending_certified_product_id, unique_id, acb_certification_id, practice_type_id, vendor_id, vendor_address_id, vendor_contact_id, product_id, product_version_id, certification_edition_id, certification_body_id, product_classification_id, deleted);
 
 CREATE INDEX ix_pending_certified_product_accessibility_standard ON openchpl.pending_certified_product_accessibility_standard
 (pending_certified_product_accessibility_standard_id, pending_certified_product_id, accessibility_standard_id, deleted);
