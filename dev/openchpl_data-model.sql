@@ -1204,57 +1204,6 @@ CREATE TABLE openchpl.cqm_criterion_type(
 -- ALTER TABLE openchpl.cqm_criterion_type OWNER TO openchpl;
 -- ddl-end --
 
--- object: openchpl.certification_event | type: TABLE --
--- DROP TABLE IF EXISTS openchpl.certification_event CASCADE;
-CREATE TABLE openchpl.certification_event(
-	certification_event_id bigserial NOT NULL,
-	certified_product_id bigint NOT NULL,
-	event_type_id bigint NOT NULL,
-	event_date timestamp NOT NULL,
-	city varchar(250),
-	state varchar(25),
-	creation_date timestamp NOT NULL DEFAULT NOW(),
-	last_modified_date timestamp NOT NULL DEFAULT NOW(),
-	last_modified_user bigint NOT NULL,
-	deleted bool NOT NULL DEFAULT false,
-	CONSTRAINT certification_events_pk PRIMARY KEY (certification_event_id)
-
-);
--- ddl-end --
--- ALTER TABLE openchpl.certification_event OWNER TO openchpl;
--- ddl-end --
-
--- object: certified_product_fk | type: CONSTRAINT --
--- ALTER TABLE openchpl.certification_event DROP CONSTRAINT IF EXISTS certified_product_fk CASCADE;
-ALTER TABLE openchpl.certification_event ADD CONSTRAINT certified_product_fk FOREIGN KEY (certified_product_id)
-REFERENCES openchpl.certified_product (certified_product_id) MATCH FULL
-ON DELETE RESTRICT ON UPDATE CASCADE;
--- ddl-end --
-
--- object: openchpl.event_type | type: TABLE --
--- DROP TABLE IF EXISTS openchpl.event_type CASCADE;
-CREATE TABLE openchpl.event_type(
-	event_type_id bigserial NOT NULL,
-	name varchar(50) NOT NULL,
-	description varchar(250) NOT NULL,
-	creation_date timestamp NOT NULL DEFAULT NOW(),
-	last_modified_date timestamp NOT NULL DEFAULT NOW(),
-	last_modified_user bigint NOT NULL,
-	deleted bool NOT NULL DEFAULT false,
-	CONSTRAINT event_type_pk PRIMARY KEY (event_type_id)
-
-);
--- ddl-end --
--- ALTER TABLE openchpl.event_type OWNER TO openchpl;
--- ddl-end --
-
--- object: event_type_fk | type: CONSTRAINT --
--- ALTER TABLE openchpl.certification_event DROP CONSTRAINT IF EXISTS event_type_fk CASCADE;
-ALTER TABLE openchpl.certification_event ADD CONSTRAINT event_type_fk FOREIGN KEY (event_type_id)
-REFERENCES openchpl.event_type (event_type_id) MATCH FULL
-ON DELETE RESTRICT ON UPDATE CASCADE;
--- ddl-end --
-
 -- object: openchpl.product_classification_type | type: TABLE --
 -- DROP TABLE IF EXISTS openchpl.product_classification_type CASCADE;
 CREATE TABLE openchpl.product_classification_type(
@@ -2928,8 +2877,6 @@ CREATE INDEX ix_product ON openchpl.product (product_id, vendor_id, deleted);
 CREATE INDEX ix_vendor ON openchpl.vendor (vendor_id, address_id, contact_id, vendor_status_id, deleted);
 
 CREATE INDEX ix_certification_criterion ON openchpl.certification_criterion (certification_criterion_id, certification_edition_id, deleted);
-
-CREATE INDEX ix_certification_event ON openchpl.certification_event (certification_event_id, certified_product_id, event_type_id, deleted);
 
 CREATE INDEX ix_certification_result ON openchpl.certification_result (certification_result_id, certification_criterion_id, certified_product_id, deleted);
 
