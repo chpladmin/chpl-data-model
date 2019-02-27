@@ -159,12 +159,6 @@ CREATE TRIGGER certified_product_testing_lab_map_timestamp BEFORE UPDATE on open
 CREATE TRIGGER certified_product_timestamp BEFORE UPDATE on openchpl.certified_product FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER contact_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.contact FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER contact_timestamp BEFORE UPDATE on openchpl.contact FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
-CREATE TRIGGER corrective_action_plan_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.corrective_action_plan FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
-CREATE TRIGGER corrective_action_plan_certification_result_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.corrective_action_plan_certification_result FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
-CREATE TRIGGER corrective_action_plan_certification_result_timestamp BEFORE UPDATE on openchpl.corrective_action_plan_certification_result FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
-CREATE TRIGGER corrective_action_plan_documentation_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.corrective_action_plan_documentation FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
-CREATE TRIGGER corrective_action_plan_documentation_timestamp BEFORE UPDATE on openchpl.corrective_action_plan_documentation FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
-CREATE TRIGGER corrective_action_plan_timestamp BEFORE UPDATE on openchpl.corrective_action_plan FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER cqm_criterion_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.cqm_criterion FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER cqm_criterion_timestamp BEFORE UPDATE on openchpl.cqm_criterion FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER cqm_criterion_type_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.cqm_criterion_type FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
