@@ -13,3 +13,6 @@ alter table openchpl.user drop column if exists compliance_signature;
 
 -- pending certified body
 update openchpl.certification_body set deleted = true where name = 'Pending';
+
+-- leftover muu_accurate_as_of_date table
+drop table if exists openchpl.muu_accurate_as_of_date;
