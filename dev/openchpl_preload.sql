@@ -1930,6 +1930,8 @@ values
 ('ICSA Labs', '07', false, null, -1),
 ('National Technical Systems', '09', true, '2016-07-28', -1);
 
+update openchpl.certification_body set deleted = true where name = 'Pending';
+
 INSERT INTO acl_class VALUES (1, 'gov.healthit.chpl.auth.dto.UserDTO'), (2, 'gov.healthit.chpl.dto.CertificationBodyDTO'), (3, 'gov.healthit.chpl.dto.TestingLabDTO');
 SELECT pg_catalog.setval('acl_class_id_seq', 4, true);
 

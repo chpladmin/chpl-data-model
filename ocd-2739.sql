@@ -10,3 +10,6 @@ drop table if exists openchpl.event_type;
 
 -- compliance signature
 alter table openchpl.user drop column if exists compliance_signature;
+
+-- pending certified body
+update openchpl.certification_body set deleted = true where name = 'Pending';
