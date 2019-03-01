@@ -1032,9 +1032,11 @@ INSERT INTO openchpl.test_tool(name, last_modified_user, retired) VALUES
 ('Electronic Prescribing', -1, false),
 ('HL7 CDA National Health Care Surveys Validator', -1, false),
 ('Edge Testing Tool', -1, false),
-('CDC''s NHSN CDA Validator', -1, false),
+('CDC''s NHSN CDA Validator', -1, true),
 ('NCQA ONC Health IT Testing', -1, false),
-('HIMSS Immunization Integration Program', -1, false);
+('HIMSS Immunization Integration Program', -1, false),
+('NHCS IG Release 1 Validator', -1, false),
+('NHCS IG Release 1.2 Validator', -1, false);
 --2015
 
 INSERT INTO openchpl.test_standard(number, name, certification_edition_id, last_modified_user) VALUES
@@ -1932,7 +1934,7 @@ values
 
 update openchpl.certification_body set deleted = true where name = 'Pending';
 
-INSERT INTO acl_class VALUES (1, 'gov.healthit.chpl.auth.dto.UserDTO'), (2, 'gov.healthit.chpl.dto.CertificationBodyDTO'), (3, 'gov.healthit.chpl.dto.TestingLabDTO');
+INSERT INTO acl_class VALUES (1, 'gov.healthit.chpl.auth.dto.UserDTO'), (3, 'gov.healthit.chpl.dto.TestingLabDTO');
 SELECT pg_catalog.setval('acl_class_id_seq', 4, true);
 
 --inserts users that can have acls
@@ -1942,16 +1944,6 @@ INSERT INTO acl_sid VALUES
 --insert user objects
 INSERT INTO acl_object_identity VALUES
 (-2, 1, -2, NULL, -2, true);
-
---insert acb objects
-INSERT INTO acl_object_identity VALUES
-(2, 2, 1, NULL, -2, true),
-(3, 2, 2, NULL, -2, true),
-(4, 2, 3, NULL, -2, true),
-(5, 2, 4, NULL, -2, true),
-(6, 2, 5, NULL, -2, true),
-(7, 2, 6, NULL, -2, true),
-(8, 2, 7, NULL, -2, true);
 
 -- insert atl objects
 INSERT INTO acl_object_identity VALUES
@@ -1965,16 +1957,6 @@ INSERT INTO acl_object_identity VALUES
 --insert acls for users
 INSERT INTO acl_entry VALUES
 (1, -2, 0, -2, 16, true, false, false);
-
---insert acls for acbs
-INSERT INTO acl_entry VALUES
-(2, 2, 0, -2, 16, true, false, false),
-(3, 3, 0, -2, 16, true, false, false),
-(4, 4, 0, -2, 16, true, false, false),
-(5, 5, 0, -2, 16, true, false, false),
-(6, 6, 0, -2, 16, true, false, false),
-(7, 7, 0, -2, 16, true, false, false),
-(8, 8, 0, -2, 16, true, false, false);
 
 -- insert acls for atls
 INSERT INTO acl_entry VALUES
