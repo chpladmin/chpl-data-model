@@ -2982,6 +2982,24 @@ CREATE TABLE openchpl.chpl_file
 		ON DELETE RESTRICT
 );
 
+CREATE TABLE IF NOT EXISTS openchpl.user_certification_body_map (
+	id bigserial NOT NULL,
+	user_id bigint NOT NULL,
+	certification_body_id bigint NOT NULL,
+	retired bool NOT NULL DEFAULT false,
+	creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
+	CONSTRAINT user_certification_body_pk PRIMARY KEY (id),
+	CONSTRAINT user_fk FOREIGN KEY (user_id)
+		REFERENCES openchpl.user (user_id) 
+		MATCH SIMPLE ON UPDATE NO ACTION ON DELETE RESTRICT,
+	CONSTRAINT certification_body_fk FOREIGN KEY (certification_body_id)
+		REFERENCES openchpl.certification_body (certification_body_id) 
+		MATCH SIMPLE ON UPDATE NO ACTION ON DELETE RESTRICT
+);
+
 CREATE INDEX fki_certified_product_id_fk
 ON openchpl.ehr_certification_id_product_map
 USING btree
