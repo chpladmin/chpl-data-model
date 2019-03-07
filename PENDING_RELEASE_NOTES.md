@@ -5,6 +5,7 @@ _Date TBD_
 ### Table modifications
 * Add table user_certification_body_map to store relationship between users and ACBs
 * Create temporary backup tables for ACL data
+* Modify certified_product_summary view to improve perfomance of certification status join
 
 ### Data Modifications
 * Populate user_certification_body_map based on ACL tables
