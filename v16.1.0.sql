@@ -1,3 +1,6 @@
+-- Deployment file for version 16.1.0
+--     as of 2019-03-11
+-- ocd-2679.sql
 ---------------------------------------
 -- OCD-2679
 -- Step 1
@@ -117,3 +120,25 @@ SELECT * FROM openchpl.acl_class;
 
 DELETE FROM openchpl.acl_class
 WHERE "class" = 'gov.healthit.chpl.dto.CertificationBodyDTO';
+;
+-- ocd-2652.sql
+UPDATE openchpl.test_tool
+SET retired = true
+WHERE "name" = 'CDC''s NHSN CDA Validator';
+
+INSERT INTO openchpl.test_tool 
+("name", last_modified_user)
+SELECT 'NHCS IG Release 1 Validator', -1
+WHERE NOT EXISTS
+  (SELECT 1 FROM openchpl.test_tool where "name" = 'NHCS IG Release 1 Validator');
+
+INSERT INTO openchpl.test_tool 
+("name", last_modified_user)
+SELECT 'NHCS IG Release 1.2 Validator', -1
+WHERE NOT EXISTS
+  (SELECT 1 FROM openchpl.test_tool where "name" = 'NHCS IG Release 1.2 Validator');
+;
+insert into openchpl.data_model_version (version, deploy_date, last_modified_user) values ('16.1.0', '2019-03-11', -1);
+\i dev/openchpl_soft-delete.sql
+\i dev/openchpl_views.sql
+\i dev/openchpl_grant-all.sql
