@@ -1689,9 +1689,9 @@ CREATE TABLE openchpl.pending_test_participant (
 	education_type_id bigint,
 	user_entered_education_type varchar(250),
 	occupation varchar(250),
-	professional_experience_months int,
-	computer_experience_months int,
-	product_experience_months int,
+	professional_experience_months text,
+	computer_experience_months text,
+	product_experience_months text,
 	assistive_technology_needs varchar(250),
 	creation_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
@@ -1707,19 +1707,19 @@ CREATE TABLE openchpl.pending_test_task (
 	pending_test_task_id bigserial not null,
 	test_task_unique_id varchar(20) not null,
 	description text,
-	task_success_avg_pct float,
-	task_success_stddev_pct float,
-	task_path_deviation_observed int,
-	task_path_deviation_optimal int,
-	task_time_avg_seconds bigint,
-	task_time_stddev_seconds int,
-	task_time_deviation_observed_avg_seconds int,
-	task_time_deviation_optimal_avg_seconds int,
-	task_errors_pct float,
-	task_errors_stddev_pct float,
+	task_success_avg_pct text,
+	task_success_stddev_pct text,
+	task_path_deviation_observed text,
+	task_path_deviation_optimal text,
+	task_time_avg_seconds text,
+	task_time_stddev_seconds text,
+	task_time_deviation_observed_avg_seconds text,
+	task_time_deviation_optimal_avg_seconds text,
+	task_errors_pct text,
+	task_errors_stddev_pct text,
 	task_rating_scale varchar(50),
-	task_rating float,
-	task_rating_stddev float,
+	task_rating text,
+	task_rating_stddev text,
 	creation_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_user bigint NOT NULL,
@@ -1733,7 +1733,7 @@ CREATE TABLE openchpl.pending_certification_result(
 	pending_certification_result_id bigserial NOT NULL,
 	certification_criterion_id bigint NOT NULL,
 	pending_certified_product_id bigint NOT NULL,
-	meets_criteria boolean NOT NULL,
+	meets_criteria boolean not null,
 	gap bool,
 	sed bool,
 	g1_success bool,
@@ -2980,6 +2980,24 @@ CREATE TABLE openchpl.chpl_file
         REFERENCES openchpl.file_type (file_type_id) MATCH FULL
         ON UPDATE CASCADE
 		ON DELETE RESTRICT
+);
+
+CREATE TABLE IF NOT EXISTS openchpl.user_certification_body_map (
+	id bigserial NOT NULL,
+	user_id bigint NOT NULL,
+	certification_body_id bigint NOT NULL,
+	retired bool NOT NULL DEFAULT false,
+	creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
+	CONSTRAINT user_certification_body_pk PRIMARY KEY (id),
+	CONSTRAINT user_fk FOREIGN KEY (user_id)
+		REFERENCES openchpl.user (user_id) 
+		MATCH SIMPLE ON UPDATE NO ACTION ON DELETE RESTRICT,
+	CONSTRAINT certification_body_fk FOREIGN KEY (certification_body_id)
+		REFERENCES openchpl.certification_body (certification_body_id) 
+		MATCH SIMPLE ON UPDATE NO ACTION ON DELETE RESTRICT
 );
 
 CREATE INDEX fki_certified_product_id_fk

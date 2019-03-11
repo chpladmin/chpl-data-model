@@ -925,27 +925,12 @@ SELECT
     ehr.certification_id as ehr_certification_id_text,
     ehr.creation_date as ehr_certification_id_creation_date,
     cp.certified_product_id,
-    (select chpl_product_number from openchpl.get_chpl_product_number(cp.certified_product_id)),
-    (select testing_lab_code from openchpl.get_testing_lab_code(cp.certified_product_id)),
-    ed.year,
-    acb.certification_body_code,
-    v.vendor_code,
-    cp.product_code,
-    cp.version_code,
-    cp.ics_code,
-    cp.additional_software_code,
-    cp.certified_date_code
+    (select chpl_product_number from openchpl.get_chpl_product_number(cp.certified_product_id))
 FROM openchpl.ehr_certification_id ehr
     LEFT JOIN openchpl.ehr_certification_id_product_map prodMap
     ON ehr.ehr_certification_id_id = prodMap.ehr_certification_id_id
     LEFT JOIN openchpl.certified_product cp
     ON prodMap.certified_product_id = cp.certified_product_id
-    LEFT JOIN (SELECT certification_edition_id, year FROM openchpl.certification_edition) ed on cp.certification_edition_id = ed.certification_edition_id
-    LEFT JOIN (SELECT certification_body_id, name as "certification_body_name", acb_code as "certification_body_code" FROM openchpl.certification_body) acb
-    ON cp.certification_body_id = acb.certification_body_id
-    LEFT JOIN (SELECT product_version_id, product_id from openchpl.product_version) pv on cp.product_version_id = pv.product_version_id
-    LEFT JOIN (SELECT product_id, vendor_id FROM openchpl.product) prod ON pv.product_id = prod.product_id
-    LEFT JOIN (SELECT vendor_id, vendor_code from openchpl.vendor) v ON prod.vendor_id = v.vendor_id
     ;
 
 CREATE VIEW openchpl.product_active_owner_history_map AS
@@ -995,23 +980,25 @@ CREATE VIEW openchpl.certified_product_summary AS
     p.name AS product_name,
     v.name AS vendor_name,
     v.vendor_code,
-    cs.certification_status,
+    lastCertStatusEvent.certification_status,
     cb.acb_code,
     cb.name AS certification_body_name,
     cb.website AS certification_body_website
    FROM openchpl.certified_product cp
      JOIN openchpl.certification_edition ce ON cp.certification_edition_id = ce.certification_edition_id
-     JOIN ( SELECT cse.certification_status_id,
-            cse.certified_product_id,
-            cse.event_date AS last_certification_status_change
-           FROM openchpl.certification_status_event cse
-             JOIN ( SELECT certification_status_event.certified_product_id,
-                    max(certification_status_event.event_date) AS event_date
-                   FROM openchpl.certification_status_event
-                  WHERE certification_status_event.deleted <> true
-                  GROUP BY certification_status_event.certified_product_id) cseinner ON cse.certified_product_id = cseinner.certified_product_id AND cse.event_date = cseinner.event_date
-          WHERE cse.deleted <> true) max_cse ON max_cse.certified_product_id = cp.certified_product_id
-     JOIN openchpl.certification_status cs ON cs.certification_status_id = max_cse.certification_status_id
+	 JOIN (
+		SELECT certStatus.certification_status as "certification_status", cse.certified_product_id as "certified_product_id"
+		FROM openchpl.certification_status_event cse
+			INNER JOIN openchpl.certification_status certStatus ON cse.certification_status_id = certStatus.certification_status_id
+			INNER JOIN
+			(SELECT certified_product_id, extract(epoch from MAX(event_date)) event_date
+			FROM openchpl.certification_status_event
+			GROUP BY certified_product_id) maxCse
+			ON cse.certified_product_id = maxCse.certified_product_id
+		--conversion to epoch/long comparison significantly faster than comparing the timestamp fields as-is
+			AND extract(epoch from cse.event_date) = maxCse.event_date
+			) lastCertStatusEvent
+	 ON lastCertStatusEvent.certified_product_id = cp.certified_product_id
      JOIN openchpl.product_version pv ON cp.product_version_id = pv.product_version_id
      JOIN openchpl.product p ON pv.product_id = p.product_id
      JOIN openchpl.vendor v ON p.vendor_id = v.vendor_id
