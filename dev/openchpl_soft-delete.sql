@@ -1,14 +1,12 @@
 CREATE OR REPLACE FUNCTION openchpl.certified_product_soft_delete()
 RETURNS TRIGGER AS $$
 BEGIN
-    UPDATE openchpl.certification_event as src SET deleted = NEW.deleted WHERE src.certified_product_id = NEW.certified_product_id;
 	UPDATE openchpl.certification_status_event as src SET deleted = NEW.deleted WHERE src.certified_product_id = NEW.certified_product_id;
     UPDATE openchpl.certification_result as src SET deleted = NEW.deleted WHERE src.certified_product_id = NEW.certified_product_id;
     UPDATE openchpl.certified_product_accessibility_standard as src SET deleted = NEW.deleted WHERE src.certified_product_id = NEW.certified_product_id;
     UPDATE openchpl.certified_product_qms_standard as src SET deleted = NEW.deleted WHERE src.certified_product_id = NEW.certified_product_id;
     UPDATE openchpl.certified_product_targeted_user as src SET deleted = NEW.deleted WHERE src.certified_product_id = NEW.certified_product_id;
 	UPDATE openchpl.certified_product_testing_lab_map as src SET deleted = NEW.deleted WHERE src.certified_product_id = NEW.certified_product_id;
-    UPDATE openchpl.corrective_action_plan as src SET deleted = NEW.deleted WHERE src.certified_product_id = NEW.certified_product_id;
     UPDATE openchpl.cqm_result as src SET deleted = NEW.deleted WHERE src.certified_product_id = NEW.certified_product_id;
     UPDATE openchpl.ehr_certification_id_product_map as src SET deleted = NEW.deleted WHERE src.certified_product_id = NEW.certified_product_id;
     UPDATE openchpl.pending_certification_result_additional_software as src SET deleted = NEW.deleted WHERE src.certified_product_id = NEW.certified_product_id;
@@ -40,17 +38,6 @@ END;
 $$ language 'plpgsql';
 DROP TRIGGER IF EXISTS certification_result_soft_delete on openchpl.certification_result;
 CREATE TRIGGER certification_result_soft_delete AFTER UPDATE of deleted on openchpl.certification_result FOR EACH ROW EXECUTE PROCEDURE openchpl.certification_result_soft_delete();
-
-CREATE OR REPLACE FUNCTION openchpl.corrective_action_plan_soft_delete()
-RETURNS TRIGGER AS $$
-BEGIN
-    UPDATE openchpl.corrective_action_plan_certification_result as src SET deleted = NEW.deleted WHERE src.corrective_action_plan_id = NEW.corrective_action_plan_id;
-    UPDATE openchpl.corrective_action_plan_documentation as src SET deleted = NEW.deleted WHERE src.corrective_action_plan_id = NEW.corrective_action_plan_id;
-    RETURN NEW;
-END;
-$$ language 'plpgsql';
-DROP TRIGGER IF EXISTS corrective_action_plan_soft_delete on openchpl.corrective_action_plan;
-CREATE TRIGGER corrective_action_plan_soft_delete AFTER UPDATE of deleted on openchpl.corrective_action_plan FOR EACH ROW EXECUTE PROCEDURE openchpl.corrective_action_plan_soft_delete();
 
 CREATE OR REPLACE FUNCTION openchpl.cqm_result_soft_delete()
 RETURNS TRIGGER AS $$
