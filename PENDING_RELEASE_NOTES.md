@@ -8,6 +8,7 @@ _Date TBD_
 * Removed unused compliance column from user table
 * Removed unused muu_accurate_as_of_date table
 * Remove backup ACL tables
+* Modify certified_product_summary view to improve perfomance of certification status join
 
 ### Data Modifications
 * Mark "Pending" ACB as deleted
