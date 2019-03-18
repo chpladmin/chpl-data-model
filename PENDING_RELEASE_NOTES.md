@@ -10,6 +10,7 @@ _Date TBD_
 * Remove backup ACL tables
 * Add table user_testing_lab_map to store relationship between users and ATLs
 * Create temporary backup tables for ACL data
+* Modify certified_product_summary view to improve perfomance of certification status join
 
 ### Data Modifications
 * Mark "Pending" ACB as deleted
