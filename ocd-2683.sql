@@ -9,7 +9,7 @@ DO $$
 BEGIN
   -- Clear out the ACL tables, if necessary
   -- This needs to be done in a particular order due to FK constraints
-  IF EXISTS(SELECT * FROM information_schema.tables WHERE table_catalog = 'openchpl' AND table_name = 'acl_entry_backup')
+  IF EXISTS(SELECT * FROM information_schema.tables WHERE table_catalog = 'openchpl' AND table_name = 'acl_entry_backup_for_atl')
   THEN
       DELETE FROM openchpl.acl_entry;
   END IF;
