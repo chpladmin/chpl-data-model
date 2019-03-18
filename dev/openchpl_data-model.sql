@@ -2877,7 +2877,7 @@ CREATE TABLE IF NOT EXISTS openchpl.user_certification_body_map (
 		MATCH SIMPLE ON UPDATE NO ACTION ON DELETE RESTRICT
 );
 
-CREATE TABLE IF NOT EXISTS openchpl.user_test_lab_map (
+CREATE TABLE IF NOT EXISTS openchpl.user_testing_lab_map (
 	id bigserial NOT NULL,
 	user_id bigint NOT NULL,
 	testing_lab_id bigint NOT NULL,
