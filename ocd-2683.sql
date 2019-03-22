@@ -27,19 +27,19 @@ BEGIN
   IF EXISTS(SELECT * FROM information_schema.tables WHERE table_catalog = 'openchpl' AND table_name = 'acl_class_backup_for_atl')
   THEN
 	  INSERT INTO openchpl.acl_class
-	  SELECT * FROM openchpl.acl_class_backup;
+	  SELECT * FROM openchpl.acl_class_backup_for_atl;
   END IF;
 
   IF EXISTS(SELECT * FROM information_schema.tables WHERE table_catalog = 'openchpl' AND table_name = 'acl_object_identity_backup_for_atl')
   THEN
 	  INSERT INTO openchpl.acl_object_identity
-	  SELECT * FROM openchpl.acl_object_identity_backup;
+	  SELECT * FROM openchpl.acl_object_identity_backup_for_atl;
   END IF;
 
   IF EXISTS(SELECT * FROM information_schema.tables WHERE table_catalog = 'openchpl' AND table_name = 'acl_entry_backup_for_atl')
   THEN
 	  INSERT INTO openchpl.acl_entry
-	  SELECT * FROM openchpl.acl_entry_backup;
+	  SELECT * FROM openchpl.acl_entry_backup_for_atl;
   END IF;
 END $$;
 
