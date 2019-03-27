@@ -1,3 +1,36 @@
+-- Deployment file for version 17.0.0
+--     as of 2019-03-27
+-- ocd-2679-part2.sql
+---------------------------------------
+-- OCD-2679
+-- Step 2
+-- Drop the ACL backup tables
+---------------------------------------
+
+DROP TABLE IF EXISTS openchpl.acl_object_identity_backup;
+DROP TABLE IF EXISTS openchpl.acl_class_backup;
+DROP TABLE IF EXISTS openchpl.acl_entry_backup;;
+-- ocd-2739.sql
+-- OCD-2739: removing OBE stuff
+-- corrective action plans
+drop table if exists openchpl.corrective_action_plan_documentation;
+drop table if exists openchpl.corrective_action_plan_certification_result;
+drop table if exists openchpl.corrective_action_plan;
+
+-- event types
+drop table if exists openchpl.certification_event;
+drop table if exists openchpl.event_type;
+
+-- compliance signature
+alter table openchpl.user drop column if exists compliance_signature;
+
+-- pending certified body
+update openchpl.certification_body set deleted = true where name = 'Pending';
+
+-- leftover muu_accurate_as_of_date table
+drop table if exists openchpl.muu_accurate_as_of_date;
+;
+-- ocd-2683.sql
 ---------------------------------------
 -- OCD-2683
 -- Step 1
@@ -117,3 +150,8 @@ SELECT * FROM openchpl.acl_class;
 
 DELETE FROM openchpl.acl_class
 WHERE "class" = 'gov.healthit.chpl.dto.TestingLabDTO';
+;
+insert into openchpl.data_model_version (version, deploy_date, last_modified_user) values ('17.0.0', '2019-03-27', -1);
+\i dev/openchpl_soft-delete.sql
+\i dev/openchpl_views.sql
+\i dev/openchpl_grant-all.sql

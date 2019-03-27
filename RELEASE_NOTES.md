@@ -1,5 +1,25 @@
 # Release Notes
 
+## Version 17.0.0
+_27 March 2019_
+
+### Table modifications
+* Remove obsolete corrective_action_plan tables
+* Remove unused certification_event & event_type tables
+* Removed unused compliance column from user table
+* Removed unused muu_accurate_as_of_date table
+* Remove backup ACL tables
+* Modify certified_product_summary view to improve perfomance of certification status join
+* Add table user_testing_lab_map to store relationship between users and ATLs
+* Create temporary backup tables for ACL data
+
+### Data Modifications
+* Mark "Pending" ACB as deleted
+* Populate user_testing_lab_map based on ACL tables
+* Backup ACL tables and delete those that have ATL related information
+
+---
+
 ## Version 16.1.0
 _11 March 2019_
 
