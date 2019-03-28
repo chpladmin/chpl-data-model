@@ -1204,57 +1204,6 @@ CREATE TABLE openchpl.cqm_criterion_type(
 -- ALTER TABLE openchpl.cqm_criterion_type OWNER TO openchpl;
 -- ddl-end --
 
--- object: openchpl.certification_event | type: TABLE --
--- DROP TABLE IF EXISTS openchpl.certification_event CASCADE;
-CREATE TABLE openchpl.certification_event(
-	certification_event_id bigserial NOT NULL,
-	certified_product_id bigint NOT NULL,
-	event_type_id bigint NOT NULL,
-	event_date timestamp NOT NULL,
-	city varchar(250),
-	state varchar(25),
-	creation_date timestamp NOT NULL DEFAULT NOW(),
-	last_modified_date timestamp NOT NULL DEFAULT NOW(),
-	last_modified_user bigint NOT NULL,
-	deleted bool NOT NULL DEFAULT false,
-	CONSTRAINT certification_events_pk PRIMARY KEY (certification_event_id)
-
-);
--- ddl-end --
--- ALTER TABLE openchpl.certification_event OWNER TO openchpl;
--- ddl-end --
-
--- object: certified_product_fk | type: CONSTRAINT --
--- ALTER TABLE openchpl.certification_event DROP CONSTRAINT IF EXISTS certified_product_fk CASCADE;
-ALTER TABLE openchpl.certification_event ADD CONSTRAINT certified_product_fk FOREIGN KEY (certified_product_id)
-REFERENCES openchpl.certified_product (certified_product_id) MATCH FULL
-ON DELETE RESTRICT ON UPDATE CASCADE;
--- ddl-end --
-
--- object: openchpl.event_type | type: TABLE --
--- DROP TABLE IF EXISTS openchpl.event_type CASCADE;
-CREATE TABLE openchpl.event_type(
-	event_type_id bigserial NOT NULL,
-	name varchar(50) NOT NULL,
-	description varchar(250) NOT NULL,
-	creation_date timestamp NOT NULL DEFAULT NOW(),
-	last_modified_date timestamp NOT NULL DEFAULT NOW(),
-	last_modified_user bigint NOT NULL,
-	deleted bool NOT NULL DEFAULT false,
-	CONSTRAINT event_type_pk PRIMARY KEY (event_type_id)
-
-);
--- ddl-end --
--- ALTER TABLE openchpl.event_type OWNER TO openchpl;
--- ddl-end --
-
--- object: event_type_fk | type: CONSTRAINT --
--- ALTER TABLE openchpl.certification_event DROP CONSTRAINT IF EXISTS event_type_fk CASCADE;
-ALTER TABLE openchpl.certification_event ADD CONSTRAINT event_type_fk FOREIGN KEY (event_type_id)
-REFERENCES openchpl.event_type (event_type_id) MATCH FULL
-ON DELETE RESTRICT ON UPDATE CASCADE;
--- ddl-end --
-
 -- object: openchpl.product_classification_type | type: TABLE --
 -- DROP TABLE IF EXISTS openchpl.product_classification_type CASCADE;
 CREATE TABLE openchpl.product_classification_type(
@@ -2100,78 +2049,6 @@ COMMENT ON TABLE openchpl.invited_user_permission IS 'A user that has been invit
 -- ALTER TABLE openchpl.invited_user_permission OWNER TO openchpl;
 -- ddl-end --
 
-CREATE TABLE openchpl.corrective_action_plan(
-	corrective_action_plan_id bigserial NOT NULL,
-	certified_product_id bigint NOT NULL,
-	surveillance_start timestamp NOT NULL,
-	surveillance_result boolean NOT NULL,
-	surveillance_end timestamp,
-	noncompliance_determination_date timestamp NOT NULL, -- the date noncompliance was determined by an ACB
-	approval_date timestamp, -- the date ONC approved a corrective action plan
-	start_date timestamp, -- the date corrective action began
-	completion_date_required timestamp, -- the date corrective action must be completed
-	completion_date_actual timestamp, -- the date corrective action was completed
-	summary text,
-	developer_explanation text,
-	resolution text,
-	creation_date timestamp NOT NULL DEFAULT NOW(),
-	last_modified_date timestamp NOT NULL DEFAULT NOW(),
-	last_modified_user bigint NOT NULL,
-	deleted bool NOT NULL DEFAULT false,
-	CONSTRAINT corrective_action_plan_pk PRIMARY KEY (corrective_action_plan_id)
-);
-
-ALTER TABLE openchpl.corrective_action_plan ADD CONSTRAINT certified_product_fk FOREIGN KEY (certified_product_id)
-REFERENCES openchpl.certified_product (certified_product_id) MATCH FULL
-ON DELETE RESTRICT ON UPDATE CASCADE;
--- ALTER TABLE openchpl.corrective_action_plan OWNER TO openchpl;
-
-CREATE TABLE openchpl.corrective_action_plan_certification_result (
-	corrective_action_plan_certification_result_id bigserial NOT NULL,
-	certification_criterion_id bigint NOT NULL,
-	corrective_action_plan_id bigint NOT NULL,
-	summary text,
-	developer_explanation text,
-	resolution text,
-	num_sites_passed int,
-	num_sites_total int,
-	creation_date timestamp NOT NULL DEFAULT NOW(),
-	last_modified_date timestamp NOT NULL DEFAULT NOW(),
-	last_modified_user bigint NOT NULL,
-	deleted bool NOT NULL DEFAULT false,
-	CONSTRAINT corrective_action_plan_certification_result_pk PRIMARY KEY (corrective_action_plan_certification_result_id)
-);
-
-ALTER TABLE openchpl.corrective_action_plan_certification_result ADD CONSTRAINT certification_criterion_fk FOREIGN KEY (certification_criterion_id)
-REFERENCES openchpl.certification_criterion (certification_criterion_id) MATCH FULL
-ON DELETE RESTRICT ON UPDATE CASCADE;
-
-ALTER TABLE openchpl.corrective_action_plan_certification_result ADD CONSTRAINT corrective_action_plan_fk FOREIGN KEY (corrective_action_plan_id)
-REFERENCES openchpl.corrective_action_plan (corrective_action_plan_id) MATCH FULL
-ON DELETE RESTRICT ON UPDATE CASCADE;
-
-
--- ALTER TABLE openchpl.corrective_action_plan_certification_result OWNER TO openchpl;
-
-CREATE TABLE openchpl.corrective_action_plan_documentation (
-	corrective_action_plan_documentation_id bigserial NOT NULL,
-	corrective_action_plan_id bigint NOT NULL,
-	filename varchar(250) NOT NULL,
-	filetype varchar(250),
-	filedata bytea not null,
-	creation_date timestamp NOT NULL DEFAULT NOW(),
-	last_modified_date timestamp NOT NULL DEFAULT NOW(),
-	last_modified_user bigint NOT NULL,
-	deleted bool NOT NULL DEFAULT false,
-	CONSTRAINT corrective_action_plan_documentation_pk PRIMARY KEY (corrective_action_plan_documentation_id)
-);
-
-ALTER TABLE openchpl.corrective_action_plan_documentation ADD CONSTRAINT corrective_action_plan_fk FOREIGN KEY (corrective_action_plan_id)
-REFERENCES openchpl.corrective_action_plan (corrective_action_plan_id) MATCH FULL
-ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- ALTER TABLE openchpl.corrective_action_plan_documentation OWNER TO openchpl;
-
 CREATE TABLE openchpl.api_key
 (
   api_key_id bigserial NOT NULL,
@@ -3000,6 +2877,24 @@ CREATE TABLE IF NOT EXISTS openchpl.user_certification_body_map (
 		MATCH SIMPLE ON UPDATE NO ACTION ON DELETE RESTRICT
 );
 
+CREATE TABLE IF NOT EXISTS openchpl.user_testing_lab_map (
+	id bigserial NOT NULL,
+	user_id bigint NOT NULL,
+	testing_lab_id bigint NOT NULL,
+	retired bool NOT NULL DEFAULT false,
+	creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
+	CONSTRAINT user_testing_lab_pk PRIMARY KEY (id),
+	CONSTRAINT user_fk FOREIGN KEY (user_id)
+		REFERENCES openchpl.user (user_id) 
+		MATCH SIMPLE ON UPDATE NO ACTION ON DELETE RESTRICT,
+	CONSTRAINT testing_lab_fk FOREIGN KEY (testing_lab_id)
+		REFERENCES openchpl.testing_lab (testing_lab_id) 
+		MATCH SIMPLE ON UPDATE NO ACTION ON DELETE RESTRICT
+);
+
 CREATE INDEX fki_certified_product_id_fk
 ON openchpl.ehr_certification_id_product_map
 USING btree
@@ -3018,8 +2913,6 @@ CREATE INDEX ix_product ON openchpl.product (product_id, vendor_id, deleted);
 CREATE INDEX ix_vendor ON openchpl.vendor (vendor_id, address_id, contact_id, vendor_status_id, deleted);
 
 CREATE INDEX ix_certification_criterion ON openchpl.certification_criterion (certification_criterion_id, certification_edition_id, deleted);
-
-CREATE INDEX ix_certification_event ON openchpl.certification_event (certification_event_id, certified_product_id, event_type_id, deleted);
 
 CREATE INDEX ix_certification_result ON openchpl.certification_result (certification_result_id, certification_criterion_id, certified_product_id, deleted);
 
