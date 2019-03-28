@@ -1,5 +1,13 @@
 # Release Notes
 
+## Version 17.0.1
+_28 March 2019_
+
+### Data Modifications
+* Mark "Pending" Certification Status as deleted
+
+---
+
 ## Version 17.0.0
 _27 March 2019_
 

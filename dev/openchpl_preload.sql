@@ -9,6 +9,8 @@ insert into openchpl.education_type (name, last_modified_user) values ('No high 
 insert into openchpl.test_participant_age (age, last_modified_user) values ('0-9', -1),('10-19', -1),('20-29', -1),('30-39', -1),('40-49', -1),('50-59', -1),('60-69', -1),('70-79', -1),('80-89', -1),('90-99', -1),('100+', -1);
 insert into openchpl.vendor_status (name, last_modified_user) values('Active', -1), ('Suspended by ONC', -1), ('Under certification ban by ONC', -1);
 
+update openchpl.certification_status set deleted = true where certification_status = 'Pending';
+
 INSERT INTO openchpl.surveillance_type (name, last_modified_user)
 values ('Reactive', -1),('Randomized', -1);
 
