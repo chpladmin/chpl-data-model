@@ -3,12 +3,13 @@ insert into openchpl.practice_type (name, description, last_modified_user) value
 insert into openchpl.product_classification_type (name, description, last_modified_user) values ('Modular EHR', 'Modular EHR', -1), ('Complete EHR', 'Complete EHR', -1);
 insert into openchpl.certification_edition (year, retired, last_modified_user) values (2011, true, -1), (2014, false, -1), (2015, false, -1);
 insert into openchpl.cqm_criterion_type (name, description, last_modified_user) values ('Ambulatory', 'Ambulatory', -1), ('Inpatient','Inpatient',-1);
-insert into openchpl.event_type (name, description, last_modified_user) values ('Certification','Product is certified', -1), ('Active', 'Product moved from Pending to Active', -1);
 insert into openchpl.cqm_version (version, last_modified_user) values ('v0', -1), ('v1', -1), ('v2', -1), ('v3', -1), ('v4', -1), ('v5', -1), ('v6', -1), ('v7', -1), ('v8', -1);
-insert into openchpl.certification_status (certification_status, last_modified_user) values ('Active', -1), ('Retired', -1), ('Withdrawn by Developer', -1), ('Withdrawn by ONC-ACB', -1), ('Pending', -1), ('Suspended by ONC-ACB', -1), ('Suspended by ONC', -1), ('Terminated by ONC', -1), ('Withdrawn by Developer Under Surveillance/Review', -1);
+insert into openchpl.certification_status (certification_status, last_modified_user) values ('Active', -1), ('Retired', -1), ('Withdrawn by Developer', -1), ('Withdrawn by ONC-ACB', -1), ('Suspended by ONC-ACB', -1), ('Suspended by ONC', -1), ('Terminated by ONC', -1), ('Withdrawn by Developer Under Surveillance/Review', -1);
 insert into openchpl.education_type (name, last_modified_user) values ('No high school degree', -1), ('High school graduate, diploma or the equivalent (for example: GED)', -1), ('Some college credit, no degree', -1), ('Trade/technical/vocational training', -1), ('Associate degree', -1), ('Bachelor''s degree', -1), ('Master''s degree', -1), ('Doctorate degree (e.g., MD, DNP, DMD, PhD)', -1);
 insert into openchpl.test_participant_age (age, last_modified_user) values ('0-9', -1),('10-19', -1),('20-29', -1),('30-39', -1),('40-49', -1),('50-59', -1),('60-69', -1),('70-79', -1),('80-89', -1),('90-99', -1),('100+', -1);
 insert into openchpl.vendor_status (name, last_modified_user) values('Active', -1), ('Suspended by ONC', -1), ('Under certification ban by ONC', -1);
+
+update openchpl.certification_status set deleted = true where certification_status = 'Pending';
 
 INSERT INTO openchpl.surveillance_type (name, last_modified_user)
 values ('Reactive', -1),('Randomized', -1);
@@ -1033,9 +1034,11 @@ INSERT INTO openchpl.test_tool(name, last_modified_user, retired) VALUES
 ('Electronic Prescribing', -1, false),
 ('HL7 CDA National Health Care Surveys Validator', -1, false),
 ('Edge Testing Tool', -1, false),
-('CDC''s NHSN CDA Validator', -1, false),
+('CDC''s NHSN CDA Validator', -1, true),
 ('NCQA ONC Health IT Testing', -1, false),
-('HIMSS Immunization Integration Program', -1, false);
+('HIMSS Immunization Integration Program', -1, false),
+('NHCS IG Release 1 Validator', -1, false),
+('NHCS IG Release 1.2 Validator', -1, false);
 --2015
 
 INSERT INTO openchpl.test_standard(number, name, certification_edition_id, last_modified_user) VALUES
@@ -1931,7 +1934,9 @@ values
 ('ICSA Labs', '07', false, null, -1),
 ('National Technical Systems', '09', true, '2016-07-28', -1);
 
-INSERT INTO acl_class VALUES (1, 'gov.healthit.chpl.auth.dto.UserDTO'), (2, 'gov.healthit.chpl.dto.CertificationBodyDTO'), (3, 'gov.healthit.chpl.dto.TestingLabDTO');
+update openchpl.certification_body set deleted = true where name = 'Pending';
+
+INSERT INTO acl_class VALUES (1, 'gov.healthit.chpl.auth.dto.UserDTO'), (3, 'gov.healthit.chpl.dto.TestingLabDTO');
 SELECT pg_catalog.setval('acl_class_id_seq', 4, true);
 
 --inserts users that can have acls
@@ -1941,16 +1946,6 @@ INSERT INTO acl_sid VALUES
 --insert user objects
 INSERT INTO acl_object_identity VALUES
 (-2, 1, -2, NULL, -2, true);
-
---insert acb objects
-INSERT INTO acl_object_identity VALUES
-(2, 2, 1, NULL, -2, true),
-(3, 2, 2, NULL, -2, true),
-(4, 2, 3, NULL, -2, true),
-(5, 2, 4, NULL, -2, true),
-(6, 2, 5, NULL, -2, true),
-(7, 2, 6, NULL, -2, true),
-(8, 2, 7, NULL, -2, true);
 
 -- insert atl objects
 INSERT INTO acl_object_identity VALUES
@@ -1964,16 +1959,6 @@ INSERT INTO acl_object_identity VALUES
 --insert acls for users
 INSERT INTO acl_entry VALUES
 (1, -2, 0, -2, 16, true, false, false);
-
---insert acls for acbs
-INSERT INTO acl_entry VALUES
-(2, 2, 0, -2, 16, true, false, false),
-(3, 3, 0, -2, 16, true, false, false),
-(4, 4, 0, -2, 16, true, false, false),
-(5, 5, 0, -2, 16, true, false, false),
-(6, 6, 0, -2, 16, true, false, false),
-(7, 7, 0, -2, 16, true, false, false),
-(8, 8, 0, -2, 16, true, false, false);
 
 -- insert acls for atls
 INSERT INTO acl_entry VALUES
