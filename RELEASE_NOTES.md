@@ -1,5 +1,16 @@
 # Release Notes
 
+## Version 17.1.0
+_1 April 2019_
+
+### Table Modifications
+* Remove the certification status id reference from the pending_certified_product table.
+
+### Data Modifications
+* Mark the Pending certification status as deleted (again).
+
+---
+
 ## Version 17.0.1
 _28 March 2019_
 

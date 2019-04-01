@@ -1459,7 +1459,7 @@ ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 -- object: openchpl.pending_certified_product | type: TABLE --
 --DROP TABLE IF EXISTS openchpl.pending_certified_product CASCADE;
-CREATE TABLE openchpl.pending_certified_product(
+CREATE TABLE openchpl.pending_certified_product (
 	pending_certified_product_id bigserial NOT NULL,
 
 	-- columns from the upload spreadsheet
@@ -1510,7 +1510,6 @@ CREATE TABLE openchpl.pending_certified_product(
 	last_modified_date timestamp without time zone NOT NULL DEFAULT now(),
 	last_modified_user bigint NOT NULL,
 	deleted boolean NOT NULL DEFAULT false,
-	certification_status_id bigint NOT NULL, -- pending, rejected, active
 	CONSTRAINT pending_certified_product_pk PRIMARY KEY (pending_certified_product_id)
 );
 -- ddl-end --
