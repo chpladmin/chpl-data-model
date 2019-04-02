@@ -1461,6 +1461,8 @@ ON DELETE NO ACTION ON UPDATE NO ACTION;
 --DROP TABLE IF EXISTS openchpl.pending_certified_product CASCADE;
 CREATE TABLE openchpl.pending_certified_product (
 	pending_certified_product_id bigserial NOT NULL,
+	error_count int,
+	warning_count int,
 
 	-- columns from the upload spreadsheet
 	unique_id varchar(255),
