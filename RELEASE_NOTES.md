@@ -1,5 +1,16 @@
 # Release Notes
 
+## Version 17.2.0
+_8 April 2019_
+
+### Table modifications
+* Add error and warning count to pending listing table.
+
+### Data modifications
+* Update activity concept 'PENDING SURVEIALLNCE' to 'PENDING_SURVEILLANCE'
+
+---
+
 ## Version 17.1.0
 _1 April 2019_
 
