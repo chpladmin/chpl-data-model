@@ -529,7 +529,7 @@ LEFT JOIN (
 		muu.meaningful_use_users_date
 	FROM openchpl.meaningful_use_user muu
 	 INNER JOIN ( 
-	   SELECT DISTINICT meaningful_use_user.certified_product_id,
+	   SELECT DISTINCT meaningful_use_user.certified_product_id,
 			max(meaningful_use_user.meaningful_use_users_date) as meaningful_use_users_date
 	   FROM openchpl.meaningful_use_user
 	   WHERE deleted <> true
