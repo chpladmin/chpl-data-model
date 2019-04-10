@@ -211,7 +211,8 @@ CREATE VIEW openchpl.certified_product_details AS
                     max(meaningful_use_user.meaningful_use_users_date) AS meaningful_use_users_date
                    FROM openchpl.meaningful_use_user
                   WHERE meaningful_use_user.deleted <> true
-                  GROUP BY meaningful_use_user.certified_product_id) muuinner ON muu.certified_product_id = muuinner.certified_product_id AND muu.meaningful_use_users_date = muuinner.meaningful_use_users_date
+                  GROUP BY meaningful_use_user.certified_product_id
+				  LIMIT 1) muuinner ON muu.certified_product_id = muuinner.certified_product_id AND muu.meaningful_use_users_date = muuinner.meaningful_use_users_date
           WHERE muu.deleted <> true) muuresult ON muuresult.certified_product_id = a.certified_product_id
      LEFT JOIN ( SELECT certification_edition.certification_edition_id,
             certification_edition.year
@@ -533,7 +534,8 @@ LEFT JOIN (
 			max(meaningful_use_user.meaningful_use_users_date) as meaningful_use_users_date
 	   FROM openchpl.meaningful_use_user
 	   WHERE deleted <> true
-	   GROUP BY meaningful_use_user.certified_product_id) muuInner 
+	   GROUP BY meaningful_use_user.certified_product_id
+	   LIMIT 1) muuInner 
 	 ON muu.certified_product_id = muuInner.certified_product_id 
 	 AND muu.meaningful_use_users_date = muuInner.meaningful_use_users_date
 	WHERE muu.deleted <> true) muuResult
