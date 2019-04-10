@@ -203,7 +203,7 @@ CREATE VIEW openchpl.certified_product_details AS
      LEFT JOIN ( SELECT certification_status.certification_status_id,
             certification_status.certification_status AS certification_status_name
            FROM openchpl.certification_status) n ON r.certification_status_id = n.certification_status_id
-     LEFT JOIN ( SELECT muu.meaningful_use_users,
+     LEFT JOIN ( SELECT DISTINCT muu.meaningful_use_users,
             muu.certified_product_id,
             muu.meaningful_use_users_date
            FROM openchpl.meaningful_use_user muu
@@ -211,8 +211,7 @@ CREATE VIEW openchpl.certified_product_details AS
                     max(meaningful_use_user.meaningful_use_users_date) AS meaningful_use_users_date
                    FROM openchpl.meaningful_use_user
                   WHERE meaningful_use_user.deleted <> true
-                  GROUP BY meaningful_use_user.certified_product_id
-				  LIMIT 1) muuinner ON muu.certified_product_id = muuinner.certified_product_id AND muu.meaningful_use_users_date = muuinner.meaningful_use_users_date
+                  GROUP BY meaningful_use_user.certified_product_id) muuinner ON muu.certified_product_id = muuinner.certified_product_id AND muu.meaningful_use_users_date = muuinner.meaningful_use_users_date
           WHERE muu.deleted <> true) muuresult ON muuresult.certified_product_id = a.certified_product_id
      LEFT JOIN ( SELECT certification_edition.certification_edition_id,
             certification_edition.year
@@ -530,12 +529,11 @@ LEFT JOIN (
 		muu.meaningful_use_users_date
 	FROM openchpl.meaningful_use_user muu
 	 INNER JOIN ( 
-	   SELECT meaningful_use_user.certified_product_id,
+	   SELECT DISTINICT meaningful_use_user.certified_product_id,
 			max(meaningful_use_user.meaningful_use_users_date) as meaningful_use_users_date
 	   FROM openchpl.meaningful_use_user
 	   WHERE deleted <> true
-	   GROUP BY meaningful_use_user.certified_product_id
-	   LIMIT 1) muuInner 
+	   GROUP BY meaningful_use_user.certified_product_id) muuInner 
 	 ON muu.certified_product_id = muuInner.certified_product_id 
 	 AND muu.meaningful_use_users_date = muuInner.meaningful_use_users_date
 	WHERE muu.deleted <> true) muuResult
