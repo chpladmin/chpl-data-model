@@ -1936,8 +1936,8 @@ values
 
 update openchpl.certification_body set deleted = true where name = 'Pending';
 
-INSERT INTO acl_class VALUES (1, 'gov.healthit.chpl.auth.dto.UserDTO'), (3, 'gov.healthit.chpl.dto.TestingLabDTO');
-SELECT pg_catalog.setval('acl_class_id_seq', 4, true);
+INSERT INTO acl_class VALUES (1, 'gov.healthit.chpl.dto.auth.UserDTO');
+SELECT pg_catalog.setval('acl_class_id_seq', 2, true);
 
 --inserts users that can have acls
 INSERT INTO acl_sid VALUES
