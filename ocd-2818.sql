@@ -156,3 +156,9 @@ UPDATE openchpl.invited_user
 SET permission_object_id = testing_lab_id
 WHERE permission_object_id IS NULL
 AND testing_lab_id IS NOT NULL;
+
+
+---
+-- Update ACL class name due to auth refactor
+---
+UPDATE openchpl.acl_class SET class = 'gov.healthit.chpl.dto.auth.UserDTO' WHERE class='gov.healthit.chpl.auth.dto.UserDTO';
