@@ -7,7 +7,7 @@ CREATE TABLE openchpl.filter_type (
     last_modified_date timestamp without time zone NOT NULL DEFAULT now(),
     last_modified_user bigint NOT NULL,
     deleted boolean NOT NULL DEFAULT false,
-	CONSTRAINT filter_type_pk PRIMARY_KEY (filter_type_id)
+	CONSTRAINT filter_type_pk PRIMARY KEY (filter_type_id)
 );
 
 CREATE TRIGGER filter_type_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.filter_type FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
