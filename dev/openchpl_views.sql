@@ -209,7 +209,7 @@ CREATE VIEW openchpl.certified_product_details AS
 				FROM (	SELECT muu.meaningful_use_users,
 							muu.certified_product_id,
 							muu.meaningful_use_users_date,
-							rank() over (partition by muu.certified_product_id, muu.meaningful_use_users_date order by muu.id) as muu_rank
+							row_number() over (partition by muu.certified_product_id, muu.meaningful_use_users_date order by muu.id) as muu_rank
 						FROM openchpl.meaningful_use_user muu
 						WHERE muu.deleted <> true) muu_ranked
 				WHERE muu_ranked.muu_rank = 1) muuresult ON muuresult.certified_product_id = a.certified_product_id
@@ -530,7 +530,7 @@ LEFT JOIN (
 	FROM (	SELECT muu.meaningful_use_users,
 				muu.certified_product_id,
 				muu.meaningful_use_users_date,
-				rank() over (partition by muu.certified_product_id, muu.meaningful_use_users_date order by muu.id) as muu_rank
+				row_number() over (partition by muu.certified_product_id, muu.meaningful_use_users_date order by muu.id) as muu_rank
 			FROM openchpl.meaningful_use_user muu
 			WHERE muu.deleted <> true) muu_ranked
 	WHERE muu_ranked.muu_rank = 1) muuResult
