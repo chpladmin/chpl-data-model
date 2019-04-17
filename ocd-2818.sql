@@ -68,11 +68,69 @@ ALTER TABLE openchpl.user ADD CONSTRAINT user_permission_fk FOREIGN KEY (user_pe
       REFERENCES openchpl.user_permission (user_permission_id) MATCH FULL
       ON UPDATE CASCADE ON DELETE RESTRICT;
 
--- If a user had ACB and ATL permissions they would now have ACB only.
--- Go through the user_testing_lab_map and remove permissions to any ATLs that they had.
+-- Jim Dow is the only user that was ACB + ATL and at this point will have been migrated to an ACB. 
+-- He is actually supposed to be an ATL so change his permissions to ATL.
+UPDATE openchpl.user
+SET user_permission_id = (SELECT user_permission_id FROM openchpl.user_permission WHERE name = 'ATL')
+WHERE user_name = 'jpdow01';
+
+-- Some users had strange combinations of roles and associated acbs/atls (for example admin role with permission on multiple acbs)
+-- Remove anything that shouldn't be there.
 UPDATE openchpl.user_testing_lab_map
 SET deleted = true
-WHERE user_id IN (SELECT user_id FROM openchpl.user WHERE user_permission_id = (SELECT user_permission_id FROM openchpl.user_permission WHERE name = 'ACB'));
+WHERE user_id IN
+	(SELECT user_id FROM openchpl.user WHERE user_permission_id = (SELECT user_permission_id FROM openchpl.user_permission WHERE name = 'ACB'));
+UPDATE openchpl.user_testing_lab_map
+SET deleted = true
+WHERE user_id IN
+	(SELECT user_id FROM openchpl.user WHERE user_permission_id = (SELECT user_permission_id FROM openchpl.user_permission WHERE name = 'ADMIN'));
+UPDATE openchpl.user_testing_lab_map
+SET deleted = true
+WHERE user_id IN
+	(SELECT user_id FROM openchpl.user WHERE user_permission_id = (SELECT user_permission_id FROM openchpl.user_permission WHERE name = 'ONC'));
+UPDATE openchpl.user_testing_lab_map
+SET deleted = true
+WHERE user_id IN
+	(SELECT user_id FROM openchpl.user WHERE user_permission_id = (SELECT user_permission_id FROM openchpl.user_permission WHERE name = 'CMS_STAFF'));
+UPDATE openchpl.user_testing_lab_map
+SET deleted = true
+WHERE user_id IN
+	(SELECT user_id FROM openchpl.user WHERE user_permission_id = (SELECT user_permission_id FROM openchpl.user_permission WHERE name = 'ONC_STAFF'));		
+UPDATE openchpl.user_certification_body_map
+SET deleted = true
+WHERE user_id IN
+	(SELECT user_id FROM openchpl.user WHERE user_permission_id = (SELECT user_permission_id FROM openchpl.user_permission WHERE name = 'ATL'));
+UPDATE openchpl.user_certification_body_map
+SET deleted = true
+WHERE user_id IN
+	(SELECT user_id FROM openchpl.user WHERE user_permission_id = (SELECT user_permission_id FROM openchpl.user_permission WHERE name = 'ADMIN'));
+UPDATE openchpl.user_certification_body_map
+SET deleted = true
+WHERE user_id IN
+	(SELECT user_id FROM openchpl.user WHERE user_permission_id = (SELECT user_permission_id FROM openchpl.user_permission WHERE name = 'ONC'));
+UPDATE openchpl.user_certification_body_map
+SET deleted = true
+WHERE user_id IN
+	(SELECT user_id FROM openchpl.user WHERE user_permission_id = (SELECT user_permission_id FROM openchpl.user_permission WHERE name = 'CMS_STAFF'));
+UPDATE openchpl.user_certification_body_map
+SET deleted = true
+WHERE user_id IN
+	(SELECT user_id FROM openchpl.user WHERE user_permission_id = (SELECT user_permission_id FROM openchpl.user_permission WHERE name = 'ONC_STAFF'));
+	
+
+-- There are three users who have been removed from their organizations but not marked as deleted.
+-- Mark them deleted.
+UPDATE openchpl.user
+SET deleted = true
+WHERE user_name IN ('jodigonzalez', 'rshelby', 'mohitt');
+
+UPDATE openchpl.user_certification_body_map
+SET deleted = true
+WHERE user_id IN (SELECT user_id from openchpl.user where user_name IN('jodigonzalez', 'rshelby', 'mohitt'));
+
+UPDATE openchpl.user_testing_lab_map
+SET deleted = true
+WHERE user_id IN (SELECT user_id from openchpl.user where user_name IN('jodigonzalez', 'rshelby', 'mohitt'));
 
 ---
 --- Update Invitation tables
@@ -157,8 +215,26 @@ SET permission_object_id = testing_lab_id
 WHERE permission_object_id IS NULL
 AND testing_lab_id IS NOT NULL;
 
-
 ---
 -- Update ACL class name due to auth refactor
 ---
 UPDATE openchpl.acl_class SET class = 'gov.healthit.chpl.dto.auth.UserDTO' WHERE class='gov.healthit.chpl.auth.dto.UserDTO';
+
+--
+-- print out the user accounts before migration and after so we can confirm they are correct
+--
+select u.user_name, p.authority as role_after_migration, 
+	string_agg(distinct up.authority, ',') as roles_before_migration,
+	u.deleted,
+	string_agg(distinct acb.name, ',') as acb_access,
+	string_agg(distinct atl.name, ',') as atl_access
+from openchpl.user u
+left outer join openchpl.user_permission p on u.user_permission_id = p.user_permission_id
+left outer join openchpl.global_user_permission_map old_p on u.user_id = old_p.user_id and old_p.deleted = false
+left outer join openchpl.user_permission up on up.user_permission_id = old_p.user_permission_id_user_permission
+left outer join openchpl.user_certification_body_map ucb on ucb.user_id = u.user_id and ucb.deleted = false
+left outer join openchpl.certification_body acb on ucb.certification_body_id = acb.certification_body_id
+left outer join openchpl.user_testing_lab_map utl on utl.user_id = u.user_id and utl.deleted = false
+left outer join openchpl.testing_lab atl on atl.testing_lab_id = utl.testing_lab_id
+group by u.user_name, p.authority, u.deleted
+order by u.user_name asc;
