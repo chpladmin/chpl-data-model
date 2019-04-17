@@ -74,6 +74,17 @@ UPDATE openchpl.user
 SET user_permission_id = (SELECT user_permission_id FROM openchpl.user_permission WHERE name = 'ATL')
 WHERE user_name = 'jpdow01';
 
+--fix data inconsistencies where a user might have been marked deleted
+--but not that users relationship to acb/atl
+UPDATE openchpl.user_testing_lab_map
+SET deleted = openchpl.user.deleted
+FROM openchpl.user
+WHERE user_testing_lab_map.user_id = openchpl.user.user_id;	
+UPDATE openchpl.user_certification_body_map
+SET deleted = openchpl.user.deleted
+FROM openchpl.user
+WHERE user_certification_body_map.user_id = openchpl.user.user_id;
+
 -- Some users had strange combinations of roles and associated acbs/atls (for example admin role with permission on multiple acbs)
 -- Remove anything that shouldn't be there.
 UPDATE openchpl.user_testing_lab_map
@@ -116,7 +127,6 @@ UPDATE openchpl.user_certification_body_map
 SET deleted = true
 WHERE user_id IN
 	(SELECT user_id FROM openchpl.user WHERE user_permission_id = (SELECT user_permission_id FROM openchpl.user_permission WHERE name = 'ONC_STAFF'));
-	
 
 -- There are three users who have been removed from their organizations but not marked as deleted.
 -- Mark them deleted.
