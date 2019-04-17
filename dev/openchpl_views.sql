@@ -204,15 +204,16 @@ CREATE VIEW openchpl.certified_product_details AS
             certification_status.certification_status AS certification_status_name
            FROM openchpl.certification_status) n ON r.certification_status_id = n.certification_status_id
      LEFT JOIN ( SELECT muu_ranked.meaningful_use_users,
-						muu_ranked.certified_product_id,
-						muu_ranked.meaningful_use_users_date
-				FROM (	SELECT muu.meaningful_use_users,
-							muu.certified_product_id,
-							muu.meaningful_use_users_date,
-							row_number() over (partition by muu.certified_product_id, muu.meaningful_use_users_date order by muu.id) as muu_rank
-						FROM openchpl.meaningful_use_user muu
-						WHERE muu.deleted <> true) muu_ranked
-				WHERE muu_ranked.muu_rank = 1) muuresult ON muuresult.certified_product_id = a.certified_product_id
+			muu_ranked.certified_product_id,
+			muu_ranked.meaningful_use_users_date
+		FROM (	SELECT muu.meaningful_use_users,
+				muu.certified_product_id,
+				muu.meaningful_use_users_date,
+				row_number() over (partition by muu.certified_product_id order by muu.meaningful_use_users_date desc) as muu_rank
+			FROM openchpl.meaningful_use_user muu
+			WHERE muu.deleted <> true) muu_ranked
+		WHERE muu_ranked.muu_rank = 1) muuresult 
+	ON muuresult.certified_product_id = a.certified_product_id
      LEFT JOIN ( SELECT certification_edition.certification_edition_id,
             certification_edition.year
            FROM openchpl.certification_edition) b ON a.certification_edition_id = b.certification_edition_id
@@ -528,13 +529,13 @@ LEFT JOIN (
 		muu_ranked.certified_product_id,
 		muu_ranked.meaningful_use_users_date
 	FROM (	SELECT muu.meaningful_use_users,
-				muu.certified_product_id,
-				muu.meaningful_use_users_date,
-				row_number() over (partition by muu.certified_product_id, muu.meaningful_use_users_date order by muu.id) as muu_rank
-			FROM openchpl.meaningful_use_user muu
-			WHERE muu.deleted <> true) muu_ranked
+			muu.certified_product_id,
+			muu.meaningful_use_users_date,
+			row_number() over (partition by muu.certified_product_id order by muu.meaningful_use_users_date desc) as muu_rank
+		FROM openchpl.meaningful_use_user muu
+		WHERE muu.deleted <> true) muu_ranked
 	WHERE muu_ranked.muu_rank = 1) muuResult
-ON muuResult.certified_product_id = cp.certified_product_id
+	ON muuResult.certified_product_id = cp.certified_product_id
 LEFT JOIN
   (SELECT string_agg(DISTINCT child_chpl_product_number||'☹'||children.child_listing_id::text, '☹'::text) AS child,
           parent_listing_id FROM
