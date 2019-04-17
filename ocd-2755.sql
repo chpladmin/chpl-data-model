@@ -18,6 +18,7 @@ DROP TABLE IF EXISTS openchpl.filter;
 
 CREATE TABLE openchpl.filter (
 	filter_id bigserial not null,
+	name text not null
 	user_id bigint not null,
 	filter_type_id bigint not null,
 	filter json not null,
