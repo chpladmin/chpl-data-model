@@ -223,9 +223,10 @@ UPDATE openchpl.acl_class SET class = 'gov.healthit.chpl.dto.auth.UserDTO' WHERE
 --
 -- print out the user accounts before migration and after so we can confirm they are correct
 --
-select u.user_name, p.authority as role_after_migration, 
-	string_agg(distinct up.authority, ',') as roles_before_migration,
+select u.user_name,
 	u.deleted,
+	string_agg(distinct up.authority, ',') as roles_before_migration,
+	p.authority as role_after_migration, 
 	string_agg(distinct acb.name, ',') as acb_access,
 	string_agg(distinct atl.name, ',') as atl_access
 from openchpl.user u
