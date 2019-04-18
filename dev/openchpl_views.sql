@@ -1017,7 +1017,9 @@ SELECT
 	listing.certified_product_id,
     listing.deleted,
     acb.certification_body_id AS acb_id,
+	acb.name as acb_name,
     dev.vendor_id AS developer_id,
+	dev.name AS developer_name,
     devStatusList.developer_status_id,
     devStatusList.developer_status_name,
     devStatusHistory.last_dev_status_change
