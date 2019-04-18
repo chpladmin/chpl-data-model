@@ -10,6 +10,7 @@ DROP VIEW IF EXISTS openchpl.certification_result_details;
 DROP VIEW IF EXISTS openchpl.product_active_owner_history_map;
 DROP VIEW IF EXISTS openchpl.certified_product_summary;
 DROP VIEW IF EXISTS openchpl.ehr_certification_ids_and_products;
+DROP VIEW IF EXISTS openchpl.listings_from_banned_developers;
 
 create or replace function openchpl.get_testing_lab_code(input_id bigint) returns
     table (
@@ -46,7 +47,7 @@ select
     COALESCE(a.chpl_product_number, substring(b.year from 3 for 2)||'.'||(select openchpl.get_testing_lab_code(a.certified_product_id))||'.'||c.certification_body_code||'.'||h.vendor_code||'.'||a.product_code||'.'||a.version_code||'.'||a.ics_code||'.'||a.additional_software_code||'.'||a.certified_date_code) as "chpl_product_number"
 FROM openchpl.certified_product a
     LEFT JOIN (SELECT certification_edition_id, year FROM openchpl.certification_edition) b on a.certification_edition_id = b.certification_edition_id
-    LEFT JOIN (SELECT certification_body_id, name as "certification_body_name", acb_code as "certification_body_code", deleted as "acb_is_deleted" FROM openchpl.certification_body) c on a.certification_body_id = c.certification_body_id
+    LEFT JOIN (SELECT certification_body_id, name as "certification_body_name", acb_code as "certification_body_code" FROM openchpl.certification_body) c on a.certification_body_id = c.certification_body_id
     LEFT JOIN (SELECT product_version_id, version as "product_version", product_id from openchpl.product_version) f on a.product_version_id = f.product_version_id
     LEFT JOIN (SELECT product_id, vendor_id, name as "product_name" FROM openchpl.product) g ON f.product_id = g.product_id
     LEFT JOIN (SELECT vendor_id, name as "vendor_name", vendor_code, website as "vendor_website", address_id as "vendor_address", contact_id as "vendor_contact", vendor_status_id from openchpl.vendor) h on g.vendor_id = h.vendor_id
@@ -151,7 +152,7 @@ CREATE VIEW openchpl.certified_product_details AS
     b.year,
     c.certification_body_name,
     c.certification_body_code,
-    c.acb_is_deleted,
+    c.acb_is_retired,
     d.product_classification_name,
     e.practice_type_name,
     f.product_version,
@@ -220,7 +221,7 @@ CREATE VIEW openchpl.certified_product_details AS
      LEFT JOIN ( SELECT certification_body.certification_body_id,
             certification_body.name AS certification_body_name,
             certification_body.acb_code AS certification_body_code,
-            certification_body.deleted AS acb_is_deleted
+            certification_body.retired AS acb_is_retired
            FROM openchpl.certification_body) c ON a.certification_body_id = c.certification_body_id
      LEFT JOIN ( SELECT product_classification_type.product_classification_type_id,
             product_classification_type.name AS product_classification_name
@@ -561,8 +562,7 @@ LEFT JOIN
 LEFT JOIN
   (SELECT certification_body.certification_body_id,
           certification_body.name AS certification_body_name,
-          certification_body.acb_code AS certification_body_code,
-          certification_body.deleted AS acb_is_deleted
+          certification_body.acb_code AS certification_body_code
    FROM openchpl.certification_body) acb ON cp.certification_body_id = acb.certification_body_id
 LEFT JOIN
   (SELECT practice_type.practice_type_id,
@@ -710,7 +710,7 @@ FROM
     --year
 	INNER JOIN (SELECT certification_edition_id, year FROM openchpl.certification_edition) edition on cp.certification_edition_id = edition.certification_edition_id
     --ACB
-	INNER JOIN (SELECT certification_body_id, name as "certification_body_name", acb_code as "certification_body_code", deleted as "acb_is_deleted" FROM openchpl.certification_body) acb on cp.certification_body_id = acb.certification_body_id
+	INNER JOIN (SELECT certification_body_id, name as "certification_body_name", acb_code as "certification_body_code" FROM openchpl.certification_body) acb on cp.certification_body_id = acb.certification_body_id
     -- version
 	INNER JOIN (SELECT product_version_id, version as "product_version", product_id from openchpl.product_version) version on cp.product_version_id = version.product_version_id
     --product
@@ -1011,3 +1011,36 @@ CREATE VIEW openchpl.certified_product_summary AS
                   WHERE meaningful_use_user.deleted <> true
                   GROUP BY meaningful_use_user.certified_product_id) muuInner ON muu.certified_product_id = muuInner.certified_product_id AND muu.meaningful_use_users_date = muuInner.meaningful_use_users_date
           WHERE muu.deleted <> true) muuResult ON muuResult.certified_product_id = cp.certified_product_id;
+
+CREATE VIEW openchpl.listings_from_banned_developers AS
+SELECT
+	listing.certified_product_id,
+    listing.deleted,
+    acb.certification_body_id AS acb_id,
+    dev.vendor_id AS developer_id,
+    devStatusList.developer_status_id,
+    devStatusList.developer_status_name,
+    devStatusHistory.last_dev_status_change
+FROM openchpl.certified_product listing
+     LEFT JOIN openchpl.certification_body acb ON listing.certification_body_id = acb.certification_body_id
+     LEFT JOIN openchpl.product_version ver ON listing.product_version_id = ver.product_version_id and ver.deleted = false
+     LEFT JOIN openchpl.product prod ON ver.product_id = prod.product_id and prod.deleted = false
+     LEFT JOIN openchpl.vendor dev ON prod.vendor_id = dev.vendor_id and dev.deleted = false
+     LEFT JOIN ( SELECT vshistory.vendor_status_id,
+            vshistory.vendor_id,
+            vshistory.status_date AS last_dev_status_change
+           FROM openchpl.vendor_status_history vshistory
+             JOIN ( SELECT vendor_status_history.vendor_id,
+                    max(vendor_status_history.status_date) AS status_date
+                   FROM openchpl.vendor_status_history
+                  WHERE vendor_status_history.deleted = false
+                  GROUP BY vendor_status_history.vendor_id) vsinner 
+				ON vshistory.vendor_id = vsinner.vendor_id 
+				AND vshistory.status_date = vsinner.status_date
+				AND vshistory.deleted = false) devStatusHistory ON devStatusHistory.vendor_id = dev.vendor_id
+     LEFT JOIN ( SELECT vendor_status.vendor_status_id as developer_status_id,
+            vendor_status.name AS developer_status_name
+           FROM openchpl.vendor_status) devStatusList ON devStatusHistory.vendor_status_id = devStatusList.developer_status_id
+WHERE listing.deleted = false
+AND acb.retired = false
+AND developer_status_name = 'Under certification ban by ONC';
