@@ -1,5 +1,37 @@
 # Release Notes
 
+## Version 17.2.1
+_22 April 2019_
+
+### View modifications
+* Fixed views to handle multiple MUU records with the same effective timestamp
+  * certified_products_detail
+  * certified_products_search
+
+---
+
+## Version 17.2.0
+_8 April 2019_
+
+### Table modifications
+* Add error and warning count to pending listing table.
+
+### Data modifications
+* Update activity concept 'PENDING SURVEIALLNCE' to 'PENDING_SURVEILLANCE'
+
+---
+
+## Version 17.1.0
+_1 April 2019_
+
+### Table Modifications
+* Remove the certification status id reference from the pending_certified_product table.
+
+### Data Modifications
+* Mark the Pending certification status as deleted (again).
+
+---
+
 ## Version 17.0.1
 _28 March 2019_
 
