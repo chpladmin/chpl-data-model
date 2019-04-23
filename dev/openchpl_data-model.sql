@@ -2896,6 +2896,35 @@ CREATE TABLE IF NOT EXISTS openchpl.user_testing_lab_map (
 		MATCH SIMPLE ON UPDATE NO ACTION ON DELETE RESTRICT
 );
 
+CREATE TABLE openchpl.filter_type (
+	filter_type_id bigserial not null,
+	name text not null,
+	creation_date timestamp without time zone NOT NULL DEFAULT now(),
+    last_modified_date timestamp without time zone NOT NULL DEFAULT now(),
+    last_modified_user bigint NOT NULL,
+    deleted boolean NOT NULL DEFAULT false,
+	CONSTRAINT filter_type_pk PRIMARY KEY (filter_type_id)
+);
+
+CREATE TABLE openchpl.filter (
+	filter_id bigserial not null,
+	name text not null,
+	user_id bigint not null,
+	filter_type_id bigint not null,
+	filter json not null,
+	creation_date timestamp without time zone NOT NULL DEFAULT now(),
+    last_modified_date timestamp without time zone NOT NULL DEFAULT now(),
+    last_modified_user bigint NOT NULL,
+    deleted boolean NOT NULL DEFAULT false,
+    CONSTRAINT filter_id_pk PRIMARY KEY (filter_id),
+	CONSTRAINT user_fk FOREIGN KEY (user_id)
+        REFERENCES openchpl.user (user_id) MATCH FULL
+        ON DELETE RESTRICT ON UPDATE CASCADE,
+	CONSTRAINT filter_type_fk FOREIGN KEY (filter_type_id)
+        REFERENCES openchpl.filter_type (filter_type_id) MATCH FULL
+        ON DELETE RESTRICT ON UPDATE CASCADE
+);
+
 CREATE INDEX fki_certified_product_id_fk
 ON openchpl.ehr_certification_id_product_map
 USING btree
