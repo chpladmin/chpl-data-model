@@ -2,8 +2,8 @@
 ## Version 17.3.0
 _Date TBD_
 
-### ViewTable modifications
+### View/Table modifications
 * Create table 'filter' to handle storing user's filters
-* Create table 'filter_table' to indicate the type of filter 
+* Create table 'filter_type' to indicate the type of filter 
 
 ---
