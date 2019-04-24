@@ -2282,5 +2282,5 @@ VALUES
 INSERT INTO openchpl.filter_type
 	(name, last_modified_user)
 VALUES
-	('Developer Report', -2),
-	('Listing Report', -2);
+	('Developer Report', -1),
+	('Listing Report', -1);
