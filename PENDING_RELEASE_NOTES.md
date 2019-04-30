@@ -10,11 +10,11 @@ _Date TBD_
   * Added column user_permission_id to invited_user table.
   * No longer using invited_user_permission table.
 
-### View Modifications
-* Update certified_products_detail view to handle multiple MUU records with the same effective date/time
-* Update certified_products_search view to handle multiple MUU records with the same effective date/time
-
 ### Data Modifications
 * Migrated user permission and invitation permission data to new structure. Some users who previously had two roles may notice that their role has changed.
+
+### View Modifications
+* Updated "acb_is_deleted" field in certified_product_details view to be "acb_is_retired".
+* Created view "listings_from_banned_developers" to query when constructing the Banned Developers API response.
 
 ---
