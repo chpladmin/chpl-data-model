@@ -21,12 +21,12 @@ CREATE TRIGGER filter_type_timestamp BEFORE UPDATE on openchpl.filter_type FOR E
 INSERT INTO openchpl.filter_type
 	(name, last_modifed_user)
 VALUES
-	('Developer Report', -2);
+	('Developer Report', -1);
 	
 INSERT INTO openchpl.filter_type
 	(name, last_modifed_user)
 VALUES
-	('Listing Report', -2);
+	('Listing Report', -1);
 
 -- Create the table for filters
 CREATE TABLE openchpl.filter (
