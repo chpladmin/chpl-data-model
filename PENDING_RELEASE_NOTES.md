@@ -11,4 +11,7 @@ _Date TBD_
 * Updated "acb_is_deleted" field in certified_product_details view to be "acb_is_retired".
 * Created view "listings_from_banned_developers" to query when constructing the Banned Developers API response.
 
+### Data Modifications
+* Add product and version reports to the filter_type table
+
 ---
