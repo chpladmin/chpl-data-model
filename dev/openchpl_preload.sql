@@ -2283,4 +2283,6 @@ INSERT INTO openchpl.filter_type
 	(name, last_modified_user)
 VALUES
 	('Developer Report', -1),
-	('Listing Report', -1);
+	('Listing Report', -1),
+	('Product Activity Report', -1),
+	('Version Activity Report', -1);
