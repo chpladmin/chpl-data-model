@@ -12,6 +12,6 @@ _Date TBD_
 * Created view "listings_from_banned_developers" to query when constructing the Banned Developers API response.
 
 ### Data Modifications
-* Add product and version reports to the filter_type table
+* Add listng, developer, product, and version reports to the filter_type table
 
 ---
