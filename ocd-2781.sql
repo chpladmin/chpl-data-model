@@ -1,13 +1,13 @@
 INSERT INTO openchpl.filter_type (name, last_modified_user)
-SELECT 'Product Activity Report', -1
+SELECT 'Product Report', -1
 WHERE NOT EXISTS 
 	(SELECT *
 	 FROM openchpl.filter_type
-	 WHERE name = 'Product Activity Report');
+	 WHERE name = 'Product Report');
 
 INSERT INTO openchpl.filter_type (name, last_modified_user)
-SELECT 'Version Activity Report', -1
+SELECT 'Version Report', -1
 WHERE NOT EXISTS 
 	(SELECT *
 	 FROM openchpl.filter_type
-	 WHERE name = 'Version Activity Report');
+	 WHERE name = 'Version Report');
