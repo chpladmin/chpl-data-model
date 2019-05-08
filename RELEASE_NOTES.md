@@ -1,5 +1,24 @@
 # Release Notes
 
+## Version 17.3.0
+_8 May 2019_
+
+### View Modifications
+* Updated "acb_is_deleted" field in certified_product_details view to be "acb_is_retired".
+* Created view "listings_from_banned_developers" to query when constructing the Banned Developers API response.
+
+---
+
+## Version 17.2.1
+_22 April 2019_
+
+### View modifications
+* Fixed views to handle multiple MUU records with the same effective timestamp
+  * certified_products_detail
+  * certified_products_search
+
+---
+
 ## Version 17.2.0
 _8 April 2019_
 
