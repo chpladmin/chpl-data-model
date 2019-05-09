@@ -1,8 +1,8 @@
-DROP TABLE IF EXISTS openchpl.ff4j_features;
-DROP TABLE IF EXISTS openchpl.ff4j_roles;
-DROP TABLE IF EXISTS openchpl.ff4j_custom_properties;
-DROP TABLE IF EXISTS openchpl.ff4j_properties;
 DROP TABLE IF EXISTS openchpl.ff4j_audit;
+DROP TABLE IF EXISTS openchpl.ff4j_properties;
+DROP TABLE IF EXISTS openchpl.ff4j_custom_properties;
+DROP TABLE IF EXISTS openchpl.ff4j_roles;
+DROP TABLE IF EXISTS openchpl.ff4j_features;
 
 CREATE TABLE openchpl.ff4j_features (
   feat_uid VARCHAR(100),
