@@ -2944,6 +2944,7 @@ CREATE TABLE openchpl.ff4j_audit (
 	evt_value VARCHAR(100),
 	evt_keys VARCHAR(255),
 	PRIMARY KEY(evt_uuid, evt_time)
+);
 
 CREATE TABLE openchpl.filter_type (
 	filter_type_id bigserial not null,
