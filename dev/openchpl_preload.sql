@@ -2274,3 +2274,9 @@ INSERT INTO openchpl.file_type
 (name, description, last_modified_user)
 VALUES
 ('Api Documentation', 'Api Documentation', -1);
+
+INSERT INTO openchpl.filter_type
+	(name, last_modified_user)
+VALUES
+	('Developer Report', -1),
+	('Listing Report', -1);
