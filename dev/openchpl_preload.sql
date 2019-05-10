@@ -1900,7 +1900,7 @@ INSERT INTO openchpl.activity_concept (activity_concept_id, concept, last_modifi
 (6, 'CERTIFICATION_BODY', -1),
 (7, 'VERSION', -1),
 (8, 'USER', -1),
-(9, 'ATL', -1),
+(9, 'TESTING_LAB', -1),
 (10, 'PENDING_CERTIFIED_PRODUCT', -1),
 (11, 'API_KEY', -1),
 (12, 'ANNOUNCEMENT', -1),
