@@ -14,8 +14,7 @@ _Date TBD_
 
 ### Data Modifications
 * Migrated user permission and invitation permission data to new structure. Some users who previously had two roles may notice that their role has changed.
-
-### Data Modifications
 * Changed activity concept ATL to TESTING_LAB.
+* Add listing, developer, product, and version reports to the filter_type table
 
 ---
