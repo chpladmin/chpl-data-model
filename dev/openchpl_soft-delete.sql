@@ -119,3 +119,17 @@ END;
 $$ language 'plpgsql';
 DROP TRIGGER IF EXISTS test_task_participant_map_soft_delete on openchpl.test_task_participant_map;
 CREATE TRIGGER test_task_participant_map_soft_delete AFTER UPDATE of deleted on openchpl.test_task_participant_map FOR EACH ROW EXECUTE PROCEDURE openchpl.test_task_participant_map_soft_delete();
+
+CREATE OR REPLACE FUNCTION openchpl.user_soft_delete()
+RETURNS TRIGGER AS $$
+BEGIN
+	UPDATE openchpl.user_certification_body_map as src SET deleted = NEW.deleted WHERE src.user_id = NEW.user_id;
+    UPDATE openchpl.user_testing_lab_map as src SET deleted = NEW.deleted WHERE src.user_id = NEW.user_id;
+    UPDATE openchpl.user_reset_token as src SET deleted = NEW.deleted WHERE src.user_id = NEW.user_id;
+	UPDATE openchpl.contact as src SET deleted = NEW.deleted WHERE src.contact_id = NEW.contact_id;
+    UPDATE openchpl.job as src SET deleted = NEW.deleted WHERE src.user_id = NEW.user_id;
+    RETURN NEW;
+END;
+$$ language 'plpgsql';
+DROP TRIGGER IF EXISTS user_soft_delete on openchpl.user;
+CREATE TRIGGER user_soft_delete AFTER UPDATE of deleted on openchpl.user FOR EACH ROW EXECUTE PROCEDURE openchpl.user_soft_delete();
