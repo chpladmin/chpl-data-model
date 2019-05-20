@@ -10,6 +10,7 @@ if [ $# -lt 2 ]; then
     psql -Upostgres -f openchpl_preload.sql openchpl_test
     psql -Upostgres -f openchpl_api-key.sql openchpl_test
     psql -Upostgres -f openchpl_quartz.sql openchpl_test
+    psql -Upostgres -f openchpl_ff4j.sql openchpl_test
     psql -Upostgres -f openchpl_grant-all.sql openchpl_test
     psql -Upostgres -f openchpl_preload-test-only.sql openchpl_test
 elif [ $# -eq 2 ]; then
@@ -24,6 +25,7 @@ elif [ $# -eq 2 ]; then
     psql -h $host -U $user -f openchpl_preload.sql openchpl_test
     psql -h $host -U $user -f openchpl_api-key.sql openchpl_test
     psql -h $host -U $user -f openchpl_quartz.sql openchpl_test
+    psql -h $host -U $user -f openchpl_ff4j.sql openchpl_test
     psql -h $host -U $user -f openchpl_grant-all.sql openchpl_test
     psql -h $host -U $user -f openchpl_preload-test-only.sql openchpl_test
 elif [ $# -eq 3 ]; then
