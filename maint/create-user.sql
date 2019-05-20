@@ -1,8 +1,9 @@
 DROP FUNCTION If EXISTS openchpl.create_user(text,character varying[],text,text,text,text,text,text) ;
-CREATE FUNCTION openchpl.create_user(role_name text, acbs varchar[], username text, password text, fullname text, friendlyname text, email text, phonenumber text)
+CREATE FUNCTION openchpl.create_user(role_name text, orgs varchar[], username text, password text, fullname text, friendlyname text, email text, phonenumber text)
   RETURNS void AS $$
 	DECLARE
 	  acb varchar;
+	  atl varchar;
 	BEGIN
 		IF (SELECT COUNT(*) FROM openchpl.user where user_name = username AND deleted = false)>0 THEN
 			-- user already exists, print error
@@ -40,7 +41,7 @@ CREATE FUNCTION openchpl.create_user(role_name text, acbs varchar[], username te
 
 			-- if the user is ROLE_ACB, give them permission on the passed-in ACB(s)
 			IF role_name = 'ROLE_ACB' THEN
-				FOREACH acb IN ARRAY acbs
+				FOREACH acb IN ARRAY orgs
 				LOOP
 					RAISE NOTICE 'Adding permissions for % to ACB %', username, acb;
 				    INSERT INTO openchpl.user_certification_body_map
@@ -54,6 +55,24 @@ CREATE FUNCTION openchpl.create_user(role_name text, acbs varchar[], username te
 					);
 				END LOOP;
 			END IF;
+			
+			-- if the user is ROLE_ATL, give them permission on the passed-in orgs(s)
+			IF role_name = 'ROLE_ATL' THEN
+				FOREACH atl IN ARRAY orgs
+				LOOP
+					RAISE NOTICE 'Adding permissions for % to ATL %', username, atl;
+				    INSERT INTO openchpl.user_testing_lab_map
+					(user_id, testing_lab_id, retired, last_modified_user)
+					VALUES
+					(
+						(SELECT user_id FROM openchpl.user where user_name = username AND deleted = false),
+						(SELECT testing_lab_id FROM openchpl.testing_lab where name = atl),
+						false,
+						-2
+					);
+				END LOOP;
+			END IF;
+			
 		END IF;
 	END;
 $$ language plpgsql

@@ -1,5 +1,75 @@
 # Release Notes
 
+## Version 17.4.0
+_20 May 2019_
+
+### View/Table Modifications
+* Create table 'filter' to handle storing user's filters
+* Create table 'filter_type' to indicate the type of filter
+* Changed user permissions tables so users can have only one role. Old table will be removed in a future release.
+  * Added column user_permission_id to user table.
+  * No longer using global_user_permission_map table.
+* Changed invitation tables so users can only be invited to have one role. Old table will be removed in a future release.
+  * Added column user_permission_id to invited_user table.
+  * No longer using invited_user_permission table.
+
+### Data Modifications
+* Migrated user permission and invitation permission data to new structure. Some users who previously had two roles may notice that their role has changed.
+* Changed activity concept ATL to TESTING_LAB.
+* Add listing, developer, product, and version reports to the filter_type table
+
+---
+
+
+## Version 17.3.0
+_8 May 2019_
+
+### View Modifications
+* Updated "acb_is_deleted" field in certified_product_details view to be "acb_is_retired".
+* Created view "listings_from_banned_developers" to query when constructing the Banned Developers API response.
+
+---
+
+## Version 17.2.1
+_22 April 2019_
+
+### View modifications
+* Fixed views to handle multiple MUU records with the same effective timestamp
+  * certified_products_detail
+  * certified_products_search
+
+---
+
+## Version 17.2.0
+_8 April 2019_
+
+### Table modifications
+* Add error and warning count to pending listing table.
+
+### Data modifications
+* Update activity concept 'PENDING SURVEIALLNCE' to 'PENDING_SURVEILLANCE'
+
+---
+
+## Version 17.1.0
+_1 April 2019_
+
+### Table Modifications
+* Remove the certification status id reference from the pending_certified_product table.
+
+### Data Modifications
+* Mark the Pending certification status as deleted (again).
+
+---
+
+## Version 17.0.1
+_28 March 2019_
+
+### Data Modifications
+* Mark "Pending" Certification Status as deleted
+
+---
+
 ## Version 17.0.0
 _27 March 2019_
 

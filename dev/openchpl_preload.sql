@@ -4,10 +4,12 @@ insert into openchpl.product_classification_type (name, description, last_modifi
 insert into openchpl.certification_edition (year, retired, last_modified_user) values (2011, true, -1), (2014, false, -1), (2015, false, -1);
 insert into openchpl.cqm_criterion_type (name, description, last_modified_user) values ('Ambulatory', 'Ambulatory', -1), ('Inpatient','Inpatient',-1);
 insert into openchpl.cqm_version (version, last_modified_user) values ('v0', -1), ('v1', -1), ('v2', -1), ('v3', -1), ('v4', -1), ('v5', -1), ('v6', -1), ('v7', -1), ('v8', -1);
-insert into openchpl.certification_status (certification_status, last_modified_user) values ('Active', -1), ('Retired', -1), ('Withdrawn by Developer', -1), ('Withdrawn by ONC-ACB', -1), ('Pending', -1), ('Suspended by ONC-ACB', -1), ('Suspended by ONC', -1), ('Terminated by ONC', -1), ('Withdrawn by Developer Under Surveillance/Review', -1);
+insert into openchpl.certification_status (certification_status, last_modified_user) values ('Active', -1), ('Retired', -1), ('Withdrawn by Developer', -1), ('Withdrawn by ONC-ACB', -1), ('Suspended by ONC-ACB', -1), ('Suspended by ONC', -1), ('Terminated by ONC', -1), ('Withdrawn by Developer Under Surveillance/Review', -1);
 insert into openchpl.education_type (name, last_modified_user) values ('No high school degree', -1), ('High school graduate, diploma or the equivalent (for example: GED)', -1), ('Some college credit, no degree', -1), ('Trade/technical/vocational training', -1), ('Associate degree', -1), ('Bachelor''s degree', -1), ('Master''s degree', -1), ('Doctorate degree (e.g., MD, DNP, DMD, PhD)', -1);
 insert into openchpl.test_participant_age (age, last_modified_user) values ('0-9', -1),('10-19', -1),('20-29', -1),('30-39', -1),('40-49', -1),('50-59', -1),('60-69', -1),('70-79', -1),('80-89', -1),('90-99', -1),('100+', -1);
 insert into openchpl.vendor_status (name, last_modified_user) values('Active', -1), ('Suspended by ONC', -1), ('Under certification ban by ONC', -1);
+
+update openchpl.certification_status set deleted = true where certification_status = 'Pending';
 
 INSERT INTO openchpl.surveillance_type (name, last_modified_user)
 values ('Reactive', -1),('Randomized', -1);
@@ -1898,7 +1900,7 @@ INSERT INTO openchpl.activity_concept (activity_concept_id, concept, last_modifi
 (6, 'CERTIFICATION_BODY', -1),
 (7, 'VERSION', -1),
 (8, 'USER', -1),
-(9, 'ATL', -1),
+(9, 'TESTING_LAB', -1),
 (10, 'PENDING_CERTIFIED_PRODUCT', -1),
 (11, 'API_KEY', -1),
 (12, 'ANNOUNCEMENT', -1),
@@ -1934,8 +1936,8 @@ values
 
 update openchpl.certification_body set deleted = true where name = 'Pending';
 
-INSERT INTO acl_class VALUES (1, 'gov.healthit.chpl.auth.dto.UserDTO'), (3, 'gov.healthit.chpl.dto.TestingLabDTO');
-SELECT pg_catalog.setval('acl_class_id_seq', 4, true);
+INSERT INTO acl_class VALUES (1, 'gov.healthit.chpl.dto.auth.UserDTO');
+SELECT pg_catalog.setval('acl_class_id_seq', 2, true);
 
 --inserts users that can have acls
 INSERT INTO acl_sid VALUES
@@ -1971,14 +1973,24 @@ SELECT pg_catalog.setval('acl_entry_id_seq', 15, true);
 SELECT pg_catalog.setval('acl_object_identity_id_seq', 15, true);
 SELECT pg_catalog.setval('acl_sid_id_seq', 2, true);
 
+--user permissions
+INSERT INTO user_permission (user_permission_id, "name", description, authority, last_modified_user) VALUES
+(-2, 'ADMIN', 'This permission confers administrative privileges to its owner.', 'ROLE_ADMIN', -1),
+(1, 'USER_CREATOR' ,'This permission allows a user to create other users', 'ROLE_USER_CREATOR' , -1),
+(2, 'ACB' ,'This permission gives a user write access to their ACBs.', 'ROLE_ACB' , -1),
+(4, 'ATL' ,'This permission gives a user write access to their ATLs.', 'ROLE_ATL' , -1),
+(6, 'CMS_STAFF' ,'This permission gives a user read access to CMS reports.', 'ROLE_CMS_STAFF' , -1),
+(7, 'ONC', 'This permission gives ONC users administrative privileges.', 'ROLE_ONC', -1);
+SELECT pg_catalog.setval('user_permission_user_permission_id_seq', 8, true);
+
 --user contacts.
--- one contact for each user that's getting pre-loaded. there are 2 chpl admins and 7 acb admins
+-- one contact for each user that's getting pre-loaded
 INSERT INTO contact (contact_id, full_name, friendly_name, email, phone_number, signature_date, last_modified_user) VALUES
 (-2, 'Administrator', 'Admin', 'info@ainq.com', '(301) 560-6999', CURRENT_DATE, -1);
 SELECT pg_catalog.setval('contact_contact_id_seq', 2, true);
 
-INSERT INTO "user" (user_id, user_name, password, compliance_signature, account_expired, account_locked, credentials_expired, account_enabled, last_modified_user, contact_id) VALUES
-(-2, 'admin', '$2a$10$C3ASSiGSo4EA084rMn5aNe23kdbs5ctTi7RV684HPXnJq8/RlsAO.', CURRENT_DATE, false, false, false, true, -1, -2);
+INSERT INTO "user" (user_id, user_name, password, compliance_signature, account_expired, account_locked, credentials_expired, account_enabled, last_modified_user, contact_id, user_permission_id) VALUES
+(-2, 'admin', '$2a$10$C3ASSiGSo4EA084rMn5aNe23kdbs5ctTi7RV684HPXnJq8/RlsAO.', CURRENT_DATE, false, false, false, true, -1, -2, -2);
 SELECT pg_catalog.setval('user_user_id_seq', 2, true);
 
 INSERT INTO openchpl.test_procedure (name, last_modified_user)
@@ -2240,20 +2252,6 @@ VALUES
 ('MUU Upload', 'Uploading a potentially large CSV file with Meaningful Use user counts per listing.', 'MUU Upload is complete.', -1),
 ('Surveillance Upload', 'Uploading a file with many surveillance items.', 'Surveillance upload is complete', -1);
 
-INSERT INTO user_permission (user_permission_id, "name", description, authority, last_modified_user) VALUES
-(-2, 'ADMIN', 'This permission confers administrative privileges to its owner.', 'ROLE_ADMIN', -1),
-(1, 'USER_CREATOR' ,'This permission allows a user to create other users', 'ROLE_USER_CREATOR' , -1),
-(2, 'ACB' ,'This permission gives a user write access to their ACBs.', 'ROLE_ACB' , -1),
-(4, 'ATL' ,'This permission gives a user write access to their ATLs.', 'ROLE_ATL' , -1),
-(6, 'CMS_STAFF' ,'This permission gives a user read access to CMS reports.', 'ROLE_CMS_STAFF' , -1),
-(7, 'ONC', 'This permission gives ONC users administrative privileges.', 'ROLE_ONC', -1);
-
-SELECT pg_catalog.setval('user_permission_user_permission_id_seq', 8, true);
-
-INSERT INTO global_user_permission_map (user_id, user_permission_id_user_permission, last_modified_user) VALUES (-2, -2, -1);
-SELECT pg_catalog.setval('global_user_permission_map_global_user_permission_id_seq', 16, true);
-
-
 INSERT INTO openchpl.upload_template_version (name, available_as_of_date, header_csv, last_modified_user, deprecated, deleted)
 VALUES
 ('New 2014 CHPL Upload Template v10', '2016-04-01',
@@ -2276,3 +2274,11 @@ INSERT INTO openchpl.file_type
 (name, description, last_modified_user)
 VALUES
 ('Api Documentation', 'Api Documentation', -1);
+
+INSERT INTO openchpl.filter_type
+	(name, last_modified_user)
+VALUES
+	('Developer Report', -1),
+	('Listing Report', -1),
+	('Product Report', -1),
+	('Version Report', -1);
