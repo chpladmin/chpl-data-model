@@ -20,7 +20,6 @@ _20 May 2019_
 
 ---
 
-
 ## Version 17.3.0
 _8 May 2019_
 
@@ -690,7 +689,6 @@ _8 May 2017_
 * Find and fix any criteria pointing to test functionality from the wrong edition.
 
 ---
-
 
 ## Version 8.5.0
 _24 April 2017_
