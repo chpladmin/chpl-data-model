@@ -32,7 +32,8 @@ CREATE TABLE openchpl.quarter (
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_user bigint NOT NULL,
 	deleted bool NOT NULL DEFAULT false,
-	CONSTRAINT quarter_pk PRIMARY KEY (id)
+	CONSTRAINT quarter_pk PRIMARY KEY (id),
+	CONSTRAINT quarter_name_unique UNIQUE (name)
 );
 CREATE TRIGGER quarter_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.quarter FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER quarter_timestamp BEFORE UPDATE on openchpl.quarter FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();

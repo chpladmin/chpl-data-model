@@ -2894,7 +2894,8 @@ CREATE TABLE openchpl.quarter (
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_user bigint NOT NULL,
 	deleted bool NOT NULL DEFAULT false,
-	CONSTRAINT quarter_pk PRIMARY KEY (id)
+	CONSTRAINT quarter_pk PRIMARY KEY (id),
+	CONSTRAINT quarter_name_unique UNIQUE (name)
 );
 
 CREATE TABLE openchpl.quarterly_report (
