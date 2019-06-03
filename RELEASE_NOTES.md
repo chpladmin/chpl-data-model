@@ -1,5 +1,45 @@
 # Release Notes
 
+## Version 17.5.0
+_3 June 2019_
+
+### Table modifications
+* Add tables to support FF4j (feature flags)
+
+### Technical debt
+* Removed some obsolete tables
+
+---
+
+## Version 17.4.0
+_20 May 2019_
+
+### View/Table Modifications
+* Create table 'filter' to handle storing user's filters
+* Create table 'filter_type' to indicate the type of filter
+* Changed user permissions tables so users can have only one role. Old table will be removed in a future release.
+  * Added column user_permission_id to user table.
+  * No longer using global_user_permission_map table.
+* Changed invitation tables so users can only be invited to have one role. Old table will be removed in a future release.
+  * Added column user_permission_id to invited_user table.
+  * No longer using invited_user_permission table.
+
+### Data Modifications
+* Migrated user permission and invitation permission data to new structure. Some users who previously had two roles may notice that their role has changed.
+* Changed activity concept ATL to TESTING_LAB.
+* Add listing, developer, product, and version reports to the filter_type table
+
+---
+
+## Version 17.3.0
+_8 May 2019_
+
+### View Modifications
+* Updated "acb_is_deleted" field in certified_product_details view to be "acb_is_retired".
+* Created view "listings_from_banned_developers" to query when constructing the Banned Developers API response.
+
+---
+
 ## Version 17.2.1
 _22 April 2019_
 
@@ -660,7 +700,6 @@ _8 May 2017_
 * Find and fix any criteria pointing to test functionality from the wrong edition.
 
 ---
-
 
 ## Version 8.5.0
 _24 April 2017_

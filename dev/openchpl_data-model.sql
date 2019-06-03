@@ -40,6 +40,20 @@ create table openchpl.data_model_version(
         constraint data_model_version_pk primary key (id)
         );
 
+CREATE TABLE openchpl.user_permission(
+	user_permission_id bigserial NOT NULL,
+	name varchar(25) NOT NULL,
+	description varchar(1000) NOT NULL,
+	authority varchar(255) NOT NULL,
+	creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
+	CONSTRAINT user_permission_pk PRIMARY KEY (user_permission_id),
+	CONSTRAINT authority_unique UNIQUE (authority)
+
+);
+
 -- object: openchpl.user | type: TABLE --
 -- DROP TABLE IF EXISTS openchpl.user CASCADE;
 CREATE TABLE openchpl.user(
@@ -58,7 +72,11 @@ CREATE TABLE openchpl.user(
 	last_modified_user bigint NOT NULL,
 	deleted bool NOT NULL DEFAULT false,
 	contact_id bigint,
-	CONSTRAINT user_pk PRIMARY KEY (user_id)
+	user_permission_id bigint NOT NULL,
+	CONSTRAINT user_pk PRIMARY KEY (user_id),
+	CONSTRAINT user_permission_fk FOREIGN KEY (user_permission_id)
+      REFERENCES openchpl.user_permission (user_permission_id) MATCH FULL
+      ON UPDATE CASCADE ON DELETE RESTRICT
 
 );
 -- ddl-end --
@@ -212,25 +230,6 @@ CREATE TABLE openchpl.acb_vendor_map (
 );
 
 -- ALTER TABLE openchpl.acb_vendor_map OWNER TO openchpl;
--- ddl-end --
-
--- object: openchpl.user_permission | type: TABLE --
--- DROP TABLE IF EXISTS openchpl.user_permission CASCADE;
-CREATE TABLE openchpl.user_permission(
-	user_permission_id bigserial NOT NULL,
-	name varchar(25) NOT NULL,
-	description varchar(1000) NOT NULL,
-	authority varchar(255) NOT NULL,
-	creation_date timestamp NOT NULL DEFAULT NOW(),
-	last_modified_date timestamp NOT NULL DEFAULT NOW(),
-	last_modified_user bigint NOT NULL,
-	deleted bool NOT NULL DEFAULT false,
-	CONSTRAINT user_permission_pk PRIMARY KEY (user_permission_id),
-	CONSTRAINT authority_unique UNIQUE (authority)
-
-);
--- ddl-end --
---A LTER TABLE openchpl.user_permission OWNER TO openchpl;
 -- ddl-end --
 
 CREATE TABLE openchpl.qms_standard (
@@ -997,36 +996,6 @@ ON DELETE RESTRICT ON UPDATE CASCADE;
 -- ALTER TABLE openchpl.certification_result DROP CONSTRAINT IF EXISTS certification_criterion_fk CASCADE;
 ALTER TABLE openchpl.certification_result ADD CONSTRAINT certification_criterion_fk FOREIGN KEY (certification_criterion_id)
 REFERENCES openchpl.certification_criterion (certification_criterion_id) MATCH FULL
-ON DELETE RESTRICT ON UPDATE CASCADE;
--- ddl-end --
-
--- object: openchpl.global_user_permission_map | type: TABLE --
--- DROP TABLE IF EXISTS openchpl.global_user_permission_map CASCADE;
-CREATE TABLE openchpl.global_user_permission_map(
-	user_id bigint,
-	user_permission_id_user_permission bigint,
-	last_modified_date timestamp NOT NULL DEFAULT NOW(),
-	creation_date timestamp NOT NULL DEFAULT NOW(),
-	last_modified_user bigint NOT NULL,
-	deleted bool DEFAULT false,
-global_user_permission_id bigserial NOT NULL,
-	CONSTRAINT global_user_permission_map_pk PRIMARY KEY (user_id,user_permission_id_user_permission)
-
-);
--- ALTER TABLE openchpl.global_user_permission_map OWNER TO openchpl;
--- ddl-end --
-
--- object: user_fk | type: CONSTRAINT --
--- ALTER TABLE openchpl.global_user_permission_map DROP CONSTRAINT IF EXISTS user_fk CASCADE;
-ALTER TABLE openchpl.global_user_permission_map ADD CONSTRAINT user_fk FOREIGN KEY (user_id)
-REFERENCES openchpl."user" (user_id) MATCH FULL
-ON DELETE RESTRICT ON UPDATE CASCADE;
--- ddl-end --
-
--- object: user_permission_fk | type: CONSTRAINT --
--- ALTER TABLE openchpl.global_user_permission_map DROP CONSTRAINT IF EXISTS user_permission_fk CASCADE;
-ALTER TABLE openchpl.global_user_permission_map ADD CONSTRAINT user_permission_fk FOREIGN KEY (user_permission_id_user_permission)
-REFERENCES openchpl.user_permission (user_permission_id) MATCH FULL
 ON DELETE RESTRICT ON UPDATE CASCADE;
 -- ddl-end --
 
@@ -2000,54 +1969,26 @@ ALTER TABLE openchpl.activity ADD CONSTRAINT activity_object_concept_fk FOREIGN 
 CREATE TABLE openchpl.invited_user(
 	invited_user_id bigserial NOT NULL,
 	email varchar(300) NOT NULL,
-	certification_body_id bigint,
-	testing_lab_id bigint,
+	user_permission_id bigint NOT NULL,
+	permission_object_id bigint, -- acb id or atl id (null if other type of permission)
 	invite_token varchar(500),
 	confirm_token varchar(500),
 	created_user_id bigint DEFAULT NULL,
-
--- fields we need for auditing/tracking
 	creation_date timestamp without time zone NOT NULL DEFAULT now(),
 	last_modified_date timestamp without time zone NOT NULL DEFAULT now(),
 	last_modified_user bigint NOT NULL,
 	deleted boolean NOT NULL DEFAULT false,
 	CONSTRAINT invited_user_pk PRIMARY KEY (invited_user_id),
 	CONSTRAINT invite_token_unique UNIQUE (invite_token),
-	CONSTRAINT confirm_token_unique UNIQUE (confirm_token)
+	CONSTRAINT confirm_token_unique UNIQUE (confirm_token),
+	CONSTRAINT user_permission_fk FOREIGN KEY (user_permission_id)
+      REFERENCES openchpl.user_permission (user_permission_id) MATCH FULL
+      ON UPDATE CASCADE ON DELETE RESTRICT
 );
 -- ddl-end --
 COMMENT ON TABLE openchpl.invited_user IS 'A user that has been invited to use the CHPL system.';
 -- ddl-end --
 -- ALTER TABLE openchpl.invited_user OWNER TO openchpl;
--- ddl-end --
-
--- object: openchpl.invited_user_permission | type: TABLE --
---DROP TABLE IF EXISTS openchpl.invited_user_permission CASCADE;
-CREATE TABLE openchpl.invited_user_permission(
-	invited_user_permission_id bigserial NOT NULL,
-	invited_user_id bigint NOT NULL,
-	user_permission_id bigint NOT NULL,
-
-	-- fields we need for auditing/tracking
-	creation_date timestamp without time zone NOT NULL DEFAULT now(),
-	last_modified_date timestamp without time zone NOT NULL DEFAULT now(),
-	last_modified_user bigint NOT NULL,
-	deleted boolean NOT NULL DEFAULT false,
-	CONSTRAINT invited_user_permission_fk PRIMARY KEY (invited_user_permission_id),
-	CONSTRAINT permission_unique UNIQUE (invited_user_id, user_permission_id)
-);
--- ddl-end --
-ALTER TABLE openchpl.invited_user_permission ADD CONSTRAINT invited_user_id_fk FOREIGN KEY (invited_user_id)
-REFERENCES openchpl.invited_user (invited_user_id) MATCH FULL
-ON DELETE RESTRICT ON UPDATE CASCADE;
-
-ALTER TABLE openchpl.invited_user_permission ADD CONSTRAINT user_permission_id_fk FOREIGN KEY (user_permission_id)
-REFERENCES openchpl.user_permission (user_permission_id) MATCH FULL
-ON DELETE RESTRICT ON UPDATE CASCADE;
-
-COMMENT ON TABLE openchpl.invited_user_permission IS 'A user that has been invited to use the CHPL system.';
--- ddl-end --
--- ALTER TABLE openchpl.invited_user_permission OWNER TO openchpl;
 -- ddl-end --
 
 CREATE TABLE openchpl.api_key
@@ -2896,6 +2837,35 @@ CREATE TABLE IF NOT EXISTS openchpl.user_testing_lab_map (
 		MATCH SIMPLE ON UPDATE NO ACTION ON DELETE RESTRICT
 );
 
+CREATE TABLE openchpl.filter_type (
+	filter_type_id bigserial not null,
+	name text not null,
+	creation_date timestamp without time zone NOT NULL DEFAULT now(),
+    last_modified_date timestamp without time zone NOT NULL DEFAULT now(),
+    last_modified_user bigint NOT NULL,
+    deleted boolean NOT NULL DEFAULT false,
+	CONSTRAINT filter_type_pk PRIMARY KEY (filter_type_id)
+);
+
+CREATE TABLE openchpl.filter (
+	filter_id bigserial not null,
+	name text not null,
+	user_id bigint not null,
+	filter_type_id bigint not null,
+	filter json not null,
+	creation_date timestamp without time zone NOT NULL DEFAULT now(),
+    last_modified_date timestamp without time zone NOT NULL DEFAULT now(),
+    last_modified_user bigint NOT NULL,
+    deleted boolean NOT NULL DEFAULT false,
+    CONSTRAINT filter_id_pk PRIMARY KEY (filter_id),
+	CONSTRAINT user_fk FOREIGN KEY (user_id)
+        REFERENCES openchpl.user (user_id) MATCH FULL
+        ON DELETE RESTRICT ON UPDATE CASCADE,
+	CONSTRAINT filter_type_fk FOREIGN KEY (filter_type_id)
+        REFERENCES openchpl.filter_type (filter_type_id) MATCH FULL
+        ON DELETE RESTRICT ON UPDATE CASCADE
+);
+
 CREATE INDEX fki_certified_product_id_fk
 ON openchpl.ehr_certification_id_product_map
 USING btree
@@ -2949,8 +2919,6 @@ CREATE INDEX ix_cqm_result ON openchpl.cqm_result (cqm_criterion_id, deleted);
 CREATE INDEX ix_ehr_certification_id ON openchpl.ehr_certification_id (ehr_certification_id_id, certification_id, practice_type_id);
 
 CREATE INDEX ix_ehr_certification_id_product_map ON openchpl.ehr_certification_id_product_map (ehr_certification_id_product_map_id, ehr_certification_id_id, certified_product_id);
-
-CREATE INDEX ix_global_user_permission_map ON openchpl.global_user_permission_map (user_id, user_permission_id_user_permission, deleted, global_user_permission_id);
 
 CREATE INDEX ix_pending_certification_result ON openchpl.pending_certification_result (pending_certification_result_id, certification_criterion_id,
 pending_certified_product_id, deleted);
