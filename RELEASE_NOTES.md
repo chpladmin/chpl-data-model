@@ -1,5 +1,16 @@
 # Release Notes
 
+## Version 17.5.0
+_3 June 2019_
+
+### Table modifications
+* Add tables to support FF4j (feature flags)
+
+### Technical debt
+* Removed some obsolete tables
+
+---
+
 ## Version 17.4.0
 _20 May 2019_
 
