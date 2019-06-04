@@ -2276,9 +2276,11 @@ VALUES
 ('Api Documentation', 'Api Documentation', -1);
 
 INSERT INTO openchpl.filter_type
-	(name, last_modified_user)
+    (name, last_modified_user)
 VALUES
-	('Developer Report', -1),
-	('Listing Report', -1),
-	('Product Report', -1),
-	('Version Report', -1);
+    ('Developer Report', -1),
+    ('Listing Report', -1),
+    ('Product Report', -1),
+    ('Version Report', -1),
+    ('User Report', -1),
+    ('User Action Report', -1);
