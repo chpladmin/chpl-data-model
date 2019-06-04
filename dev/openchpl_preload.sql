@@ -2282,3 +2282,13 @@ VALUES
 	('Listing Report', -1),
 	('Product Report', -1),
 	('Version Report', -1);
+
+INSERT INTO openchpl.complaint_type (name, last_modified_user)
+VALUES
+    ('Developer', -1),
+    ('Provider', -1);
+     
+INSERT INTO openchpl.complaint_status_type (name, last_modified_user)
+VALUES
+    ('Open', -1),
+    ('Closed', -1);
