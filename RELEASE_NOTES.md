@@ -1,5 +1,16 @@
 # Release Notes
 
+## Version 17.5.0
+_3 June 2019_
+
+### Table modifications
+* Add tables to support FF4j (feature flags)
+
+### Technical debt
+* Removed some obsolete tables
+
+---
+
 ## Version 17.4.0
 _20 May 2019_
 
@@ -19,7 +30,6 @@ _20 May 2019_
 * Add listing, developer, product, and version reports to the filter_type table
 
 ---
-
 
 ## Version 17.3.0
 _8 May 2019_
@@ -690,7 +700,6 @@ _8 May 2017_
 * Find and fix any criteria pointing to test functionality from the wrong edition.
 
 ---
-
 
 ## Version 8.5.0
 _24 April 2017_
