@@ -6,5 +6,8 @@ _Date TBD_
 * Create table 'filter' to handle storing user's filters
 * Create table 'filter_type' to indicate the type of filter
 * Add tables to support FF4j (feature flags)
+* Create table complaint for storing quarterly surveillance report complaints
+* Create table complaint_type for indicating type of complaint
+* Create table complaint_status_type for indicating the status of complaints
 
 ---
