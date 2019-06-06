@@ -1,13 +1,13 @@
 
-## Version 17.3.0
+## Version 17.6.0
 _Date TBD_
 
 ### View/Table modifications
-* Create table 'filter' to handle storing user's filters
-* Create table 'filter_type' to indicate the type of filter
-* Add tables to support FF4j (feature flags)
 * Create table complaint for storing quarterly surveillance report complaints
 * Create table complaint_type for indicating type of complaint
 * Create table complaint_status_type for indicating the status of complaints
+
+### Data Modifications
+* Add user and user action reports to the filter_type table
 
 ---
