@@ -34,6 +34,7 @@ CREATE TABLE openchpl.complaint (
     complaint_type_id bigint,
     complaint_status_type_id bigint,
     onc_complaint_id text,
+    acb_complaint_id text,
     received_date date,
     summary text,
     actions text,
