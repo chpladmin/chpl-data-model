@@ -160,7 +160,7 @@ CREATE TRIGGER complaint_timestamp BEFORE UPDATE on openchpl.complaint FOR EACH 
 CREATE TRIGGER complaint_status_type_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.complaint_status_type FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER complaint_status_type_timestamp BEFORE UPDATE on openchpl.complaint_status_type FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER complaint_type_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.complaint_type FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
-CREATE TRIGGER complaint_ype_timestamp BEFORE UPDATE on openchpl.complaint_type FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
+CREATE TRIGGER complaint_type_timestamp BEFORE UPDATE on openchpl.complaint_type FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER contact_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.contact FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER contact_timestamp BEFORE UPDATE on openchpl.contact FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER cqm_criterion_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.cqm_criterion FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
