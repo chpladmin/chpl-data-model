@@ -2873,17 +2873,17 @@ CREATE TABLE openchpl.complaint_type (
     last_modified_date timestamp without time zone NOT NULL DEFAULT now(),
     last_modified_user bigint NOT NULL,
     deleted boolean NOT NULL DEFAULT false,
-	CONSTRAINT complaint_type_pk PRIMARY KEY (complaint_type_id)
+    CONSTRAINT complaint_type_pk PRIMARY KEY (complaint_type_id)
 );
 
 CREATE TABLE openchpl.complaint_status_type (
-	complaint_status_type_id bigserial not null,
-	name text not null,
-	creation_date timestamp without time zone NOT NULL DEFAULT now(),
+    complaint_status_type_id bigserial not null,
+    name text not null,
+    creation_date timestamp without time zone NOT NULL DEFAULT now(),
     last_modified_date timestamp without time zone NOT NULL DEFAULT now(),
     last_modified_user bigint NOT NULL,
     deleted boolean NOT NULL DEFAULT false,
-	CONSTRAINT complaint_status_type_pk PRIMARY KEY (complaint_status_type_id)
+    CONSTRAINT complaint_status_type_pk PRIMARY KEY (complaint_status_type_id)
 );
 
 CREATE TABLE openchpl.complaint (
@@ -2896,15 +2896,16 @@ CREATE TABLE openchpl.complaint (
     received_date date not null,
     summary text not null,
     actions text,
-    complainant_contacted boolean,
-    developer_contacted boolean,
-    onc_atl_contacted boolean,
+    complainant_contacted boolean not null DEFAULT false,
+    developer_contacted boolean not null DEFAULT false,
+    onc_atl_contacted boolean not null DEFAULT false,
+    flag_for_onc_review boolean not null DEFAULT false,
     closed_date date,
-	creation_date timestamp without time zone NOT NULL DEFAULT now(),
+    creation_date timestamp without time zone NOT NULL DEFAULT now(),
     last_modified_date timestamp without time zone NOT NULL DEFAULT now(),
     last_modified_user bigint NOT NULL,
     deleted boolean NOT NULL DEFAULT false,
-	CONSTRAINT complaint_pk PRIMARY KEY (complaint_id),
+    CONSTRAINT complaint_pk PRIMARY KEY (complaint_id),
     CONSTRAINT certification_body_fk FOREIGN KEY (certification_body_id)
 		REFERENCES openchpl.certification_body (certification_body_id) 
 		MATCH SIMPLE ON UPDATE NO ACTION ON DELETE RESTRICT,
