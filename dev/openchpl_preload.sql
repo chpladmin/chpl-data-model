@@ -2278,9 +2278,12 @@ VALUES
 INSERT INTO openchpl.filter_type
     (name, last_modified_user)
 VALUES
-    ('Developer Report', -1),
-    ('Listing Report', -1),
-    ('Product Report', -1),
-    ('Version Report', -1),
-    ('User Report', -1),
+	('Developer Report', -1),
+	('Listing Report', -1),
+	('Product Report', -1),
+	('Version Report', -1),
+	('User Report', -1),
     ('User Action Report', -1);
+
+INSERT INTO openchpl.quarter (name, quarter_begin_month, quarter_begin_day, quarter_end_month, quarter_end_day, last_modified_user)
+VALUES ('Q1', 1, 1, 3, 31, -1), ('Q2', 4, 1, 6, 30, -1), ('Q3', 7, 1, 9, 30, -1), ('Q4', 10, 1, 12, 31, -1);
