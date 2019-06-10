@@ -2887,13 +2887,13 @@ CREATE TABLE openchpl.complaint_status_type (
 );
 
 CREATE TABLE openchpl.complaint (
-	complaint_id bigserial not null,
+    complaint_id bigserial not null,
     certification_body_id bigint not null,
-    complaint_type_id bigint,
-    complaint_status_type_id bigint,
+    complaint_type_id bigint not null,
+    complaint_status_type_id bigint not null,
     onc_complaint_id text,
     acb_complaint_id text,
-    received_date date,
+    received_date date not null,
     summary text,
     actions text,
     complainant_contacted boolean,
