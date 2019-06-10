@@ -2900,7 +2900,7 @@ CREATE TABLE openchpl.quarter (
 
 CREATE TABLE openchpl.quarterly_report (
 	id bigserial NOT NULL,
-	annual_report_id bigint NOT NULL,
+	year integer NOT NULL,
 	quarter_id bigint NOT NULL,
 	activities_and_outcomes_summary text,
 	reactive_summary text,
