@@ -2919,13 +2919,13 @@ CREATE TABLE openchpl.complaint (
 
 CREATE TABLE openchpl.complaint_listing_map (
     complaint_listing_map_id bigserial not null,
-	complaint_id bigint not null,
+    complaint_id bigint not null,
     listing_id bigint not null,
     creation_date timestamp without time zone NOT NULL DEFAULT now(),
     last_modified_date timestamp without time zone NOT NULL DEFAULT now(),
     last_modified_user bigint NOT NULL,
     deleted boolean NOT NULL DEFAULT false,
-	CONSTRAINT complaint_listing_map_pk PRIMARY KEY (complaint_listing_map_id),
+    CONSTRAINT complaint_listing_map_pk PRIMARY KEY (complaint_listing_map_id),
     CONSTRAINT complaint_fk FOREIGN KEY (complaint_id)
 		REFERENCES openchpl.complaint (complaint_id) 
 		MATCH SIMPLE ON UPDATE NO ACTION ON DELETE RESTRICT,
