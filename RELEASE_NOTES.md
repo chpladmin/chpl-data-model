@@ -1,5 +1,19 @@
 # Release Notes
 
+## Version 17.6.0
+_17 June 2019_
+
+### View/Table modifications
+* Create table complaint for storing quarterly surveillance report complaints
+* Create table complaint_type for indicating type of complaint
+* Create table complaint_status_type for indicating the status of complaints
+* Add tables to support quarterly surveillance reporting
+
+### Data Modifications
+* Add user and user action reports to the filter_type table
+
+---
+
 ## Version 17.5.0
 _3 June 2019_
 
