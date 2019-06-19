@@ -133,3 +133,13 @@ END;
 $$ language 'plpgsql';
 DROP TRIGGER IF EXISTS user_soft_delete on openchpl.user;
 CREATE TRIGGER user_soft_delete AFTER UPDATE of deleted on openchpl.user FOR EACH ROW EXECUTE PROCEDURE openchpl.user_soft_delete();
+
+CREATE OR REPLACE FUNCTION openchpl.complaint_soft_delete()
+RETURNS TRIGGER AS $$
+BEGIN
+    UPDATE openchpl.complaint_listing_map as src SET deleted = NEW.deleted WHERE src.complaint_id = NEW.complaint_id;
+    RETURN NEW;
+END;
+$$ language 'plpgsql';
+DROP TRIGGER IF EXISTS complaint_soft_delete on openchpl.complaint;
+CREATE TRIGGER complaint_soft_delete AFTER UPDATE of deleted on openchpl.complaint FOR EACH ROW EXECUTE PROCEDURE openchpl.complaint_soft_delete();
