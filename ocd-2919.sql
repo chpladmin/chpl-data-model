@@ -4,6 +4,7 @@ CREATE TABLE openchpl.quarterly_report_excluded_listing_map (
     id bigserial not null,
     quarterly_report_id bigint not null,
     listing_id bigint not null,
+	reason text,
     creation_date timestamp without time zone NOT NULL DEFAULT now(),
     last_modified_date timestamp without time zone NOT NULL DEFAULT now(),
     last_modified_user bigint NOT NULL,
