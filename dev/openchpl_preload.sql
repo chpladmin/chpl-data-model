@@ -2289,7 +2289,12 @@ VALUES
 INSERT INTO openchpl.complaint_type (name, last_modified_user)
 VALUES
     ('Developer', -1),
-    ('Provider', -1);
+    ('Provider', -1),
+    ('Third Party Organization', -1),
+    ('Government Entity', -1),
+    ('Patient', -1),
+    ('Anonymous', -1),
+    ('Other - [Please Describe]', -1);
 
 INSERT INTO openchpl.complaint_status_type (name, last_modified_user)
 VALUES
