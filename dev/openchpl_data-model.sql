@@ -2988,6 +2988,23 @@ CREATE TABLE openchpl.quarterly_report (
       ON UPDATE NO ACTION ON DELETE RESTRICT
 );
 
+CREATE TABLE openchpl.quarterly_report_excluded_listing_map (
+    id bigserial not null,
+    quarterly_report_id bigint not null,
+    listing_id bigint not null,
+    creation_date timestamp without time zone NOT NULL DEFAULT now(),
+    last_modified_date timestamp without time zone NOT NULL DEFAULT now(),
+    last_modified_user bigint NOT NULL,
+    deleted boolean NOT NULL DEFAULT false,
+    CONSTRAINT quarterly_report_excluded_listing_map_pk PRIMARY KEY (id),
+    CONSTRAINT quarterly_report_fk FOREIGN KEY (quarterly_report_id)
+		REFERENCES openchpl.quarterly_report (id) 
+		MATCH SIMPLE ON UPDATE NO ACTION ON DELETE RESTRICT,
+    CONSTRAINT listing_fk FOREIGN KEY (listing_id)
+		REFERENCES openchpl.certified_product (certified_product_id) 
+		MATCH SIMPLE ON UPDATE NO ACTION ON DELETE RESTRICT
+);
+
 CREATE INDEX fki_certified_product_id_fk
 ON openchpl.ehr_certification_id_product_map
 USING btree
