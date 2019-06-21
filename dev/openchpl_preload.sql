@@ -2286,7 +2286,7 @@ VALUES
     ('User Action Report', -1);
 
 
-INSERT INTO openchpl.complaint_type (name, last_modified_user)
+INSERT INTO openchpl.complainant_type (name, last_modified_user)
 VALUES
     ('Developer', -1),
     ('Provider', -1),
