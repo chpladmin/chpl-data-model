@@ -160,6 +160,8 @@ CREATE TRIGGER certified_product_timestamp BEFORE UPDATE on openchpl.certified_p
 CREATE TRIGGER complaint_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.complaint FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER complaint_timestamp BEFORE UPDATE on openchpl.complaint FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER complaint_listing_map_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.complaint_listing_map FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+CREATE TRIGGER complaint_criterion_map_timestamp BEFORE UPDATE on openchpl.complaint_criterion_map FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
+CREATE TRIGGER complaint_criterion_map_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.complaint_criterion_map FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER complaint_listing_map_timestamp BEFORE UPDATE on openchpl.complaint_listing_map FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER complaint_status_type_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.complaint_status_type FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER complaint_status_type_timestamp BEFORE UPDATE on openchpl.complaint_status_type FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
