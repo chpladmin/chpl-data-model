@@ -2250,7 +2250,9 @@ INSERT INTO openchpl.macra_criteria_map (criteria_id, value, name, description, 
 INSERT INTO openchpl.job_type (name, description, success_message, last_modified_user)
 VALUES 
 ('MUU Upload', 'Uploading a potentially large CSV file with Meaningful Use user counts per listing.', 'MUU Upload is complete.', -1),
-('Surveillance Upload', 'Uploading a file with many surveillance items.', 'Surveillance upload is complete', -1);
+('Surveillance Upload', 'Uploading a file with many surveillance items.', 'Surveillance upload is complete', -1),
+('Export Quarterly Report', 'Creating an excel file based on quarterly report data.', 'Quarterly Report generation is complete', -1),
+('Export Annual Report', 'Creating an excel file based on annual report data.', 'Annual Report generation is complete.', -1);
 
 INSERT INTO openchpl.upload_template_version (name, available_as_of_date, header_csv, last_modified_user, deprecated, deleted)
 VALUES
@@ -2286,7 +2288,7 @@ VALUES
     ('User Action Report', -1);
 
 
-INSERT INTO openchpl.complaint_type (name, last_modified_user)
+INSERT INTO openchpl.complainant_type (name, last_modified_user)
 VALUES
     ('Developer', -1),
     ('Provider', -1),

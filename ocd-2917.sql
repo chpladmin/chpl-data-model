@@ -1,3 +1,6 @@
+-- Remove all previously entered quarterly reports; they're not valid with the new format
+DELETE FROM openchpl.quarterly_report;
+
 ALTER TABLE openchpl.quarterly_report DROP COLUMN IF EXISTS annual_report_id;
 ALTER TABLE openchpl.quarterly_report DROP COLUMN IF EXISTS certification_body_id;
 ALTER TABLE openchpl.quarterly_report DROP COLUMN IF EXISTS year;
