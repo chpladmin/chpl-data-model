@@ -13,7 +13,7 @@ CREATE TABLE openchpl.complaint_surveillance_map (
 		REFERENCES openchpl.complaint (complaint_id) 
 		MATCH SIMPLE ON UPDATE NO ACTION ON DELETE RESTRICT,
     CONSTRAINT surveillance_fk FOREIGN KEY (surveillance_id)
-		REFERENCES openchpl.surveillance (surveillance_id) 
+		REFERENCES openchpl.surveillance (id) 
 		MATCH SIMPLE ON UPDATE NO ACTION ON DELETE RESTRICT
 );
 
