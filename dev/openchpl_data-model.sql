@@ -2866,14 +2866,14 @@ CREATE TABLE openchpl.filter (
         ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
-CREATE TABLE openchpl.complaint_type (
-	complaint_type_id bigserial not null,
+CREATE TABLE openchpl.complainant_type (
+	complainant_type_id bigserial not null,
 	name text not null,
 	creation_date timestamp without time zone NOT NULL DEFAULT now(),
     last_modified_date timestamp without time zone NOT NULL DEFAULT now(),
     last_modified_user bigint NOT NULL,
     deleted boolean NOT NULL DEFAULT false,
-    CONSTRAINT complaint_type_pk PRIMARY KEY (complaint_type_id)
+    CONSTRAINT complainant_type_pk PRIMARY KEY (complainant_type_id)
 );
 
 CREATE TABLE openchpl.complaint_status_type (
@@ -2889,7 +2889,8 @@ CREATE TABLE openchpl.complaint_status_type (
 CREATE TABLE openchpl.complaint (
     complaint_id bigserial not null,
     certification_body_id bigint not null,
-    complaint_type_id bigint not null,
+    complainant_type_id bigint not null,
+    complainant_type_other text,
     complaint_status_type_id bigint not null,
     onc_complaint_id text,
     acb_complaint_id text,
@@ -2909,8 +2910,8 @@ CREATE TABLE openchpl.complaint (
     CONSTRAINT certification_body_fk FOREIGN KEY (certification_body_id)
 		REFERENCES openchpl.certification_body (certification_body_id) 
 		MATCH SIMPLE ON UPDATE NO ACTION ON DELETE RESTRICT,
-    CONSTRAINT complaint_type_fk FOREIGN KEY (complaint_type_id)
-		REFERENCES openchpl.complaint_type (complaint_type_id) 
+    CONSTRAINT complainant_type_fk FOREIGN KEY (complainant_type_id)
+		REFERENCES openchpl.complainant_type (complainant_type_id) 
 		MATCH SIMPLE ON UPDATE NO ACTION ON DELETE RESTRICT,
     CONSTRAINT complaint_status_type_fk FOREIGN KEY (complaint_status_type_id)
 		REFERENCES openchpl.complaint_status_type (complaint_status_type_id) 
@@ -2933,6 +2934,7 @@ CREATE TABLE openchpl.complaint_listing_map (
 		REFERENCES openchpl.certified_product (certified_product_id) 
 		MATCH SIMPLE ON UPDATE NO ACTION ON DELETE RESTRICT
 );
+
 
 CREATE TABLE openchpl.annual_report (
 	id bigserial NOT NULL,
