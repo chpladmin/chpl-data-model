@@ -138,6 +138,7 @@ CREATE OR REPLACE FUNCTION openchpl.complaint_soft_delete()
 RETURNS TRIGGER AS $$
 BEGIN
     UPDATE openchpl.complaint_listing_map as src SET deleted = NEW.deleted WHERE src.complaint_id = NEW.complaint_id;
+    UPDATE openchpl.complaint_surveillance_map as src SET deleted = NEW.deleted WHERE src.complaint_id = NEW.complaint_id;
     RETURN NEW;
 END;
 $$ language 'plpgsql';
