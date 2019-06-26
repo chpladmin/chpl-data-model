@@ -13,6 +13,7 @@ BEGIN
     UPDATE openchpl.surveillance as src SET deleted = NEW.deleted WHERE src.certified_product_id = NEW.certified_product_id;
     UPDATE openchpl.listing_to_listing_map as src SET deleted = NEW.deleted WHERE src.parent_listing_id = NEW.certified_product_id;
     UPDATE openchpl.listing_to_listing_map as src SET deleted = NEW.deleted WHERE src.child_listing_id = NEW.certified_product_id;
+	UPDATE openchpl.quarterly_report_excluded_listing_map as src SET deleted = NEW.deleted WHERE src.listing_id = NEW.certified_product_id;
     RETURN NEW;
 END;
 $$ language 'plpgsql';
@@ -143,3 +144,13 @@ END;
 $$ language 'plpgsql';
 DROP TRIGGER IF EXISTS complaint_soft_delete on openchpl.complaint;
 CREATE TRIGGER complaint_soft_delete AFTER UPDATE of deleted on openchpl.complaint FOR EACH ROW EXECUTE PROCEDURE openchpl.complaint_soft_delete();
+
+CREATE OR REPLACE FUNCTION openchpl.quarterly_report_soft_delete()
+RETURNS TRIGGER AS $$
+BEGIN
+    UPDATE openchpl.quarterly_report_excluded_listing_map as src SET deleted = NEW.deleted WHERE src.quarterly_report_id = NEW.id;
+    RETURN NEW;
+END;
+$$ language 'plpgsql';
+DROP TRIGGER IF EXISTS quarterly_report_soft_delete on openchpl.quarterly_report;
+CREATE TRIGGER quarterly_report_soft_delete AFTER UPDATE of deleted on openchpl.quarterly_report FOR EACH ROW EXECUTE PROCEDURE openchpl.quarterly_report_soft_delete();
