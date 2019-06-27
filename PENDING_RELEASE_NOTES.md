@@ -5,6 +5,7 @@ _Date TBD_
 ### Table/View Modifications
 * Add open surveillance count, closed surveillance count, and aggregated surveillance dates to the collections view
 * Create table complaint_listing_map for storing listings associated with a complaint
+* Create table complaint_criterion_map for storing criteria associated with a complaint
 
 ### Data Modifications
 * Added two background job types: export quarterly surveillance and export annual surveillance.
