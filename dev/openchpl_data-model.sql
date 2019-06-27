@@ -2182,6 +2182,26 @@ CREATE TABLE openchpl.surveillance_nonconformity_document (
 		MATCH FULL ON DELETE CASCADE ON UPDATE CASCADE
 );
 
+CREATE TABLE openchpl.surveillance_outcome (
+    id bigserial not null,
+	name varchar(100) not null,
+    creation_date timestamp without time zone NOT NULL DEFAULT now(),
+    last_modified_date timestamp without time zone NOT NULL DEFAULT now(),
+    last_modified_user bigint NOT NULL,
+    deleted boolean NOT NULL DEFAULT false,
+    CONSTRAINT surveillance_outcome_pk PRIMARY KEY (id)
+);
+
+CREATE TABLE openchpl.surveillance_process_type (
+    id bigserial not null,
+	name varchar(100) not null,
+    creation_date timestamp without time zone NOT NULL DEFAULT now(),
+    last_modified_date timestamp without time zone NOT NULL DEFAULT now(),
+    last_modified_user bigint NOT NULL,
+    deleted boolean NOT NULL DEFAULT false,
+    CONSTRAINT surveillance_process_type_pk PRIMARY KEY (id)
+);
+
 CREATE TABLE openchpl.pending_surveillance (
 	id bigserial not null,
 	surveillance_id_to_replace varchar(10),
