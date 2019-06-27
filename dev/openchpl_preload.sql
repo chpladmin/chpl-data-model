@@ -30,7 +30,7 @@ VALUES ('No non-conformity', -1), ('Non-conformity substantiated - Resolved thro
 ('Non-conformity substantiated - Unresolved - Under investigation/review', -1), ('Non-conformity substantiated - Unresolved - Other - [Please describe]', -1);
 
 INSERT INTO openchpl.surveillance_process_type (name, last_modified_user)
-VALUES ('In-the-Field', -1), ('Controlled/Test Environment', -1)
+VALUES ('In-the-Field', -1), ('Controlled/Test Environment', -1),
 ('Correspondence with Complainant/Developer', -1), ('Review of Websites/Written Documentation', -1),
 ('Other - [Please describe]', -1);
 

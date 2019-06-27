@@ -37,6 +37,6 @@ CREATE TRIGGER surveillance_process_type_audit AFTER INSERT OR UPDATE OR DELETE 
 CREATE TRIGGER surveillance_process_type_timestamp BEFORE UPDATE on openchpl.surveillance_process_type FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 
 INSERT INTO openchpl.surveillance_process_type (name, last_modified_user)
-VALUES ('In-the-Field', -1), ('Controlled/Test Environment', -1)
+VALUES ('In-the-Field', -1), ('Controlled/Test Environment', -1),
 ('Correspondence with Complainant/Developer', -1), ('Review of Websites/Written Documentation', -1),
 ('Other - [Please describe]', -1);
