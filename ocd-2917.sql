@@ -1,4 +1,5 @@
 -- Remove all previously entered quarterly reports; they're not valid with the new format
+DELETE FROM openchpl.quarterly_report_excluded_listing_map;
 DELETE FROM openchpl.quarterly_report;
 
 ALTER TABLE openchpl.quarterly_report DROP COLUMN IF EXISTS annual_report_id;
