@@ -2285,7 +2285,8 @@ VALUES
 	('Product Report', -1),
 	('Version Report', -1),
     ('User Report', -1),
-    ('User Action Report', -1);
+    ('User Action Report', -1),
+    ('Announcement Report', -1);
 
 
 INSERT INTO openchpl.complainant_type (name, last_modified_user)
