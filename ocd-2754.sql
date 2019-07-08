@@ -3,4 +3,4 @@ SELECT 'Announcement Report', -1
 WHERE NOT EXISTS 
 	(SELECT *
 	 FROM openchpl.filter_type
-	 WHERE name = 'Announcements Report');
+	 WHERE name = 'Announcement Report');
