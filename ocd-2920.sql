@@ -1,6 +1,6 @@
-DROP TABLE IF EXISTS openchpl.quarterly_report_surveillance_map;
-DROP TABLE IF EXISTS openchpl.surveillance_outcome;
-DROP TABLE IF EXISTS openchpl.surveillance_process_type;
+DROP TABLE IF EXISTS openchpl.quarterly_report_surveillance_map CASCADE;
+DROP TABLE IF EXISTS openchpl.surveillance_outcome CASCADE;
+DROP TABLE IF EXISTS openchpl.surveillance_process_type CASCADE;
 
 -- create lookup tables for various dropdown options for surveillance
 CREATE TABLE openchpl.surveillance_outcome (
