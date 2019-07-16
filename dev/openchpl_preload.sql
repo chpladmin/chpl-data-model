@@ -1958,27 +1958,9 @@ INSERT INTO acl_sid VALUES
 INSERT INTO acl_object_identity VALUES
 (-2, 1, -2, NULL, -2, true);
 
--- insert atl objects
-INSERT INTO acl_object_identity VALUES
-(9, 3, 1, NULL, -2, true),
-(10, 3, 2, NULL, -2, true),
-(11, 3, 3, NULL, -2, true),
-(12, 3, 4, NULL, -2, true),
-(13, 3, 5, NULL, -2, true),
-(14, 3, 6, NULL, -2, true);
-
 --insert acls for users
 INSERT INTO acl_entry VALUES
 (1, -2, 0, -2, 16, true, false, false);
-
--- insert acls for atls
-INSERT INTO acl_entry VALUES
-(9, 9, 0, -2, 16, true, false, false),
-(10, 10, 0, -2, 16, true, false, false),
-(11, 11, 0, -2, 16, true, false, false),
-(12, 12, 0, -2, 16, true, false, false),
-(13, 13, 0, -2, 16, true, false, false),
-(14, 14, 0, -2, 16, true, false, false);
 
 SELECT pg_catalog.setval('acl_entry_id_seq', 15, true);
 SELECT pg_catalog.setval('acl_object_identity_id_seq', 15, true);
@@ -2296,7 +2278,8 @@ VALUES
 	('Product Report', -1),
 	('Version Report', -1),
     ('User Report', -1),
-    ('User Action Report', -1);
+    ('User Action Report', -1),
+    ('Announcement Report', -1);
 
 
 INSERT INTO openchpl.complainant_type (name, last_modified_user)

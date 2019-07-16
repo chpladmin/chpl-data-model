@@ -11,5 +11,6 @@ _Date TBD_
 
 ### Data Modifications
 * Added two background job types: export quarterly surveillance and export annual surveillance.
+* Add Announcement Report to the filter_type table
 
 ---

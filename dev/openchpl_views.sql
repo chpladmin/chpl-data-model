@@ -836,8 +836,8 @@ FROM
 -- with privileged surveillance data
 CREATE VIEW openchpl.privileged_surveillance AS
 SELECT surv.*,
+	qr.id as quarterly_report_id,
 	privileged_surv.id as privileged_surveillance_id,
-	privileged_surv.quarterly_report_id,
 	privileged_surv.k1_reviewed,
 	privileged_surv.surveillance_outcome_id,
 	privileged_surv.surveillance_process_type_id,
@@ -854,6 +854,8 @@ SELECT surv.*,
 FROM openchpl.surveillance surv
 LEFT OUTER JOIN openchpl.quarterly_report_surveillance_map privileged_surv
 	ON surv.id = privileged_surv.surveillance_id AND privileged_surv.deleted = false
+LEFT OUTER JOIN openchpl.quarterly_report qr
+	ON qr.id = privileged_surv.quarterly_report_id AND qr.deleted = false
 WHERE surv.deleted = false
 ;
 
