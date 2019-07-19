@@ -835,7 +835,16 @@ FROM
 -- joins together public basic surveillance data
 -- with privileged surveillance data
 CREATE VIEW openchpl.privileged_surveillance AS
-SELECT surv.*,
+SELECT row_number() over() as id,
+	surv.id as surveillance_id,
+	surv.certified_product_id,
+	surv.friendly_id,
+	surv.start_date,
+	surv.end_date,
+	surv.type_id,
+	surv.randomized_sites_used,
+	surv.user_permission_id,
+	surv.deleted,
 	qr.id as quarterly_report_id,
 	privileged_surv.id as privileged_surveillance_id,
 	privileged_surv.k1_reviewed,
