@@ -505,8 +505,11 @@ SELECT cp.certified_product_id,
        decert.decertification_date,
        certs_with_api_documentation.cert_number AS api_documentation,
        COALESCE(survs.count_surveillance_activities, 0::bigint) AS surveillance_count,
+       COALESCE(surv_open.count_open_surveillance_activities, 0::bigint) as open_surveillance_count,
+       COALESCE(surv_closed.count_closed_surveillance_activities, 0::bigint) as closed_surveillance_count,
        COALESCE(nc_open.count_open_nonconformities, 0::bigint) AS open_nonconformity_count,
-       COALESCE(nc_closed.count_closed_nonconformities, 0::bigint) AS closed_nonconformity_count
+       COALESCE(nc_closed.count_closed_nonconformities, 0::bigint) AS closed_nonconformity_count,
+       surv_dates.surv_dates
 FROM openchpl.certified_product cp
 LEFT JOIN
   (SELECT cse.certification_status_id,
@@ -627,6 +630,20 @@ LEFT JOIN
    GROUP BY surveillance.certified_product_id) survs ON cp.certified_product_id = survs.certified_product_id
 LEFT JOIN
   (SELECT surv.certified_product_id,
+          count(*) AS count_open_surveillance_activities
+   FROM openchpl.surveillance surv
+   WHERE surv.deleted <> TRUE
+     AND surv.start_date <= now() AND (surv.end_date IS NULL OR surv.end_date > now())
+   GROUP BY surv.certified_product_id) surv_open ON cp.certified_product_id = surv_open.certified_product_id
+LEFT JOIN
+  (SELECT surv.certified_product_id,
+          count(*) AS count_closed_surveillance_activities
+   FROM openchpl.surveillance surv
+   WHERE surv.deleted <> TRUE
+     AND surv.start_date <= now() AND surv.end_date IS NOT NULL AND surv.end_date <= now()
+   GROUP BY surv.certified_product_id) surv_closed ON cp.certified_product_id = surv_closed.certified_product_id
+LEFT JOIN
+  (SELECT surv.certified_product_id,
           count(*) AS count_open_nonconformities
    FROM openchpl.surveillance surv
    JOIN openchpl.surveillance_requirement surv_req ON surv.id = surv_req.surveillance_id
@@ -649,6 +666,15 @@ LEFT JOIN
    WHERE surv.deleted <> TRUE
      AND nc_status.name::text = 'Closed'::text
    GROUP BY surv.certified_product_id) nc_closed ON cp.certified_product_id = nc_closed.certified_product_id
+LEFT JOIN
+  (SELECT surv.certified_product_id,
+          STRING_AGG(
+		(EXTRACT(EPOCH FROM surv.start_date)*1000)::text
+		||'&'||
+		COALESCE((EXTRACT(EPOCH FROM surv.end_date)*1000)::text, ''), '☺') AS surv_dates
+   FROM openchpl.surveillance surv
+   WHERE surv.deleted = FALSE
+   GROUP BY surv.certified_product_id) AS surv_dates ON surv_dates.certified_product_id = cp.certified_product_id
 LEFT JOIN
   (SELECT certification_result.certified_product_id,
           string_agg(DISTINCT certification_criterion.number, '☺') AS cert_number

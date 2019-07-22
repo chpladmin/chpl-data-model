@@ -14,14 +14,10 @@ CREATE FUNCTION openchpl.create_user(role_name text, orgs varchar[], username te
 			VALUES (fullname, friendlyname, email, phonenumber, now(), -2);
 
 			-- insert the user
-			INSERT INTO openchpl.user (user_name, password, account_expired, account_locked, credentials_expired, account_enabled, last_modified_user, contact_id)
+			INSERT INTO openchpl.user (user_name, password, account_expired, account_locked, credentials_expired, account_enabled, last_modified_user, contact_id, user_permission_id)
 			VALUES (username, password, false, false, false, true, -2,
-				(SELECT contact_id FROM openchpl.contact WHERE full_name = fullname AND friendly_name = friendlyname LIMIT 1));
-
-			-- assign the passed-in role to this user
-			INSERT INTO openchpl.global_user_permission_map (user_id, user_permission_id_user_permission, last_modified_user)
-			VALUES ((SELECT user_id FROM openchpl.user WHERE user_name = username),
-					(SELECT user_permission_id FROM openchpl.user_permission WHERE authority = role_name), -2);
+				(SELECT contact_id FROM openchpl.contact WHERE full_name = fullname AND friendly_name = friendlyname LIMIT 1),
+				(SELECT user_permission_id FROM openchpl.user_permission WHERE authority = role_name));
 
 			-- create spring acl sids
 			INSERT INTO openchpl.acl_sid (principal, sid)

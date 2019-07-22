@@ -1,5 +1,46 @@
 # Release Notes
 
+## Version 17.7.0
+_22 July 2019_
+
+### Table/View Modifications
+* Add open surveillance count, closed surveillance count, and aggregated surveillance dates to the collections view
+* Create table complaint_listing_map for storing listings associated with a complaint
+* Create table complaint_surveillance_map for storing surveillances associated with a complaint
+* Added table quarterly_report_excluded_listing_map to associate an excluded listing with the quarterly report.
+* Create table complaint_criterion_map for storing criteria associated with a complaint
+
+### Data Modifications
+* Added two background job types: export quarterly surveillance and export annual surveillance.
+* Add Announcement Report to the filter_type table
+
+---
+
+## Version 17.6.0
+_17 June 2019_
+
+### View/Table modifications
+* Create table complaint for storing quarterly surveillance report complaints
+* Create table complaint_type for indicating type of complaint
+* Create table complaint_status_type for indicating the status of complaints
+* Add tables to support quarterly surveillance reporting
+
+### Data Modifications
+* Add user and user action reports to the filter_type table
+
+---
+
+## Version 17.5.0
+_3 June 2019_
+
+### Table modifications
+* Add tables to support FF4j (feature flags)
+
+### Technical debt
+* Removed some obsolete tables
+
+---
+
 ## Version 17.4.0
 _20 May 2019_
 
@@ -19,7 +60,6 @@ _20 May 2019_
 * Add listing, developer, product, and version reports to the filter_type table
 
 ---
-
 
 ## Version 17.3.0
 _8 May 2019_
@@ -690,7 +730,6 @@ _8 May 2017_
 * Find and fix any criteria pointing to test functionality from the wrong edition.
 
 ---
-
 
 ## Version 8.5.0
 _24 April 2017_
