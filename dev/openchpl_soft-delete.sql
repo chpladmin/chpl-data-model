@@ -54,6 +54,7 @@ CREATE OR REPLACE FUNCTION openchpl.surveillance_soft_delete()
 RETURNS TRIGGER AS $$
 BEGIN
     UPDATE openchpl.surveillance_requirement as src SET deleted = NEW.deleted WHERE src.surveillance_id = NEW.id;
+    UPDATE openchpl.complaint_surveillance_map as src SET deleted = NEW.deleted WHERE src.surveillance_id = NEW.id;
     RETURN NEW;
 END;
 $$ language 'plpgsql';
