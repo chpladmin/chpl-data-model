@@ -11,7 +11,6 @@ DROP VIEW IF EXISTS openchpl.product_active_owner_history_map;
 DROP VIEW IF EXISTS openchpl.certified_product_summary;
 DROP VIEW IF EXISTS openchpl.ehr_certification_ids_and_products;
 DROP VIEW IF EXISTS openchpl.listings_from_banned_developers;
-DROP VIEW IF EXISTS openchpl.privileged_surveillance;
 
 create or replace function openchpl.get_testing_lab_code(input_id bigint) returns
     table (
@@ -831,44 +830,6 @@ FROM
 	AND cqm_result.deleted = false
 	) cqms_for_listing
     ON cqms_for_listing.certified_product_id = all_listings_simple.certified_product_id;
-
--- joins together public basic surveillance data
--- with privileged surveillance data
-CREATE VIEW openchpl.privileged_surveillance AS
-SELECT row_number() over() as id,
-	surv.id as surveillance_id,
-	surv.certified_product_id,
-	surv.friendly_id,
-	surv.start_date,
-	surv.end_date,
-	surv.type_id,
-	surv.randomized_sites_used,
-	surv.user_permission_id,
-	surv.deleted,
-	qr.id as quarterly_report_id,
-	privileged_surv.id as privileged_surveillance_id,
-	privileged_surv.k1_reviewed,
-	privileged_surv.surveillance_outcome_id,
-	privileged_surv.surveillance_outcome_other,
-	privileged_surv.surveillance_process_type_id,
-	privileged_surv.surveillance_process_type_other,
-	privileged_surv.grounds_for_initiating,
-	privileged_surv.nonconformity_causes,
-	privileged_surv.nonconformity_nature,
-	privileged_surv.steps_to_surveil,
-	privileged_surv.steps_to_engage,
-	privileged_surv.additional_costs_evaluation,
-	privileged_surv.limitations_evaluation,
-	privileged_surv.nondisclosure_evaluation,
-	privileged_surv.direction_developer_resolution,
-	privileged_surv.completed_cap_verification
-FROM openchpl.surveillance surv
-LEFT OUTER JOIN openchpl.quarterly_report_surveillance_map privileged_surv
-	ON surv.id = privileged_surv.surveillance_id AND privileged_surv.deleted = false
-LEFT OUTER JOIN openchpl.quarterly_report qr
-	ON qr.id = privileged_surv.quarterly_report_id AND qr.deleted = false
-WHERE surv.deleted = false
-;
 
 CREATE VIEW openchpl.developer_certification_statuses AS
 SELECT v.vendor_id,
