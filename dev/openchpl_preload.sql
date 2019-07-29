@@ -1906,7 +1906,8 @@ INSERT INTO openchpl.activity_concept (activity_concept_id, concept, last_modifi
 (12, 'ANNOUNCEMENT', -1),
 (13, 'CERTIFICATION_ID', -1),
 (14, 'PENDING_SURVEILLANCE', -1),
-(15, 'CORRECTIVE_ACTION_PLAN', -1);
+(15, 'CORRECTIVE_ACTION_PLAN', -1),
+(16, 'COMPLAINT', -1);
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -1947,27 +1948,9 @@ INSERT INTO acl_sid VALUES
 INSERT INTO acl_object_identity VALUES
 (-2, 1, -2, NULL, -2, true);
 
--- insert atl objects
-INSERT INTO acl_object_identity VALUES
-(9, 3, 1, NULL, -2, true),
-(10, 3, 2, NULL, -2, true),
-(11, 3, 3, NULL, -2, true),
-(12, 3, 4, NULL, -2, true),
-(13, 3, 5, NULL, -2, true),
-(14, 3, 6, NULL, -2, true);
-
 --insert acls for users
 INSERT INTO acl_entry VALUES
 (1, -2, 0, -2, 16, true, false, false);
-
--- insert acls for atls
-INSERT INTO acl_entry VALUES
-(9, 9, 0, -2, 16, true, false, false),
-(10, 10, 0, -2, 16, true, false, false),
-(11, 11, 0, -2, 16, true, false, false),
-(12, 12, 0, -2, 16, true, false, false),
-(13, 13, 0, -2, 16, true, false, false),
-(14, 14, 0, -2, 16, true, false, false);
 
 SELECT pg_catalog.setval('acl_entry_id_seq', 15, true);
 SELECT pg_catalog.setval('acl_object_identity_id_seq', 15, true);
@@ -2250,7 +2233,9 @@ INSERT INTO openchpl.macra_criteria_map (criteria_id, value, name, description, 
 INSERT INTO openchpl.job_type (name, description, success_message, last_modified_user)
 VALUES 
 ('MUU Upload', 'Uploading a potentially large CSV file with Meaningful Use user counts per listing.', 'MUU Upload is complete.', -1),
-('Surveillance Upload', 'Uploading a file with many surveillance items.', 'Surveillance upload is complete', -1);
+('Surveillance Upload', 'Uploading a file with many surveillance items.', 'Surveillance upload is complete', -1),
+('Export Quarterly Report', 'Creating an excel file based on quarterly report data.', 'Quarterly Report generation is complete', -1),
+('Export Annual Report', 'Creating an excel file based on annual report data.', 'Annual Report generation is complete.', -1);
 
 INSERT INTO openchpl.upload_template_version (name, available_as_of_date, header_csv, last_modified_user, deprecated, deleted)
 VALUES
@@ -2276,9 +2261,31 @@ VALUES
 ('Api Documentation', 'Api Documentation', -1);
 
 INSERT INTO openchpl.filter_type
-	(name, last_modified_user)
+    (name, last_modified_user)
 VALUES
 	('Developer Report', -1),
 	('Listing Report', -1),
 	('Product Report', -1),
-	('Version Report', -1);
+	('Version Report', -1),
+    ('User Report', -1),
+    ('User Action Report', -1),
+    ('Announcement Report', -1);
+
+
+INSERT INTO openchpl.complainant_type (name, last_modified_user)
+VALUES
+    ('Developer', -1),
+    ('Provider', -1),
+    ('Third Party Organization', -1),
+    ('Government Entity', -1),
+    ('Patient', -1),
+    ('Anonymous', -1),
+    ('Other - [Please Describe]', -1);
+
+INSERT INTO openchpl.complaint_status_type (name, last_modified_user)
+VALUES
+    ('Open', -1),
+    ('Closed', -1);
+
+INSERT INTO openchpl.quarter (name, quarter_begin_month, quarter_begin_day, quarter_end_month, quarter_end_day, last_modified_user)
+VALUES ('Q1', 1, 1, 3, 31, -1), ('Q2', 4, 1, 6, 30, -1), ('Q3', 7, 1, 9, 30, -1), ('Q4', 10, 1, 12, 31, -1);

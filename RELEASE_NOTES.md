@@ -1,4 +1,51 @@
 # Release Notes
+## Version 17.8.0
+_TBD_
+
+### Table Modifications
+* support storing complaint/surveillance relationship
+* support storing complaint/criterion relationship
+* support storing complaint/excluded listing relationship
+
+### Data Changes
+* add Announcement Report as a possible filter
+* add COMPLAINT as type of activity
+* add jobs for quarterly and annual reports
+* remove obsolete ACL entries
+
+---
+
+
+
+## Version 17.7.0
+_22 July 2019_
+
+### Table/View Modifications
+* Add open surveillance count, closed surveillance count, and aggregated surveillance dates to the collections view
+* Create table complaint_listing_map for storing listings associated with a complaint
+* Create table complaint_surveillance_map for storing surveillances associated with a complaint
+* Added table quarterly_report_excluded_listing_map to associate an excluded listing with the quarterly report.
+* Create table complaint_criterion_map for storing criteria associated with a complaint
+
+### Data Modifications
+* Added two background job types: export quarterly surveillance and export annual surveillance.
+* Add Announcement Report to the filter_type table
+
+---
+
+## Version 17.6.0
+_17 June 2019_
+
+### View/Table modifications
+* Create table complaint for storing quarterly surveillance report complaints
+* Create table complaint_type for indicating type of complaint
+* Create table complaint_status_type for indicating the status of complaints
+* Add tables to support quarterly surveillance reporting
+
+### Data Modifications
+* Add user and user action reports to the filter_type table
+
+---
 
 ## Version 17.5.0
 _3 June 2019_
