@@ -1891,7 +1891,7 @@ INSERT INTO openchpl.qms_standard(name, last_modified_user) VALUES
 ('ISO 13485', -1),
 ('IEC 62304', -1);
 
-INSERT INTO openchpl.activity_concept (activity_concept_id, concept, last_modified_user) VALUES
+INSERT INTO openchpl.activity_concept (concept, last_modified_user) VALUES
 ('CERTIFIED_PRODUCT', -1),
 ('PRODUCT', -1),
 ('DEVELOPER', -1),
