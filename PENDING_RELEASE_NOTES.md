@@ -1,7 +1,8 @@
-## Version 17.7.1
+## Version 17.9.0
 _TBD_
 
-### Data Modifications
-* Add 'COMPLAINT' to the activity_concept table
+### Table Modifications
+* Add mapping table to store privileged surveillance data per quarter.
+* Add lookup tables for surveillance_outcome and surveillance_process_type.
 
 ---
