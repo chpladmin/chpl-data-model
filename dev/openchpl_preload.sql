@@ -1891,23 +1891,23 @@ INSERT INTO openchpl.qms_standard(name, last_modified_user) VALUES
 ('ISO 13485', -1),
 ('IEC 62304', -1);
 
-INSERT INTO openchpl.activity_concept (activity_concept_id, concept, last_modified_user) VALUES
-(1, 'CERTIFIED_PRODUCT', -1),
-(2, 'PRODUCT', -1),
-(3, 'DEVELOPER', -1),
-(4, 'CERTIFICATION', -1),
-(5, 'CQM', -1),
-(6, 'CERTIFICATION_BODY', -1),
-(7, 'VERSION', -1),
-(8, 'USER', -1),
-(9, 'TESTING_LAB', -1),
-(10, 'PENDING_CERTIFIED_PRODUCT', -1),
-(11, 'API_KEY', -1),
-(12, 'ANNOUNCEMENT', -1),
-(13, 'CERTIFICATION_ID', -1),
-(14, 'PENDING_SURVEILLANCE', -1),
-(15, 'CORRECTIVE_ACTION_PLAN', -1),
-(16, 'COMPLAINT', -1);
+INSERT INTO openchpl.activity_concept (concept, last_modified_user) VALUES
+('CERTIFIED_PRODUCT', -1),
+('PRODUCT', -1),
+('DEVELOPER', -1),
+('CERTIFICATION', -1),
+('CQM', -1),
+('CERTIFICATION_BODY', -1),
+('VERSION', -1),
+('USER', -1),
+('TESTING_LAB', -1),
+('PENDING_CERTIFIED_PRODUCT', -1),
+('API_KEY', -1),
+('ANNOUNCEMENT', -1),
+('CERTIFICATION_ID', -1),
+('PENDING_SURVEILLANCE', -1),
+('CORRECTIVE_ACTION_PLAN', -1),
+('COMPLAINT', -1);
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
