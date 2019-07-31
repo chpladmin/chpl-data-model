@@ -1,4 +1,5 @@
 # Release Notes
+
 ## Version 17.7.1
 _TBD_
 
