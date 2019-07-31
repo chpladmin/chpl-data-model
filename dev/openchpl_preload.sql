@@ -1920,6 +1920,7 @@ INSERT INTO openchpl.activity_concept (concept, last_modified_user) VALUES
 ('CORRECTIVE_ACTION_PLAN', -1),
 ('COMPLAINT', -1),
 ('QUARTERLY_REPORT', -1),
+('QUARTERLY_REPORT_LISTING', -1),
 ('ANNUAL_REPORT', -1);
 
 SET statement_timeout = 0;
