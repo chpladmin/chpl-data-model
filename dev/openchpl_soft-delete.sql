@@ -152,6 +152,7 @@ CREATE OR REPLACE FUNCTION openchpl.quarterly_report_soft_delete()
 RETURNS TRIGGER AS $$
 BEGIN
     UPDATE openchpl.quarterly_report_excluded_listing_map as src SET deleted = NEW.deleted WHERE src.quarterly_report_id = NEW.id;
+	UPDATE openchpl.quarterly_report_surveillance_map as src SET deleted = NEW.deleted WHERE src.quarterly_report_id = NEW.id;
     RETURN NEW;
 END;
 $$ language 'plpgsql';

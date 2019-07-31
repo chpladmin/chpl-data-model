@@ -2182,6 +2182,26 @@ CREATE TABLE openchpl.surveillance_nonconformity_document (
 		MATCH FULL ON DELETE CASCADE ON UPDATE CASCADE
 );
 
+CREATE TABLE openchpl.surveillance_outcome (
+    id bigserial not null,
+	name varchar(100) not null,
+    creation_date timestamp without time zone NOT NULL DEFAULT now(),
+    last_modified_date timestamp without time zone NOT NULL DEFAULT now(),
+    last_modified_user bigint NOT NULL,
+    deleted boolean NOT NULL DEFAULT false,
+    CONSTRAINT surveillance_outcome_pk PRIMARY KEY (id)
+);
+
+CREATE TABLE openchpl.surveillance_process_type (
+    id bigserial not null,
+	name varchar(100) not null,
+    creation_date timestamp without time zone NOT NULL DEFAULT now(),
+    last_modified_date timestamp without time zone NOT NULL DEFAULT now(),
+    last_modified_user bigint NOT NULL,
+    deleted boolean NOT NULL DEFAULT false,
+    CONSTRAINT surveillance_process_type_pk PRIMARY KEY (id)
+);
+
 CREATE TABLE openchpl.pending_surveillance (
 	id bigserial not null,
 	surveillance_id_to_replace varchar(10),
@@ -3037,6 +3057,44 @@ CREATE TABLE openchpl.quarterly_report_excluded_listing_map (
 		MATCH SIMPLE ON UPDATE NO ACTION ON DELETE RESTRICT,
     CONSTRAINT listing_fk FOREIGN KEY (listing_id)
 		REFERENCES openchpl.certified_product (certified_product_id) 
+		MATCH SIMPLE ON UPDATE NO ACTION ON DELETE RESTRICT
+);
+
+CREATE TABLE openchpl.quarterly_report_surveillance_map (
+	id bigserial not null,
+	quarterly_report_id bigint not null,
+	surveillance_id bigint not null,
+	k1_reviewed boolean,
+	surveillance_outcome_id bigint,
+	surveillance_outcome_other text,
+	surveillance_process_type_id bigint,
+	surveillance_process_type_other text,
+	grounds_for_initiating text,
+	nonconformity_causes text,
+	nonconformity_nature text,
+	steps_to_surveil text,
+	steps_to_engage text,
+	additional_costs_evaluation text,
+	limitations_evaluation text,
+	nondisclosure_evaluation text,
+	direction_developer_resolution text,
+	completed_cap_verification text,
+	creation_date timestamp without time zone NOT NULL DEFAULT now(),
+    last_modified_date timestamp without time zone NOT NULL DEFAULT now(),
+    last_modified_user bigint NOT NULL,
+    deleted boolean NOT NULL DEFAULT false,
+	CONSTRAINT quarterly_report_surveillance_map_pk PRIMARY KEY (id),
+	CONSTRAINT quarterly_report_fk FOREIGN KEY (quarterly_report_id)
+		REFERENCES openchpl.quarterly_report (id) 
+		MATCH SIMPLE ON UPDATE NO ACTION ON DELETE RESTRICT,
+	CONSTRAINT surveillance_fk FOREIGN KEY (surveillance_id)
+		REFERENCES openchpl.surveillance (id) 
+		MATCH SIMPLE ON UPDATE NO ACTION ON DELETE RESTRICT,
+	CONSTRAINT surveillance_outcome_fk FOREIGN KEY (surveillance_outcome_id)
+		REFERENCES openchpl.surveillance_outcome (id) 
+		MATCH SIMPLE ON UPDATE NO ACTION ON DELETE RESTRICT,
+	CONSTRAINT surveillance_process_type_fk FOREIGN KEY (surveillance_process_type_id)
+		REFERENCES openchpl.surveillance_process_type (id) 
 		MATCH SIMPLE ON UPDATE NO ACTION ON DELETE RESTRICT
 );
 

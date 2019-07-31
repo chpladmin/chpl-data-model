@@ -23,6 +23,17 @@ values ('Non-Conformity', -1), ('No Non-Conformity', -1);
 INSERT INTO openchpl.nonconformity_status (name, last_modified_user)
 values ('Open', -1), ('Closed', -1);
 
+INSERT INTO openchpl.surveillance_outcome (name, last_modified_user)
+VALUES ('No non-conformity', -1), ('Non-conformity substantiated - Resolved through corrective action', -1),
+('Non-conformity substantiated - Unresolved - Corrective action ongoing', -1), ('Non-conformity substantiated - Unresolved - Certification suspended', -1),
+('Non-conformity substantiated - Unresolved - Certification withdrawn', -1), ('Non-conformity substantiated - Unresolved - Surveillance in process', -1),
+('Non-conformity substantiated - Unresolved - Under investigation/review', -1), ('Non-conformity substantiated - Unresolved - Other - [Please describe]', -1);
+
+INSERT INTO openchpl.surveillance_process_type (name, last_modified_user)
+VALUES ('In-the-Field', -1), ('Controlled/Test Environment', -1),
+('Correspondence with Complainant/Developer', -1), ('Review of Websites/Written Documentation', -1),
+('Other - [Please describe]', -1);
+
 INSERT INTO openchpl.fuzzy_choices(fuzzy_type, choices, last_modified_user)
 values ('UCD Process', '["Home Grown","ISO 13407","ISO 16982","ISO 9001","ISO 9241","ISO 9241-10","ISO 9241-11","ISO 9241-210","ISO 9241-210:2010 4.2","ISO/IEC 25062:2006","ISO/IEC 62366","ISO/IEC 62366-1","ISO/IEC 62367","Internal Process Used","Multiple Standards","NISTIR 7741","NISTIR 7742","See User Centered Design document"]', -1);
 
