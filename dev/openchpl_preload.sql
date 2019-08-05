@@ -1918,7 +1918,10 @@ INSERT INTO openchpl.activity_concept (concept, last_modified_user) VALUES
 ('CERTIFICATION_ID', -1),
 ('PENDING_SURVEILLANCE', -1),
 ('CORRECTIVE_ACTION_PLAN', -1),
-('COMPLAINT', -1);
+('COMPLAINT', -1),
+('QUARTERLY_REPORT', -1),
+('QUARTERLY_REPORT_LISTING', -1),
+('ANNUAL_REPORT', -1);
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
