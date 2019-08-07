@@ -1,6 +1,7 @@
 \i ocd-3016.sql
 \i ocd-2920.sql
 \i ocd-3015.sql
+\i ocd-3018.sql
 \i v17.7.1-fix.sql
 
 \i dev/openchpl_soft-delete.sql
