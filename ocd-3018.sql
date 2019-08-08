@@ -1,3 +1,13 @@
+select address_id, count(*) from (
+		select address_id from openchpl.vendor where deleted = false
+		union all 
+		select address_id from openchpl.certification_body where deleted = false
+		union all 
+		select address_id from openchpl.testing_lab where deleted = false) addr_cnt
+where address_id is not null
+group by address_id
+having count(*) > 1;
+
 do $$
 begin
 	declare addr_count integer;
@@ -20,7 +30,7 @@ begin
 		
 		update openchpl.testing_lab
 		set address_id = lastval(), last_modified_user = -1
-		where vendor_id = 1;
+		where testing_lab_id = 1;
 	end if;
 
 	--Is addr_id 2 still tied to multiple agencies
@@ -41,7 +51,7 @@ begin
 		
 		update openchpl.testing_lab
 		set address_id = lastval(), last_modified_user = -1
-		where vendor_id = 3;
+		where testing_lab_id = 3;
 	end if;
 
 	--Is addr_id 81 still tied to multiple agencies
@@ -129,3 +139,13 @@ begin
 	end if;
 
 end $$;
+
+select address_id, count(*) from (
+		select address_id from openchpl.vendor where deleted = false
+		union all 
+		select address_id from openchpl.certification_body where deleted = false
+		union all 
+		select address_id from openchpl.testing_lab where deleted = false) addr_cnt
+where address_id is not null
+group by address_id
+having count(*) > 1;
