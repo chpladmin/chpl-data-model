@@ -74,7 +74,7 @@ CREATE FUNCTION openchpl.create_user(role_name text, orgs varchar[], username te
 			IF role_name = 'ROLE_DEVELOPER' THEN
 				FOREACH dev IN ARRAY orgs
 				LOOP
-					RAISE NOTICE 'Adding permissions for % to Developer %', username, atl;
+					RAISE NOTICE 'Adding permissions for % to Developer %', username, dev;
 				    INSERT INTO openchpl.user_developer_map
 					(user_id, developer_id, last_modified_user)
 					VALUES
