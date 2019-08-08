@@ -1977,8 +1977,13 @@ INSERT INTO user_permission (user_permission_id, "name", description, authority,
 (2, 'ACB' ,'This permission gives a user write access to their ACBs.', 'ROLE_ACB' , -1),
 (4, 'ATL' ,'This permission gives a user write access to their ATLs.', 'ROLE_ATL' , -1),
 (6, 'CMS_STAFF' ,'This permission gives a user read access to CMS reports.', 'ROLE_CMS_STAFF' , -1),
+<<<<<<< HEAD
 (7, 'ONC', 'This permission gives ONC users administrative privileges.', 'ROLE_ONC', -1);
 (8, 'DEVELOPER', 'This permission gives users write access to their Developers.', 'ROLE_DEVELOPER', -1);
+=======
+(7, 'ONC', 'This permission gives ONC users administrative privileges.', 'ROLE_ONC', -1),
+(8, 'DEVELOPER', 'This permission gives a user the ability to submit update requests for their organization(s).', 'ROLE_DEVELOPER', -1);
+>>>>>>> upstream/development
 SELECT pg_catalog.setval('user_permission_user_permission_id_seq', 9, true);
 
 --user contacts.
