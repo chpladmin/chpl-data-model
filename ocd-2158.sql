@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS openchpl.user_developer_map (
 
 
 insert into openchpl.user_permission ("name", description, authority, last_modified_user)
-select 'DEVELOPER', 'This permission gives Developer Users administrative privileges.', 'ROLE_DEVELOPER', -1
+select 'DEVELOPER', 'This permission gives a user the ability to submit update requests for their ACBs.', 'ROLE_DEVELOPER', -1
 where not exists
         (select *
         from openchpl.user_permission
