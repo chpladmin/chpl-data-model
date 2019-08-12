@@ -2867,10 +2867,10 @@ CREATE TABLE openchpl.user_developer_map (
 	deleted bool NOT NULL DEFAULT false,
 	CONSTRAINT user_developer_map_pk PRIMARY KEY (id),
 	CONSTRAINT user_fk FOREIGN KEY (user_id)
-		REFERENCES openchpl.user (user_id) 
+		REFERENCES openchpl.user (user_id)
 		MATCH SIMPLE ON UPDATE NO ACTION ON DELETE RESTRICT,
 	CONSTRAINT developer_fk FOREIGN KEY (developer_id)
-		REFERENCES openchpl.vendor (vendor_id) 
+		REFERENCES openchpl.vendor (vendor_id)
 		MATCH SIMPLE ON UPDATE NO ACTION ON DELETE RESTRICT
 );
 
