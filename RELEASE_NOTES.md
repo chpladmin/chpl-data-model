@@ -1,5 +1,48 @@
 # Release Notes
 
+## Version 17.8.0
+_TBD_
+
+### Table/View Modifications
+* Add privileged surveillance data
+  * Add lookup tables for surveillance_process_type and surveillance_outcome values
+  * Add mapping table for privileged data associated with surveillance and quarterly report
+
+
+### Data Changes
+* Remove mistakenly uploaded listings
+* Add quarterly report and annual report activity type
+* Update db_version to be correct
+
+---
+
+
+
+## Version 17.7.1
+_TBD_
+
+### Data Changes
+* Add COMPLAINT as type of activity
+* Remove obsolete ACL entries
+
+---
+
+## Version 17.7.0
+_22 July 2019_
+
+### Table/View Modifications
+* Add open surveillance count, closed surveillance count, and aggregated surveillance dates to the collections view
+* Create table complaint_listing_map for storing listings associated with a complaint
+* Create table complaint_surveillance_map for storing surveillances associated with a complaint
+* Added table quarterly_report_excluded_listing_map to associate an excluded listing with the quarterly report.
+* Create table complaint_criterion_map for storing criteria associated with a complaint
+
+### Data Modifications
+* Added two background job types: export quarterly surveillance and export annual surveillance.
+* Add Announcement Report to the filter_type table
+
+---
+
 ## Version 17.6.0
 _17 June 2019_
 

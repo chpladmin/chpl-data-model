@@ -2182,6 +2182,26 @@ CREATE TABLE openchpl.surveillance_nonconformity_document (
 		MATCH FULL ON DELETE CASCADE ON UPDATE CASCADE
 );
 
+CREATE TABLE openchpl.surveillance_outcome (
+    id bigserial not null,
+	name varchar(100) not null,
+    creation_date timestamp without time zone NOT NULL DEFAULT now(),
+    last_modified_date timestamp without time zone NOT NULL DEFAULT now(),
+    last_modified_user bigint NOT NULL,
+    deleted boolean NOT NULL DEFAULT false,
+    CONSTRAINT surveillance_outcome_pk PRIMARY KEY (id)
+);
+
+CREATE TABLE openchpl.surveillance_process_type (
+    id bigserial not null,
+	name varchar(100) not null,
+    creation_date timestamp without time zone NOT NULL DEFAULT now(),
+    last_modified_date timestamp without time zone NOT NULL DEFAULT now(),
+    last_modified_user bigint NOT NULL,
+    deleted boolean NOT NULL DEFAULT false,
+    CONSTRAINT surveillance_process_type_pk PRIMARY KEY (id)
+);
+
 CREATE TABLE openchpl.pending_surveillance (
 	id bigserial not null,
 	surveillance_id_to_replace varchar(10),
@@ -2866,14 +2886,14 @@ CREATE TABLE openchpl.filter (
         ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
-CREATE TABLE openchpl.complaint_type (
-	complaint_type_id bigserial not null,
+CREATE TABLE openchpl.complainant_type (
+	complainant_type_id bigserial not null,
 	name text not null,
 	creation_date timestamp without time zone NOT NULL DEFAULT now(),
     last_modified_date timestamp without time zone NOT NULL DEFAULT now(),
     last_modified_user bigint NOT NULL,
     deleted boolean NOT NULL DEFAULT false,
-    CONSTRAINT complaint_type_pk PRIMARY KEY (complaint_type_id)
+    CONSTRAINT complainant_type_pk PRIMARY KEY (complainant_type_id)
 );
 
 CREATE TABLE openchpl.complaint_status_type (
@@ -2889,7 +2909,8 @@ CREATE TABLE openchpl.complaint_status_type (
 CREATE TABLE openchpl.complaint (
     complaint_id bigserial not null,
     certification_body_id bigint not null,
-    complaint_type_id bigint not null,
+    complainant_type_id bigint not null,
+    complainant_type_other text,
     complaint_status_type_id bigint not null,
     onc_complaint_id text,
     acb_complaint_id text,
@@ -2909,11 +2930,61 @@ CREATE TABLE openchpl.complaint (
     CONSTRAINT certification_body_fk FOREIGN KEY (certification_body_id)
 		REFERENCES openchpl.certification_body (certification_body_id) 
 		MATCH SIMPLE ON UPDATE NO ACTION ON DELETE RESTRICT,
-    CONSTRAINT complaint_type_fk FOREIGN KEY (complaint_type_id)
-		REFERENCES openchpl.complaint_type (complaint_type_id) 
+    CONSTRAINT complainant_type_fk FOREIGN KEY (complainant_type_id)
+		REFERENCES openchpl.complainant_type (complainant_type_id) 
 		MATCH SIMPLE ON UPDATE NO ACTION ON DELETE RESTRICT,
     CONSTRAINT complaint_status_type_fk FOREIGN KEY (complaint_status_type_id)
 		REFERENCES openchpl.complaint_status_type (complaint_status_type_id) 
+		MATCH SIMPLE ON UPDATE NO ACTION ON DELETE RESTRICT
+);
+CREATE TABLE openchpl.complaint_criterion_map (
+    complaint_criterion_map_id bigserial not null,
+    complaint_id bigint not null,
+    certification_criterion_id bigint not null,
+    creation_date timestamp without time zone NOT NULL DEFAULT now(),
+    last_modified_date timestamp without time zone NOT NULL DEFAULT now(),
+    last_modified_user bigint NOT NULL,
+    deleted boolean NOT NULL DEFAULT false,
+    CONSTRAINT complaint_criterion_map_pk PRIMARY KEY (complaint_criterion_map_id),
+    CONSTRAINT complaint_fk FOREIGN KEY (complaint_id)
+		REFERENCES openchpl.complaint (complaint_id) 
+		MATCH SIMPLE ON UPDATE NO ACTION ON DELETE RESTRICT,
+    CONSTRAINT criterion_fk FOREIGN KEY (certification_criterion_id)
+		REFERENCES openchpl.certification_criterion (certification_criterion_id) 
+		MATCH SIMPLE ON UPDATE NO ACTION ON DELETE RESTRICT
+);
+
+CREATE TABLE openchpl.complaint_listing_map (
+    complaint_listing_map_id bigserial not null,
+    complaint_id bigint not null,
+    listing_id bigint not null,
+    creation_date timestamp without time zone NOT NULL DEFAULT now(),
+    last_modified_date timestamp without time zone NOT NULL DEFAULT now(),
+    last_modified_user bigint NOT NULL,
+    deleted boolean NOT NULL DEFAULT false,
+    CONSTRAINT complaint_listing_map_pk PRIMARY KEY (complaint_listing_map_id),
+    CONSTRAINT complaint_fk FOREIGN KEY (complaint_id)
+		REFERENCES openchpl.complaint (complaint_id) 
+		MATCH SIMPLE ON UPDATE NO ACTION ON DELETE RESTRICT,
+    CONSTRAINT listing_fk FOREIGN KEY (listing_id)
+		REFERENCES openchpl.certified_product (certified_product_id) 
+		MATCH SIMPLE ON UPDATE NO ACTION ON DELETE RESTRICT
+);
+
+CREATE TABLE openchpl.complaint_surveillance_map (
+    complaint_surveillance_map_id bigserial not null,
+    complaint_id bigint not null,
+    surveillance_id bigint not null,
+    creation_date timestamp without time zone NOT NULL DEFAULT now(),
+    last_modified_date timestamp without time zone NOT NULL DEFAULT now(),
+    last_modified_user bigint NOT NULL,
+    deleted boolean NOT NULL DEFAULT false,
+    CONSTRAINT complaint_surveillance_map_pk PRIMARY KEY (complaint_surveillance_map_id),
+    CONSTRAINT complaint_fk FOREIGN KEY (complaint_id)
+		REFERENCES openchpl.complaint (complaint_id) 
+		MATCH SIMPLE ON UPDATE NO ACTION ON DELETE RESTRICT,
+    CONSTRAINT surveillance_fk FOREIGN KEY (surveillance_id)
+		REFERENCES openchpl.surveillance (id) 
 		MATCH SIMPLE ON UPDATE NO ACTION ON DELETE RESTRICT
 );
 
@@ -2951,7 +3022,8 @@ CREATE TABLE openchpl.quarter (
 
 CREATE TABLE openchpl.quarterly_report (
 	id bigserial NOT NULL,
-	annual_report_id bigint NOT NULL,
+	certification_body_id bigint NOT NULL,
+	year integer NOT NULL,
 	quarter_id bigint NOT NULL,
 	activities_and_outcomes_summary text,
 	reactive_summary text,
@@ -2962,12 +3034,68 @@ CREATE TABLE openchpl.quarterly_report (
 	last_modified_user bigint NOT NULL,
 	deleted bool NOT NULL DEFAULT false,
 	CONSTRAINT quarterly_report_pk PRIMARY KEY (id),
-	CONSTRAINT annual_report_fk FOREIGN KEY (annual_report_id)
-      REFERENCES openchpl.annual_report (id) MATCH SIMPLE
+	CONSTRAINT certification_body_fk FOREIGN KEY (certification_body_id)
+      REFERENCES openchpl.certification_body (certification_body_id) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE RESTRICT,
 	CONSTRAINT quarter_fk FOREIGN KEY (quarter_id)
       REFERENCES openchpl.quarter (id) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE RESTRICT
+);
+
+CREATE TABLE openchpl.quarterly_report_excluded_listing_map (
+    id bigserial not null,
+    quarterly_report_id bigint not null,
+    listing_id bigint not null,
+	reason text not null,
+    creation_date timestamp without time zone NOT NULL DEFAULT now(),
+    last_modified_date timestamp without time zone NOT NULL DEFAULT now(),
+    last_modified_user bigint NOT NULL,
+    deleted boolean NOT NULL DEFAULT false,
+    CONSTRAINT quarterly_report_excluded_listing_map_pk PRIMARY KEY (id),
+    CONSTRAINT quarterly_report_fk FOREIGN KEY (quarterly_report_id)
+		REFERENCES openchpl.quarterly_report (id) 
+		MATCH SIMPLE ON UPDATE NO ACTION ON DELETE RESTRICT,
+    CONSTRAINT listing_fk FOREIGN KEY (listing_id)
+		REFERENCES openchpl.certified_product (certified_product_id) 
+		MATCH SIMPLE ON UPDATE NO ACTION ON DELETE RESTRICT
+);
+
+CREATE TABLE openchpl.quarterly_report_surveillance_map (
+	id bigserial not null,
+	quarterly_report_id bigint not null,
+	surveillance_id bigint not null,
+	k1_reviewed boolean,
+	surveillance_outcome_id bigint,
+	surveillance_outcome_other text,
+	surveillance_process_type_id bigint,
+	surveillance_process_type_other text,
+	grounds_for_initiating text,
+	nonconformity_causes text,
+	nonconformity_nature text,
+	steps_to_surveil text,
+	steps_to_engage text,
+	additional_costs_evaluation text,
+	limitations_evaluation text,
+	nondisclosure_evaluation text,
+	direction_developer_resolution text,
+	completed_cap_verification text,
+	creation_date timestamp without time zone NOT NULL DEFAULT now(),
+    last_modified_date timestamp without time zone NOT NULL DEFAULT now(),
+    last_modified_user bigint NOT NULL,
+    deleted boolean NOT NULL DEFAULT false,
+	CONSTRAINT quarterly_report_surveillance_map_pk PRIMARY KEY (id),
+	CONSTRAINT quarterly_report_fk FOREIGN KEY (quarterly_report_id)
+		REFERENCES openchpl.quarterly_report (id) 
+		MATCH SIMPLE ON UPDATE NO ACTION ON DELETE RESTRICT,
+	CONSTRAINT surveillance_fk FOREIGN KEY (surveillance_id)
+		REFERENCES openchpl.surveillance (id) 
+		MATCH SIMPLE ON UPDATE NO ACTION ON DELETE RESTRICT,
+	CONSTRAINT surveillance_outcome_fk FOREIGN KEY (surveillance_outcome_id)
+		REFERENCES openchpl.surveillance_outcome (id) 
+		MATCH SIMPLE ON UPDATE NO ACTION ON DELETE RESTRICT,
+	CONSTRAINT surveillance_process_type_fk FOREIGN KEY (surveillance_process_type_id)
+		REFERENCES openchpl.surveillance_process_type (id) 
+		MATCH SIMPLE ON UPDATE NO ACTION ON DELETE RESTRICT
 );
 
 CREATE INDEX fki_certified_product_id_fk
