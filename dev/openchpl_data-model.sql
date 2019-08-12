@@ -2857,7 +2857,7 @@ CREATE TABLE IF NOT EXISTS openchpl.user_testing_lab_map (
 		MATCH SIMPLE ON UPDATE NO ACTION ON DELETE RESTRICT
 );
 
-CREATE TABLE IF NOT EXISTS openchpl.user_developer_map (
+CREATE TABLE openchpl.user_developer_map (
 	id bigserial NOT NULL,
 	user_id bigint NOT NULL,
 	developer_id bigint NOT NULL,
@@ -2865,7 +2865,7 @@ CREATE TABLE IF NOT EXISTS openchpl.user_developer_map (
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_user bigint NOT NULL,
 	deleted bool NOT NULL DEFAULT false,
-	CONSTRAINT user_developer_pk PRIMARY KEY (id),
+	CONSTRAINT user_developer_map_pk PRIMARY KEY (id),
 	CONSTRAINT user_fk FOREIGN KEY (user_id)
 		REFERENCES openchpl.user (user_id)
 		MATCH SIMPLE ON UPDATE NO ACTION ON DELETE RESTRICT,
