@@ -23,6 +23,17 @@ values ('Non-Conformity', -1), ('No Non-Conformity', -1);
 INSERT INTO openchpl.nonconformity_status (name, last_modified_user)
 values ('Open', -1), ('Closed', -1);
 
+INSERT INTO openchpl.surveillance_outcome (name, last_modified_user)
+VALUES ('No non-conformity', -1), ('Non-conformity substantiated - Resolved through corrective action', -1),
+('Non-conformity substantiated - Unresolved - Corrective action ongoing', -1), ('Non-conformity substantiated - Unresolved - Certification suspended', -1),
+('Non-conformity substantiated - Unresolved - Certification withdrawn', -1), ('Non-conformity substantiated - Unresolved - Surveillance in process', -1),
+('Non-conformity substantiated - Unresolved - Under investigation/review', -1), ('Non-conformity substantiated - Unresolved - Other - [Please describe]', -1);
+
+INSERT INTO openchpl.surveillance_process_type (name, last_modified_user)
+VALUES ('In-the-Field', -1), ('Controlled/Test Environment', -1),
+('Correspondence with Complainant/Developer', -1), ('Review of Websites/Written Documentation', -1),
+('Other - [Please describe]', -1);
+
 INSERT INTO openchpl.fuzzy_choices(fuzzy_type, choices, last_modified_user)
 values ('UCD Process', '["Home Grown","ISO 13407","ISO 16982","ISO 9001","ISO 9241","ISO 9241-10","ISO 9241-11","ISO 9241-210","ISO 9241-210:2010 4.2","ISO/IEC 25062:2006","ISO/IEC 62366","ISO/IEC 62366-1","ISO/IEC 62367","Internal Process Used","Multiple Standards","NISTIR 7741","NISTIR 7742","See User Centered Design document"]', -1);
 
@@ -1891,23 +1902,26 @@ INSERT INTO openchpl.qms_standard(name, last_modified_user) VALUES
 ('ISO 13485', -1),
 ('IEC 62304', -1);
 
-INSERT INTO openchpl.activity_concept (activity_concept_id, concept, last_modified_user) VALUES
-(1, 'CERTIFIED_PRODUCT', -1),
-(2, 'PRODUCT', -1),
-(3, 'DEVELOPER', -1),
-(4, 'CERTIFICATION', -1),
-(5, 'CQM', -1),
-(6, 'CERTIFICATION_BODY', -1),
-(7, 'VERSION', -1),
-(8, 'USER', -1),
-(9, 'TESTING_LAB', -1),
-(10, 'PENDING_CERTIFIED_PRODUCT', -1),
-(11, 'API_KEY', -1),
-(12, 'ANNOUNCEMENT', -1),
-(13, 'CERTIFICATION_ID', -1),
-(14, 'PENDING_SURVEILLANCE', -1),
-(15, 'CORRECTIVE_ACTION_PLAN', -1),
-(16, 'COMPLAINT', -1);
+INSERT INTO openchpl.activity_concept (concept, last_modified_user) VALUES
+('CERTIFIED_PRODUCT', -1),
+('PRODUCT', -1),
+('DEVELOPER', -1),
+('CERTIFICATION', -1),
+('CQM', -1),
+('CERTIFICATION_BODY', -1),
+('VERSION', -1),
+('USER', -1),
+('TESTING_LAB', -1),
+('PENDING_CERTIFIED_PRODUCT', -1),
+('API_KEY', -1),
+('ANNOUNCEMENT', -1),
+('CERTIFICATION_ID', -1),
+('PENDING_SURVEILLANCE', -1),
+('CORRECTIVE_ACTION_PLAN', -1),
+('COMPLAINT', -1),
+('QUARTERLY_REPORT', -1),
+('QUARTERLY_REPORT_LISTING', -1),
+('ANNUAL_REPORT', -1);
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -1963,8 +1977,9 @@ INSERT INTO user_permission (user_permission_id, "name", description, authority,
 (2, 'ACB' ,'This permission gives a user write access to their ACBs.', 'ROLE_ACB' , -1),
 (4, 'ATL' ,'This permission gives a user write access to their ATLs.', 'ROLE_ATL' , -1),
 (6, 'CMS_STAFF' ,'This permission gives a user read access to CMS reports.', 'ROLE_CMS_STAFF' , -1),
-(7, 'ONC', 'This permission gives ONC users administrative privileges.', 'ROLE_ONC', -1);
-SELECT pg_catalog.setval('user_permission_user_permission_id_seq', 8, true);
+(7, 'ONC', 'This permission gives ONC users administrative privileges.', 'ROLE_ONC', -1),
+(8, 'DEVELOPER', 'This permission gives a user the ability to submit update requests for their organization(s).', 'ROLE_DEVELOPER', -1);
+SELECT pg_catalog.setval('user_permission_user_permission_id_seq', 9, true);
 
 --user contacts.
 -- one contact for each user that's getting pre-loaded

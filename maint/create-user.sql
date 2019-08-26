@@ -4,6 +4,7 @@ CREATE FUNCTION openchpl.create_user(role_name text, orgs varchar[], username te
 	DECLARE
 	  acb varchar;
 	  atl varchar;
+	  dev varchar;
 	BEGIN
 		IF (SELECT COUNT(*) FROM openchpl.user where user_name = username AND deleted = false)>0 THEN
 			-- user already exists, print error
@@ -68,7 +69,22 @@ CREATE FUNCTION openchpl.create_user(role_name text, orgs varchar[], username te
 					);
 				END LOOP;
 			END IF;
-			
+
+			-- if the user is ROLE_DEVELOPER, give them permission on the passed-in orgs(s)
+			IF role_name = 'ROLE_DEVELOPER' THEN
+				FOREACH dev IN ARRAY orgs
+				LOOP
+					RAISE NOTICE 'Adding permissions for % to Developer %', username, dev;
+				    INSERT INTO openchpl.user_developer_map
+					(user_id, developer_id, last_modified_user)
+					VALUES
+					(
+						(SELECT user_id FROM openchpl.user where user_name = username AND deleted = false),
+						(SELECT vendor_id FROM openchpl.vendor where name = dev and deleted = false limit 1),
+						-2
+					);
+				END LOOP;
+			END IF;
 		END IF;
 	END;
 $$ language plpgsql
