@@ -1,7 +1,18 @@
 # Release Notes
 
+## Version 17.9.0
+_26 August 2019_
+
+### Features
+* Add ROLE_DEVELOPER
+
+### Data Changes
+* Create new address for addresses that are re-used by orgs
+
+---
+
 ## Version 17.8.0
-_TBD_
+_12 August 2019_
 
 ### Table/View Modifications
 * Add privileged surveillance data
@@ -16,10 +27,8 @@ _TBD_
 
 ---
 
-
-
 ## Version 17.7.1
-_TBD_
+_29 July 2019_
 
 ### Data Changes
 * Add COMPLAINT as type of activity
