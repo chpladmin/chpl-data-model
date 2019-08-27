@@ -2304,3 +2304,11 @@ VALUES
 
 INSERT INTO openchpl.quarter (name, quarter_begin_month, quarter_begin_day, quarter_end_month, quarter_end_day, last_modified_user)
 VALUES ('Q1', 1, 1, 3, 31, -1), ('Q2', 4, 1, 6, 30, -1), ('Q3', 7, 1, 9, 30, -1), ('Q4', 10, 1, 12, 31, -1);
+
+INSERT INTO openchpl.url_type (name, last_modified_user)
+VALUES ('ONC-ATL', -1),
+('ONC-ACB', -1),
+('Developer', -1),
+('Mandatory Disclosure URL', -1), -- transparency_attestation_url
+('Test Results Summary', -1), -- report_file_location
+('Full Usability Report', -1); -- sed_report_file_location 

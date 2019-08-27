@@ -27,11 +27,11 @@ psql --host $host --port $port --username $user --no-password -c "drop schema if
 psql --host $host --port $port --username $user --no-password -c "drop schema if exists openchpl cascade;" openchpl
 pg_restore --host $host --port $port --username $user --no-password --verbose --clean --if-exists --dbname openchpl $filename
 
-# add users if we're on "stg" environment
-usersFile=users.sql
-if [ -f $usersFile ]
+# add create_user function so users can be loaded if desired
+createUserFile=create-user.sql
+if [ -f $createUserFile ]
 then
-    psql --host $host --port $port --username $user -f $usersFile openchpl
+    psql --host $host --port $port --username $user -f $createUserFile openchpl
 else
-    printf 'No users file to load.'
+    printf 'No create user script to load.'
 fi
