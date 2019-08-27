@@ -12,8 +12,8 @@ CREATE TABLE openchpl.url_type (
 	deleted bool NOT NULL DEFAULT false,
 	CONSTRAINT url_type_pk PRIMARY KEY (id)
 );
-CREATE TRIGGER url_type_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.url_type_audit FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
-CREATE TRIGGER url_type_timestamp BEFORE UPDATE on openchpl.url_type_timestamp FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
+CREATE TRIGGER url_type_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.url_type FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+CREATE TRIGGER url_type_timestamp BEFORE UPDATE on openchpl.url_type FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 
 INSERT INTO openchpl.url_type (name, last_modified_user)
 VALUES ('ONC-ATL', -1),
