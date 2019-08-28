@@ -2782,17 +2782,17 @@ CREATE TABLE openchpl.url_type (
 
 CREATE TABLE openchpl.url_check_result (
 	id bigserial NOT NULL,
-	url_type bigint NOT NULL,
+	url_type_id bigint NOT NULL,
 	url text NOT NULL,
 	http_status int, --allow null in case something times out?
-	http_response_time bigint, --how long did the call take to come back?
+	response_time bigint, --how long did the call take to come back in millis?
 	checked_date timestamp NOT NULL,
 	creation_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_user bigint NOT NULL,
 	deleted bool NOT NULL DEFAULT false,
 	CONSTRAINT url_check_result_pk PRIMARY KEY (id),
-	CONSTRAINT url_type_fk FOREIGN KEY (url_type)
+	CONSTRAINT url_type_fk FOREIGN KEY (url_type_id)
 		REFERENCES openchpl.url_type (id)
 		MATCH SIMPLE ON UPDATE NO ACTION ON DELETE RESTRICT
 );
