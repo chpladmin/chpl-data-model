@@ -27,9 +27,9 @@ CREATE TABLE openchpl.url_check_result (
 	id bigserial NOT NULL,
 	url_type_id bigint NOT NULL,
 	url text NOT NULL,
-	http_status int, --allow null in case something times out?
+	response_code int, --allow null in case something times out?
 	response_time bigint, --how long did the call take to come back in millis?
-	checked_date timestamp NOT NULL,
+	checked_date timestamp, -- null to indicate we know about the URL in the system but haven't checked it yet
 	creation_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_user bigint NOT NULL,
