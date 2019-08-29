@@ -111,36 +111,42 @@ CREATE TRIGGER change_request_website_timestamp BEFORE UPDATE on openchpl.change
 INSERT INTO openchpl.change_request_type (name, last_modified_user)
 SELECT 'Website Change Request', -1
 WHERE NOT EXISTS (
-    SELECT * 
-    FROM openchpl.change_request_type 
+    SELECT *
+    FROM openchpl.change_request_type
     WHERE name = 'Website Change Request');
 
 INSERT INTO openchpl.change_request_status_type (name, last_modified_user)
 SELECT 'Pending ONC-ACB Action', -1
 WHERE NOT EXISTS (
-    SELECT * 
-    FROM openchpl.change_request_status_type 
+    SELECT *
+    FROM openchpl.change_request_status_type
     WHERE name = 'Pending ONC-ACB Action');
 
 INSERT INTO openchpl.change_request_status_type (name, last_modified_user)
 SELECT 'Pending Developer Action', -1
 WHERE NOT EXISTS (
-    SELECT * 
-    FROM openchpl.change_request_status_type 
+    SELECT *
+    FROM openchpl.change_request_status_type
     WHERE name = 'Pending Developer Action');
 
 INSERT INTO openchpl.change_request_status_type (name, last_modified_user)
 SELECT 'Accepted', -1
 WHERE NOT EXISTS (
-    SELECT * 
-    FROM openchpl.change_request_status_type 
-    WHERE name = 'Accepted');    
-    
+    SELECT *
+    FROM openchpl.change_request_status_type
+    WHERE name = 'Accepted');
+
 INSERT INTO openchpl.change_request_status_type (name, last_modified_user)
 SELECT 'Rejected', -1
 WHERE NOT EXISTS (
-    SELECT * 
-    FROM openchpl.change_request_status_type 
+    SELECT *
+    FROM openchpl.change_request_status_type
     WHERE name = 'Rejected');
-    
-    
+
+INSERT INTO openchpl.change_request_status_type (name, last_modified_user)
+SELECT 'Cancelled by Requester', -1
+WHERE NOT EXISTS (
+    SELECT *
+    FROM openchpl.change_request_status_type
+    WHERE name = 'Cancelled by Requester');
+
