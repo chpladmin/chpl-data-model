@@ -1,5 +1,3 @@
-\i ocd-3018.sql
-\i ocd-2158.sql
 \i ocd-2748.sql
 
 \i dev/openchpl_soft-delete.sql
