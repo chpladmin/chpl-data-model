@@ -11,6 +11,7 @@ DROP VIEW IF EXISTS openchpl.product_active_owner_history_map;
 DROP VIEW IF EXISTS openchpl.certified_product_summary;
 DROP VIEW IF EXISTS openchpl.ehr_certification_ids_and_products;
 DROP VIEW IF EXISTS openchpl.listings_from_banned_developers;
+DROP VIEW IF EXISTS openchpl.surveillance_basic;
 
 create or replace function openchpl.get_testing_lab_code(input_id bigint) returns
     table (
@@ -480,6 +481,38 @@ CREATE VIEW openchpl.certified_product_details AS
                   WHERE surv_1.deleted <> true AND nc_status.name::text = 'Closed'::text) n_1(id, certified_product_id, friendly_id, start_date, end_date, type_id, randomized_sites_used, creation_date, last_modified_date, last_modified_user, deleted, user_permission_id, id_1, surveillance_id, type_id_1, certification_criterion_id, requirement, result_id, creation_date_1, last_modified_date_1, last_modified_user_1, deleted_1, id_2, surveillance_requirement_id, certification_criterion_id_1, nonconformity_type, nonconformity_status_id, date_of_determination, corrective_action_plan_approval_date, corrective_action_start_date, corrective_action_must_complete_date, corrective_action_end_date, summary, findings, sites_passed, total_sites, developer_explanation, resolution, creation_date_2, last_modified_date_2, last_modified_user_2, deleted_2, id_3, name, creation_date_3, last_modified_date_3, last_modified_user_3, deleted_3)
           GROUP BY n_1.certified_product_id) nc_closed ON a.certified_product_id = nc_closed.certified_product_id;
 -- ALTER VIEW openchpl.certified_product_details OWNER TO openchpl;
+
+CREATE VIEW openchpl.surveillance_basic AS
+SELECT 
+	surv.*,
+	COALESCE(nc_open.count_open_nonconformities, 0::bigint) AS open_nonconformity_count,
+    COALESCE(nc_closed.count_closed_nonconformities, 0::bigint) AS closed_nonconformity_count
+FROM openchpl.surveillance surv
+LEFT JOIN
+  (SELECT surv.id AS surv_id,
+          count(*) AS count_open_nonconformities
+   FROM openchpl.surveillance surv
+   JOIN openchpl.surveillance_requirement surv_req ON surv.id = surv_req.surveillance_id
+   AND surv_req.deleted <> TRUE
+   JOIN openchpl.surveillance_nonconformity surv_nc ON surv_req.id = surv_nc.surveillance_requirement_id
+   AND surv_nc.deleted <> TRUE
+   JOIN openchpl.nonconformity_status nc_status ON surv_nc.nonconformity_status_id = nc_status.id
+   WHERE surv.deleted <> TRUE
+     AND nc_status.name::text = 'Open'::text
+   GROUP BY surv.id) nc_open ON surv.id = nc_open.surv_id
+LEFT JOIN
+  (SELECT surv.id AS surv_id,
+          count(*) AS count_closed_nonconformities
+   FROM openchpl.surveillance surv
+   JOIN openchpl.surveillance_requirement surv_req ON surv.id = surv_req.surveillance_id
+   AND surv_req.deleted <> TRUE
+   JOIN openchpl.surveillance_nonconformity surv_nc ON surv_req.id = surv_nc.surveillance_requirement_id
+   AND surv_nc.deleted <> TRUE
+   JOIN openchpl.nonconformity_status nc_status ON surv_nc.nonconformity_status_id = nc_status.id
+   WHERE surv.deleted <> TRUE
+     AND nc_status.name::text = 'Closed'::text
+   GROUP BY surv.id) nc_closed ON surv.id = nc_closed.surv_id
+WHERE surv.deleted = false;
 
 CREATE VIEW openchpl.certified_product_search AS
 SELECT cp.certified_product_id,
