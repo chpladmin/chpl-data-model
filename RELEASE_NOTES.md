@@ -1,5 +1,17 @@
 # Release Notes
 
+## Version 17.10.0
+_10 September 2019_
+
+### Features
+* Support storing the last logged in date with the user
+* Add surveillance basic view to include open/closed nonconformity count
+
+### Data Changes
+* Add new filter type for API Key Usage report
+
+---
+
 ## Version 17.9.0
 _26 August 2019_
 
