@@ -1004,10 +1004,10 @@ WHERE deleted = false;
 
 CREATE VIEW openchpl.certified_product_summary AS
  SELECT cp.certified_product_id,
+	(select chpl_product_number from openchpl.get_chpl_product_number(cp.certified_product_id)),
     cp.certification_edition_id,
     cp.product_version_id,
     cp.certification_body_id,
-    cp.chpl_product_number,
     cp.report_file_location,
     cp.sed_report_file_location,
     cp.sed_intended_user_description,
@@ -1037,6 +1037,11 @@ CREATE VIEW openchpl.certified_product_summary AS
     p.name AS product_name,
     v.name AS vendor_name,
     v.vendor_code,
+	contact.full_name,
+	contact.email,
+	contact.phone_number,
+	contact.title
+	pv.version,
     lastCertStatusEvent.certification_status,
     cb.acb_code,
     cb.name AS certification_body_name,
@@ -1059,6 +1064,12 @@ CREATE VIEW openchpl.certified_product_summary AS
      JOIN openchpl.product_version pv ON cp.product_version_id = pv.product_version_id
      JOIN openchpl.product p ON pv.product_id = p.product_id
      JOIN openchpl.vendor v ON p.vendor_id = v.vendor_id
+	 LEFT OUTER JOIN ( SELECT contact.contact_id,
+            contact.full_name,
+            contact.email,
+            contact.phone_number,
+            contact.title
+           FROM openchpl.contact) contact ON v.contact_id = contact.contact_id
      JOIN openchpl.certification_body cb ON cp.certification_body_id = cb.certification_body_id
 	 LEFT OUTER JOIN ( SELECT muu.meaningful_use_users,
             muu.certified_product_id,
