@@ -34,5 +34,5 @@ then
     psql --host $host --port $port --username $user -f create-user.sql openchpl
     psql --host $host --port $port --username $user -f $usersFile openchpl
 else
-    printf 'No create user script to load.'
+    printf 'No users file to load.'
 fi

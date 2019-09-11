@@ -1040,7 +1040,6 @@ CREATE VIEW openchpl.certified_product_summary AS
 	contact.full_name,
 	contact.email,
 	contact.phone_number,
-	contact.title
 	pv.version,
     lastCertStatusEvent.certification_status,
     cb.acb_code,
