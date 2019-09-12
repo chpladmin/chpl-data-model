@@ -150,3 +150,9 @@ WHERE NOT EXISTS (
     FROM openchpl.change_request_status_type
     WHERE name = 'Cancelled by Requester');
 
+INSERT INTO openchpl.activity_concept (concept, last_modified_user)
+SELECT 'CHANGE_REQUEST', -1
+WHERE NOT EXISTS (
+    SELECT *
+    FROM openchpl.activity_concept
+    WHERE concept = 'CHANGE_REQUEST');
