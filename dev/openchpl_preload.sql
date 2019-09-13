@@ -2317,4 +2317,4 @@ VALUES
     ('Pending Developer Action', -1),
     ('Accepted', -1),
     ('Rejected', -1),
-    ('Cancelled by Requester7', -1);
+    ('Cancelled by Requester', -1);
