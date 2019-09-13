@@ -3176,23 +3176,6 @@ CREATE TABLE openchpl.change_request_status (
         MATCH SIMPLE ON UPDATE NO ACTION ON DELETE RESTRICT
 );
 
-CREATE TABLE openchpl.change_request_certification_body_map (
-    id bigserial NOT NULL,
-    change_request_id bigint NOT NULL,
-    certification_body_id bigint,
-    creation_date timestamp NOT NULL DEFAULT NOW(),
-	last_modified_date timestamp NOT NULL DEFAULT NOW(),
-	last_modified_user bigint NOT NULL,
-	deleted bool NOT NULL DEFAULT false,
-	CONSTRAINT change_request_certification_body_map_pk PRIMARY KEY (id),
-    CONSTRAINT change_request_fk FOREIGN KEY (change_request_id)
-	    REFERENCES openchpl.change_request (id)
-        MATCH SIMPLE ON UPDATE NO ACTION ON DELETE RESTRICT,
-    CONSTRAINT certification_body_fk FOREIGN KEY (certification_body_id)
-	    REFERENCES openchpl.certification_body (certification_body_id)
-        MATCH SIMPLE ON UPDATE NO ACTION ON DELETE RESTRICT
-);
-
 CREATE TABLE openchpl.change_request_website (
     id bigserial NOT NULL,
     change_request_id bigint NOT NULL,

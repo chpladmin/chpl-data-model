@@ -1,5 +1,4 @@
 DROP TABLE IF EXISTS openchpl.change_request_website;
-DROP TABLE IF EXISTS openchpl.change_request_certification_body_map;
 DROP TABLE IF EXISTS openchpl.change_request_status;
 DROP TABLE IF EXISTS openchpl.change_request;
 DROP TABLE IF EXISTS openchpl.change_request_status_type;
@@ -72,25 +71,6 @@ CREATE TABLE openchpl.change_request_status (
 );
 CREATE TRIGGER change_request_status_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.change_request_status FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER change_request_status_timestamp BEFORE UPDATE on openchpl.change_request_status FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
-
-CREATE TABLE openchpl.change_request_certification_body_map (
-    id bigserial NOT NULL,
-    change_request_id bigint NOT NULL,
-    certification_body_id bigint,
-    creation_date timestamp NOT NULL DEFAULT NOW(),
-	last_modified_date timestamp NOT NULL DEFAULT NOW(),
-	last_modified_user bigint NOT NULL,
-	deleted bool NOT NULL DEFAULT false,
-	CONSTRAINT change_request_certification_body_map_pk PRIMARY KEY (id),
-    CONSTRAINT change_request_fk FOREIGN KEY (change_request_id)
-	    REFERENCES openchpl.change_request (id)
-        MATCH SIMPLE ON UPDATE NO ACTION ON DELETE RESTRICT,
-    CONSTRAINT certification_body_fk FOREIGN KEY (certification_body_id)
-	    REFERENCES openchpl.certification_body (certification_body_id)
-        MATCH SIMPLE ON UPDATE NO ACTION ON DELETE RESTRICT
-);
-CREATE TRIGGER change_request_certification_body_map_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.change_request_certification_body_map FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
-CREATE TRIGGER change_request_certification_body_map_timestamp BEFORE UPDATE on openchpl.change_request_certification_body_map FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 
 CREATE TABLE openchpl.change_request_website (
     id bigserial NOT NULL,
