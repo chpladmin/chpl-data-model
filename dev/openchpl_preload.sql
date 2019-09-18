@@ -2312,4 +2312,5 @@ VALUES ('ONC-ATL', -1),
 ('Developer', -1),
 ('Mandatory Disclosure URL', -1), -- transparency_attestation_url
 ('Test Results Summary', -1), -- report_file_location
-('Full Usability Report', -1); -- sed_report_file_location 
+('Full Usability Report', -1), -- sed_report_file_location 
+('API Documentation', -1); -- api_documentation
