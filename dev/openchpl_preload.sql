@@ -1921,7 +1921,8 @@ INSERT INTO openchpl.activity_concept (concept, last_modified_user) VALUES
 ('COMPLAINT', -1),
 ('QUARTERLY_REPORT', -1),
 ('QUARTERLY_REPORT_LISTING', -1),
-('ANNUAL_REPORT', -1);
+('ANNUAL_REPORT', -1),
+('CHANGE_REQUEST', -1);
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -2314,3 +2315,15 @@ VALUES ('ONC-ATL', -1),
 ('Test Results Summary', -1), -- report_file_location
 ('Full Usability Report', -1), -- sed_report_file_location 
 ('API Documentation', -1); -- api_documentation
+
+INSERT INTO openchpl.change_request_type (name, last_modified_user)
+VALUES
+    ('Website Change Request', -1),
+
+INSERT INTO openchpl.change_request_status_type (name, last_modified_user)
+VALUES
+    ('Pending ONC-ACB Action', -1),
+    ('Pending Developer Action', -1),
+    ('Accepted', -1),
+    ('Rejected', -1),
+    ('Cancelled by Requester', -1);
