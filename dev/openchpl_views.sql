@@ -1042,11 +1042,18 @@ CREATE VIEW openchpl.certified_product_summary AS
 	contact.phone_number,
 	pv.version,
     lastCertStatusEvent.certification_status,
+	certStatusEvent.certification_date,
     cb.acb_code,
     cb.name AS certification_body_name,
     cb.website AS certification_body_website
    FROM openchpl.certified_product cp
      JOIN openchpl.certification_edition ce ON cp.certification_edition_id = ce.certification_edition_id
+	 JOIN (
+		SELECT MIN(event_date) as "certification_date", certified_product_id 
+		FROM openchpl.certification_status_event 
+		WHERE certification_status_id = 1 
+		GROUP BY (certified_product_id)) certStatusEvent 
+		ON cp.certified_product_id = certStatusEvent.certified_product_id
 	 JOIN (
 		SELECT certStatus.certification_status as "certification_status", cse.certified_product_id as "certified_product_id"
 		FROM openchpl.certification_status_event cse
