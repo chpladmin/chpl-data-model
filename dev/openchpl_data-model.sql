@@ -2771,6 +2771,33 @@ CREATE TABLE openchpl.broken_surveillance_rules
     CONSTRAINT broken_surveillance_rules_id_pk PRIMARY KEY (id)
 );
 
+CREATE TABLE openchpl.url_type (
+	id bigserial NOT NULL,
+	name varchar(50) NOT NULL,
+	creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
+	CONSTRAINT url_type_pk PRIMARY KEY (id)
+);
+
+CREATE TABLE openchpl.url_check_result (
+	id bigserial NOT NULL,
+	url_type_id bigint NOT NULL,
+	url text NOT NULL,
+	response_code int, --allow null in case something times out?
+	response_message text, -- if there is some additional text about the response (error message?)
+	checked_date timestamp, -- null to indicate we know about the URL in the system but haven't checked it yet
+	creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
+	CONSTRAINT url_check_result_pk PRIMARY KEY (id),
+	CONSTRAINT url_type_fk FOREIGN KEY (url_type_id)
+		REFERENCES openchpl.url_type (id)
+		MATCH SIMPLE ON UPDATE NO ACTION ON DELETE RESTRICT
+);
+
 CREATE TABLE openchpl.test_functionality_criteria_map
 (
     id bigserial NOT NULL,
