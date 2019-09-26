@@ -6,13 +6,6 @@ WHERE NOT EXISTS (
     WHERE criteria_id = (SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (a)(10)') AND value = 'RT13 EC');
 
 INSERT INTO openchpl.macra_criteria_map (criteria_id, value, name, description, last_modified_user)
-SELECT (SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (a)(10)'), 'RT13 EC', 'Query of Prescription Drug Monitoring Program (PDMP): Eligible Clinician', 'Required Test 13: Promoting Interoperability', -1
-WHERE NOT EXISTS (
-    SELECT *
-    FROM openchpl.macra_criteria_map
-    WHERE criteria_id = (SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (a)(10)') AND value = 'RT13 EC');
-
-INSERT INTO openchpl.macra_criteria_map (criteria_id, value, name, description, last_modified_user)
 SELECT (SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (a)(10)'), 'RT14 EC', 'Verify Opioid Treatment Agreement: Eligible Clinician', 'Required Test 14: Promoting Interoperability', -1
 WHERE NOT EXISTS (
     SELECT *
