@@ -2309,7 +2309,7 @@ VALUES ('Q1', 1, 1, 3, 31, -1), ('Q2', 4, 1, 6, 30, -1), ('Q3', 7, 1, 9, 30, -1)
 
 INSERT INTO openchpl.change_request_type (name, last_modified_user)
 VALUES
-    ('Website Change Request', -1),
+    ('Website Change Request', -1);
 
 INSERT INTO openchpl.change_request_status_type (name, last_modified_user)
 VALUES
