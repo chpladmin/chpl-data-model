@@ -1,3 +1,6 @@
+-- Deployment file for version 17.11.0
+--     as of 2019-09-23
+-- ocd-2159.sql
 DROP TABLE IF EXISTS openchpl.change_request_website;
 DROP TABLE IF EXISTS openchpl.change_request_status;
 DROP TABLE IF EXISTS openchpl.change_request;
@@ -136,3 +139,8 @@ WHERE NOT EXISTS (
     SELECT *
     FROM openchpl.activity_concept
     WHERE concept = 'CHANGE_REQUEST');
+;
+insert into openchpl.data_model_version (version, deploy_date, last_modified_user) values ('17.11.0', '2019-09-23', -1);
+\i dev/openchpl_soft-delete.sql
+\i dev/openchpl_views.sql
+\i dev/openchpl_grant-all.sql

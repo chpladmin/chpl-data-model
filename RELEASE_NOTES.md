@@ -1,5 +1,13 @@
 # Release Notes
 
+## Version 17.11.0
+_23 September 2019_
+
+### Features
+* Add tables to support persisting Website Change Requests
+
+---
+
 ## Version 17.10.0
 _10 September 2019_
 
