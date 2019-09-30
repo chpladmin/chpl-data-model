@@ -2319,8 +2319,6 @@ VALUES ('ONC-ATL', -1),
 INSERT INTO openchpl.change_request_type (name, last_modified_user)
 VALUES
     ('Website Change Request', -1);
-    
-
 
 INSERT INTO openchpl.change_request_status_type (name, last_modified_user)
 VALUES
