@@ -1921,7 +1921,8 @@ INSERT INTO openchpl.activity_concept (concept, last_modified_user) VALUES
 ('COMPLAINT', -1),
 ('QUARTERLY_REPORT', -1),
 ('QUARTERLY_REPORT_LISTING', -1),
-('ANNUAL_REPORT', -1);
+('ANNUAL_REPORT', -1),
+('CHANGE_REQUEST', -1);
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -2237,12 +2238,18 @@ INSERT INTO openchpl.macra_criteria_map (criteria_id, value, name, description, 
     , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (g)(9)'), 'RT4c EC ACI', 'View, Download, or Transmit (VDT): Eligible Clinician ', 'Required Test 4: Promoting Interoperability Objective 4 Measure 1', -1)
     , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (g)(9)'), 'RT4c EH/CAH Stage 2', 'View, Download, or Transmit (VDT): Eligible Hospital/Critical Access Hospital', 'Required Test 4: Stage 2 Objective 8 Measure 2 ', -1)
     , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (g)(9)'), 'RT4c EH/CAH Stage 3', 'View, Download, or Transmit (VDT): Eligible Hospital/Critical Access Hospital', 'Required Test 4: Stage 3 Objective 6 Measure 1', -1)
-    , ((select certification_criterion_id from openchpl.certification_criterion where "number" = '170.315 (a)(10)'), 'RT13 EH/CAH Stage 3', 'Query of Prescription Drug Monitoring Program (PDMP): Eligible Hospital/Critical Access Hospital', 'Required Test 13: Stage 3', -1)
-    , ((select certification_criterion_id from openchpl.certification_criterion where "number" = '170.315 (a)(10)'), 'RT14 EH/CAH Stage 3', 'Verify Opioid Treatment Agreement: Eligible Hospital/Critical Access Hospital', 'Required Test 14: Stage 3', -1)
-    , ((select certification_criterion_id from openchpl.certification_criterion where "number" = '170.315 (b)(1)'), 'RT15 EH/CAH Stage 3', 'Support Electronic Referral Loops by Receiving and Incorporating Health Information: Eligible Hospital/Critical Access Hospital', 'Required Test 15: Stage 3', -1)
-    , ((select certification_criterion_id from openchpl.certification_criterion where "number" = '170.315 (b)(2)'), 'RT15 EH/CAH Stage 3', 'Support Electronic Referral Loops by Receiving and Incorporating Health Information: Eligible Hospital/Critical Access Hospital', 'Required Test 15: Stage 3', -1)
-    , ((select certification_criterion_id from openchpl.certification_criterion where "number" = '170.315 (b)(3)'), 'RT13 EH/CAH Stage 3', 'Query of Prescription Drug Monitoring Program (PDMP): Eligible Hospital/Critical Access Hospital', 'Required Test 13: Stage 3', -1)
-    , ((select certification_criterion_id from openchpl.certification_criterion where "number" = '170.315 (b)(3)'), 'RT14 EH/CAH Stage 3', 'Verify Opioid Treatment Agreement: Eligible Hospital/Critical Access Hospital', 'Required Test 14: Stage 3', -1)
+    , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (a)(10)'), 'RT13 EH/CAH Stage 3', 'Query of Prescription Drug Monitoring Program (PDMP): Eligible Hospital/Critical Access Hospital', 'Required Test 13: Stage 3', -1)
+    , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (a)(10)'), 'RT14 EH/CAH Stage 3', 'Verify Opioid Treatment Agreement: Eligible Hospital/Critical Access Hospital', 'Required Test 14: Stage 3', -1)
+    , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (b)(1)'), 'RT15 EH/CAH Stage 3', 'Support Electronic Referral Loops by Receiving and Incorporating Health Information: Eligible Hospital/Critical Access Hospital', 'Required Test 15: Stage 3', -1)
+    , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (b)(2)'), 'RT15 EH/CAH Stage 3', 'Support Electronic Referral Loops by Receiving and Incorporating Health Information: Eligible Hospital/Critical Access Hospital', 'Required Test 15: Stage 3', -1)
+    , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (b)(3)'), 'RT13 EH/CAH Stage 3', 'Query of Prescription Drug Monitoring Program (PDMP): Eligible Hospital/Critical Access Hospital', 'Required Test 13: Stage 3', -1)
+    , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (b)(3)'), 'RT14 EH/CAH Stage 3', 'Verify Opioid Treatment Agreement: Eligible Hospital/Critical Access Hospital', 'Required Test 14: Stage 3', -1)
+    , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (a)(10)'), 'RT13 EC', 'Query of Prescription Drug Monitoring Program (PDMP): Eligible Clinician', 'Required Test 13: Promoting Interoperability', -1)
+    , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (a)(10)'), 'RT14 EC', 'Verify Opioid Treatment Agreement: Eligible Clinician', 'Required Test 14: Promoting Interoperability', -1)
+    , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (b)(1)'), 'RT15 EC', 'Support Electronic Referral Loops by Receiving and Incorporating Health Information: Eligible Clinician', 'Required Test 15: Promoting Interoperability', -1)
+    , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (b)(2)'), 'RT15 EC', 'Support Electronic Referral Loops by Receiving and Incorporating Health Information: Eligible Clinician', 'Required Test 15: Promoting Interoperability', -1)
+    , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (b)(3)'), 'RT13 EC', 'Query of Prescription Drug Monitoring Program (PDMP): Eligible Clinician', 'Required Test 13: Promoting Interoperability', -1)
+    , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (b)(3)'), 'RT14 EC', 'Verify Opioid Treatment Agreement: Eligible Clinician', 'Required Test 14: Promoting Interoperability', -1)
     ;
 
 INSERT INTO openchpl.job_type (name, description, success_message, last_modified_user)
@@ -2284,7 +2291,8 @@ VALUES
 	('Version Report', -1),
     ('User Report', -1),
     ('User Action Report', -1),
-    ('Announcement Report', -1);
+    ('Announcement Report', -1),
+    ('API Key Usage Report', -1);
 
 
 INSERT INTO openchpl.complainant_type (name, last_modified_user)
@@ -2304,3 +2312,24 @@ VALUES
 
 INSERT INTO openchpl.quarter (name, quarter_begin_month, quarter_begin_day, quarter_end_month, quarter_end_day, last_modified_user)
 VALUES ('Q1', 1, 1, 3, 31, -1), ('Q2', 4, 1, 6, 30, -1), ('Q3', 7, 1, 9, 30, -1), ('Q4', 10, 1, 12, 31, -1);
+
+INSERT INTO openchpl.url_type (name, last_modified_user)
+VALUES ('ONC-ATL', -1),
+('ONC-ACB', -1),
+('Developer', -1),
+('Mandatory Disclosure URL', -1), -- transparency_attestation_url
+('Test Results Summary', -1), -- report_file_location
+('Full Usability Report', -1), -- sed_report_file_location 
+('API Documentation', -1); -- api_documentation
+
+INSERT INTO openchpl.change_request_type (name, last_modified_user)
+VALUES
+    ('Website Change Request', -1),
+
+INSERT INTO openchpl.change_request_status_type (name, last_modified_user)
+VALUES
+    ('Pending ONC-ACB Action', -1),
+    ('Pending Developer Action', -1),
+    ('Accepted', -1),
+    ('Rejected', -1),
+    ('Cancelled by Requester', -1);
