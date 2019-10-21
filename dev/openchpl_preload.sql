@@ -58,6 +58,7 @@ VALUES
 ('GAP Status Edited', 'Certification Criteria', -1),
 ('Surveillance Removed', 'Listing', -1),
 ('2011 Listing Edited', 'Listing', -1),
+('2014 Listing Edited', 'Listing', -1),
 ('Current Certification Status Edited', 'Listing', -1),
 ('Current Certification Date Edited', 'Listing', -1),
 ('Historical Certification Status Edited', 'Listing', -1),
@@ -2324,7 +2325,7 @@ VALUES ('ONC-ATL', -1),
 
 INSERT INTO openchpl.change_request_type (name, last_modified_user)
 VALUES
-    ('Website Change Request', -1),
+    ('Website Change Request', -1);
 
 INSERT INTO openchpl.change_request_status_type (name, last_modified_user)
 VALUES

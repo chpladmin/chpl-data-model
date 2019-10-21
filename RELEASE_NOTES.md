@@ -1,5 +1,14 @@
 # Release Notes
 
+## Version 17.13.0
+_21 October 2019_
+
+### Flagged Features
+* Add ROLE_DEVELOPER User type
+* Allow ROLE_DEVELOPER to create "Change Requests" to change their Organization's website
+
+---
+
 ## Version 17.12.0
 _7 October 2019_
 
