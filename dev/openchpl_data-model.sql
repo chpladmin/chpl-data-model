@@ -3186,17 +3186,21 @@ CREATE TABLE openchpl.change_request_status (
     change_request_status_type_id bigint NOT NULL,
     status_change_date timestamp NOT NULL,
     comment text,
+    user_permission_id bigint NOT NULL,
     certification_body_id bigint,
     creation_date timestamp NOT NULL DEFAULT NOW(),
-	last_modified_date timestamp NOT NULL DEFAULT NOW(),
-	last_modified_user bigint NOT NULL,
-	deleted bool NOT NULL DEFAULT false,
-	CONSTRAINT change_request_status_pk PRIMARY KEY (id),
+    last_modified_date timestamp NOT NULL DEFAULT NOW(),
+    last_modified_user bigint NOT NULL,
+    deleted bool NOT NULL DEFAULT false,
+    CONSTRAINT change_request_status_pk PRIMARY KEY (id),
     CONSTRAINT change_request_fk FOREIGN KEY (change_request_id)
 	    REFERENCES openchpl.change_request (id)
         MATCH SIMPLE ON UPDATE NO ACTION ON DELETE RESTRICT,
     CONSTRAINT change_request_status_type_fk FOREIGN KEY (change_request_status_type_id)
 	    REFERENCES openchpl.change_request_status_type (id)
+        MATCH SIMPLE ON UPDATE NO ACTION ON DELETE RESTRICT,
+    CONSTRAINT user_permission_fk FOREIGN KEY (user_permission_id)
+	    REFERENCES openchpl.user_permission (user_permission_id)
         MATCH SIMPLE ON UPDATE NO ACTION ON DELETE RESTRICT,
     CONSTRAINT certification_body_fk FOREIGN KEY (certification_body_id)
 	    REFERENCES openchpl.certification_body (certification_body_id)
