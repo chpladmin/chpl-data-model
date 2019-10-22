@@ -54,7 +54,7 @@ echo "i = $INCLUDE"
 
 if [ $INCLUDE -eq 1 ]
 then
-    pg_dump --host $HOST --username $USER --port $PORT --no-password --format custom --blobs --verbose -n openchpl --file $FILE openchpl
+    pg_dump --host $HOST --username $USER --port $PORT --no-password --format custom --blobs --verbose -n openchpl -n audit --file $FILE openchpl
 else
     pg_dump --host $HOST --username $USER --port $PORT --no-password --format custom --blobs --verbose -n openchpl --file $FILE openchpl
 fi

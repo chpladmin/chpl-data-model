@@ -23,7 +23,7 @@ while getopts 'f:h:p:u:?' flag; do
 done
 
 psql --host $host --port $port --username openchpl --no-password -c "SELECT pg_terminate_backend(pg_stat_activity.pid) FROM pg_stat_activity WHERE pg_stat_activity.datname = 'openchpl' AND pid <> pg_backend_pid();" openchpl
-pg_restore --host $host --port $port --username $user --no-password --verbose --clean --if-exists --dbname openchpl -n openchpl $filename
+pg_restore --host $host --port $port --username $user --no-password --verbose --clean --if-exists --dbname openchpl -n openchpl -n audit $filename
 
 # add users if users file exists
 usersFile=users.sql
