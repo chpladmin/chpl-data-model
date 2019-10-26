@@ -24,7 +24,7 @@ done
 
 psql --host $host --port $port --username openchpl --no-password -c "SELECT pg_terminate_backend(pg_stat_activity.pid) FROM pg_stat_activity WHERE pg_stat_activity.datname = 'openchpl' AND pid <> pg_backend_pid();" openchpl
 
-#drop the audit table
+#drop the audit schema
 psql --host $host --port $port --username $user --no-password -c "DROP schema if exists audit CASCADE;" openchpl
 
 #drop openchpl schema
