@@ -23,9 +23,15 @@ while getopts 'f:h:p:u:?' flag; do
 done
 
 psql --host $host --port $port --username openchpl --no-password -c "SELECT pg_terminate_backend(pg_stat_activity.pid) FROM pg_stat_activity WHERE pg_stat_activity.datname = 'openchpl' AND pid <> pg_backend_pid();" openchpl
-psql --host $host --port $port --username $user --no-password -c "drop schema if exists audit cascade;" openchpl
-psql --host $host --port $port --username $user --no-password -c "drop schema if exists openchpl cascade;" openchpl
-pg_restore --host $host --port $port --username $user --no-password --verbose --clean --if-exists --dbname openchpl $filename
+
+#drop the audit schema
+psql --host $host --port $port --username $user --no-password -c "DROP schema if exists audit CASCADE;" openchpl
+
+#drop openchpl schema
+psql --host $host --port $port --username $user --no-password -c "DROP schema if exists openchpl CASCADE;" openchpl
+ 
+#restore to openchpl and audit
+pg_restore --host $host --port $port --username $user --no-password --verbose --clean --if-exists --exclude-schema=ff4j --exclude-schema=quartz --dbname openchpl  $filename
 
 # add users if users file exists
 usersFile=users.sql
