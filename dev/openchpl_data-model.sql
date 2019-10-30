@@ -544,6 +544,7 @@ CREATE TABLE openchpl.macra_criteria_map (
 	value varchar(100) not null,
 	name varchar(255) not null,
 	description varchar(512) not null,
+	removed boolean NOT NULL DEFAULT false,
 	creation_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_user bigint NOT NULL,
