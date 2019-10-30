@@ -89,9 +89,10 @@ SELECT
     a.privacy_security_framework,
     b.number,
     b.title,
+	b.removed,
     COALESCE(d.count_additional_software, 0) as "count_additional_software"
 FROM openchpl.certification_result a
-    LEFT JOIN (SELECT certification_criterion_id, number, title FROM openchpl.certification_criterion) b
+    LEFT JOIN (SELECT certification_criterion_id, number, title, removed FROM openchpl.certification_criterion) b
     ON a.certification_criterion_id = b.certification_criterion_id
     LEFT JOIN (SELECT certification_result_id, count(*) as "count_additional_software"
     FROM
