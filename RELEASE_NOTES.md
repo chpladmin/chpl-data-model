@@ -1,5 +1,24 @@
 # Release Notes
 
+## Version 17.13.1
+_4 November 2019_
+
+### Data Changes
+* Add "ONC Test Method - Surescripts (Alternative)" as available Test Procedure
+  * Make "Not Applicable" an option for Test Tool and Test Data
+  * Restricted to 170.315 (b)(3) for Data and Procedure
+
+---
+
+## Version 17.13.0
+_21 October 2019_
+
+### Flagged Features
+* Add ROLE_DEVELOPER User type
+* Allow ROLE_DEVELOPER to create "Change Requests" to change their Organization's website
+
+---
+
 ## Version 17.12.0
 _7 October 2019_
 
@@ -77,11 +96,11 @@ _22 July 2019_
 * Add open surveillance count, closed surveillance count, and aggregated surveillance dates to the collections view
 * Create table complaint_listing_map for storing listings associated with a complaint
 * Create table complaint_surveillance_map for storing surveillances associated with a complaint
-* Added table quarterly_report_excluded_listing_map to associate an excluded listing with the quarterly report.
+* Added table quarterly_report_excluded_listing_map to associate an excluded listing with the quarterly report
 * Create table complaint_criterion_map for storing criteria associated with a complaint
 
 ### Data Modifications
-* Added two background job types: export quarterly surveillance and export annual surveillance.
+* Added two background job types: export quarterly surveillance and export annual surveillance
 * Add Announcement Report to the filter_type table
 
 ---
@@ -117,16 +136,16 @@ _20 May 2019_
 ### View/Table Modifications
 * Create table 'filter' to handle storing user's filters
 * Create table 'filter_type' to indicate the type of filter
-* Changed user permissions tables so users can have only one role. Old table will be removed in a future release.
-  * Added column user_permission_id to user table.
-  * No longer using global_user_permission_map table.
-* Changed invitation tables so users can only be invited to have one role. Old table will be removed in a future release.
-  * Added column user_permission_id to invited_user table.
-  * No longer using invited_user_permission table.
+* Changed user permissions tables so users can have only one role. Old table will be removed in a future release
+  * Added column user_permission_id to user table
+  * No longer using global_user_permission_map table
+* Changed invitation tables so users can only be invited to have one role. Old table will be removed in a future release
+  * Added column user_permission_id to invited_user table
+  * No longer using invited_user_permission table
 
 ### Data Modifications
-* Migrated user permission and invitation permission data to new structure. Some users who previously had two roles may notice that their role has changed.
-* Changed activity concept ATL to TESTING_LAB.
+* Migrated user permission and invitation permission data to new structure. Some users who previously had two roles may notice that their role has changed
+* Changed activity concept ATL to TESTING_LAB
 * Add listing, developer, product, and version reports to the filter_type table
 
 ---
@@ -135,8 +154,8 @@ _20 May 2019_
 _8 May 2019_
 
 ### View Modifications
-* Updated "acb_is_deleted" field in certified_product_details view to be "acb_is_retired".
-* Created view "listings_from_banned_developers" to query when constructing the Banned Developers API response.
+* Updated "acb_is_deleted" field in certified_product_details view to be "acb_is_retired"
+* Created view "listings_from_banned_developers" to query when constructing the Banned Developers API response
 
 ---
 
@@ -154,7 +173,7 @@ _22 April 2019_
 _8 April 2019_
 
 ### Table modifications
-* Add error and warning count to pending listing table.
+* Add error and warning count to pending listing table
 
 ### Data modifications
 * Update activity concept 'PENDING SURVEIALLNCE' to 'PENDING_SURVEILLANCE'
@@ -165,10 +184,10 @@ _8 April 2019_
 _1 April 2019_
 
 ### Table Modifications
-* Remove the certification status id reference from the pending_certified_product table.
+* Remove the certification status id reference from the pending_certified_product table
 
 ### Data Modifications
-* Mark the Pending certification status as deleted (again).
+* Mark the Pending certification status as deleted (again)
 
 ---
 
@@ -220,7 +239,7 @@ _11 March 2019_
 _25 February 2019_
 
 ### Table modifications
-* Add user_permission_id column to pending_surveillance table to track the authority that owns the pending surveillance.
+* Add user_permission_id column to pending_surveillance table to track the authority that owns the pending surveillance
 * Updated ehr certification id with products view to not include unused columns; speeded things up
 * Changed type of columns in two "pending list" tables to support more generous upload parsing ability
 
@@ -248,9 +267,9 @@ _28 January 2019_
 * Restrict participant unique id and test task id to be 20 characters
 
 ### Data Modifications
-* Add ROLE_ONC to the user_permission table and convert all existing users except Ai's admin account from ROLE_ADMIN to ROLE_ONC.
-* Update soft delete triggers to include recently added references to certified products.
-* Remove ROLE_ONC_STAFF permission and convert existing ROLE_ONC_STAFF user accounts to be ROLE_ONC.
+* Add ROLE_ONC to the user_permission table and convert all existing users except Ai's admin account from ROLE_ADMIN to ROLE_ONC
+* Update soft delete triggers to include recently added references to certified products
+* Remove ROLE_ONC_STAFF permission and convert existing ROLE_ONC_STAFF user accounts to be ROLE_ONC
 
 ---
 
@@ -275,11 +294,11 @@ _14 January 2019_
 _17 December 2018_
 
 ### Table Modifications
-* Removed the following tables: notification_type_recipient_map, notification_recipient, notification_type_permission, and notification_type.
-* Add retired column for certification bodies and testing labs.
+* Removed the following tables: notification_type_recipient_map, notification_recipient, notification_type_permission, and notification_type
+* Add retired column for certification bodies and testing labs
 
 ### Data Modifications
-* Retire ACBs and ATLs currently marked as deleted. Do not mark any as deleted.
+* Retire ACBs and ATLs currently marked as deleted. Do not mark any as deleted
 
 ---
 
@@ -332,7 +351,7 @@ _5 November 2018_
 _24 October 2018_
 
 ### Bugs Fixed
-* Include listings without MUU counts in certified_product_summary view.
+* Include listings without MUU counts in certified_product_summary view
 
 ---
 
@@ -340,11 +359,11 @@ _24 October 2018_
 _22 October 2018_
 
 ### Table Modifications
-* Add meaningful_use_user table to capture current and historical muu counts per listing.
-* Modified all views that calculate meaningful_use_users.
+* Add meaningful_use_user table to capture current and historical muu counts per listing
+* Modified all views that calculate meaningful_use_users
 
 ### Data Modifications
-* Migrated data from certified_product meaningful_use_users column into new meaningful_use_user table.
+* Migrated data from certified_product meaningful_use_users column into new meaningful_use_user table
 
 ---
 
@@ -453,7 +472,7 @@ _4 June 2018_
   * "Transport Test Tool" + "Transport Testing Tool" = "Transport Testing Tool"
   * "Healthcare Associated Infections (HAI) Validator" -> CDC's NHSN CDA Validator
   * "Edge Test Tool" -> "Edge Testing Tool"
-* Add activity concept for legacy corrective action plans to distinguish from certified product activities.
+* Add activity concept for legacy corrective action plans to distinguish from certified product activities
 * Update InfoGard listings Public Test Summary Report and UCD URLs
 
 ---
@@ -466,7 +485,7 @@ _21 May 2018_
 
 ### View Modifications
 * Update `certified_product_search` to respect deleted certification_status_events when getting "latest" status name
-* Update `certified_product_details` to respect deleted certification_status_events when calculating certification_date and decertification_date columns.
+* Update `certified_product_details` to respect deleted certification_status_events when calculating certification_date and decertification_date columns
 
 ### Data Modifications
 * Update g1 and g2 macra measures to their new mappings
@@ -504,7 +523,7 @@ _23 April 2018_
 * Add "Cache Status Age Warning" notification type
 
 ### Script Modifications
-* dump.sh - Changed to not include logged_actions table by default.  Can use the -i options if you want the table included.
+* dump.sh - Changed to not include logged_actions table by default.  Can use the -i options if you want the table included
 * load.sh - Changed to kill existing processes in the DB before DROPing the schema
 
 ---
@@ -577,12 +596,12 @@ _29 January 2018_
 _17 January 2018_
 
 ### Table alterations
-* Add reason column to certification status event table.
+* Add reason column to certification status event table
 * Add has qms column to to pendingCertifiedProduct table
-* Remove certification status column from certified product table and related references in views. Certification status is now inferred from the most recent entry in the certification status event table for any listing.
+* Remove certification status column from certified product table and related references in views. Certification status is now inferred from the most recent entry in the certification status event table for any listing
 
 ### Data changes
-* Add new surveillance upload job type.
+* Add new surveillance upload job type
 * Deprecate 2015 v11 Upload Template
 * Added new grouping of CQMs
 
@@ -607,7 +626,7 @@ _2 January 2018_
 _18 December 2017_
 
 ### Table modifications
-* Rename all test_procedure_temp tables and keys to their final state.
+* Rename all test_procedure_temp tables and keys to their final state
 
 ### Data changes
 * ROLE consolidation
@@ -623,7 +642,7 @@ _18 December 2017_
 _5 December 2017_
 
 ### Table modification
-* Add test_data and test_procedure_temp tables along with criteria mapping tables for each.
+* Add test_data and test_procedure_temp tables along with criteria mapping tables for each
 * Change test data version and test procedure version character limits to 50
 * Point certification result tables to new test data and test procedure foreign keys
 
@@ -638,7 +657,7 @@ _20 November 2017_
 ### Data changes
 * Update "new" 2014 upload template to have correct "available_as_of_date"
 * Add new view to use for faster API searches
-* Remove users.sql file. It is now in Bamboo for anyone who wants a copy.
+* Remove users.sql file. It is now in Bamboo for anyone who wants a copy
 
 ---
 
@@ -688,7 +707,7 @@ _25 September 2017_
   * `test_result_summary_version`
   * `test_task_result`
   * `utilized_test_tool`
-* Add background job processing tables.
+* Add background job processing tables
 
 ---
 
@@ -696,7 +715,7 @@ _25 September 2017_
 _11 September 2017_
 
 ### Table/view modification
-* Migrate participants to be linked to a test task only rather than a test task+certification result. This includes a new table and next time will result in the removal of the old table.
+* Migrate participants to be linked to a test task only rather than a test task+certification result. This includes a new table and next time will result in the removal of the old table
 * Add "NOT NULL" to all values of Test Tasks & Participants
 * Remove unused "Age" column from Test Participants
 
@@ -712,7 +731,7 @@ _14 August 2017_
 
 ### Table/view modification
 * Increased ICS Code length from 1 to 2; prepended '0' in front of any codes that were previously 1 character
-* Add columns to save the user-entered age range and education level of test participants.
+* Add columns to save the user-entered age range and education level of test participants
 * Add ONC report types Weekly Statistics and Questionable Activity
 
 ---
@@ -722,7 +741,7 @@ _31 July 2017_
 
 ### Table/view modification
 * Update db field lengths to match spec
-* Add constraints to db fields for unique CHPL id codes for length and content.
+* Add constraints to db fields for unique CHPL id codes for length and content
 
 ### Maintenance ability
 * Added file to remove PROD notifications and insert QA ones
@@ -789,7 +808,7 @@ _22 May 2017_
 _8 May 2017_
 
 ### Major modification
-* Add a required certification edition column to test functionality.
+* Add a required certification edition column to test functionality
 
 ### Table modification
 * Add tables for recipients and subscriptions to different types of notifications
@@ -797,7 +816,7 @@ _8 May 2017_
 ### Data modification
 * Find any current products that have bad values for their criterions' Privacy and Security Framework
 * Update values for CQMs with typos
-* Find and fix any criteria pointing to test functionality from the wrong edition.
+* Find and fix any criteria pointing to test functionality from the wrong edition
 
 ---
 
@@ -805,9 +824,9 @@ _8 May 2017_
 _24 April 2017_
 
 ### Changes
-* Add optional contact column to the product table.
-* Make surveillance requirement and surveillance nonconformity as deleted when parent surveillance is deleted.
-* Make surveillance requirement have a result of "Nonconformity" when there are nonconformities.
+* Add optional contact column to the product table
+* Make surveillance requirement and surveillance nonconformity as deleted when parent surveillance is deleted
+* Make surveillance requirement have a result of "Nonconformity" when there are nonconformities
 
 ---
 
@@ -815,7 +834,7 @@ _24 April 2017_
 _10 April 2017_
 
 ### Changes
-* Add a new table to capture history of vendor status changes.
+* Add a new table to capture history of vendor status changes
 * Replace four surveillance boolean values in the certified_product_search_view with three values listing the counts of:
   * surveillance
   * open nonconformities, and
@@ -880,7 +899,7 @@ _23 January 2017_
 _10 January 2017_
 
 ### Changes
-* Update surveillance migration script to include top-level developer explanation and resolution fields. Change the field start date is pulled from.
+* Update surveillance migration script to include top-level developer explanation and resolution fields. Change the field start date is pulled from
 
 ---
 
@@ -888,7 +907,7 @@ _10 January 2017_
 _9 January 2017_
 
 ### Changes
-* Update surveillance migration script to include top-level summary field.
+* Update surveillance migration script to include top-level summary field
 
 ---
 
@@ -902,7 +921,7 @@ _6 January 2017_
 * Add 'Suspended by ONC' and 'Terminated by ONC' to certification_status table
 * Replace corrective action plan with surveillance in details view for searching
 * Add certification_body deleted column to certified_product_details view
-* Add certification_status_event table to store certification status change history. Eliminate use of certification_event and event_type.
+* Add certification_status_event table to store certification status change history. Eliminate use of certification_event and event_type
 * Add decertification_date to certified product details view
 * Create v-next.sql since some of the update files require a certain order of execution
 
@@ -939,11 +958,11 @@ _4 October 2016_
 _4 October 2016_
 
 ### Changes
-* Modified certification status names previously known as Terminated, Suspended, and Withdrawn. Changed views as necessary.
+* Modified certification status names previously known as Terminated, Suspended, and Withdrawn. Changed views as necessary
 * Added view to merge certification_id, date created, and columns necessary to formulate the CHPL product id
-* Remove terms_of_use_url from data model and views.
+* Remove terms_of_use_url from data model and views
 * Added script to find Certified Products with improper CHPL Product Number Code components
-* Add retired boolean to test_tool tables and retired Transport Test[ing] Tool.
+* Add retired boolean to test_tool tables and retired Transport Test[ing] Tool
 * Added creation_date to certifiedProductDetails view for OCD-897
 
 ---
@@ -961,7 +980,7 @@ _19 September 2016_
 _30 August 2016_
 
 ### Changes
-* Add ROLE_CMS_STAFF as an available role in the system.
+* Add ROLE_CMS_STAFF as an available role in the system
 * Update legacy CMS IDs with CreationDate
 
 ---
@@ -981,7 +1000,7 @@ _2 August 2016_
 ### Changes
 * Bulk update of certification statuses of ICSA products (already loaded)
 * Re-populate test functionality table since some values have been edited
-* Change many of the description values for test functionality and standards.
+* Change many of the description values for test functionality and standards
 
 ---
 
@@ -1036,7 +1055,7 @@ _16 May 2016_
   * eCQMs for Eligible Hospitals Table April 2016
 
 ### Bugs Fixed
-* Remove errant space from a test functionality row.
+* Remove errant space from a test functionality row
 
 ---
 
@@ -1072,8 +1091,8 @@ _12 April 2016_
 _30 March 2016_
 
 ### Changes
-* Removed smart quotes from the preloaded education types.
-* Changed gender column to accommodate 100 characters instead of 1 character.
+* Removed smart quotes from the preloaded education types
+* Changed gender column to accommodate 100 characters instead of 1 character
 * Added items to preload script
 * Allowed `null` for first names of contacts in ACB
 
@@ -1140,14 +1159,14 @@ No significant data model changes
 _5 January 2016_
 
 New and improved features
-* Added terms of use and api documentation to the certified product data model.
+* Added terms of use and api documentation to the certified product data model
 * Added ATL information
-* Added vendor-to-ACB mapping to store transparancyAttestation field.
+* Added vendor-to-ACB mapping to store transparancyAttestation field
 
 New and improved features
-* Added terms of use and api documentation to the certified product data model.
+* Added terms of use and api documentation to the certified product data model
 * Added ATL information
-* Added vendor-to-ACB mapping to store transparancyAttestation field.
+* Added vendor-to-ACB mapping to store transparancyAttestation field
 
 ---
 
