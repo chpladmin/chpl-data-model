@@ -1,3 +1,6 @@
+-- Deployment file for version 17.13.1
+--     as of 2019-11-04
+-- ocd-3120.sql
 INSERT INTO openchpl.test_tool (name, last_modified_user, retired)
 SELECT 'Not Applicable', -1, false
 WHERE NOT EXISTS (
@@ -45,3 +48,8 @@ WHERE NOT EXISTS (
         AND test_data_id = (SELECT td.id FROM openchpl.test_data td WHERE td.name = 'Not Applicable')
         );
 ;
+;
+insert into openchpl.data_model_version (version, deploy_date, last_modified_user) values ('17.13.1', '2019-11-04', -1);
+\i dev/openchpl_soft-delete.sql
+\i dev/openchpl_views.sql
+\i dev/openchpl_grant-all.sql
