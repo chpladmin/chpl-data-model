@@ -12,6 +12,7 @@ DROP VIEW IF EXISTS openchpl.certified_product_summary;
 DROP VIEW IF EXISTS openchpl.ehr_certification_ids_and_products;
 DROP VIEW IF EXISTS openchpl.listings_from_banned_developers;
 DROP VIEW IF EXISTS openchpl.surveillance_basic;
+DROP VIEW IF EXISTS openchpl.developer_certification_body_map;
 
 create or replace function openchpl.get_testing_lab_code(input_id bigint) returns
     table (
@@ -1122,3 +1123,12 @@ FROM openchpl.certified_product listing
 WHERE listing.deleted = false
 AND acb.retired = false
 AND developer_status_name = 'Under certification ban by ONC';
+
+CREATE OR REPLACE VIEW openchpl.developer_certification_body_map
+AS SELECT DISTINCT cp.certification_body_id,
+     dev.vendor_id
+   FROM openchpl.certified_product cp
+     JOIN openchpl.product_version prod_ver ON cp.product_version_id = prod_ver.product_version_id
+     JOIN openchpl.product prod ON prod_ver.product_id = prod.product_id
+     JOIN openchpl.vendor dev ON prod.vendor_id = dev.vendor_id;
+

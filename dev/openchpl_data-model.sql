@@ -3187,6 +3187,7 @@ CREATE TABLE openchpl.change_request_status (
     status_change_date timestamp NOT NULL,
     comment text,
     certification_body_id bigint,
+    user_permission_id bigint NOT NULL,
     creation_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_user bigint NOT NULL,
@@ -3201,6 +3202,9 @@ CREATE TABLE openchpl.change_request_status (
     CONSTRAINT certification_body_fk FOREIGN KEY (certification_body_id)
 	    REFERENCES openchpl.certification_body (certification_body_id)
         MATCH SIMPLE ON UPDATE NO ACTION ON DELETE RESTRICT
+    CONSTRAINT user_permission_fk FOREIGN KEY (user_permission_id)
+	    REFERENCES openchpl.user_permission (user_permission_id)
+        MATCH SIMPLE ON UPDATE NO ACTION ON DELETE RESTRICT;
 );
 
 CREATE TABLE openchpl.change_request_website (
