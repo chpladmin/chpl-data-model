@@ -1050,7 +1050,8 @@ INSERT INTO openchpl.test_tool(name, last_modified_user, retired) VALUES
 ('NCQA ONC Health IT Testing', -1, false),
 ('HIMSS Immunization Integration Program', -1, false),
 ('NHCS IG Release 1 Validator', -1, false),
-('NHCS IG Release 1.2 Validator', -1, false);
+('NHCS IG Release 1.2 Validator', -1, false),
+('Not Applicable', -1, false);
 --2015
 
 INSERT INTO openchpl.test_standard(number, name, certification_edition_id, last_modified_user) VALUES
@@ -1997,7 +1998,8 @@ INSERT INTO openchpl.test_procedure (name, last_modified_user)
 VALUES
 ('ONC Test Method', -1),
 ('NCQA eCQM Test Method', -1),
-('HIMSS-IIP Test Method', -1);
+('HIMSS-IIP Test Method', -1),
+('ONC Test Method - Surescripts (Alternative)', -1);
 
 --allow ONC Test Method for every 2014 criteria
 INSERT INTO openchpl.test_procedure_criteria_map(criteria_id, test_procedure_id, last_modified_user)
@@ -2017,6 +2019,13 @@ INSERT INTO openchpl.test_procedure_criteria_map(criteria_id, test_procedure_id,
 	AND tpt.name = 'ONC Test Method'
 );
 --allow the other test methods for only a few specific criteria
+INSERT INTO openchpl.test_procedure_criteria_map(criteria_id, test_procedure_id, last_modified_user)
+(
+	SELECT cc.certification_criterion_id, tpt.id, -1
+	FROM openchpl.certification_criterion cc CROSS JOIN openchpl.test_procedure tpt
+	WHERE cc.number = '170.315 (b)(3)'
+	AND tpt.name = 'ONC Test Method - Surescripts (Alternative)'
+);
 INSERT INTO openchpl.test_procedure_criteria_map(criteria_id, test_procedure_id, last_modified_user)
 (
 	SELECT cc.certification_criterion_id, tpt.id, -1
@@ -2050,7 +2059,8 @@ INSERT INTO openchpl.test_data (name, last_modified_user)
 VALUES
 ('ONC Test Method', -1),
 ('NCQA eCQM Test Method', -1),
-('HIMSS-IIP Test Method', -1);
+('HIMSS-IIP Test Method', -1),
+('Not Applicable', -1);
 
 --allow ONC Test Method for 2014 criteria that can have test data
 INSERT INTO openchpl.test_data_criteria_map (criteria_id, test_data_id, last_modified_user)
@@ -2077,6 +2087,13 @@ INSERT INTO openchpl.test_data_criteria_map (criteria_id, test_data_id, last_mod
 );
 
 --allow the other test methods for only a few specific criteria
+INSERT INTO openchpl.test_data_criteria_map(criteria_id, test_data_id, last_modified_user)
+(
+	SELECT cc.certification_criterion_id, td.id, -1
+	FROM openchpl.certification_criterion cc CROSS JOIN openchpl.test_data td
+	WHERE cc.number = '170.315 (b)(3)'
+	AND td.name = 'Not Applicable'
+);
 INSERT INTO openchpl.test_data_criteria_map (criteria_id, test_data_id, last_modified_user)
 (
 	SELECT cc.certification_criterion_id, td.id, -1

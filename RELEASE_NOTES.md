@@ -1,5 +1,15 @@
 # Release Notes
 
+## Version 17.13.1
+_4 November 2019_
+
+### Data Changes
+* Add "ONC Test Method - Surescripts (Alternative)" as available Test Procedure
+  * Make "Not Applicable" an option for Test Tool and Test Data
+  * Restricted to 170.315 (b)(3) for Data and Procedure
+
+---
+
 ## Version 17.13.0
 _21 October 2019_
 
