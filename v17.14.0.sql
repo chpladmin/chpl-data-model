@@ -1,3 +1,15 @@
+-- Deployment file for version 17.14.0
+--     as of 2019-11-18
+-- ocd-2960.sql
+INSERT INTO openchpl.filter_type (name, last_modified_user)
+SELECT 'API Key Management Report', -1
+WHERE NOT EXISTS (
+    SELECT *
+    FROM openchpl.filter_type
+    WHERE name = 'API Key Management Report' );
+;
+;
+-- ocd-2156.sql
 DROP TABLE IF EXISTS openchpl.change_request_website;
 DROP TABLE IF EXISTS openchpl.change_request_status;
 DROP TABLE IF EXISTS openchpl.change_request;
@@ -72,3 +84,8 @@ audit.if_modified_func();
 CREATE TRIGGER change_request_website_timestamp BEFORE UPDATE on openchpl.change_request_website FOR EACH ROW EXECUTE PROCEDURE 
 openchpl.update_last_modified_date_column();
 
+;
+insert into openchpl.data_model_version (version, deploy_date, last_modified_user) values ('17.14.0', '2019-11-18', -1);
+\i dev/openchpl_soft-delete.sql
+\i dev/openchpl_views.sql
+\i dev/openchpl_grant-all.sql

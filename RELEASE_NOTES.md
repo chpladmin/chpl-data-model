@@ -1,5 +1,17 @@
 # Release Notes
 
+## Version 17.14.0
+_18 November 2019_
+
+### Features
+* Add mapping view between developers and acbs
+* Add user permission to change request status
+
+### Data Changes
+* Add new filter type for API Key Management
+
+---
+
 ## Version 17.13.1
 _4 November 2019_
 
