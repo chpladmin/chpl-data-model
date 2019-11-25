@@ -432,7 +432,7 @@ CREATE TABLE openchpl.certification_edition(
 
 -- object: openchpl.certification_criterion | type: TABLE --
 -- DROP TABLE IF EXISTS openchpl.certification_criterion CASCADE;
-CREATE TABLE openchpl.certification_criterion(
+CREATE TABLE openchpl.certification_criterion (
 	certification_criterion_id bigserial NOT NULL,
 	certification_edition_id bigint NOT NULL,
 	number varchar(30),
@@ -442,6 +442,7 @@ CREATE TABLE openchpl.certification_criterion(
 	automated_measure_capable bool,
 	requires_sed bool,
 	parent_criterion_id bigint,
+	removed boolean NOT NULL DEFAULT false,
 	creation_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_user bigint NOT NULL,
@@ -544,6 +545,7 @@ CREATE TABLE openchpl.macra_criteria_map (
 	value varchar(100) not null,
 	name varchar(255) not null,
 	description varchar(512) not null,
+	removed boolean NOT NULL DEFAULT false,
 	creation_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_user bigint NOT NULL,
