@@ -1,5 +1,17 @@
 # Release Notes
 
+## Version 17.15.0
+_2 December 2019_
+
+### Data Changes
+* Add 2020 CQM reporting bundle data
+
+### Features
+* Add removed column for macra measures; remove 'RT13 EH/CAH Stage 3'
+* Add removed column to criteria table
+
+---
+
 ## Version 17.14.0
 _18 November 2019_
 

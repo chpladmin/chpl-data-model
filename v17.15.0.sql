@@ -1,3 +1,6 @@
+-- Deployment file for version 17.15.0
+--     as of 2019-12-02
+-- ocd-3188.sql
 -- 1) Create new CQM Version
 -- 2) Create new version of 58 existing CQM
 -- 3) Add 1 new CQM
@@ -542,3 +545,24 @@ SELECT
  false
 FROM openchpl.cqm_version WHERE version = 'v1'
 AND NOT EXISTS (SELECT * FROM openchpl.cqm_criterion cc INNER JOIN openchpl.cqm_version cv ON cc.cqm_version_id = cv.cqm_version_id AND cv.version = 'v1' WHERE cc.cms_id = 'CMS771');
+;
+-- ocd-3135.sql
+ALTER TABLE openchpl.macra_criteria_map
+DROP COLUMN IF EXISTS removed;
+
+ALTER TABLE openchpl.macra_criteria_map
+ADD COLUMN removed boolean NOT NULL DEFAULT false;
+
+UPDATE openchpl.macra_criteria_map
+SET removed = true
+WHERE value = 'RT13 EH/CAH Stage 3';;
+-- ocd-3148.sql
+ALTER TABLE openchpl.certification_criterion
+DROP COLUMN IF EXISTS removed;
+
+ALTER TABLE openchpl.certification_criterion
+ADD COLUMN removed boolean NOT NULL DEFAULT false;;
+insert into openchpl.data_model_version (version, deploy_date, last_modified_user) values ('17.15.0', '2019-12-02', -1);
+\i dev/openchpl_soft-delete.sql
+\i dev/openchpl_views.sql
+\i dev/openchpl_grant-all.sql
