@@ -193,17 +193,23 @@ CREATE VIEW openchpl.certified_product_details AS
     n.certification_status_name,
     p.transparency_attestation
    FROM openchpl.certified_product a
-     LEFT JOIN ( SELECT cse.certification_status_id,
+     LEFT JOIN (
+         SELECT cse.certification_status_id,
             cse.certified_product_id,
-            cse.event_date AS last_certification_status_change
-           FROM openchpl.certification_status_event cse
-             JOIN ( SELECT certification_status_event.certified_product_id,
-                    max(certification_status_event.event_date) AS event_date
-                   FROM openchpl.certification_status_event
-                  WHERE certification_status_event.deleted <> true
-                  GROUP BY certification_status_event.certified_product_id
-                  LIMIT 1) cseinner ON cse.certified_product_id = cseinner.certified_product_id AND cse.event_date = cseinner.event_date
-          WHERE cse.deleted <> true) r ON r.certified_product_id = a.certified_product_id
+            cse.last_certification_status_change
+         FROM (
+             SELECT cse_inner.certification_status_id,
+                 cse_inner.certified_product_id,
+                 cse_inner.event_date AS last_certification_status_change,
+                 ROW_NUMBER() OVER (
+                     PARTITION BY cse_inner.certified_product_id
+                     ORDER BY cse_inner.event_date DESC) rownum
+             FROM openchpl.certification_status_event cse_inner
+             WHERE cse_inner.deleted = false
+             ) cse   
+         WHERE cse.rownum = 1
+         ) r 
+     ON r.certified_product_id = a.certified_product_id
      LEFT JOIN ( SELECT certification_status.certification_status_id,
             certification_status.certification_status AS certification_status_name
            FROM openchpl.certification_status) n ON r.certification_status_id = n.certification_status_id
@@ -547,19 +553,22 @@ SELECT cp.certified_product_id,
        surv_dates.surv_dates
 FROM openchpl.certified_product cp
 LEFT JOIN
-  (SELECT cse.certification_status_id,
-          cse.certified_product_id,
-          cse.event_date AS last_certification_status_change
-   FROM openchpl.certification_status_event cse
-   JOIN
-     (SELECT certification_status_event.certified_product_id,
-             max(certification_status_event.event_date) AS event_date
-      FROM openchpl.certification_status_event
-      WHERE certification_status_event.deleted = FALSE
-      GROUP BY certification_status_event.certified_product_id
-      LIMIT 1) cseinner ON cse.certified_product_id = cseinner.certified_product_id
-   AND cse.event_date = cseinner.event_date
-   AND cse.deleted = false) certstatusevents ON certstatusevents.certified_product_id = cp.certified_product_id
+   (SELECT cse.certification_status_id,
+        cse.certified_product_id,
+        cse.last_certification_status_change
+    FROM (
+        SELECT cse_inner.certification_status_id,
+            cse_inner.certified_product_id,
+            cse_inner.event_date AS last_certification_status_change,
+            ROW_NUMBER() OVER (
+                PARTITION BY cse_inner.certified_product_id
+                ORDER BY cse_inner.event_date DESC) rownum
+        FROM openchpl.certification_status_event cse_inner
+        WHERE cse_inner.deleted = false
+        ) cse   
+    WHERE cse.rownum = 1
+    ) certstatusevents 
+ON certstatusevents.certified_product_id = cp.certified_product_id
 LEFT JOIN
   (SELECT certification_status.certification_status_id,
           certification_status.certification_status AS certification_status_name
