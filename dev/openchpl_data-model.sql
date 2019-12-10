@@ -2943,22 +2943,11 @@ CREATE TABLE openchpl.complainant_type (
     CONSTRAINT complainant_type_pk PRIMARY KEY (complainant_type_id)
 );
 
-CREATE TABLE openchpl.complaint_status_type (
-    complaint_status_type_id bigserial not null,
-    name text not null,
-    creation_date timestamp without time zone NOT NULL DEFAULT now(),
-    last_modified_date timestamp without time zone NOT NULL DEFAULT now(),
-    last_modified_user bigint NOT NULL,
-    deleted boolean NOT NULL DEFAULT false,
-    CONSTRAINT complaint_status_type_pk PRIMARY KEY (complaint_status_type_id)
-);
-
 CREATE TABLE openchpl.complaint (
     complaint_id bigserial not null,
     certification_body_id bigint not null,
     complainant_type_id bigint not null,
     complainant_type_other text,
-    complaint_status_type_id bigint not null,
     onc_complaint_id text,
     acb_complaint_id text,
     received_date date not null,
@@ -2979,9 +2968,6 @@ CREATE TABLE openchpl.complaint (
 		MATCH SIMPLE ON UPDATE NO ACTION ON DELETE RESTRICT,
     CONSTRAINT complainant_type_fk FOREIGN KEY (complainant_type_id)
 		REFERENCES openchpl.complainant_type (complainant_type_id) 
-		MATCH SIMPLE ON UPDATE NO ACTION ON DELETE RESTRICT,
-    CONSTRAINT complaint_status_type_fk FOREIGN KEY (complaint_status_type_id)
-		REFERENCES openchpl.complaint_status_type (complaint_status_type_id) 
 		MATCH SIMPLE ON UPDATE NO ACTION ON DELETE RESTRICT
 );
 CREATE TABLE openchpl.complaint_criterion_map (
