@@ -201,8 +201,7 @@ CREATE VIEW openchpl.certified_product_details AS
                     max(certification_status_event.event_date) AS event_date
                    FROM openchpl.certification_status_event
                   WHERE certification_status_event.deleted <> true
-                  GROUP BY certification_status_event.certified_product_id
-                  LIMIT 1) cseinner ON cse.certified_product_id = cseinner.certified_product_id AND cse.event_date = cseinner.event_date
+                  GROUP BY certification_status_event.certified_product_id) cseinner ON cse.certified_product_id = cseinner.certified_product_id AND cse.event_date = cseinner.event_date
           WHERE cse.deleted <> true) r ON r.certified_product_id = a.certified_product_id
      LEFT JOIN ( SELECT certification_status.certification_status_id,
             certification_status.certification_status AS certification_status_name
@@ -556,8 +555,7 @@ LEFT JOIN
              max(certification_status_event.event_date) AS event_date
       FROM openchpl.certification_status_event
       WHERE certification_status_event.deleted = FALSE
-      GROUP BY certification_status_event.certified_product_id
-      LIMIT 1) cseinner ON cse.certified_product_id = cseinner.certified_product_id
+      GROUP BY certification_status_event.certified_product_id) cseinner ON cse.certified_product_id = cseinner.certified_product_id
    AND cse.event_date = cseinner.event_date
    AND cse.deleted = false) certstatusevents ON certstatusevents.certified_product_id = cp.certified_product_id
 LEFT JOIN
