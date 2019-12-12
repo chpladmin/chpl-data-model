@@ -73,7 +73,10 @@ VALUES
 ('Product Owner History Added', 'Product', -1),
 ('Product Owner History Removed', 'Product', -1),
 ('Testing Lab Changed', 'Listing', -1),
-('Version Name Edited', 'Version', -1);
+('Version Name Edited', 'Version', -1),
+('Certification Criteria 170.315 (b)(3) added without ICS for current listing', 'Listing', -1),
+('Certification Criteria 170.315 (b)(3) added with ICS for current listing', 'Listing', -1),
+('Certification Criteria 170.315 (b)(3) added without ICS for new listing', 'Listing', -1);
 
 INSERT INTO openchpl.certification_criterion (certification_edition_id, number, title, last_modified_user) VALUES
 (3, '170.315 (a)(1)', 'Computerized Provider Order Entry (CPOE) - Medications', -1),
