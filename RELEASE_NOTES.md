@@ -1,5 +1,40 @@
 # Release Notes
 
+## Version 17.16.0
+_16 December 2019_
+
+### Data Changes
+* Unretire CDC's NHSN CDA Validator and retire HL7 CDA National Health Care Surveys Validator
+
+### Features
+* Prevent duplicate rows for listing when duplicate status event exists
+
+---
+
+## Version 17.15.0
+_2 December 2019_
+
+### Data Changes
+* Add 2020 CQM reporting bundle data
+
+### Features
+* Add removed column for macra measures; remove 'RT13 EH/CAH Stage 3'
+* Add removed column to criteria table
+
+---
+
+## Version 17.14.0
+_18 November 2019_
+
+### Features
+* Add mapping view between developers and acbs
+* Add user permission to change request status
+
+### Data Changes
+* Add new filter type for API Key Management
+
+---
+
 ## Version 17.13.1
 _4 November 2019_
 
