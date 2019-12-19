@@ -1,5 +1,16 @@
 # Release Notes
 
+## Version 17.16.0
+_16 December 2019_
+
+### Data Changes
+* Unretire CDC's NHSN CDA Validator and retire HL7 CDA National Health Care Surveys Validator
+
+### Features
+* Prevent duplicate rows for listing when duplicate status event exists
+
+---
+
 ## Version 17.15.0
 _2 December 2019_
 
