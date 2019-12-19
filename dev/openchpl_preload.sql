@@ -77,7 +77,7 @@ VALUES
 ('Certification Criteria 170.315 (b)(3) added without ICS for current listing', 'Listing', -1),
 ('Certification Criteria 170.315 (b)(3) added with ICS for current listing', 'Listing', -1),
 ('Certification Criteria 170.315 (b)(3) added without ICS for new listing', 'Listing', -1),
-('ICS added when certification criteria 170.315(b)(3) is on a current listing', 'Listing', -1);
+('ICS added when Certification Criteria 170.315(b)(3) is on a current listing', 'Listing', -1);
 
 INSERT INTO openchpl.certification_criterion (certification_edition_id, number, title, last_modified_user) VALUES
 (3, '170.315 (a)(1)', 'Computerized Provider Order Entry (CPOE) - Medications', -1),
