@@ -1,5 +1,13 @@
 # Release Notes
 
+## Version 17.16.1
+_20 December 2019_
+
+### Data Changes
+* Add questionable activity triggers for adding b3 criteria
+
+---
+
 ## Version 17.16.0
 _16 December 2019_
 
