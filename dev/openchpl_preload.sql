@@ -73,7 +73,11 @@ VALUES
 ('Product Owner History Added', 'Product', -1),
 ('Product Owner History Removed', 'Product', -1),
 ('Testing Lab Changed', 'Listing', -1),
-('Version Name Edited', 'Version', -1);
+('Version Name Edited', 'Version', -1),
+('Certification Criteria 170.315 (b)(3) added without ICS for current listing', 'Listing', -1),
+('Certification Criteria 170.315 (b)(3) added with ICS for current listing', 'Listing', -1),
+('Certification Criteria 170.315 (b)(3) added without ICS for new listing', 'Listing', -1),
+('ICS added when Certification Criteria 170.315(b)(3) is on a current listing', 'Listing', -1);
 
 INSERT INTO openchpl.certification_criterion (certification_edition_id, number, title, last_modified_user) VALUES
 (3, '170.315 (a)(1)', 'Computerized Provider Order Entry (CPOE) - Medications', -1),
@@ -1105,9 +1109,9 @@ INSERT INTO openchpl.test_tool(name, last_modified_user, retired) VALUES
 ('HL7v2 Immunization Test Suite', -1, false),
 ('HL7v2 Syndromic Surveillance Test Suite', -1, false),
 ('Electronic Prescribing', -1, false),
-('HL7 CDA National Health Care Surveys Validator', -1, false),
+('HL7 CDA National Health Care Surveys Validator', -1, true),
 ('Edge Testing Tool', -1, false),
-('CDC''s NHSN CDA Validator', -1, true),
+('CDC''s NHSN CDA Validator', -1, false),
 ('NCQA ONC Health IT Testing', -1, false),
 ('HIMSS Immunization Integration Program', -1, false),
 ('NHCS IG Release 1 Validator', -1, false),
