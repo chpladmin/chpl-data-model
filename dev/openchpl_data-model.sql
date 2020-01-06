@@ -1664,7 +1664,11 @@ CREATE TABLE openchpl.pending_certification_result(
 	sed bool,
 	g1_success bool,
 	g2_success bool,
+        attestation_answer bool,
 	api_documentation varchar(1024),
+	export_documentation varchar(1024),
+	documentation_url varchar(1024),
+	use_cases varchar(1024),
 	privacy_security_framework varchar(100),
 
 	-- fields we need for auditing/tracking
