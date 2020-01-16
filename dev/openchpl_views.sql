@@ -164,6 +164,7 @@ CREATE VIEW openchpl.certified_product_details AS
     h.vendor_name,
     h.vendor_code,
     h.vendor_website,
+    h.self_developer,
     v.vendor_status_id,
     v.vendor_status_name,
     vendorstatus.last_vendor_status_change,
@@ -250,6 +251,7 @@ CREATE VIEW openchpl.certified_product_details AS
             vendor.name AS vendor_name,
             vendor.vendor_code,
             vendor.website AS vendor_website,
+            vendor.self_developer AS self_developer,
             vendor.address_id AS vendor_address,
             vendor.contact_id AS vendor_contact,
             vendor.vendor_status_id
