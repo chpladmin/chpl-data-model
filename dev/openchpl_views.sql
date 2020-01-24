@@ -730,7 +730,7 @@ LEFT JOIN
    GROUP BY surv.certified_product_id) AS surv_dates ON surv_dates.certified_product_id = cp.certified_product_id
 LEFT JOIN
   (SELECT certification_result.certified_product_id,
-          string_agg(DISTINCT certification_criterion.number, '☺') AS cert_number
+          string_agg(DISTINCT certification_criterion.certification_criterion_id::text, '☺') AS cert_number
    FROM openchpl.certification_criterion
    JOIN openchpl.certification_result ON certification_criterion.certification_criterion_id = certification_result.certification_criterion_id
    WHERE certification_result.success = TRUE
