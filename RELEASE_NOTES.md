@@ -1,5 +1,21 @@
 # Release Notes
 
+## Version 18.1.0
+_27 January 2020_
+
+### Features
+* Support four new types of criterion data points
+
+---
+
+## Version 18.0.0
+_2 January 2020_
+
+### Features
+* Remove Complaint Status Type data
+
+---
+
 ## Version 17.16.1
 _20 December 2019_
 
