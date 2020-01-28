@@ -1120,6 +1120,7 @@ INSERT INTO openchpl.test_tool(name, last_modified_user, retired) VALUES
 ('HIMSS Immunization Integration Program', -1, false),
 ('NHCS IG Release 1 Validator', -1, false),
 ('NHCS IG Release 1.2 Validator', -1, false),
+('Inferno', -1, false),
 ('Not Applicable', -1, false);
 --2015
 
