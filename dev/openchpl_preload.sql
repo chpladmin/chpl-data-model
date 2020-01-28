@@ -104,6 +104,7 @@ INSERT INTO openchpl.certification_criterion (certification_edition_id, number, 
 (3, '170.315 (b)(7)', 'Data Segmentation for Privacy - Send', false, -1),
 (3, '170.315 (b)(8)', 'Data Segmentation for Privacy - Receive', false, -1),
 (3, '170.315 (b)(9)', 'Care Plan', false, -1),
+(3, '170.315 (b)(10)', 'Clinical Information Export', false, -1),
 (3, '170.315 (c)(1)', 'Clinical Quality Measures - Record and Export', false, -1),
 (3, '170.315 (c)(2)', 'Clinical Quality Measures - Import and Calculate', false, -1),
 (3, '170.315 (c)(3)', 'Clinical Quality Measures - Report', false, -1),
@@ -119,6 +120,8 @@ INSERT INTO openchpl.certification_criterion (certification_edition_id, number, 
 (3, '170.315 (d)(9)', 'Trusted Connection', false, -1),
 (3, '170.315 (d)(10)', 'Auditing Actions on Health Information', false, -1),
 (3, '170.315 (d)(11)', 'Accounting of Disclosures', false, -1),
+(3, '170.315 (d)(12)', 'Encrypt Authentication Credentials', false, -1),
+(3, '170.315 (d)(13)', 'Multi-Factor Authentication', false, -1),
 (3, '170.315 (e)(1)', 'View, Download, and Transmit to 3rd Party', false, -1),
 (3, '170.315 (e)(2)', 'Secure Messaging', true, -1),
 (3, '170.315 (e)(3)', 'Patient Health Information Capture', false, -1),
@@ -138,6 +141,7 @@ INSERT INTO openchpl.certification_criterion (certification_edition_id, number, 
 (3, '170.315 (g)(7)', 'Application Access - Patient Selection', false, -1),
 (3, '170.315 (g)(8)', 'Application Access - Data Category Request', false, -1),
 (3, '170.315 (g)(9)', 'Application Access - All Data Request', false, -1),
+(3, '170.315 (g)(10)', 'Standardized API for Patient and Population Services', false, -1),
 (3, '170.315 (h)(1)', 'Direct Project', false, -1),
 (3, '170.315 (h)(2)', 'Direct Project, Edge Protocol, and XDR/XDM', false, -1),
 (2, '170.314 (a)(1)', 'Computerized provider order entry', false, -1),
@@ -1116,6 +1120,7 @@ INSERT INTO openchpl.test_tool(name, last_modified_user, retired) VALUES
 ('HIMSS Immunization Integration Program', -1, false),
 ('NHCS IG Release 1 Validator', -1, false),
 ('NHCS IG Release 1.2 Validator', -1, false),
+('Inferno', -1, false),
 ('Not Applicable', -1, false);
 --2015
 
@@ -2145,9 +2150,9 @@ INSERT INTO openchpl.test_data_criteria_map (criteria_id, test_data_id, last_mod
 (
 	SELECT cc.certification_criterion_id, td.id, -1
 	FROM openchpl.certification_criterion cc CROSS JOIN openchpl.test_data td
-	WHERE cc.number IN ('170.315 (b)(1)', '170.315 (b)(2)', '170.315 (b)(3)', '170.315 (b)(4)', '170.315 (b)(5)', '170.315 (b)(6)', '170.315 (b)(7)', '170.315 (b)(8)', '170.315 (b)(9)',
+	WHERE cc.number IN ('170.315 (b)(1)', '170.315 (b)(2)', '170.315 (b)(3)', '170.315 (b)(4)', '170.315 (b)(5)', '170.315 (b)(6)', '170.315 (b)(7)', '170.315 (b)(8)', '170.315 (b)(9)', '170.315 (b)(10)'
 						'170.315 (c)(1)', '170.315 (c)(2)', '170.315 (c)(3)', '170.315 (c)(4)', '170.315 (e)(1)', '170.315 (f)(1)', '170.315 (f)(2)', '170.315 (f)(3)', '170.315 (f)(4)',
-						'170.315 (f)(7)', '170.315 (g)(1)', '170.315 (g)(2)', '170.315 (g)(6)', '170.315 (g)(9)', '170.315 (h)(1)', '170.315 (h)(2)')
+						'170.315 (f)(7)', '170.315 (g)(1)', '170.315 (g)(2)', '170.315 (g)(6)', '170.315 (g)(9)', '170.315 (g)(10)', '170.315 (h)(1)', '170.315 (h)(2)')
 	AND td.name = 'ONC Test Method'
 );
 
@@ -2321,6 +2326,18 @@ INSERT INTO openchpl.macra_criteria_map (criteria_id, value, name, description, 
     , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (g)(9)'), 'RT4c EC ACI', 'View, Download, or Transmit (VDT): Eligible Clinician ', 'Required Test 4: Promoting Interoperability Objective 4 Measure 1', false, -1)
     , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (g)(9)'), 'RT4c EH/CAH Stage 2', 'View, Download, or Transmit (VDT): Eligible Hospital/Critical Access Hospital', 'Required Test 4: Stage 2 Objective 8 Measure 2 ', false, -1)
     , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (g)(9)'), 'RT4c EH/CAH Stage 3', 'View, Download, or Transmit (VDT): Eligible Hospital/Critical Access Hospital', 'Required Test 4: Stage 3 Objective 6 Measure 1', false, -1)
+    , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (g)(10)'), 'RT2a EC PI', 'Provide Patients Electronic Access to Their Health Information (formerly Patient Electronic Access): Eligible Clinician', 'Required Test 2: Promoting Interoperability Objective 3 Measure 1', false, -1)
+    , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (g)(10)'), 'RT2a EH/CAH Stage 3', 'Provide Patients Electronic Access to Their Health Information (formerly Patient Electronic Access): Eligible Hospital/Critical Access Hospital', 'Required Test 2: Stage 3 Objective 5 Measure 1', false, -1)
+    , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (g)(10)'), 'RT2a EP Stage 3', 'Patient Electronic Access: Eligible Professional', 'Required Test 2: Stage 3 Objective 5 Measure 1', false, -1)
+    , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (g)(10)'), 'RT2c EC PI', 'Provide Patients Electronic Access to Their Health Information (formerly Patient Electronic Access): Eligible Clinician', 'Required Test 2: Promoting Interoperability Objective 3 Measure 1', false, -1)
+    , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (g)(10)'), 'RT2c EH/CAH Stage 3', 'Provide Patients Electronic Access to Their Health Information (formerly Patient Electronic Access): Eligible Hospital/Critical Access Hospital', 'Required Test 4: Stage 3 Objective 6 Measure 1', false, -1)
+    , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (g)(10)'), 'RT2c EP Stage 3', 'Patient Electronic Access: Eligible Professional', 'Required Test 2: Stage 3 Objective 5 Measure 1', false, -1)
+    , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (g)(10)'), 'RT4a EC PI', 'View, Download, or Transmit (VDT): Eligible Clinician', 'Required Test 4: Promoting Interoperability Objective 4 Measure 1', false, -1)
+    , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (g)(10)'), 'RT4a EH/CAH Stage 3', 'View, Download, or Transmit (VDT): Eligible Hospital/Critical Access Hospital', 'Required Test 4: Stage 3 Objective 6 Measure 1', false, -1)
+    , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (g)(10)'), 'RT4a EP Stage 3', 'View, Download, or Transmit (VDT): Eligible Professional', 'Required Test 4: Stage 3 Objective 6 Measure 1', false, -1)
+    , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (g)(10)'), 'RT4c EC PI', 'View, Download, or Transmit (VDT): Eligible Clinician', 'Required Test 4: Promoting Interoperability Objective 4 Measure 1', false, -1)
+    , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (g)(10)'), 'RT4c EH/CAH Stage 3', 'View, Download, or Transmit (VDT): Eligible Hospital/Critical Access Hospital', 'Required Test 4: Stage 3 Objective 6 Measure 1', false, -1)
+    , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (g)(10)'), 'RT4c EP Stage 3', 'View, Download, or Transmit (VDT): Eligible Professional', 'Required Test 4: Stage 3 Objective 6 Measure 1', false, -1)
     , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (a)(10)'), 'RT13 EH/CAH Stage 3', 'Query of Prescription Drug Monitoring Program (PDMP): Eligible Hospital/Critical Access Hospital', 'Required Test 13: Stage 3', true, -1)
     , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (a)(10)'), 'RT14 EH/CAH Stage 3', 'Verify Opioid Treatment Agreement: Eligible Hospital/Critical Access Hospital', 'Required Test 14: Stage 3', false, -1)
     , ((SELECT certification_criterion_id from openchpl.certification_criterion where number = '170.315 (b)(1)'), 'RT15 EH/CAH Stage 3', 'Support Electronic Referral Loops by Receiving and Incorporating Health Information: Eligible Hospital/Critical Access Hospital', 'Required Test 15: Stage 3', false, -1)
