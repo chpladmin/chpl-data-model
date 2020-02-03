@@ -2416,7 +2416,10 @@ VALUES ('ONC-ATL', -1),
 ('Mandatory Disclosure URL', -1), -- transparency_attestation_url
 ('Test Results Summary', -1), -- report_file_location
 ('Full Usability Report', -1), -- sed_report_file_location
-('API Documentation', -1); -- api_documentation
+('API Documentation', -1), -- api_documentation
+('Export Documentation', -1), -- export_documentation
+('Documentation URL', -1), -- documentation_url
+('Use Cases', -1); -- use_cases
 
 INSERT INTO openchpl.change_request_type (name, last_modified_user)
 VALUES
