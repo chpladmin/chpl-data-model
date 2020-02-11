@@ -1,5 +1,17 @@
 # Release Notes
 
+## Version 18.2.0
+_11 February 2020_
+
+### Data Changes
+* Add new Test Tool
+* Mark the v17 2015 upload template as removed.
+
+### Features
+* Add Self-Developer element to Developer information
+
+---
+
 ## Version 18.1.0
 _27 January 2020_
 
