@@ -1,5 +1,13 @@
 # Release Notes
 
+## Version 18.2.1
+_20 February 2020_
+
+### Data Changes
+* Add new data types for URL check job
+
+---
+
 ## Version 18.2.0
 _11 February 2020_
 
