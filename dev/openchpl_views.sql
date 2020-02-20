@@ -732,7 +732,7 @@ LEFT JOIN
    GROUP BY surv.certified_product_id) AS surv_dates ON surv_dates.certified_product_id = cp.certified_product_id
 LEFT JOIN
   (SELECT certification_result.certified_product_id,
-          string_agg(DISTINCT certification_criterion.number, '☺') AS cert_number
+          string_agg(DISTINCT certification_criterion.certification_criterion_id::text, '☺') AS cert_number
    FROM openchpl.certification_criterion
    JOIN openchpl.certification_result ON certification_criterion.certification_criterion_id = certification_result.certification_criterion_id
    WHERE certification_result.success = TRUE
@@ -740,7 +740,7 @@ LEFT JOIN
      AND certification_criterion.deleted = FALSE
    GROUP BY certified_product_id) AS certs ON certs.certified_product_id = cp.certified_product_id
 LEFT JOIN
-  (SELECT string_agg(DISTINCT certification_criterion.number::text||'☹'||certification_result.api_documentation, '☺') AS cert_number, --certification_result.api_documentation,
+  (SELECT string_agg(DISTINCT certification_criterion.certification_criterion_id::text||'☹'||certification_result.api_documentation, '☺') AS cert_number, --certification_result.api_documentation,
  certification_result.certified_product_id
    FROM openchpl.certification_criterion
    JOIN openchpl.certification_result ON certification_criterion.certification_criterion_id = certification_result.certification_criterion_id
