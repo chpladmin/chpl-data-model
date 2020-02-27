@@ -2599,12 +2599,16 @@ CREATE TABLE openchpl.nonconformity_type_statistics
 (
   	id bigserial NOT NULL,
 	nonconformity_type varchar(1024),
+	criterion_id bigint,
 	nonconformity_count bigint NOT NULL,
   	creation_date timestamp without time zone NOT NULL DEFAULT now(),
   	last_modified_date timestamp without time zone NOT NULL DEFAULT now(),
   	last_modified_user bigint NOT NULL,
   	deleted boolean NOT NULL DEFAULT false,
-  	CONSTRAINT nonconformity_type_statistics_pk PRIMARY KEY (id)
+  	CONSTRAINT nonconformity_type_statistics_pk PRIMARY KEY (id),
+	CONSTRAINT certification_criterion_fk FOREIGN KEY (certification_criterion_id)
+		REFERENCES openchpl.certification_criterion (certification_criterion_id)
+		MATCH FULL ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE openchpl.sed_participants_statistics_count
