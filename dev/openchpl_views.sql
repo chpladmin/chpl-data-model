@@ -168,6 +168,7 @@ CREATE VIEW openchpl.certified_product_details AS
     h.vendor_name,
     h.vendor_code,
     h.vendor_website,
+    h.self_developer,
     v.vendor_status_id,
     v.vendor_status_name,
     vendorstatus.last_vendor_status_change,
@@ -254,6 +255,7 @@ CREATE VIEW openchpl.certified_product_details AS
             vendor.name AS vendor_name,
             vendor.vendor_code,
             vendor.website AS vendor_website,
+            vendor.self_developer AS self_developer,
             vendor.address_id AS vendor_address,
             vendor.contact_id AS vendor_contact,
             vendor.vendor_status_id
@@ -730,7 +732,7 @@ LEFT JOIN
    GROUP BY surv.certified_product_id) AS surv_dates ON surv_dates.certified_product_id = cp.certified_product_id
 LEFT JOIN
   (SELECT certification_result.certified_product_id,
-          string_agg(DISTINCT certification_criterion.number, '☺') AS cert_number
+          string_agg(DISTINCT certification_criterion.certification_criterion_id::text, '☺') AS cert_number
    FROM openchpl.certification_criterion
    JOIN openchpl.certification_result ON certification_criterion.certification_criterion_id = certification_result.certification_criterion_id
    WHERE certification_result.success = TRUE
@@ -738,7 +740,7 @@ LEFT JOIN
      AND certification_criterion.deleted = FALSE
    GROUP BY certified_product_id) AS certs ON certs.certified_product_id = cp.certified_product_id
 LEFT JOIN
-  (SELECT string_agg(DISTINCT certification_criterion.number::text||'☹'||certification_result.api_documentation, '☺') AS cert_number, --certification_result.api_documentation,
+  (SELECT string_agg(DISTINCT certification_criterion.certification_criterion_id::text||'☹'||certification_result.api_documentation, '☺') AS cert_number, --certification_result.api_documentation,
  certification_result.certified_product_id
    FROM openchpl.certification_criterion
    JOIN openchpl.certification_result ON certification_criterion.certification_criterion_id = certification_result.certification_criterion_id

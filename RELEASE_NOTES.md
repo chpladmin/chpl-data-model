@@ -1,5 +1,33 @@
 # Release Notes
 
+## Version 19.0.0
+_9 March 2020_
+
+### View Changes
+* Change views to use ID instead of Number for Certification Criteria
+
+---
+
+## Version 18.2.1
+_20 February 2020_
+
+### Data Changes
+* Add new data types for URL check job
+
+---
+
+## Version 18.2.0
+_11 February 2020_
+
+### Data Changes
+* Add new Test Tool
+* Mark the v17 2015 upload template as removed.
+
+### Features
+* Add Self-Developer element to Developer information
+
+---
+
 ## Version 18.1.0
 _27 January 2020_
 

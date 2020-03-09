@@ -184,6 +184,7 @@ CREATE TABLE openchpl.vendor(
 	vendor_status_id bigint DEFAULT 1,
 	name varchar(300),
 	website varchar(300),
+        self_developer bool NOT NULL DEFAULT false,
 	creation_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_user bigint NOT NULL,
