@@ -1,5 +1,13 @@
 # Release Notes
 
+## Version 19.0.0
+_9 March 2020_
+
+### View Changes
+* Change views to use ID instead of Number for Certification Criteria
+
+---
+
 ## Version 18.2.1
 _20 February 2020_
 
