@@ -2239,6 +2239,7 @@ CREATE TABLE openchpl.pending_surveillance_requirement (
 	pending_surveillance_id bigint not null,
 	type_value varchar(50),
 	requirement varchar(1024),
+	certification_criterion_id bigint,
 	result_value varchar(30),
 	creation_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
@@ -2247,6 +2248,9 @@ CREATE TABLE openchpl.pending_surveillance_requirement (
 	CONSTRAINT pending_surveillance_requirement_id PRIMARY KEY (id),
 	CONSTRAINT pending_surveillance_fk FOREIGN KEY (pending_surveillance_id)
 		REFERENCES openchpl.pending_surveillance (id)
+		MATCH FULL ON DELETE CASCADE ON UPDATE CASCADE,
+	CONSTRAINT certification_criterion_fk FOREIGN KEY (certification_criterion_id)
+		REFERENCES openchpl.certification_criterion (certification_criterion_id)
 		MATCH FULL ON DELETE CASCADE ON UPDATE CASCADE
 );
 
@@ -2254,6 +2258,7 @@ CREATE TABLE openchpl.pending_surveillance_nonconformity (
 	id bigserial not null,
 	pending_surveillance_requirement_id bigint not null,
 	nonconformity_type varchar(1024),
+	certification_criterion_id bigint,
 	nonconformity_status varchar(15),
 	date_of_determination date,
 	corrective_action_plan_approval_date date,
@@ -2273,6 +2278,9 @@ CREATE TABLE openchpl.pending_surveillance_nonconformity (
 	CONSTRAINT pending_surveillance_nonconformity_pk PRIMARY KEY (id),
 	CONSTRAINT pending_surveillance_requirement_fk FOREIGN KEY (pending_surveillance_requirement_id)
 		REFERENCES openchpl.pending_surveillance_requirement (id)
+		MATCH FULL ON DELETE CASCADE ON UPDATE CASCADE,
+	CONSTRAINT certification_criterion_fk FOREIGN KEY (certification_criterion_id)
+		REFERENCES openchpl.certification_criterion (certification_criterion_id)
 		MATCH FULL ON DELETE CASCADE ON UPDATE CASCADE
 );
 
@@ -2591,12 +2599,16 @@ CREATE TABLE openchpl.nonconformity_type_statistics
 (
   	id bigserial NOT NULL,
 	nonconformity_type varchar(1024),
+	criterion_id bigint,
 	nonconformity_count bigint NOT NULL,
   	creation_date timestamp without time zone NOT NULL DEFAULT now(),
   	last_modified_date timestamp without time zone NOT NULL DEFAULT now(),
   	last_modified_user bigint NOT NULL,
   	deleted boolean NOT NULL DEFAULT false,
-  	CONSTRAINT nonconformity_type_statistics_pk PRIMARY KEY (id)
+  	CONSTRAINT nonconformity_type_statistics_pk PRIMARY KEY (id),
+	CONSTRAINT certification_criterion_fk FOREIGN KEY (certification_criterion_id)
+		REFERENCES openchpl.certification_criterion (certification_criterion_id)
+		MATCH FULL ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE openchpl.sed_participants_statistics_count
