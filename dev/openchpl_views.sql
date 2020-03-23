@@ -13,6 +13,7 @@ DROP VIEW IF EXISTS openchpl.ehr_certification_ids_and_products;
 DROP VIEW IF EXISTS openchpl.listings_from_banned_developers;
 DROP VIEW IF EXISTS openchpl.surveillance_basic;
 DROP VIEW IF EXISTS openchpl.developer_certification_body_map;
+DROP VIEw IF EXISTS openchpl.aggregated_nonconformity_statistics;
 
 create or replace function openchpl.get_testing_lab_code(input_id bigint) returns
     table (
@@ -1152,3 +1153,20 @@ AS SELECT DISTINCT cp.certification_body_id,
      JOIN openchpl.product_version prod_ver ON cp.product_version_id = prod_ver.product_version_id
      JOIN openchpl.product prod ON prod_ver.product_id = prod.product_id
      JOIN openchpl.vendor dev ON prod.vendor_id = dev.vendor_id;
+
+CREATE OR REPLACE VIEW openchpl.aggregated_nonconformity_statistics
+AS select ROW_NUMBER() OVER (ORDER BY nonconformity_count) as id, *
+from
+((select count(sn.nonconformity_type) as nonconformity_count, sn.nonconformity_type as non_criterion_type, null as certification_criterion_id
+from openchpl.surveillance_nonconformity sn
+left outer join openchpl.certification_criterion cc on cc.certification_criterion_id = sn.certification_criterion_id
+where sn.deleted = false
+and cc is null
+group by sn.nonconformity_type)
+union 
+(select count(cc.certification_criterion_id) as nonconformity_count, null as non_criterion_type, cc.certification_criterion_id as certification_criterion_id
+from openchpl.surveillance_nonconformity sn
+join openchpl.certification_criterion cc on cc.certification_criterion_id = sn.certification_criterion_id
+where sn.deleted = false and cc.removed = false
+group by cc.certification_criterion_id
+order by cc.certification_criterion_id)) as subquery;
