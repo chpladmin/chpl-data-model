@@ -1,5 +1,14 @@
 # Release Notes
 
+## Version 19.1.0
+_23 March 2020_
+
+### Features
+* Join criterion id into pending surveillance and nonconformity statistics
+* Add self-developer column to pending listings
+
+---
+
 ## Version 19.0.0
 _9 March 2020_
 
@@ -103,6 +112,9 @@ _21 October 2019_
 ### Flagged Features
 * Add ROLE_DEVELOPER User type
 * Allow ROLE_DEVELOPER to create "Change Requests" to change their Organization's website
+
+### Data Changes
+* Add 2014 Listing Edit as questionable activity type
 
 ---
 
