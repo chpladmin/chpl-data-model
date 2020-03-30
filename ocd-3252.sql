@@ -12,9 +12,3 @@ CREATE TABLE openchpl.cures_update_event (
 	CONSTRAINT certified_product_fk FOREIGN KEY (certified_product_id) REFERENCES openchpl.certified_product (certified_product_id)
 		MATCH FULL ON DELETE RESTRICT ON UPDATE CASCADE
 );
-
-\i dev/openchpl_views.sql
-
-insert into openchpl.cures_update_event (cures_update, certified_product_id, event_date, last_modified_user)
-select false, cp.certified_product_id, cp.certification_date, -1 from openchpl.certified_product_search cp
-where cp.year = '2015';
