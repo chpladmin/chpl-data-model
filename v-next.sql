@@ -1,4 +1,5 @@
 \i ocd-2162.sql
+\i ocd-3292.sql
 
 \i dev/openchpl_soft-delete.sql
 \i dev/openchpl_views.sql
