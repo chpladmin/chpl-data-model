@@ -197,7 +197,8 @@ CREATE VIEW openchpl.certified_product_details AS
     r.certification_status_id,
     r.last_certification_status_change,
     n.certification_status_name,
-    p.transparency_attestation
+    p.transparency_attestation,
+    cures_update.cures_update
    FROM openchpl.certified_product a
      LEFT JOIN (
          SELECT cse.certification_status_id,
@@ -216,6 +217,21 @@ CREATE VIEW openchpl.certified_product_details AS
          WHERE cse.rownum = 1
          ) r 
      ON r.certified_product_id = a.certified_product_id
+     LEFT JOIN (
+         SELECT cue.cures_update,
+            cue.certified_product_id
+         FROM (
+             SELECT cue_inner.cures_update,
+                 cue_inner.certified_product_id,
+                 ROW_NUMBER() OVER (
+                     PARTITION BY cue_inner.certified_product_id
+                     ORDER BY cue_inner.event_date DESC) rownum
+             FROM openchpl.cures_update_event cue_inner
+             WHERE cue_inner.deleted = false
+             ) cue
+         WHERE cue.rownum = 1
+         ) cures_update
+     ON cures_update.certified_product_id = a.certified_product_id
      LEFT JOIN ( SELECT certification_status.certification_status_id,
             certification_status.certification_status AS certification_status_name
            FROM openchpl.certification_status) n ON r.certification_status_id = n.certification_status_id
@@ -554,6 +570,7 @@ SELECT cp.certified_product_id,
        owners.history_vendor_name AS owner_history,
        certstatusevent.certification_date,
        certstatus.certification_status_name,
+       curesupdate.cures_update,
        decert.decertification_date,
        certs_with_api_documentation.cert_number AS api_documentation,
        COALESCE(survs.count_surveillance_activities, 0::bigint) AS surveillance_count,
@@ -580,6 +597,21 @@ LEFT JOIN
     WHERE cse.rownum = 1
     ) certstatusevents 
 ON certstatusevents.certified_product_id = cp.certified_product_id
+LEFT JOIN (
+    SELECT cue.cures_update,
+       cue.certified_product_id
+    FROM (
+        SELECT cue_inner.cures_update,
+            cue_inner.certified_product_id,
+            ROW_NUMBER() OVER (
+                PARTITION BY cue_inner.certified_product_id
+                ORDER BY cue_inner.event_date DESC) rownum
+        FROM openchpl.cures_update_event cue_inner
+        WHERE cue_inner.deleted = false
+        ) cue
+    WHERE cue.rownum = 1
+    ) curesupdate
+ON curesupdate.certified_product_id = cp.certified_product_id
 LEFT JOIN
   (SELECT certification_status.certification_status_id,
           certification_status.certification_status AS certification_status_name
@@ -782,6 +814,7 @@ FROM
 	vendor.vendor_name,
 	history_vendor_name as "prev_vendor",
 	certStatusEvent.certification_date,
+        lastCuresUpdateEvent.cures_update,
 	decert.decertification_date,
 	COALESCE(count_surveillance_activities, 0) as "count_surveillance_activities",
 	COALESCE(count_open_nonconformities, 0) as "count_open_nonconformities",
@@ -813,6 +846,19 @@ FROM
 	    AND extract(epoch from cse.event_date) = maxCse.event_date
 	    ) lastCertStatusEvent
 	ON lastCertStatusEvent.certified_product_id = cp.certified_product_id
+    --cures update status
+	INNER JOIN (
+	SELECT cue.cures_update, cue.certified_product_id as "certified_product_id"
+	FROM openchpl.cures_update_event cue
+	    INNER JOIN
+	    (SELECT certified_product_id, extract(epoch from MAX(event_date)) event_date
+	    FROM openchpl.cures_update_event
+	    GROUP BY certified_product_id) maxCue
+	    ON cue.certified_product_id = maxCue.certified_product_id
+	--conversion to epoch/long comparison significantly faster than comparing the timestamp fields as-is
+	    AND extract(epoch from cue.event_date) = maxCue.event_date
+	    ) lastCuresUpdateEvent
+	ON lastCuresUpdateEvent.certified_product_id = cp.certified_product_id
 	-- meaningful use users count
 	LEFT JOIN (
 		SELECT muu.meaningful_use_users as "meaningful_use_users", 
@@ -1066,6 +1112,7 @@ CREATE VIEW openchpl.certified_product_summary AS
 	pv.version,
     lastCertStatusEvent.certification_status,
 	certStatusEvent.certification_date,
+    lastCuresUpdateEvent.cures_update,
     cb.acb_code,
     cb.name AS certification_body_name,
     cb.website AS certification_body_website
@@ -1090,6 +1137,18 @@ CREATE VIEW openchpl.certified_product_summary AS
 			AND extract(epoch from cse.event_date) = maxCse.event_date
 			) lastCertStatusEvent
 	 ON lastCertStatusEvent.certified_product_id = cp.certified_product_id
+	 JOIN (
+		SELECT cue.cures_update, cue.certified_product_id as "certified_product_id"
+		FROM openchpl.cures_update_event cue
+			INNER JOIN
+			(SELECT certified_product_id, extract(epoch from MAX(event_date)) event_date
+			FROM openchpl.cures_update_event
+			GROUP BY certified_product_id) maxCue
+			ON cue.certified_product_id = maxCue.certified_product_id
+		--conversion to epoch/long comparison significantly faster than comparing the timestamp fields as-is
+			AND extract(epoch from cue.event_date) = maxCue.event_date
+			) lastCuresUpdateEvent
+	 ON lastCuresUpdateEvent.certified_product_id = cp.certified_product_id
      JOIN openchpl.product_version pv ON cp.product_version_id = pv.product_version_id
      JOIN openchpl.product p ON pv.product_id = p.product_id
      JOIN openchpl.vendor v ON p.vendor_id = v.vendor_id
