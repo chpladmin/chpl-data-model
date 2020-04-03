@@ -30,6 +30,6 @@ create table openchpl.change_request_developer_details (
 
 delete from openchpl.change_request_status
 where change_request_id in
-  (select change_request_id from openchpl.change_request where change_request_type_id = 2);
+  (select id from openchpl.change_request where change_request_type_id = 2);
 
 delete from openchpl.change_request where change_request_type_id = 2;
