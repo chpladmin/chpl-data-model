@@ -27,3 +27,9 @@ create table openchpl.change_request_developer_details (
 	    REFERENCES openchpl.change_request (id)
         MATCH SIMPLE ON UPDATE NO ACTION ON DELETE RESTRICT
 );
+
+delete from openchpl.change_request_status
+where change_request_id in
+  (select change_request_id from openchpl.change_request where change_request_type_id = 2);
+
+delete from openchpl.change_request where change_request_type_id = 2;
