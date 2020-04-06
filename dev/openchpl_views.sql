@@ -847,7 +847,7 @@ FROM
 	    ) lastCertStatusEvent
 	ON lastCertStatusEvent.certified_product_id = cp.certified_product_id
     --cures update status
-	INNER JOIN (
+	LEFT JOIN (
 	SELECT cue.cures_update, cue.certified_product_id as "certified_product_id"
 	FROM openchpl.cures_update_event cue
 	    INNER JOIN
@@ -1137,7 +1137,7 @@ CREATE VIEW openchpl.certified_product_summary AS
 			AND extract(epoch from cse.event_date) = maxCse.event_date
 			) lastCertStatusEvent
 	 ON lastCertStatusEvent.certified_product_id = cp.certified_product_id
-	 JOIN (
+	 LEFT OUTER JOIN (
 		SELECT cue.cures_update, cue.certified_product_id as "certified_product_id"
 		FROM openchpl.cures_update_event cue
 			INNER JOIN
