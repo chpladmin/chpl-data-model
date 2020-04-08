@@ -1,5 +1,16 @@
 # Release Notes
 
+## Version 19.2.0
+_8 April 2020_
+
+### Data Changes
+* Add new questionable activity trigger type for d2, d3, and d10 activity
+
+### Features
+* Add table to store Listing Cures Update status
+
+---
+
 ## Version 19.1.0
 _23 March 2020_
 
