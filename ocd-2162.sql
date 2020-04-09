@@ -28,6 +28,9 @@ create table openchpl.change_request_developer_details (
         MATCH SIMPLE ON UPDATE NO ACTION ON DELETE RESTRICT
 );
 
+CREATE TRIGGER change_request_developer_details_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.change_request_developer_details FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+CREATE TRIGGER change_request_developer_details_timestamp BEFORE UPDATE on openchpl.change_request_developer_details FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
+
 delete from openchpl.change_request_status
 where change_request_id in
   (select id from openchpl.change_request 
