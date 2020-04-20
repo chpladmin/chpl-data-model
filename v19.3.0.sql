@@ -1,3 +1,6 @@
+-- Deployment file for version 19.3.0
+--     as of 2020-04-20
+-- ocd-2162.sql
 insert into openchpl.change_request_type (name, last_modified_user)
 select 'Developer Details Change Request', -1
 where not exists (select * from openchpl.change_request_type where name = 'Developer Details Change Request');
@@ -37,4 +40,8 @@ where change_request_id in
    where change_request_type_id = (select id from openchpl.change_request_type where name = 'Developer Details Change Request'));
 
 delete from openchpl.change_request
-where change_request_type_id = (select id from openchpl.change_request_type where name = 'Developer Details Change Request');
+where change_request_type_id = (select id from openchpl.change_request_type where name = 'Developer Details Change Request');;
+insert into openchpl.data_model_version (version, deploy_date, last_modified_user) values ('19.3.0', '2020-04-20', -1);
+\i dev/openchpl_soft-delete.sql
+\i dev/openchpl_views.sql
+\i dev/openchpl_grant-all.sql

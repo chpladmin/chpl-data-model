@@ -1,13 +1,24 @@
 # Release Notes
 
+## Version 19.3.0
+_20 April 2020_
+
+### Features
+* Add table for developer details change request
+
+### Data Changes
+* Add Developer Details change request type
+
+---
+
 ## Version 19.2.0
 _8 April 2020_
 
-### Data Changes
-* Add new questionable activity trigger type for d2, d3, and d10 activity
-
 ### Features
 * Add table to store Listing Cures Update status
+
+### Data Changes
+* Add new questionable activity trigger type for d2, d3, and d10 activity
 
 ---
 
