@@ -1068,8 +1068,8 @@ ON DELETE RESTRICT ON UPDATE CASCADE;
 -- DROP TABLE IF EXISTS openchpl.contact CASCADE;
 CREATE TABLE openchpl.contact(
 	contact_id bigserial NOT NULL,
-        full_name varchar(500) NOT NULL,
-        friendly_name varchar(250),
+    full_name varchar(500) NOT NULL,
+    friendly_name varchar(250),
 	email varchar(250) NOT NULL,
 	phone_number varchar(100) NOT NULL,
 	title varchar(250),
@@ -1409,6 +1409,20 @@ CREATE TABLE openchpl.certification_status_event (
 	deleted bool NOT NULL DEFAULT false,
 	CONSTRAINT certification_status_event_pk PRIMARY KEY (certification_status_event_id),
 	CONSTRAINT certification_status_fk FOREIGN KEY (certification_status_id) REFERENCES openchpl.certification_status (certification_status_id)
+		MATCH FULL ON DELETE RESTRICT ON UPDATE CASCADE
+);
+
+CREATE TABLE openchpl.cures_update_event (
+        id bigserial NOT NULL,
+        cures_update boolean NOT NULL DEFAULT false,
+	certified_product_id bigint NOT NULL,
+	event_date timestamp NOT NULL DEFAULT NOW(),
+	creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
+	CONSTRAINT cures_update_event_pk PRIMARY KEY (id),
+	CONSTRAINT certified_product_fk FOREIGN KEY (certified_product_id) REFERENCES openchpl.certified_product (certified_product_id)
 		MATCH FULL ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
@@ -3226,6 +3240,31 @@ CREATE TABLE openchpl.change_request_website (
 	last_modified_user bigint NOT NULL,
 	deleted bool NOT NULL DEFAULT false,
 	CONSTRAINT change_request_website_pk PRIMARY KEY (id),
+    CONSTRAINT change_request_fk FOREIGN KEY (change_request_id)
+	    REFERENCES openchpl.change_request (id)
+        MATCH SIMPLE ON UPDATE NO ACTION ON DELETE RESTRICT
+);
+
+create table openchpl.change_request_developer_details (
+    id bigserial NOT NULL,
+    change_request_id bigint NOT NULL,
+	self_developer boolean,
+    website text,
+	street_line_1 varchar(250),
+	street_line_2 varchar(250),
+	city varchar(250),
+	state varchar(250),
+	zipcode varchar(25),
+	country varchar(250),
+	full_name varchar(500),
+	email varchar(250),
+	phone_number varchar(100),
+	title varchar(250),
+    creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
+	CONSTRAINT change_request_developer_details_pk PRIMARY KEY (id),
     CONSTRAINT change_request_fk FOREIGN KEY (change_request_id)
 	    REFERENCES openchpl.change_request (id)
         MATCH SIMPLE ON UPDATE NO ACTION ON DELETE RESTRICT

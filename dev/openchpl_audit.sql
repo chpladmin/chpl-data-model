@@ -167,6 +167,8 @@ CREATE TRIGGER change_request_type_audit AFTER INSERT OR UPDATE OR DELETE on ope
 CREATE TRIGGER change_request_type_timestamp BEFORE UPDATE on openchpl.change_request_type FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER change_request_website_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.change_request_website FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER change_request_website_timestamp BEFORE UPDATE on openchpl.change_request_website FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
+CREATE TRIGGER change_request_developer_details_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.change_request_developer_details FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+CREATE TRIGGER change_request_developer_details_timestamp BEFORE UPDATE on openchpl.change_request_developer_details FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER complaint_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.complaint FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER complaint_timestamp BEFORE UPDATE on openchpl.complaint FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER complaint_listing_map_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.complaint_listing_map FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
