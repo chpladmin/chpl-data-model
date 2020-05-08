@@ -1,3 +1,4 @@
+\i ocd-3293.sql
 \i ocd-3335.sql
 
 \i dev/openchpl_soft-delete.sql
