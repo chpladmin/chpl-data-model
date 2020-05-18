@@ -1,5 +1,14 @@
 # Release Notes
 
+## Version 19.3.1
+_18 May 2020_
+
+### Bug Fixes
+* Add missing audit triggers
+* Make pending fields 'text' type
+
+---
+
 ## Version 19.3.0
 _20 April 2020_
 

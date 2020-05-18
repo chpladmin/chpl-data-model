@@ -1456,27 +1456,27 @@ CREATE TABLE openchpl.pending_certified_product (
 	warning_count int,
 
 	-- columns from the upload spreadsheet
-	unique_id varchar(255),
+	unique_id text,
 	record_status varchar(50), --new, update, delete
 	practice_type varchar(50), --Inpatient or Ambulatory
 	testing_lab_name varchar(300),
-	vendor_name varchar(300),
-	product_name varchar(300),
-	product_version varchar(250),
-	certification_edition varchar(10),
-	acb_certification_id varchar(250),
-	certification_body_name varchar(250),
+	vendor_name text,
+	product_name text,
+	product_version text,
+	certification_edition text,
+	acb_certification_id text,
+	certification_body_name text,
 	product_classification_name varchar(250),
 	product_classification_module varchar(260), -- we have no field in the db for this (it is only for Modular EHRs)
 	certification_date timestamp,
-	vendor_street_address varchar(250), -- not broken out into line1/line2
-	vendor_city varchar(250),
-	vendor_state varchar(250),
-	vendor_zip_code varchar(25), -- maps to nothing in our address table
-	vendor_website varchar(300),
-	vendor_email varchar(250),
-	vendor_contact_name varchar(250),
-	vendor_phone varchar(100),
+	vendor_street_address text, -- not broken out into line1/line2
+	vendor_city text,
+	vendor_state text,
+	vendor_zip_code text, -- maps to nothing in our address table
+	vendor_website text,
+	vendor_email text,
+	vendor_contact_name text,
+	vendor_phone text,
 	vendor_transparency_attestation attestation,
 	vendor_transparency_attestation_url varchar(1024),
 	self_developer bool,
@@ -1551,7 +1551,7 @@ CREATE TABLE openchpl.pending_certified_product_qms_standard(
 	pending_certified_product_qms_standard_id bigserial not null,
 	pending_certified_product_id bigint not null,
 	qms_standard_id bigint,
-	qms_standard_name varchar(255),
+	qms_standard_name text,
 	modification text,
 	applicable_criteria text,
 	creation_date timestamp NOT NULL DEFAULT NOW(),
