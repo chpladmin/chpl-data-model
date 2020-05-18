@@ -1,3 +1,23 @@
+-- Deployment file for version 19.3.1
+--     as of 2020-05-18
+-- ocd-3110.sql
+ALTER TABLE openchpl.pending_certified_product_qms_standard ALTER COLUMN qms_standard_name TYPE text;
+ALTER TABLE openchpl.pending_certified_product ALTER COLUMN certification_edition TYPE text;
+ALTER TABLE openchpl.pending_certified_product ALTER COLUMN acb_certification_id TYPE text;
+ALTER TABLE openchpl.pending_certified_product ALTER COLUMN certification_body_name TYPE text;
+ALTER TABLE openchpl.pending_certified_product ALTER COLUMN unique_id TYPE text;
+ALTER TABLE openchpl.pending_certified_product ALTER COLUMN vendor_name TYPE text;
+ALTER TABLE openchpl.pending_certified_product ALTER COLUMN product_name TYPE text;
+ALTER TABLE openchpl.pending_certified_product ALTER COLUMN product_version TYPE text;
+ALTER TABLE openchpl.pending_certified_product ALTER COLUMN vendor_street_address TYPE text;
+ALTER TABLE openchpl.pending_certified_product ALTER COLUMN vendor_city TYPE text;
+ALTER TABLE openchpl.pending_certified_product ALTER COLUMN vendor_state TYPE text;
+ALTER TABLE openchpl.pending_certified_product ALTER COLUMN vendor_zip_code TYPE text;
+ALTER TABLE openchpl.pending_certified_product ALTER COLUMN vendor_website TYPE text;
+ALTER TABLE openchpl.pending_certified_product ALTER COLUMN vendor_email TYPE text;
+ALTER TABLE openchpl.pending_certified_product ALTER COLUMN vendor_contact_name TYPE text;
+ALTER TABLE openchpl.pending_certified_product ALTER COLUMN vendor_phone TYPE text;;
+-- ocd-3335.sql
 -- triggers missing from existing openchpl tables
 DROP TRIGGER IF EXISTS complainant_type_audit on openchpl.complainant_type;
 CREATE TRIGGER complainant_type_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.complainant_type FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
@@ -40,4 +60,8 @@ CREATE TRIGGER ff4j_features_audit AFTER INSERT OR UPDATE OR DELETE on ff4j.feat
 DROP TRIGGER IF EXISTS ff4j_properties_audit on ff4j.properties;
 CREATE TRIGGER ff4j_properties_audit AFTER INSERT OR UPDATE OR DELETE on ff4j.properties FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 DROP TRIGGER IF EXISTS ff4j_roles_audit on ff4j.roles;
-CREATE TRIGGER ff4j_roles_audit AFTER INSERT OR UPDATE OR DELETE on ff4j.roles FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+CREATE TRIGGER ff4j_roles_audit AFTER INSERT OR UPDATE OR DELETE on ff4j.roles FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();;
+insert into openchpl.data_model_version (version, deploy_date, last_modified_user) values ('19.3.1', '2020-05-18', -1);
+\i dev/openchpl_soft-delete.sql
+\i dev/openchpl_views.sql
+\i dev/openchpl_grant-all.sql
