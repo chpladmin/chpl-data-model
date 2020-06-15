@@ -1,1 +1,0 @@
-ALTER TABLE openchpl.pending_certification_result_additional_software ALTER COLUMN grouping TYPE text;

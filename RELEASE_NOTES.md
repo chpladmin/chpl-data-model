@@ -1,5 +1,17 @@
 # Release Notes
 
+## Version 19.3.2
+_15 June 2020_
+
+### Data Changes
+* Mark some Questionable Activity concepts as removed
+* Add Filter Type for Complaints search
+
+### Bug Fixes
+* Remove length limit from pending CP Source Grouping
+
+---
+
 ## Version 19.3.1
 _18 May 2020_
 
