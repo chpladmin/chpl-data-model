@@ -1,6 +1,6 @@
 -- Update inheritance_errors_report table
 alter table openchpl.inheritance_errors_report
-add column if not exists certification_body_id integer;
+add column if not exists certification_body_id bigint;
 
 do $$
 begin
@@ -9,6 +9,9 @@ begin
 	end if;
 end
 $$;
+
+alter table openchpl.inheritance_errors_report
+alter column certification_body_id set not null;
 
 alter table openchpl.inheritance_errors_report
 drop column if exists acb;
@@ -21,7 +24,7 @@ add constraint certification_body_id_fk foreign key (certification_body_id) refe
 
 -- Update broken_surveillance_rules
 alter table openchpl.broken_surveillance_rules
-add column if not exists certification_body_id integer;
+add column if not exists certification_body_id bigint;
 
 do $$
 begin
@@ -30,6 +33,9 @@ begin
 	end if;
 end
 $$;
+
+alter table openchpl.broken_surveillance_report
+alter column certification_body_id set not null;
 
 alter table openchpl.broken_surveillance_rules
 drop column if exists acb;
