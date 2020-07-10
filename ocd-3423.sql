@@ -1,0 +1,8 @@
+update openchpl.macra_criteria_map set description = 'Required Test 1: Medicaid Promoting Interoperability Program' where description = 'Required Test 1: Medicaid Promoting Interopability Program';
+update openchpl.macra_criteria_map set description = 'Required Test 1: Medicare and Medicaid Promoting Interoperability Programs' where description = 'Required Test 1: Medicare and Medicaid Promoting Interopability Programs';
+update openchpl.macra_criteria_map set description = 'Required Test 2: Medicaid Promoting Interoperability Program' where description = 'Required Test 2: Medicaid Promoting Interopability Program';
+update openchpl.macra_criteria_map set description = 'Required Test 2: Medicare and Medicaid Promoting Interoperability Programs' where description = 'Required Test 2: Medicare and Medicaid Promoting Interopability Programs';
+update openchpl.macra_criteria_map set description = 'Required Test 4: Medicaid Promoting Interoperability Program' where description = 'Required Test 4: Medicaid Promoting Interopability Program';
+update openchpl.macra_criteria_map set description = 'Required Test 5: Medicaid Promoting Interoperability Program' where description = 'Required Test 5: Medicaid Promoting Interopability Program';
+update openchpl.macra_criteria_map set description = 'Required Test 6: Medicaid Promoting Interoperability Program' where description = 'Required Test 6: Medicaid Promoting Interopability Program';
+update openchpl.macra_criteria_map set description = 'Required Test 14: Medicare Promoting Interoperability Program' where description = 'Required Test 14: Medicare Promoting Interopability Program';
