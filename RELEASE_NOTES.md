@@ -1,5 +1,14 @@
 # Release Notes
 
+## Version 19.3.4
+_13 July 2020_
+
+### Data Changes
+* Fix typo in Macra Measure Description fields
+* Add ability to save ONC-ACB Activity Report filter
+
+---
+
 ## Version 19.3.3
 _24 June 2020_
 
