@@ -1,4 +1,0 @@
-ALTER TABLE openchpl.certification_result_g1_macra DROP CONSTRAINT IF EXISTS macra_id_certification_result_id_unique CASCADE;
-ALTER TABLE openchpl.certification_result_g2_macra DROP CONSTRAINT IF EXISTS macra_id_certification_result_id_unique CASCADE;
-ALTER TABLE openchpl.pending_certification_result_g1_macra DROP CONSTRAINT IF EXISTS macra_id_certification_result_id_unique CASCADE;
-ALTER TABLE openchpl.pending_certification_result_g2_macra DROP CONSTRAINT IF EXISTS macra_id_certification_result_id_unique CASCADE;
