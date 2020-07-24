@@ -1111,7 +1111,7 @@ CREATE VIEW openchpl.certified_product_summary AS
 	contact.phone_number,
 	pv.version,
     cs.certification_status,
-    r.last_certification_status_change,
+    r.last_certification_status_change AS certification_date,
     lastCuresUpdateEvent.cures_update,
     cb.acb_code,
     cb.name AS certification_body_name,
