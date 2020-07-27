@@ -1110,33 +1110,25 @@ CREATE VIEW openchpl.certified_product_summary AS
 	contact.email,
 	contact.phone_number,
 	pv.version,
-    lastCertStatusEvent.certification_status,
-	certStatusEvent.certification_date,
+    cs.certification_status,
+    r.last_certification_status_change AS certification_date,
     lastCuresUpdateEvent.cures_update,
     cb.acb_code,
     cb.name AS certification_body_name,
     cb.website AS certification_body_website
    FROM openchpl.certified_product cp
      JOIN openchpl.certification_edition ce ON cp.certification_edition_id = ce.certification_edition_id
-	 JOIN (
-		SELECT MIN(event_date) as "certification_date", certified_product_id 
-		FROM openchpl.certification_status_event 
-		WHERE certification_status_id = 1 
-		GROUP BY (certified_product_id)) certStatusEvent 
-		ON cp.certified_product_id = certStatusEvent.certified_product_id
-	 JOIN (
-		SELECT certStatus.certification_status as "certification_status", cse.certified_product_id as "certified_product_id"
-		FROM openchpl.certification_status_event cse
-			INNER JOIN openchpl.certification_status certStatus ON cse.certification_status_id = certStatus.certification_status_id
-			INNER JOIN
-			(SELECT certified_product_id, extract(epoch from MAX(event_date)) event_date
-			FROM openchpl.certification_status_event
-			GROUP BY certified_product_id) maxCse
-			ON cse.certified_product_id = maxCse.certified_product_id
-		--conversion to epoch/long comparison significantly faster than comparing the timestamp fields as-is
-			AND extract(epoch from cse.event_date) = maxCse.event_date
-			) lastCertStatusEvent
-	 ON lastCertStatusEvent.certified_product_id = cp.certified_product_id
+	 LEFT JOIN ( SELECT cse.certification_status_id,
+            cse.certified_product_id,
+            cse.last_certification_status_change
+           FROM ( SELECT cse_inner.certification_status_id,
+                    cse_inner.certified_product_id,
+                    cse_inner.event_date AS last_certification_status_change,
+                    row_number() OVER (PARTITION BY cse_inner.certified_product_id ORDER BY cse_inner.event_date DESC) AS rownum
+                   FROM openchpl.certification_status_event cse_inner
+                  WHERE cse_inner.deleted = false) cse
+          WHERE cse.rownum = 1) r ON r.certified_product_id = cp.certified_product_id
+     JOIN openchpl.certification_status cs ON cs.certification_status_id = r.certification_status_id
 	 LEFT OUTER JOIN (
 		SELECT cue.cures_update, cue.certified_product_id as "certified_product_id"
 		FROM openchpl.cures_update_event cue
