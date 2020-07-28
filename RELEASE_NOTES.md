@@ -1,5 +1,13 @@
 # Release Notes
 
+## Version 19.4.0
+_27 July 2020_
+
+### Features
+* Update certified_product_summary view to handle status events correctly
+
+---
+
 ## Version 19.3.4
 _13 July 2020_
 
