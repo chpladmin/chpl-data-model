@@ -579,8 +579,7 @@ SELECT cp.certified_product_id,
        COALESCE(surv_closed.count_closed_surveillance_activities, 0::bigint) as closed_surveillance_count,
        COALESCE(nc_open.count_open_nonconformities, 0::bigint) AS open_nonconformity_count,
        COALESCE(nc_closed.count_closed_nonconformities, 0::bigint) AS closed_nonconformity_count,
-       surv_dates.surv_dates,
-       cp.rwt_eligibility_year
+       surv_dates.surv_dates
 FROM openchpl.certified_product cp
 LEFT JOIN
    (SELECT cse.certification_status_id,
