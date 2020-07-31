@@ -2756,14 +2756,17 @@ CREATE TABLE openchpl.inheritance_errors_report
     developer varchar(300) NOT NULL,
     product varchar(300) NOT NULL,
     version varchar(250) NOT NULL,
-    acb varchar(250) NOT NULL,
+    certification_body_id bigint NOT NULL,
     url varchar(250) NOT NULL,
     reason text NOT NULL,
     creation_date timestamp without time zone NOT NULL DEFAULT now(),
     last_modified_date timestamp without time zone NOT NULL DEFAULT now(),
     last_modified_user bigint NOT NULL,
     deleted boolean NOT NULL DEFAULT false,
-    CONSTRAINT inheritance_errors_report_id_pk PRIMARY KEY (id)
+    CONSTRAINT inheritance_errors_report_id_pk PRIMARY KEY (id),
+    CONSTRAINT certification_body_id_fk FOREIGN KEY (certification_body_id)
+        REFERENCES openchpl.certification_body (certification_body_id) MATCH FULL
+        ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
 CREATE TABLE openchpl.broken_surveillance_rules
@@ -2774,7 +2777,7 @@ CREATE TABLE openchpl.broken_surveillance_rules
     version varchar(250) NOT NULL,
     chpl_product_number varchar(250) NOT NULL,
     url varchar(250) NOT NULL,
-    acb varchar(250) NOT NULL,
+    certification_body_id bigint NOT NULL,
     certification_status varchar(64) NOT NULL,
     date_of_last_status_change varchar(64) NOT NULL,
     surveillance_id varchar(64),
@@ -2806,7 +2809,10 @@ CREATE TABLE openchpl.broken_surveillance_rules
     last_modified_date timestamp without time zone NOT NULL DEFAULT now(),
     last_modified_user bigint NOT NULL,
     deleted boolean NOT NULL DEFAULT false,
-    CONSTRAINT broken_surveillance_rules_id_pk PRIMARY KEY (id)
+    CONSTRAINT broken_surveillance_rules_id_pk PRIMARY KEY (id),
+    CONSTRAINT certification_body_id_fk FOREIGN KEY (certification_body_id)
+        REFERENCES openchpl.certification_body (certification_body_id) MATCH FULL
+        ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
 CREATE TABLE openchpl.url_type (
