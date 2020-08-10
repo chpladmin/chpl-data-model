@@ -1,5 +1,14 @@
 # Release Notes
 
+## Version 19.5.0
+_10 August 2020_
+
+### Features
+* Add Real World Testing Eligibility Year to table and views
+* Convert columns from ACB name to ACB Id
+
+---
+
 ## Version 19.4.0
 _27 July 2020_
 
