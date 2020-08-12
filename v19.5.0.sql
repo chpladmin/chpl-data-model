@@ -1,3 +1,10 @@
+-- Deployment file for version 19.5.0
+--     as of 2020-08-10
+-- ocd-3441.sql
+alter table openchpl.certified_product
+add column if not exists rwt_eligibility_year integer null;
+;
+-- ocd-2944.sql
 -- Update inheritance_errors_report table
 alter table openchpl.inheritance_errors_report
 add column if not exists certification_body_id bigint;
@@ -45,3 +52,8 @@ drop constraint if exists certification_body_id_fk;
 
 alter table openchpl.broken_surveillance_rules
 add constraint certification_body_id_fk foreign key (certification_body_id) references openchpl.certification_body(certification_body_id);
+;
+insert into openchpl.data_model_version (version, deploy_date, last_modified_user) values ('19.5.0', '2020-08-10', -1);
+\i dev/openchpl_soft-delete.sql
+\i dev/openchpl_views.sql
+\i dev/openchpl_grant-all.sql

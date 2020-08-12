@@ -153,6 +153,7 @@ CREATE VIEW openchpl.certified_product_details AS
     a.qms,
     a.accessibility_certified,
     a.product_additional_software,
+    a.rwt_eligibility_year,
     a.last_modified_date,
     muuresult.meaningful_use_users,
     muuresult.meaningful_use_users_date,
