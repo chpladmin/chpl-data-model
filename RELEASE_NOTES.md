@@ -1,5 +1,13 @@
 # Release Notes
 
+## Version 19.6.0
+_18 August 2020_
+
+### Features
+* Rename 'whitelisted' column to 'unrestricted' in api_key table
+
+---
+
 ## Version 19.5.0
 _10 August 2020_
 
