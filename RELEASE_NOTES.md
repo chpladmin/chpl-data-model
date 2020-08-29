@@ -1,5 +1,59 @@
 # Release Notes
 
+## Version 19.6.0
+_18 August 2020_
+
+### Features
+* Rename 'whitelisted' column to 'unrestricted' in api_key table
+
+---
+
+## Version 19.5.0
+_10 August 2020_
+
+### Features
+* Add Real World Testing Eligibility Year to table and views
+* Convert columns from ACB name to ACB Id
+
+---
+
+## Version 19.4.0
+_27 July 2020_
+
+### Features
+* Update certified_product_summary view to handle status events correctly
+
+---
+
+## Version 19.3.4
+_13 July 2020_
+
+### Data Changes
+* Fix typo in Macra Measure Description fields
+* Add ability to save ONC-ACB Activity Report filter
+
+---
+
+## Version 19.3.3
+_24 June 2020_
+
+### Bug Fixes
+* Remove invalid constraint for cert result and macra measures
+
+---
+
+## Version 19.3.2
+_15 June 2020_
+
+### Data Changes
+* Mark some Questionable Activity concepts as removed
+* Add Filter Type for Complaints search
+
+### Bug Fixes
+* Remove length limit from pending CP Source Grouping
+
+---
+
 ## Version 19.3.1
 _18 May 2020_
 
