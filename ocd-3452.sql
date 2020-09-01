@@ -51,13 +51,13 @@ WHERE cc.cms_id = 'CMS52'
 AND NOT EXISTS (SELECT * FROM openchpl.cqm_criterion cc INNER JOIN openchpl.cqm_version cv ON cc.cqm_version_id = cv.cqm_version_id AND cv.version = 'v9' WHERE cc.cms_id = 'CMS52');
 
 INSERT INTO openchpl.cqm_criterion (number, cms_id, title, description, cqm_domain, nqf_number, last_modified_user, cqm_version_id, cqm_criterion_type_id, retired)
-SELECT cc.number, cc.cms_id, cc.title, cc.description, cc.cqm_domain, cc.nqf_number, -1, (SELECT cqm_version_id FROM openchpl.cqm_version WHERE version = 'v8'), cc.cqm_criterion_type_id, cc.retired
+SELECT cc.number, cc.cms_id, cc.title, cc.description, cc.cqm_domain, cc.nqf_number, -1, (SELECT cqm_version_id FROM openchpl.cqm_version WHERE version = 'v9'), cc.cqm_criterion_type_id, cc.retired
 FROM openchpl.cqm_criterion cc
 	INNER JOIN openchpl.cqm_version cv
 		ON cc.cqm_version_id = cv.cqm_version_id
 		AND cv.version = 'v8'
 WHERE cc.cms_id = 'CMS56'
-AND NOT EXISTS (SELECT * FROM openchpl.cqm_criterion cc INNER JOIN openchpl.cqm_version cv ON cc.cqm_version_id = cv.cqm_version_id AND cv.version = 'v8' WHERE cc.cms_id = 'CMS56');
+AND NOT EXISTS (SELECT * FROM openchpl.cqm_criterion cc INNER JOIN openchpl.cqm_version cv ON cc.cqm_version_id = cv.cqm_version_id AND cv.version = 'v9' WHERE cc.cms_id = 'CMS56');
 
 INSERT INTO openchpl.cqm_criterion (number, cms_id, title, description, cqm_domain, nqf_number, last_modified_user, cqm_version_id, cqm_criterion_type_id, retired)
 SELECT cc.number, cc.cms_id, cc.title, cc.description, cc.cqm_domain, cc.nqf_number, -1, (SELECT cqm_version_id FROM openchpl.cqm_version WHERE version = 'v9'), cc.cqm_criterion_type_id, cc.retired
