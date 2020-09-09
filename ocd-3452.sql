@@ -1,5 +1,6 @@
 -- 1) Create new CQM Version
 -- 2) Create new version of 58 existing CQM
+-- 3) Add 1 new CQM
 
 INSERT INTO openchpl.cqm_version (version, last_modified_user)
 SELECT 'v10', -1
@@ -535,3 +536,18 @@ FROM openchpl.cqm_criterion cc
 		AND cv.version = 'v1'
 WHERE cc.cms_id = 'CMS771'
 AND NOT EXISTS (SELECT * FROM openchpl.cqm_criterion cc INNER JOIN openchpl.cqm_version cv ON cc.cqm_version_id = cv.cqm_version_id AND cv.version = 'v2' WHERE cc.cms_id = 'CMS771');
+
+INSERT INTO openchpl.cqm_criterion (number, cms_id, title, description, cqm_domain, nqf_number, last_modified_user, cqm_version_id, cqm_criterion_type_id, retired)
+SELECT
+ null,
+ 'CMS506',
+ 'Safe Use of Opioids- Concurrent Prescribing',
+ 'Proportion of inpatient hospitalizations for patients 18 years of age and older prescribed, or continued on, two or more opioids or an opioid and benxodiazepine concurrently at discharge',
+ 'Prevention and Treatment of Opioid and Substance Use Disorders',
+ '3316',
+ -1,
+ cqm_version_id,
+ 2,
+ false
+FROM openchpl.cqm_version WHERE version = 'v3'
+AND NOT EXISTS (SELECT * FROM openchpl.cqm_criterion cc INNER JOIN openchpl.cqm_version cv ON cc.cqm_version_id = cv.cqm_version_id AND cv.version = 'v3' WHERE cc.cms_id = 'CMS506');
