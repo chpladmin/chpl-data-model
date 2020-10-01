@@ -56,5 +56,5 @@ if [ $INCLUDE -eq 1 ]
 then
     pg_dump --host $HOST --username $USER --port $PORT --no-password --format custom --blobs --verbose --exclude-table-data=quartz.* --exclude-table-data=ff4j.* --file $FILE openchpl
 else
-    pg_dump --host $HOST --username $USER --port $PORT --no-password --format custom --blobs --verbose --exclude-table-data=quartz.* --exclude-table-data=ff4j.* --exclude-table-data=openchpl.api_key_activity --exclude-table-data=audit.logged_actions --file $FILE openchpl
+	pg_dump --host $HOST --username $USER --port $PORT --no-password --format custom --blobs --verbose --exclude-table-data=quartz.* --exclude-table-data=ff4j.* --exclude-table-data=audit.logged_actions --file $FILE openchpl
 fi
