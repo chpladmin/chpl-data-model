@@ -1106,6 +1106,11 @@ CREATE VIEW openchpl.certified_product_summary AS
     cp.last_modified_user,
     cp.deleted,
     cp.pending_certified_product_id,
+    cp.rwt_eligibility_year,
+    cp.rwt_plans_url,
+    cp.rwt_plans_check_date,
+    cp.rwt_results_url,
+    cp.rwt_results_check_date
     muuResult.meaningful_use_users,
     ce.year,
     p.name AS product_name,
