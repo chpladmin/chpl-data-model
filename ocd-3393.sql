@@ -27,3 +27,13 @@ insert into openchpl.questionable_activity_trigger
 (name, level, last_modified_user)
 select 'Real World Testing Removed', 'Listing', -1
 where not exists (select * from openchpl.questionable_activity_trigger where name = 'Real World Testing Removed' and level ='Listing');
+
+insert into openchpl.url_type
+(name, last_modified_user)
+select 'Real World Testing Plans', -1
+where not exists (select * from openchpl.url_type where name = 'Real World Testing Plans');
+
+insert into openchpl.url_type
+(name, last_modified_user)
+select 'Real World Testing Results', -1
+where not exists (select * from openchpl.url_type where name = 'Real World Testing Results');
