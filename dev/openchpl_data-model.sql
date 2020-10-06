@@ -3277,6 +3277,51 @@ create table openchpl.change_request_developer_details (
         MATCH SIMPLE ON UPDATE NO ACTION ON DELETE RESTRICT
 );
 
+CREATE TABLE openchpl.svap (
+    id bigserial NOT NULL,
+    regulatory_text_citation varchar(30) NOT NULL,
+    approved_standard_version text NOT NULL,
+    creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
+	CONSTRAINT svap_pk PRIMARY KEY (id)
+);
+
+CREATE TABLE openchpl.svap_criteria_map (
+    id bigserial NOT NULL,
+    svap_id bigint NOT NULL,
+    criteria_id bigint NOT NULL,
+    creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
+	CONSTRAINT svap_criteria_map_pk PRIMARY KEY (id),
+    CONSTRAINT svap_fk FOREIGN KEY (svap_id)
+	    REFERENCES openchpl.svap (id)
+        MATCH SIMPLE ON UPDATE NO ACTION ON DELETE RESTRICT,
+    CONSTRAINT svap_criteria_map_fk FOREIGN KEY (criteria_id)
+	    REFERENCES openchpl.certification_criterion (certification_criterion_id)
+        MATCH SIMPLE ON UPDATE NO ACTION ON DELETE RESTRICT
+);
+
+CREATE TABLE openchpl.certification_result_svap (
+    id bigserial NOT NULL,
+    certification_result_id bigint NOT NULL,
+    svap_id bigint NOT NULL,
+    creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
+    CONSTRAINT certification_result_svap_pk PRIMARY KEY (id),
+    CONSTRAINT certification_result_fk FOREIGN KEY (certification_result_id)
+	    REFERENCES openchpl.certification_result (certification_result_id)
+        MATCH SIMPLE ON UPDATE NO ACTION ON DELETE RESTRICT,
+    CONSTRAINT svap_fk FOREIGN KEY (svap_id)
+	    REFERENCES openchpl.svap (id)
+        MATCH SIMPLE ON UPDATE NO ACTION ON DELETE RESTRICT
+);
+
 CREATE INDEX fki_certified_product_id_fk
 ON openchpl.ehr_certification_id_product_map
 USING btree
