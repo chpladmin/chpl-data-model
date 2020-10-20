@@ -243,7 +243,7 @@ INSERT INTO openchpl.mips_measure (mips_domain_id, required_test_abbr, required_
 INSERT INTO openchpl.mips_measure (mips_domain_id, required_test_abbr, required_test, measure_name, criteria_selection_required, removed, last_modified_user) SELECT (SELECT id FROM openchpl.mips_domain WHERE domain = 'EH/CAH Medicaid PI'), 'RT11', 'Computerized Provider Order Entry - Laboratory: Eligible Hospital/Critical Access Hospital', 'Required Test 11: Medicaid Promoting Interoperability Program', false, false, -1;
 INSERT INTO openchpl.mips_measure (mips_domain_id, required_test_abbr, required_test, measure_name, criteria_selection_required, removed, last_modified_user) SELECT (SELECT id FROM openchpl.mips_domain WHERE domain = 'EP Medicaid PI'), 'RT11', 'Computerized Provider Order Entry - Laboratory: Eligible Professional', 'Required Test 11: Medicaid Promoting Interoperability Program', false, false, -1;
 INSERT INTO openchpl.mips_measure (mips_domain_id, required_test_abbr, required_test, measure_name, criteria_selection_required, removed, last_modified_user) SELECT (SELECT id FROM openchpl.mips_domain WHERE domain = 'EH/CAH Medicaid PI'), 'RT12', 'Computerized Provider Order Entry - Diagnostic Imaging: Eligible Hospital/Critical Access Hospital', 'Required Test 12: Medicaid Promoting Interoperability Program', false, false, -1;
-INSERT INTO openchpl.mips_measure (mips_domain_id, required_test_abbr, required_test, measure_name, criteria_selection_required, removed, last_modified_user) SELECT (SELECT id FROM openchpl.mips_domain WHERE domain = 'EH/CAH Medicaid PI'), 'RT12', 'Computerized Provider Order Entry - Diagnostic Imaging: Eligible Professional', 'Required Test 12: Medicaid Promoting Interoperability Program', false, false, -1;
+INSERT INTO openchpl.mips_measure (mips_domain_id, required_test_abbr, required_test, measure_name, criteria_selection_required, removed, last_modified_user) SELECT (SELECT id FROM openchpl.mips_domain WHERE domain = 'EP Medicaid PI'), 'RT12', 'Computerized Provider Order Entry - Diagnostic Imaging: Eligible Professional', 'Required Test 12: Medicaid Promoting Interoperability Program', false, false, -1;
 INSERT INTO openchpl.mips_measure (mips_domain_id, required_test_abbr, required_test, measure_name, criteria_selection_required, removed, last_modified_user) SELECT (SELECT id FROM openchpl.mips_domain WHERE domain = 'EH/CAH Medicaid PI'), 'RT3', 'Patient-Specific Education: Eligible Hospital/Critical Access Hospital', 'Required Test 3: Medicaid Promoting Interoperability Program', false, false, -1;
 INSERT INTO openchpl.mips_measure (mips_domain_id, required_test_abbr, required_test, measure_name, criteria_selection_required, removed, last_modified_user) SELECT (SELECT id FROM openchpl.mips_domain WHERE domain = 'EP Medicaid PI'), 'RT3', 'Patient-Specific Education: Eligible Professional', 'Required Test 3: Medicaid Promoting Interoperability Program', false, false, -1;
 INSERT INTO openchpl.mips_measure (mips_domain_id, required_test_abbr, required_test, measure_name, criteria_selection_required, removed, last_modified_user) SELECT (SELECT id FROM openchpl.mips_domain WHERE domain = 'EH/CAH Medicaid PI'), 'RT5', 'Secure Electronic Messaging: Eligible Hospital/Critical Access Hospital', 'Required Test 5: Medicaid Promoting Interoperability Program', false, false, -1;
@@ -317,15 +317,17 @@ INSERT INTO openchpl.mips_measure (mips_domain_id, required_test_abbr, required_
 INSERT INTO openchpl.mips_measure (mips_domain_id, required_test_abbr, required_test, measure_name, criteria_selection_required, removed, last_modified_user) SELECT (SELECT id FROM openchpl.mips_domain WHERE domain = 'GAP-EP Stage 3'), 'RT12', '(Gap Certified) Computerized Provider Order Entry - Diagnostic Imaging: Eligible Professional', 'Required Test 12: Medicaid Promoting Interoperability Program', false, false, -1;
 INSERT INTO openchpl.mips_measure (mips_domain_id, required_test_abbr, required_test, measure_name, criteria_selection_required, removed, last_modified_user) SELECT (SELECT id FROM openchpl.mips_domain WHERE domain = 'GAP-EH/CAH Stage 3'), 'RT12', '(Gap Certified) Computerized Provider Order Entry - Diagnostic Imaging: Eligible Hospital/Critical Access Hospital', 'Required Test 12: Medicaid Promoting Interoperability Program', false, false, -1;
 
-
 ------------------- INSERT ALLOWED_MIPS_MEASURES_CRITERIA -------------------
---INSERT INTO openchpl.allowed_mips_measure_criteria (mips_measure_id, certification_criterion_id, last_modified_user) 
---SELECT mm.id, criteria_id, -1
--- FROM openchpl.macra_criteria_map mcm
---   INNER JOIN openchpl.mips_measure mm
---   	ON mcm."name" = mm.required_test
---   	AND mcm.description  = mm.measure_name
---   	AND mcm.removed = mm.removed
---   INNER JOIN openchpl.mips_domain md
---    ON mm.
+INSERT INTO openchpl.allowed_mips_measure_criteria (mips_measure_id, certification_criterion_id, last_modified_user) 
+SELECT  mm.id, mcm.criteria_id, -1
+FROM openchpl.macra_criteria_map mcm
+INNER JOIN openchpl.mips_measure mm
+	ON mcm.name = mm.required_test
+	AND mcm.description  = mm.measure_name
+	AND mcm.removed = mm.removed
+INNER JOIN openchpl.mips_domain md
+	ON mm.mips_domain_id = md.id 
+WHERE (mcm.value = mm.required_test_abbr || md."domain" 
+OR mcm.value = md."domain" )
+AND mcm.deleted = false
  
