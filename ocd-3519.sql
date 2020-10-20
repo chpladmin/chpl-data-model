@@ -338,8 +338,9 @@ DO $$
 DECLARE r record;
 DECLARE lastid bigint;
 BEGIN
-    -- Get all g1 macras and map them to mips measures via temp column created and populated above
-    -- Skip anything the maps to a mips meaure starting with RT2 or RT4
+    -- G1 Macras, minus RT2* and RT4*
+    -- We don't care about certification_criterion_id.  Second INSERT will insert 
+    -- a record for each allowed criteria for the new mips measure
     FOR r IN SELECT DISTINCT cr.certified_product_id, all_mips.mips_measure_id
             FROM openchpl.certification_result_g1_macra g1
             INNER JOIN openchpl.certification_result cr
@@ -367,8 +368,42 @@ BEGIN
         
     END LOOP;
     
-    -- Get all g1 macras and map them to mips measures via temp column created and populated above
-    -- Skip anything the maps to a mips meaure starting with RT2 or RT4
+    -- G1 Macras, ONLY RT2* and RT4*
+    -- We need certification_criterion_id.  Second INSERT will insert
+    -- a record for each existing macra measure/criteria combo 
+    FOR r IN SELECT DISTINCT cr.certified_product_id, all_mips.mips_measure_id, cc.certification_criterion_id
+            FROM openchpl.certification_result_g1_macra g1
+            INNER JOIN openchpl.certification_result cr
+                ON g1.certification_result_id = cr.certification_result_id 
+            INNER JOIN openchpl.certification_criterion cc
+                ON cr.certification_criterion_id = cc.certification_criterion_id 
+            INNER JOIN openchpl.allowed_mips_measure_criteria all_mips
+                ON g1.macra_id = all_mips.temp_macra_measure_id
+           	INNER JOIN openchpl.mips_measure mm
+                ON all_mips.mips_measure_id = mm.id 
+            WHERE (mm.required_test_abbr LIKE 'RT4%'
+            OR mm.required_test_abbr LIKE 'RT2%')
+
+    LOOP
+        -- Return the id that was just created for adding the certified_product_mips_measure_criteria records
+        INSERT INTO openchpl.certified_product_mips_measure
+        (certified_product_id, mips_measure_id, mips_type_id, last_modified_user)
+        VALUES 
+        (r.certified_product_id, r.mips_measure_id, 1, -1)
+        RETURNING id INTO lastid;
+        
+        INSERT INTO openchpl.certified_product_mips_measure_criteria
+        (certified_product_mips_measure_id, certification_criterion_id, last_modified_user)
+        SELECT lastid, certification_criterion_id, -1
+        FROM openchpl.allowed_mips_measure_criteria
+        WHERE mips_measure_id = r.mips_measure_id
+        AND certification_criterion_id = r.certification_criterion_id;
+        
+    END LOOP;
+    
+    -- G1 Macras, minus RT2* and RT4*
+    -- We don't care about certification_criterion_id.  Second INSERT will insert 
+    -- a record for each allowed criteria for the new mips measure
     FOR r IN SELECT DISTINCT cr.certified_product_id, all_mips.mips_measure_id
             FROM openchpl.certification_result_g2_macra g2
             INNER JOIN openchpl.certification_result cr
@@ -395,4 +430,40 @@ BEGIN
         WHERE mips_measure_id = r.mips_measure_id;
         
     END LOOP;
+    
+    -- G2 Macras, ONLY RT2* and RT4*
+    -- We need certification_criterion_id.  Second INSERT will insert
+    -- a record for each existing macra measure/criteria combo 
+    FOR r IN SELECT DISTINCT cr.certified_product_id, all_mips.mips_measure_id, cc.certification_criterion_id
+            FROM openchpl.certification_result_g2_macra g2
+            INNER JOIN openchpl.certification_result cr
+                ON g2.certification_result_id = cr.certification_result_id 
+            INNER JOIN openchpl.certification_criterion cc
+                ON cr.certification_criterion_id = cc.certification_criterion_id 
+            INNER JOIN openchpl.allowed_mips_measure_criteria all_mips
+                ON g2.macra_id = all_mips.temp_macra_measure_id
+           	INNER JOIN openchpl.mips_measure mm
+                ON all_mips.mips_measure_id = mm.id 
+            WHERE (mm.required_test_abbr LIKE 'RT4%'
+            OR mm.required_test_abbr LIKE 'RT2%')
+
+    LOOP
+        -- Return the id that was just created for adding the certified_product_mips_measure_criteria records
+        INSERT INTO openchpl.certified_product_mips_measure
+        (certified_product_id, mips_measure_id, mips_type_id, last_modified_user)
+        VALUES 
+        (r.certified_product_id, r.mips_measure_id, 1, -1)
+        RETURNING id INTO lastid;
+        
+        INSERT INTO openchpl.certified_product_mips_measure_criteria
+        (certified_product_mips_measure_id, certification_criterion_id, last_modified_user)
+        SELECT lastid, certification_criterion_id, -1
+        FROM openchpl.allowed_mips_measure_criteria
+        WHERE mips_measure_id = r.mips_measure_id
+        AND certification_criterion_id = r.certification_criterion_id;
+        
+    END LOOP;
 END$$;
+
+-- Drop the temporary column that was added to help with mapping macra_criteria_map -> allowed_mips_measure_criteria table
+ALTER TABLE openchpl.allowed_mips_measure_criteria DROP COLUMN IF EXISTS temp_macra_measure_id;
