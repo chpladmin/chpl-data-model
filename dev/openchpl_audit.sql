@@ -409,3 +409,7 @@ CREATE TRIGGER vendor_status_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.
 CREATE TRIGGER vendor_status_timestamp BEFORE UPDATE on openchpl.vendor_status FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER vendor_status_history_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.vendor_status_history FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER vendor_status_history_timestamp BEFORE UPDATE on openchpl.vendor_status_history FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
+
+-------------------------------------
+-- TRIGGERS for Mips Measure Tables TBD
+-------------------------------------
