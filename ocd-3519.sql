@@ -117,6 +117,50 @@ CREATE TABLE openchpl.certified_product_mips_measure_criteria (
 CREATE TRIGGER certified_product_mips_measure_criteria_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.certified_product_mips_measure_criteria FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER certified_product_mips_measure_criteria_timestamp BEFORE UPDATE on openchpl.certified_product_mips_measure_criteria FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 
+CREATE TABLE openchpl.pending_certified_product_mips_measure (
+ id                           bigserial NOT NULL,
+ pending_certified_product_id bigint NOT NULL,
+ mips_measure_id              bigint,
+ mips_type_id                 bigint,
+ uploaded_value               text, 
+ creation_date                timestamp with time zone NOT NULL DEFAULT NOW(),
+ last_modified_date           timestamp with time zone NOT NULL DEFAULT NOW(),
+ last_modified_user           bigint NOT NULL,
+ deleted                      boolean NOT NULL DEFAULT false,
+ CONSTRAINT PK_pending_certified_product_mips_measures PRIMARY KEY ( id ),
+ CONSTRAINT pending_certified_product_fk FOREIGN KEY (pending_certified_product_id)
+      REFERENCES openchpl.pending_certified_product (pending_certified_product_id) MATCH FULL
+      ON UPDATE CASCADE ON DELETE RESTRICT,
+ CONSTRAINT mips_measure_fk FOREIGN KEY (mips_measure_id)
+      REFERENCES openchpl.mips_measure (id) MATCH FULL
+      ON UPDATE CASCADE ON DELETE RESTRICT,
+ CONSTRAINT mips_type_fk FOREIGN KEY (mips_type_id)
+      REFERENCES openchpl.mips_type (id) MATCH FULL
+      ON UPDATE CASCADE ON DELETE RESTRICT
+);
+
+CREATE TRIGGER pending_certified_product_mips_measure_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.pending_certified_product_mips_measure FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+CREATE TRIGGER pending_certified_product_mips_measure_timestamp BEFORE UPDATE on openchpl.pending_certified_product_mips_measure FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
+
+CREATE TABLE openchpl.pending_certified_product_mips_measure_criteria (
+ id                                        bigserial NOT NULL,
+ certification_criterion_id                bigint NOT NULL,
+ pending_certified_product_mips_measure_id bigint NOT NULL,
+ creation_date                             timestamp with time zone NOT NULL DEFAULT NOW(),
+ last_modified_date                        timestamp with time zone NOT NULL DEFAULT NOW(),
+ last_modified_user                        bigint NOT NULL,
+ deleted                                   boolean NOT NULL DEFAULT false,
+ CONSTRAINT PK_pending_certified_products_mips_measure_criteria PRIMARY KEY ( id ),
+ CONSTRAINT certification_criterion_fk FOREIGN KEY (certification_criterion_id)
+      REFERENCES openchpl.certification_criterion (certification_criterion_id) MATCH FULL
+      ON UPDATE CASCADE ON DELETE RESTRICT,
+ CONSTRAINT pending_certified_product_mips_measure_fk FOREIGN KEY (pending_certified_product_mips_measure_id)
+      REFERENCES openchpl.pending_certified_product_mips_measure (id) MATCH FULL
+      ON UPDATE CASCADE ON DELETE RESTRICT
+);
+
+CREATE TRIGGER pending_certified_product_mips_measure_criteria_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.pending_certified_product_mips_measure_criteria FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+CREATE TRIGGER pending_certified_product_mips_measure_criteria_timestamp BEFORE UPDATE on openchpl.pending_certified_product_mips_measure_criteria FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 
 ------------------- INSERT MIPS_DOMAINS -------------------
 INSERT INTO openchpl.mips_domain
