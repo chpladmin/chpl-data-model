@@ -1,5 +1,7 @@
 DROP TABLE IF EXISTS openchpl.certified_product_mips_measure_criteria;
 DROP TABLE IF EXISTS openchpl.certified_product_mips_measure;
+DROP TABLE IF EXISTS openchpl.pending_certified_product_mips_measure_criteria;
+DROP TABLE IF EXISTS openchpl.pending_certified_product_mips_measure;
 DROP TABLE IF EXISTS openchpl.allowed_mips_measure_criteria;
 DROP TABLE IF EXISTS openchpl.mips_measure;
 DROP TABLE IF EXISTS openchpl.mips_type;
