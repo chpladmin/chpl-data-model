@@ -1,3 +1,6 @@
+-- Deployment file for version 19.7.0
+--     as of 2020-10-19
+-- ocd-3393.sql
 -- This needs to be dropped because the may have been updated to include the old names for
 -- the RWT fields.
 DROP VIEW IF EXISTS openchpl.certified_product_details CASCADE;
@@ -37,3 +40,8 @@ insert into openchpl.url_type
 (name, last_modified_user)
 select 'Real World Testing Results', -1
 where not exists (select * from openchpl.url_type where name = 'Real World Testing Results');
+;
+insert into openchpl.data_model_version (version, deploy_date, last_modified_user) values ('19.7.0', '2020-10-19', -1);
+\i dev/openchpl_soft-delete.sql
+\i dev/openchpl_views.sql
+\i dev/openchpl_grant-all.sql

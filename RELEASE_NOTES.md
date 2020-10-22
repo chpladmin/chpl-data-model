@@ -1,5 +1,13 @@
 # Release Notes
 
+## Version 19.7.0
+_19 October 2020_
+
+### Features
+* Add new data elements for Real World Testing
+
+---
+
 ## Version 19.6.1
 _21 September 2020_
 
