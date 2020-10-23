@@ -164,6 +164,25 @@ CREATE TABLE openchpl.pending_certified_product_mips_measure_criteria (
 CREATE TRIGGER pending_certified_product_mips_measure_criteria_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.pending_certified_product_mips_measure_criteria FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER pending_certified_product_mips_measure_criteria_timestamp BEFORE UPDATE on openchpl.pending_certified_product_mips_measure_criteria FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 
+------------------- INSERT QUESTIONABLE_ACTIVITY_TRIGGERs -------------------
+INSERT INTO openchpl.questionable_activity_trigger
+(name, level, last_modified_user)
+SELECT 'G1/G2 Added', 'Listing', -1
+WHERE NOT EXISTS (
+    SELECT * 
+    FROM openchpl.questionable_activity_trigger
+    WHERE name = 'G1/G2 Added'
+    AND level = 'Listing');
+
+INSERT INTO openchpl.questionable_activity_trigger
+(name, level, last_modified_user)
+SELECT 'G1/G2 Removed', 'Listing', -1
+WHERE NOT EXISTS (
+    SELECT * 
+    FROM openchpl.questionable_activity_trigger
+    WHERE name = 'G1/G2 Removed'
+    AND level = 'Listing');
+    
 ------------------- INSERT MIPS_DOMAINS -------------------
 INSERT INTO openchpl.mips_domain
 (domain, last_modified_user)
@@ -341,7 +360,7 @@ INSERT INTO openchpl.mips_measure (mips_domain_id, required_test_abbr, required_
 INSERT INTO openchpl.mips_measure (mips_domain_id, required_test_abbr, required_test, measure_name, criteria_selection_required, removed, last_modified_user) SELECT (SELECT id FROM openchpl.mips_domain WHERE domain = 'EC ACI Transition'), 'RT5', 'Secure Electronic Messaging: Eligible Clinician', 'Required Test 5: Promoting Interoperability Transition Objective 5 Measure 1 ', false, true, -1;
 INSERT INTO openchpl.mips_measure (mips_domain_id, required_test_abbr, required_test, measure_name, criteria_selection_required, removed, last_modified_user) SELECT (SELECT id FROM openchpl.mips_domain WHERE domain = 'EC ACI Transition'), 'RT2c ', 'Patient Electronic Access: Eligible Clinician', 'Required Test 2: Promoting Interoperability Transition Objective 3 Measure 1 ', true, true, -1;
 INSERT INTO openchpl.mips_measure (mips_domain_id, required_test_abbr, required_test, measure_name, criteria_selection_required, removed, last_modified_user) SELECT (SELECT id FROM openchpl.mips_domain WHERE domain = 'EC ACI Transition'), 'RT4c ', 'View, Download, or Transmit (VDT): Eligible Clinician', 'Required Test 4: Promoting Interoperability Transition Objective 3 Measure 2 ', true, true, -1;
-INSERT INTO openchpl.mips_measure (mips_domain_id, required_test_abbr, required_test, measure_name, criteria_selection_required, removed, last_modified_user) SELECT (SELECT id FROM openchpl.mips_domain WHERE domain = 'EH/CAH Stage 2'), 'RT4', 'Computerized Provider Order Entry - Medications: Eligible Hospital/Critical Access Hospital', 'Required Test 10: Stage 2 Objective 3 Measure 1', true, true, -1;
+INSERT INTO openchpl.mips_measure (mips_domain_id, required_test_abbr, required_test, measure_name, criteria_selection_required, removed, last_modified_user) SELECT (SELECT id FROM openchpl.mips_domain WHERE domain = 'EH/CAH Stage 2'), 'RT10', 'Computerized Provider Order Entry - Medications: Eligible Hospital/Critical Access Hospital', 'Required Test 10: Stage 2 Objective 3 Measure 1', true, true, -1;
 INSERT INTO openchpl.mips_measure (mips_domain_id, required_test_abbr, required_test, measure_name, criteria_selection_required, removed, last_modified_user) SELECT (SELECT id FROM openchpl.mips_domain WHERE domain = 'EH/CAH Stage 2'), 'RT12', 'Computerized Provider Order Entry - Diagnostic Imaging: Eligible Hospital/Critical Access Hospital', 'Required Test 12: Stage 2 Objective 3 Measure 3', true, true, -1;
 INSERT INTO openchpl.mips_measure (mips_domain_id, required_test_abbr, required_test, measure_name, criteria_selection_required, removed, last_modified_user) SELECT (SELECT id FROM openchpl.mips_domain WHERE domain = 'EH/CAH Stage 2'), 'RT7', 'Patient Care Record Exchange: Eligible Hospital/Critical Access Hospital', 'Required Test 7: Stage 2 Objective 5', false, true, -1;
 INSERT INTO openchpl.mips_measure (mips_domain_id, required_test_abbr, required_test, measure_name, criteria_selection_required, removed, last_modified_user) SELECT (SELECT id FROM openchpl.mips_domain WHERE domain = 'EH/CAH Stage 2'), 'RT4c', 'View, Download, or Transmit (VDT): Eligible Hospital/Critical Access Hospital', 'Required Test 4: Stage 2 Objective 8 Measure 2', true, true, -1;
@@ -351,7 +370,7 @@ INSERT INTO openchpl.mips_measure (mips_domain_id, required_test_abbr, required_
 INSERT INTO openchpl.mips_measure (mips_domain_id, required_test_abbr, required_test, measure_name, criteria_selection_required, removed, last_modified_user) SELECT (SELECT id FROM openchpl.mips_domain WHERE domain = 'EH/CAH Stage 2'), 'RT11', 'Computerized Provider Order Entry - Laboratory: Eligible Hospital/Critical Access Hospital', 'Required Test 11: Stage 2 Objective 3 Measure 2', false, true, -1;
 INSERT INTO openchpl.mips_measure (mips_domain_id, required_test_abbr, required_test, measure_name, criteria_selection_required, removed, last_modified_user) SELECT (SELECT id FROM openchpl.mips_domain WHERE domain = 'EP Stage 2'), 'RT10', 'Computerized Provider Order Entry - Medications: Eligible Professional', 'Required Test 10: Stage 2 Objective 3 Measure 1', false, true, -1;
 INSERT INTO openchpl.mips_measure (mips_domain_id, required_test_abbr, required_test, measure_name, criteria_selection_required, removed, last_modified_user) SELECT (SELECT id FROM openchpl.mips_domain WHERE domain = 'EC ACI'), 'RT6', 'Patient-Generated Health Data: Eligible Clinician', 'Required Test 6: Promoting Interoperability Objective 4 Measure 3', false, true, -1;
-INSERT INTO openchpl.mips_measure (mips_domain_id, required_test_abbr, required_test, measure_name, criteria_selection_required, removed, last_modified_user) SELECT (SELECT id FROM openchpl.mips_domain WHERE domain = 'EC ACI Transition'), 'RT4a ', 'View, Download, or Transmit (VDT):  Eligible Clinician', 'Required Test 4: Promoting Interoperability Transition Objective 3 Measure 2 ', true, true, -1;
+INSERT INTO openchpl.mips_measure (mips_domain_id, required_test_abbr, required_test, measure_name, criteria_selection_required, removed, last_modified_user) SELECT (SELECT id FROM openchpl.mips_domain WHERE domain = 'EC ACI Transition'), 'RT4a', 'View, Download, or Transmit (VDT):  Eligible Clinician', 'Required Test 4: Promoting Interoperability Transition Objective 3 Measure 2 ', true, true, -1;
 INSERT INTO openchpl.mips_measure (mips_domain_id, required_test_abbr, required_test, measure_name, criteria_selection_required, removed, last_modified_user) SELECT (SELECT id FROM openchpl.mips_domain WHERE domain = 'EC ACI'), 'RT4a', 'View, Download, or Transmit (VDT): Eligible Clinician', 'Required Test 4: Promoting Interoperability Objective 4 Measure 1', true, true, -1;
 INSERT INTO openchpl.mips_measure (mips_domain_id, required_test_abbr, required_test, measure_name, criteria_selection_required, removed, last_modified_user) SELECT (SELECT id FROM openchpl.mips_domain WHERE domain = 'EC ACI'), 'RT4c', 'View, Download, or Transmit (VDT): Eligible Clinician', 'Required Test 4: Promoting Interoperability Objective 4 Measure 1', true, true, -1;
 INSERT INTO openchpl.mips_measure (mips_domain_id, required_test_abbr, required_test, measure_name, criteria_selection_required, removed, last_modified_user) SELECT (SELECT id FROM openchpl.mips_domain WHERE domain = 'GAP-EP Stage 2'), 'RT10', '(Gap Certified) Computerized Provider Order Entry - Medications: Eligible Professional', 'Required Test 10: Stage 2 Objective 3 Measure 1', false, true, -1;
