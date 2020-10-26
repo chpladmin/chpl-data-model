@@ -58,7 +58,7 @@ CREATE TABLE openchpl.allowed_mips_measure_criteria (
  id                         bigserial NOT NULL,
  certification_criterion_id bigint NOT NULL,
  mips_measure_id            bigint NOT NULL,
- temp_macra_measure_id      bigint,
+ macra_criteria_map_id      bigint,
  creation_date              timestamp with time zone NOT NULL DEFAULT NOW(),
  last_modified_date         timestamp with time zone NOT NULL DEFAULT NOW(),
  last_modified_user         bigint NOT NULL,
@@ -69,7 +69,11 @@ CREATE TABLE openchpl.allowed_mips_measure_criteria (
       ON UPDATE CASCADE ON DELETE RESTRICT,
  CONSTRAINT mips_measure_fk FOREIGN KEY (mips_measure_id)
       REFERENCES openchpl.mips_measure (id) MATCH FULL
+      ON UPDATE CASCADE ON DELETE RESTRICT,
+ CONSTRAINT macra_criteria_map_fk FOREIGN KEY (macra_criteria_map_id)
+      REFERENCES openchpl.macra_criteria_map (id) MATCH FULL
       ON UPDATE CASCADE ON DELETE RESTRICT
+ 
  );
 
 CREATE TRIGGER allowed_mips_measure_criteria_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.allowed_mips_measure_criteria FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
@@ -349,7 +353,7 @@ INSERT INTO openchpl.mips_measure (mips_domain_id, required_test_abbr, measure_n
 
 ------------------- INSERT ALLOWED_MIPS_MEASURES_CRITERIA -------------------
 --Handle all existing measure/criteria mapping, except RT2* and RT4*
-INSERT INTO openchpl.allowed_mips_measure_criteria (mips_measure_id, certification_criterion_id, temp_macra_measure_id, last_modified_user) 
+INSERT INTO openchpl.allowed_mips_measure_criteria (mips_measure_id, certification_criterion_id, macra_criteria_map_id, last_modified_user) 
 SELECT  mm.id, mcm.criteria_id, mcm.id, -1
 FROM openchpl.macra_criteria_map mcm
 INNER JOIN openchpl.mips_measure mm
@@ -364,7 +368,7 @@ AND mcm.value NOT IN ('RT2%', 'RT4%')
 AND mcm.deleted = false;
 
 --Handle RT2* and RT4* existing measure/criteria mapping 
-INSERT INTO openchpl.allowed_mips_measure_criteria (mips_measure_id, certification_criterion_id, temp_macra_measure_id, last_modified_user) 
+INSERT INTO openchpl.allowed_mips_measure_criteria (mips_measure_id, certification_criterion_id, macra_criteria_map_id, last_modified_user) 
 SELECT  mm.id, mcm.criteria_id, mcm.id, -1
 FROM openchpl.macra_criteria_map mcm
 INNER JOIN openchpl.mips_measure mm
@@ -388,10 +392,10 @@ BEGIN
     -- a record for each allowed criteria for the new mips measure
     FOR r IN SELECT DISTINCT cr.certified_product_id, all_mips.mips_measure_id
             FROM openchpl.certification_result_g1_macra g1
-            INNER JOIN openchpl.certification_result cr
+            INNER JOIN openchpl .certification_result cr
                 ON g1.certification_result_id = cr.certification_result_id 
             INNER JOIN openchpl.allowed_mips_measure_criteria all_mips
-                ON g1.macra_id = all_mips.temp_macra_measure_id
+                ON g1.macra_id = all_mips.macra_criteria_map_id
            	INNER JOIN openchpl.mips_measure mm
                 ON all_mips.mips_measure_id = mm.id 
             WHERE mm.required_test_abbr NOT LIKE 'RT4%'
@@ -423,7 +427,7 @@ BEGIN
             INNER JOIN openchpl.certification_criterion cc
                 ON cr.certification_criterion_id = cc.certification_criterion_id 
             INNER JOIN openchpl.allowed_mips_measure_criteria all_mips
-                ON g1.macra_id = all_mips.temp_macra_measure_id
+                ON g1.macra_id = all_mips.macra_criteria_map_id
            	INNER JOIN openchpl.mips_measure mm
                 ON all_mips.mips_measure_id = mm.id 
             WHERE (mm.required_test_abbr LIKE 'RT4%'
@@ -454,7 +458,7 @@ BEGIN
             INNER JOIN openchpl.certification_result cr
                 ON g2.certification_result_id = cr.certification_result_id 
             INNER JOIN openchpl.allowed_mips_measure_criteria all_mips
-                ON g2.macra_id = all_mips.temp_macra_measure_id
+                ON g2.macra_id = all_mips.macra_criteria_map_id
            	INNER JOIN openchpl.mips_measure mm
                 ON all_mips.mips_measure_id = mm.id 
             WHERE mm.required_test_abbr NOT LIKE 'RT4%'
@@ -486,7 +490,7 @@ BEGIN
             INNER JOIN openchpl.certification_criterion cc
                 ON cr.certification_criterion_id = cc.certification_criterion_id 
             INNER JOIN openchpl.allowed_mips_measure_criteria all_mips
-                ON g2.macra_id = all_mips.temp_macra_measure_id
+                ON g2.macra_id = all_mips.macra_criteria_map_id
            	INNER JOIN openchpl.mips_measure mm
                 ON all_mips.mips_measure_id = mm.id 
             WHERE (mm.required_test_abbr LIKE 'RT4%'
@@ -510,5 +514,3 @@ BEGIN
     END LOOP;
 END$$;
 
--- Drop the temporary column that was added to help with mapping macra_criteria_map -> allowed_mips_measure_criteria table
-ALTER TABLE openchpl.allowed_mips_measure_criteria DROP COLUMN IF EXISTS temp_macra_measure_id;
