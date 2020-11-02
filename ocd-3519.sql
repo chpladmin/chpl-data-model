@@ -392,6 +392,18 @@ INNER JOIN openchpl.measure_domain md
 WHERE substring(value, 6) = md."domain" 
 AND (mcm.value LIKE 'RT2%' OR mcm.value LIKE 'RT4%');
 
+-- There are some measures that only have deleted allowed_measure_criteria associated with them.
+-- This query will mark the measures as deleted if they do not have any active allowed_measure_criteria
+-- associated with them.
+UPDATE openchpl.measure
+SET deleted = true
+WHERE id IN (
+    SELECT mm.id
+    FROM openchpl.measure mm
+    WHERE mm.id NOT IN (
+        SELECT DISTINCT measure_id 
+        FROM openchpl.allowed_measure_criteria
+        WHERE deleted = false));
 
 ------------------- INSERT certified_product_measureS and certified_product_measureS_CRITERIA -------------------
 DO $$
