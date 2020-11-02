@@ -365,34 +365,32 @@ INSERT INTO openchpl.measure (measure_domain_id, required_test_abbr, measure_nam
 
 ------------------- INSERT ALLOWED_MIPS_MEASURES_CRITERIA -------------------
 --Handle all existing measure/criteria mapping, except RT2* and RT4*
-INSERT INTO openchpl.allowed_measure_criteria (measure_id, certification_criterion_id, macra_criteria_map_id, last_modified_user) 
-SELECT  mm.id, mcm.criteria_id, mcm.id, -1
+INSERT INTO openchpl.allowed_measure_criteria (measure_id, certification_criterion_id, macra_criteria_map_id, last_modified_user, deleted) 
+SELECT  mm.id, mcm.criteria_id, mcm.id, -1, mcm.deleted
 FROM openchpl.macra_criteria_map mcm
 INNER JOIN openchpl.measure mm
-  ON mcm.name = mm.measure_name
-  AND mcm.description  = mm.required_test
+  ON replace(mcm.name, ' ', '') = replace(mm.measure_name, ' ', '')
+  AND replace(mcm.description, ' ', '')  = replace(mm.required_test, ' ', '')
   AND mcm.removed = mm.removed
 INNER JOIN openchpl.measure_domain md
   ON mm.measure_domain_id = md.id 
-WHERE (mcm.value = mm.required_test_abbr || md."domain" 
+WHERE (mcm.value = mm.required_test_abbr || ' ' || md."domain" 
 OR mcm.value = md."domain")
-AND mcm.value NOT IN ('RT2%', 'RT4%')
-AND mcm.deleted = false;
+AND mcm.value NOT IN ('RT2%', 'RT4%');
 
 --Handle RT2* and RT4* existing measure/criteria mapping 
-INSERT INTO openchpl.allowed_measure_criteria (measure_id, certification_criterion_id, macra_criteria_map_id, last_modified_user) 
-SELECT  mm.id, mcm.criteria_id, mcm.id, -1
+INSERT INTO openchpl.allowed_measure_criteria (measure_id, certification_criterion_id, macra_criteria_map_id, last_modified_user, deleted) 
+SELECT  mm.id, mcm.criteria_id, mcm.id, -1, mcm.deleted
 FROM openchpl.macra_criteria_map mcm
 INNER JOIN openchpl.measure mm
- ON mcm.name = mm.measure_name
- AND mcm.description  = mm.required_test
+ ON replace(mcm.name, ' ', '') = replace(mm.measure_name, ' ', '')
+ AND replace(mcm.description, ' ', '')  = replace(mm.required_test, ' ', '')
  AND mcm.removed = mm.removed
  AND substring(value, 0, 4) = mm.required_test_abbr 
 INNER JOIN openchpl.measure_domain md
  ON mm.measure_domain_id = md.id 
 WHERE substring(value, 6) = md."domain" 
-AND (mcm.value LIKE 'RT2%' OR mcm.value LIKE 'RT4%')
-AND mcm.deleted = false;
+AND (mcm.value LIKE 'RT2%' OR mcm.value LIKE 'RT4%');
 
 
 ------------------- INSERT certified_product_measureS and certified_product_measureS_CRITERIA -------------------
