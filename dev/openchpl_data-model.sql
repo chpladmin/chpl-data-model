@@ -3326,9 +3326,142 @@ CREATE TABLE openchpl.certification_result_svap (
         MATCH SIMPLE ON UPDATE NO ACTION ON DELETE RESTRICT
 );
 
--------------------------------------
--- SQL for Mips Measure Tables TBD
--------------------------------------
+CREATE TABLE openchpl.measure_domain (
+ id                 bigserial NOT NULL,
+ domain             text NOT NULL,
+ creation_date      timestamp with time zone NOT NULL DEFAULT NOW(),
+ last_modified_date timestamp with time zone NOT NULL DEFAULT NOW(),
+ last_modified_user bigint NOT NULL,
+ deleted            boolean NOT NULL DEFAULT false,
+ CONSTRAINT PK_measure_domain PRIMARY KEY ( id )
+);
+
+CREATE TABLE openchpl.measure_type (
+ id                 bigserial NOT NULL,
+ name               text NOT NULL,
+ creation_date      timestamp with time zone NOT NULL DEFAULT NOW(),
+ last_modified_date timestamp with time zone NOT NULL DEFAULT NOW(),
+ last_modified_user bigint NOT NULL,
+ deleted            boolean NOT NULL DEFAULT false,
+ CONSTRAINT PK_measure_type PRIMARY KEY ( id )
+);
+
+CREATE TABLE openchpl.measure (
+ id                          bigserial NOT NULL,
+ measure_domain_id              bigint NOT NULL,
+ required_test_abbr          text NOT NULL,
+ required_test               text NOT NULL,
+ measure_name                text NOT NULL,
+ criteria_selection_required boolean NOT NULL,
+ removed                     boolean NOT NULL,
+ creation_date               timestamp with time zone NOT NULL DEFAULT NOW(),
+ last_modified_date          timestamp with time zone NOT NULL DEFAULT NOW(),
+ last_modified_user          bigint NOT NULL,
+ deleted                     boolean NOT NULL DEFAULT false,
+ CONSTRAINT PK_measure PRIMARY KEY ( id ),
+ CONSTRAINT measure_domain_fk FOREIGN KEY (measure_domain_id)
+      REFERENCES openchpl.measure_domain (id) MATCH FULL
+      ON UPDATE CASCADE ON DELETE RESTRICT
+);
+
+CREATE TABLE openchpl.allowed_measure_criteria (
+ id                         bigserial NOT NULL,
+ certification_criterion_id bigint NOT NULL,
+ measure_id                 bigint NOT NULL,
+ macra_criteria_map_id      bigint,
+ creation_date              timestamp with time zone NOT NULL DEFAULT NOW(),
+ last_modified_date         timestamp with time zone NOT NULL DEFAULT NOW(),
+ last_modified_user         bigint NOT NULL,
+ deleted                    boolean NOT NULL DEFAULT false,
+ CONSTRAINT PK_allowed_measure_criteria PRIMARY KEY ( id ),
+ CONSTRAINT certification_criterion_fk FOREIGN KEY (certification_criterion_id)
+      REFERENCES openchpl.certification_criterion (certification_criterion_id) MATCH FULL
+      ON UPDATE CASCADE ON DELETE RESTRICT,
+ CONSTRAINT measure_fk FOREIGN KEY (measure_id)
+      REFERENCES openchpl.measure (id) MATCH FULL
+      ON UPDATE CASCADE ON DELETE RESTRICT,
+ CONSTRAINT macra_criteria_map_fk FOREIGN KEY (macra_criteria_map_id)
+      REFERENCES openchpl.macra_criteria_map (id) MATCH FULL
+      ON UPDATE CASCADE ON DELETE RESTRICT
+ 
+ );
+
+CREATE TABLE openchpl.certified_product_measure (
+ id                   bigserial NOT NULL,
+ certified_product_id bigint NOT NULL,
+ measure_id           bigint NOT NULL,
+ measure_type_id      bigint NOT NULL,
+ creation_date        timestamp with time zone NOT NULL DEFAULT NOW(),
+ last_modified_date   timestamp with time zone NOT NULL DEFAULT NOW(),
+ last_modified_user   bigint NOT NULL,
+ deleted              boolean NOT NULL DEFAULT false,
+ CONSTRAINT PK_certified_product_measures PRIMARY KEY ( id ),
+ CONSTRAINT certified_product_fk FOREIGN KEY (certified_product_id)
+      REFERENCES openchpl.certified_product (certified_product_id) MATCH FULL
+      ON UPDATE CASCADE ON DELETE RESTRICT,
+ CONSTRAINT measure_fk FOREIGN KEY (measure_id)
+      REFERENCES openchpl.measure (id) MATCH FULL
+      ON UPDATE CASCADE ON DELETE RESTRICT,
+ CONSTRAINT measure_type_fk FOREIGN KEY (measure_type_id)
+      REFERENCES openchpl.measure_type (id) MATCH FULL
+      ON UPDATE CASCADE ON DELETE RESTRICT
+);
+
+CREATE TABLE openchpl.certified_product_measure_criteria (
+ id                                bigserial NOT NULL,
+ certification_criterion_id        bigint NOT NULL,
+ certified_product_measure_id      bigint NOT NULL,
+ creation_date                     timestamp with time zone NOT NULL DEFAULT NOW(),
+ last_modified_date                timestamp with time zone NOT NULL DEFAULT NOW(),
+ last_modified_user                bigint NOT NULL,
+ deleted                           boolean NOT NULL DEFAULT false,
+ CONSTRAINT PK_certified_products_mips_measure_criteria PRIMARY KEY ( id ),
+ CONSTRAINT certification_criterion_fk FOREIGN KEY (certification_criterion_id)
+      REFERENCES openchpl.certification_criterion (certification_criterion_id) MATCH FULL
+      ON UPDATE CASCADE ON DELETE RESTRICT,
+ CONSTRAINT certified_product_measure_fk FOREIGN KEY (certified_product_measure_id)
+      REFERENCES openchpl.certified_product_measure (id) MATCH FULL
+      ON UPDATE CASCADE ON DELETE RESTRICT
+);
+
+CREATE TABLE openchpl.pending_certified_product_measure (
+ id                           bigserial NOT NULL,
+ pending_certified_product_id bigint NOT NULL,
+ measure_id                   bigint,
+ measure_type_id              bigint,
+ uploaded_value               text, 
+ creation_date                timestamp with time zone NOT NULL DEFAULT NOW(),
+ last_modified_date           timestamp with time zone NOT NULL DEFAULT NOW(),
+ last_modified_user           bigint NOT NULL,
+ deleted                      boolean NOT NULL DEFAULT false,
+ CONSTRAINT PK_pending_certified_product_measures PRIMARY KEY ( id ),
+ CONSTRAINT pending_certified_product_fk FOREIGN KEY (pending_certified_product_id)
+      REFERENCES openchpl.pending_certified_product (pending_certified_product_id) MATCH FULL
+      ON UPDATE CASCADE ON DELETE RESTRICT,
+ CONSTRAINT measure_fk FOREIGN KEY (measure_id)
+      REFERENCES openchpl.measure (id) MATCH FULL
+      ON UPDATE CASCADE ON DELETE RESTRICT,
+ CONSTRAINT measure_type_fk FOREIGN KEY (measure_type_id)
+      REFERENCES openchpl.measure_type (id) MATCH FULL
+      ON UPDATE CASCADE ON DELETE RESTRICT
+);
+
+CREATE TABLE openchpl.pending_certified_product_measure_criteria (
+ id                                        bigserial NOT NULL,
+ certification_criterion_id                bigint NOT NULL,
+ pending_certified_product_measure_id      bigint NOT NULL,
+ creation_date                             timestamp with time zone NOT NULL DEFAULT NOW(),
+ last_modified_date                        timestamp with time zone NOT NULL DEFAULT NOW(),
+ last_modified_user                        bigint NOT NULL,
+ deleted                                   boolean NOT NULL DEFAULT false,
+ CONSTRAINT PK_pending_certified_products_mips_measure_criteria PRIMARY KEY ( id ),
+ CONSTRAINT certification_criterion_fk FOREIGN KEY (certification_criterion_id)
+      REFERENCES openchpl.certification_criterion (certification_criterion_id) MATCH FULL
+      ON UPDATE CASCADE ON DELETE RESTRICT,
+ CONSTRAINT pending_certified_product_measure_fk FOREIGN KEY (pending_certified_product_measure_id)
+      REFERENCES openchpl.pending_certified_product_measure (id) MATCH FULL
+      ON UPDATE CASCADE ON DELETE RESTRICT
+);
 
 CREATE INDEX fki_certified_product_id_fk
 ON openchpl.ehr_certification_id_product_map
