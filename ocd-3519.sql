@@ -362,6 +362,26 @@ INSERT INTO openchpl.measure (measure_domain_id, required_test_abbr, measure_nam
 INSERT INTO openchpl.measure (measure_domain_id, required_test_abbr, measure_name, required_test, criteria_selection_required, removed, last_modified_user) SELECT (SELECT id FROM openchpl.measure_domain WHERE domain = 'EP Medicaid PI'), 'RT9', 'Medication/Clinical Information Reconciliation: Eligible Professional', 'Required Test 9: Medicaid Promoting Interoperability Program', false, false, -1;
 INSERT INTO openchpl.measure (measure_domain_id, required_test_abbr, measure_name, required_test, criteria_selection_required, removed, last_modified_user) SELECT (SELECT id FROM openchpl.measure_domain WHERE domain = 'EP Stage 2'), 'RT9', 'Medication/Clinical Information Reconciliation: Eligible Professional', 'Required Test 9: Stage 2 Objective 7', false, true, -1;
 
+------------------- UPDATE SOME MACRA_CRITERIA_MAP RECORDS THAT HAVE INCONSISTENT DATA -------------------
+UPDATE openchpl.macra_criteria_map
+SET name = 'Provide Patients Electronic Access to Their Health Information (formerly Patient Electronic Access): Eligible Hospital/Critical Access Hospital'
+WHERE value = 'RT2a EH/CAH Medicare and Medicaid PI'
+AND name = 'Provide Patients Electronic Access to Their Health Information (formerly Patient Electronic Access): Eligible Clinician';
+
+UPDATE openchpl.macra_criteria_map
+SET name = 'Patient Electronic Access: Eligible Professional'
+WHERE value = 'RT2a EP Medicaid PI'
+AND name = 'Provide Patients Electronic Access to Their Health Information (formerly Patient Electronic Access): Eligible Hospital/Critical Access Hospital';
+
+UPDATE openchpl.macra_criteria_map
+SET name = 'View, Download, or Transmit (VDT): Eligible Professional'
+WHERE value = 'RT4a EP Medicaid PI'
+AND name = 'View, Download, or Transmit (VDT): Eligible Hospital/Critical Access Hospital';
+
+UPDATE openchpl.macra_criteria_map
+SET name = 'View, Download, or Transmit (VDT): Eligible Professional'
+WHERE value = 'RT4c EP Medicaid PI'
+AND name = 'View, Download, or Transmit (VDT): Eligible Hospital/Critical Access Hospital';
 
 ------------------- INSERT ALLOWED_MIPS_MEASURES_CRITERIA -------------------
 --Handle all existing measure/criteria mapping, except RT2* and RT4*
