@@ -200,7 +200,7 @@ WHERE NOT EXISTS (
 ------------------- INSERT MIPS_DOMAINS -------------------
 INSERT INTO openchpl.measure_domain
 (domain, last_modified_user)
-SELECT 'EC', -1 WHERE NOT EXISTS (SELECT * FROM openchpl.measure_domain WHERE domain = 'EH');
+SELECT 'EC', -1 WHERE NOT EXISTS (SELECT * FROM openchpl.measure_domain WHERE domain = 'EC');
 
 INSERT INTO openchpl.measure_domain 
 (domain, last_modified_user)
@@ -224,8 +224,7 @@ SELECT 'EC Group', -1 WHERE NOT EXISTS (SELECT * FROM openchpl.measure_domain WH
 
 INSERT INTO openchpl.measure_domain
 (domain, last_modified_user)
-SELECT 'EC Individual (TIN/NPI)', -1
-WHERE NOT EXISTS (SELECT * FROM openchpl.measure_domain WHERE domain = 'EC Individual (TIN/NPI)');
+SELECT 'EC Individual (TIN/NPI)', -1 WHERE NOT EXISTS (SELECT * FROM openchpl.measure_domain WHERE domain = 'EC Individual (TIN/NPI)');
 
 INSERT INTO openchpl.measure_domain
 (domain, last_modified_user)
