@@ -15,12 +15,12 @@ BEGIN
     UPDATE openchpl.listing_to_listing_map as src SET deleted = NEW.deleted WHERE src.parent_listing_id = NEW.certified_product_id;
     UPDATE openchpl.listing_to_listing_map as src SET deleted = NEW.deleted WHERE src.child_listing_id = NEW.certified_product_id;
 	UPDATE openchpl.quarterly_report_excluded_listing_map as src SET deleted = NEW.deleted WHERE src.listing_id = NEW.certified_product_id;
-    UPDATE openchpl.certified_product_mips_measure as src SET deleted = NEW.deleted WHERE src.certified_product_id = NEW.certified_product_id;
-    UPDATE openchpl.certified_product_mips_measure_criteria as src 
+    UPDATE openchpl.certified_product_measure as src SET deleted = NEW.deleted WHERE src.certified_product_id = NEW.certified_product_id;
+    UPDATE openchpl.certified_product_measure_criteria as src 
         SET deleted = NEW.deleted 
-        WHERE src.certified_product_mips_measure_id = 
-            (SELECT certified_product_mips_measure_id
-            FROM openchpl.certified_product_mips_measure cpmm
+        WHERE src.certified_product_measure_id = 
+            (SELECT certified_product_measure_id
+            FROM openchpl.certified_product_measure cpmm
             WHERE cpmm.certified_product_id = NEW.certified_product_id);
     RETURN NEW;
 END;
