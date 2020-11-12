@@ -425,6 +425,7 @@ WHERE id IN (
 DO $$
 DECLARE r record;
 DECLARE lastid bigint;
+DECLARE selected_measure record;
 BEGIN
     -- G1 Macras, minus RT2* and RT4*
     -- We don't care about certification_criterion_id.  Second INSERT will insert 
@@ -490,7 +491,7 @@ BEGIN
     END LOOP;
 
     
-    -- G1 Macras, minus RT2* and RT4*
+    -- G2 Macras, minus RT2* and RT4*
     -- We don't care about certification_criterion_id.  Second INSERT will insert 
     -- a record for each allowed criteria for the new mips measure
     FOR r IN SELECT DISTINCT cr.certified_product_id, all_measures.measure_id
@@ -523,7 +524,7 @@ BEGIN
     -- G2 Macras, ONLY RT2* and RT4*
     -- We need certification_criterion_id.  Second INSERT will insert
     -- a record for each existing macra measure/criteria combo 
-    FOR r IN SELECT DISTINCT cr.certified_product_id, all_measures.measure_id, cc.certification_criterion_id
+    FOR r IN SELECT DISTINCT cr.certified_product_id, all_measures.measure_id
             FROM openchpl.certification_result_g2_macra g2
             INNER JOIN openchpl.certification_result cr
                 ON g2.certification_result_id = cr.certification_result_id 
@@ -537,18 +538,29 @@ BEGIN
             OR mm.required_test_abbr LIKE 'RT2%')
 
     LOOP
-        -- Return the id that was just created for adding the certified_product_measure_criteria records
-        INSERT INTO openchpl.certified_product_measure
-        (certified_product_id, measure_id, measure_type_id, last_modified_user)
-        VALUES 
-        (r.certified_product_id, r.measure_id, 2, -1)
-        RETURNING id INTO lastid;
-        
-        INSERT INTO openchpl.certified_product_measure_criteria
-        (certified_product_measure_id, certification_criterion_id, last_modified_user)
-        SELECT lastid, certification_criterion_id, -1
-        FROM openchpl.allowed_measure_criteria
-        WHERE measure_id = r.measure_id
-        AND certification_criterion_id = r.certification_criterion_id;
+        SELECT * 
+        INTO selected_measure
+        FROM openchpl.certified_product_measure
+        WHERE certified_product_id = r.certified_product_id
+        AND measure_id = r.measure_id
+        AND measure_type_id = 2;
+
+        IF not found THEN
+            -- Return the id that was just created for adding the certified_product_measure_criteria records
+            INSERT INTO openchpl.certified_product_measure
+            (certified_product_id, measure_id, measure_type_id, last_modified_user)
+            VALUES 
+            (r.certified_product_id, r.measure_id, 2, -1)
+            RETURNING id INTO lastid;
+            
+            INSERT INTO openchpl.certified_product_measure_criteria
+            (certified_product_measure_id, certification_criterion_id, last_modified_user)
+            SELECT lastid, certification_criterion_id, -1
+            FROM openchpl.allowed_measure_criteria
+            WHERE measure_id = r.measure_id;
+            --AND certification_criterion_id = r.certification_criterion_id;
+        ELSE 
+            raise notice '% and % was found', r.certified_product_id, r.measure_id;
+        END IF;
     END LOOP;    
 END$$;
