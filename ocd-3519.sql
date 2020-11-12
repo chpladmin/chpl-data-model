@@ -474,20 +474,27 @@ BEGIN
             OR mm.required_test_abbr LIKE 'RT2%')
 
     LOOP
-        -- Return the id that was just created for adding the certified_product_measure_criteria records
-        INSERT INTO openchpl.certified_product_measure
-        (certified_product_id, measure_id, measure_type_id, last_modified_user)
-        VALUES 
-        (r.certified_product_id, r.measure_id, 1, -1)
-        RETURNING id INTO lastid;
-        
-        INSERT INTO openchpl.certified_product_measure_criteria
-        (certified_product_measure_id, certification_criterion_id, last_modified_user)
-        SELECT lastid, certification_criterion_id, -1
-        FROM openchpl.allowed_measure_criteria
-        WHERE measure_id = r.measure_id
-        AND certification_criterion_id = r.certification_criterion_id;
-        
+        SELECT * 
+        INTO selected_measure
+        FROM openchpl.certified_product_measure
+        WHERE certified_product_id = r.certified_product_id
+        AND measure_id = r.measure_id
+        AND measure_type_id = 1;
+
+        IF not found THEN
+            -- Return the id that was just created for adding the certified_product_measure_criteria records
+            INSERT INTO openchpl.certified_product_measure
+            (certified_product_id, measure_id, measure_type_id, last_modified_user)
+            VALUES 
+            (r.certified_product_id, r.measure_id, 1, -1)
+            RETURNING id INTO lastid;
+            
+            INSERT INTO openchpl.certified_product_measure_criteria
+            (certified_product_measure_id, certification_criterion_id, last_modified_user)
+            SELECT lastid, certification_criterion_id, -1
+            FROM openchpl.allowed_measure_criteria
+            WHERE measure_id = r.measure_id;
+        END IF;
     END LOOP;
 
     
@@ -558,9 +565,6 @@ BEGIN
             SELECT lastid, certification_criterion_id, -1
             FROM openchpl.allowed_measure_criteria
             WHERE measure_id = r.measure_id;
-            --AND certification_criterion_id = r.certification_criterion_id;
-        ELSE 
-            raise notice '% and % was found', r.certified_product_id, r.measure_id;
         END IF;
     END LOOP;    
 END$$;
