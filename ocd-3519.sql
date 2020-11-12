@@ -541,7 +541,7 @@ BEGIN
         INSERT INTO openchpl.certified_product_measure
         (certified_product_id, measure_id, measure_type_id, last_modified_user)
         VALUES 
-        (r.certified_product_id, r.measure_id, 1, -1)
+        (r.certified_product_id, r.measure_id, 2, -1)
         RETURNING id INTO lastid;
         
         INSERT INTO openchpl.certified_product_measure_criteria
