@@ -396,7 +396,7 @@ AND mcm.value NOT IN ('RT2%', 'RT4%');
 
 --Handle RT2* and RT4* existing measure/criteria mapping 
 INSERT INTO openchpl.allowed_measure_criteria (measure_id, certification_criterion_id, macra_criteria_map_id, last_modified_user, deleted) 
-SELECT  mm.id, mcm.criteria_id, mcm.id, -1, mcm.deleted
+SELECT  mm.id, mcm.criteria_id, min(mcm.id), -1 as user_id, mcm.deleted
 FROM openchpl.macra_criteria_map mcm
 INNER JOIN openchpl.measure mm
  ON replace(mcm.name, ' ', '') = replace(mm.measure_name, ' ', '')
@@ -406,7 +406,8 @@ INNER JOIN openchpl.measure mm
 INNER JOIN openchpl.measure_domain md
  ON mm.measure_domain_id = md.id 
 WHERE substring(value, 6) = md."domain" 
-AND (mcm.value LIKE 'RT2%' OR mcm.value LIKE 'RT4%');
+AND (mcm.value LIKE 'RT2%' OR mcm.value LIKE 'RT4%')
+GROUP BY mm.id, mcm.criteria_id , user_id, mcm.deleted;
 
 -- There are some measures that only have deleted allowed_measure_criteria associated with them.
 -- This query will mark the measures as deleted if they do not have any active allowed_measure_criteria
