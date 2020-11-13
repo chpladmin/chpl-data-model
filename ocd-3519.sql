@@ -440,6 +440,7 @@ BEGIN
                 ON all_measures.measure_id = mm.id 
             WHERE mm.required_test_abbr NOT LIKE 'RT4%'
             AND mm.required_test_abbr NOT LIKE 'RT2%'
+            AND g1.deleted = false
 
     LOOP
         -- Return the id that was just created for adding the certified_product_measure_criteria records
@@ -472,7 +473,7 @@ BEGIN
                 ON all_measures.measure_id = mm.id 
             WHERE (mm.required_test_abbr LIKE 'RT4%'
             OR mm.required_test_abbr LIKE 'RT2%')
-
+            AND g1.deleted = false
     LOOP
         SELECT * 
         INTO selected_measure
@@ -511,7 +512,7 @@ BEGIN
                 ON all_measures.measure_id = mm.id 
             WHERE mm.required_test_abbr NOT LIKE 'RT4%'
             AND mm.required_test_abbr NOT LIKE 'RT2%'
-
+            AND g2.deleted = false
     LOOP
         -- Return the id that was just created for adding the certified_product_measure_criteria records
         INSERT INTO openchpl.certified_product_measure
@@ -543,6 +544,7 @@ BEGIN
                 ON all_measures.measure_id = mm.id 
             WHERE (mm.required_test_abbr LIKE 'RT4%'
             OR mm.required_test_abbr LIKE 'RT2%')
+            AND g2.deleted = false
 
     LOOP
         SELECT * 
