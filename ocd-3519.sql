@@ -493,9 +493,16 @@ BEGIN
             
             INSERT INTO openchpl.certified_product_measure_criteria
             (certified_product_measure_id, certification_criterion_id, last_modified_user)
-            SELECT lastid, certification_criterion_id, -1
-            FROM openchpl.allowed_measure_criteria
-            WHERE measure_id = r.measure_id;
+            SELECT lastid, cr.certification_criterion_id, -1
+            FROM openchpl.certification_result_g2_macra crgm
+            INNER JOIN openchpl.certification_result cr 
+                ON crgm.certification_result_id = cr.certification_result_id 
+            INNER JOIN openchpl.macra_criteria_map mcm 
+                ON crgm.macra_id = mcm.id 
+            INNER JOIN openchpl.allowed_measure_criteria amc 
+                ON mcm.id = amc.macra_criteria_map_id 
+            WHERE cr.certified_product_id = r.certified_product_id
+            AND amc.measure_id = r.measure_id;
         END IF;
     END LOOP;
 
@@ -565,9 +572,16 @@ BEGIN
             
             INSERT INTO openchpl.certified_product_measure_criteria
             (certified_product_measure_id, certification_criterion_id, last_modified_user)
-            SELECT lastid, certification_criterion_id, -1
-            FROM openchpl.allowed_measure_criteria
-            WHERE measure_id = r.measure_id;
+            SELECT lastid, cr.certification_criterion_id, -1
+            FROM openchpl.certification_result_g2_macra crgm
+            INNER JOIN openchpl.certification_result cr 
+                ON crgm.certification_result_id = cr.certification_result_id 
+            INNER JOIN openchpl.macra_criteria_map mcm 
+                ON crgm.macra_id = mcm.id 
+            INNER JOIN openchpl.allowed_measure_criteria amc 
+                ON mcm.id = amc.macra_criteria_map_id 
+            WHERE cr.certified_product_id = r.certified_product_id
+            AND amc.measure_id = r.measure_id;
         END IF;
     END LOOP;    
 END$$;
