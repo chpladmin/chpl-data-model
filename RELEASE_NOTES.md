@@ -1,5 +1,30 @@
 # Release Notes
 
+## Version 19.7.1
+_16 November 2020_
+
+### Data Changes
+* Remove friendly name from product and developer points of contact
+
+---
+
+## Version 19.7.0
+_19 October 2020_
+
+### Features
+* Add new data elements for Real World Testing
+
+---
+
+## Version 19.6.1
+_21 September 2020_
+
+### Data Changes
+* Add Stage 3 macra measures for (a)(1), (a)(2), and (a)(3)
+* Add new CQM version and add new versions to existing CQMs for 2021 reporting bundle
+
+---
+
 ## Version 19.6.0
 _18 August 2020_
 
