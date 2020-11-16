@@ -1,5 +1,13 @@
 # Release Notes
 
+## Version 19.7.1
+_16 November 2020_
+
+### Data Changes
+* Remove friendly name from product and developer points of contact
+
+---
+
 ## Version 19.7.0
 _19 October 2020_
 
