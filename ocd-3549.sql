@@ -4,6 +4,10 @@ CREATE TABLE openchpl.certified_product_upload (
 	id bigserial NOT NULL,
 	chpl_product_number text NOT NULL,
 	certification_body_id bigint NOT NULL,
+	vendor_name text,
+	product_name text,
+	version_name text,
+	certification_date date,
 	error_count integer,
 	warning_count integer,
 	contents text NOT NULL,
@@ -16,7 +20,7 @@ CREATE TABLE openchpl.certified_product_upload (
       REFERENCES openchpl.certification_body (certification_body_id) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION
 );
-
-\i dev/openchpl_grant-all.sql
+CREATE TRIGGER certified_product_upload_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.certified_product_upload FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+CREATE TRIGGER certified_product_upload_timestamp BEFORE UPDATE on openchpl.certified_product_upload FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 
 --TODO: How to link created certified products to this table? We already have a fk to the old pending table.
