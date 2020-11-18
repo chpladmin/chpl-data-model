@@ -24,3 +24,10 @@ CREATE TRIGGER certified_product_upload_audit AFTER INSERT OR UPDATE OR DELETE o
 CREATE TRIGGER certified_product_upload_timestamp BEFORE UPDATE on openchpl.certified_product_upload FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 
 --TODO: How to link created certified products to this table? We already have a fk to the old pending table.
+
+INSERT INTO openchpl.activity_concept (concept, last_modified_user)
+SELECT 'LISTING_UPLOAD', -1
+WHERE
+    NOT EXISTS (
+        SELECT concept FROM openchpl.activity_concept WHERE concept = 'LISTING_UPLOAD'
+    );
