@@ -494,7 +494,7 @@ BEGIN
             INSERT INTO openchpl.certified_product_measure_criteria
             (certified_product_measure_id, certification_criterion_id, last_modified_user)
             SELECT lastid, cr.certification_criterion_id, -1
-            FROM openchpl.certification_result_g2_macra crgm
+            FROM openchpl.certification_result_g1_macra crgm
             INNER JOIN openchpl.certification_result cr 
                 ON crgm.certification_result_id = cr.certification_result_id 
             INNER JOIN openchpl.macra_criteria_map mcm 
