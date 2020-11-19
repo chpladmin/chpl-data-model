@@ -516,10 +516,10 @@ BEGIN
                 ON crgm.certification_result_id = cr.certification_result_id 
             INNER JOIN openchpl.macra_criteria_map mcm 
                 ON crgm.macra_id = mcm.id 
-            INNER JOIN openchpl.allowed_measure_criteria amc 
-                ON mcm.id = amc.macra_criteria_map_id 
+            INNER JOIN rt2_rt4_mapping ming
+            	ON crgm.macra_id = ming.macra_criteria_map_id
             WHERE cr.certified_product_id = r.certified_product_id
-            AND amc.measure_id = r.measure_id;
+            AND ming.measure_id = r.measure_id;
         END IF;
     END LOOP;
 
@@ -595,10 +595,10 @@ BEGIN
                 ON crgm.certification_result_id = cr.certification_result_id 
             INNER JOIN openchpl.macra_criteria_map mcm 
                 ON crgm.macra_id = mcm.id 
-            INNER JOIN openchpl.allowed_measure_criteria amc 
-                ON mcm.id = amc.macra_criteria_map_id 
+            INNER JOIN rt2_rt4_mapping ming
+            	ON crgm.macra_id = ming.macra_criteria_map_id
             WHERE cr.certified_product_id = r.certified_product_id
-            AND amc.measure_id = r.measure_id;
+            AND ming.measure_id = r.measure_id;
         END IF;
     END LOOP;    
 END$$;
