@@ -428,6 +428,23 @@ DECLARE r record;
 DECLARE lastid bigint;
 DECLARE selected_measure record;
 BEGIN
+	-- This is a temporary table that is used to map the RT2 and RT4 macra measures
+	CREATE TEMP TABLE rt2_rt4_mapping AS
+	SELECT  mm.id measure_id, mcm.criteria_id, amc.id allowed_criteria_measure_id, mcm.id macra_criteria_map_id
+	FROM openchpl.macra_criteria_map mcm
+	INNER JOIN openchpl.measure mm
+		ON replace(mcm.name, ' ', '') = replace(mm.measure_name, ' ', '')
+		AND replace(mcm.description, ' ', '')  = replace(mm.required_test, ' ', '')
+		AND mcm.removed = mm.removed
+		AND substring(value, 0, 4) = mm.required_test_abbr 
+	INNER JOIN openchpl.measure_domain md
+		ON mm.measure_domain_id = md.id 
+	INNER JOIN openchpl.allowed_measure_criteria amc
+		ON amc.certification_criterion_id = mcm.criteria_id 
+		AND amc.measure_id = mm.id 
+	WHERE substring(value, 6) = md."domain" 
+	AND (mcm.value LIKE 'RT2%' OR mcm.value LIKE 'RT4%');
+	
     -- G1 Macras, minus RT2* and RT4*
     -- We don't care about certification_criterion_id.  Second INSERT will insert 
     -- a record for each allowed criteria for the new mips measure
@@ -462,19 +479,19 @@ BEGIN
     -- G1 Macras, ONLY RT2* and RT4*
     -- We need certification_criterion_id.  Second INSERT will insert
     -- a record for each existing macra measure/criteria combo 
-    FOR r IN SELECT DISTINCT cr.certified_product_id, all_measures.measure_id, cc.certification_criterion_id
+    FOR r IN SELECT DISTINCT cr.certified_product_id, mm.id measure_id, cc.certification_criterion_id
             FROM openchpl.certification_result_g1_macra g1
             INNER JOIN openchpl.certification_result cr
                 ON g1.certification_result_id = cr.certification_result_id 
             INNER JOIN openchpl.certification_criterion cc
                 ON cr.certification_criterion_id = cc.certification_criterion_id 
-            INNER JOIN openchpl.allowed_measure_criteria all_measures
-                ON g1.macra_id = all_measures.macra_criteria_map_id
+            INNER JOIN rt2_rt4_mapping ming
+            	ON g1.macra_id = ming.macra_criteria_map_id
            	INNER JOIN openchpl.measure mm
-                ON all_measures.measure_id = mm.id 
+                ON ming.measure_id = mm.id 
             WHERE (mm.required_test_abbr LIKE 'RT4%'
             OR mm.required_test_abbr LIKE 'RT2%')
-            AND g1.deleted = false
+            AND g1.deleted = FALSE
     LOOP
         SELECT * 
         INTO selected_measure
@@ -540,19 +557,19 @@ BEGIN
     -- G2 Macras, ONLY RT2* and RT4*
     -- We need certification_criterion_id.  Second INSERT will insert
     -- a record for each existing macra measure/criteria combo 
-    FOR r IN SELECT DISTINCT cr.certified_product_id, all_measures.measure_id
+    FOR r IN SELECT DISTINCT cr.certified_product_id, mm.id measure_id, cc.certification_criterion_id
             FROM openchpl.certification_result_g2_macra g2
             INNER JOIN openchpl.certification_result cr
                 ON g2.certification_result_id = cr.certification_result_id 
             INNER JOIN openchpl.certification_criterion cc
                 ON cr.certification_criterion_id = cc.certification_criterion_id 
-            INNER JOIN openchpl.allowed_measure_criteria all_measures
-                ON g2.macra_id = all_measures.macra_criteria_map_id
+            INNER JOIN rt2_rt4_mapping ming
+            	ON g2.macra_id = ming.macra_criteria_map_id
            	INNER JOIN openchpl.measure mm
-                ON all_measures.measure_id = mm.id 
+                ON ming.measure_id = mm.id 
             WHERE (mm.required_test_abbr LIKE 'RT4%'
             OR mm.required_test_abbr LIKE 'RT2%')
-            AND g2.deleted = false
+            AND g2.deleted = FALSE
 
     LOOP
         SELECT * 
