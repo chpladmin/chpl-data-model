@@ -519,7 +519,8 @@ BEGIN
             INNER JOIN rt2_rt4_mapping ming
             	ON crgm.macra_id = ming.macra_criteria_map_id
             WHERE cr.certified_product_id = r.certified_product_id
-            AND ming.measure_id = r.measure_id;
+            AND ming.measure_id = r.measure_id
+			AND crgm.deleted = false;
         END IF;
     END LOOP;
 
@@ -598,7 +599,8 @@ BEGIN
             INNER JOIN rt2_rt4_mapping ming
             	ON crgm.macra_id = ming.macra_criteria_map_id
             WHERE cr.certified_product_id = r.certified_product_id
-            AND ming.measure_id = r.measure_id;
+            AND ming.measure_id = r.measure_id
+			AND crgm.deleted = false;
         END IF;
     END LOOP;    
 END$$;
