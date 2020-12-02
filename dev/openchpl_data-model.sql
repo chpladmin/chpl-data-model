@@ -3397,3 +3397,5 @@ CREATE INDEX ix_test_standard ON openchpl.test_standard (test_standard_id, delet
 CREATE INDEX ix_listing_to_listing_map_parent_id_deleted ON openchpl.listing_to_listing_map (parent_listing_id, deleted);
 
 CREATE INDEX ix_listing_to_listing_map_child_id_deleted ON openchpl.listing_to_listing_map (child_listing_id, deleted);
+
+CREATE INDEX ix_api_key_activity_month_year ON openchpl.api_key_activity (EXTRACT(MONTH FROM creation_date), EXTRACT(YEAR FROM creation_date));
