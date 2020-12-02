@@ -2,6 +2,7 @@ DROP TABLE IF EXISTS openchpl.certified_product_mips_measure_criteria CASCADE;
 DROP TABLE IF EXISTS openchpl.certified_product_mips_measure CASCADE;
 DROP TABLE IF EXISTS openchpl.pending_certified_product_mips_measure_criteria CASCADE;
 DROP TABLE IF EXISTS openchpl.pending_certified_product_mips_measure CASCADE;
+DROP TABLE IF EXISTS openchpl.allowed_mips_measure_criteria_legacy_map CASCADE;
 DROP TABLE IF EXISTS openchpl.allowed_mips_measure_criteria CASCADE;
 DROP TABLE IF EXISTS openchpl.mips_measure CASCADE;
 DROP TABLE IF EXISTS openchpl.mips_type CASCADE;
@@ -11,6 +12,7 @@ DROP TABLE IF EXISTS openchpl.certified_product_measure_criteria;
 DROP TABLE IF EXISTS openchpl.certified_product_measure;
 DROP TABLE IF EXISTS openchpl.pending_certified_product_measure_criteria;
 DROP TABLE IF EXISTS openchpl.pending_certified_product_measure;
+DROP TABLE IF EXISTS openchpl.allowed_measure_criteria_legacy_map;
 DROP TABLE IF EXISTS openchpl.allowed_measure_criteria;
 DROP TABLE IF EXISTS openchpl.measure;
 DROP TABLE IF EXISTS openchpl.measure_type;
@@ -82,12 +84,31 @@ CREATE TABLE openchpl.allowed_measure_criteria (
  CONSTRAINT macra_criteria_map_fk FOREIGN KEY (macra_criteria_map_id)
       REFERENCES openchpl.macra_criteria_map (id) MATCH FULL
       ON UPDATE CASCADE ON DELETE RESTRICT
- 
- );
+);
 
 CREATE TRIGGER allowed_measure_criteria_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.allowed_measure_criteria FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER allowed_measure_criteria_timestamp BEFORE UPDATE on openchpl.allowed_measure_criteria FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 
+CREATE TABLE openchpl.allowed_measure_criteria_legacy_map (
+ id                          bigserial NOT NULL,
+ allowed_criteria_measure_id bigint NOT NULL,
+ macra_criteria_map_id       bigint NOT NULL,
+ creation_date               timestamp with time zone NOT NULL DEFAULT NOW(),
+ last_modified_date          timestamp with time zone NOT NULL DEFAULT NOW(),
+ last_modified_user          bigint NOT NULL,
+ deleted                     boolean NOT NULL DEFAULT false,
+ CONSTRAINT PK_allowed_measure_criteria_legacy_map PRIMARY KEY ( id ),
+ CONSTRAINT macra_criteria_map_fk FOREIGN KEY (macra_criteria_map_id)
+      REFERENCES openchpl.macra_criteria_map (id) MATCH FULL
+      ON UPDATE CASCADE ON DELETE RESTRICT,
+ CONSTRAINT allowed_measure_criteria_fk FOREIGN KEY (allowed_criteria_measure_id)
+      REFERENCES openchpl.allowed_measure_criteria (id) MATCH FULL
+      ON UPDATE CASCADE ON DELETE RESTRICT
+);
+ 
+CREATE TRIGGER allowed_measure_criteria_legacy_map_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.allowed_measure_criteria_legacy_map FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+CREATE TRIGGER allowed_measure_criteria_legacy_map_timestamp BEFORE UPDATE on openchpl.allowed_measure_criteria_legacy_map FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
+  
 CREATE TABLE openchpl.certified_product_measure (
  id                   bigserial NOT NULL,
  certified_product_id bigint NOT NULL,
@@ -422,6 +443,37 @@ WHERE id IN (
         FROM openchpl.allowed_measure_criteria
         WHERE deleted = false));
 
+-- INSERT allowed_measure_criteria_legacy_map
+-- These values are not used during the rest of the data conversion
+INSERT INTO openchpl.allowed_measure_criteria_legacy_map (allowed_criteria_measure_id, macra_criteria_map_id, last_modified_user)
+SELECT amc.id allowed_criteria_measure_id, mcm.id macra_criteria_map_id, -1
+FROM openchpl.macra_criteria_map mcm
+INNER JOIN openchpl.measure mm
+	ON replace(mcm.name, ' ', '') = replace(mm.measure_name, ' ', '')
+	AND replace(mcm.description, ' ', '')  = replace(mm.required_test, ' ', '')
+	AND mcm.removed = mm.removed
+	AND substring(value, 0, 4) = mm.required_test_abbr 
+INNER JOIN openchpl.measure_domain md
+	ON mm.measure_domain_id = md.id 
+INNER JOIN openchpl.allowed_measure_criteria amc
+	ON amc.certification_criterion_id = mcm.criteria_id 
+	AND amc.measure_id = mm.id 
+WHERE substring(value, 6) = md."domain" 
+UNION
+SELECT amc.id, mcm.id, -1
+FROM openchpl.macra_criteria_map mcm
+INNER JOIN openchpl.measure mm
+  ON replace(mcm.name, ' ', '') = replace(mm.measure_name, ' ', '')
+  AND replace(mcm.description, ' ', '')  = replace(mm.required_test, ' ', '')
+  AND mcm.removed = mm.removed
+INNER JOIN openchpl.measure_domain md
+  ON mm.measure_domain_id = md.id 
+INNER JOIN openchpl.allowed_measure_criteria amc
+  ON amc.measure_id = mm.id
+  AND amc.certification_criterion_id = mcm.criteria_id
+WHERE (mcm.value = mm.required_test_abbr || ' ' || md."domain" 
+OR mcm.value = md."domain");	
+
 ------------------- INSERT certified_product_measureS and certified_product_measureS_CRITERIA -------------------
 DO $$
 DECLARE r record;
@@ -604,3 +656,5 @@ BEGIN
         END IF;
     END LOOP;    
 END$$;
+
+ALTER TABLE openchpl.allowed_measure_criteria DROP COLUMN IF EXISTS macra_criteria_map_id;
