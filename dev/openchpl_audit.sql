@@ -9,7 +9,7 @@ CREATE TABLE audit.logged_actions (
     schema_name text NOT NULL,
     table_name text NOT NULL,
     user_name text,
-    action_tstamp TIMESTAMP WITH TIME zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    action_tstamp TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     action text NOT NULL CHECK (action IN ('I','D','U')),
     original_data json,
     new_data json,
@@ -29,6 +29,9 @@ ON audit.logged_actions(action_tstamp);
 
 CREATE INDEX logged_actions_action_idx
 ON audit.logged_actions(action);
+
+CREATE INDEX ix_logged_actions_month_year 
+ON audit.logged_actions (EXTRACT(MONTH FROM action_tstamp), EXTRACT(YEAR FROM action_tstamp));
 
 --
 -- Function to save old/new data when triggered
