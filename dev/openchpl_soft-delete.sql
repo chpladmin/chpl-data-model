@@ -1,3 +1,16 @@
+CREATE OR REPLACE FUNCTION openchpl.developer_soft_delete()
+RETURNS TRIGGER AS $$
+BEGIN
+	UPDATE openchpl.vendor_status_history as src SET deleted = NEW.deleted WHERE src.vendor_id = NEW.vendor_id;
+	UPDATE openchpl.acb_vendor_map as src SET deleted = NEW.deleted WHERE src.vendor_id = NEW.vendor_id;
+	UPDATE openchpl.user_developer_map as src SET deleted = NEW.deleted WHERE src.developer_id = NEW.vendor_id;
+	UPDATE openchpl.change_request as src SET deleted = NEW.deleted WHERE src.developer_id = NEW.vendor_id;
+    RETURN NEW;
+END;
+$$ language 'plpgsql';
+DROP TRIGGER IF EXISTS developer_soft_delete on openchpl.vendor;
+CREATE TRIGGER developer_soft_delete AFTER UPDATE of deleted on openchpl.vendor FOR EACH ROW EXECUTE PROCEDURE openchpl.developer_soft_delete();
+
 CREATE OR REPLACE FUNCTION openchpl.certified_product_soft_delete()
 RETURNS TRIGGER AS $$
 BEGIN
