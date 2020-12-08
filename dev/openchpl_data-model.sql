@@ -58,7 +58,7 @@ CREATE TABLE openchpl.user_permission(
 -- DROP TABLE IF EXISTS openchpl.user CASCADE;
 CREATE TABLE openchpl.user(
 	user_id bigserial NOT NULL,
-	user_name varchar(25) NOT NULL,
+	user_name varchar(25),
 	password varchar(255) NOT NULL,
 	account_expired bool NOT NULL,
 	account_locked bool NOT NULL,
