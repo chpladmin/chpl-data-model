@@ -3285,6 +3285,7 @@ CREATE TABLE openchpl.svap (
     id bigserial NOT NULL,
     regulatory_text_citation varchar(30) NOT NULL,
     approved_standard_version text NOT NULL,
+	replaced bool NOT NULL DEFAULT false,
     creation_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_user bigint NOT NULL,
