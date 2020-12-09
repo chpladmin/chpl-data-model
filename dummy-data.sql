@@ -1,7 +1,7 @@
 INSERT INTO openchpl.svap
-(regulatory_text_citation, approved_standard_version, last_modified_user)
+(regulatory_text_citation, approved_standard_version, replaced, last_modified_user)
 VALUES
-('170.202(a)(2)', 'Applicability Statement for Secure Health Transport, Version 1.2, August 2015 (Direct)', -1);
+('170.202(a)(2)', 'Applicability Statement for Secure Health Transport, Version 1.2, August 2015 (Direct)', true, -1);
 
 INSERT INTO openchpl.svap
 (regulatory_text_citation, approved_standard_version, last_modified_user)

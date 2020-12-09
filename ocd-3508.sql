@@ -6,11 +6,12 @@ CREATE TABLE openchpl.svap (
     id bigserial NOT NULL,
     regulatory_text_citation varchar(30) NOT NULL,
     approved_standard_version text NOT NULL,
+    replaced bool NOT NULL DEFAULT false,
     creation_date timestamp NOT NULL DEFAULT NOW(),
-	last_modified_date timestamp NOT NULL DEFAULT NOW(),
-	last_modified_user bigint NOT NULL,
-	deleted bool NOT NULL DEFAULT false,
-	CONSTRAINT svap_pk PRIMARY KEY (id)
+    last_modified_date timestamp NOT NULL DEFAULT NOW(),
+    last_modified_user bigint NOT NULL,
+    deleted bool NOT NULL DEFAULT false,
+    CONSTRAINT svap_pk PRIMARY KEY (id)
 );
 
 CREATE TRIGGER svap_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.svap FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
@@ -21,15 +22,15 @@ CREATE TABLE openchpl.svap_criteria_map (
     svap_id bigint NOT NULL,
     criteria_id bigint NOT NULL,
     creation_date timestamp NOT NULL DEFAULT NOW(),
-	last_modified_date timestamp NOT NULL DEFAULT NOW(),
-	last_modified_user bigint NOT NULL,
-	deleted bool NOT NULL DEFAULT false,
-	CONSTRAINT svap_criteria_map_pk PRIMARY KEY (id),
+    last_modified_date timestamp NOT NULL DEFAULT NOW(),
+    last_modified_user bigint NOT NULL,
+    deleted bool NOT NULL DEFAULT false,
+    CONSTRAINT svap_criteria_map_pk PRIMARY KEY (id),
     CONSTRAINT svap_fk FOREIGN KEY (svap_id)
-	    REFERENCES openchpl.svap (id)
+        REFERENCES openchpl.svap (id)
         MATCH SIMPLE ON UPDATE NO ACTION ON DELETE RESTRICT,
     CONSTRAINT svap_criteria_map_fk FOREIGN KEY (criteria_id)
-	    REFERENCES openchpl.certification_criterion (certification_criterion_id)
+        REFERENCES openchpl.certification_criterion (certification_criterion_id)
         MATCH SIMPLE ON UPDATE NO ACTION ON DELETE RESTRICT
 );
 
