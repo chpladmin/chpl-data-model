@@ -9,7 +9,7 @@ CREATE TABLE audit.logged_actions (
     schema_name text NOT NULL,
     table_name text NOT NULL,
     user_name text,
-    action_tstamp TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    action_tstamp TIMESTAMP WITHOUT time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
     action text NOT NULL CHECK (action IN ('I','D','U')),
     original_data json,
     new_data json,
