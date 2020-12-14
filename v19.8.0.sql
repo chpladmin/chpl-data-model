@@ -1,3 +1,6 @@
+-- Deployment file for version 19.8.0
+--     as of 2020-12-14
+-- ocd-3519.sql
 DROP TABLE IF EXISTS openchpl.certified_product_mips_measure_criteria CASCADE;
 DROP TABLE IF EXISTS openchpl.certified_product_mips_measure CASCADE;
 DROP TABLE IF EXISTS openchpl.pending_certified_product_mips_measure_criteria CASCADE;
@@ -657,4 +660,16 @@ BEGIN
     END LOOP;    
 END$$;
 
-ALTER TABLE openchpl.allowed_measure_criteria DROP COLUMN IF EXISTS macra_criteria_map_id;
+ALTER TABLE openchpl.allowed_measure_criteria DROP COLUMN IF EXISTS macra_criteria_map_id;;
+-- ocd-3554.sql
+UPDATE openchpl.user_permission
+SET deleted = false
+WHERE name = 'ONC_STAFF';
+;
+-- ocd-3410.sql
+alter table openchpl.user alter user_name drop not null;
+;
+insert into openchpl.data_model_version (version, deploy_date, last_modified_user) values ('19.8.0', '2020-12-14', -1);
+\i dev/openchpl_soft-delete.sql
+\i dev/openchpl_views.sql
+\i dev/openchpl_grant-all.sql
