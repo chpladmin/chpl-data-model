@@ -1463,13 +1463,17 @@ CREATE TABLE openchpl.certified_product_upload (
 	error_count integer,
 	warning_count integer,
 	contents text NOT NULL,
+	certified_product_id bigint,
 	creation_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_user bigint NOT NULL,
 	deleted bool NOT NULL DEFAULT false,
 	CONSTRAINT certified_product_upload_pk PRIMARY KEY (id),
-	CONSTRAINT certification_body_id_fk FOREIGN KEY (certification_body_id)
+	CONSTRAINT certification_body_fk FOREIGN KEY (certification_body_id)
       REFERENCES openchpl.certification_body (certification_body_id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+	CONSTRAINT certified_product_id_fk FOREIGN KEY (certified_product_id)
+      REFERENCES openchpl.certified_product (certified_product_id) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION
 );
 
