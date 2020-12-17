@@ -1,5 +1,17 @@
 # Release Notes
 
+## Version 19.8.0
+_14 December 2020_
+
+### Features
+* Move G1/G2 measures from criteria to listing level
+* Make "username" optional for users
+
+### Data Changes
+* Enable ROLE_ONC_STAFF user type
+
+---
+
 ## Version 19.7.1
 _16 November 2020_
 
