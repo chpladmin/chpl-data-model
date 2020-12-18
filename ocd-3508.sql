@@ -56,3 +56,11 @@ CREATE TABLE openchpl.certification_result_svap (
 
 CREATE TRIGGER certification_result_svap_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.certification_result_svap FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER certification_result_svap_timestamp BEFORE UPDATE on openchpl.certification_result_svap FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
+
+INSERT INTO openchpl.questionable_activity_trigger (name, level, last_modified_user)
+SELECT 'Replaced SVAP Added', 'Certification Criteria', -1
+WHERE NOT EXISTS (SELECT *
+    FROM openchpl.questionable_activity_trigger
+    WHERE name = 'Replaced SVAP Added'
+    AND level = 'Certification Criteria');
+
