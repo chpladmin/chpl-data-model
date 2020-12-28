@@ -1,5 +1,41 @@
 # Release Notes
 
+## Version 19.8.1
+_28 December 2020_
+
+### Data Changes
+* Add Clinical Quality Measure for CMS 529
+
+---
+
+## Version 19.8.0
+_14 December 2020_
+
+### Features
+* Move G1/G2 measures from criteria to listing level
+* Make "username" optional for users
+
+### Data Changes
+* Enable ROLE_ONC_STAFF user type
+
+---
+
+## Version 19.7.1
+_16 November 2020_
+
+### Data Changes
+* Remove friendly name from product and developer points of contact
+
+---
+
+## Version 19.7.0
+_19 October 2020_
+
+### Features
+* Add new data elements for Real World Testing
+
+---
+
 ## Version 19.6.1
 _21 September 2020_
 
