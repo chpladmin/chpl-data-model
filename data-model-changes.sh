@@ -32,9 +32,9 @@ set -e
 
 for FILE in ./changes/ocd-????.sql; do
    echo $FILE;
-   psql -U $USER -h $HOST -f $FILE;
+   psql -U $USER -h $HOST -f $FILE openchpl;
 done
 
-psql -U $USER -h $HOST -f dev/openchpl_soft-delete.sql
-psql -U $USER -h $HOST -f dev/openchpl_views.sql
-psql -U $USER -h $HOST -f dev/openchpl_grant-all.sql
+psql -U $USER -h $HOST -f dev/openchpl_soft-delete.sql openchpl
+psql -U $USER -h $HOST -f dev/openchpl_views.sql openchpl
+psql -U $USER -h $HOST -f dev/openchpl_grant-all.sql openchpl
