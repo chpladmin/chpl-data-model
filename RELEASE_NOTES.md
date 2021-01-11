@@ -1,5 +1,13 @@
 # Release Notes
 
+## Version 19.9.0
+_11 January 2021_
+
+### Features
+* Change column type of audit.logged_actions activity date
+
+---
+
 ## Version 19.8.1
 _28 December 2020_
 
