@@ -1,5 +1,21 @@
 # Release Notes
 
+## Version 19.9.0
+_11 January 2021_
+
+### Features
+* Change column type of audit.logged_actions activity date
+
+---
+
+## Version 19.8.1
+_28 December 2020_
+
+### Data Changes
+* Add Clinical Quality Measure for CMS 529
+
+---
+
 ## Version 19.8.0
 _14 December 2020_
 
