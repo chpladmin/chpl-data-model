@@ -13,6 +13,11 @@ INSERT INTO openchpl.svap
 VALUES
 ('170.205(a)(3)', 'HL7 Implementation Guide for CDA® Release 2: IHE Health Story Consolidation, DSTU Release 1.1 (US Realm) Draft Standard for Trial Use July 2012', -1);
 
+INSERT INTO openchpl.svap
+(regulatory_text_citation, approved_standard_version, last_modified_user)
+VALUES
+('170.205(x)(x)', 'This is the text that would be the approved standard version. TEST.', -1);
+
 
 
 INSERT INTO openchpl.svap_criteria_map
@@ -59,3 +64,8 @@ INSERT INTO openchpl.svap_criteria_map
 (svap_id, criteria_id, last_modified_user)
 VALUES
 (3, 8, -1);
+
+INSERT INTO openchpl.svap_criteria_map
+(svap_id, criteria_id, last_modified_user)
+VALUES
+(4, 8, -1);
