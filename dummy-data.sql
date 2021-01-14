@@ -49,3 +49,13 @@ INSERT INTO openchpl.svap_criteria_map
 (svap_id, criteria_id, last_modified_user)
 VALUES
 (3, 166, -1);
+
+INSERT INTO openchpl.svap_criteria_map
+(svap_id, criteria_id, last_modified_user)
+VALUES
+(2, 8, -1);
+
+INSERT INTO openchpl.svap_criteria_map
+(svap_id, criteria_id, last_modified_user)
+VALUES
+(3, 8, -1);
