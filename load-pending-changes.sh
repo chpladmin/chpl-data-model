@@ -33,10 +33,13 @@ then
    helpFunction
 fi
 
-for FILE in ./changes/ocd-????.sql; do
-   echo $FILE;
-   psql -U $USER -h $HOST -f $FILE openchpl;
-done
+if [ -f ./changes/ocd-????.sql ]
+then
+	for FILE in ./changes/ocd-????.sql; do
+	   echo $FILE;
+	   psql -U $USER -h $HOST -f $FILE openchpl;
+	done
+fi
 
 psql -U $USER -h $HOST -f dev/openchpl_soft-delete.sql openchpl
 psql -U $USER -h $HOST -f dev/openchpl_views.sql openchpl
