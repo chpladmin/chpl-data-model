@@ -33,7 +33,8 @@ then
    helpFunction
 fi
 
-if [ -f ./changes/ocd-????.sql ]
+COUNT_CHANGES_FILES=` find ./changes/ -maxdepth 1 -name 'ocd-????.sql' | wc -l`
+if [ $COUNT_CHANGES_FILES -gt 0 ]
 then
 	for FILE in ./changes/ocd-????.sql; do
 	   echo $FILE;
