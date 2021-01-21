@@ -6,9 +6,9 @@ CREATE TABLE openchpl.listing_validation_report (
   product_name              text NOT NULL,
   certification_status_name text NOT NULL,
   error_message             text NOT NULL,
-  report_date               timestamp with time zone NOT NULL DEFAULT NOW(),
-  creation_date             timestamp with time zone NOT NULL DEFAULT NOW(),
-  last_modified_date        timestamp with time zone NOT NULL DEFAULT NOW(),
+  report_date               timestamp NOT NULL DEFAULT NOW(),
+  creation_date             timestamp NOT NULL DEFAULT NOW(),
+  last_modified_date        timestamp NOT NULL DEFAULT NOW(),
   last_modified_user        bigint NOT NULL,
   deleted                   boolean NOT NULL DEFAULT false,
   CONSTRAINT PK_listing_validation_report PRIMARY KEY ( id )
