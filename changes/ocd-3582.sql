@@ -32,4 +32,4 @@ INSERT INTO openchpl.allowed_measure_criteria (certification_criterion_id, measu
 	 (181, 52, -1),
 	 (181, 53, -1),
 	 (181, 55, -1);
-	 
+
