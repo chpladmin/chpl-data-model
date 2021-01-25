@@ -1,3 +1,6 @@
+-- Deployment file for version 19.10.0
+--     as of 2021-01-25
+-- ./changes/ocd-3508.sql
 DROP TABLE IF EXISTS openchpl.certification_result_svap;
 DROP TABLE IF EXISTS openchpl.svap_criteria_map;
 DROP TABLE IF EXISTS openchpl.svap;
@@ -64,3 +67,8 @@ WHERE NOT EXISTS (SELECT *
     WHERE name = 'Replaced SVAP Added'
     AND level = 'Certification Criteria');
 
+;
+insert into openchpl.data_model_version (version, deploy_date, last_modified_user) values ('19.10.0', '2021-01-25', -1);
+\i dev/openchpl_soft-delete.sql
+\i dev/openchpl_views.sql
+\i dev/openchpl_grant-all.sql
