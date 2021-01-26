@@ -1,5 +1,14 @@
 # Release Notes
 
+## Version 19.10.0
+_25 January 2021_
+
+### Features
+* Add tables to support SVAP
+* Add missing soft delete triggers for developer-related tables
+
+---
+
 ## Version 19.9.0
 _11 January 2021_
 
