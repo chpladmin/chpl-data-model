@@ -236,6 +236,8 @@ CREATE TRIGGER listing_count_statistics_audit AFTER INSERT OR UPDATE OR DELETE o
 CREATE TRIGGER listing_count_statistics_timestamp BEFORE UPDATE on openchpl.listing_count_statistics FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER listing_to_listing_map_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.listing_to_listing_map FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER listing_to_listing_map_timestamp BEFORE UPDATE on openchpl.listing_to_listing_map FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
+CREATE TRIGGER listing_validation_report_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.listing_validation_report FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+CREATE TRIGGER listing_validation_report_timestamp BEFORE UPDATE on openchpl.listing_validation_report FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER meaningful_use_user_audit AFTER INSERT OR UPDATE OR DELETE ON openchpl.meaningful_use_user FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER meaningful_use_user_timestamp BEFORE UPDATE ON openchpl.meaningful_use_user FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER macra_criteria_map_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.macra_criteria_map FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
