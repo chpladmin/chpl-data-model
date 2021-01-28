@@ -6,6 +6,8 @@ CREATE TABLE openchpl.listing_validation_report (
   certification_body_id     bigint NOT NULL,
   product_name              text NOT NULL,
   certification_status_name text NOT NULL,
+  certification_edition_name text NOT NULL,
+  listing_modified_date     timestamp NOT NULL,
   error_message             text NOT NULL,
   report_date               timestamp NOT NULL DEFAULT NOW(),
   creation_date             timestamp NOT NULL DEFAULT NOW(),
