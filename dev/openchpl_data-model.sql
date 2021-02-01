@@ -3503,6 +3503,21 @@ CREATE TABLE openchpl.listing_validation_report (
   CONSTRAINT PK_listing_validation_report PRIMARY KEY ( id )
 );
 
+CREATE TABLE openchpl.certification_criteria_attribute (
+  id                 bigserial NOT NULL,
+  criterion_id       bigint NOT NULL,
+  svap               bool NOT NULL DEFAULT false,
+  creation_date      timestamp NOT NULL DEFAULT NOW(),
+  last_modified_date timestamp NOT NULL DEFAULT NOW(),
+  last_modified_user bigint NOT NULL,
+  deleted            bool NOT NULL DEFAULT false,
+  CONSTRAINT certification_criteria_attribute_pk PRIMARY KEY (id),
+  CONSTRAINT certification_criterion_id_fk FOREIGN KEY (criterion_id)
+        REFERENCES openchpl.certification_criterion (certification_criterion_id)
+        MATCH SIMPLE ON UPDATE NO ACTION ON DELETE RESTRICT
+);
+
+
 CREATE INDEX fki_certified_product_id_fk
 ON openchpl.ehr_certification_id_product_map
 USING btree
