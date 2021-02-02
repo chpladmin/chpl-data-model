@@ -17,6 +17,7 @@ BEGIN
 	UPDATE openchpl.certification_status_event as src SET deleted = NEW.deleted WHERE src.certified_product_id = NEW.certified_product_id;
 	UPDATE openchpl.cures_update_event as src SET deleted = NEW.deleted WHERE src.certified_product_id = NEW.certified_product_id;
     UPDATE openchpl.certification_result as src SET deleted = NEW.deleted WHERE src.certified_product_id = NEW.certified_product_id;
+	UPDATE openchpl.certification_result_additional_software as src SET deleted = NEW.deleted WHERE src.certified_product_id = NEW.certified_product_id;
     UPDATE openchpl.certified_product_accessibility_standard as src SET deleted = NEW.deleted WHERE src.certified_product_id = NEW.certified_product_id;
     UPDATE openchpl.certified_product_qms_standard as src SET deleted = NEW.deleted WHERE src.certified_product_id = NEW.certified_product_id;
     UPDATE openchpl.certified_product_targeted_user as src SET deleted = NEW.deleted WHERE src.certified_product_id = NEW.certified_product_id;
@@ -25,21 +26,29 @@ BEGIN
     UPDATE openchpl.ehr_certification_id_product_map as src SET deleted = NEW.deleted WHERE src.certified_product_id = NEW.certified_product_id;
     UPDATE openchpl.pending_certification_result_additional_software as src SET deleted = NEW.deleted WHERE src.certified_product_id = NEW.certified_product_id;
     UPDATE openchpl.surveillance as src SET deleted = NEW.deleted WHERE src.certified_product_id = NEW.certified_product_id;
+	UPDATE openchpl.pending_surveillance as src SET deleted = NEW.deleted WHERE src.certified_product_id = NEW.certified_product_id;
     UPDATE openchpl.listing_to_listing_map as src SET deleted = NEW.deleted WHERE src.parent_listing_id = NEW.certified_product_id;
     UPDATE openchpl.listing_to_listing_map as src SET deleted = NEW.deleted WHERE src.child_listing_id = NEW.certified_product_id;
 	UPDATE openchpl.quarterly_report_excluded_listing_map as src SET deleted = NEW.deleted WHERE src.listing_id = NEW.certified_product_id;
     UPDATE openchpl.certified_product_measure as src SET deleted = NEW.deleted WHERE src.certified_product_id = NEW.certified_product_id;
-    UPDATE openchpl.certified_product_measure_criteria as src 
-        SET deleted = NEW.deleted 
-        WHERE src.certified_product_measure_id = 
-            (SELECT certified_product_measure_id
-            FROM openchpl.certified_product_measure cpmm
-            WHERE cpmm.certified_product_id = NEW.certified_product_id);
+	UPDATE openchpl.meaningful_use_user as src SET deleted = NEW.deleted WHERE src.certified_product_id = NEW.certified_product_id;
+	UPDATE openchpl.questionable_activity_listing as src SET deleted = NEW.deleted WHERE src.listing_id = NEW.certified_product_id;
+	UPDATE openchpl.complaint_listing_map as src SET deleted = NEW.deleted WHERE src.listing_id = NEW.certified_product_id;	
     RETURN NEW;
 END;
 $$ language 'plpgsql';
 DROP TRIGGER IF EXISTS certified_product_soft_delete on openchpl.certified_product;
 CREATE TRIGGER certified_product_soft_delete AFTER UPDATE of deleted on openchpl.certified_product FOR EACH ROW EXECUTE PROCEDURE openchpl.certified_product_soft_delete();
+
+CREATE OR REPLACE FUNCTION openchpl.certified_product_measure_soft_delete()
+RETURNS TRIGGER AS $$
+BEGIN
+    UPDATE openchpl.certified_product_measure_criteria as src SET deleted = NEW.deleted WHERE src.certified_product_measure_id = NEW.id;
+    RETURN NEW;
+END;
+$$ language 'plpgsql';
+DROP TRIGGER IF EXISTS certified_product_measure_soft_delete on openchpl.certified_product_measure;
+CREATE TRIGGER certified_product_measure_soft_delete AFTER UPDATE of deleted on openchpl.certified_product_measure FOR EACH ROW EXECUTE PROCEDURE openchpl.certified_product_measure_soft_delete();
 
 CREATE OR REPLACE FUNCTION openchpl.certification_result_soft_delete()
 RETURNS TRIGGER AS $$
@@ -47,7 +56,7 @@ BEGIN
     UPDATE openchpl.certification_result_additional_software as src SET deleted = NEW.deleted WHERE src.certification_result_id = NEW.certification_result_id;
     UPDATE openchpl.certification_result_g1_macra as src SET deleted = NEW.deleted WHERE src.certification_result_id = NEW.certification_result_id;
     UPDATE openchpl.certification_result_g2_macra as src SET deleted = NEW.deleted WHERE src.certification_result_id = NEW.certification_result_id;
-    UPDATE openchpl.certifiection_result_svap as src SET deleted = NEW.deleted WHERE src.certification_result_id = NEW.certification_result_id;
+    UPDATE openchpl.certification_result_svap as src SET deleted = NEW.deleted WHERE src.certification_result_id = NEW.certification_result_id;
     UPDATE openchpl.certification_result_test_data as src SET deleted = NEW.deleted WHERE src.certification_result_id = NEW.certification_result_id;
     UPDATE openchpl.certification_result_test_functionality as src SET deleted = NEW.deleted WHERE src.certification_result_id = NEW.certification_result_id;
     UPDATE openchpl.certification_result_test_procedure as src SET deleted = NEW.deleted WHERE src.certification_result_id = NEW.certification_result_id;
@@ -56,6 +65,7 @@ BEGIN
     UPDATE openchpl.certification_result_test_tool as src SET deleted = NEW.deleted WHERE src.certification_result_id = NEW.certification_result_id;
     UPDATE openchpl.certification_result_ucd_process as src SET deleted = NEW.deleted WHERE src.certification_result_id = NEW.certification_result_id;
     UPDATE openchpl.optional_functionality_met as src SET deleted = NEW.deleted WHERE src.certification_result_id = NEW.certification_result_id;
+	UPDATE openchpl.questionable_activity_certification_result as src SET deleted = NEW.deleted WHERE src.certification_result_id = NEW.certification_result_id;
     RETURN NEW;
 END;
 $$ language 'plpgsql';
