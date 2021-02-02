@@ -3465,9 +3465,13 @@ CREATE TABLE openchpl.pending_certified_product_measure_criteria (
 
 CREATE TABLE openchpl.listing_validation_report (
   id                        bigserial NOT NULL,
+  certified_product_id      bigint NOT NULL,
   chpl_product_number       text NOT NULL,
   certification_body_id     bigint NOT NULL,
-  product_name              text NOT NULL,
+  product                   text NOT NULL,
+  version                   text NOT NULL,
+  developer                 text NOT NULL,
+  certification_body        text NOT NULL,
   certification_status_name text NOT NULL,
   listing_modified_date     timestamp NOT NULL,
   error_message             text NOT NULL,
