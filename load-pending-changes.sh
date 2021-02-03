@@ -33,10 +33,14 @@ then
    helpFunction
 fi
 
-for FILE in ./changes/ocd-????.sql; do
-   echo $FILE;
-   psql -U $USER -h $HOST -f $FILE openchpl;
-done
+COUNT_CHANGES_FILES=` find ./changes/ -maxdepth 1 -name 'ocd-????.sql' | wc -l`
+if [ $COUNT_CHANGES_FILES -gt 0 ]
+then
+	for FILE in ./changes/ocd-????.sql; do
+	   echo $FILE;
+	   psql -U $USER -h $HOST -f $FILE openchpl;
+	done
+fi
 
 psql -U $USER -h $HOST -f dev/openchpl_soft-delete.sql openchpl
 psql -U $USER -h $HOST -f dev/openchpl_views.sql openchpl
