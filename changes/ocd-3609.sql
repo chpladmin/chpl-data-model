@@ -32,7 +32,7 @@ CREATE FUNCTION openchpl.add_missing_measure_criteria_mapping(origCriterionId bi
 				(allowed_criteria_measure_id, macra_criteria_map_id, last_modified_user)
 				SELECT 
 					(SELECT id FROM openchpl.allowed_measure_criteria WHERE certification_criterion_id = curesCriterionId
-					AND measure_id = measureId),
+					AND measure_id = measureId ORDER BY id ASC LIMIT 1),
 				(SELECT id FROM openchpl.macra_criteria_map WHERE criteria_id = curesCriterionId and value = uploadValue),
 				-1
 			WHERE
@@ -40,7 +40,7 @@ CREATE FUNCTION openchpl.add_missing_measure_criteria_mapping(origCriterionId bi
 					SELECT id FROM openchpl.allowed_measure_criteria_legacy_map 
 					WHERE allowed_criteria_measure_id = 
 						(SELECT id FROM openchpl.allowed_measure_criteria WHERE certification_criterion_id = curesCriterionId
-						AND measure_id = measureId)
+						AND measure_id = measureId ORDER BY id ASC LIMIT 1)
 					AND macra_criteria_map_id = (SELECT id FROM openchpl.macra_criteria_map WHERE criteria_id = curesCriterionId and value = uploadValue)
 				);
 		END IF;
