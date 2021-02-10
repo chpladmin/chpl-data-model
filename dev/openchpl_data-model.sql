@@ -3413,6 +3413,26 @@ CREATE TABLE openchpl.pending_certified_product_measure_criteria (
       ON UPDATE CASCADE ON DELETE RESTRICT
 );
 
+CREATE TABLE openchpl.listing_validation_report (
+  id                        bigserial NOT NULL,
+  certified_product_id      bigint NOT NULL,
+  chpl_product_number       text NOT NULL,
+  certification_body_id     bigint NOT NULL,
+  product                   text NOT NULL,
+  version                   text NOT NULL,
+  developer                 text NOT NULL,
+  certification_body        text NOT NULL,
+  certification_status_name text NOT NULL,
+  listing_modified_date     timestamp NOT NULL,
+  error_message             text NOT NULL,
+  report_date               timestamp NOT NULL DEFAULT NOW(),
+  creation_date             timestamp NOT NULL DEFAULT NOW(),
+  last_modified_date        timestamp NOT NULL DEFAULT NOW(),
+  last_modified_user        bigint NOT NULL,
+  deleted                   boolean NOT NULL DEFAULT false,
+  CONSTRAINT PK_listing_validation_report PRIMARY KEY ( id )
+);
+
 CREATE INDEX fki_certified_product_id_fk
 ON openchpl.ehr_certification_id_product_map
 USING btree
