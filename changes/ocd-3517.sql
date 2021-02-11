@@ -17,8 +17,6 @@ CREATE TABLE openchpl.certification_criterion_attribute (
 CREATE TRIGGER certification_criterion_attribute_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.certification_criterion_attribute FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER certification_criterion_attribute_timestamp BEFORE UPDATE on openchpl.certification_criterion_attribute FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 
-INSERT INTO openchpl.certification_criterion_attribute (criterion_id, svap, last_modified_user) VALUES (19, true, -1);
-INSERT INTO openchpl.certification_criterion_attribute (criterion_id, svap, last_modified_user) VALUES (20, true, -1);
 INSERT INTO openchpl.certification_criterion_attribute (criterion_id, svap, last_modified_user) VALUES (21, true, -1);
 INSERT INTO openchpl.certification_criterion_attribute (criterion_id, svap, last_modified_user) VALUES (25, true, -1);
 INSERT INTO openchpl.certification_criterion_attribute (criterion_id, svap, last_modified_user) VALUES (26, true, -1);
