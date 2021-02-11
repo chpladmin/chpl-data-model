@@ -1,5 +1,17 @@
 # Release Notes
 
+## Version 19.11.0
+_8 February 2021_
+
+### Features
+* Add table to support flexible upload processing of Listings
+
+### Data Changes
+* Add missing measure mappings for Cures Updated criteria
+* Remove erroneously added Listing 15.04.04.2964.Inte.18.01.1.200828
+
+---
+
 ## Version 19.10.0
 _25 January 2021_
 
