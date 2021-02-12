@@ -298,6 +298,7 @@ CREATE TABLE openchpl.certified_product(
     rwt_plans_check_date date,
     rwt_results_url text,
     rwt_results_check_date date,
+    svap_notice_url text,
     creation_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_user bigint NOT NULL,
