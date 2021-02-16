@@ -1,3 +1,7 @@
+UPDATE openchpl.svap SET deleted = true;
+UPDATE openchpl.svap_criteria_map SET deleted = true;
+UPDATE openchpl.certification_result_svap SET deleted = true;
+
 INSERT INTO openchpl.svap
 (regulatory_text_citation, approved_standard_version, last_modified_user)
 VALUES
@@ -27,36 +31,77 @@ VALUES
 
 INSERT INTO openchpl.svap_criteria_map
 (svap_id, criteria_id, last_modified_user)
-VALUES
-(1, 172, -1);
+SELECT id, 172, -1 FROM openchpl.svap
+WHERE regulatory_text_citation = '170.205(h)(3); 170.205(k)(3)'
+AND DELETED = false
+AND NOT EXISTS (
+    SELECT *
+    FROM openchpl.svap_criteria_map scm
+    WHERE criteria_id = 172
+    AND svap_id in (SELECT id FROM openchpl.svap WHERE regulatory_text_citation = '170.205(h)(3); 170.205(k)(3)' AND deleted = false));
 
 INSERT INTO openchpl.svap_criteria_map
 (svap_id, criteria_id, last_modified_user)
-VALUES
-(2, 178, -1);
+SELECT id, 178, -1 FROM openchpl.svap
+WHERE regulatory_text_citation = '170.204(a)(1)'
+AND DELETED = false
+AND NOT EXISTS (
+    SELECT *
+    FROM openchpl.svap_criteria_map scm
+    WHERE criteria_id = 178
+    AND svap_id in (SELECT id FROM openchpl.svap WHERE regulatory_text_citation = '170.204(a)(1)' AND deleted = false));
 
 INSERT INTO openchpl.svap_criteria_map
 (svap_id, criteria_id, last_modified_user)
-VALUES
-(3, 178, -1);
+SELECT id, 178, -1 FROM openchpl.svap
+WHERE regulatory_text_citation = '170.204(a)(2)'
+AND DELETED = false
+AND NOT EXISTS (
+    SELECT *
+    FROM openchpl.svap_criteria_map scm
+    WHERE criteria_id = 178
+    AND svap_id in (SELECT id FROM openchpl.svap WHERE regulatory_text_citation = '170.204(a)(2)' AND deleted = false));
 
 INSERT INTO openchpl.svap_criteria_map
 (svap_id, criteria_id, last_modified_user)
-VALUES
-(4, 49, -1);
+SELECT id, 49, -1 FROM openchpl.svap
+WHERE regulatory_text_citation = '170.205(s)(1)'
+AND DELETED = false
+AND NOT EXISTS (
+    SELECT *
+    FROM openchpl.svap_criteria_map scm
+    WHERE criteria_id = 49
+    AND svap_id in (SELECT id FROM openchpl.svap WHERE regulatory_text_citation = '170.205(s)(1)' AND deleted = false));
 
 INSERT INTO openchpl.svap_criteria_map
 (svap_id, criteria_id, last_modified_user)
-VALUES
-(5, 8, -1);
+SELECT id, 8, -1 FROM openchpl.svap
+WHERE regulatory_text_citation = '170.205(x)(x)'
+AND DELETED = false
+AND NOT EXISTS (
+    SELECT *
+    FROM openchpl.svap_criteria_map scm
+    WHERE criteria_id = 8
+    AND svap_id in (SELECT id FROM openchpl.svap WHERE regulatory_text_citation = '170.205(x)(x)' AND deleted = false));
 
 INSERT INTO openchpl.svap_criteria_map
 (svap_id, criteria_id, last_modified_user)
-VALUES
-(3, 8, -1);
+SELECT id, 8, -1 FROM openchpl.svap
+WHERE regulatory_text_citation = '170.205(a)(2)'
+AND DELETED = false
+AND NOT EXISTS (
+    SELECT *
+    FROM openchpl.svap_criteria_map scm
+    WHERE criteria_id = 8
+    AND svap_id in (SELECT id FROM openchpl.svap WHERE regulatory_text_citation = '170.205(a)(2)' AND deleted = false));
 
 INSERT INTO openchpl.svap_criteria_map
 (svap_id, criteria_id, last_modified_user)
-VALUES
-(5, 178, -1);
-
+SELECT id, 178, -1 FROM openchpl.svap
+WHERE regulatory_text_citation = '170.205(x)(x)'
+AND DELETED = false
+AND NOT EXISTS (
+    SELECT *
+    FROM openchpl.svap_criteria_map scm
+    WHERE criteria_id = 178
+    AND svap_id in (SELECT id FROM openchpl.svap WHERE regulatory_text_citation = '170.205(x)(x)' AND deleted = false));
