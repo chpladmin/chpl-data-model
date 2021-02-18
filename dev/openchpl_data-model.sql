@@ -1452,6 +1452,30 @@ REFERENCES openchpl.acl_object_identity (id) MATCH FULL
 ON DELETE NO ACTION ON UPDATE NO ACTION;
 -- ddl-end --
 
+CREATE TABLE openchpl.certified_product_upload (
+	id bigserial NOT NULL,
+	chpl_product_number text NOT NULL,
+	certification_body_id bigint NOT NULL,
+	vendor_name text,
+	product_name text,
+	version_name text,
+	certification_date date,
+	error_count integer,
+	warning_count integer,
+	contents text NOT NULL,
+	certified_product_id bigint,
+	creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
+	CONSTRAINT certified_product_upload_pk PRIMARY KEY (id),
+	CONSTRAINT certification_body_fk FOREIGN KEY (certification_body_id)
+      REFERENCES openchpl.certification_body (certification_body_id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+	CONSTRAINT certified_product_id_fk FOREIGN KEY (certified_product_id)
+      REFERENCES openchpl.certified_product (certified_product_id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+);
 
 -- object: openchpl.pending_certified_product | type: TABLE --
 --DROP TABLE IF EXISTS openchpl.pending_certified_product CASCADE;
@@ -3461,6 +3485,39 @@ CREATE TABLE openchpl.pending_certified_product_measure_criteria (
  CONSTRAINT pending_certified_product_measure_fk FOREIGN KEY (pending_certified_product_measure_id)
       REFERENCES openchpl.pending_certified_product_measure (id) MATCH FULL
       ON UPDATE CASCADE ON DELETE RESTRICT
+);
+
+CREATE TABLE openchpl.certification_criterion_attribute (
+  id                 bigserial NOT NULL,
+  criterion_id       bigint NOT NULL,
+  svap               bool NOT NULL DEFAULT false,
+  creation_date      timestamp NOT NULL DEFAULT NOW(),
+  last_modified_date timestamp NOT NULL DEFAULT NOW(),
+  last_modified_user bigint NOT NULL,
+  deleted            bool NOT NULL DEFAULT false,
+  CONSTRAINT certification_criterion_attribute_pk PRIMARY KEY (id),
+  CONSTRAINT certification_criterion_id_fk FOREIGN KEY (criterion_id)
+        REFERENCES openchpl.certification_criterion (certification_criterion_id)
+        MATCH SIMPLE ON UPDATE NO ACTION ON DELETE RESTRICT
+
+CREATE TABLE openchpl.listing_validation_report (
+  id                        bigserial NOT NULL,
+  certified_product_id      bigint NOT NULL,
+  chpl_product_number       text NOT NULL,
+  certification_body_id     bigint NOT NULL,
+  product                   text NOT NULL,
+  version                   text NOT NULL,
+  developer                 text NOT NULL,
+  certification_body        text NOT NULL,
+  certification_status_name text NOT NULL,
+  listing_modified_date     timestamp NOT NULL,
+  error_message             text NOT NULL,
+  report_date               timestamp NOT NULL DEFAULT NOW(),
+  creation_date             timestamp NOT NULL DEFAULT NOW(),
+  last_modified_date        timestamp NOT NULL DEFAULT NOW(),
+  last_modified_user        bigint NOT NULL,
+  deleted                   boolean NOT NULL DEFAULT false,
+  CONSTRAINT PK_listing_validation_report PRIMARY KEY ( id )
 );
 
 CREATE INDEX fki_certified_product_id_fk
