@@ -20,20 +20,6 @@ CREATE FUNCTION openchpl.create_user(role_name text, orgs varchar[], username te
 				(SELECT contact_id FROM openchpl.contact WHERE full_name = fullname AND friendly_name = friendlyname LIMIT 1),
 				(SELECT user_permission_id FROM openchpl.user_permission WHERE authority = role_name));
 
-			-- create spring acl sids
-			INSERT INTO openchpl.acl_sid (principal, sid)
-			VALUES (true, username);
-
-			-- create ACL object for each sid
-			INSERT INTO openchpl.acl_object_identity (object_id_class, object_id_identity, parent_object, owner_sid, entries_inheriting)
-			VALUES (1, (SELECT user_id FROM openchpl.user WHERE user_name = username), null, -2, true);
-
-			-- grant each user permission on themselves
-			INSERT INTO openchpl.acl_entry (acl_object_identity, ace_order, sid, mask, granting, audit_success, audit_failure)
-			VALUES ((SELECT id FROM openchpl.acl_object_identity WHERE object_id_class = 1 AND object_id_identity =
-						(SELECT user_id FROM openchpl.user where user_name = username)), 0,
-					(SELECT id FROM openchpl.acl_sid where sid = username), 16, true, false, false);
-
 			RAISE NOTICE 'Created user %', username;
 
 			-- if the user is ROLE_ACB, give them permission on the passed-in ACB(s)
@@ -52,7 +38,7 @@ CREATE FUNCTION openchpl.create_user(role_name text, orgs varchar[], username te
 					);
 				END LOOP;
 			END IF;
-			
+
 			-- if the user is ROLE_ATL, give them permission on the passed-in orgs(s)
 			IF role_name = 'ROLE_ATL' THEN
 				FOREACH atl IN ARRAY orgs
