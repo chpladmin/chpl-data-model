@@ -1,5 +1,20 @@
 # Release Notes
 
+## Version 19.12.0
+_22 February 2021_
+
+### Features
+* Remove references to unused g1/g2 macra measure tables
+* Add new table to support certification criterion attributes
+* Add developer ID to certified_product_search view
+* Add new table to support Listing Validation Report
+
+### Data Changes
+* Add missing mappings between g1/g2 measures and cures criteria
+* Add missing removed measures for cures criteria
+
+---
+
 ## Version 19.11.0
 _8 February 2021_
 
