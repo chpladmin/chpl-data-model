@@ -12,3 +12,4 @@ ready-for-integration.sh
 ready-for-test.sh
 reset-qa.sh
 reset-local.sh
+update-pr.sh
