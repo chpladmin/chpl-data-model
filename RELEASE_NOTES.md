@@ -1,5 +1,19 @@
 # Release Notes
 
+## Version 19.13.0
+_8 March 2021_
+
+### Features
+* Remove Spring 'acl_' tables
+* Allow saving of HTTP METHOD in API Key activity table
+* Add column to support SVAP Notice URL
+
+### Data Changes
+* Add v20 upload template (includes old b3 criterion)
+* Remove export surveillance report background job types
+
+---
+
 ## Version 19.12.0
 _22 February 2021_
 
