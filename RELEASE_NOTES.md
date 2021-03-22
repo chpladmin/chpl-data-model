@@ -1,5 +1,14 @@
 # Release Notes
 
+## Version 19.13.1
+_22 March 2021_
+
+### Data Changes
+* Undelete Summary Statistics data for use in the attached pdf
+* Allow saving of ONC-ATL report filter
+
+---
+
 ## Version 19.13.0
 _8 March 2021_
 
