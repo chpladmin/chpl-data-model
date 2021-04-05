@@ -1,5 +1,13 @@
 # Release Notes
 
+## Version 19.13.2
+_5 April 2021_
+
+### Data Changes
+* Remove the v18 upload template
+
+---
+
 ## Version 19.13.1
 _22 March 2021_
 
