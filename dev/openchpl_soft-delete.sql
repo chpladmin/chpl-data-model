@@ -34,6 +34,8 @@ BEGIN
 	UPDATE openchpl.meaningful_use_user as src SET deleted = NEW.deleted WHERE src.certified_product_id = NEW.certified_product_id;
 	UPDATE openchpl.questionable_activity_listing as src SET deleted = NEW.deleted WHERE src.listing_id = NEW.certified_product_id;
 	UPDATE openchpl.complaint_listing_map as src SET deleted = NEW.deleted WHERE src.listing_id = NEW.certified_product_id;
+    UPDATE openchpl.certified_product_upload as src SET deleted = NEW.deleted WHERE src.certified_product_id = NEW.certified_product_id;
+    UPDATE openchpl.listing_validation_report as src SET deleted = NEW.deleted WHERE src.certified_product_id = NEW.certified_product_id;
     RETURN NEW;
 END;
 $$ language 'plpgsql';
