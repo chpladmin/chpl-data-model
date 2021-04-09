@@ -1331,6 +1331,7 @@ CREATE TABLE openchpl.certified_product_upload (
 --DROP TABLE IF EXISTS openchpl.pending_certified_product CASCADE;
 CREATE TABLE openchpl.pending_certified_product (
 	pending_certified_product_id bigserial NOT NULL,
+	processing boolean NOT NULL default false,
 	error_count int,
 	warning_count int,
 
