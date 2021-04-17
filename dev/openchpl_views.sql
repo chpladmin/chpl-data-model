@@ -585,7 +585,8 @@ SELECT cp.certified_product_id,
        COALESCE(surv_closed.count_closed_surveillance_activities, 0::bigint) as closed_surveillance_count,
        COALESCE(nc_open.count_open_nonconformities, 0::bigint) AS open_nonconformity_count,
        COALESCE(nc_closed.count_closed_nonconformities, 0::bigint) AS closed_nonconformity_count,
-       surv_dates.surv_dates
+       surv_dates.surv_dates,
+	   status_events.status_events
 FROM openchpl.certified_product cp
 LEFT JOIN
    (SELECT cse.certification_status_id,
@@ -770,6 +771,12 @@ LEFT JOIN
    FROM openchpl.surveillance surv
    WHERE surv.deleted = FALSE
    GROUP BY surv.certified_product_id) AS surv_dates ON surv_dates.certified_product_id = cp.certified_product_id
+LEFT JOIN
+	(select cse.certified_product_id, string_agg(date(cse.event_date)||':'||cs.certification_status, '&') as status_events
+	from openchpl.certification_status_event cse
+	join openchpl.certification_status cs on cs.certification_status_id = cse.certification_status_id
+	where cse.deleted = false
+	group by cse.certified_product_id) as status_events ON status_events.certified_product_id = cp.certified_product_id
 LEFT JOIN
   (SELECT certification_result.certified_product_id,
           string_agg(DISTINCT certification_criterion.certification_criterion_id::text, '☺') AS cert_number
