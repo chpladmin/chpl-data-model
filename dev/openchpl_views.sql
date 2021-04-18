@@ -94,15 +94,10 @@ SELECT
     a.use_cases,
     a.privacy_security_framework,
     b.number,
-    b.title,
-    COALESCE(d.count_additional_software, 0) as "count_additional_software"
+    b.title
 FROM openchpl.certification_result a
     LEFT JOIN (SELECT certification_criterion_id, number, title FROM openchpl.certification_criterion) b
-    ON a.certification_criterion_id = b.certification_criterion_id
-    LEFT JOIN (SELECT certification_result_id, count(*) as "count_additional_software"
-    FROM
-	(SELECT * FROM openchpl.certification_result_additional_software WHERE deleted <> true) c GROUP BY certification_result_id) d
-    ON a.certification_result_id = d.certification_result_id;
+    ON a.certification_criterion_id = b.certification_criterion_id;
 
 CREATE VIEW openchpl.cqm_result_details AS
 SELECT
