@@ -1,5 +1,13 @@
 # Release Notes
 
+## Version 19.13.3
+_19 April 2021_
+
+### Data Changes
+* Remove erroneously uploaded Listings
+
+---
+
 ## Version 19.13.2
 _5 April 2021_
 
