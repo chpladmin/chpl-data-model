@@ -4,4 +4,11 @@ drop column if exists service_base_url_list;
 alter table openchpl.certification_criterion_attribute
 add column service_base_url_list bool not null default false;
 
-insert into openchpl.certification_criterion_attribute (criterion_id, service_base_url_list, last_modified_user) values (182, true, -1);
+alter table openchpl.certification_result
+drop column if exists service_base_url_list cascade;
+
+alter table openchpl.certification_result
+add column service_base_url_list varchar(1024);
+
+update openchpl.certification_criterion_attribute
+set service_base_url_list = true where criterion_id = 182;

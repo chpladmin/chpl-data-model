@@ -580,6 +580,7 @@ CREATE TABLE openchpl.certification_result(
 	export_documentation varchar(1024),
 	documentation_url varchar(1024),
 	use_cases varchar(1024),
+	service_base_url_list varchar(1024),
 	privacy_security_framework varchar(100),
 	creation_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
