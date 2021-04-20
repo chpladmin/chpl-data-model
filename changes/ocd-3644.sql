@@ -18,3 +18,7 @@ add column service_base_url_list varchar(1024);
 
 update openchpl.certification_criterion_attribute
 set service_base_url_list = true where criterion_id = 182;
+
+insert into openchpl.url_type (name, last_modified_user)
+select 'Service Base URL List', -1
+where not exists (select * from openchpl.url_type where name = 'Service Base URL List');
