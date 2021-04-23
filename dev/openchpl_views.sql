@@ -577,6 +577,7 @@ SELECT cp.certified_product_id,
        curesupdate.cures_update,
        decert.decertification_date,
        certs_with_api_documentation.cert_number AS api_documentation,
+       certs_with_service_base_url_list.cert_number AS service_base_url_list,
        COALESCE(survs.count_surveillance_activities, 0::bigint) AS surveillance_count,
        COALESCE(surv_open.count_open_surveillance_activities, 0::bigint) as open_surveillance_count,
        COALESCE(surv_closed.count_closed_surveillance_activities, 0::bigint) as closed_surveillance_count,
@@ -786,6 +787,16 @@ LEFT JOIN
      AND certification_result.deleted = FALSE
      AND certification_criterion.deleted = FALSE
    GROUP BY certified_product_id) certs_with_api_documentation ON certs_with_api_documentation.certified_product_id = cp.certified_product_id
+LEFT JOIN
+  (SELECT string_agg(DISTINCT certification_criterion.certification_criterion_id::text||'☹'||certification_result.service_base_url_list, '☺') AS cert_number, --certification_result.service_base_url_list,
+ certification_result.certified_product_id
+   FROM openchpl.certification_criterion
+   JOIN openchpl.certification_result ON certification_criterion.certification_criterion_id = certification_result.certification_criterion_id
+   WHERE certification_result.success = TRUE
+     AND certification_result.service_base_url_list IS NOT NULL
+     AND certification_result.deleted = FALSE
+     AND certification_criterion.deleted = FALSE
+   GROUP BY certified_product_id) certs_with_service_base_url_list ON certs_with_service_base_url_list.certified_product_id = cp.certified_product_id
 LEFT JOIN
   (SELECT string_agg(DISTINCT COALESCE(cqm_criterion.cms_id, ('NQF-'::text || cqm_criterion.nqf_number::text)::CHARACTER varying), '☺') AS cqm_number,
           cqm_result.certified_product_id
