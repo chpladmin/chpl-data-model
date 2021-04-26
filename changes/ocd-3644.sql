@@ -14,7 +14,13 @@ alter table openchpl.pending_certification_result
 drop column if exists service_base_url_list;
 
 alter table openchpl.pending_certification_result
-add column service_base_url_list varchar(1024);
+add column service_base_url_list text;
+
+alter table openchpl.pending_certification_result
+alter column api_documentation type text,
+alter column export_documentation type text,
+alter column documentation_url type text,
+alter column use_cases type text;
 
 update openchpl.certification_criterion_attribute
 set service_base_url_list = true where criterion_id = 182;
