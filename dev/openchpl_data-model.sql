@@ -1565,7 +1565,7 @@ CREATE TABLE openchpl.pending_certification_result(
 	export_documentation text,
 	documentation_url text,
 	use_cases text,
-        service_base_url_list text;
+        service_base_url_list text,
 	privacy_security_framework varchar(100),
 
 	-- fields we need for auditing/tracking
