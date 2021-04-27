@@ -3337,6 +3337,18 @@ CREATE TABLE openchpl.listing_validation_report (
   CONSTRAINT PK_listing_validation_report PRIMARY KEY ( id )
 );
 
+CREATE TABLE openchpl.api_key_request (
+  id                 bigserial NOT NULL,
+  name_organization  text NOT NULL,
+  email              text NOT NULL,
+  api_request_token  text NOT NULL,
+  creation_date      timestamp NOT NULL DEFAULT NOW(),
+  last_modified_date timestamp NOT NULL DEFAULT NOW(),
+  last_modified_user bigint NOT NULL,
+  deleted            bool NOT NULL DEFAULT false,
+  CONSTRAINT api_key_request_id_pk PRIMARY KEY (id),
+);
+
 CREATE INDEX fki_certified_product_id_fk
 ON openchpl.ehr_certification_id_product_map
 USING btree
