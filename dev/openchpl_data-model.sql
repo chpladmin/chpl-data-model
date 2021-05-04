@@ -1331,6 +1331,7 @@ CREATE TABLE openchpl.certified_product_upload (
 --DROP TABLE IF EXISTS openchpl.pending_certified_product CASCADE;
 CREATE TABLE openchpl.pending_certified_product (
 	pending_certified_product_id bigserial NOT NULL,
+	processing boolean NOT NULL default false,
 	error_count int,
 	warning_count int,
 
@@ -3332,6 +3333,18 @@ CREATE TABLE openchpl.listing_validation_report (
   last_modified_user        bigint NOT NULL,
   deleted                   boolean NOT NULL DEFAULT false,
   CONSTRAINT PK_listing_validation_report PRIMARY KEY ( id )
+);
+
+CREATE TABLE openchpl.api_key_request (
+  id                 bigserial NOT NULL,
+  name_organization  text NOT NULL,
+  email              text NOT NULL,
+  api_request_token  text NOT NULL,
+  creation_date      timestamp NOT NULL DEFAULT NOW(),
+  last_modified_date timestamp NOT NULL DEFAULT NOW(),
+  last_modified_user bigint NOT NULL,
+  deleted            bool NOT NULL DEFAULT false,
+  CONSTRAINT api_key_request_id_pk PRIMARY KEY (id),
 );
 
 CREATE INDEX fki_certified_product_id_fk

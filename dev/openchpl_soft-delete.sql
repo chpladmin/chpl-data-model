@@ -34,6 +34,8 @@ BEGIN
 	UPDATE openchpl.meaningful_use_user as src SET deleted = NEW.deleted WHERE src.certified_product_id = NEW.certified_product_id;
 	UPDATE openchpl.questionable_activity_listing as src SET deleted = NEW.deleted WHERE src.listing_id = NEW.certified_product_id;
 	UPDATE openchpl.complaint_listing_map as src SET deleted = NEW.deleted WHERE src.listing_id = NEW.certified_product_id;
+    UPDATE openchpl.certified_product_upload as src SET deleted = NEW.deleted WHERE src.certified_product_id = NEW.certified_product_id;
+    UPDATE openchpl.listing_validation_report as src SET deleted = NEW.deleted WHERE src.certified_product_id = NEW.certified_product_id;
     RETURN NEW;
 END;
 $$ language 'plpgsql';
@@ -124,7 +126,15 @@ CREATE TRIGGER certification_result_test_task_soft_delete AFTER UPDATE of delete
 CREATE OR REPLACE FUNCTION openchpl.test_task_soft_delete()
 RETURNS TRIGGER AS $$
 BEGIN
-    UPDATE openchpl.test_task_participant_map as src SET deleted = NEW.deleted WHERE src.test_task_id = NEW.test_task_id;
+    UPDATE openchpl.test_task_participant_map as src 
+	SET deleted = NEW.deleted 
+	WHERE NOT EXISTS (
+		SELECT 1 
+		FROM openchpl.certification_result_test_task crtt
+		WHERE crtt.deleted = false 
+		AND crtt.test_task_id != NEW.test_task_id
+	)
+	AND src.test_task_id = NEW.test_task_id;
     RETURN NEW;
 END;
 $$ language 'plpgsql';
