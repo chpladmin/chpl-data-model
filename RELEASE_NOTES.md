@@ -1,5 +1,25 @@
 # Release Notes
 
+## Version 19.14.0
+_4 May 2021_
+
+### Features
+* Add table for holding new api key requests
+* Add processing column to pending_certified_product table
+
+### Bug Fixes
+* Do not soft delete test participants if test task references multiple criteria
+
+---
+
+## Version 19.13.3
+_19 April 2021_
+
+### Data Changes
+* Remove erroneously uploaded Listings
+
+---
+
 ## Version 19.13.2
 _5 April 2021_
 
