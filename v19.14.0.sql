@@ -1,3 +1,6 @@
+-- Deployment file for version 19.14.0
+--     as of 2021-05-04
+-- ./changes/ocd-3596.sql
 DROP TABLE IF EXISTS openchpl.api_key_request;
 
 CREATE TABLE openchpl.api_key_request (
@@ -14,3 +17,15 @@ CREATE TABLE openchpl.api_key_request (
 
 CREATE TRIGGER api_key_request_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.api_key_request FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER api_key_request_timestamp BEFORE UPDATE on openchpl.api_key_request FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
+;
+-- ./changes/ocd-3649.sql
+ALTER TABLE openchpl.pending_certified_product
+DROP COLUMN IF EXISTS processing;
+
+ALTER TABLE openchpl.pending_certified_product
+ADD COLUMN processing boolean NOT NULL default false;
+;
+insert into openchpl.data_model_version (version, deploy_date, last_modified_user) values ('19.14.0', '2021-05-04', -1);
+\i dev/openchpl_soft-delete.sql
+\i dev/openchpl_views.sql
+\i dev/openchpl_grant-all.sql
