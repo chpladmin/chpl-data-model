@@ -526,6 +526,8 @@ CREATE VIEW openchpl.certified_product_details AS
 CREATE VIEW openchpl.surveillance_basic AS
 SELECT 
 	surv.*,
+	(SELECT get_chpl_product_number.chpl_product_number
+           FROM openchpl.get_chpl_product_number(surv.certified_product_id) get_chpl_product_number(chpl_product_number)) AS chpl_product_number,
 	COALESCE(nc_open.count_open_nonconformities, 0::bigint) AS open_nonconformity_count,
     COALESCE(nc_closed.count_closed_nonconformities, 0::bigint) AS closed_nonconformity_count
 FROM openchpl.surveillance surv
