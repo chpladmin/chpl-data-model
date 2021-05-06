@@ -580,6 +580,7 @@ CREATE TABLE openchpl.certification_result(
 	export_documentation varchar(1024),
 	documentation_url varchar(1024),
 	use_cases varchar(1024),
+	service_base_url_list varchar(1024),
 	privacy_security_framework varchar(100),
 	creation_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
@@ -1561,10 +1562,11 @@ CREATE TABLE openchpl.pending_certification_result(
 	g1_success bool,
 	g2_success bool,
         attestation_answer bool,
-	api_documentation varchar(1024),
-	export_documentation varchar(1024),
-	documentation_url varchar(1024),
-	use_cases varchar(1024),
+	api_documentation text,
+	export_documentation text,
+	documentation_url text,
+	use_cases text,
+        service_base_url_list text,
 	privacy_security_framework varchar(100),
 
 	-- fields we need for auditing/tracking
@@ -3302,13 +3304,14 @@ CREATE TABLE openchpl.pending_certified_product_measure_criteria (
 );
 
 CREATE TABLE openchpl.certification_criterion_attribute (
-  id                 bigserial NOT NULL,
-  criterion_id       bigint NOT NULL,
-  svap               bool NOT NULL DEFAULT false,
-  creation_date      timestamp NOT NULL DEFAULT NOW(),
-  last_modified_date timestamp NOT NULL DEFAULT NOW(),
-  last_modified_user bigint NOT NULL,
-  deleted            bool NOT NULL DEFAULT false,
+  id                      bigserial NOT NULL,
+  criterion_id            bigint NOT NULL,
+  svap                    bool NOT NULL DEFAULT false,
+  service_base_url_list   bool NOT NULL DEFAULT false,
+  creation_date           timestamp NOT NULL DEFAULT NOW(),
+  last_modified_date      timestamp NOT NULL DEFAULT NOW(),
+  last_modified_user      bigint NOT NULL,
+  deleted                 bool NOT NULL DEFAULT false,
   CONSTRAINT certification_criterion_attribute_pk PRIMARY KEY (id),
   CONSTRAINT certification_criterion_id_fk FOREIGN KEY (criterion_id)
         REFERENCES openchpl.certification_criterion (certification_criterion_id)
