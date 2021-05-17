@@ -1,5 +1,17 @@
 # Release Notes
 
+## Version 20.0.0
+_17 May 2021_
+
+### Major Features
+* Remove tables related to background jobs
+
+### Features
+* Add chpl product number to surveillance_basic view
+* Allow criteria to have Service Base URL List data
+
+---
+
 ## Version 19.14.0
 _4 May 2021_
 
