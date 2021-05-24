@@ -194,10 +194,16 @@ CREATE TRIGGER cqm_result_criteria_timestamp BEFORE UPDATE on openchpl.cqm_resul
 CREATE TRIGGER cqm_result_timestamp BEFORE UPDATE on openchpl.cqm_result FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER cqm_version_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.cqm_version FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER cqm_version_timestamp BEFORE UPDATE on openchpl.cqm_version FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
+CREATE TRIGGER criterion_listing_statistic_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.criterion_listing_statistic FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+CREATE TRIGGER criterion_listing_statistic_timestamp BEFORE UPDATE on openchpl.criterion_listing_statistic FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER criterion_product_statistics_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.criterion_product_statistics FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER criterion_product_statistics_timestamp BEFORE UPDATE on openchpl.criterion_product_statistics FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER cures_update_event_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.cures_update_event FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER cures_update_event_timestamp AFTER INSERT OR UPDATE OR DELETE on openchpl.cures_update_event FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
+CREATE TRIGGER criterion_upgraded_from_original_listing_statistic_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.criterion_upgraded_from_original_listing_statistic FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+CREATE TRIGGER criterion_upgraded_from_original_listing_statistic_timestamp BEFORE UPDATE on openchpl.criterion_upgraded_from_original_listing_statistic FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
+CREATE TRIGGER cures_criterion_upgraded_without_original_listing_statistic_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.cures_criterion_upgraded_without_original_listing_statistic FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+CREATE TRIGGER cures_criterion_upgraded_without_original_listing_statistic_timestamp BEFORE UPDATE on openchpl.cures_criterion_upgraded_without_original_listing_statistic FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER data_model_version_audit AFTER INSERT OR UPDATE OR DELETE ON openchpl.data_model_version FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER data_model_version_timestamp BEFORE UPDATE ON openchpl.data_model_version FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER education_type_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.education_type FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
@@ -224,6 +230,10 @@ CREATE TRIGGER invited_user_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.i
 CREATE TRIGGER invited_user_timestamp BEFORE UPDATE on openchpl.invited_user FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER listing_count_statistics_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.listing_count_statistics FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER listing_count_statistics_timestamp BEFORE UPDATE on openchpl.listing_count_statistics FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
+CREATE TRIGGER listing_cures_status_statistic_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.listing_cures_status_statistic FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+CREATE TRIGGER listing_cures_status_statistic_timestamp BEFORE UPDATE on openchpl.listing_cures_status_statistic FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
+CREATE TRIGGER listing_to_criterion_for_cures_achievement_statistic_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.listing_to_criterion_for_cures_achievement_statistic FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+CREATE TRIGGER listing_to_criterion_for_cures_achievement_statistic_timestamp BEFORE UPDATE on openchpl.listing_to_criterion_for_cures_achievement_statistic FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER listing_to_listing_map_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.listing_to_listing_map FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER listing_to_listing_map_timestamp BEFORE UPDATE on openchpl.listing_to_listing_map FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER listing_validation_report_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.listing_validation_report FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
@@ -296,6 +306,8 @@ CREATE TRIGGER pending_test_task_audit AFTER INSERT OR UPDATE OR DELETE on openc
 CREATE TRIGGER pending_test_task_timestamp BEFORE UPDATE on openchpl.pending_test_task FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER practice_type_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.practice_type FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER practice_type_timestamp BEFORE UPDATE on openchpl.practice_type FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
+CREATE TRIGGER privacy_and_security_listing_statistic_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.privacy_and_security_listing_statistic FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+CREATE TRIGGER privacy_and_security_listing_statistic_timestamp BEFORE UPDATE on openchpl.privacy_and_security_listing_statistic FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER product_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.product FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER product_timestamp BEFORE UPDATE on openchpl.product FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER product_classification_type_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.product_classification_type FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
