@@ -3,7 +3,7 @@ DROP TABLE IF EXISTS openchpl.criterion_upgraded_from_original_listing_statistic
 DROP TABLE IF EXISTS openchpl.cures_criterion_upgraded_without_original_listing_statistic;
 DROP TABLE IF EXISTS openchpl.privacy_and_security_listing_statistic;
 DROP TABLE IF EXISTS openchpl.listing_cures_status_statistic;
-DROP TABLE IF EXISTS openchpl.listing_to_cures_criterion;
+DROP TABLE IF EXISTS openchpl.listing_to_criterion_for_cures_achievement_statistic;
 
 CREATE TABLE openchpl.criterion_listing_statistic (
 	id bigserial NOT NULL,
@@ -74,7 +74,7 @@ CREATE TABLE openchpl.listing_cures_status_statistic (
 	CONSTRAINT listing_cures_status_statistic_pk PRIMARY KEY (id)
 );
 
-CREATE TABLE openchpl.listing_to_cures_criterion (
+CREATE TABLE openchpl.listing_to_criterion_for_cures_achievement_statistic (
 	id bigserial NOT NULL,
 	listing_id bigint NOT NULL,
 	certification_criterion_id bigint NOT NULL,
@@ -83,7 +83,7 @@ CREATE TABLE openchpl.listing_to_cures_criterion (
 	last_modified_date timestamp without time zone NOT NULL DEFAULT now(),
 	last_modified_user bigint NOT NULL,
 	deleted boolean NOT NULL DEFAULT false,
-	CONSTRAINT listing_to_cures_criterion_pk PRIMARY KEY (id),
+	CONSTRAINT listing_to_criterion_for_cures_achievement_statistic_pk PRIMARY KEY (id),
 	CONSTRAINT listing_fk FOREIGN KEY (listing_id)
 		REFERENCES openchpl.certified_product (certified_product_id)
 		MATCH FULL ON DELETE CASCADE ON UPDATE CASCADE,
