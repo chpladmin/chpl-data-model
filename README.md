@@ -23,7 +23,7 @@ Since the CHPL is running in production, any changes to the data-model must be d
 To update the soft delete triggers, update the `dev/openchpl_soft-delete.sql` script to include updates.
 To update the views in the CHPL database, update the `dev/openchpl_views.sql` script to include updates.
 
-These scripts are run each time the database is updated.  These scripts will drop all database objects associatedw ith the script and recreate the objects.
+These scripts are run each time the database is updated.  These scripts will drop all database objects associated with the script and recreate the objects.
 
 ### Updating/Adding Tables and Data
 To update or add a new table to the CHPL database:
@@ -32,13 +32,13 @@ To update or add a new table to the CHPL database:
   * `IF EXISTS`, `IF NOT EXISTS` clauses should be used to determine if the statement will be executed
 
 To update data in tables
-* Create new file or append canges to existing `changes/ocd-XXXX.sql` which corresponds to the ticket the change is associated to
+* Create a new file or append changes to an existing `changes/ocd-XXXX.sql` file which corresponds to the ticket the change is associated to
 * Add necessary `INSERT`, `UPDATE` statements, ensuring the script can be run multiple times based on requirements
   * Using `WHERE NOT EXISTS` can often be used to help with determining if the statement should be executed
 
-Sometimes database changes may require scripting not defined here to perform the required changes.  Those situations should be handled on a case by case basis.
+Sometimes database changes may require scripting not defined here to perform the required changes. Those situations should be handled on a case by case basis.
 
-## Updating you local data to match another environment
+## Updating your local data to match another environment
 To update your local database to match a particular environment, pull the code associated with that environment.
 `git pull upstream/qa` for example.
 
