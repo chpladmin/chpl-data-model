@@ -1,11 +1,3 @@
-# Data Model for Open Data CHPL
-
-This is the Data Model for the Open Data CHPL.
-
-The data model diagram is such: ![data model diagram](data-model.png)
-
-The data flow diagram is here: ![data flow diagram](data-flow.png)
-
 # Installation
 
 ## Getting the code
