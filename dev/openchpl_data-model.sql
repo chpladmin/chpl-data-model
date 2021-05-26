@@ -3352,7 +3352,7 @@ CREATE INDEX idx_privacy_and_security_listing_stat_date on openchpl.privacy_and_
 
 CREATE TABLE openchpl.listing_cures_status_statistic (
 	id bigserial NOT NULL,
-	cures_lisitngs_count bigint NOT NULL,
+	cures_listings_count bigint NOT NULL,
 	total_listings_count bigint NOT NULL,
 	statistic_date date NOT NULL, -- the date to which this statistic applies
 	creation_date timestamp without time zone NOT NULL DEFAULT now(),

@@ -40,8 +40,8 @@ CREATE TABLE openchpl.criterion_upgraded_from_original_listing_statistic (
 );
 CREATE INDEX idx_criterion_upgraded_from_original_listing_stat_date on openchpl.criterion_upgraded_from_original_listing_statistic (statistic_date);
 
-CREATE TRIGGER criterion_upgraded_from_original_listing_statistic_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.criterion_upgraded_from_original_listing_statistic FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
-CREATE TRIGGER criterion_upgraded_from_original_listing_statistic_timestamp BEFORE UPDATE on openchpl.criterion_upgraded_from_original_listing_statistic FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
+CREATE TRIGGER criterion_upgraded_from_original_listing_stat_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.criterion_upgraded_from_original_listing_statistic FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+CREATE TRIGGER criterion_upgraded_from_original_listing_stat_timestamp BEFORE UPDATE on openchpl.criterion_upgraded_from_original_listing_statistic FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 
 CREATE TABLE openchpl.cures_criterion_upgraded_without_original_listing_statistic (
 	id bigserial NOT NULL,
@@ -59,8 +59,8 @@ CREATE TABLE openchpl.cures_criterion_upgraded_without_original_listing_statisti
 );
 CREATE INDEX idx_cures_criterion_upgraded_without_original_listing_stat_date on openchpl.cures_criterion_upgraded_without_original_listing_statistic (statistic_date);
 
-CREATE TRIGGER cures_criterion_upgraded_without_original_listing_statistic_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.cures_criterion_upgraded_without_original_listing_statistic FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
-CREATE TRIGGER cures_criterion_upgraded_without_original_listing_statistic_timestamp BEFORE UPDATE on openchpl.cures_criterion_upgraded_without_original_listing_statistic FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
+CREATE TRIGGER cures_criterion_upgraded_without_orig_listing_stat_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.cures_criterion_upgraded_without_original_listing_statistic FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+CREATE TRIGGER cures_criterion_upgraded_without_orig_listing_stat_timestamp BEFORE UPDATE on openchpl.cures_criterion_upgraded_without_original_listing_statistic FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 
 CREATE TABLE openchpl.privacy_and_security_listing_statistic (
 	id bigserial NOT NULL,
@@ -80,7 +80,7 @@ CREATE TRIGGER privacy_and_security_listing_statistic_timestamp BEFORE UPDATE on
 
 CREATE TABLE openchpl.listing_cures_status_statistic (
 	id bigserial NOT NULL,
-	cures_lisitngs_count bigint NOT NULL,
+	cures_listings_count bigint NOT NULL,
 	total_listings_count bigint NOT NULL,
 	statistic_date date NOT NULL, -- the date to which this statistic applies
 	creation_date timestamp without time zone NOT NULL DEFAULT now(),
