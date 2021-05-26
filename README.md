@@ -19,7 +19,7 @@ These scripts are run each time the database is updated.  These scripts will dro
 
 ### Updating/Adding Tables and Data
 To update or add a new table to the CHPL database:
-* Create new file or append canges to existing `changes/ocd-XXXX.sql` which corresponds to the ticket the change is associated to
+* Create new file or append changes to existing `changes/ocd-XXXX.sql` which corresponds to the ticket the change is associated to
 * Add necessary `ALTER` statements, ensuring that the script can be run multiple times based on requirements
   * `IF EXISTS`, `IF NOT EXISTS` clauses should be used to determine if the statement will be executed
 
@@ -41,8 +41,8 @@ Run the `load-pending-changes.sh` script.  This will execute:
 * The `dev/openchpl_grant-all.sql` script (set permissions for all database objects)
 
 ## Data model load
-Rename `dev/openchpl_role-template.sql` to `dev/openchpl_role.sql` and set the password for the `openchpl` role. These instructions assume the role/username used for the openchpl database is `openchpl`, and that the password in `openchpl_role.sql`, currently recorded as "change this password" will be update to match your installation. If the installer chooses to change the username/role, make sure it's also changed in the `openchpl.sql` file wherever the role is used.
+Rename `dev/openchpl_role-template.sql` to `dev/openchpl_role.sql` and set the password for the `openchpl` role. These instructions assume the role/username used for the CHPL database is `openchpl`, and that the password in `openchpl_role.sql`, currently recorded as "change this password" will be update to match your installation. If the installer chooses to change the username/role, make sure it's also changed in the `openchpl.sql` file wherever the role is used.
 
-Next, run the script `dev/reset.sh` or `dev/reset.bat` from the `/dev` directory. These two scripts remove any previous OpenCHPL data model installation, with the associated roles, then recreate the required roles and databases, as well as fill out some of those database schemas with some required information.
+Next, run the script `dev/reset.sh` or `dev/reset.bat` from the `/dev` directory. These two scripts remove any previous CHPL data model installation, with the associated roles, then recreate the required roles and databases, as well as fill out some of those database schemas with some required information.
 
 Next, follow the `maint/procedure.md` file to load the CHPL with data.
