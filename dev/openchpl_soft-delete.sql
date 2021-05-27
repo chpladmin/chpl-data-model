@@ -56,6 +56,7 @@ CREATE OR REPLACE FUNCTION openchpl.certification_result_soft_delete()
 RETURNS TRIGGER AS $$
 BEGIN
     UPDATE openchpl.certification_result_additional_software as src SET deleted = NEW.deleted WHERE src.certification_result_id = NEW.certification_result_id;
+    UPDATE openchpl.certification_result_optional_standard as src SET deleted = NEW.deleted WHERE src.certification_result_id = NEW.certification_result_id;
     UPDATE openchpl.certification_result_svap as src SET deleted = NEW.deleted WHERE src.certification_result_id = NEW.certification_result_id;
     UPDATE openchpl.certification_result_test_data as src SET deleted = NEW.deleted WHERE src.certification_result_id = NEW.certification_result_id;
     UPDATE openchpl.certification_result_test_functionality as src SET deleted = NEW.deleted WHERE src.certification_result_id = NEW.certification_result_id;
