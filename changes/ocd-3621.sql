@@ -6,8 +6,7 @@ drop table if exists openchpl.optional_standard;
 -- add new tables
 CREATE TABLE openchpl.optional_standard (
   id bigserial not null,
-  name text not null,
-  description varchar(1000),
+  optional_standard text,
   creation_date timestamp NOT NULL DEFAULT NOW(),
   last_modified_date timestamp NOT NULL DEFAULT NOW(),
   last_modified_user bigint NOT NULL,

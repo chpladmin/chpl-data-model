@@ -641,8 +641,7 @@ CREATE TABLE openchpl.certification_result_test_standard (
 
 CREATE TABLE openchpl.optional_standard (
   id bigserial not null,
-  name text not null,
-  description varchar(1000),
+  optional_standard text,
   creation_date timestamp NOT NULL DEFAULT NOW(),
   last_modified_date timestamp NOT NULL DEFAULT NOW(),
   last_modified_user bigint NOT NULL,
