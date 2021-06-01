@@ -2,14 +2,14 @@
 
 -- insert optional standard data
 insert into openchpl.optional_standard (optional_standard, last_modified_user) values
-('HL7&reg; V3 IG: Context-Aware Information Retrieval (Infobutton) SOA, R1', -1),
-('HL7&reg; V3 IG: Context-Aware Knowledge Retrieval (Infobutton), R4', -1),
-('HL7&reg; V3 IG: Context-Aware Knowledge Retrieval (Infobutton), R4(a)(13)2015HL7&reg; V3 IG: Context-Aware Information Retrieval (Infobutton) SOA, R1', -1),
-('HL7&reg; IG for CDA&reg; R2: IHE Health Story Consolidation, DSTU R1.1 ', -1),
-('HL7&reg; CDA&reg; R2.1 IG: C-CDA Templates for Clinical Notes', -1),
-('HL7&reg; CDA&reg; R2 IG: C-CDA Templates for Clinical Notes R2.1 Companion Guide, R2', -1),
-('SNOMED CT&reg; U.S. Edition, September 2019 Release', -1),
-('SNOMED CT&reg; U.S. Edition, September 2015 Release', -1),
+('HL7® V3 IG: Context-Aware Information Retrieval (Infobutton) SOA, R1', -1),
+('HL7® V3 IG: Context-Aware Knowledge Retrieval (Infobutton), R4', -1),
+('HL7® V3 IG: Context-Aware Knowledge Retrieval (Infobutton), R4(a)(13)2015HL7® V3 IG: Context-Aware Information Retrieval (Infobutton) SOA, R1', -1),
+('HL7® IG for CDA® R2: IHE Health Story Consolidation, DSTU R1.1 ', -1),
+('HL7® CDA® R2.1 IG: C-CDA Templates for Clinical Notes', -1),
+('HL7® CDA® R2 IG: C-CDA Templates for Clinical Notes R2.1 Companion Guide, R2', -1),
+('SNOMED CT® U.S. Edition, September 2019 Release', -1),
+('SNOMED CT® U.S. Edition, September 2015 Release', -1),
 ('ICD-10-CM', -1),
 ('WCAG 2.0, Level A Conformance', -1),
 ('WCAG 2.0, Level AA Conformance', -1);
