@@ -650,6 +650,23 @@ CREATE TABLE openchpl.optional_standard (
   constraint optional_standard_pk primary key (id)
 );
 
+CREATE TABLE openchpl.optional_standard_criteria_map (
+ id bigserial NOT NULL,
+ optional_standard_id bigint NOT NULL,
+ criterion_id bigint NOT NULL,
+ creation_date timestamp NOT NULL DEFAULT NOW(),
+ last_modified_date timestamp NOT NULL DEFAULT NOW(),
+ last_modified_user bigint NOT NULL,
+ deleted bool NOT NULL DEFAULT false,
+ CONSTRAINT optional_standard_criteria_map_pk PRIMARY KEY (id),
+ CONSTRAINT optional_standard_fk FOREIGN KEY (optional_standard_id)
+ REFERENCES openchpl.optional_standard (id)
+ MATCH SIMPLE ON UPDATE NO ACTION ON DELETE RESTRICT,
+ CONSTRAINT optional_standard_criteria_map_fk FOREIGN KEY (criterion_id)
+ REFERENCES openchpl.certification_criterion (certification_criterion_id)
+ MATCH SIMPLE ON UPDATE NO ACTION ON DELETE RESTRICT
+);
+
 CREATE TABLE openchpl.certification_result_optional_standard (
   id bigserial NOT NULL,
   certification_result_id bigint not null,
