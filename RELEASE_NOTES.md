@@ -1,5 +1,15 @@
 # Release Notes
 
+## Version 20.1.0
+_2 June 2021_
+
+### Features
+* Update README documentation
+* Add certification status event history to certified_product_search view
+* Add tables to store cures-related statistics
+
+---
+
 ## Version 20.0.0
 _17 May 2021_
 
