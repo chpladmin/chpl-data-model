@@ -661,7 +661,7 @@ CREATE TABLE openchpl.optional_standard_criteria_map (
  CONSTRAINT optional_standard_fk FOREIGN KEY (optional_standard_id)
  REFERENCES openchpl.optional_standard (id)
  MATCH SIMPLE ON UPDATE NO ACTION ON DELETE RESTRICT,
- CONSTRAINT optional_standard_criteria_map_fk FOREIGN KEY (criterion_id)
+ CONSTRAINT criterion_fk FOREIGN KEY (criterion_id)
  REFERENCES openchpl.certification_criterion (certification_criterion_id)
  MATCH SIMPLE ON UPDATE NO ACTION ON DELETE RESTRICT
 );
