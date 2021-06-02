@@ -1,3 +1,6 @@
+-- Deployment file for version 20.1.0
+--     as of 2021-06-02
+-- ./changes/ocd-3663.sql
 DROP TABLE IF EXISTS openchpl.criterion_listing_statistic;
 DROP TABLE IF EXISTS openchpl.criterion_upgraded_from_original_listing_statistic;
 DROP TABLE IF EXISTS openchpl.cures_criterion_upgraded_without_original_listing_statistic;
@@ -114,4 +117,8 @@ CREATE TABLE openchpl.listing_to_criterion_for_cures_achievement_statistic (
 CREATE INDEX idx_listing_to_criterion_for_cures_achievement_stat_date on openchpl.listing_to_criterion_for_cures_achievement_statistic (statistic_date);
 
 CREATE TRIGGER listing_to_criterion_for_cures_achievement_statistic_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.listing_to_criterion_for_cures_achievement_statistic FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
-CREATE TRIGGER listing_to_criterion_for_cures_achievement_statistic_timestamp BEFORE UPDATE on openchpl.listing_to_criterion_for_cures_achievement_statistic FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
+CREATE TRIGGER listing_to_criterion_for_cures_achievement_statistic_timestamp BEFORE UPDATE on openchpl.listing_to_criterion_for_cures_achievement_statistic FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();;
+insert into openchpl.data_model_version (version, deploy_date, last_modified_user) values ('20.1.0', '2021-06-02', -1);
+\i dev/openchpl_soft-delete.sql
+\i dev/openchpl_views.sql
+\i dev/openchpl_grant-all.sql
