@@ -4,7 +4,7 @@
 insert into openchpl.optional_standard (optional_standard, last_modified_user) values
 ('HL7® V3 IG: Context-Aware Information Retrieval (Infobutton) SOA, R1', -1),
 ('HL7® V3 IG: Context-Aware Knowledge Retrieval (Infobutton), R4', -1),
-('HL7® IG for CDA® R2: IHE Health Story Consolidation, DSTU R1.1 ', -1),
+('HL7® IG for CDA® R2: IHE Health Story Consolidation, DSTU R1.1', -1),
 ('HL7® CDA® R2.1 IG: C-CDA Templates for Clinical Notes', -1),
 ('HL7® CDA® R2 IG: C-CDA Templates for Clinical Notes R2.1 Companion Guide, R2', -1),
 ('SNOMED CT® U.S. Edition, September 2019 Release', -1),
