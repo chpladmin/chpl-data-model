@@ -1042,7 +1042,7 @@ CREATE TABLE openchpl.contact(
     full_name varchar(500) NOT NULL,
     friendly_name varchar(250),
 	email varchar(250) NOT NULL,
-	phone_number varchar(100) NOT NULL,
+	phone_number varchar(100),
 	title varchar(250),
 	signature_date timestamp,
 	creation_date timestamp NOT NULL DEFAULT NOW(),
