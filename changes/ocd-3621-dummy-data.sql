@@ -1,17 +1,17 @@
 -- OCD-3261
 
 -- insert optional standard data
-insert into openchpl.optional_standard (optional_standard, last_modified_user) values
-('HL7® V3 IG: Context-Aware Information Retrieval (Infobutton) SOA, R1', -1),
-('HL7® V3 IG: Context-Aware Knowledge Retrieval (Infobutton), R4', -1),
-('HL7® IG for CDA® R2: IHE Health Story Consolidation, DSTU R1.1', -1),
-('HL7® CDA® R2.1 IG: C-CDA Templates for Clinical Notes', -1),
-('HL7® CDA® R2 IG: C-CDA Templates for Clinical Notes R2.1 Companion Guide, R2', -1),
-('SNOMED CT® U.S. Edition, September 2019 Release', -1),
-('SNOMED CT® U.S. Edition, September 2015 Release', -1),
-('ICD-10-CM', -1),
-('WCAG 2.0, Level A Conformance', -1),
-('WCAG 2.0, Level AA Conformance', -1);
+insert into openchpl.optional_standard (citation, description, last_modified_user) values
+('TBD-0', 'HL7® V3 IG: Context-Aware Information Retrieval (Infobutton) SOA, R1', -1),
+('TBD-1', 'HL7® V3 IG: Context-Aware Knowledge Retrieval (Infobutton), R4', -1),
+('TBD-2', 'HL7® IG for CDA® R2: IHE Health Story Consolidation, DSTU R1.1', -1),
+('TBD-3', 'HL7® CDA® R2.1 IG: C-CDA Templates for Clinical Notes', -1),
+('TBD-4', 'HL7® CDA® R2 IG: C-CDA Templates for Clinical Notes R2.1 Companion Guide, R2', -1),
+('TBD-5', 'SNOMED CT® U.S. Edition, September 2019 Release', -1),
+('TBD-6', 'SNOMED CT® U.S. Edition, September 2015 Release', -1),
+('TBD-7', 'ICD-10-CM', -1),
+('TBD-8', 'WCAG 2.0, Level A Conformance', -1),
+('TBD-9', 'WCAG 2.0, Level AA Conformance', -1);
 
 -- add rows for criteria that don't yet have attributes
 insert into openchpl.certification_criterion_attribute (criterion_id, last_modified_user) select 9, -1 where not exists (select * from openchpl.certification_criterion_attribute where criterion_id = 9); --a9
