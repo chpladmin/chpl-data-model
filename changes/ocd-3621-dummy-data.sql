@@ -2,16 +2,17 @@
 
 -- insert optional standard data
 insert into openchpl.optional_standard (citation, description, last_modified_user) values
-('TBD-0', 'HL7® V3 IG: Context-Aware Information Retrieval (Infobutton) SOA, R1', -1),
-('TBD-1', 'HL7® V3 IG: Context-Aware Knowledge Retrieval (Infobutton), R4', -1),
-('TBD-2', 'HL7® IG for CDA® R2: IHE Health Story Consolidation, DSTU R1.1', -1),
-('TBD-3', 'HL7® CDA® R2.1 IG: C-CDA Templates for Clinical Notes', -1),
-('TBD-4', 'HL7® CDA® R2 IG: C-CDA Templates for Clinical Notes R2.1 Companion Guide, R2', -1),
-('TBD-5', 'SNOMED CT® U.S. Edition, September 2019 Release', -1),
-('TBD-6', 'SNOMED CT® U.S. Edition, September 2015 Release', -1),
-('TBD-7', 'ICD-10-CM', -1),
-('TBD-8', 'WCAG 2.0, Level A Conformance', -1),
-('TBD-9', 'WCAG 2.0, Level AA Conformance', -1);
+('170.204(b)(3)', 'HL7® V3 IG: Context-Aware Information Retrieval (Infobutton) SOA, R1', -1),
+('170.204(b)(4)', 'HL7® V3 IG: Context-Aware Knowledge Retrieval (Infobutton), R4', -1),
+('170.205(a)(3)', 'HL7® IG for CDA® R2: IHE Health Story Consolidation, DSTU R1.1', -1),
+('170.205(a)(5)', 'HL7® CDA® R2.1 IG: C-CDA Templates for Clinical Notes', -1),
+('170.205(a)(5)', 'HL7® CDA® R2 IG: C-CDA Templates for Clinical Notes R2.1 Companion Guide, R2', -1),
+('170.207(a)(4)', 'SNOMED CT® U.S. Edition, September 2019 Release', -1),
+('TBD-1', 'SNOMED CT® U.S. Edition, September 2015 Release', -1),
+('TBD-2', 'ICD-10-CM', -1),
+('170.204(a)(1)', 'WCAG 2.0, Level A Conformance', -1),
+('170.204(a)(2)', 'WCAG 2.0, Level AA Conformance', -1),
+('170.207(i)', 'TBD', -1);
 
 -- add rows for criteria that don't yet have attributes
 insert into openchpl.certification_criterion_attribute (criterion_id, last_modified_user) select 9, -1 where not exists (select * from openchpl.certification_criterion_attribute where criterion_id = 9); --a9
@@ -34,25 +35,37 @@ update openchpl.certification_criterion_attribute set optional_standard = true w
 update openchpl.certification_criterion_attribute set optional_standard = true where criterion_id = 58; --g9
 
 -- add mappings for optional standards to criteria
+--a9
 insert into openchpl.optional_standard_criteria_map (optional_standard_id, criterion_id, last_modified_user) select 1, 9, -1 where not exists (select * from openchpl.optional_standard_criteria_map where optional_standard_id = 1 and criterion_id = 9);
 insert into openchpl.optional_standard_criteria_map (optional_standard_id, criterion_id, last_modified_user) select 2, 9, -1 where not exists (select * from openchpl.optional_standard_criteria_map where optional_standard_id = 2 and criterion_id = 9);
+--a13
 insert into openchpl.optional_standard_criteria_map (optional_standard_id, criterion_id, last_modified_user) select 1, 13, -1 where not exists (select * from openchpl.optional_standard_criteria_map where optional_standard_id = 1 and criterion_id = 13);
 insert into openchpl.optional_standard_criteria_map (optional_standard_id, criterion_id, last_modified_user) select 2, 13, -1 where not exists (select * from openchpl.optional_standard_criteria_map where optional_standard_id = 2 and criterion_id = 13);
+--b1
 insert into openchpl.optional_standard_criteria_map (optional_standard_id, criterion_id, last_modified_user) select 3, 16, -1 where not exists (select * from openchpl.optional_standard_criteria_map where optional_standard_id = 3 and criterion_id = 16);
-insert into openchpl.optional_standard_criteria_map (optional_standard_id, criterion_id, last_modified_user) select 3, 165, -1 where not exists (select * from openchpl.optional_standard_criteria_map where optional_standard_id = 3 and criterion_id = 165);
 insert into openchpl.optional_standard_criteria_map (optional_standard_id, criterion_id, last_modified_user) select 4, 16, -1 where not exists (select * from openchpl.optional_standard_criteria_map where optional_standard_id = 4 and criterion_id = 16);
-insert into openchpl.optional_standard_criteria_map (optional_standard_id, criterion_id, last_modified_user) select 4, 165, -1 where not exists (select * from openchpl.optional_standard_criteria_map where optional_standard_id = 4 and criterion_id = 165);
 insert into openchpl.optional_standard_criteria_map (optional_standard_id, criterion_id, last_modified_user) select 5, 16, -1 where not exists (select * from openchpl.optional_standard_criteria_map where optional_standard_id = 5 and criterion_id = 16);
 insert into openchpl.optional_standard_criteria_map (optional_standard_id, criterion_id, last_modified_user) select 6, 16, -1 where not exists (select * from openchpl.optional_standard_criteria_map where optional_standard_id = 6 and criterion_id = 16);
+insert into openchpl.optional_standard_criteria_map (optional_standard_id, criterion_id, last_modified_user) select 11, 16, -1 where not exists (select * from openchpl.optional_standard_criteria_map where optional_standard_id = 11 and criterion_id = 16);
+--b1 cures
+insert into openchpl.optional_standard_criteria_map (optional_standard_id, criterion_id, last_modified_user) select 3, 165, -1 where not exists (select * from openchpl.optional_standard_criteria_map where optional_standard_id = 3 and criterion_id = 165);
+insert into openchpl.optional_standard_criteria_map (optional_standard_id, criterion_id, last_modified_user) select 4, 165, -1 where not exists (select * from openchpl.optional_standard_criteria_map where optional_standard_id = 4 and criterion_id = 165);
 insert into openchpl.optional_standard_criteria_map (optional_standard_id, criterion_id, last_modified_user) select 6, 165, -1 where not exists (select * from openchpl.optional_standard_criteria_map where optional_standard_id = 6 and criterion_id = 165);
+insert into openchpl.optional_standard_criteria_map (optional_standard_id, criterion_id, last_modified_user) select 11, 165, -1 where not exists (select * from openchpl.optional_standard_criteria_map where optional_standard_id = 11 and criterion_id = 165);
+--b6
 insert into openchpl.optional_standard_criteria_map (optional_standard_id, criterion_id, last_modified_user) select 4, 21, -1 where not exists (select * from openchpl.optional_standard_criteria_map where optional_standard_id = 4 and criterion_id = 21);
 insert into openchpl.optional_standard_criteria_map (optional_standard_id, criterion_id, last_modified_user) select 7, 21, -1 where not exists (select * from openchpl.optional_standard_criteria_map where optional_standard_id = 7 and criterion_id = 21);
 insert into openchpl.optional_standard_criteria_map (optional_standard_id, criterion_id, last_modified_user) select 8, 21, -1 where not exists (select * from openchpl.optional_standard_criteria_map where optional_standard_id = 8 and criterion_id = 21);
+--e1
 insert into openchpl.optional_standard_criteria_map (optional_standard_id, criterion_id, last_modified_user) select 9, 40, -1 where not exists (select * from openchpl.optional_standard_criteria_map where optional_standard_id = 9 and criterion_id = 40);
-insert into openchpl.optional_standard_criteria_map (optional_standard_id, criterion_id, last_modified_user) select 9, 178, -1 where not exists (select * from openchpl.optional_standard_criteria_map where optional_standard_id = 9 and criterion_id = 178);
 insert into openchpl.optional_standard_criteria_map (optional_standard_id, criterion_id, last_modified_user) select 10, 40, -1 where not exists (select * from openchpl.optional_standard_criteria_map where optional_standard_id = 10 and criterion_id = 40);
+--e1 cures
+insert into openchpl.optional_standard_criteria_map (optional_standard_id, criterion_id, last_modified_user) select 9, 178, -1 where not exists (select * from openchpl.optional_standard_criteria_map where optional_standard_id = 9 and criterion_id = 178);
 insert into openchpl.optional_standard_criteria_map (optional_standard_id, criterion_id, last_modified_user) select 10, 178, -1 where not exists (select * from openchpl.optional_standard_criteria_map where optional_standard_id = 10 and criterion_id = 178);
 insert into openchpl.optional_standard_criteria_map (optional_standard_id, criterion_id, last_modified_user) select 4, 178, -1 where not exists (select * from openchpl.optional_standard_criteria_map where optional_standard_id = 4 and criterion_id = 178);
+--f5
 insert into openchpl.optional_standard_criteria_map (optional_standard_id, criterion_id, last_modified_user) select 6, 47, -1 where not exists (select * from openchpl.optional_standard_criteria_map where optional_standard_id = 6 and criterion_id = 47);
+--g8
 insert into openchpl.optional_standard_criteria_map (optional_standard_id, criterion_id, last_modified_user) select 10, 57, -1 where not exists (select * from openchpl.optional_standard_criteria_map where optional_standard_id = 10 and criterion_id = 57);
+--g9
 insert into openchpl.optional_standard_criteria_map (optional_standard_id, criterion_id, last_modified_user) select 10, 58, -1 where not exists (select * from openchpl.optional_standard_criteria_map where optional_standard_id = 10 and criterion_id = 58);
