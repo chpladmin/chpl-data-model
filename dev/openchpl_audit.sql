@@ -129,6 +129,8 @@ CREATE TRIGGER certification_result_functionality_tested_audit AFTER INSERT OR U
 CREATE TRIGGER certification_result_functionality_tested_timestamp BEFORE UPDATE on openchpl.certification_result_test_functionality FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER certification_result_svap_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.certification_result_svap FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER certification_result_svap_timestamp BEFORE UPDATE on openchpl.certification_result_svap FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
+CREATE TRIGGER certification_result_optional_standard_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.certification_result_optional_standard FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+CREATE TRIGGER certification_result_optional_standard_timestamp BEFORE UPDATE on openchpl.certification_result_optional_standard FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER certification_result_test_data_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.certification_result_test_data FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER certification_result_test_data_timestamp BEFORE UPDATE on openchpl.certification_result_test_data FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER certification_result_test_procedure_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.certification_result_test_procedure FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
@@ -248,6 +250,10 @@ CREATE TRIGGER nonconformity_type_statistics_audit AFTER INSERT OR UPDATE OR DEL
 CREATE TRIGGER nonconformity_type_statistics_timestamp BEFORE UPDATE on openchpl.nonconformity_type_statistics FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER optional_functionality_met_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.optional_functionality_met FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER optional_functionality_met_timestamp BEFORE UPDATE on openchpl.optional_functionality_met FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
+CREATE TRIGGER optional_standard_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.optional_standard FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+CREATE TRIGGER optional_standard_timestamp BEFORE UPDATE on openchpl.optional_standard FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
+CREATE TRIGGER optional_standard_criteria_map_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.optional_standard_criteria_map FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+CREATE TRIGGER optional_standard_criteria_map_timestamp BEFORE UPDATE on openchpl.optional_standard_criteria_map FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER participant_age_statistics_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.participant_age_statistics FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER participant_age_statistics_timestamp BEFORE UPDATE on openchpl.participant_age_statistics FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER participant_education_statistics_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.participant_education_statistics FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
