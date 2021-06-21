@@ -13,7 +13,7 @@ CREATE TRIGGER developer_soft_delete AFTER UPDATE of deleted on openchpl.vendor 
 
 CREATE OR REPLACE FUNCTION openchpl.certified_product_soft_delete()
 RETURNS TRIGGER AS $$
-BEGINopenc
+BEGIN
 	UPDATE openchpl.certification_status_event as src SET deleted = NEW.deleted WHERE src.certified_product_id = NEW.certified_product_id;
 	UPDATE openchpl.cures_update_event as src SET deleted = NEW.deleted WHERE src.certified_product_id = NEW.certified_product_id;
     UPDATE openchpl.certification_result as src SET deleted = NEW.deleted WHERE src.certified_product_id = NEW.certified_product_id;
