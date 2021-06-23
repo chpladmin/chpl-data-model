@@ -31,7 +31,7 @@ BEGIN
     UPDATE openchpl.listing_to_listing_map as src SET deleted = NEW.deleted WHERE src.child_listing_id = NEW.certified_product_id;
 	UPDATE openchpl.quarterly_report_excluded_listing_map as src SET deleted = NEW.deleted WHERE src.listing_id = NEW.certified_product_id;
     UPDATE openchpl.certified_product_measure as src SET deleted = NEW.deleted WHERE src.certified_product_id = NEW.certified_product_id;
-	UPDATE openchpl.meaningful_use_user as src SET deleted = NEW.deleted WHERE src.certified_product_id = NEW.certified_product_id;
+	UPDATE openchpl.promoting_interoperability_user as src SET deleted = NEW.deleted WHERE src.certified_product_id = NEW.certified_product_id;
 	UPDATE openchpl.questionable_activity_listing as src SET deleted = NEW.deleted WHERE src.listing_id = NEW.certified_product_id;
 	UPDATE openchpl.complaint_listing_map as src SET deleted = NEW.deleted WHERE src.listing_id = NEW.certified_product_id;
     UPDATE openchpl.certified_product_upload as src SET deleted = NEW.deleted WHERE src.certified_product_id = NEW.certified_product_id;
