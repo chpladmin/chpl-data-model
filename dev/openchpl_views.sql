@@ -157,7 +157,7 @@ CREATE VIEW openchpl.certified_product_details AS
     a.rwt_results_check_date,
     a.svap_notice_url,
     piuResult.promoting_interoperability_user_count,
-    piuResult.user_count_date,
+    piuResult.promoting_interoperability_user_count_date,
     b.year,
     c.certification_body_name,
     c.certification_body_code,
@@ -239,7 +239,7 @@ CREATE VIEW openchpl.certified_product_details AS
            FROM openchpl.certification_status) n ON r.certification_status_id = n.certification_status_id
      LEFT JOIN ( SELECT piu_ranked.user_count as promoting_interoperability_user_count,
 			piu_ranked.certified_product_id,
-			piu_ranked.user_count_date
+			piu_ranked.user_count_date as promoting_interoperability_user_count_date
 		FROM (	SELECT piu.user_count,
 				piu.certified_product_id,
 				piu.user_count_date,
@@ -562,7 +562,7 @@ SELECT cp.certified_product_id,
        cqms.cqm_number AS cqms,
        openchpl.get_chpl_product_number(cp.certified_product_id) AS chpl_product_number,
        piuResult.promoting_interoperability_user_count,
-	   piuResult.user_count_date,
+	   piuResult.promoting_interoperability_user_count_date,
        cp.transparency_attestation_url,
        edition.year,
        acb.certification_body_name,
@@ -627,7 +627,7 @@ LEFT JOIN
 LEFT JOIN ( 
 	SELECT piu_ranked.user_count as promoting_interoperability_user_count,
 		piu_ranked.certified_product_id,
-		piu_ranked.user_count_date
+		piu_ranked.user_count_date as promoting_interoperability_user_count_date
 	FROM (	SELECT piu.user_count,
 			piu.certified_product_id,
 			piu.user_count_date,
@@ -827,7 +827,7 @@ FROM
         (select chpl_product_number from openchpl.get_chpl_product_number(cp.certified_product_id)),
 	lastCertStatusEvent.certification_status_name,
 	piuResult.promoting_interoperability_user_count,
-	piuResult.user_count_date,
+	piuResult.promoting_interoperability_user_count_date,
 	cp.transparency_attestation_url,
 	edition.year,
 	acb.certification_body_name,
@@ -885,9 +885,9 @@ FROM
 	ON lastCuresUpdateEvent.certified_product_id = cp.certified_product_id
 	-- promoting interoperability users count
 	LEFT JOIN (
-		SELECT piu.user_count as "promoting_interoperability_user_count", 
-		piu.certified_product_id as "certified_product_id",
-		piu.user_count_date as "user_count_date"
+		SELECT piu.user_count as promoting_interoperability_user_count, 
+		piu.certified_product_id,
+		piu.user_count_date as promoting_interoperability_user_count_date
 		FROM openchpl.promoting_interoperability_user piu
 			INNER JOIN
 			(SELECT certified_product_id, extract(epoch from MAX(user_count_date)) user_count_date
@@ -1183,7 +1183,7 @@ CREATE VIEW openchpl.certified_product_summary AS
      JOIN openchpl.certification_body cb ON cp.certification_body_id = cb.certification_body_id
 	 LEFT OUTER JOIN ( SELECT piu.user_count as promoting_interoperability_user_count,
             piu.certified_product_id,
-            piu.user_count_date AS user_count_date
+            piu.user_count_date AS promoting_interoperability_user_count_date
            FROM openchpl.promoting_interoperability_user piu
              JOIN ( SELECT promoting_interoperability_user.certified_product_id,
                     max(promoting_interoperability_user.user_count_date) AS user_count_date
