@@ -687,11 +687,11 @@ LEFT JOIN
             vshistory.vendor_id,
             vshistory.status_date AS last_vendor_status_change
            FROM openchpl.vendor_status_history vshistory
-             JOIN ( SELECT vendor_status_history.vendor_id,
+           JOIN (SELECT vendor_status_history.vendor_id,
                     max(vendor_status_history.status_date) AS status_date
                    FROM openchpl.vendor_status_history
                   WHERE vendor_status_history.deleted = false
-                  GROUP BY vendor_status_history.vendor_id) vsinner ON vshistory.vendor_id = vsinner.vendor_id AND vshistory.status_date = vsinner.status_date) vendor_status_history ON vendor_status_history.vendor_id = vendor.vendor_id
+                  GROUP BY vendor_status_history.vendor_id) vsinner ON vshistory.deleted = false AND vshistory.vendor_id = vsinner.vendor_id AND vshistory.status_date = vsinner.status_date) vendor_status_history ON vendor_status_history.vendor_id = vendor.vendor_id
      LEFT JOIN ( SELECT vendor_status.vendor_status_id,
             vendor_status.name AS vendor_status_name
            FROM openchpl.vendor_status) vendor_status ON vendor_status_history.vendor_status_id = vendor_status.vendor_status_id
