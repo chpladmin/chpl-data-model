@@ -1,3 +1,9 @@
+-- Deployment file for version 20.2.0
+--     as of 2021-06-28
+-- ./changes/ocd-3400.sql
+alter table openchpl.contact alter column phone_number drop not null;
+;
+-- ./changes/ocd-3621.sql
 -- remove new tables
 drop table if exists openchpl.certification_result_optional_standard;
 drop table if exists openchpl.optional_standard_criteria_map;
@@ -58,3 +64,8 @@ CREATE TRIGGER certification_result_optional_standard_timestamp BEFORE UPDATE on
 -- add new column for criterion attribute
 alter table openchpl.certification_criterion_attribute drop column if exists optional_standard;
 alter table openchpl.certification_criterion_attribute add column optional_standard bool NOT NULL default false;
+;
+insert into openchpl.data_model_version (version, deploy_date, last_modified_user) values ('20.2.0', '2021-06-28', -1);
+\i dev/openchpl_soft-delete.sql
+\i dev/openchpl_views.sql
+\i dev/openchpl_grant-all.sql

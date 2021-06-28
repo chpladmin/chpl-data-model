@@ -1,5 +1,18 @@
 # Release Notes
 
+## Version 20.2.0
+_28 June 2021_
+
+### Features
+* Remove requirement for Phone Number for users
+* Add support for Optional Standards
+
+### Bug Fixes
+* Remove leftover reference to openchpl.job in soft delete triggers
+* Ignore deleted developer status history entries in a view
+
+---
+
 ## Version 20.1.0
 _2 June 2021_
 
