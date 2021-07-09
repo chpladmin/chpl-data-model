@@ -4,6 +4,7 @@ CREATE TABLE openchpl.pending_certification_result_optional_standard (
 	pending_certification_result_optional_standard_id bigserial NOT NULL,
 	pending_certification_result_id bigint not null,
 	optional_standard_id bigint,
+	citation text,
 	creation_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_user bigint NOT NULL,
