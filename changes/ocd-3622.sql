@@ -17,3 +17,5 @@ CREATE TABLE openchpl.pending_certification_result_optional_standard (
       REFERENCES openchpl.optional_standard (id) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION
 );
+CREATE TRIGGER pending_certification_result_optional_standard_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.pending_certification_result_optional_standard FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+CREATE TRIGGER pending_certification_result_optional_standard_timestamp BEFORE UPDATE on openchpl.pending_certification_result_optional_standard FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
