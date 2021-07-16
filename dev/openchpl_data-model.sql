@@ -1375,6 +1375,10 @@ CREATE TABLE openchpl.certified_product_upload (
       ON UPDATE NO ACTION ON DELETE NO ACTION
 );
 
+CREATE UNIQUE INDEX certified_product_upload_unique_chpl_product_number
+ON openchpl.certified_product_upload(chpl_product_number)
+WHERE deleted = false;
+
 -- object: openchpl.pending_certified_product | type: TABLE --
 --DROP TABLE IF EXISTS openchpl.pending_certified_product CASCADE;
 CREATE TABLE openchpl.pending_certified_product (
