@@ -408,115 +408,19 @@ CREATE VIEW openchpl.certified_product_details AS
           GROUP BY n_1.certified_product_id) surv_closed ON a.certified_product_id = surv_closed.certified_product_id
      LEFT JOIN ( SELECT n_1.certified_product_id,
             count(*) AS count_open_nonconformities
-           FROM ( SELECT surv_1.id,
-                    surv_1.certified_product_id,
-                    surv_1.friendly_id,
-                    surv_1.start_date,
-                    surv_1.end_date,
-                    surv_1.type_id,
-                    surv_1.randomized_sites_used,
-                    surv_1.creation_date,
-                    surv_1.last_modified_date,
-                    surv_1.last_modified_user,
-                    surv_1.deleted,
-                    surv_1.user_permission_id,
-                    surv_req.id,
-                    surv_req.surveillance_id,
-                    surv_req.type_id,
-                    surv_req.certification_criterion_id,
-                    surv_req.requirement,
-                    surv_req.result_id,
-                    surv_req.creation_date,
-                    surv_req.last_modified_date,
-                    surv_req.last_modified_user,
-                    surv_req.deleted,
-                    surv_nc.id,
-                    surv_nc.surveillance_requirement_id,
-                    surv_nc.certification_criterion_id,
-                    surv_nc.nonconformity_type,
-                    surv_nc.nonconformity_status_id,
-                    surv_nc.date_of_determination,
-                    surv_nc.corrective_action_plan_approval_date,
-                    surv_nc.corrective_action_start_date,
-                    surv_nc.corrective_action_must_complete_date,
-                    surv_nc.corrective_action_end_date,
-                    surv_nc.summary,
-                    surv_nc.findings,
-                    surv_nc.sites_passed,
-                    surv_nc.total_sites,
-                    surv_nc.developer_explanation,
-                    surv_nc.resolution,
-                    surv_nc.creation_date,
-                    surv_nc.last_modified_date,
-                    surv_nc.last_modified_user,
-                    surv_nc.deleted,
-                    nc_status.id,
-                    nc_status.name,
-                    nc_status.creation_date,
-                    nc_status.last_modified_date,
-                    nc_status.last_modified_user,
-                    nc_status.deleted
+           FROM ( SELECT surv_1.certified_product_id
                    FROM openchpl.surveillance surv_1
                      JOIN openchpl.surveillance_requirement surv_req ON surv_1.id = surv_req.surveillance_id AND surv_req.deleted <> true
                      JOIN openchpl.surveillance_nonconformity surv_nc ON surv_req.id = surv_nc.surveillance_requirement_id AND surv_nc.deleted <> true
-                     JOIN openchpl.nonconformity_status nc_status ON surv_nc.nonconformity_status_id = nc_status.id
-                  WHERE surv_1.deleted <> true AND nc_status.name::text = 'Open'::text) n_1(id, certified_product_id, friendly_id, start_date, end_date, type_id, randomized_sites_used, creation_date, last_modified_date, last_modified_user, deleted, user_permission_id, id_1, surveillance_id, type_id_1, certification_criterion_id, requirement, result_id, creation_date_1, last_modified_date_1, last_modified_user_1, deleted_1, id_2, surveillance_requirement_id, certification_criterion_id_1, nonconformity_type, nonconformity_status_id, date_of_determination, corrective_action_plan_approval_date, corrective_action_start_date, corrective_action_must_complete_date, corrective_action_end_date, summary, findings, sites_passed, total_sites, developer_explanation, resolution, creation_date_2, last_modified_date_2, last_modified_user_2, deleted_2, id_3, name, creation_date_3, last_modified_date_3, last_modified_user_3, deleted_3)
+                  WHERE surv_1.deleted <> true AND surv_nc.non_conformity_close_date is null) n_1
           GROUP BY n_1.certified_product_id) nc_open ON a.certified_product_id = nc_open.certified_product_id
      LEFT JOIN ( SELECT n_1.certified_product_id,
             count(*) AS count_closed_nonconformities
-           FROM ( SELECT surv_1.id,
-                    surv_1.certified_product_id,
-                    surv_1.friendly_id,
-                    surv_1.start_date,
-                    surv_1.end_date,
-                    surv_1.type_id,
-                    surv_1.randomized_sites_used,
-                    surv_1.creation_date,
-                    surv_1.last_modified_date,
-                    surv_1.last_modified_user,
-                    surv_1.deleted,
-                    surv_1.user_permission_id,
-                    surv_req.id,
-                    surv_req.surveillance_id,
-                    surv_req.type_id,
-                    surv_req.certification_criterion_id,
-                    surv_req.requirement,
-                    surv_req.result_id,
-                    surv_req.creation_date,
-                    surv_req.last_modified_date,
-                    surv_req.last_modified_user,
-                    surv_req.deleted,
-                    surv_nc.id,
-                    surv_nc.surveillance_requirement_id,
-                    surv_nc.certification_criterion_id,
-                    surv_nc.nonconformity_type,
-                    surv_nc.nonconformity_status_id,
-                    surv_nc.date_of_determination,
-                    surv_nc.corrective_action_plan_approval_date,
-                    surv_nc.corrective_action_start_date,
-                    surv_nc.corrective_action_must_complete_date,
-                    surv_nc.corrective_action_end_date,
-                    surv_nc.summary,
-                    surv_nc.findings,
-                    surv_nc.sites_passed,
-                    surv_nc.total_sites,
-                    surv_nc.developer_explanation,
-                    surv_nc.resolution,
-                    surv_nc.creation_date,
-                    surv_nc.last_modified_date,
-                    surv_nc.last_modified_user,
-                    surv_nc.deleted,
-                    nc_status.id,
-                    nc_status.name,
-                    nc_status.creation_date,
-                    nc_status.last_modified_date,
-                    nc_status.last_modified_user,
-                    nc_status.deleted
+           FROM ( SELECT surv_1.certified_product_id
                    FROM openchpl.surveillance surv_1
                      JOIN openchpl.surveillance_requirement surv_req ON surv_1.id = surv_req.surveillance_id AND surv_req.deleted <> true
                      JOIN openchpl.surveillance_nonconformity surv_nc ON surv_req.id = surv_nc.surveillance_requirement_id AND surv_nc.deleted <> true
-                     JOIN openchpl.nonconformity_status nc_status ON surv_nc.nonconformity_status_id = nc_status.id
-                  WHERE surv_1.deleted <> true AND nc_status.name::text = 'Closed'::text) n_1(id, certified_product_id, friendly_id, start_date, end_date, type_id, randomized_sites_used, creation_date, last_modified_date, last_modified_user, deleted, user_permission_id, id_1, surveillance_id, type_id_1, certification_criterion_id, requirement, result_id, creation_date_1, last_modified_date_1, last_modified_user_1, deleted_1, id_2, surveillance_requirement_id, certification_criterion_id_1, nonconformity_type, nonconformity_status_id, date_of_determination, corrective_action_plan_approval_date, corrective_action_start_date, corrective_action_must_complete_date, corrective_action_end_date, summary, findings, sites_passed, total_sites, developer_explanation, resolution, creation_date_2, last_modified_date_2, last_modified_user_2, deleted_2, id_3, name, creation_date_3, last_modified_date_3, last_modified_user_3, deleted_3)
+                  WHERE surv_1.deleted <> true AND surv_nc.non_conformity_close_date is not null) n_1
           GROUP BY n_1.certified_product_id) nc_closed ON a.certified_product_id = nc_closed.certified_product_id;
 -- ALTER VIEW openchpl.certified_product_details OWNER TO openchpl;
 
@@ -536,9 +440,8 @@ LEFT JOIN
    AND surv_req.deleted <> TRUE
    JOIN openchpl.surveillance_nonconformity surv_nc ON surv_req.id = surv_nc.surveillance_requirement_id
    AND surv_nc.deleted <> TRUE
-   JOIN openchpl.nonconformity_status nc_status ON surv_nc.nonconformity_status_id = nc_status.id
    WHERE surv.deleted <> TRUE
-     AND nc_status.name::text = 'Open'::text
+     AND surv_nc.non_conformity_close_date is null
    GROUP BY surv.id) nc_open ON surv.id = nc_open.surv_id
 LEFT JOIN
   (SELECT surv.id AS surv_id,
@@ -548,9 +451,8 @@ LEFT JOIN
    AND surv_req.deleted <> TRUE
    JOIN openchpl.surveillance_nonconformity surv_nc ON surv_req.id = surv_nc.surveillance_requirement_id
    AND surv_nc.deleted <> TRUE
-   JOIN openchpl.nonconformity_status nc_status ON surv_nc.nonconformity_status_id = nc_status.id
    WHERE surv.deleted <> TRUE
-     AND nc_status.name::text = 'Closed'::text
+     AND surv_nc.non_conformity_close_date is not null
    GROUP BY surv.id) nc_closed ON surv.id = nc_closed.surv_id
 WHERE surv.deleted = false;
 
@@ -746,9 +648,8 @@ LEFT JOIN
    AND surv_req.deleted <> TRUE
    JOIN openchpl.surveillance_nonconformity surv_nc ON surv_req.id = surv_nc.surveillance_requirement_id
    AND surv_nc.deleted <> TRUE
-   JOIN openchpl.nonconformity_status nc_status ON surv_nc.nonconformity_status_id = nc_status.id
    WHERE surv.deleted <> TRUE
-     AND nc_status.name::text = 'Open'::text
+     AND surv_nc.non_conformity_close_date is null
    GROUP BY surv.certified_product_id) nc_open ON cp.certified_product_id = nc_open.certified_product_id
 LEFT JOIN
   (SELECT surv.certified_product_id,
@@ -758,9 +659,8 @@ LEFT JOIN
    AND surv_req.deleted <> TRUE
    JOIN openchpl.surveillance_nonconformity surv_nc ON surv_req.id = surv_nc.surveillance_requirement_id
    AND surv_nc.deleted <> TRUE
-   JOIN openchpl.nonconformity_status nc_status ON surv_nc.nonconformity_status_id = nc_status.id
    WHERE surv.deleted <> TRUE
-     AND nc_status.name::text = 'Closed'::text
+     AND surv_nc.non_conformity_close_date is not null
    GROUP BY surv.certified_product_id) nc_closed ON cp.certified_product_id = nc_closed.certified_product_id
 LEFT JOIN
   (SELECT surv.certified_product_id,
@@ -920,8 +820,7 @@ FROM
         FROM openchpl.surveillance surv
             JOIN openchpl.surveillance_requirement surv_req ON surv.id = surv_req.surveillance_id AND surv_req.deleted <> true
             JOIN openchpl.surveillance_nonconformity surv_nc ON surv_req.id = surv_nc.surveillance_requirement_id AND surv_nc.deleted <> true
-            JOIN openchpl.nonconformity_status nc_status ON surv_nc.nonconformity_status_id = nc_status.id
-        WHERE surv.deleted <> true AND nc_status.name = 'Open'
+        WHERE surv.deleted <> true AND surv_nc.non_conformity_close_date is null
         GROUP BY certified_product_id) nc_open
         ON cp.certified_product_id = nc_open.certified_product_id
         LEFT JOIN
@@ -929,8 +828,7 @@ FROM
         FROM openchpl.surveillance surv
             JOIN openchpl.surveillance_requirement surv_req ON surv.id = surv_req.surveillance_id AND surv_req.deleted <> true
             JOIN openchpl.surveillance_nonconformity surv_nc ON surv_req.id = surv_nc.surveillance_requirement_id AND surv_nc.deleted <> true
-            JOIN openchpl.nonconformity_status nc_status ON surv_nc.nonconformity_status_id = nc_status.id
-        WHERE surv.deleted <> true AND nc_status.name = 'Closed'
+        WHERE surv.deleted <> true AND surv_nc.non_conformity_close_date is not null
         GROUP BY certified_product_id) nc_closed
         ON cp.certified_product_id = nc_closed.certified_product_id
 	) all_listings_simple
