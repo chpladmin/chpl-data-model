@@ -106,6 +106,7 @@ VALUES
 
 -- collections
 ('GET', '/collections/certified_products', 'This endpoint is deprecated and will be removed in a future release. Please use /collections/certified-products to access this data.', -1),
+('GET', '/collections/developers', 'This endpoint is deprecated and will be removed in a future release.', -1),
 
 -- dimensional data endpoints
 ('GET', '/data/decertifications/developers', 'This endpoint is deprecated and will be removed in a future release. Please use /collections/decertified-developers to access this data.', -1),
