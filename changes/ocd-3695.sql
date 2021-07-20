@@ -78,8 +78,8 @@ VALUES
 
 ('GET', '/activity/metadata/listings', 'This endpoint is deprecated and its request and response formats will change in a future release. Please use /activity/metadata/beta/listings to access listing activity.', -1),
 
-('GET', '/activity/metadata/pending_certified_products', 'This endpoint is deprecated and will be removed in a future release. Please use /activity/metadata/beta/pending-listings to access pending listing activity.', -1),
-('GET', '/activity/metadata/pending_certified_products/{id}', 'This endpoint is deprecated and will be removed in a future release.', -1),
+('GET', '/activity/pending_certified_products', 'This endpoint is deprecated and will be removed in a future release. Please use /activity/metadata/beta/pending-listings to access pending listing activity.', -1),
+('GET', '/activity/pending_certified_products/{id}', 'This endpoint is deprecated and will be removed in a future release.', -1),
 ('GET', '/activity/metadata/pending_listings', 'This endpoint is deprecated and its request and response formats will change in a future release. Please use /activity/metadata/beta/pending-listings to access pending listing activity.', -1),
 
 ('GET', '/activity/metadata/pending_surveillances', 'This endpoint is deprecated and its request and response formats will change in a future release. Please use /activity/metadata/beta/pending-surveillances to access pending surveillance activity.', -1),
@@ -102,7 +102,7 @@ VALUES
 
 -- certified products
 ('GET', '/certified_products/pending', 'This endpoint is deprecated and will be removed in a future release. Please use /certified_products/pending/metadata to get a list of all pending certified products.', -1),
-('POST', '/certified_products/pending{pcpId}/confirm', 'This endpoint is deprecated and its request format will be changed in a future release. Please use /certified_products/pending{pcpId}/beta/confirm to confirm a specific pending certified product.', -1),
+('POST', '/certified_products/pending/{pcpId}/confirm', 'This endpoint is deprecated and its request format will be changed in a future release. Please use /certified_products/pending/{pcpId}/beta/confirm to confirm a specific pending certified product.', -1),
 
 -- collections
 ('GET', '/collections/certified_products', 'This endpoint is deprecated and will be removed in a future release. Please use /collections/certified-products to access this data.', -1),
