@@ -3430,7 +3430,8 @@ CREATE INDEX idx_listing_to_criterion_for_cures_achievement_stat_date on openchp
 
 CREATE TABLE openchpl.deprecated_api (
 	id bigserial NOT NULL,
-	api text NOT NULL,
+	http_method varchar(10) NOT NULL,
+	api_operation text NOT NULL,
 	request_parameter text,
 	change_description text NOT NULL,
 	creation_date timestamp NOT NULL DEFAULT NOW(),
@@ -3439,8 +3440,8 @@ CREATE TABLE openchpl.deprecated_api (
 	deleted bool NOT NULL DEFAULT false,
 	CONSTRAINT deprecated_api_pk PRIMARY KEY (id)
 );
-CREATE UNIQUE INDEX deprecated_api_unique_api_and_parameter
-ON openchpl.deprecated_api(api, request_parameter)
+CREATE UNIQUE INDEX deprecated_api_unique_method_and_api_operation_and_parameter
+ON openchpl.deprecated_api(http_method, api_operation, request_parameter)
 WHERE deleted = false;
 
 CREATE TABLE openchpl.deprecated_api_usage (

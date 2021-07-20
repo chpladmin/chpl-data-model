@@ -4,7 +4,7 @@ DROP TABLE IF EXISTS openchpl.deprecated_api;
 CREATE TABLE openchpl.deprecated_api (
 	id bigserial NOT NULL,
 	http_method varchar(10) NOT NULL,
-	api text NOT NULL,
+	api_operation text NOT NULL,
 	request_parameter text,
 	change_description text NOT NULL,
 	creation_date timestamp NOT NULL DEFAULT NOW(),
@@ -13,8 +13,8 @@ CREATE TABLE openchpl.deprecated_api (
 	deleted bool NOT NULL DEFAULT false,
 	CONSTRAINT deprecated_api_pk PRIMARY KEY (id)
 );
-CREATE UNIQUE INDEX deprecated_api_unique_method_and_api_and_parameter
-ON openchpl.deprecated_api(http_method, api, request_parameter)
+CREATE UNIQUE INDEX deprecated_api_unique_method_and_api_operation_and_parameter
+ON openchpl.deprecated_api(http_method, api_operation, request_parameter)
 WHERE deleted = false;
 
 CREATE TRIGGER deprecated_api_audit AFTER INSERT OR UPDATE OR DELETE ON openchpl.deprecated_api FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
