@@ -65,7 +65,7 @@ VALUES
 ('GET', '/activity/atls/{id}', 'This endpoint is deprecated and its response format will be changed in a future release. Please use /activity/metadata/atls/{id} to access activity for a specific ONC-ATL.', -1),
 
 ('GET', '/activity/certified_products', 'This endpoint is deprecated and will be removed in a future release. Please use /activity/metadata/beta/listings to access listing activity.', -1),
-('GET', '/activity/certified_products/{id:^-?\\d+$}', 'This endpoint is deprecated and will be removed in a future release. Please use /activity/metadata/listings/{id:^-?\\d+$} to access activity for a specific listing ID.', -1),
+('GET', '/activity/certified_products/{id:^-?\d+$}', 'This endpoint is deprecated and will be removed in a future release. Please use /activity/metadata/listings/{id:^-?\d+$} to access activity for a specific listing ID.', -1),
 ('GET', '/activity/certified_products/{year}.{testingLab}.{certBody}.{vendorCode}.{productCode}.{versionCode}.{icsCode}.{addlSoftwareCode}.{certDateCode}', 'This endpoint is deprecated and will be removed in a future release. Please use /activity/metadata/listings/{year}.{testingLab}.{certBody}.{vendorCode}.{productCode}.{versionCode}.{icsCode}.{addlSoftwareCode}.{certDateCode} to access activity for a specific CHPL Product Number.', -1),
 ('GET', '/activity/certified_products/{chplPrefix}-{identifier}', 'This endpoint is deprecated and will be removed in a future release. Please use /activity/metadata/listings/{chplPrefix}-{identifier} to access activity for a specific legacy CHPL Product Number.', -1),
 
