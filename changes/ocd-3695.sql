@@ -45,7 +45,7 @@ WHERE deleted = false;
 CREATE TRIGGER deprecated_api_usage_audit AFTER INSERT OR UPDATE OR DELETE ON openchpl.deprecated_api FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER deprecated_api_usage_timestamp BEFORE UPDATE ON openchpl.deprecated_api FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 
-INSERT INTO openchpl.deprecated_api (http_method, api, change_description, last_modified_user)
+INSERT INTO openchpl.deprecated_api (http_method, api_operation, change_description, last_modified_user)
 VALUES 
 -- all of the activity endpoints
 ('GET', '/activity/acbs', 'This endpoint is deprecated and will be removed in a future release. Please use /activity/metadata/beta/acbs to access ONC-ACB activity.', -1),
