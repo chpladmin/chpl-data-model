@@ -3428,6 +3428,20 @@ CREATE TABLE openchpl.listing_to_criterion_for_cures_achievement_statistic (
 );
 CREATE INDEX idx_listing_to_criterion_for_cures_achievement_stat_date on openchpl.listing_to_criterion_for_cures_achievement_statistic (statistic_date);
 
+CREATE TABLE openchpl.change_request_attestation (
+  id bigserial NOT NULL,
+  change_request_id bigint NOT NULL,
+  attestation text not null,
+  creation_date timestamp NOT NULL DEFAULT NOW(),
+  last_modified_date timestamp NOT NULL DEFAULT NOW(),
+  last_modified_user bigint NOT NULL,
+  deleted bool NOT NULL DEFAULT false,
+  CONSTRAINT change_request_attestation_pk PRIMARY KEY (id),
+  CONSTRAINT change_request_fk FOREIGN KEY (change_request_id)
+    REFERENCES openchpl.change_request (id)
+    MATCH SIMPLE ON UPDATE NO ACTION ON DELETE RESTRICT
+);
+
 CREATE INDEX fki_certified_product_id_fk
 ON openchpl.ehr_certification_id_product_map
 USING btree
