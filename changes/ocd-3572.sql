@@ -25,3 +25,5 @@ set non_conformity_close_date =
 where sn.nonconformity_status_id =
     (select id from openchpl.nonconformity_status where name = 'Closed')
 and sn.non_conformity_close_date is null;
+
+alter table openchpl.surveillance_nonconformity alter column nonconformity_status_id drop not null;
