@@ -303,7 +303,6 @@ CREATE TABLE openchpl.certified_product(
     creation_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_user bigint NOT NULL,
-	meaningful_use_users bigint,
 	deleted bool NOT NULL DEFAULT false,
 	CONSTRAINT certified_product_pk PRIMARY KEY (certified_product_id),
 	CONSTRAINT product_code_regexp CHECK (product_code ~ $$^[a-zA-Z0-9_]{4}\Z$$),
@@ -388,16 +387,16 @@ CREATE TABLE openchpl.certified_product_accessibility_standard (
       ON UPDATE NO ACTION ON DELETE NO ACTION
 );
 
-CREATE TABLE openchpl.meaningful_use_user (
+CREATE TABLE openchpl.promoting_interoperability_user (
 	id  bigserial NOT NULL,
 	certified_product_id bigint NOT NULL,
-	meaningful_use_users bigint NOT NULL,
-	meaningful_use_users_date timestamp NOT NULL,
+	user_count bigint NOT NULL,
+	user_count_date date NOT NULL,
 	creation_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_user bigint NOT NULL,
 	deleted bool NOT NULL DEFAULT false,
-	CONSTRAINT meaningful_use_user_pk PRIMARY KEY (id),
+	CONSTRAINT promoting_interoperability_user_pk PRIMARY KEY (id),
 	CONSTRAINT certified_product_fk FOREIGN KEY (certified_product_id) REFERENCES openchpl.certified_product (certified_product_id)
 		MATCH FULL ON DELETE RESTRICT ON UPDATE CASCADE
 );
