@@ -21,3 +21,19 @@ INSERT INTO openchpl.change_request_type (name, last_modified_user)
 SELECT 'Developer Attestation Change Request', -1
 WHERE NOT EXISTS (SELECT * FROM openchpl.change_request_type WHERE name = 'Developer Attestation Change Request');
 
+DELETE FROM openchpl.change_request_status
+WHERE change_request_id IN 
+	(SELECT id 
+	FROM openchpl.change_request
+	WHERE change_request_type_id = (
+		SELECT id
+		FROM openchpl.change_request_type
+		WHERE name = 'Developer Attestation Change Request'));
+
+DELETE FROM openchpl.change_request
+WHERE change_request_type_id = 
+	(SELECT id 
+	FROM openchpl.change_request_type
+	WHERE name = 'Developer Attestation Change Request');
+
+
