@@ -114,6 +114,9 @@ VALUES
 ('GET', '/data/search_options', 'This endpoint is deprecated and will be removed in a future release. Please use /data/search-options to access this data.', -1),
 ('GET', '/data/surveillance_requirements', 'This endpoint is deprecated and will be removed in a future release. Please use /data/surveillance-requirements to access this data.', -1),
 
+-- muu/pi
+('POST', '/meaningful_use/upload', 'This endpoint is deprecated and will be removed in a future release. Please use /promoting-interoperability/upload.', -1),
+
 -- search
 ('GET', '/search', 'This endpoint is deprecated and its request and response formats will change in a future release. Please use /search/beta to search CHPL data.', -1),
 ('POST', '/search', 'This endpoint is deprecated and its request and response formats will change in a future release. Please use /search/beta to search CHPL data.', -1),
