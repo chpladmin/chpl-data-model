@@ -240,8 +240,6 @@ CREATE TRIGGER listing_to_listing_map_audit AFTER INSERT OR UPDATE OR DELETE on 
 CREATE TRIGGER listing_to_listing_map_timestamp BEFORE UPDATE on openchpl.listing_to_listing_map FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER listing_validation_report_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.listing_validation_report FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER listing_validation_report_timestamp BEFORE UPDATE on openchpl.listing_validation_report FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
-CREATE TRIGGER meaningful_use_user_audit AFTER INSERT OR UPDATE OR DELETE ON openchpl.meaningful_use_user FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
-CREATE TRIGGER meaningful_use_user_timestamp BEFORE UPDATE ON openchpl.meaningful_use_user FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER macra_criteria_map_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.macra_criteria_map FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER macra_criteria_map_timestamp BEFORE UPDATE on openchpl.macra_criteria_map FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER nonconformity_status_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.nonconformity_status FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
@@ -324,6 +322,8 @@ CREATE TRIGGER product_owner_history_map_audit AFTER INSERT OR UPDATE OR DELETE 
 CREATE TRIGGER product_owner_history_map_timestamp BEFORE UPDATE on openchpl.product_owner_history_map FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER product_version_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.product_version FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER product_version_timestamp BEFORE UPDATE on openchpl.product_version FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
+CREATE TRIGGER promoting_interoperability_user_audit AFTER INSERT OR UPDATE OR DELETE ON openchpl.promoting_interoperability_user FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+CREATE TRIGGER promoting_interoperability_user_timestamp BEFORE UPDATE ON openchpl.promoting_interoperability_user FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER qms_standard_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.qms_standard FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER qms_standard_timestamp BEFORE UPDATE on openchpl.qms_standard FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER quarter_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.quarter FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
