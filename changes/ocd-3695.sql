@@ -127,3 +127,5 @@ VALUES
 
 -- users
 ('GET', '/users/{userName}/details', 'This endpoint is deprecated and will be removed in a future release. Please use /users/beta/{id}/details to access a specific users data.', -1);
+
+UPDATE openchpl.api_key SET email = 'chpl@ainq.com' where api_key_id = 1;
