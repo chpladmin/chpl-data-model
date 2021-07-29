@@ -263,6 +263,8 @@ CREATE TRIGGER participant_gender_statistics_timestamp BEFORE UPDATE on openchpl
 CREATE TRIGGER pending_certification_result_additional_software_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.pending_certification_result_additional_software FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER pending_certification_result_additional_software_timestamp BEFORE UPDATE on openchpl.pending_certification_result_additional_software FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER pending_certification_result_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.pending_certification_result FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+CREATE TRIGGER pending_certification_result_optional_standard_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.pending_certification_result_optional_standard FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+CREATE TRIGGER pending_certification_result_optional_standard_timestamp BEFORE UPDATE on openchpl.pending_certification_result_optional_standard FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER pending_certification_result_test_data_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.pending_certification_result_test_data FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER pending_certification_result_test_data_timestamp BEFORE UPDATE on openchpl.pending_certification_result_test_data FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER pending_certification_result_test_functionality_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.pending_certification_result_test_functionality FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
