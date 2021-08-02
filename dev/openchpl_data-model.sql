@@ -302,7 +302,6 @@ CREATE TABLE openchpl.certified_product(
     creation_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_user bigint NOT NULL,
-	meaningful_use_users bigint,
 	deleted bool NOT NULL DEFAULT false,
 	CONSTRAINT certified_product_pk PRIMARY KEY (certified_product_id),
 	CONSTRAINT product_code_regexp CHECK (product_code ~ $$^[a-zA-Z0-9_]{4}\Z$$),
@@ -387,16 +386,16 @@ CREATE TABLE openchpl.certified_product_accessibility_standard (
       ON UPDATE NO ACTION ON DELETE NO ACTION
 );
 
-CREATE TABLE openchpl.meaningful_use_user (
+CREATE TABLE openchpl.promoting_interoperability_user (
 	id  bigserial NOT NULL,
 	certified_product_id bigint NOT NULL,
-	meaningful_use_users bigint NOT NULL,
-	meaningful_use_users_date timestamp NOT NULL,
+	user_count bigint NOT NULL,
+	user_count_date date NOT NULL,
 	creation_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_user bigint NOT NULL,
 	deleted bool NOT NULL DEFAULT false,
-	CONSTRAINT meaningful_use_user_pk PRIMARY KEY (id),
+	CONSTRAINT promoting_interoperability_user_pk PRIMARY KEY (id),
 	CONSTRAINT certified_product_fk FOREIGN KEY (certified_product_id) REFERENCES openchpl.certified_product (certified_product_id)
 		MATCH FULL ON DELETE RESTRICT ON UPDATE CASCADE
 );
@@ -1677,6 +1676,24 @@ CREATE TABLE openchpl.pending_certification_result_test_standard (
       ON UPDATE NO ACTION ON DELETE NO ACTION,
 	CONSTRAINT test_standard_fk FOREIGN KEY (test_standard_id)
       REFERENCES openchpl.test_standard (test_standard_id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+);
+
+CREATE TABLE openchpl.pending_certification_result_optional_standard (
+	pending_certification_result_optional_standard_id bigserial NOT NULL,
+	pending_certification_result_id bigint not null,
+	optional_standard_id bigint,
+	citation text,
+	creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL,
+	CONSTRAINT pending_certification_result_optional_standard_pk PRIMARY KEY (pending_certification_result_optional_standard_id),
+	CONSTRAINT pending_certification_result_fk FOREIGN KEY (pending_certification_result_id)
+      REFERENCES openchpl.pending_certification_result (pending_certification_result_id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+	CONSTRAINT optional_standard_fk FOREIGN KEY (optional_standard_id)
+      REFERENCES openchpl.optional_standard (id) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION
 );
 
