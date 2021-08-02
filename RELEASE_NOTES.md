@@ -1,5 +1,17 @@
 # Release Notes
 
+## Version 20.3.0
+_2 August 2021_
+
+### Features
+* Add table for Pending Optional Standards
+* Rename meaningful_user_user to promoting_interoperability_user
+
+### Data Changes
+* Add Questionable Activity Trigger for Real World Testing without Eligibility
+
+---
+
 ## Version 20.2.0
 _28 June 2021_
 
