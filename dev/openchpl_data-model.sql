@@ -28,6 +28,7 @@ CREATE TYPE openchpl.attestation as enum('Affirmative', 'Negative', 'N/A');
 CREATE TYPE openchpl.validation_message_type as enum('Error', 'Warning');
 CREATE TYPE openchpl.job_status_type as enum('In Progress', 'Complete', 'Error');
 CREATE TYPE openchpl.questionable_activity_trigger_level as enum('Version', 'Product', 'Developer', 'Listing', 'Certification Criteria');
+CREATE TYPE openchpl.certified_product_upload_status as enum ('Processing', 'Successful', 'Failed');
 
 create table openchpl.data_model_version(
         id bigserial not null,
@@ -1357,6 +1358,7 @@ CREATE TABLE openchpl.certified_product_upload (
 	certification_date date,
 	error_count integer,
 	warning_count integer,
+	status openchpl.certified_product_upload_status,
 	contents text NOT NULL,
 	certified_product_id bigint,
 	creation_date timestamp NOT NULL DEFAULT NOW(),
@@ -1371,6 +1373,10 @@ CREATE TABLE openchpl.certified_product_upload (
       REFERENCES openchpl.certified_product (certified_product_id) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION
 );
+
+CREATE UNIQUE INDEX certified_product_upload_unique_chpl_product_number
+ON openchpl.certified_product_upload(chpl_product_number)
+WHERE deleted = false;
 
 -- object: openchpl.pending_certified_product | type: TABLE --
 --DROP TABLE IF EXISTS openchpl.pending_certified_product CASCADE;
