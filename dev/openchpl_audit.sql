@@ -164,6 +164,8 @@ CREATE TRIGGER certified_product_upload_audit AFTER INSERT OR UPDATE OR DELETE o
 CREATE TRIGGER certified_product_upload_timestamp BEFORE UPDATE on openchpl.certified_product_upload FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER change_request_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.change_request FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER change_request_timestamp BEFORE UPDATE on openchpl.change_request FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
+CREATE TRIGGER change_request_attestation_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.change_request_attestation FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+CREATE TRIGGER change_request_attestation_timestamp BEFORE UPDATE on openchpl.change_request_attestation FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER change_request_status_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.change_request_status FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER change_request_status_timestamp BEFORE UPDATE on openchpl.change_request_status FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER change_request_status_type_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.change_request_status_type FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
