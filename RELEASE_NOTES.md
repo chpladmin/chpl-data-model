@@ -1,5 +1,40 @@
 # Release Notes
 
+## Version 20.3.0
+_2 August 2021_
+
+### Features
+* Add table for Pending Optional Standards
+* Rename meaningful_user_user to promoting_interoperability_user
+
+### Data Changes
+* Add Questionable Activity Trigger for Real World Testing without Eligibility
+
+---
+
+## Version 20.2.0
+_28 June 2021_
+
+### Features
+* Remove requirement for Phone Number for users
+* Add support for Optional Standards
+
+### Bug Fixes
+* Remove leftover reference to openchpl.job in soft delete triggers
+* Ignore deleted developer status history entries in a view
+
+---
+
+## Version 20.1.0
+_2 June 2021_
+
+### Features
+* Update README documentation
+* Add certification status event history to certified_product_search view
+* Add tables to store cures-related statistics
+
+---
+
 ## Version 20.0.0
 _17 May 2021_
 

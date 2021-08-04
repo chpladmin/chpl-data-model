@@ -156,8 +156,8 @@ CREATE VIEW openchpl.certified_product_details AS
     a.rwt_results_url,
     a.rwt_results_check_date,
     a.svap_notice_url,
-    muuresult.meaningful_use_users,
-    muuresult.meaningful_use_users_date,
+    piuResult.promoting_interoperability_user_count,
+    piuResult.promoting_interoperability_user_count_date,
     b.year,
     c.certification_body_name,
     c.certification_body_code,
@@ -237,17 +237,17 @@ CREATE VIEW openchpl.certified_product_details AS
      LEFT JOIN ( SELECT certification_status.certification_status_id,
             certification_status.certification_status AS certification_status_name
            FROM openchpl.certification_status) n ON r.certification_status_id = n.certification_status_id
-     LEFT JOIN ( SELECT muu_ranked.meaningful_use_users,
-			muu_ranked.certified_product_id,
-			muu_ranked.meaningful_use_users_date
-		FROM (	SELECT muu.meaningful_use_users,
-				muu.certified_product_id,
-				muu.meaningful_use_users_date,
-				row_number() over (partition by muu.certified_product_id order by muu.meaningful_use_users_date desc) as muu_rank
-			FROM openchpl.meaningful_use_user muu
-			WHERE muu.deleted <> true) muu_ranked
-		WHERE muu_ranked.muu_rank = 1) muuresult 
-	ON muuresult.certified_product_id = a.certified_product_id
+     LEFT JOIN ( SELECT piu_ranked.user_count as promoting_interoperability_user_count,
+			piu_ranked.certified_product_id,
+			piu_ranked.user_count_date as promoting_interoperability_user_count_date
+		FROM (	SELECT piu.user_count,
+				piu.certified_product_id,
+				piu.user_count_date,
+				row_number() over (partition by piu.certified_product_id order by piu.user_count_date desc) as piu_rank
+			FROM openchpl.promoting_interoperability_user piu
+			WHERE piu.deleted <> true) piu_ranked
+		WHERE piu_ranked.piu_rank = 1) piuResult 
+	ON piuResult.certified_product_id = a.certified_product_id
      LEFT JOIN ( SELECT certification_edition.certification_edition_id,
             certification_edition.year
            FROM openchpl.certification_edition) b ON a.certification_edition_id = b.certification_edition_id
@@ -463,8 +463,8 @@ SELECT cp.certified_product_id,
        certs.cert_number AS certs,
        cqms.cqm_number AS cqms,
        openchpl.get_chpl_product_number(cp.certified_product_id) AS chpl_product_number,
-       muuResult.meaningful_use_users,
-	   muuResult.meaningful_use_users_date,
+       piuResult.promoting_interoperability_user_count,
+	   piuResult.promoting_interoperability_user_count_date,
        cp.transparency_attestation_url,
        edition.year,
        acb.certification_body_name,
@@ -527,17 +527,17 @@ LEFT JOIN
           certification_status.certification_status AS certification_status_name
    FROM openchpl.certification_status) certstatus ON certstatusevents.certification_status_id = certstatus.certification_status_id
 LEFT JOIN ( 
-	SELECT muu_ranked.meaningful_use_users,
-		muu_ranked.certified_product_id,
-		muu_ranked.meaningful_use_users_date
-	FROM (	SELECT muu.meaningful_use_users,
-			muu.certified_product_id,
-			muu.meaningful_use_users_date,
-			row_number() over (partition by muu.certified_product_id order by muu.meaningful_use_users_date desc) as muu_rank
-		FROM openchpl.meaningful_use_user muu
-		WHERE muu.deleted <> true) muu_ranked
-	WHERE muu_ranked.muu_rank = 1) muuResult
-	ON muuResult.certified_product_id = cp.certified_product_id
+	SELECT piu_ranked.user_count as promoting_interoperability_user_count,
+		piu_ranked.certified_product_id,
+		piu_ranked.user_count_date as promoting_interoperability_user_count_date
+	FROM (	SELECT piu.user_count,
+			piu.certified_product_id,
+			piu.user_count_date,
+			row_number() over (partition by piu.certified_product_id order by piu.user_count_date desc) as piu_rank
+		FROM openchpl.promoting_interoperability_user piu
+		WHERE piu.deleted <> true) piu_ranked
+	WHERE piu_ranked.piu_rank = 1) piuResult
+	ON piuResult.certified_product_id = cp.certified_product_id
 LEFT JOIN
   (SELECT string_agg(DISTINCT child_chpl_product_number||'☹'||children.child_listing_id::text, '☹'::text) AS child,
           parent_listing_id FROM
@@ -726,8 +726,8 @@ FROM
 	cp.certified_product_id,
         (select chpl_product_number from openchpl.get_chpl_product_number(cp.certified_product_id)),
 	lastCertStatusEvent.certification_status_name,
-	muuResult.meaningful_use_users,
-	muuResult.meaningful_use_users_date,
+	piuResult.promoting_interoperability_user_count,
+	piuResult.promoting_interoperability_user_count_date,
 	cp.transparency_attestation_url,
 	edition.year,
 	acb.certification_body_name,
@@ -783,21 +783,21 @@ FROM
 	    AND extract(epoch from cue.event_date) = maxCue.event_date
 	    ) lastCuresUpdateEvent
 	ON lastCuresUpdateEvent.certified_product_id = cp.certified_product_id
-	-- meaningful use users count
+	-- promoting interoperability users count
 	LEFT JOIN (
-		SELECT muu.meaningful_use_users as "meaningful_use_users", 
-		muu.certified_product_id as "certified_product_id",
-		muu.meaningful_use_users_date as "meaningful_use_users_date"
-		FROM openchpl.meaningful_use_user muu
+		SELECT piu.user_count as promoting_interoperability_user_count, 
+		piu.certified_product_id,
+		piu.user_count_date as promoting_interoperability_user_count_date
+		FROM openchpl.promoting_interoperability_user piu
 			INNER JOIN
-			(SELECT certified_product_id, extract(epoch from MAX(meaningful_use_users_date)) meaningful_use_users_date
-			FROM openchpl.meaningful_use_user
-			GROUP BY certified_product_id) maxMuu
-			ON muu.certified_product_id = maxMuu.certified_product_id
+			(SELECT certified_product_id, extract(epoch from MAX(user_count_date)) user_count_date
+			FROM openchpl.promoting_interoperability_user
+			GROUP BY certified_product_id) maxPiu
+			ON piu.certified_product_id = maxPiu.certified_product_id
 		--conversion to epoch/long comparison significantly faster than comparing the timestamp fields as-is
-			AND extract(epoch from muu.meaningful_use_users_date) = maxMuu.meaningful_use_users_date
-			) muuResult
-	ON muuResult.certified_product_id = cp.certified_product_id
+			AND extract(epoch from piu.user_count_date) = maxPiu.user_count_date
+			) piuResult
+	ON piuResult.certified_product_id = cp.certified_product_id
     -- Practice type (2014 only)
 	LEFT JOIN (SELECT practice_type_id, name as "practice_type_name" FROM openchpl.practice_type) prac on cp.practice_type_id = prac.practice_type_id
     --decertification date
@@ -1029,7 +1029,7 @@ CREATE VIEW openchpl.certified_product_summary AS
     cp.rwt_results_url,
     cp.rwt_results_check_date,
     cp.svap_notice_url,
-    muuResult.meaningful_use_users,
+    piuResult.promoting_interoperability_user_count,
     ce.year,
     p.name AS product_name,
     v.name AS vendor_name,
@@ -1079,16 +1079,17 @@ CREATE VIEW openchpl.certified_product_summary AS
             contact.title
            FROM openchpl.contact) contact ON v.contact_id = contact.contact_id
      JOIN openchpl.certification_body cb ON cp.certification_body_id = cb.certification_body_id
-	 LEFT OUTER JOIN ( SELECT muu.meaningful_use_users,
-            muu.certified_product_id,
-            muu.meaningful_use_users_date AS meaningful_use_users_date
-           FROM openchpl.meaningful_use_user muu
-             JOIN ( SELECT meaningful_use_user.certified_product_id,
-                    max(meaningful_use_user.meaningful_use_users_date) AS meaningful_use_users_date
-                   FROM openchpl.meaningful_use_user
-                  WHERE meaningful_use_user.deleted <> true
-                  GROUP BY meaningful_use_user.certified_product_id) muuInner ON muu.certified_product_id = muuInner.certified_product_id AND muu.meaningful_use_users_date = muuInner.meaningful_use_users_date
-          WHERE muu.deleted <> true) muuResult ON muuResult.certified_product_id = cp.certified_product_id;
+	 LEFT OUTER JOIN ( SELECT piu.user_count as promoting_interoperability_user_count,
+            piu.certified_product_id,
+            piu.user_count_date AS promoting_interoperability_user_count_date
+           FROM openchpl.promoting_interoperability_user piu
+             JOIN ( SELECT promoting_interoperability_user.certified_product_id,
+                    max(promoting_interoperability_user.user_count_date) AS user_count_date
+                   FROM openchpl.promoting_interoperability_user
+                  WHERE promoting_interoperability_user.deleted <> true
+                  GROUP BY promoting_interoperability_user.certified_product_id) piuInner ON piu.certified_product_id = piuInner.certified_product_id 
+					AND piu.user_count_date = piuInner.user_count_date
+          WHERE piu.deleted <> true) piuResult ON piuResult.certified_product_id = cp.certified_product_id;
 
 CREATE VIEW openchpl.listings_from_banned_developers AS
 SELECT
