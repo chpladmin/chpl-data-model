@@ -7,17 +7,20 @@ set -e
 
 HOST=localhost
 USER=openchpl_dev
+DUMMY=true
 
 function helpFunction {
     echo ""
     echo "Connection options:"
+    echo -e "\t-d do not load dummy data.  Default: [load dummy data]"
     echo -e "\t-h database server host or socket directory.  Default: [localhost]"
     echo -e "\t-u database user name.  Default: [openchpl_dev]"
     exit 1 # Exit script after printing help
 }
 
-while getopts 'h:u:?' flag; do
+while getopts 'dh:u:?' flag; do
     case "${flag}" in
+        d) DUMMY=false ;;
         h) HOST="${OPTARG}" ;;
         u) USER="${OPTARG}" ;;
         *) helpFunction ;;
@@ -43,7 +46,7 @@ then
     done
 fi
 COUNT_CHANGES_FILES=` find ./changes/ -maxdepth 1 -name 'ocd-????-dummy-data.sql' | wc -l`
-if [ $COUNT_CHANGES_FILES -gt 0 ]
+if [ $COUNT_CHANGES_FILES -gt 0 ] && [ $DUMMY = true ]
 then
     echo "Loading dummy data"
     for FILE in ./changes/ocd-????-dummy-data.sql; do
