@@ -1,6 +1,5 @@
 -- 1) Create new CQM Version
--- 2) Create new version of 58 existing CQM
--- 3) Add 1 new CQM
+-- 2) Create new version of 10 existing CQM
 
 INSERT INTO openchpl.cqm_version (version, last_modified_user)
 SELECT 'v11', -1
