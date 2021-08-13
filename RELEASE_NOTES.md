@@ -1,5 +1,15 @@
 # Release Notes
 
+## Version 20.4.0
+_9 August 2021_
+
+### Features
+* Add Attestation change request table
+* Add tables to track deprecated API usage
+* Add status column to listing upload table
+
+---
+
 ## Version 20.3.0
 _2 August 2021_
 

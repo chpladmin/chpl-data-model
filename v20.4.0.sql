@@ -1,3 +1,46 @@
+-- Deployment file for version 20.4.0
+--     as of 2021-08-09
+-- ./changes/ocd-3676.sql
+DROP TABLE IF EXISTS openchpl.certified_product_upload;
+DROP TYPE IF EXISTS openchpl.certified_product_upload_status;
+CREATE TYPE openchpl.certified_product_upload_status as enum ('Processing', 'Successful', 'Failed');
+
+-- dropping and re-creating the table instead of just modifying a column
+-- because i'm adding a unique index and in dev/qa there could already be duplicate data
+-- that will cause adding of the index to fail.
+CREATE TABLE openchpl.certified_product_upload (
+	id bigserial NOT NULL,
+	chpl_product_number text NOT NULL,
+	certification_body_id bigint NOT NULL,
+	vendor_name text,
+	product_name text,
+	version_name text,
+	certification_date date,
+	error_count integer,
+	warning_count integer,
+	status openchpl.certified_product_upload_status,
+	contents text NOT NULL,
+	certified_product_id bigint,
+	creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
+	CONSTRAINT certified_product_upload_pk PRIMARY KEY (id),
+	CONSTRAINT certification_body_fk FOREIGN KEY (certification_body_id)
+      REFERENCES openchpl.certification_body (certification_body_id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+	CONSTRAINT certified_product_id_fk FOREIGN KEY (certified_product_id)
+      REFERENCES openchpl.certified_product (certified_product_id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+);
+
+CREATE UNIQUE INDEX certified_product_upload_unique_chpl_product_number
+ON openchpl.certified_product_upload(chpl_product_number)
+WHERE deleted = false;
+
+CREATE TRIGGER certified_product_upload_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.certified_product_upload FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+CREATE TRIGGER certified_product_upload_timestamp BEFORE UPDATE on openchpl.certified_product_upload FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();;
+-- ./changes/ocd-3695.sql
 DROP TABLE IF EXISTS openchpl.deprecated_api_usage;
 DROP TABLE IF EXISTS openchpl.deprecated_api;
 
@@ -128,4 +171,49 @@ VALUES
 -- users
 ('GET', '/users/{userName}/details', 'This endpoint is deprecated and will be removed in a future release. Please use /users/beta/{id}/details to access a specific users data.', -1);
 
-UPDATE openchpl.api_key SET email = 'chpl@ainq.com' where api_key_id = 1;
+UPDATE openchpl.api_key SET email = 'chpl@ainq.com' where api_key_id = 1;;
+-- ./changes/ocd-3699.sql
+DROP TABLE openchpl.change_request_attestation;
+
+CREATE TABLE IF NOT EXISTS openchpl.change_request_attestation (
+  id bigserial NOT NULL,
+  change_request_id bigint NOT NULL,
+  attestation text not null,
+  creation_date timestamp NOT NULL DEFAULT NOW(),
+  last_modified_date timestamp NOT NULL DEFAULT NOW(),
+  last_modified_user bigint NOT NULL,
+  deleted bool NOT NULL DEFAULT false,
+  CONSTRAINT change_request_attestation_pk primary key (id),
+  CONSTRAINT change_request_fk FOREIGN KEY (change_request_id)
+    REFERENCES openchpl.change_request (id)
+    MATCH SIMPLE ON UPDATE NO ACTION ON DELETE RESTRICT
+);
+
+CREATE TRIGGER change_request_attestation_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.change_request_attestation FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+CREATE TRIGGER change_request_attestation_timestamp BEFORE UPDATE on openchpl.change_request_attestation FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
+
+INSERT INTO openchpl.change_request_type (name, last_modified_user)
+SELECT 'Developer Attestation Change Request', -1
+WHERE NOT EXISTS (SELECT * FROM openchpl.change_request_type WHERE name = 'Developer Attestation Change Request');
+
+DELETE FROM openchpl.change_request_status
+WHERE change_request_id IN 
+	(SELECT id 
+	FROM openchpl.change_request
+	WHERE change_request_type_id = (
+		SELECT id
+		FROM openchpl.change_request_type
+		WHERE name = 'Developer Attestation Change Request'));
+
+DELETE FROM openchpl.change_request
+WHERE change_request_type_id = 
+	(SELECT id 
+	FROM openchpl.change_request_type
+	WHERE name = 'Developer Attestation Change Request');
+
+
+;
+insert into openchpl.data_model_version (version, deploy_date, last_modified_user) values ('20.4.0', '2021-08-09', -1);
+\i dev/openchpl_soft-delete.sql
+\i dev/openchpl_views.sql
+\i dev/openchpl_grant-all.sql
