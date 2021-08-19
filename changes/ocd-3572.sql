@@ -27,3 +27,16 @@ where sn.nonconformity_status_id =
 and sn.non_conformity_close_date is null;
 
 alter table openchpl.surveillance_nonconformity alter column nonconformity_status_id drop not null;
+
+-- Add the deprecated endpoint
+insert into openchpl.deprecated_api
+(http_method, api_operation, change_description, last_modified_user)
+select 'GET',
+	'/data/nonconformity_status_types',
+	'This endpoint is deprecated and will be removed in a future release. The "Non-conformity Status" is now derived based on the existence of a "Non-conformity Close Date".',
+	-1
+where not exists (
+	select *
+	from openchpl.deprecated_api
+	where http_method = 'GET'
+	and api_operation = '/data/nonconformity_status_types');
