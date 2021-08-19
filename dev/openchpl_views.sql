@@ -953,7 +953,7 @@ SELECT
 	    or
 	    certification_status.certification_status = 'Suspended by ONC-ACB')
 	then listings.mandatory_disclosures::text else null end, '☺')
-    as "mandatory_disclosuress",
+    as "mandatory_disclosures",
 --using coalesce here because the attestation can be null and concatting null with anything just gives null
 --so null/empty attestations are left out unless we replace null with empty string
     string_agg(DISTINCT acb.name::text||':'||COALESCE(attestations.transparency_attestation::text, ''), '☺') as "attestations"
