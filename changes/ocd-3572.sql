@@ -33,7 +33,7 @@ insert into openchpl.deprecated_api
 (http_method, api_operation, change_description, last_modified_user)
 select 'GET',
 	'/data/nonconformity_status_types',
-	'This endpoint is deprecated and will be removed in a future release.',
+	'This endpoint is deprecated and will be removed in a future release. The "Non-conformity Status" is now derived based on the existence of a "Non-conformity Close Date".',
 	-1
 where not exists (
 	select *
