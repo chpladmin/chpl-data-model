@@ -283,7 +283,7 @@ CREATE TABLE openchpl.certified_product(
 	product_classification_type_id bigint,
 	product_additional_software varchar(1000), -- legacy for ETL
 	other_acb character varying(64),
-	transparency_attestation_url varchar(1024),
+	mandatory_disclosures varchar(1024),
 	ics boolean,
 	sed boolean,
 	qms boolean,
@@ -1409,7 +1409,7 @@ CREATE TABLE openchpl.pending_certified_product (
 	vendor_contact_name text,
 	vendor_phone text,
 	vendor_transparency_attestation attestation,
-	vendor_transparency_attestation_url varchar(1024),
+	vendor_mandatory_disclosures varchar(1024),
 	self_developer bool,
 	accessibility_certified boolean default false,
 	test_report_url varchar(255), -- report_file_location
@@ -2078,7 +2078,7 @@ CREATE TABLE openchpl.surveillance_nonconformity (
 	-- either criteria or type is required
 	certification_criterion_id bigint,
 	nonconformity_type varchar(1024),
-	nonconformity_status_id bigint not null,
+	nonconformity_status_id bigint,
 	non_conformity_close_date date,
 	date_of_determination date not null,
 	corrective_action_plan_approval_date date,
