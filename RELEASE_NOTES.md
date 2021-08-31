@@ -1,5 +1,14 @@
 # Release Notes
 
+## Version 20.6.0
+_31 August 2021_
+
+### Features
+* Remove Real World Testing Eligibility Year and view references
+* Rename "Transparency Attestation URL" as "Mandatory Disclosures"
+
+---
+
 ## Version 20.5.0
 _23 August 2021_
 
