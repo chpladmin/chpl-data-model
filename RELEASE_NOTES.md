@@ -1,5 +1,36 @@
 # Release Notes
 
+## Version 20.6.0
+_31 August 2021_
+
+### Features
+* Remove Real World Testing Eligibility Year and view references
+* Rename "Transparency Attestation URL" as "Mandatory Disclosures"
+
+---
+
+## Version 20.5.0
+_23 August 2021_
+
+### Features
+* Add new NON_CONFORMITY_CLOSE_DATE field
+
+### Data Changes
+* Add new eCQM versions for 2022 reporting bundle
+* Restrict Surescripts from being used as a Test Procedure for 170.315 (b)(3) Cures Update
+
+---
+
+## Version 20.4.0
+_9 August 2021_
+
+### Features
+* Add Attestation change request table
+* Add tables to track deprecated API usage
+* Add status column to listing upload table
+
+---
+
 ## Version 20.3.0
 _2 August 2021_
 

@@ -28,6 +28,7 @@ CREATE TYPE openchpl.attestation as enum('Affirmative', 'Negative', 'N/A');
 CREATE TYPE openchpl.validation_message_type as enum('Error', 'Warning');
 CREATE TYPE openchpl.job_status_type as enum('In Progress', 'Complete', 'Error');
 CREATE TYPE openchpl.questionable_activity_trigger_level as enum('Version', 'Product', 'Developer', 'Listing', 'Certification Criteria');
+CREATE TYPE openchpl.certified_product_upload_status as enum ('Processing', 'Successful', 'Failed');
 
 create table openchpl.data_model_version(
         id bigserial not null,
@@ -282,7 +283,7 @@ CREATE TABLE openchpl.certified_product(
 	product_classification_type_id bigint,
 	product_additional_software varchar(1000), -- legacy for ETL
 	other_acb character varying(64),
-	transparency_attestation_url varchar(1024),
+	mandatory_disclosures varchar(1024),
 	ics boolean,
 	sed boolean,
 	qms boolean,
@@ -1357,6 +1358,7 @@ CREATE TABLE openchpl.certified_product_upload (
 	certification_date date,
 	error_count integer,
 	warning_count integer,
+	status openchpl.certified_product_upload_status,
 	contents text NOT NULL,
 	certified_product_id bigint,
 	creation_date timestamp NOT NULL DEFAULT NOW(),
@@ -1371,6 +1373,10 @@ CREATE TABLE openchpl.certified_product_upload (
       REFERENCES openchpl.certified_product (certified_product_id) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION
 );
+
+CREATE UNIQUE INDEX certified_product_upload_unique_chpl_product_number
+ON openchpl.certified_product_upload(chpl_product_number)
+WHERE deleted = false;
 
 -- object: openchpl.pending_certified_product | type: TABLE --
 --DROP TABLE IF EXISTS openchpl.pending_certified_product CASCADE;
@@ -1403,7 +1409,7 @@ CREATE TABLE openchpl.pending_certified_product (
 	vendor_contact_name text,
 	vendor_phone text,
 	vendor_transparency_attestation attestation,
-	vendor_transparency_attestation_url varchar(1024),
+	vendor_mandatory_disclosures varchar(1024),
 	self_developer bool,
 	accessibility_certified boolean default false,
 	test_report_url varchar(255), -- report_file_location
@@ -2072,7 +2078,8 @@ CREATE TABLE openchpl.surveillance_nonconformity (
 	-- either criteria or type is required
 	certification_criterion_id bigint,
 	nonconformity_type varchar(1024),
-	nonconformity_status_id bigint not null,
+	nonconformity_status_id bigint,
+	non_conformity_close_date date,
 	date_of_determination date not null,
 	corrective_action_plan_approval_date date,
 	corrective_action_start_date date,
@@ -2182,6 +2189,7 @@ CREATE TABLE openchpl.pending_surveillance_nonconformity (
 	nonconformity_type varchar(1024),
 	certification_criterion_id bigint,
 	nonconformity_status varchar(15),
+	non_conformity_close_date date,
 	date_of_determination date,
 	corrective_action_plan_approval_date date,
 	corrective_action_start_date date,
@@ -2638,6 +2646,7 @@ CREATE TABLE openchpl.broken_surveillance_rules
     closed_cap_with_open_nonconformity_rule varchar(64),
     nonconformity boolean NOT NULL,
     nonconformity_status varchar(64),
+	non_conformity_close_date date,
     nonconformity_criteria varchar(64),
     date_of_determination_of_nonconformity varchar(64),
     corrective_action_plan_approved_date varchar(64),
@@ -3444,6 +3453,58 @@ CREATE TABLE openchpl.listing_to_criterion_for_cures_achievement_statistic (
 		MATCH FULL ON DELETE CASCADE ON UPDATE CASCADE
 );
 CREATE INDEX idx_listing_to_criterion_for_cures_achievement_stat_date on openchpl.listing_to_criterion_for_cures_achievement_statistic (statistic_date);
+
+CREATE TABLE openchpl.change_request_attestation (
+  id bigserial NOT NULL,
+  change_request_id bigint NOT NULL,
+  attestation text not null,
+  creation_date timestamp NOT NULL DEFAULT NOW(),
+  last_modified_date timestamp NOT NULL DEFAULT NOW(),
+  last_modified_user bigint NOT NULL,
+  deleted bool NOT NULL DEFAULT false,
+  CONSTRAINT change_request_attestation_pk PRIMARY KEY (id),
+  CONSTRAINT change_request_fk FOREIGN KEY (change_request_id)
+    REFERENCES openchpl.change_request (id)
+    MATCH SIMPLE ON UPDATE NO ACTION ON DELETE RESTRICT
+);
+
+CREATE TABLE openchpl.deprecated_api (
+	id bigserial NOT NULL,
+	http_method varchar(10) NOT NULL,
+	api_operation text NOT NULL,
+	request_parameter text,
+	change_description text NOT NULL,
+	creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
+	CONSTRAINT deprecated_api_pk PRIMARY KEY (id)
+);
+CREATE UNIQUE INDEX deprecated_api_unique_method_and_api_operation_and_parameter
+ON openchpl.deprecated_api(http_method, api_operation, request_parameter)
+WHERE deleted = false;
+
+CREATE TABLE openchpl.deprecated_api_usage (
+	id bigserial NOT NULL,
+	api_key_id bigint NOT NULL,
+	deprecated_api_id bigint NOT NULL,
+	api_call_count bigint NOT NULL DEFAULT 0,
+	last_accessed_date timestamp NOT NULL DEFAULT NOW(),
+	creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
+	CONSTRAINT deprecated_api_usage_pk PRIMARY KEY (id),
+	CONSTRAINT api_key_id_fk FOREIGN KEY (api_key_id)
+      REFERENCES openchpl.api_key (api_key_id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+	CONSTRAINT deprecated_api_id_fk FOREIGN KEY (deprecated_api_id)
+      REFERENCES openchpl.deprecated_api (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+);
+CREATE UNIQUE INDEX deprecated_api_usage_unique_api_key_and_deprecated_api
+ON openchpl.deprecated_api_usage(api_key_id, deprecated_api_id)
+WHERE deleted = false;
 
 CREATE INDEX fki_certified_product_id_fk
 ON openchpl.ehr_certification_id_product_map
