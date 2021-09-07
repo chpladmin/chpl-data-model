@@ -1,5 +1,13 @@
 # Release Notes
 
+## Version 20.7.0
+_7 September 2021_
+
+### Features
+* Use consistent names for Quarterly Surveillance table
+
+---
+
 ## Version 20.6.0
 _31 August 2021_
 
