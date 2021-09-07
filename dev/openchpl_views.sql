@@ -143,13 +143,12 @@ CREATE VIEW openchpl.certified_product_details AS
     a.ics_code,
     a.additional_software_code,
     a.certified_date_code,
-    a.transparency_attestation_url,
+    a.mandatory_disclosures,
     a.ics,
     a.sed,
     a.qms,
     a.accessibility_certified,
     a.product_additional_software,
-    a.rwt_eligibility_year,
     a.last_modified_date,
     a.rwt_plans_url,
     a.rwt_plans_check_date,
@@ -465,7 +464,7 @@ SELECT cp.certified_product_id,
        openchpl.get_chpl_product_number(cp.certified_product_id) AS chpl_product_number,
        piuResult.promoting_interoperability_user_count,
 	   piuResult.promoting_interoperability_user_count_date,
-       cp.transparency_attestation_url,
+       cp.mandatory_disclosures,
        edition.year,
        acb.certification_body_name,
        cp.acb_certification_id,
@@ -728,7 +727,7 @@ FROM
 	lastCertStatusEvent.certification_status_name,
 	piuResult.promoting_interoperability_user_count,
 	piuResult.promoting_interoperability_user_count_date,
-	cp.transparency_attestation_url,
+	cp.mandatory_disclosures,
 	edition.year,
 	acb.certification_body_name,
 	cp.acb_certification_id,
@@ -945,15 +944,15 @@ SELECT
 -- a listing with one of the active... or suspended... statuses
     string_agg(DISTINCT
 	case when
-	listings.transparency_attestation_url::text != ''
+	listings.mandatory_disclosures::text != ''
 	and
 	(certification_status.certification_status = 'Active'
 	    or
 	    certification_status.certification_status = 'Suspended by ONC'
 	    or
 	    certification_status.certification_status = 'Suspended by ONC-ACB')
-	then listings.transparency_attestation_url::text else null end, '☺')
-    as "transparency_attestation_urls",
+	then listings.mandatory_disclosures::text else null end, '☺')
+    as "mandatory_disclosures",
 --using coalesce here because the attestation can be null and concatting null with anything just gives null
 --so null/empty attestations are left out unless we replace null with empty string
     string_agg(DISTINCT acb.name::text||':'||COALESCE(attestations.transparency_attestation::text, ''), '☺') as "attestations"
@@ -1008,7 +1007,7 @@ CREATE VIEW openchpl.certified_product_summary AS
     cp.product_classification_type_id,
     cp.product_additional_software,
     cp.other_acb,
-    cp.transparency_attestation_url,
+    cp.mandatory_disclosures,
     cp.ics,
     cp.sed,
     cp.qms,
@@ -1023,7 +1022,6 @@ CREATE VIEW openchpl.certified_product_summary AS
     cp.last_modified_user,
     cp.deleted,
     cp.pending_certified_product_id,
-    cp.rwt_eligibility_year,
     cp.rwt_plans_url,
     cp.rwt_plans_check_date,
     cp.rwt_results_url,
