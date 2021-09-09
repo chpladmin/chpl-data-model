@@ -1020,14 +1020,14 @@ DROP TABLE IF EXISTS openchpl.test_tool_criteria_map;
 
 CREATE TABLE openchpl.test_tool_criteria_map (
 	id bigserial NOT NULL,
-	criteria_id bigint NOT NULL,
+	certification_criterion_id bigint NOT NULL,
 	test_tool_id bigint NOT NULL,
 	creation_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_user bigint NOT NULL,
 	deleted bool NOT NULL DEFAULT false,
 	CONSTRAINT test_tool_criteria_map_pk PRIMARY KEY (id),
-	CONSTRAINT criteria_fk FOREIGN KEY (criteria_id)
+	CONSTRAINT criteria_fk FOREIGN KEY (certification_criterion_id)
 		REFERENCES openchpl.certification_criterion (certification_criterion_id)
 		MATCH FULL ON DELETE RESTRICT ON UPDATE CASCADE,
 	CONSTRAINT test_tool_fk FOREIGN KEY (test_tool_id)
@@ -1036,7 +1036,7 @@ CREATE TABLE openchpl.test_tool_criteria_map (
 );
 
 INSERT INTO openchpl.test_tool_criteria_map
-(criteria_id, test_tool_id, last_modified_user)
+(certification_criterion_id, test_tool_id, last_modified_user)
 SELECT cc.certification_criterion_id, 
 	(SELECT tt.test_tool_id FROM openchpl.test_tool tt WHERE tt.name = 'CDC''s NHSN CDA Validator' AND NOT deleted),
 	-1
@@ -1047,7 +1047,7 @@ WHERE cca.test_tool
 AND cc.certification_edition_id = 2;
 
 INSERT INTO openchpl.test_tool_criteria_map
-(criteria_id, test_tool_id, last_modified_user)
+(certification_criterion_id, test_tool_id, last_modified_user)
 SELECT cc.certification_criterion_id, 
 	(SELECT tt.test_tool_id FROM openchpl.test_tool tt WHERE tt.name = 'Cypress' AND NOT deleted),
 	-1
@@ -1058,7 +1058,7 @@ WHERE cca.test_tool
 AND cc.certification_edition_id = 2;
 
 INSERT INTO openchpl.test_tool_criteria_map
-(criteria_id, test_tool_id, last_modified_user)
+(certification_criterion_id, test_tool_id, last_modified_user)
 SELECT cc.certification_criterion_id, 
 	(SELECT tt.test_tool_id FROM openchpl.test_tool tt WHERE tt.name = 'Direct Certificate Discovery Tool' AND NOT deleted),
 	-1
@@ -1069,7 +1069,7 @@ WHERE cca.test_tool
 AND cc.certification_edition_id = 2;
 
 INSERT INTO openchpl.test_tool_criteria_map
-(criteria_id, test_tool_id, last_modified_user)
+(certification_criterion_id, test_tool_id, last_modified_user)
 SELECT cc.certification_criterion_id, 
 	(SELECT tt.test_tool_id FROM openchpl.test_tool tt WHERE tt.name = 'Edge Testing Tool' AND NOT deleted),
 	-1
@@ -1080,7 +1080,7 @@ WHERE cca.test_tool
 AND cc.certification_edition_id = 2;
 
 INSERT INTO openchpl.test_tool_criteria_map
-(criteria_id, test_tool_id, last_modified_user)
+(certification_criterion_id, test_tool_id, last_modified_user)
 SELECT cc.certification_criterion_id, 
 	(SELECT tt.test_tool_id FROM openchpl.test_tool tt WHERE tt.name = 'Electronic Prescribing' AND NOT deleted),
 	-1
@@ -1091,7 +1091,7 @@ WHERE cca.test_tool
 AND cc.certification_edition_id = 2;
 
 INSERT INTO openchpl.test_tool_criteria_map
-(criteria_id, test_tool_id, last_modified_user)
+(certification_criterion_id, test_tool_id, last_modified_user)
 SELECT cc.certification_criterion_id, 
 	(SELECT tt.test_tool_id FROM openchpl.test_tool tt WHERE tt.name = 'HIMSS Immunization Integration Program' AND NOT deleted),
 	-1
@@ -1102,7 +1102,7 @@ WHERE cca.test_tool
 AND cc.certification_edition_id = 2;
 
 INSERT INTO openchpl.test_tool_criteria_map
-(criteria_id, test_tool_id, last_modified_user)
+(certification_criterion_id, test_tool_id, last_modified_user)
 SELECT cc.certification_criterion_id, 
 	(SELECT tt.test_tool_id FROM openchpl.test_tool tt WHERE tt.name = 'HL7 CDA Cancer Registry Reporting Validation Tool' AND NOT deleted),
 	-1
@@ -1113,7 +1113,7 @@ WHERE cca.test_tool
 AND cc.certification_edition_id = 2;
 
 INSERT INTO openchpl.test_tool_criteria_map
-(criteria_id, test_tool_id, last_modified_user)
+(certification_criterion_id, test_tool_id, last_modified_user)
 SELECT cc.certification_criterion_id, 
 	(SELECT tt.test_tool_id FROM openchpl.test_tool tt WHERE tt.name = 'HL7 CDA National Health Care Surveys Validator' AND NOT deleted),
 	-1
@@ -1124,7 +1124,7 @@ WHERE cca.test_tool
 AND cc.certification_edition_id = 2;
 
 INSERT INTO openchpl.test_tool_criteria_map
-(criteria_id, test_tool_id, last_modified_user)
+(certification_criterion_id, test_tool_id, last_modified_user)
 SELECT cc.certification_criterion_id, 
 	(SELECT tt.test_tool_id FROM openchpl.test_tool tt WHERE tt.name = 'HL7 v2 Electronic Laboratory Reporting (ELR) Validation Tool' AND NOT deleted),
 	-1
@@ -1135,7 +1135,7 @@ WHERE cca.test_tool
 AND cc.certification_edition_id = 2;
 
 INSERT INTO openchpl.test_tool_criteria_map
-(criteria_id, test_tool_id, last_modified_user)
+(certification_criterion_id, test_tool_id, last_modified_user)
 SELECT cc.certification_criterion_id, 
 	(SELECT tt.test_tool_id FROM openchpl.test_tool tt WHERE tt.name = 'HL7 v2 Immunization Information System (IIS) Reporting Validation Tool' AND NOT deleted),
 	-1
@@ -1146,7 +1146,7 @@ WHERE cca.test_tool
 AND cc.certification_edition_id = 2;
 
 INSERT INTO openchpl.test_tool_criteria_map
-(criteria_id, test_tool_id, last_modified_user)
+(certification_criterion_id, test_tool_id, last_modified_user)
 SELECT cc.certification_criterion_id, 
 	(SELECT tt.test_tool_id FROM openchpl.test_tool tt WHERE tt.name = 'HL7 v2 Laboratory Results Interface (LRI) Validation Tool' AND NOT deleted),
 	-1
@@ -1157,7 +1157,7 @@ WHERE cca.test_tool
 AND cc.certification_edition_id = 2;
 
 INSERT INTO openchpl.test_tool_criteria_map
-(criteria_id, test_tool_id, last_modified_user)
+(certification_criterion_id, test_tool_id, last_modified_user)
 SELECT cc.certification_criterion_id, 
 	(SELECT tt.test_tool_id FROM openchpl.test_tool tt WHERE tt.name = 'HL7 v2 Syndromic Surveillance Reporting Validation Tool' AND NOT deleted),
 	-1
@@ -1168,7 +1168,7 @@ WHERE cca.test_tool
 AND cc.certification_edition_id = 2;
 
 INSERT INTO openchpl.test_tool_criteria_map
-(criteria_id, test_tool_id, last_modified_user)
+(certification_criterion_id, test_tool_id, last_modified_user)
 SELECT cc.certification_criterion_id, 
 	(SELECT tt.test_tool_id FROM openchpl.test_tool tt WHERE tt.name = 'HL7v2 Immunization Test Suite' AND NOT deleted),
 	-1
@@ -1179,7 +1179,7 @@ WHERE cca.test_tool
 AND cc.certification_edition_id = 2;
 
 INSERT INTO openchpl.test_tool_criteria_map
-(criteria_id, test_tool_id, last_modified_user)
+(certification_criterion_id, test_tool_id, last_modified_user)
 SELECT cc.certification_criterion_id, 
 	(SELECT tt.test_tool_id FROM openchpl.test_tool tt WHERE tt.name = 'HL7v2 Syndromic Surveillance Test Suite' AND NOT deleted),
 	-1
@@ -1190,7 +1190,7 @@ WHERE cca.test_tool
 AND cc.certification_edition_id = 2;
 
 INSERT INTO openchpl.test_tool_criteria_map
-(criteria_id, test_tool_id, last_modified_user)
+(certification_criterion_id, test_tool_id, last_modified_user)
 SELECT cc.certification_criterion_id, 
 	(SELECT tt.test_tool_id FROM openchpl.test_tool tt WHERE tt.name = 'Inferno' AND NOT deleted),
 	-1
@@ -1201,7 +1201,7 @@ WHERE cca.test_tool
 AND cc.certification_edition_id = 2;
 
 INSERT INTO openchpl.test_tool_criteria_map
-(criteria_id, test_tool_id, last_modified_user)
+(certification_criterion_id, test_tool_id, last_modified_user)
 SELECT cc.certification_criterion_id, 
 	(SELECT tt.test_tool_id FROM openchpl.test_tool tt WHERE tt.name = 'NCQA ONC Health IT Testing' AND NOT deleted),
 	-1
@@ -1212,7 +1212,7 @@ WHERE cca.test_tool
 AND cc.certification_edition_id = 2;
 
 INSERT INTO openchpl.test_tool_criteria_map
-(criteria_id, test_tool_id, last_modified_user)
+(certification_criterion_id, test_tool_id, last_modified_user)
 SELECT cc.certification_criterion_id, 
 	(SELECT tt.test_tool_id FROM openchpl.test_tool tt WHERE tt.name = 'NHCS IG Release 1 Validator' AND NOT deleted),
 	-1
@@ -1223,7 +1223,7 @@ WHERE cca.test_tool
 AND cc.certification_edition_id = 2;
 
 INSERT INTO openchpl.test_tool_criteria_map
-(criteria_id, test_tool_id, last_modified_user)
+(certification_criterion_id, test_tool_id, last_modified_user)
 SELECT cc.certification_criterion_id, 
 	(SELECT tt.test_tool_id FROM openchpl.test_tool tt WHERE tt.name = 'NHCS IG Release 1.2 Validator' AND NOT deleted),
 	-1
@@ -1234,7 +1234,7 @@ WHERE cca.test_tool
 AND cc.certification_edition_id = 2;
 
 INSERT INTO openchpl.test_tool_criteria_map
-(criteria_id, test_tool_id, last_modified_user)
+(certification_criterion_id, test_tool_id, last_modified_user)
 SELECT cc.certification_criterion_id, 
 	(SELECT tt.test_tool_id FROM openchpl.test_tool tt WHERE tt.name = 'Transport Testing Tool' AND NOT deleted),
 	-1
@@ -1245,7 +1245,7 @@ WHERE cca.test_tool
 AND cc.certification_edition_id = 2;
 
 INSERT INTO openchpl.test_tool_criteria_map
-(criteria_id, test_tool_id, last_modified_user)
+(certification_criterion_id, test_tool_id, last_modified_user)
 SELECT cc.certification_criterion_id, 
 	(SELECT tt.test_tool_id FROM openchpl.test_tool tt WHERE tt.name = 'Not Applicable' AND NOT deleted),
 	-1
@@ -1257,7 +1257,7 @@ AND cc.certification_edition_id = 2;
 
 --------------------------------
 INSERT INTO openchpl.test_tool_criteria_map
-(criteria_id, test_tool_id, last_modified_user)
+(certification_criterion_id, test_tool_id, last_modified_user)
 SELECT cc.certification_criterion_id, 
 	(SELECT tt.test_tool_id FROM openchpl.test_tool tt WHERE tt.name = 'CDC''s NHSN CDA Validator' AND NOT deleted),
 	-1
@@ -1265,7 +1265,7 @@ FROM openchpl.certification_criterion cc
 WHERE cc.number in ('170.315 (f)(6)');
 
 INSERT INTO openchpl.test_tool_criteria_map
-(criteria_id, test_tool_id, last_modified_user)
+(certification_criterion_id, test_tool_id, last_modified_user)
 SELECT cc.certification_criterion_id, 
 	(SELECT tt.test_tool_id FROM openchpl.test_tool tt WHERE tt.name = 'Cypress' AND NOT deleted),
 	-1
@@ -1274,7 +1274,7 @@ WHERE cc.number in ('170.315 (c)(1)', '170.315 (c)(2)', '170.315 (c)(3)', '170.3
 
 
 INSERT INTO openchpl.test_tool_criteria_map
-(criteria_id, test_tool_id, last_modified_user)
+(certification_criterion_id, test_tool_id, last_modified_user)
 SELECT cc.certification_criterion_id, 
 	(SELECT tt.test_tool_id FROM openchpl.test_tool tt WHERE tt.name = 'Direct Certificate Discovery Tool' AND NOT deleted),
 	-1
@@ -1282,7 +1282,7 @@ FROM openchpl.certification_criterion cc
 WHERE cc.number in ('170.315 (h)(1)', '170.315 (h)(2)');
 
 INSERT INTO openchpl.test_tool_criteria_map
-(criteria_id, test_tool_id, last_modified_user)
+(certification_criterion_id, test_tool_id, last_modified_user)
 SELECT cc.certification_criterion_id, 
 	(SELECT tt.test_tool_id FROM openchpl.test_tool tt WHERE tt.name = 'Edge Testing Tool' AND NOT deleted),
 	-1
@@ -1290,7 +1290,7 @@ FROM openchpl.certification_criterion cc
 WHERE cc.number in ('170.315 (b)(1)', '170.315 (b)(2)', '170.315 (b)(6)', '170.315 (b)(7)', '170.315 (b)(8)', '170.315 (b)(9)', '170.315 (e)(1)', '170.315 (g)(6)', '170.315 (g)(9)', '170.315 (h)(1)', '170.315 (h)(2)');
 
 INSERT INTO openchpl.test_tool_criteria_map
-(criteria_id, test_tool_id, last_modified_user)
+(certification_criterion_id, test_tool_id, last_modified_user)
 SELECT cc.certification_criterion_id, 
 	(SELECT tt.test_tool_id FROM openchpl.test_tool tt WHERE tt.name = 'HIMSS Immunization Integration Program' AND NOT deleted),
 	-1
@@ -1298,7 +1298,7 @@ FROM openchpl.certification_criterion cc
 WHERE cc.number in ('170.315 (f)(1)');
 
 INSERT INTO openchpl.test_tool_criteria_map
-(criteria_id, test_tool_id, last_modified_user)
+(certification_criterion_id, test_tool_id, last_modified_user)
 SELECT cc.certification_criterion_id, 
 	(SELECT tt.test_tool_id FROM openchpl.test_tool tt WHERE tt.name = 'HL7 CDA Cancer Registry Reporting Validation Tool' AND NOT deleted),
 	-1
@@ -1306,7 +1306,7 @@ FROM openchpl.certification_criterion cc
 WHERE cc.number in ('170.315 (f)(4');
 
 INSERT INTO openchpl.test_tool_criteria_map
-(criteria_id, test_tool_id, last_modified_user)
+(certification_criterion_id, test_tool_id, last_modified_user)
 SELECT cc.certification_criterion_id, 
 	(SELECT tt.test_tool_id FROM openchpl.test_tool tt WHERE tt.name = 'HL7 v2 Electronic Laboratory Reporting (ELR) Validation Tool' AND NOT deleted),
 	-1
@@ -1314,7 +1314,7 @@ FROM openchpl.certification_criterion cc
 WHERE cc.number in ('170.315 (f)(3)');
 
 INSERT INTO openchpl.test_tool_criteria_map
-(criteria_id, test_tool_id, last_modified_user)
+(certification_criterion_id, test_tool_id, last_modified_user)
 SELECT cc.certification_criterion_id, 
 	(SELECT tt.test_tool_id FROM openchpl.test_tool tt WHERE tt.name = 'HL7v2 Immunization Test Suite' AND NOT deleted),
 	-1
@@ -1322,7 +1322,7 @@ FROM openchpl.certification_criterion cc
 WHERE cc.number in ('170.315 (f)(1)');
 
 INSERT INTO openchpl.test_tool_criteria_map
-(criteria_id, test_tool_id, last_modified_user)
+(certification_criterion_id, test_tool_id, last_modified_user)
 SELECT cc.certification_criterion_id, 
 	(SELECT tt.test_tool_id FROM openchpl.test_tool tt WHERE tt.name = 'HL7v2 Syndromic Surveillance Test Suite' AND NOT deleted),
 	-1
@@ -1330,7 +1330,7 @@ FROM openchpl.certification_criterion cc
 WHERE cc.number in ('170.315 (f)(2)');
 
 INSERT INTO openchpl.test_tool_criteria_map
-(criteria_id, test_tool_id, last_modified_user)
+(certification_criterion_id, test_tool_id, last_modified_user)
 SELECT cc.certification_criterion_id, 
 	(SELECT tt.test_tool_id FROM openchpl.test_tool tt WHERE tt.name = 'Inferno' AND NOT deleted),
 	-1
@@ -1338,7 +1338,7 @@ FROM openchpl.certification_criterion cc
 WHERE cc.number in ('170.315 (g)(10)');
 
 INSERT INTO openchpl.test_tool_criteria_map
-(criteria_id, test_tool_id, last_modified_user)
+(certification_criterion_id, test_tool_id, last_modified_user)
 SELECT cc.certification_criterion_id, 
 	(SELECT tt.test_tool_id FROM openchpl.test_tool tt WHERE tt.name = 'NCPDP Electronic Prescribing (eRx) Testing Tool' AND NOT deleted),
 	-1
@@ -1346,7 +1346,7 @@ FROM openchpl.certification_criterion cc
 WHERE cc.number in ('170.315 (b)(3)');
 
 INSERT INTO openchpl.test_tool_criteria_map
-(criteria_id, test_tool_id, last_modified_user)
+(certification_criterion_id, test_tool_id, last_modified_user)
 SELECT cc.certification_criterion_id, 
 	(SELECT tt.test_tool_id FROM openchpl.test_tool tt WHERE tt.name = 'NCQA ONC Health IT Testing' AND NOT deleted),
 	-1
@@ -1354,7 +1354,7 @@ FROM openchpl.certification_criterion cc
 WHERE cc.number in ('170.315 (c)(2)', '170.315 (c)(3)', '170.315 (c)(4)');
 
 INSERT INTO openchpl.test_tool_criteria_map
-(criteria_id, test_tool_id, last_modified_user)
+(certification_criterion_id, test_tool_id, last_modified_user)
 SELECT cc.certification_criterion_id, 
 	(SELECT tt.test_tool_id FROM openchpl.test_tool tt WHERE tt.name = 'NHCS IG Release 1 Validator' AND NOT deleted),
 	-1
@@ -1362,7 +1362,7 @@ FROM openchpl.certification_criterion cc
 WHERE cc.number in ('170.315 (f)(7)');
 
 INSERT INTO openchpl.test_tool_criteria_map
-(criteria_id, test_tool_id, last_modified_user)
+(certification_criterion_id, test_tool_id, last_modified_user)
 SELECT cc.certification_criterion_id, 
 	(SELECT tt.test_tool_id FROM openchpl.test_tool tt WHERE tt.name = 'NHCS IG Release 1.2 Validator' AND NOT deleted),
 	-1
@@ -1370,7 +1370,7 @@ FROM openchpl.certification_criterion cc
 WHERE cc.number in ('170.315 (f)(7)');
 
 INSERT INTO openchpl.test_tool_criteria_map
-(criteria_id, test_tool_id, last_modified_user)
+(certification_criterion_id, test_tool_id, last_modified_user)
 SELECT cc.certification_criterion_id, 
 	(SELECT tt.test_tool_id FROM openchpl.test_tool tt WHERE tt.name = 'NIST General Validation Tool (GVT)' AND NOT deleted),
 	-1
@@ -1378,7 +1378,7 @@ FROM openchpl.certification_criterion cc
 WHERE cc.number in ('170.315 (f)(7)');
 
 --INSERT INTO openchpl.test_tool_criteria_map
---(criteria_id, test_tool_id, last_modified_user)
+--(certification_criteria_id, test_tool_id, last_modified_user)
 --SELECT cc.certification_criterion_id, 
 --	(SELECT tt.test_tool_id FROM openchpl.test_tool tt WHERE tt.name = 'Not Applicable' AND NOT deleted),
 --	-1
