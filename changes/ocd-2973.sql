@@ -584,7 +584,7 @@ ON CONFLICT ON CONSTRAINT criterion_unique DO UPDATE SET
 	test_tool = EXCLUDED.test_tool;
 
 INSERT INTO openchpl.certification_criterion_attribute (criterion_id, test_tool, last_modified_user)
-SELECT certification_criterion_id, true, -1
+SELECT certification_criterion_id, false, -1
 FROM openchpl.certification_criterion
 WHERE number = '170.315 (b)(4)'
 ON CONFLICT ON CONSTRAINT criterion_unique DO UPDATE SET
@@ -1377,8 +1377,13 @@ SELECT cc.certification_criterion_id,
 FROM openchpl.certification_criterion cc 
 WHERE cc.number in ('170.315 (f)(7)');
 
---INSERT INTO openchpl.test_tool_criteria_map
---(certification_criteria_id, test_tool_id, last_modified_user)
---SELECT cc.certification_criterion_id, 
---	(SELECT tt.test_tool_id FROM openchpl.test_tool tt WHERE tt.name = 'Not Applicable' AND NOT deleted),
---	-1
+INSERT INTO openchpl.test_tool_criteria_map
+(certification_criterion_id, test_tool_id, last_modified_user)
+SELECT cc.certification_criterion_id, 
+	(SELECT tt.test_tool_id FROM openchpl.test_tool tt WHERE tt.name = 'Not Applicable' AND NOT deleted),
+	-1
+FROM openchpl.certification_criterion cc 
+WHERE cc.number in ('170.315 (b)(1)', '170.315 (b)(2)', '170.315 (b)(3)', '170.315 (b)(6)', '170.315 (b)(7)', '170.315 (b)(8)', '170.315 (b)(9)', 
+					'170.315 (c)(1)', '170.315 (c)(2)', '170.315 (c)(3)', '170.315 (c)(4)', '170.315 (e)(1)', '170.315 (f)(1)', '170.315 (f)(3)',
+					'170.315 (f)(4)', '170.315 (f)(6)', '170.315 (f)(7)', '170.315 (g)(6)', '170.315 (g)(9)', '170.315 (g)(10)', '170.315 (h)(1)',
+					'170.315 (h)(2)');
