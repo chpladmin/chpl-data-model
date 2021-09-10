@@ -1,7 +1,11 @@
+# DROP and ADD constraint to ensure each criterion is only in the table once
 ALTER TABLE openchpl.certification_criterion_attribute DROP CONSTRAINT criterion_unique;
 ALTER TABLE openchpl.certification_criterion_attribute ADD CONSTRAINT criterion_unique UNIQUE (criterion_id);
+
+# Add new column to indicate whether the criterion supports test tools
 ALTER TABLE openchpl.certification_criterion_attribute ADD COLUMN IF NOT EXISTS test_tool BOOL NOT NULL DEFAULT FALSE;
 
+# Add the new test tools
 INSERT INTO openchpl.test_tool
 (name, last_modified_user)
 SELECT 'NCPDP Electronic Prescribing (eRx) Testing Tool', 1
@@ -18,6 +22,7 @@ WHERE NOT EXISTS
 	FROM openchpl.test_tool
 	WHERE name = 'NIST General Validation Tool (GVT)');
 
+# INSERT or UPDATE (also called UPSERT - learned something new) the criterion and whther it supports test tools
 INSERT INTO openchpl.certification_criterion_attribute (criterion_id, test_tool, last_modified_user)
 SELECT certification_criterion_id, false, -1
 FROM openchpl.certification_criterion
@@ -1016,6 +1021,7 @@ WHERE number = '170.315 (h)(2)'
 ON CONFLICT ON CONSTRAINT criterion_unique DO UPDATE SET
 	test_tool = EXCLUDED.test_tool;
 
+# Add new table to support test tool / criterion mapping
 DROP TABLE IF EXISTS openchpl.test_tool_criteria_map;
 
 CREATE TABLE openchpl.test_tool_criteria_map (
@@ -1035,6 +1041,7 @@ CREATE TABLE openchpl.test_tool_criteria_map (
 		MATCH FULL ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
+# Add the test tools / crierion maapings
 INSERT INTO openchpl.test_tool_criteria_map
 (certification_criterion_id, test_tool_id, last_modified_user)
 SELECT cc.certification_criterion_id, 
