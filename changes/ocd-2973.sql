@@ -1310,7 +1310,7 @@ SELECT cc.certification_criterion_id,
 	(SELECT tt.test_tool_id FROM openchpl.test_tool tt WHERE tt.name = 'HL7 CDA Cancer Registry Reporting Validation Tool' AND NOT deleted),
 	-1
 FROM openchpl.certification_criterion cc 
-WHERE cc.number in ('170.315 (f)(4');
+WHERE cc.number in ('170.315 (f)(4)');
 
 INSERT INTO openchpl.test_tool_criteria_map
 (certification_criterion_id, test_tool_id, last_modified_user)
