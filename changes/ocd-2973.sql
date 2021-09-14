@@ -8,7 +8,7 @@ ALTER TABLE openchpl.certification_criterion_attribute ADD COLUMN IF NOT EXISTS 
 -- Add the new test tools
 INSERT INTO openchpl.test_tool
 (name, last_modified_user)
-SELECT 'NCPDP Electronic Prescribing (eRx) Testing Tool', 1
+SELECT 'NCPDP Electronic Prescribing (eRx) Testing Tool', -1
 WHERE NOT EXISTS
 	(SELECT *
 	FROM openchpl.test_tool
@@ -16,7 +16,7 @@ WHERE NOT EXISTS
 
 INSERT INTO openchpl.test_tool
 (name, last_modified_user)
-SELECT 'NIST General Validation Tool (GVT)', 1
+SELECT 'NIST General Validation Tool (GVT)', -1
 WHERE NOT EXISTS
 	(SELECT *
 	FROM openchpl.test_tool
