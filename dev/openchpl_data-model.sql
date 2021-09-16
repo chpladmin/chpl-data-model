@@ -3319,6 +3319,7 @@ CREATE TABLE openchpl.certification_criterion_attribute (
   optional_standard       bool NOT NULL DEFAULT false,
   svap                    bool NOT NULL DEFAULT false,
   service_base_url_list   bool NOT NULL DEFAULT false,
+  test_tool               bool NOT NULL DEFAULT false,
   creation_date           timestamp NOT NULL DEFAULT NOW(),
   last_modified_date      timestamp NOT NULL DEFAULT NOW(),
   last_modified_user      bigint NOT NULL,
@@ -3326,7 +3327,8 @@ CREATE TABLE openchpl.certification_criterion_attribute (
   CONSTRAINT certification_criterion_attribute_pk PRIMARY KEY (id),
   CONSTRAINT certification_criterion_id_fk FOREIGN KEY (criterion_id)
         REFERENCES openchpl.certification_criterion (certification_criterion_id)
-        MATCH SIMPLE ON UPDATE NO ACTION ON DELETE RESTRICT
+        MATCH SIMPLE ON UPDATE NO ACTION ON DELETE RESTRICT,
+  CONSTRAINT criterion_unique UNIQUE (criterion_id)
 );
 
 CREATE TABLE openchpl.listing_validation_report (
@@ -3435,6 +3437,23 @@ CREATE TABLE openchpl.listing_cures_status_statistic (
 );
 CREATE INDEX idx_listing_cures_status_stat_date on openchpl.listing_cures_status_statistic (statistic_date);
 
+CREATE TABLE openchpl.listing_cures_status_statistic_by_acb (
+	id bigserial NOT NULL,
+	certification_body_id bigint NOT NULL,
+	cures_listings_count bigint NOT NULL,
+	total_listings_count bigint NOT NULL,
+	statistic_date date NOT NULL, -- the date to which this statistic applies
+	creation_date timestamp without time zone NOT NULL DEFAULT now(),
+	last_modified_date timestamp without time zone NOT NULL DEFAULT now(),
+	last_modified_user bigint NOT NULL,
+	deleted boolean NOT NULL DEFAULT false,
+	CONSTRAINT listing_cures_status_statistic_pk PRIMARY KEY (id),
+	CONSTRAINT certification_body_fk FOREIGN KEY (certification_bosy_id)
+		REFERENCES openchpl.certification_body (certification_body_id)
+		MATCH FULL ON DELETE CASCADE ON UPDATE CASCADE
+);
+CREATE INDEX idx_listing_cures_status_stat_date on openchpl.listing_cures_status_statistic_by_acb (statistic_date);
+
 CREATE TABLE openchpl.listing_to_criterion_for_cures_achievement_statistic (
 	id bigserial NOT NULL,
 	listing_id bigint NOT NULL,
@@ -3505,6 +3524,23 @@ CREATE TABLE openchpl.deprecated_api_usage (
 CREATE UNIQUE INDEX deprecated_api_usage_unique_api_key_and_deprecated_api
 ON openchpl.deprecated_api_usage(api_key_id, deprecated_api_id)
 WHERE deleted = false;
+
+CREATE TABLE openchpl.test_tool_criteria_map (
+	id bigserial NOT NULL,
+	certification_criterion_id bigint NOT NULL,
+	test_tool_id bigint NOT NULL,
+	creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
+	CONSTRAINT test_tool_criteria_map_pk PRIMARY KEY (id),
+	CONSTRAINT criteria_fk FOREIGN KEY (certification_criterion_id)
+		REFERENCES openchpl.certification_criterion (certification_criterion_id)
+		MATCH FULL ON DELETE RESTRICT ON UPDATE CASCADE,
+	CONSTRAINT test_tool_fk FOREIGN KEY (test_tool_id)
+		REFERENCES openchpl.test_tool (test_tool_id)
+		MATCH FULL ON DELETE RESTRICT ON UPDATE CASCADE
+);
 
 CREATE INDEX fki_certified_product_id_fk
 ON openchpl.ehr_certification_id_product_map
