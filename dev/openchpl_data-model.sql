@@ -3437,23 +3437,6 @@ CREATE TABLE openchpl.listing_cures_status_statistic (
 );
 CREATE INDEX idx_listing_cures_status_stat_date on openchpl.listing_cures_status_statistic (statistic_date);
 
-CREATE TABLE openchpl.listing_cures_status_statistic_by_acb (
-	id bigserial NOT NULL,
-	certification_body_id bigint NOT NULL,
-	cures_listings_count bigint NOT NULL,
-	total_listings_count bigint NOT NULL,
-	statistic_date date NOT NULL, -- the date to which this statistic applies
-	creation_date timestamp without time zone NOT NULL DEFAULT now(),
-	last_modified_date timestamp without time zone NOT NULL DEFAULT now(),
-	last_modified_user bigint NOT NULL,
-	deleted boolean NOT NULL DEFAULT false,
-	CONSTRAINT listing_cures_status_statistic_pk PRIMARY KEY (id),
-	CONSTRAINT certification_body_fk FOREIGN KEY (certification_bosy_id)
-		REFERENCES openchpl.certification_body (certification_body_id)
-		MATCH FULL ON DELETE CASCADE ON UPDATE CASCADE
-);
-CREATE INDEX idx_listing_cures_status_stat_date on openchpl.listing_cures_status_statistic_by_acb (statistic_date);
-
 CREATE TABLE openchpl.listing_to_criterion_for_cures_achievement_statistic (
 	id bigserial NOT NULL,
 	listing_id bigint NOT NULL,
