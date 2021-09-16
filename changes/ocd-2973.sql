@@ -1,3 +1,15 @@
+INSERT INTO openchpl.deprecated_api
+(http_method, api_operation, change_description, last_modified_user)
+SELECT 'GET', 
+	'/data/test_tools',
+	'This endpoint is deprecated and will be removed in a future release. The test_tools are now dependent on the criteria they are associted with and can be found in the CertifiedProductSearchDetails.',
+	-1
+WHERE NOT EXISTS
+	(SELECT *
+	FROM openchpl.deprecated_api
+	WHERE http_method = 'GET'
+	AND api_operation = '/data/test_tools');
+
 -- DROP and ADD constraint to ensure each criterion is only in the table once
 ALTER TABLE openchpl.certification_criterion_attribute DROP CONSTRAINT criterion_unique;
 ALTER TABLE openchpl.certification_criterion_attribute ADD CONSTRAINT criterion_unique UNIQUE (criterion_id);
