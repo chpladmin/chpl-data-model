@@ -1306,7 +1306,15 @@ SELECT cc.certification_criterion_id,
 	(SELECT tt.test_tool_id FROM openchpl.test_tool tt WHERE tt.name = 'Edge Testing Tool' AND NOT deleted),
 	-1
 FROM openchpl.certification_criterion cc 
-WHERE cc.number in ('170.315 (b)(1)', '170.315 (b)(2)', '170.315 (b)(6)', '170.315 (b)(7)', '170.315 (b)(8)', '170.315 (b)(9)', '170.315 (e)(1)', '170.315 (g)(6)', '170.315 (g)(9)', '170.315 (h)(1)', '170.315 (h)(2)');
+WHERE cc.number in ('170.315 (b)(1)', '170.315 (b)(2)', '170.315 (b)(5)', '170.315 (b)(6)', '170.315 (b)(7)', '170.315 (b)(8)', '170.315 (b)(9)', '170.315 (e)(1)', '170.315 (g)(6)', '170.315 (g)(9)', '170.315 (h)(1)', '170.315 (h)(2)');
+
+INSERT INTO openchpl.test_tool_criteria_map
+(certification_criterion_id, test_tool_id, last_modified_user)
+SELECT cc.certification_criterion_id, 
+	(SELECT tt.test_tool_id FROM openchpl.test_tool tt WHERE tt.name = 'Electronic Prescribing' AND NOT deleted),
+	-1
+FROM openchpl.certification_criterion cc 
+WHERE cc.number in ('170.315 (b)(3)');
 
 INSERT INTO openchpl.test_tool_criteria_map
 (certification_criterion_id, test_tool_id, last_modified_user)
@@ -1323,6 +1331,14 @@ SELECT cc.certification_criterion_id,
 	-1
 FROM openchpl.certification_criterion cc 
 WHERE cc.number in ('170.315 (f)(4)');
+
+INSERT INTO openchpl.test_tool_criteria_map
+(certification_criterion_id, test_tool_id, last_modified_user)
+SELECT cc.certification_criterion_id, 
+	(SELECT tt.test_tool_id FROM openchpl.test_tool tt WHERE tt.name = 'HL7 CDA National Health Care Surveys Validator' AND NOT deleted),
+	-1
+FROM openchpl.certification_criterion cc 
+WHERE cc.number in ('170.315 (f)(7)');
 
 INSERT INTO openchpl.test_tool_criteria_map
 (certification_criterion_id, test_tool_id, last_modified_user)
@@ -1344,6 +1360,14 @@ INSERT INTO openchpl.test_tool_criteria_map
 (certification_criterion_id, test_tool_id, last_modified_user)
 SELECT cc.certification_criterion_id, 
 	(SELECT tt.test_tool_id FROM openchpl.test_tool tt WHERE tt.name = 'HL7v2 Syndromic Surveillance Test Suite' AND NOT deleted),
+	-1
+FROM openchpl.certification_criterion cc 
+WHERE cc.number in ('170.315 (f)(2)');
+
+INSERT INTO openchpl.test_tool_criteria_map
+(certification_criterion_id, test_tool_id, last_modified_user)
+SELECT cc.certification_criterion_id, 
+	(SELECT tt.test_tool_id FROM openchpl.test_tool tt WHERE tt.name = 'HL7 v2 Syndromic Surveillance Reporting Validation Tool' AND NOT deleted),
 	-1
 FROM openchpl.certification_criterion cc 
 WHERE cc.number in ('170.315 (f)(2)');
