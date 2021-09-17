@@ -2,7 +2,7 @@ INSERT INTO openchpl.deprecated_api
 (http_method, api_operation, change_description, last_modified_user)
 SELECT 'GET', 
 	'/data/test_tools',
-	'This endpoint is deprecated and will be removed in a future release. The test_tools are now dependent on the criteria they are associted with and can be found in the CertifiedProductSearchDetails.',
+	'This endpoint is deprecated and will be removed in a future release. The test_tools are now dependent on the criteria they are associated with and can be found in the CertifiedProductSearchDetails.',
 	-1
 WHERE NOT EXISTS
 	(SELECT *
