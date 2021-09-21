@@ -83,7 +83,7 @@ insert into openchpl.certification_criterion_attribute (criterion_id, last_modif
 insert into openchpl.certification_criterion_attribute (criterion_id, last_modified_user) select 181, -1 where not exists (select * from openchpl.certification_criterion_attribute where criterion_id = 181);
 insert into openchpl.certification_criterion_attribute (criterion_id, last_modified_user) select 182, -1 where not exists (select * from openchpl.certification_criterion_attribute where criterion_id = 182);
 
-update openchpl.certification_criterion_attribute set test_procedure = true where criterion_id >= 61 and criterion_id <= 119; -- all 2014 Criteria can have TP
+update openchpl.certification_criterion_attribute set test_procedure = true where criterion_id <= 119 or criterion_id >= 165; -- all 2014 and 2015 Criteria can have TP, until flag is toggled // data is updated
 
 -- allow specific 2015 criteria to have conformance_method (assumes removed criteria have none)
 update openchpl.certification_criterion_attribute set conformance_method = true where criterion_id = (select cc.certification_criterion_id from openchpl.certification_criterion cc where cc.number = '170.315 (a)(1)');
