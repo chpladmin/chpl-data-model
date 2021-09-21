@@ -789,6 +789,33 @@ CREATE TABLE openchpl.certification_result_additional_software
       ON UPDATE NO ACTION ON DELETE NO ACTION
 );
 
+CREATE TABLE openchpl.conformance_method (
+	id bigserial NOT NULL,
+	name varchar(255) NOT NULL,
+	creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
+	CONSTRAINT conformance_method_pk PRIMARY KEY (id)
+);
+
+CREATE TABLE openchpl.conformance_method_criteria_map (
+	id bigserial NOT NULL,
+	criteria_id bigint NOT NULL,
+	conformance_method_id bigint NOT NULL,
+	creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
+	CONSTRAINT conformance_method_criteria_map_pk PRIMARY KEY (id),
+	CONSTRAINT conformance_method_criteria_fk FOREIGN KEY (criteria_id)
+		REFERENCES openchpl.certification_criterion (certification_criterion_id)
+		MATCH FULL ON DELETE RESTRICT ON UPDATE CASCADE,
+	CONSTRAINT conformance_method_fk FOREIGN KEY (conformance_method_id)
+		REFERENCES openchpl.conformance_method (id)
+		MATCH FULL ON DELETE RESTRICT ON UPDATE CASCADE
+);
+
 CREATE TABLE openchpl.test_procedure (
 	id bigserial NOT NULL,
 	name varchar(255) NOT NULL,
@@ -840,6 +867,23 @@ CREATE TABLE openchpl.test_data_criteria_map (
 		MATCH FULL ON DELETE RESTRICT ON UPDATE CASCADE,
 	CONSTRAINT test_data_fk FOREIGN KEY (test_data_id)
 		REFERENCES openchpl.test_data (id)
+		MATCH FULL ON DELETE RESTRICT ON UPDATE CASCADE
+);
+
+CREATE TABLE openchpl.conformance_method_criteria_map (
+	id bigserial NOT NULL,
+	criteria_id bigint NOT NULL,
+	conformance_method_id bigint NOT NULL,
+	creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
+	CONSTRAINT conformance_method_criteria_map_pk PRIMARY KEY (id),
+	CONSTRAINT conformance_method_criteria_fk FOREIGN KEY (criteria_id)
+		REFERENCES openchpl.certification_criterion (certification_criterion_id)
+		MATCH FULL ON DELETE RESTRICT ON UPDATE CASCADE,
+	CONSTRAINT conformance_method_fk FOREIGN KEY (conformance_method_id)
+		REFERENCES openchpl.conformance_method (id)
 		MATCH FULL ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
@@ -1762,6 +1806,25 @@ CREATE TABLE openchpl.pending_certification_result_additional_software
    CONSTRAINT certified_product_fk FOREIGN KEY (certified_product_id)
       REFERENCES openchpl.certified_product (certified_product_id) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION
+);
+
+CREATE TABLE openchpl.pending_certification_result_conformance_method (
+	id bigserial NOT NULL,
+	pending_certification_result_id bigint NOT NULL,
+	conformance_method_id bigint,
+	conformance_method_name text,
+	version varchar(50) NOT NULL,
+	creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
+	CONSTRAINT pending_certification_result_conformance_method_pk PRIMARY KEY (id),
+	CONSTRAINT pending_certification_result_fk FOREIGN KEY (pending_certification_result_id)
+		REFERENCES openchpl.pending_certification_result (pending_certification_result_id) MATCH SIMPLE
+		ON UPDATE CASCADE ON DELETE RESTRICT,
+	CONSTRAINT conformance_method_fk FOREIGN KEY (conformance_method_id)
+		REFERENCES openchpl.conformance_method (id) MATCH FULL
+		ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
 CREATE TABLE openchpl.pending_certification_result_test_procedure (
@@ -3319,6 +3382,8 @@ CREATE TABLE openchpl.certification_criterion_attribute (
   optional_standard       bool NOT NULL DEFAULT false,
   svap                    bool NOT NULL DEFAULT false,
   service_base_url_list   bool NOT NULL DEFAULT false,
+  test_procedure          bool NOT NULL DEFAULT false,
+  conformance_method      bool NOT NULL DEFAULT false,
   creation_date           timestamp NOT NULL DEFAULT NOW(),
   last_modified_date      timestamp NOT NULL DEFAULT NOW(),
   last_modified_user      bigint NOT NULL,
