@@ -3384,6 +3384,7 @@ CREATE TABLE openchpl.certification_criterion_attribute (
   service_base_url_list   bool NOT NULL DEFAULT false,
   test_procedure          bool NOT NULL DEFAULT false,
   conformance_method      bool NOT NULL DEFAULT false,
+  test_tool               bool NOT NULL DEFAULT false,
   creation_date           timestamp NOT NULL DEFAULT NOW(),
   last_modified_date      timestamp NOT NULL DEFAULT NOW(),
   last_modified_user      bigint NOT NULL,
@@ -3391,7 +3392,8 @@ CREATE TABLE openchpl.certification_criterion_attribute (
   CONSTRAINT certification_criterion_attribute_pk PRIMARY KEY (id),
   CONSTRAINT certification_criterion_id_fk FOREIGN KEY (criterion_id)
         REFERENCES openchpl.certification_criterion (certification_criterion_id)
-        MATCH SIMPLE ON UPDATE NO ACTION ON DELETE RESTRICT
+        MATCH SIMPLE ON UPDATE NO ACTION ON DELETE RESTRICT,
+  CONSTRAINT criterion_unique UNIQUE (criterion_id)
 );
 
 CREATE TABLE openchpl.listing_validation_report (
@@ -3570,6 +3572,23 @@ CREATE TABLE openchpl.deprecated_api_usage (
 CREATE UNIQUE INDEX deprecated_api_usage_unique_api_key_and_deprecated_api
 ON openchpl.deprecated_api_usage(api_key_id, deprecated_api_id)
 WHERE deleted = false;
+
+CREATE TABLE openchpl.test_tool_criteria_map (
+	id bigserial NOT NULL,
+	certification_criterion_id bigint NOT NULL,
+	test_tool_id bigint NOT NULL,
+	creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
+	CONSTRAINT test_tool_criteria_map_pk PRIMARY KEY (id),
+	CONSTRAINT criteria_fk FOREIGN KEY (certification_criterion_id)
+		REFERENCES openchpl.certification_criterion (certification_criterion_id)
+		MATCH FULL ON DELETE RESTRICT ON UPDATE CASCADE,
+	CONSTRAINT test_tool_fk FOREIGN KEY (test_tool_id)
+		REFERENCES openchpl.test_tool (test_tool_id)
+		MATCH FULL ON DELETE RESTRICT ON UPDATE CASCADE
+);
 
 CREATE INDEX fki_certified_product_id_fk
 ON openchpl.ehr_certification_id_product_map
