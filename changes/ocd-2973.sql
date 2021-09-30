@@ -34,6 +34,11 @@ WHERE NOT EXISTS
 	FROM openchpl.test_tool
 	WHERE name = 'NIST General Validation Tool (GVT)');
 
+-- Unretire the 'HL7 CDA National Health Care Surveys Validator' test tool
+UPDATE openchpl.test_tool
+SET retired = false
+WHERE name = 'HL7 CDA National Health Care Surveys Validator';
+
 -- INSERT or UPDATE (also called UPSERT - learned something new) the criterion and whther it supports test tools
 INSERT INTO openchpl.certification_criterion_attribute (criterion_id, test_tool, last_modified_user)
 SELECT certification_criterion_id, false, -1
