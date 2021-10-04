@@ -248,8 +248,6 @@ CREATE TRIGGER listing_validation_report_audit AFTER INSERT OR UPDATE OR DELETE 
 CREATE TRIGGER listing_validation_report_timestamp BEFORE UPDATE on openchpl.listing_validation_report FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER macra_criteria_map_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.macra_criteria_map FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER macra_criteria_map_timestamp BEFORE UPDATE on openchpl.macra_criteria_map FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
-CREATE TRIGGER nonconformity_status_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.nonconformity_status FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
-CREATE TRIGGER nonconformity_status_timestamp BEFORE UPDATE on openchpl.nonconformity_status FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER nonconformity_type_statistics_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.nonconformity_type_statistics FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER nonconformity_type_statistics_timestamp BEFORE UPDATE on openchpl.nonconformity_type_statistics FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER optional_functionality_met_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.optional_functionality_met FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
