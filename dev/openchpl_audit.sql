@@ -208,6 +208,10 @@ CREATE TRIGGER criterion_upgraded_from_original_listing_stat_audit AFTER INSERT 
 CREATE TRIGGER criterion_upgraded_from_original_listing_stat_timestamp BEFORE UPDATE on openchpl.criterion_upgraded_from_original_listing_statistic FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER cures_criterion_upgraded_without_orig_listing_stat_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.cures_criterion_upgraded_without_original_listing_statistic FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER cures_criterion_upgraded_without_orig_listing_stat_timestamp BEFORE UPDATE on openchpl.cures_criterion_upgraded_without_original_listing_statistic FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
+CREATE TRIGGER cures_criteria_statistics_by_acb_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.cures_criteria_statistics_by_acb FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+CREATE TRIGGER cures_criteria_statistics_by_acb_timestamp BEFORE UPDATE on openchpl.cures_criteria_statistics_by_acb FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
+CREATE TRIGGER cures_listing_statistics_by_acb_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.cures_listing_statistics_by_acb FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+CREATE TRIGGER cures_listing_statistics_by_acb_timestamp BEFORE UPDATE on openchpl.cures_listing_statistics_by_acb FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER data_model_version_audit AFTER INSERT OR UPDATE OR DELETE ON openchpl.data_model_version FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER data_model_version_timestamp BEFORE UPDATE ON openchpl.data_model_version FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER deprecated_api_audit AFTER INSERT OR UPDATE OR DELETE ON openchpl.deprecated_api FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();

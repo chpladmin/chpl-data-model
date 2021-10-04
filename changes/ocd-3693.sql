@@ -34,8 +34,18 @@ CREATE TABLE IF NOT EXISTS openchpl.cures_listing_statistics_by_acb (
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_user bigint NOT NULL,
 	deleted bool NOT NULL DEFAULT false,
-	CONSTRAINT cures_lsiting_statistics_pk PRIMARY KEY (id),
+	CONSTRAINT cures_listing_statistics_pk PRIMARY KEY (id),
 	CONSTRAINT certification_body_id_fk FOREIGN KEY (certification_body_id)
       REFERENCES openchpl.certification_body (certification_body_id) MATCH FULL
       ON UPDATE CASCADE ON DELETE RESTRICT
 );
+
+DROP TRIGGER IF EXISTS cures_criteria_statistics_by_acb_audit ON openchpl.cures_criteria_statistics_by_acb;
+DROP TRIGGER IF EXISTS cures_criteria_statistics_by_acb_timestamp ON openchpl.cures_criteria_statistics_by_acb;
+CREATE TRIGGER cures_criteria_statistics_by_acb_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.cures_criteria_statistics_by_acb FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+CREATE TRIGGER cures_criteria_statistics_by_acb_timestamp BEFORE UPDATE on openchpl.cures_criteria_statistics_by_acb FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
+
+DROP TRIGGER IF EXISTS cures_listing_statistics_by_acb_audit ON openchpl.cures_listing_statistics_by_acb;
+DROP TRIGGER IF EXISTS cures_listing_statistics_by_acb_timestamp ON openchpl.cures_listing_statistics_by_acb;
+CREATE TRIGGER cures_listing_statistics_by_acb_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.cures_listing_statistics_by_acb FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+CREATE TRIGGER cures_listing_statistics_by_acb_timestamp BEFORE UPDATE on openchpl.cures_listing_statistics_by_acb FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
