@@ -3531,7 +3531,7 @@ CREATE TABLE openchpl.cures_criteria_statistics_by_acb (
       ON UPDATE CASCADE ON DELETE RESTRICT
 );
 
-CREATE TABLE IF NOT EXISTS openchpl.cures_listing_statistics_by_acb (
+CREATE TABLE openchpl.cures_listing_statistics_by_acb (
 	id bigserial NOT NULL,
 	certification_body_id bigint NOT NULL,
 	cures_listing_without_cures_criteria_count bigint,
