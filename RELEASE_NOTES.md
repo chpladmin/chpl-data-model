@@ -1,5 +1,13 @@
 # Release Notes
 
+## Version 20.7.1
+_5 October 2021_
+
+### Data Changes
+* Revise list of test tools to select for a 2015 Edition listing
+
+---
+
 ## Version 20.7.0
 _7 September 2021_
 
