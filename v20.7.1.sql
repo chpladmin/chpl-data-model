@@ -1,3 +1,6 @@
+-- Deployment file for version 20.7.1
+--     as of 2021-10-05
+-- ./changes/ocd-2973.sql
 INSERT INTO openchpl.deprecated_api
 (http_method, api_operation, change_description, last_modified_user)
 SELECT 'GET', 
@@ -1435,3 +1438,8 @@ WHERE cc.number in ('170.315 (b)(1)', '170.315 (b)(2)', '170.315 (b)(3)', '170.3
 					'170.315 (c)(1)', '170.315 (c)(2)', '170.315 (c)(3)', '170.315 (c)(4)', '170.315 (e)(1)', '170.315 (f)(1)', '170.315 (f)(2)', 
 					'170.315 (f)(3)', '170.315 (f)(4)', '170.315 (f)(6)', '170.315 (f)(7)', '170.315 (g)(6)', '170.315 (g)(9)', '170.315 (g)(10)',
 					'170.315 (h)(1)', '170.315 (h)(2)');
+;
+insert into openchpl.data_model_version (version, deploy_date, last_modified_user) values ('20.7.1', '2021-10-05', -1);
+\i dev/openchpl_soft-delete.sql
+\i dev/openchpl_views.sql
+\i dev/openchpl_grant-all.sql
