@@ -3508,7 +3508,6 @@ CREATE UNIQUE INDEX deprecated_api_usage_unique_api_key_and_deprecated_api
 ON openchpl.deprecated_api_usage(api_key_id, deprecated_api_id)
 WHERE deleted = false;
 
-<<<<<<< HEAD
 CREATE TABLE openchpl.cures_criteria_statistics_by_acb (
 	id bigserial NOT NULL,
 	certification_body_id bigint NOT NULL,
