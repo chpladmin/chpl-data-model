@@ -3476,7 +3476,7 @@ CREATE TABLE openchpl.deprecated_api (
 	api_operation text NOT NULL,
 	request_parameter text,
 	response_field text,
-	removal_date date,
+	removal_date date NOT NULL,
 	change_description text NOT NULL,
 	creation_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
