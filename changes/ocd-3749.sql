@@ -85,14 +85,18 @@ insert into openchpl.certification_criterion_attribute (criterion_id, last_modif
 
 update openchpl.certification_criterion_attribute set test_procedure = true where criterion_id <= 119 or criterion_id >= 165; -- all 2014 and 2015 Criteria can have TP, until flag is toggled // data is updated
 
--- allow specific 2015 criteria to have conformance_method (assumes removed criteria have none)
+-- allow specific 2015 criteria to have conformance_method (including removed criteria)
 update openchpl.certification_criterion_attribute set conformance_method = true where criterion_id = (select cc.certification_criterion_id from openchpl.certification_criterion cc where cc.number = '170.315 (a)(1)');
 update openchpl.certification_criterion_attribute set conformance_method = true where criterion_id = (select cc.certification_criterion_id from openchpl.certification_criterion cc where cc.number = '170.315 (a)(2)');
 update openchpl.certification_criterion_attribute set conformance_method = true where criterion_id = (select cc.certification_criterion_id from openchpl.certification_criterion cc where cc.number = '170.315 (a)(3)');
 update openchpl.certification_criterion_attribute set conformance_method = true where criterion_id = (select cc.certification_criterion_id from openchpl.certification_criterion cc where cc.number = '170.315 (a)(4)');
 update openchpl.certification_criterion_attribute set conformance_method = true where criterion_id = (select cc.certification_criterion_id from openchpl.certification_criterion cc where cc.number = '170.315 (a)(5)');
+update openchpl.certification_criterion_attribute set conformance_method = true where criterion_id = (select cc.certification_criterion_id from openchpl.certification_criterion cc where cc.number = '170.315 (a)(6)');
+update openchpl.certification_criterion_attribute set conformance_method = true where criterion_id = (select cc.certification_criterion_id from openchpl.certification_criterion cc where cc.number = '170.315 (a)(7)');
+update openchpl.certification_criterion_attribute set conformance_method = true where criterion_id = (select cc.certification_criterion_id from openchpl.certification_criterion cc where cc.number = '170.315 (a)(8)');
 update openchpl.certification_criterion_attribute set conformance_method = true where criterion_id = (select cc.certification_criterion_id from openchpl.certification_criterion cc where cc.number = '170.315 (a)(9)');
 update openchpl.certification_criterion_attribute set conformance_method = true where criterion_id = (select cc.certification_criterion_id from openchpl.certification_criterion cc where cc.number = '170.315 (a)(10)');
+update openchpl.certification_criterion_attribute set conformance_method = true where criterion_id = (select cc.certification_criterion_id from openchpl.certification_criterion cc where cc.number = '170.315 (a)(11)');
 update openchpl.certification_criterion_attribute set conformance_method = true where criterion_id = (select cc.certification_criterion_id from openchpl.certification_criterion cc where cc.number = '170.315 (a)(12)');
 update openchpl.certification_criterion_attribute set conformance_method = true where criterion_id = (select cc.certification_criterion_id from openchpl.certification_criterion cc where cc.number = '170.315 (a)(13)');
 update openchpl.certification_criterion_attribute set conformance_method = true where criterion_id = (select cc.certification_criterion_id from openchpl.certification_criterion cc where cc.number = '170.315 (a)(14)');
@@ -120,6 +124,8 @@ update openchpl.certification_criterion_attribute set conformance_method = true 
 update openchpl.certification_criterion_attribute set conformance_method = true where criterion_id = (select cc.certification_criterion_id from openchpl.certification_criterion cc where cc.number = '170.315 (b)(2)' and title not like '%(Cures Update)');
 update openchpl.certification_criterion_attribute set conformance_method = true where criterion_id = (select cc.certification_criterion_id from openchpl.certification_criterion cc where cc.number = '170.315 (b)(3)' and title like '%(Cures Update)');
 update openchpl.certification_criterion_attribute set conformance_method = true where criterion_id = (select cc.certification_criterion_id from openchpl.certification_criterion cc where cc.number = '170.315 (b)(3)' and title not like '%(Cures Update)');
+update openchpl.certification_criterion_attribute set conformance_method = true where criterion_id = (select cc.certification_criterion_id from openchpl.certification_criterion cc where cc.number = '170.315 (b)(4)');
+update openchpl.certification_criterion_attribute set conformance_method = true where criterion_id = (select cc.certification_criterion_id from openchpl.certification_criterion cc where cc.number = '170.315 (b)(5)');
 update openchpl.certification_criterion_attribute set conformance_method = true where criterion_id = (select cc.certification_criterion_id from openchpl.certification_criterion cc where cc.number = '170.315 (b)(6)');
 update openchpl.certification_criterion_attribute set conformance_method = true where criterion_id = (select cc.certification_criterion_id from openchpl.certification_criterion cc where cc.number = '170.315 (b)(7)' and title like '%(Cures Update)');
 update openchpl.certification_criterion_attribute set conformance_method = true where criterion_id = (select cc.certification_criterion_id from openchpl.certification_criterion cc where cc.number = '170.315 (b)(7)' and title not like '%(Cures Update)');
