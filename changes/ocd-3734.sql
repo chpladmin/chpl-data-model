@@ -71,7 +71,6 @@ WHERE deleted = false;
 CREATE TRIGGER deprecated_response_field_api_usage_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.deprecated_response_field_api_usage FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER deprecated_response_field_api_usage_timestamp BEFORE UPDATE on openchpl.deprecated_response_field_api_usage FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 
-
 -- add all deprecated response field data
 INSERT INTO openchpl.deprecated_response_field_api (http_method, api_operation, last_modified_user)
 	VALUES ('POST', '/key/confirm', -1);
