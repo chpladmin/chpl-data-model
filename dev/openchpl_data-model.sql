@@ -3475,8 +3475,6 @@ CREATE TABLE openchpl.deprecated_api (
 	http_method varchar(10) NOT NULL,
 	api_operation text NOT NULL,
 	request_parameter text,
-	response_field text,
-	removal_date date NOT NULL,
 	change_description text NOT NULL,
 	creation_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
@@ -3485,7 +3483,7 @@ CREATE TABLE openchpl.deprecated_api (
 	CONSTRAINT deprecated_api_pk PRIMARY KEY (id)
 );
 CREATE UNIQUE INDEX deprecated_api_unique_method_and_api_operation_and_parameter
-ON openchpl.deprecated_api(http_method, api_operation, request_parameter, response_field)
+ON openchpl.deprecated_api(http_method, api_operation, request_parameter)
 WHERE deleted = false;
 
 CREATE TABLE openchpl.deprecated_api_usage (
