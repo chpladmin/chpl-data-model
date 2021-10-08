@@ -37,7 +37,7 @@ CREATE TABLE openchpl.deprecated_response_field (
 );
 
 CREATE UNIQUE INDEX deprecated_response_field_unique_response_field
-ON openchpl.deprecated_response_field(response_field)
+ON openchpl.deprecated_response_field(deprecated_api_id, response_field)
 WHERE deleted = false;
 
 CREATE TRIGGER deprecated_response_field_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.deprecated_response_field FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
@@ -712,6 +712,6 @@ INSERT INTO openchpl.deprecated_response_field (deprecated_api_id, response_fiel
 INSERT INTO openchpl.deprecated_response_field_api (http_method, api_operation, last_modified_user)
 	VALUES ('PUT', '/surveillance-reportquarterly/{quarterlyReportId}/listings/{listingId}', -1);
 INSERT INTO openchpl.deprecated_response_field (deprecated_api_id, response_field, removal_date, change_description, last_modified_user)
-	VALUES (49 'surveillances.startDate', '2022-04-15', 'This field is deprecated and will be removed from the response data in a future release. Please use surveillances.startDay.', -1);	
+	VALUES (49, 'surveillances.startDate', '2022-04-15', 'This field is deprecated and will be removed from the response data in a future release. Please use surveillances.startDay.', -1);	
 INSERT INTO openchpl.deprecated_response_field (deprecated_api_id, response_field, removal_date, change_description, last_modified_user)
 	VALUES (49, 'surveillances.endDate', '2022-04-15', 'This field is deprecated and will be removed from the response data in a future release. Please use surveillances.endDay.', -1);	
