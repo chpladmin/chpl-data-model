@@ -46,7 +46,7 @@ CREATE TRIGGER deprecated_response_field_timestamp BEFORE UPDATE on openchpl.dep
 CREATE TABLE openchpl.deprecated_response_field_api_usage (
 	id bigserial NOT NULL,
 	api_key_id bigint NOT NULL,
-	deprecated_api_id bigint NOT NULL,
+	deprecated_response_field_api_id bigint NOT NULL,
 	api_call_count bigint NOT NULL DEFAULT 0,
 	last_accessed_date timestamp NOT NULL DEFAULT NOW(),
 	creation_date timestamp NOT NULL DEFAULT NOW(),
@@ -57,7 +57,7 @@ CREATE TABLE openchpl.deprecated_response_field_api_usage (
 	CONSTRAINT api_key_id_fk FOREIGN KEY (api_key_id)
       REFERENCES openchpl.api_key (api_key_id) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION,
-	CONSTRAINT deprecated_api_id_fk FOREIGN KEY (deprecated_api_id)
+	CONSTRAINT deprecated_response_field_api_fk FOREIGN KEY (deprecated_response_field_api_id)
       REFERENCES openchpl.deprecated_response_field_api (id) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION
 );
@@ -94,7 +94,7 @@ INSERT INTO openchpl.deprecated_response_field (deprecated_api_id, response_fiel
 	VALUES (4, 'isValid', '2022-04-15', 'This field is deprecated and will be removed from the response data in a future release. Please use valid.', -1);
 
 INSERT INTO openchpl.deprecated_response_field_api (http_method, api_operation, last_modified_user)
-	VALUES ('POST', '/certified_products/pending/{pcpId:^-?\\d+$}/beta/confirm', -1);
+	VALUES ('POST', '/certified_products/pending/{pcpId:^-?\d+$}/beta/confirm', -1);
 INSERT INTO openchpl.deprecated_response_field (deprecated_api_id, response_field, removal_date, change_description, last_modified_user)
 	VALUES (5, 'transparencyAttestationUrl', '2022-04-15', 'This field is deprecated and will be removed from the response data in a future release. Please use mandatoryDisclosureUrl.', -1);
 INSERT INTO openchpl.deprecated_response_field (deprecated_api_id, response_field, removal_date, change_description, last_modified_user)
@@ -125,7 +125,7 @@ INSERT INTO openchpl.deprecated_response_field (deprecated_api_id, response_fiel
 	VALUES (5, 'surveillance.requirements.nonconformities.nonconformityCloseDate', '2022-04-15', 'This field is deprecated and will be removed from the response data in a future release. Please use surveillance.requirements.nonconformities.nonconformityCloseDay.', -1);
 
 INSERT INTO openchpl.deprecated_response_field_api (http_method, api_operation, last_modified_user)
-	VALUES ('GET', '/certified_products/{certifiedProductId:^-?\\d+$}/certification_results', -1);
+	VALUES ('GET', '/certified_products/{certifiedProductId:^-?\d+$}/certification_results', -1);
 INSERT INTO openchpl.deprecated_response_field (deprecated_api_id, response_field, removal_date, change_description, last_modified_user)
 	VALUES (6, 'certificationResults.number', '2022-04-15', 'This field is deprecated and will be removed from the response data in a future release. Please use certificationResults.criterion.number.', -1);
 INSERT INTO openchpl.deprecated_response_field (deprecated_api_id, response_field, removal_date, change_description, last_modified_user)
@@ -208,7 +208,7 @@ INSERT INTO openchpl.deprecated_response_field (deprecated_api_id, response_fiel
 	VALUES (10, 'surveillance.requirements.nonconformities.nonconformityCloseDate', '2022-04-15', 'This field is deprecated and will be removed from the response data in a future release. Please use surveillance.requirements.nonconformities.nonconformityCloseDay.', -1);
 
 INSERT INTO openchpl.deprecated_response_field_api (http_method, api_operation, last_modified_user)
-	VALUES ('GET', '/certified_products/{certifiedProductId:^-?\\d+$}/details', -1);
+	VALUES ('GET', '/certified_products/{certifiedProductId:^-?\d+$}/details', -1);
 INSERT INTO openchpl.deprecated_response_field (deprecated_api_id, response_field, removal_date, change_description, last_modified_user)
 	VALUES (11, 'transparencyAttestationUrl', '2022-04-15', 'This field is deprecated and will be removed from the response data in a future release. Please use mandatoryDisclosureUrl.', -1);
 INSERT INTO openchpl.deprecated_response_field (deprecated_api_id, response_field, removal_date, change_description, last_modified_user)
@@ -293,7 +293,7 @@ INSERT INTO openchpl.deprecated_response_field (deprecated_api_id, response_fiel
 	VALUES (13, 'surveillance.requirements.nonconformities.nonconformityCloseDate', '2022-04-15', 'This field is deprecated and will be removed from the response data in a future release. Please use surveillance.requirements.nonconformities.nonconformityCloseDay.', -1);
 
 INSERT INTO openchpl.deprecated_response_field_api (http_method, api_operation, last_modified_user)
-	VALUES ('GET', '/certified_products/{certifiedProductId:^-?\\d+$}', -1);
+	VALUES ('GET', '/certified_products/{certifiedProductId:^-?\d+$}', -1);
 INSERT INTO openchpl.deprecated_response_field (deprecated_api_id, response_field, removal_date, change_description, last_modified_user)
 	VALUES (14, 'transparencyAttestationUrl', '2022-04-15', 'This field is deprecated and will be removed from the response data in a future release. Please use mandatoryDisclosureUrl.', -1);
 INSERT INTO openchpl.deprecated_response_field (deprecated_api_id, response_field, removal_date, change_description, last_modified_user)
@@ -320,7 +320,7 @@ INSERT INTO openchpl.deprecated_response_field (deprecated_api_id, response_fiel
 	VALUES (14, 'surveillance.requirements.nonconformities.nonconformityCloseDate', '2022-04-15', 'This field is deprecated and will be removed from the response data in a future release. Please use surveillance.requirements.nonconformities.nonconformityCloseDay.', -1);
 
 INSERT INTO openchpl.deprecated_response_field_api (http_method, api_operation, last_modified_user)
-	VALUES ('GET', '/certified_products/pending/{pcpId:^-?\\d+$}', -1);
+	VALUES ('GET', '/certified_products/pending/{pcpId:^-?\d+$}', -1);
 INSERT INTO openchpl.deprecated_response_field (deprecated_api_id, response_field, removal_date, change_description, last_modified_user)
 	VALUES (15, 'transparencyAttestationUrl', '2022-04-15', 'This field is deprecated and will be removed from the response data in a future release. Please use mandatoryDisclosureUrl.', -1);
 INSERT INTO openchpl.deprecated_response_field (deprecated_api_id, response_field, removal_date, change_description, last_modified_user)
