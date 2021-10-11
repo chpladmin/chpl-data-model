@@ -62,10 +62,8 @@ CREATE TABLE openchpl.deprecated_response_field_api_usage (
       ON UPDATE NO ACTION ON DELETE NO ACTION
 );
 
---need the drop command here because of the name of the index is getting truncated
-DROP INDEX IF EXISTS openchpl.deprecated_response_field_api_usage_unique_api_key_and_deprecat;
-CREATE UNIQUE INDEX deprecated_response_field_api_usage_unique_api_key_and_deprecated_api
-ON openchpl.deprecated_api_usage(api_key_id, deprecated_api_id)
+CREATE UNIQUE INDEX deprecated_response_field_api_usage_unique_record
+ON openchpl.deprecated_response_field_api_usage(api_key_id, deprecated_response_field_api_id)
 WHERE deleted = false;
 
 CREATE TRIGGER deprecated_response_field_api_usage_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.deprecated_response_field_api_usage FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
