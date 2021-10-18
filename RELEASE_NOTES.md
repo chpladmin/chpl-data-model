@@ -1,5 +1,17 @@
 # Release Notes
 
+## Version 20.8.0
+_18 October 2021_
+
+### Features
+* Store "estimated removal date" of deprecated API endpoints
+
+### Data Changes
+* Add Promoting Interoperability Updated by ONC-ACB as a type of Questionable Activity
+* Insert approved "Optional Standards" as per ONC guidance
+
+---
+
 ## Version 20.7.1
 _5 October 2021_
 
