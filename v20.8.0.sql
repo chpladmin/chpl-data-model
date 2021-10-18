@@ -1,3 +1,23 @@
+-- Deployment file for version 20.8.0
+--     as of 2021-10-18
+-- ./changes/ocd-3729.sql
+INSERT INTO openchpl.questionable_activity_trigger
+(name, level, last_modified_user)
+SELECT 'Promoting Interoperability Updated by ONC-ACB', 'Listing', -1
+WHERE NOT EXISTS (
+    SELECT *
+    FROM openchpl.questionable_activity_trigger
+    WHERE name = 'Promoting Interoperability Updated by ONC-ACB'
+);
+;
+-- ./changes/ocd-3741.sql
+alter table openchpl.deprecated_api add column if not exists removal_date date;
+
+update openchpl.deprecated_api set removal_date = '2022-04-15' where removal_date is null;
+
+alter table openchpl.deprecated_api alter column removal_date set not null;
+;
+-- ./changes/ocd-3755.sql
 -- OCD-3755
 
 TRUNCATE openchpl.pending_certification_result_optional_standard;
@@ -617,4 +637,8 @@ insert into openchpl.optional_standard_criteria_map (optional_standard_id, crite
 	where not exists 
 		(select * from openchpl.optional_standard_criteria_map 
 		where optional_standard_id = (select id from openchpl.optional_standard where citation = 'USCDI Ref: 170.207(b)(4)') 
-		and criterion_id = 181);		
+		and criterion_id = 181);		;
+insert into openchpl.data_model_version (version, deploy_date, last_modified_user) values ('20.8.0', '2021-10-18', -1);
+\i dev/openchpl_soft-delete.sql
+\i dev/openchpl_views.sql
+\i dev/openchpl_grant-all.sql
