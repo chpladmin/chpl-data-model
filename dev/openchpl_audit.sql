@@ -214,6 +214,12 @@ CREATE TRIGGER deprecated_api_audit AFTER INSERT OR UPDATE OR DELETE ON openchpl
 CREATE TRIGGER deprecated_api_timestamp BEFORE UPDATE ON openchpl.deprecated_api FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER deprecated_api_usage_audit AFTER INSERT OR UPDATE OR DELETE ON openchpl.deprecated_api FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER deprecated_api_usage_timestamp BEFORE UPDATE ON openchpl.deprecated_api FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
+CREATE TRIGGER deprecated_response_field_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.deprecated_response_field FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+CREATE TRIGGER deprecated_response_field_timestamp BEFORE UPDATE on openchpl.deprecated_response_field FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
+CREATE TRIGGER deprecated_response_field_api_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.deprecated_response_field_api FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+CREATE TRIGGER deprecated_response_field_api_timestamp BEFORE UPDATE on openchpl.deprecated_response_field_api FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
+CREATE TRIGGER deprecated_response_field_api_usage_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.deprecated_response_field_api_usage FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+CREATE TRIGGER deprecated_response_field_api_usage_timestamp BEFORE UPDATE on openchpl.deprecated_response_field_api_usage FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER education_type_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.education_type FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER education_type_timestamp BEFORE UPDATE on openchpl.education_type FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER ehr_certification_id_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.ehr_certification_id FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
