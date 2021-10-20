@@ -1,3 +1,30 @@
+------- New
+INSERT INTO openchpl.cqm_criterion (number, cms_id, title, description, cqm_domain, nqf_number, last_modified_user, cqm_version_id, cqm_criterion_type_id, retired)
+SELECT NULL,
+	'CMS646',
+	'Intravesical Bacillus-Calmette-Guerin for non-muscle invasive bladder cancer',
+	'Percentage of patients initially diagnosed with non-muscle invasive bladder cancer and who received intravesical Bacillus-Calmette-Guerin (BCG) within 6 months of bladder cancer staging.',
+	'Effective Clinical Care',
+	'N/A',
+	-1,
+	(SELECT cqm_version_id FROM openchpl.cqm_version WHERE version = 'v2'),
+	(SELECT cqm_criterion_type_id FROM openchpl.cqm_criterion_type WHERE name = 'Inpatient'),
+	false
+WHERE NOT EXISTS (SELECT * FROM openchpl.cqm_criterion cc INNER JOIN openchpl.cqm_version cv ON cc.cqm_version_id = cv.cqm_version_id AND cv.version = 'v2' WHERE cc.cms_id = 'CMS646');
+
+INSERT INTO openchpl.cqm_criterion (number, cms_id, title, description, cqm_domain, nqf_number, last_modified_user, cqm_version_id, cqm_criterion_type_id, retired)
+SELECT NULL,
+	'CMS844',
+	'Core Clinical Data Elements for the Hybrid Hospital-Wide (All-Condition, All-Procedure) Risk-Standardized Mortality Measure (HWM)',
+	'This logic is intended to extract electronic clinical data. This is not an electronic clinical quality measure and this logic will not produce measure results. Instead, it will produce a file containing the data that CMS will link with administrative claims to risk adjust the Hybrid HWM outcome measure. It is designed to extract the first resulted set of vital signs and basic laboratory results obtained from encounters for adult Medicare Fee-For-Service patients admitted to acute care short stay hospitals.',
+	'N/A',
+	'3502',
+	-1,
+	(SELECT cqm_version_id FROM openchpl.cqm_version WHERE version = 'v2'),
+	(SELECT cqm_criterion_type_id FROM openchpl.cqm_criterion_type WHERE name = 'Inpatient'),
+	false
+WHERE NOT EXISTS (SELECT * FROM openchpl.cqm_criterion cc INNER JOIN openchpl.cqm_version cv ON cc.cqm_version_id = cv.cqm_version_id AND cv.version = 'v2' WHERE cc.cms_id = 'CMS844');
+
 -------Version 10
 INSERT INTO openchpl.cqm_criterion (number, cms_id, title, description, cqm_domain, nqf_number, last_modified_user, cqm_version_id, cqm_criterion_type_id, retired)
 SELECT cc.number, cc.cms_id, cc.title, cc.description, cc.cqm_domain, cc.nqf_number, -1, (SELECT cqm_version_id FROM openchpl.cqm_version WHERE version = 'v10'), cc.cqm_criterion_type_id, cc.retired
@@ -385,26 +412,8 @@ FROM openchpl.cqm_criterion cc
 	INNER JOIN openchpl.cqm_version cv
 		ON cc.cqm_version_id = cv.cqm_version_id
 		AND cv.version = 'v1'
-WHERE cc.cms_id = 'CMS646'
-AND NOT EXISTS (SELECT * FROM openchpl.cqm_criterion cc INNER JOIN openchpl.cqm_version cv ON cc.cqm_version_id = cv.cqm_version_id AND cv.version = 'v2' WHERE cc.cms_id = 'CMS646');
-
-INSERT INTO openchpl.cqm_criterion (number, cms_id, title, description, cqm_domain, nqf_number, last_modified_user, cqm_version_id, cqm_criterion_type_id, retired)
-SELECT cc.number, cc.cms_id, cc.title, cc.description, cc.cqm_domain, cc.nqf_number, -1, (SELECT cqm_version_id FROM openchpl.cqm_version WHERE version = 'v2'), cc.cqm_criterion_type_id, cc.retired
-FROM openchpl.cqm_criterion cc
-	INNER JOIN openchpl.cqm_version cv
-		ON cc.cqm_version_id = cv.cqm_version_id
-		AND cv.version = 'v1'
 WHERE cc.cms_id = 'CMS529'
 AND NOT EXISTS (SELECT * FROM openchpl.cqm_criterion cc INNER JOIN openchpl.cqm_version cv ON cc.cqm_version_id = cv.cqm_version_id AND cv.version = 'v2' WHERE cc.cms_id = 'CMS529');
-
-INSERT INTO openchpl.cqm_criterion (number, cms_id, title, description, cqm_domain, nqf_number, last_modified_user, cqm_version_id, cqm_criterion_type_id, retired)
-SELECT cc.number, cc.cms_id, cc.title, cc.description, cc.cqm_domain, cc.nqf_number, -1, (SELECT cqm_version_id FROM openchpl.cqm_version WHERE version = 'v2'), cc.cqm_criterion_type_id, cc.retired
-FROM openchpl.cqm_criterion cc
-	INNER JOIN openchpl.cqm_version cv
-		ON cc.cqm_version_id = cv.cqm_version_id
-		AND cv.version = 'v1'
-WHERE cc.cms_id = 'CMS844'
-AND NOT EXISTS (SELECT * FROM openchpl.cqm_criterion cc INNER JOIN openchpl.cqm_version cv ON cc.cqm_version_id = cv.cqm_version_id AND cv.version = 'v2' WHERE cc.cms_id = 'CMS844');
 
 -------Version 3
 INSERT INTO openchpl.cqm_criterion (number, cms_id, title, description, cqm_domain, nqf_number, last_modified_user, cqm_version_id, cqm_criterion_type_id, retired)
