@@ -3658,7 +3658,6 @@ CREATE TABLE openchpl.deprecated_response_field_api_usage (
 CREATE UNIQUE INDEX deprecated_response_field_api_usage_unique_record
 ON openchpl.deprecated_response_field_api_usage(api_key_id, deprecated_api_id)
 WHERE deleted = false;
->>>>>>> staging
 
 CREATE TABLE openchpl.test_tool_criteria_map (
 	id bigserial NOT NULL,
