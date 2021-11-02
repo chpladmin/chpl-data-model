@@ -13,7 +13,7 @@ AND http_method = 'PUT';
 -- add deprecated fields
 INSERT INTO openchpl.deprecated_response_field 
 (deprecated_api_id, response_field, removal_date, change_description, last_modified_user)
-SELECT 5, 'surveillance -> authority', '2022-04-15', 'This field is deprecated and will be removed from the response data in a future release.', -1
+SELECT 5, 'surveillance -> authority', '2022-05-15', 'This field is deprecated and will be removed from the response data in a future release.', -1
 WHERE NOT EXISTS (
 	SELECT *
 	FROM openchpl.deprecated_response_field
@@ -23,7 +23,7 @@ WHERE NOT EXISTS (
 
 INSERT INTO openchpl.deprecated_response_field 
 (deprecated_api_id, response_field, removal_date, change_description, last_modified_user)
-SELECT 9, 'surveillance -> authority', '2022-04-15', 'This field is deprecated and will be removed from the response data in a future release.', -1
+SELECT 9, 'surveillance -> authority', '2022-05-15', 'This field is deprecated and will be removed from the response data in a future release.', -1
 WHERE NOT EXISTS (
 	SELECT *
 	FROM openchpl.deprecated_response_field
@@ -33,7 +33,7 @@ WHERE NOT EXISTS (
 
 INSERT INTO openchpl.deprecated_response_field 
 (deprecated_api_id, response_field, removal_date, change_description, last_modified_user)
-SELECT 10, 'surveillance -> authority', '2022-04-15', 'This field is deprecated and will be removed from the response data in a future release.', -1
+SELECT 10, 'surveillance -> authority', '2022-05-15', 'This field is deprecated and will be removed from the response data in a future release.', -1
 WHERE NOT EXISTS (
 	SELECT *
 	FROM openchpl.deprecated_response_field
@@ -43,7 +43,7 @@ WHERE NOT EXISTS (
 
 INSERT INTO openchpl.deprecated_response_field 
 (deprecated_api_id, response_field, removal_date, change_description, last_modified_user)
-SELECT 11, 'surveillance -> authority', '2022-04-15', 'This field is deprecated and will be removed from the response data in a future release.', -1
+SELECT 11, 'surveillance -> authority', '2022-05-15', 'This field is deprecated and will be removed from the response data in a future release.', -1
 WHERE NOT EXISTS (
 	SELECT *
 	FROM openchpl.deprecated_response_field
@@ -53,7 +53,7 @@ WHERE NOT EXISTS (
 
 INSERT INTO openchpl.deprecated_response_field 
 (deprecated_api_id, response_field, removal_date, change_description, last_modified_user)
-SELECT 12, 'surveillance -> authority', '2022-04-15', 'This field is deprecated and will be removed from the response data in a future release.', -1
+SELECT 12, 'surveillance -> authority', '2022-05-15', 'This field is deprecated and will be removed from the response data in a future release.', -1
 WHERE NOT EXISTS (
 	SELECT *
 	FROM openchpl.deprecated_response_field
@@ -63,7 +63,7 @@ WHERE NOT EXISTS (
 
 INSERT INTO openchpl.deprecated_response_field 
 (deprecated_api_id, response_field, removal_date, change_description, last_modified_user)
-SELECT 13, 'surveillance -> authority', '2022-04-15', 'This field is deprecated and will be removed from the response data in a future release.', -1
+SELECT 13, 'surveillance -> authority', '2022-05-15', 'This field is deprecated and will be removed from the response data in a future release.', -1
 WHERE NOT EXISTS (
 	SELECT *
 	FROM openchpl.deprecated_response_field
@@ -73,7 +73,7 @@ WHERE NOT EXISTS (
 
 INSERT INTO openchpl.deprecated_response_field 
 (deprecated_api_id, response_field, removal_date, change_description, last_modified_user)
-SELECT 14, 'surveillance -> authority', '2022-04-15', 'This field is deprecated and will be removed from the response data in a future release.', -1
+SELECT 14, 'surveillance -> authority', '2022-05-15', 'This field is deprecated and will be removed from the response data in a future release.', -1
 WHERE NOT EXISTS (
 	SELECT *
 	FROM openchpl.deprecated_response_field
@@ -83,7 +83,7 @@ WHERE NOT EXISTS (
 
 INSERT INTO openchpl.deprecated_response_field 
 (deprecated_api_id, response_field, removal_date, change_description, last_modified_user)
-SELECT 15, 'surveillance -> authority', '2022-04-15', 'This field is deprecated and will be removed from the response data in a future release.', -1
+SELECT 15, 'surveillance -> authority', '2022-05-15', 'This field is deprecated and will be removed from the response data in a future release.', -1
 WHERE NOT EXISTS (
 	SELECT *
 	FROM openchpl.deprecated_response_field
@@ -93,7 +93,7 @@ WHERE NOT EXISTS (
 
 INSERT INTO openchpl.deprecated_response_field 
 (deprecated_api_id, response_field, removal_date, change_description, last_modified_user)
-SELECT 16, 'surveillance -> authority', '2022-04-15', 'This field is deprecated and will be removed from the response data in a future release.', -1
+SELECT 16, 'surveillance -> authority', '2022-05-15', 'This field is deprecated and will be removed from the response data in a future release.', -1
 WHERE NOT EXISTS (
 	SELECT *
 	FROM openchpl.deprecated_response_field
@@ -103,7 +103,7 @@ WHERE NOT EXISTS (
 
 INSERT INTO openchpl.deprecated_response_field 
 (deprecated_api_id, response_field, removal_date, change_description, last_modified_user)
-SELECT 17, 'pendingCertifiedProducts -> surveillance -> authority', '2022-04-15', 'This field is deprecated and will be removed from the response data in a future release.', -1
+SELECT 17, 'pendingCertifiedProducts -> surveillance -> authority', '2022-05-15', 'This field is deprecated and will be removed from the response data in a future release.', -1
 WHERE NOT EXISTS (
 	SELECT *
 	FROM openchpl.deprecated_response_field
@@ -113,7 +113,7 @@ WHERE NOT EXISTS (
 
 INSERT INTO openchpl.deprecated_response_field 
 (deprecated_api_id, response_field, removal_date, change_description, last_modified_user)
-SELECT 19, 'surveillances -> surveillance -> userPermissionId', '2022-04-15', 'This field is deprecated and will be removed from the response data in a future release.', -1
+SELECT 19, 'surveillances -> surveillance -> userPermissionId', '2022-05-15', 'This field is deprecated and will be removed from the response data in a future release.', -1
 WHERE NOT EXISTS (
 	SELECT *
 	FROM openchpl.deprecated_response_field
@@ -123,7 +123,7 @@ WHERE NOT EXISTS (
 
 INSERT INTO openchpl.deprecated_response_field 
 (deprecated_api_id, response_field, removal_date, change_description, last_modified_user)
-SELECT 20, 'results -> surveillances -> surveillance -> userPermissionId', '2022-04-15', 'This field is deprecated and will be removed from the response data in a future release.', -1
+SELECT 20, 'results -> surveillances -> surveillance -> userPermissionId', '2022-05-15', 'This field is deprecated and will be removed from the response data in a future release.', -1
 WHERE NOT EXISTS (
 	SELECT *
 	FROM openchpl.deprecated_response_field
@@ -133,7 +133,7 @@ WHERE NOT EXISTS (
 
 INSERT INTO openchpl.deprecated_response_field 
 (deprecated_api_id, response_field, removal_date, change_description, last_modified_user)
-SELECT 21, 'surveillances -> surveillance -> userPermissionId', '2022-04-15', 'This field is deprecated and will be removed from the response data in a future release.', -1
+SELECT 21, 'surveillances -> surveillance -> userPermissionId', '2022-05-15', 'This field is deprecated and will be removed from the response data in a future release.', -1
 WHERE NOT EXISTS (
 	SELECT *
 	FROM openchpl.deprecated_response_field
@@ -143,7 +143,7 @@ WHERE NOT EXISTS (
 
 INSERT INTO openchpl.deprecated_response_field 
 (deprecated_api_id, response_field, removal_date, change_description, last_modified_user)
-SELECT 24, 'surveillance -> authority', '2022-04-15', 'This field is deprecated and will be removed from the response data in a future release.', -1
+SELECT 24, 'surveillance -> authority', '2022-05-15', 'This field is deprecated and will be removed from the response data in a future release.', -1
 WHERE NOT EXISTS (
 	SELECT *
 	FROM openchpl.deprecated_response_field
@@ -153,7 +153,7 @@ WHERE NOT EXISTS (
 
 INSERT INTO openchpl.deprecated_response_field 
 (deprecated_api_id, response_field, removal_date, change_description, last_modified_user)
-SELECT 34, 'authority', '2022-04-15', 'This field is deprecated and will be removed from the response data in a future release.', -1
+SELECT 34, 'authority', '2022-05-15', 'This field is deprecated and will be removed from the response data in a future release.', -1
 WHERE NOT EXISTS (
 	SELECT *
 	FROM openchpl.deprecated_response_field
@@ -163,7 +163,7 @@ WHERE NOT EXISTS (
 
 INSERT INTO openchpl.deprecated_response_field 
 (deprecated_api_id, response_field, removal_date, change_description, last_modified_user)
-SELECT 35, 'authority', '2022-04-15', 'This field is deprecated and will be removed from the response data in a future release.', -1
+SELECT 35, 'authority', '2022-05-15', 'This field is deprecated and will be removed from the response data in a future release.', -1
 WHERE NOT EXISTS (
 	SELECT *
 	FROM openchpl.deprecated_response_field
@@ -173,7 +173,7 @@ WHERE NOT EXISTS (
 
 INSERT INTO openchpl.deprecated_response_field 
 (deprecated_api_id, response_field, removal_date, change_description, last_modified_user)
-SELECT 37, 'pendingSurveillance -> authority', '2022-04-15', 'This field is deprecated and will be removed from the response data in a future release.', -1
+SELECT 37, 'pendingSurveillance -> authority', '2022-05-15', 'This field is deprecated and will be removed from the response data in a future release.', -1
 WHERE NOT EXISTS (
 	SELECT *
 	FROM openchpl.deprecated_response_field
@@ -183,7 +183,7 @@ WHERE NOT EXISTS (
 
 INSERT INTO openchpl.deprecated_response_field 
 (deprecated_api_id, response_field, removal_date, change_description, last_modified_user)
-SELECT 38, 'authority', '2022-04-15', 'This field is deprecated and will be removed from the response data in a future release.', -1
+SELECT 38, 'authority', '2022-05-15', 'This field is deprecated and will be removed from the response data in a future release.', -1
 WHERE NOT EXISTS (
 	SELECT *
 	FROM openchpl.deprecated_response_field
@@ -193,7 +193,7 @@ WHERE NOT EXISTS (
 
 INSERT INTO openchpl.deprecated_response_field 
 (deprecated_api_id, response_field, removal_date, change_description, last_modified_user)
-SELECT 39, 'pendingSurveillance -> authority', '2022-04-15', 'This field is deprecated and will be removed from the response data in a future release.', -1
+SELECT 39, 'pendingSurveillance -> authority', '2022-05-15', 'This field is deprecated and will be removed from the response data in a future release.', -1
 WHERE NOT EXISTS (
 	SELECT *
 	FROM openchpl.deprecated_response_field
@@ -203,7 +203,7 @@ WHERE NOT EXISTS (
 
 INSERT INTO openchpl.deprecated_response_field 
 (deprecated_api_id, response_field, removal_date, change_description, last_modified_user)
-SELECT 45, 'results -> surveillances -> surveillance -> userPermissionId', '2022-04-15', 'This field is deprecated and will be removed from the response data in a future release.', -1
+SELECT 45, 'results -> surveillances -> surveillance -> userPermissionId', '2022-05-15', 'This field is deprecated and will be removed from the response data in a future release.', -1
 WHERE NOT EXISTS (
 	SELECT *
 	FROM openchpl.deprecated_response_field
@@ -213,7 +213,7 @@ WHERE NOT EXISTS (
 
 INSERT INTO openchpl.deprecated_response_field 
 (deprecated_api_id, response_field, removal_date, change_description, last_modified_user)
-SELECT 46, 'surveillances -> userPermissionId', '2022-04-15', 'This field is deprecated and will be removed from the response data in a future release.', -1
+SELECT 46, 'surveillances -> userPermissionId', '2022-05-15', 'This field is deprecated and will be removed from the response data in a future release.', -1
 WHERE NOT EXISTS (
 	SELECT *
 	FROM openchpl.deprecated_response_field
@@ -223,7 +223,7 @@ WHERE NOT EXISTS (
 
 INSERT INTO openchpl.deprecated_response_field 
 (deprecated_api_id, response_field, removal_date, change_description, last_modified_user)
-SELECT 47, 'userPermissionId', '2022-04-15', 'This field is deprecated and will be removed from the response data in a future release.', -1
+SELECT 47, 'userPermissionId', '2022-05-15', 'This field is deprecated and will be removed from the response data in a future release.', -1
 WHERE NOT EXISTS (
 	SELECT *
 	FROM openchpl.deprecated_response_field
@@ -233,7 +233,7 @@ WHERE NOT EXISTS (
 
 INSERT INTO openchpl.deprecated_response_field 
 (deprecated_api_id, response_field, removal_date, change_description, last_modified_user)
-SELECT 49, 'surveillances -> userPermissionId', '2022-04-15', 'This field is deprecated and will be removed from the response data in a future release.', -1
+SELECT 49, 'surveillances -> userPermissionId', '2022-05-15', 'This field is deprecated and will be removed from the response data in a future release.', -1
 WHERE NOT EXISTS (
 	SELECT *
 	FROM openchpl.deprecated_response_field
