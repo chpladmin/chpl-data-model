@@ -366,8 +366,7 @@ CREATE VIEW openchpl.certified_product_details AS
                     surveillance.creation_date,
                     surveillance.last_modified_date,
                     surveillance.last_modified_user,
-                    surveillance.deleted,
-                    surveillance.user_permission_id
+                    surveillance.deleted
                    FROM openchpl.surveillance
                   WHERE surveillance.deleted <> true) n_1
           GROUP BY n_1.certified_product_id) surv ON a.certified_product_id = surv.certified_product_id
@@ -383,8 +382,7 @@ CREATE VIEW openchpl.certified_product_details AS
                     surveillance.creation_date,
                     surveillance.last_modified_date,
                     surveillance.last_modified_user,
-                    surveillance.deleted,
-                    surveillance.user_permission_id
+                    surveillance.deleted
                    FROM openchpl.surveillance
                   WHERE surveillance.deleted <> true AND surveillance.start_date <= now() AND (surveillance.end_date IS NULL OR surveillance.end_date >= now())) n_1
           GROUP BY n_1.certified_product_id) surv_open ON a.certified_product_id = surv_open.certified_product_id
@@ -400,8 +398,7 @@ CREATE VIEW openchpl.certified_product_details AS
                     surveillance.creation_date,
                     surveillance.last_modified_date,
                     surveillance.last_modified_user,
-                    surveillance.deleted,
-                    surveillance.user_permission_id
+                    surveillance.deleted
                    FROM openchpl.surveillance
                   WHERE surveillance.deleted <> true AND surveillance.start_date <= now() AND surveillance.end_date IS NOT NULL AND surveillance.end_date <= now()) n_1
           GROUP BY n_1.certified_product_id) surv_closed ON a.certified_product_id = surv_closed.certified_product_id
