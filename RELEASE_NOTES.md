@@ -1,5 +1,17 @@
 # Release Notes
 
+## Version 20.10.0
+_15 November 2021_
+
+### Features
+* Remove authority/user_permission_id field from tables and views
+
+### Data Changes
+* Add new surveillance requirement type and questionable activity triggers
+* Add deprecated fields to table data for authority / user permission changes
+
+---
+
 ## Version 20.9.0
 _1 November 2021_
 
