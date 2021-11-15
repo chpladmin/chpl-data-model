@@ -789,6 +789,33 @@ CREATE TABLE openchpl.certification_result_additional_software
       ON UPDATE NO ACTION ON DELETE NO ACTION
 );
 
+CREATE TABLE openchpl.conformance_method (
+	id bigserial NOT NULL,
+	name varchar(255) NOT NULL,
+	creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
+	CONSTRAINT conformance_method_pk PRIMARY KEY (id)
+);
+
+CREATE TABLE openchpl.conformance_method_criteria_map (
+	id bigserial NOT NULL,
+	criteria_id bigint NOT NULL,
+	conformance_method_id bigint NOT NULL,
+	creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
+	CONSTRAINT conformance_method_criteria_map_pk PRIMARY KEY (id),
+	CONSTRAINT conformance_method_criteria_fk FOREIGN KEY (criteria_id)
+		REFERENCES openchpl.certification_criterion (certification_criterion_id)
+		MATCH FULL ON DELETE RESTRICT ON UPDATE CASCADE,
+	CONSTRAINT conformance_method_fk FOREIGN KEY (conformance_method_id)
+		REFERENCES openchpl.conformance_method (id)
+		MATCH FULL ON DELETE RESTRICT ON UPDATE CASCADE
+);
+
 CREATE TABLE openchpl.test_procedure (
 	id bigserial NOT NULL,
 	name varchar(255) NOT NULL,
@@ -840,6 +867,23 @@ CREATE TABLE openchpl.test_data_criteria_map (
 		MATCH FULL ON DELETE RESTRICT ON UPDATE CASCADE,
 	CONSTRAINT test_data_fk FOREIGN KEY (test_data_id)
 		REFERENCES openchpl.test_data (id)
+		MATCH FULL ON DELETE RESTRICT ON UPDATE CASCADE
+);
+
+CREATE TABLE openchpl.conformance_method_criteria_map (
+	id bigserial NOT NULL,
+	criteria_id bigint NOT NULL,
+	conformance_method_id bigint NOT NULL,
+	creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
+	CONSTRAINT conformance_method_criteria_map_pk PRIMARY KEY (id),
+	CONSTRAINT conformance_method_criteria_fk FOREIGN KEY (criteria_id)
+		REFERENCES openchpl.certification_criterion (certification_criterion_id)
+		MATCH FULL ON DELETE RESTRICT ON UPDATE CASCADE,
+	CONSTRAINT conformance_method_fk FOREIGN KEY (conformance_method_id)
+		REFERENCES openchpl.conformance_method (id)
 		MATCH FULL ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
@@ -1764,6 +1808,25 @@ CREATE TABLE openchpl.pending_certification_result_additional_software
       ON UPDATE NO ACTION ON DELETE NO ACTION
 );
 
+CREATE TABLE openchpl.pending_certification_result_conformance_method (
+	id bigserial NOT NULL,
+	pending_certification_result_id bigint NOT NULL,
+	conformance_method_id bigint,
+	conformance_method_name text,
+	version varchar(50) NOT NULL,
+	creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
+	CONSTRAINT pending_certification_result_conformance_method_pk PRIMARY KEY (id),
+	CONSTRAINT pending_certification_result_fk FOREIGN KEY (pending_certification_result_id)
+		REFERENCES openchpl.pending_certification_result (pending_certification_result_id) MATCH SIMPLE
+		ON UPDATE CASCADE ON DELETE RESTRICT,
+	CONSTRAINT conformance_method_fk FOREIGN KEY (conformance_method_id)
+		REFERENCES openchpl.conformance_method (id) MATCH FULL
+		ON DELETE RESTRICT ON UPDATE CASCADE
+);
+
 CREATE TABLE openchpl.pending_certification_result_test_procedure (
 	id bigserial NOT NULL,
 	pending_certification_result_id bigint NOT NULL,
@@ -2009,17 +2072,6 @@ CREATE TABLE openchpl.surveillance_result (
 	CONSTRAINT surveillance_result_name_key UNIQUE (name)
 );
 
-CREATE TABLE openchpl.nonconformity_status (
-	id bigserial not null,
-	name varchar(50) not null,
-	creation_date timestamp NOT NULL DEFAULT NOW(),
-	last_modified_date timestamp NOT NULL DEFAULT NOW(),
-	last_modified_user bigint NOT NULL,
-	deleted bool NOT NULL DEFAULT false,
-	CONSTRAINT nonconformity_status_pk PRIMARY KEY (id),
-	CONSTRAINT nonconformity_status_name_key UNIQUE (name)
-);
-
 CREATE TABLE openchpl.surveillance (
 	id bigserial not null,
 	certified_product_id bigint not null,
@@ -2031,7 +2083,6 @@ CREATE TABLE openchpl.surveillance (
 	creation_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_user bigint NOT NULL,
-	user_permission_id bigint NOT NULL,
 	deleted bool NOT NULL DEFAULT false,
 	CONSTRAINT surveillance_pk PRIMARY KEY (id),
 	CONSTRAINT certified_product_fk FOREIGN KEY (certified_product_id)
@@ -2078,7 +2129,6 @@ CREATE TABLE openchpl.surveillance_nonconformity (
 	-- either criteria or type is required
 	certification_criterion_id bigint,
 	nonconformity_type varchar(1024),
-	nonconformity_status_id bigint,
 	non_conformity_close_date date,
 	date_of_determination date not null,
 	corrective_action_plan_approval_date date,
@@ -2152,7 +2202,6 @@ CREATE TABLE openchpl.pending_surveillance (
 	end_date date,
 	type_value varchar(30),
 	randomized_sites_used integer,
-	user_permission_id bigint NOT NULL,
 	creation_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_user bigint NOT NULL,
@@ -3319,6 +3368,8 @@ CREATE TABLE openchpl.certification_criterion_attribute (
   optional_standard       bool NOT NULL DEFAULT false,
   svap                    bool NOT NULL DEFAULT false,
   service_base_url_list   bool NOT NULL DEFAULT false,
+  test_procedure          bool NOT NULL DEFAULT false,
+  conformance_method      bool NOT NULL DEFAULT false,
   test_tool               bool NOT NULL DEFAULT false,
   creation_date           timestamp NOT NULL DEFAULT NOW(),
   last_modified_date      timestamp NOT NULL DEFAULT NOW(),
@@ -3507,6 +3558,102 @@ CREATE TABLE openchpl.deprecated_api_usage (
 );
 CREATE UNIQUE INDEX deprecated_api_usage_unique_api_key_and_deprecated_api
 ON openchpl.deprecated_api_usage(api_key_id, deprecated_api_id)
+WHERE deleted = false;
+
+CREATE TABLE openchpl.cures_criteria_statistics_by_acb (
+	id bigserial NOT NULL,
+	certification_body_id bigint NOT NULL,
+	original_criterion_id bigint,
+	cures_criterion_id bigint,
+	original_criterion_upgraded_count bigint,
+	cures_criterion_created_count bigint,
+    criteria_needing_upgrade_count bigint,
+	statistic_date timestamp NOT NULL DEFAULT NOW(),
+	CONSTRAINT cures_criteria_statistics_by_acb_pk PRIMARY KEY (id),
+	CONSTRAINT certification_body_id_fk FOREIGN KEY (certification_body_id)
+      REFERENCES openchpl.certification_body (certification_body_id) MATCH FULL
+      ON UPDATE CASCADE ON DELETE RESTRICT,
+	CONSTRAINT original_criterion_id_fk FOREIGN KEY (original_criterion_id)
+      REFERENCES openchpl.certification_criterion (certification_criterion_id) MATCH FULL
+      ON UPDATE CASCADE ON DELETE RESTRICT,
+	CONSTRAINT cures_criterion_id_fk FOREIGN KEY (cures_criterion_id)
+      REFERENCES openchpl.certification_criterion (certification_criterion_id) MATCH FULL
+      ON UPDATE CASCADE ON DELETE RESTRICT
+);
+
+CREATE TABLE openchpl.cures_listing_statistics_by_acb (
+	id bigserial NOT NULL,
+	certification_body_id bigint NOT NULL,
+	cures_listing_without_cures_criteria_count bigint,
+	cures_listing_withcures_criteria_count bigint,
+	non_cures_listing_count bigint,
+	statistic_date timestamp NOT NULL DEFAULT NOW(),
+	creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
+	CONSTRAINT cures_listing_statistics_pk PRIMARY KEY (id),
+	CONSTRAINT certification_body_id_fk FOREIGN KEY (certification_body_id)
+      REFERENCES openchpl.certification_body (certification_body_id) MATCH FULL
+      ON UPDATE CASCADE ON DELETE RESTRICT
+);
+
+CREATE TABLE openchpl.deprecated_response_field_api (
+	id bigserial NOT NULL,
+	http_method varchar(10) NOT NULL,
+	api_operation text NOT NULL,
+	creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
+	CONSTRAINT deprecated_response_field_api_pk PRIMARY KEY (id)
+);
+
+CREATE UNIQUE INDEX deprecated_response_field_api_unique_method_and_api_operation
+ON openchpl.deprecated_response_field_api(http_method, api_operation)
+WHERE deleted = false;
+
+CREATE TABLE openchpl.deprecated_response_field (
+	id bigserial NOT NULL,
+	deprecated_api_id bigint NOT NULL,
+	response_field text,
+	removal_date date NOT NULL,
+	change_description text NOT NULL,
+	creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
+	CONSTRAINT deprecated_response_field_pk PRIMARY KEY (id),
+	CONSTRAINT deprecated_api_id_fk FOREIGN KEY (deprecated_api_id)
+      REFERENCES openchpl.deprecated_response_field_api (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+);
+
+CREATE UNIQUE INDEX deprecated_response_field_unique_response_field
+ON openchpl.deprecated_response_field(deprecated_api_id, response_field)
+WHERE deleted = false;
+
+CREATE TABLE openchpl.deprecated_response_field_api_usage (
+	id bigserial NOT NULL,
+	api_key_id bigint NOT NULL,
+	deprecated_api_id bigint NOT NULL,
+	api_call_count bigint NOT NULL DEFAULT 0,
+	last_accessed_date timestamp NOT NULL DEFAULT NOW(),
+	creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
+	CONSTRAINT deprecated_response_field_api_usage_pk PRIMARY KEY (id),
+	CONSTRAINT api_key_id_fk FOREIGN KEY (api_key_id)
+      REFERENCES openchpl.api_key (api_key_id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+	CONSTRAINT deprecated_api_id_fk FOREIGN KEY (deprecated_api_id)
+      REFERENCES openchpl.deprecated_response_field_api (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+);
+
+CREATE UNIQUE INDEX deprecated_response_field_api_usage_unique_record
+ON openchpl.deprecated_response_field_api_usage(api_key_id, deprecated_api_id)
 WHERE deleted = false;
 
 CREATE TABLE openchpl.test_tool_criteria_map (

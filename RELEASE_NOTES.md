@@ -1,5 +1,31 @@
 # Release Notes
 
+## Version 20.10.0
+_15 November 2021_
+
+### Features
+* Remove authority/user_permission_id field from tables and views
+
+### Data Changes
+* Add new surveillance requirement type and questionable activity triggers
+* Add deprecated fields to table data for authority / user permission changes
+
+---
+
+## Version 20.9.0
+_1 November 2021_
+
+### Features
+* Add tables to support improved Cures Reporting reports new charts
+* Add deprecated response field usage tables and data
+* Remove the unused nonconformity_status table and related columns from the database
+* Add structures to support Conformance Method
+
+### Data Changes
+* Update additional eCQM numbers and versions for 2022 reporting bundle
+
+---
+
 ## Version 20.8.0
 _18 October 2021_
 
