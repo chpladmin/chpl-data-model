@@ -1,3 +1,6 @@
+-- Deployment file for version 20.10.0
+--     as of 2021-11-15
+-- ./changes/ocd-3440.sql
 ALTER TABLE openchpl.pending_surveillance
 DROP COLUMN IF EXISTS user_permission_id CASCADE;
 
@@ -239,4 +242,35 @@ WHERE NOT EXISTS (
 	FROM openchpl.deprecated_response_field
 	WHERE deprecated_api_id = 49
 	AND response_field = 'surveillances -> userPermissionId'
-);
+);;
+-- ./changes/ocd-3748.sql
+insert into openchpl.surveillance_requirement_type
+(name, last_modified_user)
+select 'Real World Testing Submission', -1
+where not exists
+    (select *
+    from openchpl.surveillance_requirement_type
+    where name = 'Real World Testing Submission');
+
+insert into openchpl.questionable_activity_trigger
+(name, level, last_modified_user)
+select 'Removed Non-Conformity added to Surveillance', 'Listing', -1
+where not exists
+	(select *
+	from openchpl.questionable_activity_trigger
+	where name = 'Removed Non-Conformity added to Surveillance'
+	and level ='Listing');
+
+insert into openchpl.questionable_activity_trigger
+(name, level, last_modified_user)
+select 'Removed Requirement added to Surveillance', 'Listing', -1
+where not exists
+	(select *
+	from openchpl.questionable_activity_trigger
+	where name = 'Removed Requirement added to Surveillance'
+	and level ='Listing');
+;
+insert into openchpl.data_model_version (version, deploy_date, last_modified_user) values ('20.10.0', '2021-11-15', -1);
+\i dev/openchpl_soft-delete.sql
+\i dev/openchpl_views.sql
+\i dev/openchpl_grant-all.sql
