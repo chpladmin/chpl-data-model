@@ -1,5 +1,17 @@
 # Release Notes
 
+## Version 20.11.0
+_29 November 2021_
+
+### Features
+* Add Real World Testing Plans Url and Real World Testing Results Url to certified_product_search view
+
+### Data Changes
+* Update Optional Standards mapping and values
+* Add deprecated API for /collections/certified-products
+
+---
+
 ## Version 20.10.0
 _15 November 2021_
 
