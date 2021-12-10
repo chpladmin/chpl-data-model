@@ -1,5 +1,13 @@
 # Release Notes
 
+## Version 20.11.1
+_9 December 2021_
+
+### Data Changes
+* Update Test Standard to 2015 version on 2 Listings
+
+---
+
 ## Version 20.11.0
 _29 November 2021_
 
