@@ -28,7 +28,8 @@ CREATE TYPE openchpl.attestation as enum('Affirmative', 'Negative', 'N/A');
 CREATE TYPE openchpl.validation_message_type as enum('Error', 'Warning');
 CREATE TYPE openchpl.job_status_type as enum('In Progress', 'Complete', 'Error');
 CREATE TYPE openchpl.questionable_activity_trigger_level as enum('Version', 'Product', 'Developer', 'Listing', 'Certification Criteria');
-CREATE TYPE openchpl.certified_product_upload_status as enum ('Processing', 'Successful', 'Failed');
+CREATE TYPE openchpl.certified_product_upload_status as enum ('UPLOAD_PROCESSING', 'UPLOAD_SUCCESS', 'UPLOAD_FAILURE',
+	'CONFIRMATION_PROCESSING', 'CONFIRMED', 'REJECTED');
 
 create table openchpl.data_model_version(
         id bigserial not null,
