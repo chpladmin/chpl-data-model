@@ -113,3 +113,12 @@ SELECT 'GET',
 	'2022-07-15',
 	-1
 WHERE NOT EXISTS (SELECT * FROM openchpl.deprecated_api WHERE http_method = 'GET' and api_operation LIKE '/certified_products/pending/metadata');
+
+INSERT INTO openchpl.deprecated_api (http_method, api_operation, request_parameter, change_description, removal_date, last_modified_user)
+SELECT 'POST',
+	'/certified_products/upload',
+	NULL,
+	'This endpoint is deprecated and will be removed in a future release. Please POST to /listings/upload to upload a new listing.',
+	'2022-07-15',
+	-1
+WHERE NOT EXISTS (SELECT * FROM openchpl.deprecated_api WHERE http_method = 'POST' and api_operation LIKE '/certified_products/upload');
