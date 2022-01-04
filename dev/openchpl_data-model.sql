@@ -3508,59 +3508,6 @@ CREATE TABLE openchpl.listing_to_criterion_for_cures_achievement_statistic (
 );
 CREATE INDEX idx_listing_to_criterion_for_cures_achievement_stat_date on openchpl.listing_to_criterion_for_cures_achievement_statistic (statistic_date);
 
-CREATE TABLE openchpl.change_request_attestation (
-  id bigserial NOT NULL,
-  change_request_id bigint NOT NULL,
-  attestation text not null,
-  creation_date timestamp NOT NULL DEFAULT NOW(),
-  last_modified_date timestamp NOT NULL DEFAULT NOW(),
-  last_modified_user bigint NOT NULL,
-  deleted bool NOT NULL DEFAULT false,
-  CONSTRAINT change_request_attestation_pk PRIMARY KEY (id),
-  CONSTRAINT change_request_fk FOREIGN KEY (change_request_id)
-    REFERENCES openchpl.change_request (id)
-    MATCH SIMPLE ON UPDATE NO ACTION ON DELETE RESTRICT
-);
-
-CREATE TABLE openchpl.deprecated_api (
-	id bigserial NOT NULL,
-	http_method varchar(10) NOT NULL,
-	api_operation text NOT NULL,
-	request_parameter text,
-	change_description text NOT NULL,
-	removal_date date NOT NULL,
-	creation_date timestamp NOT NULL DEFAULT NOW(),
-	last_modified_date timestamp NOT NULL DEFAULT NOW(),
-	last_modified_user bigint NOT NULL,
-	deleted bool NOT NULL DEFAULT false,
-	CONSTRAINT deprecated_api_pk PRIMARY KEY (id)
-);
-CREATE UNIQUE INDEX deprecated_api_unique_method_and_api_operation_and_parameter
-ON openchpl.deprecated_api(http_method, api_operation, request_parameter)
-WHERE deleted = false;
-
-CREATE TABLE openchpl.deprecated_api_usage (
-	id bigserial NOT NULL,
-	api_key_id bigint NOT NULL,
-	deprecated_api_id bigint NOT NULL,
-	api_call_count bigint NOT NULL DEFAULT 0,
-	last_accessed_date timestamp NOT NULL DEFAULT NOW(),
-	creation_date timestamp NOT NULL DEFAULT NOW(),
-	last_modified_date timestamp NOT NULL DEFAULT NOW(),
-	last_modified_user bigint NOT NULL,
-	deleted bool NOT NULL DEFAULT false,
-	CONSTRAINT deprecated_api_usage_pk PRIMARY KEY (id),
-	CONSTRAINT api_key_id_fk FOREIGN KEY (api_key_id)
-      REFERENCES openchpl.api_key (api_key_id) MATCH SIMPLE
-      ON UPDATE NO ACTION ON DELETE NO ACTION,
-	CONSTRAINT deprecated_api_id_fk FOREIGN KEY (deprecated_api_id)
-      REFERENCES openchpl.deprecated_api (id) MATCH SIMPLE
-      ON UPDATE NO ACTION ON DELETE NO ACTION
-);
-CREATE UNIQUE INDEX deprecated_api_usage_unique_api_key_and_deprecated_api
-ON openchpl.deprecated_api_usage(api_key_id, deprecated_api_id)
-WHERE deleted = false;
-
 CREATE TABLE openchpl.cures_criteria_statistics_by_acb (
 	id bigserial NOT NULL,
 	certification_body_id bigint NOT NULL,
@@ -3599,6 +3546,56 @@ CREATE TABLE openchpl.cures_listing_statistics_by_acb (
       ON UPDATE CASCADE ON DELETE RESTRICT
 );
 
+CREATE TABLE openchpl.change_request_attestation (
+  id bigserial NOT NULL,
+  change_request_id bigint NOT NULL,
+  attestation text not null,
+  creation_date timestamp NOT NULL DEFAULT NOW(),
+  last_modified_date timestamp NOT NULL DEFAULT NOW(),
+  last_modified_user bigint NOT NULL,
+  deleted bool NOT NULL DEFAULT false,
+  CONSTRAINT change_request_attestation_pk PRIMARY KEY (id),
+  CONSTRAINT change_request_fk FOREIGN KEY (change_request_id)
+    REFERENCES openchpl.change_request (id)
+    MATCH SIMPLE ON UPDATE NO ACTION ON DELETE RESTRICT
+);
+
+CREATE TABLE openchpl.deprecated_api (
+	id bigserial NOT NULL,
+	http_method varchar(10) NOT NULL,
+	api_operation text NOT NULL,
+	request_parameter text,
+	change_description text NOT NULL,
+	removal_date date NOT NULL,
+	creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
+	CONSTRAINT deprecated_api_pk PRIMARY KEY (id),
+	CONSTRAINT deprecated_api_method_and_api_operation_and_parameter_idx UNIQUE (http_method, api_operation, request_parameter)
+);
+
+CREATE TABLE openchpl.deprecated_api_usage (
+	id bigserial NOT NULL,
+	api_key_id bigint NOT NULL,
+	deprecated_api_id bigint NOT NULL,
+	api_call_count bigint NOT NULL DEFAULT 0,
+	last_accessed_date timestamp NOT NULL DEFAULT NOW(),
+	notification_sent timestamp,
+	creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
+	CONSTRAINT deprecated_api_usage_pk PRIMARY KEY (id),
+	CONSTRAINT api_key_id_fk FOREIGN KEY (api_key_id)
+      REFERENCES openchpl.api_key (api_key_id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+	CONSTRAINT deprecated_api_id_fk FOREIGN KEY (deprecated_api_id)
+      REFERENCES openchpl.deprecated_api (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+	CONSTRAINT deprecated_api_usage_api_key_and_deprecated_api_idx UNIQUE (api_key_id, deprecated_api_id, notification_sent)
+);
+
 CREATE TABLE openchpl.deprecated_response_field_api (
 	id bigserial NOT NULL,
 	http_method varchar(10) NOT NULL,
@@ -3607,12 +3604,9 @@ CREATE TABLE openchpl.deprecated_response_field_api (
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_user bigint NOT NULL,
 	deleted bool NOT NULL DEFAULT false,
-	CONSTRAINT deprecated_response_field_api_pk PRIMARY KEY (id)
+	CONSTRAINT deprecated_response_field_api_pk PRIMARY KEY (id),
+	CONSTRAINT deprecated_response_field_api_method_and_api_operation_idx UNIQUE (http_method, api_operation)
 );
-
-CREATE UNIQUE INDEX deprecated_response_field_api_unique_method_and_api_operation
-ON openchpl.deprecated_response_field_api(http_method, api_operation)
-WHERE deleted = false;
 
 CREATE TABLE openchpl.deprecated_response_field (
 	id bigserial NOT NULL,
@@ -3627,19 +3621,17 @@ CREATE TABLE openchpl.deprecated_response_field (
 	CONSTRAINT deprecated_response_field_pk PRIMARY KEY (id),
 	CONSTRAINT deprecated_api_id_fk FOREIGN KEY (deprecated_api_id)
       REFERENCES openchpl.deprecated_response_field_api (id) MATCH SIMPLE
-      ON UPDATE NO ACTION ON DELETE NO ACTION
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+	CONSTRAINT deprecated_response_field_response_field_idx UNIQUE (deprecated_api_id, response_field)
 );
-
-CREATE UNIQUE INDEX deprecated_response_field_unique_response_field
-ON openchpl.deprecated_response_field(deprecated_api_id, response_field)
-WHERE deleted = false;
 
 CREATE TABLE openchpl.deprecated_response_field_api_usage (
 	id bigserial NOT NULL,
 	api_key_id bigint NOT NULL,
-	deprecated_api_id bigint NOT NULL,
+	deprecated_response_field_api_id bigint NOT NULL,
 	api_call_count bigint NOT NULL DEFAULT 0,
 	last_accessed_date timestamp NOT NULL DEFAULT NOW(),
+	notification_sent timestamp,
 	creation_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_user bigint NOT NULL,
@@ -3650,12 +3642,9 @@ CREATE TABLE openchpl.deprecated_response_field_api_usage (
       ON UPDATE NO ACTION ON DELETE NO ACTION,
 	CONSTRAINT deprecated_api_id_fk FOREIGN KEY (deprecated_api_id)
       REFERENCES openchpl.deprecated_response_field_api (id) MATCH SIMPLE
-      ON UPDATE NO ACTION ON DELETE NO ACTION
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+	CONSTRAINT deprecated_response_field_api_usage_idx UNIQUE (api_key_id, deprecated_response_field_api_id, notification_sent)
 );
-
-CREATE UNIQUE INDEX deprecated_response_field_api_usage_unique_record
-ON openchpl.deprecated_response_field_api_usage(api_key_id, deprecated_api_id)
-WHERE deleted = false;
 
 CREATE TABLE openchpl.test_tool_criteria_map (
 	id bigserial NOT NULL,
