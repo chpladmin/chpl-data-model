@@ -727,7 +727,7 @@ CREATE TABLE openchpl.certification_result_test_functionality
 	creation_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_user bigint NOT NULL,
-	deleted bool NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
 	CONSTRAINT certification_result_test_functionality_pk PRIMARY KEY (certification_result_test_functionality_id),
 	CONSTRAINT certification_result_fk FOREIGN KEY (certification_result_id)
       REFERENCES openchpl.certification_result (certification_result_id) MATCH SIMPLE
