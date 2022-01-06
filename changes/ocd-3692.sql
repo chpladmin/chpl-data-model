@@ -1,6 +1,7 @@
 -- this column was never defined with "default false" as all other "deleted" columns are
 ALTER TABLE openchpl.certification_result_test_functionality ALTER COLUMN deleted SET DEFAULT false;
 ALTER TABLE openchpl.certification_result_optional_standard ALTER COLUMN deleted SET DEFAULT false;
+ALTER TABLE openchpl.certification_result_ucd_process ALTER COLUMN deleted SET DEFAULT false;
 
 DROP TABLE openchpl.certified_product_upload;
 DROP TYPE openchpl.certified_product_upload_status;
