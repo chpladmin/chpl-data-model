@@ -1,5 +1,13 @@
 # Release Notes
 
+## Version 20.11.2
+_10 January 2022_
+
+### Bug Fixes
+* Update unique constraint on deprecated api usage tables
+
+---
+
 ## Version 20.11.1
 _9 December 2021_
 

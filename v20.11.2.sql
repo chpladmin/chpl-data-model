@@ -1,3 +1,6 @@
+-- Deployment file for version 20.11.2
+--     as of 2022-01-10
+-- ./changes/ocd-3823.sql
 -- drop audit triggers
 DROP TRIGGER IF EXISTS deprecated_api_audit ON openchpl.deprecated_api;
 DROP TRIGGER IF EXISTS deprecated_api_timestamp ON openchpl.deprecated_api;
@@ -65,4 +68,8 @@ CREATE TRIGGER deprecated_response_field_timestamp BEFORE UPDATE on openchpl.dep
 CREATE TRIGGER deprecated_response_field_api_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.deprecated_response_field_api FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER deprecated_response_field_api_timestamp BEFORE UPDATE on openchpl.deprecated_response_field_api FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER deprecated_response_field_api_usage_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.deprecated_response_field_api_usage FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
-CREATE TRIGGER deprecated_response_field_api_usage_timestamp BEFORE UPDATE on openchpl.deprecated_response_field_api_usage FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
+CREATE TRIGGER deprecated_response_field_api_usage_timestamp BEFORE UPDATE on openchpl.deprecated_response_field_api_usage FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();;
+insert into openchpl.data_model_version (version, deploy_date, last_modified_user) values ('20.11.2', '2022-01-10', -1);
+\i dev/openchpl_soft-delete.sql
+\i dev/openchpl_views.sql
+\i dev/openchpl_grant-all.sql
