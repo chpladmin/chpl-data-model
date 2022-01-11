@@ -1,3 +1,25 @@
+CREATE TABLE IF NOT EXISTS openchpl.attestation_periods (
+	id bigserial NOT NULL,
+	period_start date NOT NULL,
+	period_end date NOT NULL,
+	description text NULL,
+	creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
+	CONSTRAINT attestation_periods_pk PRIMARY KEY (id)
+);
+
+INSERT INTO openchpl.attestation_periods (period_start, period_end, description, last_modified_user)
+SELECT '2021-01-01', '2022-03-31', 'First Period', -1
+WHERE NOT EXISTS (
+	SELECT *
+	FROM openchpl.attestation_periods
+	WHERE period_start = '2021-01-01'
+	AND period_end = '2022-03-31');
+
+------------------------------------------------------------------------------------------
+
 CREATE TABLE IF NOT EXISTS openchpl.attestation_categories (
 	id bigserial NOT NULL,
 	name text NOT NULL,
@@ -224,7 +246,7 @@ WHERE NOT EXISTS (
 		INNER JOIN openchpl.attestation_answers ans
 			ON form.attestation_answer_id = ans.id
 	WHERE ques.question = 'We attest to compliance with the Information Blocking Condition of Certification requirement described in § 170.401.'
-	AND ans.answer = 'Nonompliant');
+	AND ans.answer = 'Noncompliant');
 	
 INSERT INTO openchpl.attestation_form (attestation_question_id, attestation_answer_id, last_modified_user)
 SELECT 
