@@ -96,7 +96,7 @@ CREATE TABLE IF NOT EXISTS openchpl.attestation_question (
 );
 
 INSERT INTO openchpl.attestation_question (question, attestation_category_id, sort_order, last_modified_user)
-SELECT 'We attest to compliance with the Information Blocking Condition of Certification requirement described in § 170.401.', 
+SELECT 'We attest to compliance with the Information Blocking Condition of Certification requirement described in [§170.401](https://ecfr.federalregister.gov/current/title-45/subtitle-A/subchapter-D/part-170/subpart-D/section-170.401).', 
 	(SELECT id FROM openchpl.attestation_category WHERE name = 'Information Blocking'),
 	1, 
 	-1
@@ -105,11 +105,11 @@ WHERE NOT EXISTS (
 	FROM openchpl.attestation_question ques
 		INNER JOIN openchpl.attestation_category cat
 			ON cat.id = ques.attestation_category_id
-	WHERE ques.question = 'We attest to compliance with the Information Blocking Condition of Certification requirement described in § 170.401.'
+	WHERE ques.question = 'We attest to compliance with the Information Blocking Condition of Certification requirement described in [§170.401](https://ecfr.federalregister.gov/current/title-45/subtitle-A/subchapter-D/part-170/subpart-D/section-170.401).'
 	AND cat.name = 'Information Blocking');
 
 INSERT INTO openchpl.attestation_question (question, attestation_category_id, sort_order, last_modified_user)
-SELECT 'We attest to compliance with the Assurances Condition and Maintenance of Certification requirements described in § 170.402.', 
+SELECT 'We attest to compliance with the Assurances Condition and Maintenance of Certification requirements described in [§170.402](https://ecfr.federalregister.gov/current/title-45/subtitle-A/subchapter-D/part-170/subpart-D/section-170.402).', 
 	(SELECT id FROM openchpl.attestation_category WHERE name = 'Assurances'),
 	1, 
 	-1
@@ -118,11 +118,11 @@ WHERE NOT EXISTS (
 	FROM openchpl.attestation_question ques
 		INNER JOIN openchpl.attestation_category cat
 			ON cat.id = ques.attestation_category_id
-	WHERE ques.question = 'We attest to compliance with the Assurances Condition and Maintenance of Certification requirements described in § 170.402.'
+	WHERE ques.question = 'We attest to compliance with the Assurances Condition and Maintenance of Certification requirements described in [§170.402](https://ecfr.federalregister.gov/current/title-45/subtitle-A/subchapter-D/part-170/subpart-D/section-170.402).'
 	AND cat.name = 'Assurances');
 
 INSERT INTO openchpl.attestation_question (question, attestation_category_id, sort_order, last_modified_user)
-SELECT 'We attest to compliance with the Communications Condition and Maintenance of Certification requirements described in § 170.403.', 
+SELECT 'We attest to compliance with the Communications Condition and Maintenance of Certification requirements described in [§170.403](https://ecfr.federalregister.gov/current/title-45/subtitle-A/subchapter-D/part-170/subpart-D/section-170.403).', 
 	(SELECT id FROM openchpl.attestation_category WHERE name = 'Communications'),
 	1, 
 	-1
@@ -131,11 +131,11 @@ WHERE NOT EXISTS (
 	FROM openchpl.attestation_question ques
 		INNER JOIN openchpl.attestation_category cat
 			ON cat.id = ques.attestation_category_id
-	WHERE ques.question = 'We attest to compliance with the Communications Condition and Maintenance of Certification requirements described in § 170.403.'
+	WHERE ques.question = 'We attest to compliance with the Communications Condition and Maintenance of Certification requirements described in [§170.403](https://ecfr.federalregister.gov/current/title-45/subtitle-A/subchapter-D/part-170/subpart-D/section-170.403).'
 	AND cat.name = 'Communications');
 
 INSERT INTO openchpl.attestation_question (question, attestation_category_id, sort_order, last_modified_user)
-SELECT 'We attest to compliance with the APIs Condition and Maintenance of Certification requirements described in § 170.404.', 
+SELECT 'We attest to compliance with the APIs Condition and Maintenance of Certification requirements described in [§170.404](https://ecfr.federalregister.gov/current/title-45/subtitle-A/subchapter-D/part-170/subpart-D/section-170.404).', 
 	(SELECT id FROM openchpl.attestation_category WHERE name = 'Application Programming Interfaces (APIs)'),
 	1, 
 	-1
@@ -144,12 +144,12 @@ WHERE NOT EXISTS (
 	FROM openchpl.attestation_question ques
 		INNER JOIN openchpl.attestation_category cat
 			ON cat.id = ques.attestation_category_id
-	WHERE ques.question = 'We attest to compliance with the APIs Condition and Maintenance of Certification requirements described in § 170.404.'
+	WHERE ques.question = 'We attest to compliance with the APIs Condition and Maintenance of Certification requirements described in [§170.404](https://ecfr.federalregister.gov/current/title-45/subtitle-A/subchapter-D/part-170/subpart-D/section-170.404).'
 	AND cat.name = 'Application Programming Interfaces (APIs)');
 
 
 INSERT INTO openchpl.attestation_question (question, attestation_category_id, sort_order, last_modified_user)
-SELECT 'We attest to compliance with the Real World Testing Condition and Maintenance of Certification requirements described in § 170.405.', 
+SELECT 'We attest to compliance with the Real World Testing Condition and Maintenance of Certification requirements described in [§170.405](https://ecfr.federalregister.gov/current/title-45/subtitle-A/subchapter-D/part-170/subpart-D/section-170.405).', 
 	(SELECT id FROM openchpl.attestation_category WHERE name = 'Real World Testing'),
 	1, 
 	-1
@@ -158,7 +158,7 @@ WHERE NOT EXISTS (
 	FROM openchpl.attestation_question ques
 		INNER JOIN openchpl.attestation_category cat
 			ON cat.id = ques.attestation_category_id
-	WHERE ques.question = 'We attest to compliance with the Real World Testing Condition and Maintenance of Certification requirements described in § 170.405.'
+	WHERE ques.question = 'We attest to compliance with the Real World Testing Condition and Maintenance of Certification requirements described in [§170.405](https://ecfr.federalregister.gov/current/title-45/subtitle-A/subchapter-D/part-170/subpart-D/section-170.405).'
 	AND cat.name = 'Real World Testing');
 
 ------------------------------------------------------------------------------------------
@@ -183,18 +183,18 @@ WHERE NOT EXISTS (
 	WHERE answer = 'Compliant');
 
 INSERT INTO openchpl.attestation_answer (answer, sort_order, last_modified_user)
-SELECT 'Compliant with the requirements of §45 CFR § 170.402 ; certifies to the criterion at §45 CFR § 170.315(b)(10) and provides all of its customers of certified health IT with health IT certified to the certification criterion in §45 CFR § 170.315(b)(10)', 2, -1
+SELECT 'Compliant with the requirements of §45 CFR §170.402; certifies to the criterion at §45 CFR §170.315(b)(10) and provides all of its customers of certified health IT with health IT certified to the certification criterion in §45 CFR §170.315(b)(10)', 2, -1
 WHERE NOT EXISTS (
     SELECT *
 	FROM openchpl.attestation_answer
-	WHERE answer = 'Compliant with the requirements of §45 CFR § 170.402 ; certifies to the criterion at §45 CFR § 170.315(b)(10) and provides all of its customers of certified health IT with health IT certified to the certification criterion in §45 CFR § 170.315(b)(10)');
+	WHERE answer = 'Compliant with the requirements of §45 CFR §170.402; certifies to the criterion at §45 CFR §170.315(b)(10) and provides all of its customers of certified health IT with health IT certified to the certification criterion in §45 CFR §170.315(b)(10)');
 
 INSERT INTO openchpl.attestation_answer (answer, sort_order, last_modified_user)
-SELECT 'Compliant with the requirements of §45 CFR § 170.402; does not certify to the criterion at §45 CFR § 170.315(b)(10) or does not provide all of its customers of certified health IT with health IT certified to the certification criterion in §45 CFR § 170.315(b)(10)', 2, -1
+SELECT 'Compliant with the requirements of §45 CFR §170.402; does not certify to the criterion at §45 CFR §170.315(b)(10) or does not provide all of its customers of certified health IT with health IT certified to the certification criterion in §45 CFR §170.315(b)(10)', 3, -1
 WHERE NOT EXISTS (
     SELECT *
 	FROM openchpl.attestation_answer
-	WHERE answer = 'Compliant with the requirements of §45 CFR § 170.402; does not certify to the criterion at §45 CFR § 170.315(b)(10) or does not provide all of its customers of certified health IT with health IT certified to the certification criterion in §45 CFR § 170.315(b)(10)');
+	WHERE answer = 'Compliant with the requirements of §45 CFR §170.402; does not certify to the criterion at §45 CFR §170.315(b)(10) or does not provide all of its customers of certified health IT with health IT certified to the certification criterion in §45 CFR §170.315(b)(10)');
 
 INSERT INTO openchpl.attestation_answer (answer, sort_order, last_modified_user)
 SELECT 'Noncompliant', 10, -1
@@ -231,7 +231,7 @@ CREATE TABLE IF NOT EXISTS openchpl.attestation_form (
 
 INSERT INTO openchpl.attestation_form (attestation_question_id, attestation_answer_id, last_modified_user)
 SELECT 
-	(SELECT id from openchpl.attestation_question WHERE question = 'We attest to compliance with the Information Blocking Condition of Certification requirement described in § 170.401.'),
+	(SELECT id from openchpl.attestation_question WHERE question = 'We attest to compliance with the Information Blocking Condition of Certification requirement described in [§170.401](https://ecfr.federalregister.gov/current/title-45/subtitle-A/subchapter-D/part-170/subpart-D/section-170.401).'),
 	(SELECT id from openchpl.attestation_answer WHERE answer = 'Compliant'),
 	-1
 WHERE NOT EXISTS (
@@ -241,12 +241,12 @@ WHERE NOT EXISTS (
 			ON form.attestation_question_id = ques.id
 		INNER JOIN openchpl.attestation_answer ans
 			ON form.attestation_answer_id = ans.id
-	WHERE ques.question = 'We attest to compliance with the Information Blocking Condition of Certification requirement described in § 170.401.'
+	WHERE ques.question = 'We attest to compliance with the Information Blocking Condition of Certification requirement described in [§170.401](https://ecfr.federalregister.gov/current/title-45/subtitle-A/subchapter-D/part-170/subpart-D/section-170.401).'
 	AND ans.answer = 'Compliant');
 
 INSERT INTO openchpl.attestation_form (attestation_question_id, attestation_answer_id, last_modified_user)
 SELECT 
-	(SELECT id from openchpl.attestation_question WHERE question = 'We attest to compliance with the Information Blocking Condition of Certification requirement described in § 170.401.'),
+	(SELECT id from openchpl.attestation_question WHERE question = 'We attest to compliance with the Information Blocking Condition of Certification requirement described in [§170.401](https://ecfr.federalregister.gov/current/title-45/subtitle-A/subchapter-D/part-170/subpart-D/section-170.401).'),
 	(SELECT id from openchpl.attestation_answer WHERE answer = 'Noncompliant'),
 	-1
 WHERE NOT EXISTS (
@@ -256,13 +256,13 @@ WHERE NOT EXISTS (
 			ON form.attestation_question_id = ques.id
 		INNER JOIN openchpl.attestation_answer ans
 			ON form.attestation_answer_id = ans.id
-	WHERE ques.question = 'We attest to compliance with the Information Blocking Condition of Certification requirement described in § 170.401.'
+	WHERE ques.question = 'We attest to compliance with the Information Blocking Condition of Certification requirement described in [§170.401](https://ecfr.federalregister.gov/current/title-45/subtitle-A/subchapter-D/part-170/subpart-D/section-170.401).'
 	AND ans.answer = 'Noncompliant');
 	
 INSERT INTO openchpl.attestation_form (attestation_question_id, attestation_answer_id, last_modified_user)
 SELECT 
-	(SELECT id from openchpl.attestation_question WHERE question = 'We attest to compliance with the Assurances Condition and Maintenance of Certification requirements described in § 170.402.'),
-	(SELECT id from openchpl.attestation_answer WHERE answer = 'Compliant with the requirements of §45 CFR § 170.402 ; certifies to the criterion at §45 CFR § 170.315(b)(10) and provides all of its customers of certified health IT with health IT certified to the certification criterion in §45 CFR § 170.315(b)(10)'),
+	(SELECT id from openchpl.attestation_question WHERE question = 'We attest to compliance with the Assurances Condition and Maintenance of Certification requirements described in [§170.402](https://ecfr.federalregister.gov/current/title-45/subtitle-A/subchapter-D/part-170/subpart-D/section-170.402).'),
+	(SELECT id from openchpl.attestation_answer WHERE answer = 'Compliant with the requirements of §45 CFR §170.402; certifies to the criterion at §45 CFR §170.315(b)(10) and provides all of its customers of certified health IT with health IT certified to the certification criterion in §45 CFR §170.315(b)(10)'),
 	-1
 WHERE NOT EXISTS (
 	SELECT form.*
@@ -271,14 +271,14 @@ WHERE NOT EXISTS (
 			ON form.attestation_question_id = ques.id
 		INNER JOIN openchpl.attestation_answer ans
 			ON form.attestation_answer_id = ans.id
-	WHERE ques.question = 'We attest to compliance with the Assurances Condition and Maintenance of Certification requirements described in § 170.402.'
-	AND ans.answer = 'Compliant with the requirements of §45 CFR § 170.402 ; certifies to the criterion at §45 CFR § 170.315(b)(10) and provides all of its customers of certified health IT with health IT certified to the certification criterion in §45 CFR § 170.315(b)(10)');
+	WHERE ques.question = 'We attest to compliance with the Assurances Condition and Maintenance of Certification requirements described in [§170.402](https://ecfr.federalregister.gov/current/title-45/subtitle-A/subchapter-D/part-170/subpart-D/section-170.402).'
+	AND ans.answer = 'Compliant with the requirements of §45 CFR §170.402; certifies to the criterion at §45 CFR §170.315(b)(10) and provides all of its customers of certified health IT with health IT certified to the certification criterion in §45 CFR §170.315(b)(10)');
 
 	
 INSERT INTO openchpl.attestation_form (attestation_question_id, attestation_answer_id, last_modified_user)
 SELECT 
-	(SELECT id from openchpl.attestation_question WHERE question = 'We attest to compliance with the Assurances Condition and Maintenance of Certification requirements described in § 170.402.'),
-	(SELECT id from openchpl.attestation_answer WHERE answer = 'Compliant with the requirements of §45 CFR § 170.402; does not certify to the criterion at §45 CFR § 170.315(b)(10) or does not provide all of its customers of certified health IT with health IT certified to the certification criterion in §45 CFR § 170.315(b)(10)'),
+	(SELECT id from openchpl.attestation_question WHERE question = 'We attest to compliance with the Assurances Condition and Maintenance of Certification requirements described in [§170.402](https://ecfr.federalregister.gov/current/title-45/subtitle-A/subchapter-D/part-170/subpart-D/section-170.402).'),
+	(SELECT id from openchpl.attestation_answer WHERE answer = 'Compliant with the requirements of §45 CFR §170.402; does not certify to the criterion at §45 CFR §170.315(b)(10) or does not provide all of its customers of certified health IT with health IT certified to the certification criterion in §45 CFR §170.315(b)(10)'),
 	-1
 WHERE NOT EXISTS (
 	SELECT form.*
@@ -287,12 +287,12 @@ WHERE NOT EXISTS (
 			ON form.attestation_question_id = ques.id
 		INNER JOIN openchpl.attestation_answer ans
 			ON form.attestation_answer_id = ans.id
-	WHERE ques.question = 'We attest to compliance with the Assurances Condition and Maintenance of Certification requirements described in § 170.402.'
-	AND ans.answer = 'Compliant with the requirements of §45 CFR § 170.402; does not certify to the criterion at §45 CFR § 170.315(b)(10) or does not provide all of its customers of certified health IT with health IT certified to the certification criterion in §45 CFR § 170.315(b)(10)');
+	WHERE ques.question = 'We attest to compliance with the Assurances Condition and Maintenance of Certification requirements described in [§170.402](https://ecfr.federalregister.gov/current/title-45/subtitle-A/subchapter-D/part-170/subpart-D/section-170.402).'
+	AND ans.answer = 'Compliant with the requirements of §45 CFR §170.402; does not certify to the criterion at §45 CFR §170.315(b)(10) or does not provide all of its customers of certified health IT with health IT certified to the certification criterion in §45 CFR §170.315(b)(10)');
 
 INSERT INTO openchpl.attestation_form (attestation_question_id, attestation_answer_id, last_modified_user)
 SELECT 
-	(SELECT id from openchpl.attestation_question WHERE question = 'We attest to compliance with the Assurances Condition and Maintenance of Certification requirements described in § 170.402.'),
+	(SELECT id from openchpl.attestation_question WHERE question = 'We attest to compliance with the Assurances Condition and Maintenance of Certification requirements described in [§170.402](https://ecfr.federalregister.gov/current/title-45/subtitle-A/subchapter-D/part-170/subpart-D/section-170.402).'),
 	(SELECT id from openchpl.attestation_answer WHERE answer = 'Noncompliant'),
 	-1
 WHERE NOT EXISTS (
@@ -302,12 +302,12 @@ WHERE NOT EXISTS (
 			ON form.attestation_question_id = ques.id
 		INNER JOIN openchpl.attestation_answer ans
 			ON form.attestation_answer_id = ans.id
-	WHERE ques.question = 'We attest to compliance with the Assurances Condition and Maintenance of Certification requirements described in § 170.402.'
+	WHERE ques.question = 'We attest to compliance with the Assurances Condition and Maintenance of Certification requirements described in [§170.402](https://ecfr.federalregister.gov/current/title-45/subtitle-A/subchapter-D/part-170/subpart-D/section-170.402).'
 	AND ans.answer = 'Noncompliant');
 
 INSERT INTO openchpl.attestation_form (attestation_question_id, attestation_answer_id, last_modified_user)
 SELECT 
-	(SELECT id from openchpl.attestation_question WHERE question = 'We attest to compliance with the Communications Condition and Maintenance of Certification requirements described in § 170.403.'),
+	(SELECT id from openchpl.attestation_question WHERE question = 'We attest to compliance with the Communications Condition and Maintenance of Certification requirements described in [§170.403](https://ecfr.federalregister.gov/current/title-45/subtitle-A/subchapter-D/part-170/subpart-D/section-170.403).'),
 	(SELECT id from openchpl.attestation_answer WHERE answer = 'Compliant'),
 	-1
 WHERE NOT EXISTS (
@@ -317,12 +317,12 @@ WHERE NOT EXISTS (
 			ON form.attestation_question_id = ques.id
 		INNER JOIN openchpl.attestation_answer ans
 			ON form.attestation_answer_id = ans.id
-	WHERE ques.question = 'We attest to compliance with the Communications Condition and Maintenance of Certification requirements described in § 170.403.'
+	WHERE ques.question = 'We attest to compliance with the Communications Condition and Maintenance of Certification requirements described in [§170.403](https://ecfr.federalregister.gov/current/title-45/subtitle-A/subchapter-D/part-170/subpart-D/section-170.403).'
 	AND ans.answer = 'Compliant');
 
 INSERT INTO openchpl.attestation_form (attestation_question_id, attestation_answer_id, last_modified_user)
 SELECT 
-	(SELECT id from openchpl.attestation_question WHERE question = 'We attest to compliance with the Communications Condition and Maintenance of Certification requirements described in § 170.403.'),
+	(SELECT id from openchpl.attestation_question WHERE question = 'We attest to compliance with the Communications Condition and Maintenance of Certification requirements described in [§170.403](https://ecfr.federalregister.gov/current/title-45/subtitle-A/subchapter-D/part-170/subpart-D/section-170.403).'),
 	(SELECT id from openchpl.attestation_answer WHERE answer = 'Noncompliant'),
 	-1
 WHERE NOT EXISTS (
@@ -332,12 +332,12 @@ WHERE NOT EXISTS (
 			ON form.attestation_question_id = ques.id
 		INNER JOIN openchpl.attestation_answer ans
 			ON form.attestation_answer_id = ans.id
-	WHERE ques.question = 'We attest to compliance with the Communications Condition and Maintenance of Certification requirements described in § 170.403.'
+	WHERE ques.question = 'We attest to compliance with the Communications Condition and Maintenance of Certification requirements described in [§170.403](https://ecfr.federalregister.gov/current/title-45/subtitle-A/subchapter-D/part-170/subpart-D/section-170.403).'
 	AND ans.answer = 'Noncompliant');
 
 INSERT INTO openchpl.attestation_form (attestation_question_id, attestation_answer_id, last_modified_user)
 SELECT 
-	(SELECT id from openchpl.attestation_question WHERE question = 'We attest to compliance with the APIs Condition and Maintenance of Certification requirements described in § 170.404.'),
+	(SELECT id from openchpl.attestation_question WHERE question = 'We attest to compliance with the APIs Condition and Maintenance of Certification requirements described in [§170.404](https://ecfr.federalregister.gov/current/title-45/subtitle-A/subchapter-D/part-170/subpart-D/section-170.404).'),
 	(SELECT id from openchpl.attestation_answer WHERE answer = 'Compliant'),
 	-1
 WHERE NOT EXISTS (
@@ -347,12 +347,12 @@ WHERE NOT EXISTS (
 			ON form.attestation_question_id = ques.id
 		INNER JOIN openchpl.attestation_answer ans
 			ON form.attestation_answer_id = ans.id
-	WHERE ques.question = 'We attest to compliance with the APIs Condition and Maintenance of Certification requirements described in § 170.404.'
+	WHERE ques.question = 'We attest to compliance with the APIs Condition and Maintenance of Certification requirements described in [§170.404](https://ecfr.federalregister.gov/current/title-45/subtitle-A/subchapter-D/part-170/subpart-D/section-170.404).'
 	AND ans.answer = 'Compliant');
 
 INSERT INTO openchpl.attestation_form (attestation_question_id, attestation_answer_id, last_modified_user)
 SELECT 
-	(SELECT id from openchpl.attestation_question WHERE question = 'We attest to compliance with the APIs Condition and Maintenance of Certification requirements described in § 170.404.'),
+	(SELECT id from openchpl.attestation_question WHERE question = 'We attest to compliance with the APIs Condition and Maintenance of Certification requirements described in [§170.404](https://ecfr.federalregister.gov/current/title-45/subtitle-A/subchapter-D/part-170/subpart-D/section-170.404).'),
 	(SELECT id from openchpl.attestation_answer WHERE answer = 'Noncompliant'),
 	-1
 WHERE NOT EXISTS (
@@ -362,12 +362,12 @@ WHERE NOT EXISTS (
 			ON form.attestation_question_id = ques.id
 		INNER JOIN openchpl.attestation_answer ans
 			ON form.attestation_answer_id = ans.id
-	WHERE ques.question = 'We attest to compliance with the APIs Condition and Maintenance of Certification requirements described in § 170.404.'
+	WHERE ques.question = 'We attest to compliance with the APIs Condition and Maintenance of Certification requirements described in [§170.404](https://ecfr.federalregister.gov/current/title-45/subtitle-A/subchapter-D/part-170/subpart-D/section-170.404).'
 	AND ans.answer = 'Noncompliant');
 
 INSERT INTO openchpl.attestation_form (attestation_question_id, attestation_answer_id, last_modified_user)
 SELECT 
-	(SELECT id from openchpl.attestation_question WHERE question = 'We attest to compliance with the APIs Condition and Maintenance of Certification requirements described in § 170.404.'),
+	(SELECT id from openchpl.attestation_question WHERE question = 'We attest to compliance with the APIs Condition and Maintenance of Certification requirements described in [§170.404](https://ecfr.federalregister.gov/current/title-45/subtitle-A/subchapter-D/part-170/subpart-D/section-170.404).'),
 	(SELECT id from openchpl.attestation_answer WHERE answer = 'Not Applicable'),
 	-1
 WHERE NOT EXISTS (
@@ -377,13 +377,13 @@ WHERE NOT EXISTS (
 			ON form.attestation_question_id = ques.id
 		INNER JOIN openchpl.attestation_answer ans
 			ON form.attestation_answer_id = ans.id
-	WHERE ques.question = 'We attest to compliance with the APIs Condition and Maintenance of Certification requirements described in § 170.404.'
+	WHERE ques.question = 'We attest to compliance with the APIs Condition and Maintenance of Certification requirements described in [§170.404](https://ecfr.federalregister.gov/current/title-45/subtitle-A/subchapter-D/part-170/subpart-D/section-170.404).'
 	AND ans.answer = 'Not Applicable');
 
 ----
 INSERT INTO openchpl.attestation_form (attestation_question_id, attestation_answer_id, last_modified_user)
 SELECT 
-	(SELECT id from openchpl.attestation_question WHERE question = 'We attest to compliance with the Real World Testing Condition and Maintenance of Certification requirements described in § 170.405.'),
+	(SELECT id from openchpl.attestation_question WHERE question = 'We attest to compliance with the Real World Testing Condition and Maintenance of Certification requirements described in [§170.405](https://ecfr.federalregister.gov/current/title-45/subtitle-A/subchapter-D/part-170/subpart-D/section-170.405).'),
 	(SELECT id from openchpl.attestation_answer WHERE answer = 'Compliant'),
 	-1
 WHERE NOT EXISTS (
@@ -393,12 +393,12 @@ WHERE NOT EXISTS (
 			ON form.attestation_question_id = ques.id
 		INNER JOIN openchpl.attestation_answer ans
 			ON form.attestation_answer_id = ans.id
-	WHERE ques.question = 'We attest to compliance with the Real World Testing Condition and Maintenance of Certification requirements described in § 170.405.'
+	WHERE ques.question = 'We attest to compliance with the Real World Testing Condition and Maintenance of Certification requirements described in [§170.405](https://ecfr.federalregister.gov/current/title-45/subtitle-A/subchapter-D/part-170/subpart-D/section-170.405).'
 	AND ans.answer = 'Compliant');
 
 INSERT INTO openchpl.attestation_form (attestation_question_id, attestation_answer_id, last_modified_user)
 SELECT 
-	(SELECT id from openchpl.attestation_question WHERE question = 'We attest to compliance with the Real World Testing Condition and Maintenance of Certification requirements described in § 170.405.'),
+	(SELECT id from openchpl.attestation_question WHERE question = 'We attest to compliance with the Real World Testing Condition and Maintenance of Certification requirements described in [§170.405](https://ecfr.federalregister.gov/current/title-45/subtitle-A/subchapter-D/part-170/subpart-D/section-170.405).'),
 	(SELECT id from openchpl.attestation_answer WHERE answer = 'Noncompliant'),
 	-1
 WHERE NOT EXISTS (
@@ -408,12 +408,12 @@ WHERE NOT EXISTS (
 			ON form.attestation_question_id = ques.id
 		INNER JOIN openchpl.attestation_answer ans
 			ON form.attestation_answer_id = ans.id
-	WHERE ques.question = 'We attest to compliance with the Real World Testing Condition and Maintenance of Certification requirements described in § 170.405.'
+	WHERE ques.question = 'We attest to compliance with the Real World Testing Condition and Maintenance of Certification requirements described in [§170.405](https://ecfr.federalregister.gov/current/title-45/subtitle-A/subchapter-D/part-170/subpart-D/section-170.405).'
 	AND ans.answer = 'Noncompliant');
 
 INSERT INTO openchpl.attestation_form (attestation_question_id, attestation_answer_id, last_modified_user)
 SELECT 
-	(SELECT id from openchpl.attestation_question WHERE question = 'We attest to compliance with the Real World Testing Condition and Maintenance of Certification requirements described in § 170.405.'),
+	(SELECT id from openchpl.attestation_question WHERE question = 'We attest to compliance with the Real World Testing Condition and Maintenance of Certification requirements described in [§170.405](https://ecfr.federalregister.gov/current/title-45/subtitle-A/subchapter-D/part-170/subpart-D/section-170.405).'),
 	(SELECT id from openchpl.attestation_answer WHERE answer = 'Not Applicable'),
 	-1
 WHERE NOT EXISTS (
@@ -423,7 +423,7 @@ WHERE NOT EXISTS (
 			ON form.attestation_question_id = ques.id
 		INNER JOIN openchpl.attestation_answer ans
 			ON form.attestation_answer_id = ans.id
-	WHERE ques.question = 'We attest to compliance with the Real World Testing Condition and Maintenance of Certification requirements described in § 170.405.'
+	WHERE ques.question = 'We attest to compliance with the Real World Testing Condition and Maintenance of Certification requirements described in [§170.405](https://ecfr.federalregister.gov/current/title-45/subtitle-A/subchapter-D/part-170/subpart-D/section-170.405).'
 	AND ans.answer = 'Not Applicable');
 
 ------------------------------------------------------------------------------------------
