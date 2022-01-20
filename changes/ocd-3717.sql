@@ -1,13 +1,16 @@
---DROP TABLE IF EXISTS openchpl.attestation_answer CASCADE;
---DROP TABLE IF EXISTS openchpl.attestation_question CASCADE;
---DROP TABLE IF EXISTS openchpl.attestation_category CASCADE;
---DROP TABLE IF EXISTS openchpl.attestation_form CASCADE;
---DROP TABLE IF EXISTS openchpl.attestation_period CASCADE;
---DROP TABLE IF EXISTS openchpl.change_request_attestation CASCADE;
---DROP TABLE IF EXISTS openchpl.change_request_attestation_response CASCADE;
---DROP TABLE IF EXISTS openchpl.developer_attestation CASCADE;
---DROP TABLE IF EXISTS openchpl.developer_attestation_response CASCADE;
-	
+DROP TABLE IF EXISTS openchpl.attestation_form CASCADE;
+DROP TABLE IF EXISTS openchpl.change_request_attestation_response CASCADE;
+DROP TABLE IF EXISTS openchpl.change_request_attestation CASCADE;
+DROP TABLE IF EXISTS openchpl.developer_attestation_response CASCADE;
+DROP TABLE IF EXISTS openchpl.developer_attestation CASCADE;
+DROP TABLE IF EXISTS openchpl.attestation_period CASCADE;
+DROP TABLE IF EXISTS openchpl.attestation_answer CASCADE;
+DROP TABLE IF EXISTS openchpl.attestation_question CASCADE;
+DROP TABLE IF EXISTS openchpl.attestation_category CASCADE;
+
+-- Clear out the Change requests for now, since they have been psuedo orphaned by removing the CR Attestation tables	
+delete from openchpl.change_request_status;
+delete from openchpl.change_request;
 
 CREATE TABLE IF NOT EXISTS openchpl.attestation_period (
 	id bigserial NOT NULL,
