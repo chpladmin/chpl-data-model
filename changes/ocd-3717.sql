@@ -1,18 +1,20 @@
-DROP TABLE IF EXISTS openchpl.attestation_answer CASCADE;
-DROP TABLE IF EXISTS openchpl.attestation_question CASCADE;
-DROP TABLE IF EXISTS openchpl.attestation_category CASCADE;
-DROP TABLE IF EXISTS openchpl.attestation_form CASCADE;
-DROP TABLE IF EXISTS openchpl.attestation_period CASCADE;
-DROP TABLE IF EXISTS openchpl.change_request_attestation CASCADE;
-DROP TABLE IF EXISTS openchpl.change_request_attestation_response CASCADE;
-DROP TABLE IF EXISTS openchpl.developer_attestation CASCADE;
-DROP TABLE IF EXISTS openchpl.developer_attestation_response CASCADE;
+--DROP TABLE IF EXISTS openchpl.attestation_answer CASCADE;
+--DROP TABLE IF EXISTS openchpl.attestation_question CASCADE;
+--DROP TABLE IF EXISTS openchpl.attestation_category CASCADE;
+--DROP TABLE IF EXISTS openchpl.attestation_form CASCADE;
+--DROP TABLE IF EXISTS openchpl.attestation_period CASCADE;
+--DROP TABLE IF EXISTS openchpl.change_request_attestation CASCADE;
+--DROP TABLE IF EXISTS openchpl.change_request_attestation_response CASCADE;
+--DROP TABLE IF EXISTS openchpl.developer_attestation CASCADE;
+--DROP TABLE IF EXISTS openchpl.developer_attestation_response CASCADE;
 	
 
 CREATE TABLE IF NOT EXISTS openchpl.attestation_period (
 	id bigserial NOT NULL,
 	period_start date NOT NULL,
 	period_end date NOT NULL,
+	submission_start date NOT NULL,
+	submission_end date NOT NULL,
 	description text NULL,
 	creation_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
@@ -21,8 +23,8 @@ CREATE TABLE IF NOT EXISTS openchpl.attestation_period (
 	CONSTRAINT attestation_period_pk PRIMARY KEY (id)
 );
 
-INSERT INTO openchpl.attestation_period (period_start, period_end, description, last_modified_user)
-SELECT '2021-01-01', '2022-03-31', 'First Period', -1
+INSERT INTO openchpl.attestation_period (period_start, period_end, submission_start, submission_end, description, last_modified_user)
+SELECT '2021-01-01', '2022-03-31', '2022-01-01', '2022-04-30', 'First Period', -1
 WHERE NOT EXISTS (
 	SELECT *
 	FROM openchpl.attestation_period
