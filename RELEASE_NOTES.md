@@ -1,5 +1,13 @@
 # Release Notes
 
+## Version 20.11.3
+_24 January 2022_
+
+### Data Changes
+* Add data to support notifying users of deprecated Transparency Attestation response field
+
+---
+
 ## Version 20.11.2
 _10 January 2022_
 
