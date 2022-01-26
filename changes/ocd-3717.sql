@@ -8,7 +8,7 @@ DROP TABLE IF EXISTS openchpl.attestation_question CASCADE;
 DROP TABLE IF EXISTS openchpl.attestation_category CASCADE;
 
 -- New Tables
-DROP TABLE IF EXISTS openchpl.change_request_attestation CASCADE;
+DROP TABLE IF EXISTS openchpl.change_request_attestation_response CASCADE;
 DROP TABLE IF EXISTS openchpl.change_request_attestation_submission CASCADE;
 DROP TABLE IF EXISTS openchpl.developer_attestation_response CASCADE;
 DROP TABLE IF EXISTS openchpl.developer_attestation_submission CASCADE;
