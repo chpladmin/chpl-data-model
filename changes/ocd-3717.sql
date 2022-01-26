@@ -1,18 +1,21 @@
 ALTER TYPE openchpl.attestation RENAME TO transparency_attestation;
 
-DROP TABLE IF EXISTS openchpl.attestation_form CASCADE;
-DROP TABLE IF EXISTS openchpl.change_request_attestation_response CASCADE;
+-- Old Tables or Previous designs
+DROP TABLE IF EXISTS openchpl.change_request_attestation CASCADE;
+DROP TABLE IF EXISTS openchpl.developer_attestation CASCADE;
+DROP TABLE IF EXISTS openchpl.attestation_answer CASCADE;
+DROP TABLE IF EXISTS openchpl.attestation_question CASCADE;
+DROP TABLE IF EXISTS openchpl.attestation_category CASCADE;
+
+-- New Tables
 DROP TABLE IF EXISTS openchpl.change_request_attestation CASCADE;
 DROP TABLE IF EXISTS openchpl.change_request_attestation_submission CASCADE;
 DROP TABLE IF EXISTS openchpl.developer_attestation_response CASCADE;
-DROP TABLE IF EXISTS openchpl.developer_attestation CASCADE;
 DROP TABLE IF EXISTS openchpl.developer_attestation_submission CASCADE;
+DROP TABLE IF EXISTS openchpl.attestation_form CASCADE;
 DROP TABLE IF EXISTS openchpl.attestation_period CASCADE;
-DROP TABLE IF EXISTS openchpl.attestation_answer CASCADE;
 DROP TABLE IF EXISTS openchpl.attestation_valid_response CASCADE;
-DROP TABLE IF EXISTS openchpl.attestation_question CASCADE;
 DROP TABLE IF EXISTS openchpl.attestation CASCADE;
-DROP TABLE IF EXISTS openchpl.attestation_category CASCADE;
 DROP TABLE IF EXISTS openchpl.attestation_condition CASCADE;
 
 -- Clear out the Change requests for now, since they have been psuedo orphaned by removing the CR Attestation tables	
