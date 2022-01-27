@@ -35,6 +35,8 @@ CREATE TABLE IF NOT EXISTS openchpl.attestation_period (
 	deleted bool NOT NULL DEFAULT false,
 	CONSTRAINT attestation_period_pk PRIMARY KEY (id)
 );
+CREATE TRIGGER attestation_period_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.attestation_period FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+CREATE TRIGGER attestation_period_timestamp BEFORE UPDATE on openchpl.attestation_period FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 
 INSERT INTO openchpl.attestation_period (period_start, period_end, submission_start, submission_end, description, last_modified_user)
 SELECT '2021-01-01', '2022-03-31', '2022-01-01', '2022-04-30', 'First Period', -1
@@ -56,6 +58,8 @@ CREATE TABLE IF NOT EXISTS openchpl.attestation_condition (
 	deleted bool NOT NULL DEFAULT false,
 	CONSTRAINT attestation_condition_pk PRIMARY KEY (id)
 );
+CREATE TRIGGER attestation_condition_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.attestation_condition FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+CREATE TRIGGER attestation_condition_timestamp BEFORE UPDATE on openchpl.attestation_condition FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 
 INSERT INTO openchpl.attestation_condition (name, sort_order, last_modified_user)
 SELECT 'Information Blocking', 1, -1
@@ -109,6 +113,8 @@ CREATE TABLE IF NOT EXISTS openchpl.attestation (
       REFERENCES openchpl.attestation_condition (id) MATCH FULL
       ON UPDATE CASCADE ON DELETE RESTRICT
 );
+CREATE TRIGGER attestation_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.attestation FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+CREATE TRIGGER attestation_timestamp BEFORE UPDATE on openchpl.attestation FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 
 INSERT INTO openchpl.attestation (description, attestation_condition_id, sort_order, last_modified_user)
 SELECT 'We attest to compliance with the Information Blocking Condition of Certification requirement described in [§170.401](https://ecfr.federalregister.gov/current/title-45/subtitle-A/subchapter-D/part-170/subpart-D/section-170.401).', 
@@ -189,6 +195,8 @@ CREATE TABLE IF NOT EXISTS openchpl.attestation_valid_response (
 	deleted bool NOT NULL DEFAULT false,
 	CONSTRAINT attestation_valid_response_pk PRIMARY KEY (id)
 );
+CREATE TRIGGER attestation_valid_response_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.attestation_valid_response FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+CREATE TRIGGER attestation_valid_response_timestamp BEFORE UPDATE on openchpl.attestation_valid_response FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 
 INSERT INTO openchpl.attestation_valid_response (response, sort_order, last_modified_user)
 SELECT 'Compliant', 1, -1
@@ -243,6 +251,9 @@ CREATE TABLE IF NOT EXISTS openchpl.attestation_form (
       REFERENCES openchpl.attestation_valid_response (id) MATCH FULL
       ON UPDATE CASCADE ON DELETE RESTRICT
 );
+CREATE TRIGGER attestation_form_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.attestation_form FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+CREATE TRIGGER attestation_form_timestamp BEFORE UPDATE on openchpl.attestation_form FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
+
 
 INSERT INTO openchpl.attestation_form (attestation_id, attestation_valid_response_id, last_modified_user)
 SELECT 
@@ -497,7 +508,8 @@ CREATE TABLE IF NOT EXISTS openchpl.developer_attestation_submission (
       REFERENCES openchpl.attestation_period (id) MATCH FULL
       ON UPDATE CASCADE ON DELETE RESTRICT
 );
-
+CREATE TRIGGER developer_attestation_submission_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.developer_attestation_submission FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+CREATE TRIGGER developer_attestation_submission_timestamp BEFORE UPDATE on openchpl.developer_attestation_submission FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 
 CREATE TABLE IF NOT EXISTS openchpl.developer_attestation_response (
 	id bigserial NOT NULL,
@@ -519,3 +531,5 @@ CREATE TABLE IF NOT EXISTS openchpl.developer_attestation_response (
       REFERENCES openchpl.attestation_valid_response (id) MATCH FULL
       ON UPDATE CASCADE ON DELETE RESTRICT
 );
+CREATE TRIGGER developer_attestation_response_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.developer_attestation_response FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+CREATE TRIGGER developer_attestation_response_timestamp BEFORE UPDATE on openchpl.developer_attestation_response FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
