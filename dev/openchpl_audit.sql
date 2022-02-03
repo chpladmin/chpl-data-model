@@ -92,8 +92,6 @@ $$ language 'plpgsql';
 -- ALTER FUNCTION openchpl.update_last_modified_date_column() OWNER TO openchpl;
 
 -- Adding triggers for audit & last_modified_date updates
-CREATE TRIGGER acb_vendor_map_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.acb_vendor_map FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
-CREATE TRIGGER acb_vendor_map_timestamp BEFORE UPDATE on openchpl.acb_vendor_map FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER accessibility_standard_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.accessibility_standard FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER accessibility_standard_timestamp BEFORE UPDATE on openchpl.accessibility_standard FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER activity_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.activity FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();

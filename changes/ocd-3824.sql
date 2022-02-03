@@ -1,8 +1,24 @@
--- delete "developerCollection" cache from ehcache.xml ??
--- change email address for jira api key to alexandr or Chai CSrinadhu@ainq.com
--- /collections/developers looks like it needs the developer name and id
+-- change email address for jira api key
+UPDATE openchpl.api_key
+SET email = 'CSrinadhu@ainq.com',
+name_organization = 'Ai Jira Team'
+WHERE api_key = '3500323c3f91bfc49d3de7e3570a7175';
+
 -- delete data from deprecated response field table
+UPDATE openchpl.deprecated_response_field
+SET deleted = TRUE
+WHERE removal_date = '2022-03-01';
+
 -- delete views 
+DROP VIEW IF EXISTS openchpl.acb_developer_transparency_mappings;
+DROP VIEW IF EXISTS openchpl.developers_with_attestations;
+DROP VIEW IF EXISTS openchpl.certified_product_details;
+
 -- delete tables
+DROP TABLE IF EXISTS openchpl.acb_vendor_map;
+ALTER TABLE openchpl.pending_certified_product DROP COLUMN IF EXISTS vendor_transparency_attestation;
+
 -- delete columns
--- delete transparency attestation type (note the name of that type was changed in attestations ticket)
+-- dropping the type by both names (can remove first line below after OCD-3717 goes to STG)
+DROP TYPE IF EXISTS openchpl.attestation;
+DROP TYPE IF EXISTS openchpl.transparency_attestation;
