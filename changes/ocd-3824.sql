@@ -2,7 +2,7 @@
 UPDATE openchpl.api_key
 SET email = 'CSrinadhu@ainq.com',
 name_organization = 'Ai Jira Team'
-WHERE api_key = '3500323c3f91bfc49d3de7e3570a7175';
+WHERE api_key_id = 605;
 
 -- delete data from deprecated response field table
 UPDATE openchpl.deprecated_response_field
