@@ -119,7 +119,7 @@ CREATE TRIGGER attestation_timestamp BEFORE UPDATE on openchpl.attestation FOR E
 INSERT INTO openchpl.attestation (description, attestation_condition_id, sort_order, last_modified_user)
 SELECT 'We attest to compliance with the Information Blocking Condition of Certification requirement described in [§170.401](https://ecfr.federalregister.gov/current/title-45/subtitle-A/subchapter-D/part-170/subpart-D/section-170.401).', 
 	(SELECT id FROM openchpl.attestation_condition WHERE name = 'Information Blocking'),
-	1, 
+	1,
 	-1
 WHERE NOT EXISTS (
     SELECT ques.*
@@ -132,7 +132,7 @@ WHERE NOT EXISTS (
 INSERT INTO openchpl.attestation (description, attestation_condition_id, sort_order, last_modified_user)
 SELECT 'We attest to compliance with the Assurances Condition and Maintenance of Certification requirements described in [§170.402](https://ecfr.federalregister.gov/current/title-45/subtitle-A/subchapter-D/part-170/subpart-D/section-170.402).', 
 	(SELECT id FROM openchpl.attestation_condition WHERE name = 'Assurances'),
-	1, 
+	2,
 	-1
 WHERE NOT EXISTS (
     SELECT ques.*
@@ -145,7 +145,7 @@ WHERE NOT EXISTS (
 INSERT INTO openchpl.attestation (description, attestation_condition_id, sort_order, last_modified_user)
 SELECT 'We attest to compliance with the Communications Condition and Maintenance of Certification requirements described in [§170.403](https://ecfr.federalregister.gov/current/title-45/subtitle-A/subchapter-D/part-170/subpart-D/section-170.403).', 
 	(SELECT id FROM openchpl.attestation_condition WHERE name = 'Communications'),
-	1, 
+	3,
 	-1
 WHERE NOT EXISTS (
     SELECT ques.*
@@ -158,7 +158,7 @@ WHERE NOT EXISTS (
 INSERT INTO openchpl.attestation (description, attestation_condition_id, sort_order, last_modified_user)
 SELECT 'We attest to compliance with the APIs Condition and Maintenance of Certification requirements described in [§170.404](https://ecfr.federalregister.gov/current/title-45/subtitle-A/subchapter-D/part-170/subpart-D/section-170.404).', 
 	(SELECT id FROM openchpl.attestation_condition WHERE name = 'Application Programming Interfaces (APIs)'),
-	1, 
+	4,
 	-1
 WHERE NOT EXISTS (
     SELECT ques.*
@@ -172,7 +172,7 @@ WHERE NOT EXISTS (
 INSERT INTO openchpl.attestation (description, attestation_condition_id, sort_order, last_modified_user)
 SELECT 'We attest to compliance with the Real World Testing Condition and Maintenance of Certification requirements described in [§170.405](https://ecfr.federalregister.gov/current/title-45/subtitle-A/subchapter-D/part-170/subpart-D/section-170.405).', 
 	(SELECT id FROM openchpl.attestation_condition WHERE name = 'Real World Testing'),
-	1, 
+	5,
 	-1
 WHERE NOT EXISTS (
     SELECT ques.*
