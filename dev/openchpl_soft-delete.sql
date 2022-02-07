@@ -4,48 +4,48 @@ BEGIN
 	UPDATE openchpl.vendor_status_history as src SET deleted = NEW.deleted WHERE src.vendor_id = NEW.vendor_id;
 	UPDATE openchpl.acb_vendor_map as src SET deleted = NEW.deleted WHERE src.vendor_id = NEW.vendor_id;
 	UPDATE openchpl.user_developer_map as src SET deleted = NEW.deleted WHERE src.developer_id = NEW.vendor_id;
-	
+
 	UPDATE openchpl.change_request as src SET deleted = NEW.deleted WHERE src.developer_id = NEW.vendor_id;
-	UPDATE openchpl.change_request_status as src SET deleted = NEW.deleted 
+	UPDATE openchpl.change_request_status as src SET deleted = NEW.deleted
 	WHERE change_request_id IN (
 		SELECT id
 		FROM openchpl.change_request
 		WHERE developer_id = NEW.vendor_id);
-	
-	UPDATE openchpl.change_request_developer_details as src SET deleted = NEW.deleted 
+
+	UPDATE openchpl.change_request_developer_details as src SET deleted = NEW.deleted
 	WHERE change_request_id IN (
 		SELECT id
 		FROM openchpl.change_request
 		WHERE developer_id = NEW.vendor_id);
-	
-	UPDATE openchpl.change_request_website as src SET deleted = NEW.deleted 
+
+	UPDATE openchpl.change_request_website as src SET deleted = NEW.deleted
 	WHERE change_request_id IN (
 		SELECT id
 		FROM openchpl.change_request
 		WHERE developer_id = NEW.vendor_id);
-	
-	UPDATE openchpl.change_request_attestation_submission as src SET deleted = NEW.deleted 
+
+	UPDATE openchpl.change_request_attestation_submission as src SET deleted = NEW.deleted
 	WHERE change_request_id IN (
 		SELECT id
 		FROM openchpl.change_request
 		WHERE developer_id = NEW.vendor_id);
-	
-	UPDATE openchpl.change_request_attestation_response as src SET deleted = NEW.deleted 
-	WHERE change_request_submission_id IN (
+
+	UPDATE openchpl.change_request_attestation_response as src SET deleted = NEW.deleted
+	WHERE change_request_attestation_submission_id IN (
 		SELECT id
-		FROM openchpl.change_request_submission
+		FROM openchpl.change_request_attestation_submission
 		WHERE change_request_id IN (
 			SELECT id
 			FROM openchpl.change_request
 			WHERE developer_id = NEW.vendor_id));
-		
+
 	UPDATE openchpl.developer_attestation_submission as src SET deleted = NEW.deleted WHERE src.developer_id = NEW.vendor_id;
-	UPDATE openchpl.developer_attestation_response as src SET deleted = NEW.deleted 
+	UPDATE openchpl.developer_attestation_response as src SET deleted = NEW.deleted
 	WHERE developer_attestation_submission_id IN (
 		SELECT id
 		FROM openchpl.developer_attestation_submission
 		WHERE developer_id = NEW.vendor_id);
-		
+
     RETURN NEW;
 END;
 $$ language 'plpgsql';
