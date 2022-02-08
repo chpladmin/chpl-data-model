@@ -24,7 +24,7 @@ SET search_path TO pg_catalog,public,openchpl;
 -- ddl-end --
 
 CREATE TYPE openchpl.fuzzy_type as enum('UCD Process', 'QMS Standard', 'Accessibility Standard');
-CREATE TYPE openchpl.attestation as enum('Affirmative', 'Negative', 'N/A');
+CREATE TYPE openchpl.transparency_attestation as enum('Affirmative', 'Negative', 'N/A');
 CREATE TYPE openchpl.validation_message_type as enum('Error', 'Warning');
 CREATE TYPE openchpl.job_status_type as enum('In Progress', 'Complete', 'Error');
 CREATE TYPE openchpl.questionable_activity_trigger_level as enum('Version', 'Product', 'Developer', 'Listing', 'Certification Criteria');
@@ -223,7 +223,7 @@ CREATE TABLE openchpl.acb_vendor_map (
 	acb_vendor_map_id bigserial NOT NULL,
 	vendor_id bigint NOT NULL,
 	certification_body_id bigint NOT NULL,
-	transparency_attestation attestation,
+	transparency_attestation transparency_attestation,
 	creation_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_user bigint NOT NULL,
@@ -1452,7 +1452,7 @@ CREATE TABLE openchpl.pending_certified_product (
 	vendor_email text,
 	vendor_contact_name text,
 	vendor_phone text,
-	vendor_transparency_attestation attestation,
+	vendor_transparency_attestation transparency_attestation,
 	vendor_mandatory_disclosures varchar(1024),
 	self_developer bool,
 	accessibility_certified boolean default false,
@@ -3545,20 +3545,6 @@ CREATE TABLE openchpl.cures_listing_statistics_by_acb (
       ON UPDATE CASCADE ON DELETE RESTRICT
 );
 
-CREATE TABLE openchpl.change_request_attestation (
-  id bigserial NOT NULL,
-  change_request_id bigint NOT NULL,
-  attestation text not null,
-  creation_date timestamp NOT NULL DEFAULT NOW(),
-  last_modified_date timestamp NOT NULL DEFAULT NOW(),
-  last_modified_user bigint NOT NULL,
-  deleted bool NOT NULL DEFAULT false,
-  CONSTRAINT change_request_attestation_pk PRIMARY KEY (id),
-  CONSTRAINT change_request_fk FOREIGN KEY (change_request_id)
-    REFERENCES openchpl.change_request (id)
-    MATCH SIMPLE ON UPDATE NO ACTION ON DELETE RESTRICT
-);
-
 CREATE TABLE openchpl.deprecated_api (
 	id bigserial NOT NULL,
 	http_method varchar(10) NOT NULL,
@@ -3660,6 +3646,151 @@ CREATE TABLE openchpl.test_tool_criteria_map (
 	CONSTRAINT test_tool_fk FOREIGN KEY (test_tool_id)
 		REFERENCES openchpl.test_tool (test_tool_id)
 		MATCH FULL ON DELETE RESTRICT ON UPDATE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS openchpl.attestation_period (
+	id bigserial NOT NULL,
+	period_start date NOT NULL,
+	period_end date NOT NULL,
+	submission_start date NOT NULL,
+	submission_end date NOT NULL,
+	description text NULL,
+	creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
+	CONSTRAINT attestation_period_pk PRIMARY KEY (id)
+);
+
+CREATE TABLE IF NOT EXISTS openchpl.attestation_condition (
+	id bigserial NOT NULL,
+	name text NOT NULL,
+	sort_order bigint NOT NULL,
+	creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
+	CONSTRAINT attestation_condition_pk PRIMARY KEY (id)
+);
+
+CREATE TABLE IF NOT EXISTS openchpl.attestation (
+	id bigserial NOT NULL,
+	attestation_condition_id bigint NOT NULL,
+	description text NOT NULL,
+	sort_order bigint NOT NULL,
+	creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
+	CONSTRAINT attestation_pk PRIMARY KEY (id),
+	CONSTRAINT attestation_condition_id_fk FOREIGN KEY (attestation_condition_id)
+      REFERENCES openchpl.attestation_condition (id) MATCH FULL
+      ON UPDATE CASCADE ON DELETE RESTRICT
+);
+
+CREATE TABLE IF NOT EXISTS openchpl.attestation_valid_response (
+	id bigserial NOT NULL,
+	response text NOT NULL,
+	meaning text,
+	sort_order bigint NOT NULL,
+	creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
+	CONSTRAINT attestation_valid_response_pk PRIMARY KEY (id)
+);
+
+CREATE TABLE IF NOT EXISTS openchpl.attestation_form (
+	id bigserial NOT NULL,
+	attestation_id bigint NOT NULL,
+	attestation_valid_response_id bigint NOT NULL,
+	creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
+	CONSTRAINT attestation_form_pk PRIMARY KEY (id),
+	CONSTRAINT attestation_id_fk FOREIGN KEY (attestation_id)
+      REFERENCES openchpl.attestation (id) MATCH FULL
+      ON UPDATE CASCADE ON DELETE RESTRICT,
+	CONSTRAINT attestation_valid_response_id_fk FOREIGN KEY (attestation_valid_response_id)
+      REFERENCES openchpl.attestation_valid_response (id) MATCH FULL
+      ON UPDATE CASCADE ON DELETE RESTRICT
+);
+
+CREATE TABLE IF NOT EXISTS openchpl.change_request_attestation_submission (
+	id bigserial NOT NULL,
+	change_request_id bigint NOT NULL,
+	attestation_period_id bigint NOT NULL,
+	creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
+	CONSTRAINT change_request_attestations_submission_pk PRIMARY KEY (id),
+	CONSTRAINT change_request_id_fk FOREIGN KEY (change_request_id)
+      REFERENCES openchpl.change_request (id) MATCH FULL
+      ON UPDATE CASCADE ON DELETE RESTRICT,
+	CONSTRAINT attestation_period_id_fk FOREIGN KEY (attestation_period_id)
+      REFERENCES openchpl.attestation_period (id) MATCH FULL
+      ON UPDATE CASCADE ON DELETE RESTRICT
+);
+
+CREATE TABLE IF NOT EXISTS openchpl.change_request_attestation_response (
+	id bigserial NOT NULL,
+	change_request_attestation_submission_id bigint NOT NULL,
+	attestation_id bigint NOT NULL,
+	attestation_valid_response_id bigint NOT NULL,
+	creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
+	CONSTRAINT change_request_attestations_response_pk PRIMARY KEY (id),
+	CONSTRAINT change_request_attestation_submission_id_fk FOREIGN KEY (change_request_attestation_submission_id)
+      REFERENCES openchpl.change_request_attestation_submission (id) MATCH FULL
+      ON UPDATE CASCADE ON DELETE RESTRICT,
+	CONSTRAINT attestation_id_fk FOREIGN KEY (attestation_id)
+      REFERENCES openchpl.attestation (id) MATCH FULL
+      ON UPDATE CASCADE ON DELETE RESTRICT,
+	CONSTRAINT attestation_valid_response_id_fk FOREIGN KEY (attestation_valid_response_id)
+      REFERENCES openchpl.attestation_valid_response (id) MATCH FULL
+      ON UPDATE CASCADE ON DELETE RESTRICT
+);
+
+CREATE TABLE IF NOT EXISTS openchpl.developer_attestation_submission (
+	id bigserial NOT NULL,
+	developer_id bigint NOT NULL,
+	attestation_period_id bigint NOT NULL,
+	creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
+	CONSTRAINT developer_attestation_submission_pk PRIMARY KEY (id),
+	CONSTRAINT developer_id_fk FOREIGN KEY (developer_id)
+      REFERENCES openchpl.vendor (vendor_id) MATCH FULL
+      ON UPDATE CASCADE ON DELETE RESTRICT,
+	CONSTRAINT attestation_period_id_fk FOREIGN KEY (attestation_period_id)
+      REFERENCES openchpl.attestation_period (id) MATCH FULL
+      ON UPDATE CASCADE ON DELETE RESTRICT
+);
+
+CREATE TABLE IF NOT EXISTS openchpl.developer_attestation_response (
+	id bigserial NOT NULL,
+	developer_attestation_submission_id bigint NOT NULL,
+	attestation_id bigint NOT NULL,
+	attestation_valid_response_id bigint NOT NULL,
+	creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
+	CONSTRAINT developer_attestations_response_pk PRIMARY KEY (id),
+	CONSTRAINT developer_attestation_id_fk FOREIGN KEY (developer_attestation_submission_id)
+      REFERENCES openchpl.developer_attestation_submission (id) MATCH FULL
+      ON UPDATE CASCADE ON DELETE RESTRICT,
+	CONSTRAINT attestation_id_fk FOREIGN KEY (attestation_id)
+      REFERENCES openchpl.attestation (id) MATCH FULL
+      ON UPDATE CASCADE ON DELETE RESTRICT,
+	CONSTRAINT attestation_valid_response_id_fk FOREIGN KEY (attestation_valid_response_id)
+      REFERENCES openchpl.attestation_valid_response (id) MATCH FULL
+      ON UPDATE CASCADE ON DELETE RESTRICT
 );
 
 CREATE INDEX fki_certified_product_id_fk
