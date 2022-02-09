@@ -27,7 +27,8 @@ CREATE TYPE openchpl.fuzzy_type as enum('UCD Process', 'QMS Standard', 'Accessib
 CREATE TYPE openchpl.validation_message_type as enum('Error', 'Warning');
 CREATE TYPE openchpl.job_status_type as enum('In Progress', 'Complete', 'Error');
 CREATE TYPE openchpl.questionable_activity_trigger_level as enum('Version', 'Product', 'Developer', 'Listing', 'Certification Criteria');
-CREATE TYPE openchpl.certified_product_upload_status as enum ('Processing', 'Successful', 'Failed');
+CREATE TYPE openchpl.certified_product_upload_status as enum ('UPLOAD_PROCESSING', 'UPLOAD_SUCCESS', 'UPLOAD_FAILURE',
+	'CONFIRMATION_PROCESSING', 'CONFIRMED', 'REJECTED');
 
 create table openchpl.data_model_version(
         id bigserial not null,
@@ -657,7 +658,7 @@ CREATE TABLE openchpl.certification_result_optional_standard (
   creation_date timestamp NOT NULL DEFAULT NOW(),
   last_modified_date timestamp NOT NULL DEFAULT NOW(),
   last_modified_user bigint NOT NULL,
-  deleted bool NOT NULL,
+  deleted bool NOT NULL default false,
   CONSTRAINT certification_result_optional_standard_pk PRIMARY KEY (id),
   CONSTRAINT certification_result_fk FOREIGN KEY (certification_result_id)
   REFERENCES openchpl.certification_result (certification_result_id) MATCH SIMPLE
@@ -709,7 +710,7 @@ CREATE TABLE openchpl.certification_result_test_functionality
 	creation_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_user bigint NOT NULL,
-	deleted bool NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
 	CONSTRAINT certification_result_test_functionality_pk PRIMARY KEY (certification_result_test_functionality_id),
 	CONSTRAINT certification_result_fk FOREIGN KEY (certification_result_id)
       REFERENCES openchpl.certification_result (certification_result_id) MATCH SIMPLE
@@ -739,7 +740,7 @@ CREATE TABLE openchpl.certification_result_ucd_process
 	creation_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_user bigint NOT NULL,
-	deleted bool NOT NULL,
+	deleted bool NOT NULL default false,
 	CONSTRAINT certification_result_ucd_process_pk PRIMARY KEY (certification_result_ucd_process_id),
 	CONSTRAINT certification_result_fk FOREIGN KEY (certification_result_id)
       REFERENCES openchpl.certification_result (certification_result_id) MATCH SIMPLE
