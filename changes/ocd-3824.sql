@@ -19,6 +19,4 @@ DROP TABLE IF EXISTS openchpl.acb_vendor_map;
 ALTER TABLE openchpl.pending_certified_product DROP COLUMN IF EXISTS vendor_transparency_attestation;
 
 -- delete columns
--- dropping the type by both names (can remove first line below after OCD-3717 goes to STG)
-DROP TYPE IF EXISTS openchpl.attestation;
 DROP TYPE IF EXISTS openchpl.transparency_attestation;
