@@ -42,8 +42,28 @@ WHERE NOT EXISTS (
 
 
 INSERT INTO openchpl.attestation_period (period_start, period_end, submission_start, submission_end, description, last_modified_user)
-SELECT '2022-02-01', '2022-09-30', '2022-10-01', '2022-10-30', 'Second Period', -1
+SELECT '2022-04-01', '2022-09-30', '2022-10-01', '2022-10-30', 'Second Period', -1
 WHERE NOT EXISTS (
 	SELECT *
 	FROM openchpl.attestation_period
 	WHERE description = 'Second Period');
+
+UPDATE openchpl.attestation
+SET description = 'We attest to compliance with the Information Blocking Condition of Certification requirement described in [45 CFR 170.401](https://ecfr.federalregister.gov/current/title-45/subtitle-A/subchapter-D/part-170/subpart-D/section-170.401).'
+WHERE description = 'We attest to compliance with the Information Blocking Condition of Certification requirement described in [§170.401](https://ecfr.federalregister.gov/current/title-45/subtitle-A/subchapter-D/part-170/subpart-D/section-170.401).';
+
+UPDATE openchpl.attestation
+SET description = 'We attest to compliance with the Assurances Condition and Maintenance of Certification requirements described in [45 CFR 170.402](https://ecfr.federalregister.gov/current/title-45/subtitle-A/subchapter-D/part-170/subpart-D/section-170.402).'
+WHERE description = 'We attest to compliance with the Assurances Condition and Maintenance of Certification requirements described in [§170.402](https://ecfr.federalregister.gov/current/title-45/subtitle-A/subchapter-D/part-170/subpart-D/section-170.402).';
+
+UPDATE openchpl.attestation
+SET description = 'We attest to compliance with the Communications Condition and Maintenance of Certification requirements described in [45 CFR 170.403](https://ecfr.federalregister.gov/current/title-45/subtitle-A/subchapter-D/part-170/subpart-D/section-170.403).'
+WHERE description = 'We attest to compliance with the Communications Condition and Maintenance of Certification requirements described in [§170.403](https://ecfr.federalregister.gov/current/title-45/subtitle-A/subchapter-D/part-170/subpart-D/section-170.403).';
+
+UPDATE openchpl.attestation
+SET description = 'We attest to compliance with the APIs Condition and Maintenance of Certification requirements described in [45 CFR 170.404](https://ecfr.federalregister.gov/current/title-45/subtitle-A/subchapter-D/part-170/subpart-D/section-170.404).'
+WHERE description = 'We attest to compliance with the APIs Condition and Maintenance of Certification requirements described in [§170.404](https://ecfr.federalregister.gov/current/title-45/subtitle-A/subchapter-D/part-170/subpart-D/section-170.404).';
+
+UPDATE openchpl.attestation
+SET description = 'We attest to compliance with the Real World Testing Condition and Maintenance of Certification requirements described in [45 CFR 170.405](https://ecfr.federalregister.gov/current/title-45/subtitle-A/subchapter-D/part-170/subpart-D/section-170.405).'
+WHERE description = 'We attest to compliance with the Real World Testing Condition and Maintenance of Certification requirements described in [§170.405](https://ecfr.federalregister.gov/current/title-45/subtitle-A/subchapter-D/part-170/subpart-D/section-170.405).';
