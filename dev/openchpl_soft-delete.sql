@@ -4,7 +4,48 @@ BEGIN
 	UPDATE openchpl.vendor_status_history as src SET deleted = NEW.deleted WHERE src.vendor_id = NEW.vendor_id;
 	UPDATE openchpl.acb_vendor_map as src SET deleted = NEW.deleted WHERE src.vendor_id = NEW.vendor_id;
 	UPDATE openchpl.user_developer_map as src SET deleted = NEW.deleted WHERE src.developer_id = NEW.vendor_id;
+
 	UPDATE openchpl.change_request as src SET deleted = NEW.deleted WHERE src.developer_id = NEW.vendor_id;
+	UPDATE openchpl.change_request_status as src SET deleted = NEW.deleted
+	WHERE change_request_id IN (
+		SELECT id
+		FROM openchpl.change_request
+		WHERE developer_id = NEW.vendor_id);
+
+	UPDATE openchpl.change_request_developer_details as src SET deleted = NEW.deleted
+	WHERE change_request_id IN (
+		SELECT id
+		FROM openchpl.change_request
+		WHERE developer_id = NEW.vendor_id);
+
+	UPDATE openchpl.change_request_website as src SET deleted = NEW.deleted
+	WHERE change_request_id IN (
+		SELECT id
+		FROM openchpl.change_request
+		WHERE developer_id = NEW.vendor_id);
+
+	UPDATE openchpl.change_request_attestation_submission as src SET deleted = NEW.deleted
+	WHERE change_request_id IN (
+		SELECT id
+		FROM openchpl.change_request
+		WHERE developer_id = NEW.vendor_id);
+
+	UPDATE openchpl.change_request_attestation_response as src SET deleted = NEW.deleted
+	WHERE change_request_attestation_submission_id IN (
+		SELECT id
+		FROM openchpl.change_request_attestation_submission
+		WHERE change_request_id IN (
+			SELECT id
+			FROM openchpl.change_request
+			WHERE developer_id = NEW.vendor_id));
+
+	UPDATE openchpl.developer_attestation_submission as src SET deleted = NEW.deleted WHERE src.developer_id = NEW.vendor_id;
+	UPDATE openchpl.developer_attestation_response as src SET deleted = NEW.deleted
+	WHERE developer_attestation_submission_id IN (
+		SELECT id
+		FROM openchpl.developer_attestation_submission
+		WHERE developer_id = NEW.vendor_id);
+
     RETURN NEW;
 END;
 $$ language 'plpgsql';
@@ -200,3 +241,24 @@ END;
 $$ language 'plpgsql';
 DROP TRIGGER IF EXISTS quarterly_report_soft_delete on openchpl.quarterly_report;
 CREATE TRIGGER quarterly_report_soft_delete AFTER UPDATE of deleted on openchpl.quarterly_report FOR EACH ROW EXECUTE PROCEDURE openchpl.quarterly_report_soft_delete();
+
+CREATE OR REPLACE FUNCTION openchpl.deprecated_api_soft_delete()
+RETURNS TRIGGER AS $$
+BEGIN
+    UPDATE openchpl.deprecated_api_usage as src SET deleted = NEW.deleted WHERE src.deprecated_api_id = NEW.id;
+    RETURN NEW;
+END;
+$$ language 'plpgsql';
+DROP TRIGGER IF EXISTS deprecated_api_soft_delete on openchpl.deprecated_api;
+CREATE TRIGGER deprecated_api_soft_delete AFTER UPDATE of deleted on openchpl.deprecated_api FOR EACH ROW EXECUTE PROCEDURE openchpl.deprecated_api_soft_delete();
+
+CREATE OR REPLACE FUNCTION openchpl.deprecated_response_field_api_soft_delete()
+RETURNS TRIGGER AS $$
+BEGIN
+    UPDATE openchpl.deprecated_response_field as src SET deleted = NEW.deleted WHERE src.deprecated_api_id = NEW.id;
+	UPDATE openchpl.deprecated_response_field_api_usage as src SET deleted = NEW.deleted WHERE src.deprecated_response_field_api_id = NEW.id;
+    RETURN NEW;
+END;
+$$ language 'plpgsql';
+DROP TRIGGER IF EXISTS deprecated_response_field_api_soft_delete on openchpl.deprecated_response_field_api;
+CREATE TRIGGER deprecated_response_field_api_soft_delete AFTER UPDATE of deleted on openchpl.deprecated_response_field_api FOR EACH ROW EXECUTE PROCEDURE openchpl.deprecated_response_field_api_soft_delete();
