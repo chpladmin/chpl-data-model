@@ -3794,6 +3794,24 @@ CREATE TABLE IF NOT EXISTS openchpl.developer_attestation_response (
       ON UPDATE CASCADE ON DELETE RESTRICT
 );
 
+CREATE TABLE IF NOT EXISTS openchpl.attestation_period_developer_exception (
+	id bigserial NOT NULL,
+	attestation_period_id bigint NOT NULL,
+	developer_id bigint NOT NULL,
+	exception_end date NOT NULL,
+	creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
+	CONSTRAINT attestation_period_developer_exception_pk PRIMARY KEY (id),
+	CONSTRAINT attestation_period_id_fk FOREIGN KEY (attestation_period_id)
+      REFERENCES openchpl.attestation_period (id) MATCH FULL
+      ON UPDATE CASCADE ON DELETE RESTRICT,
+	CONSTRAINT developer_id_fk FOREIGN KEY (developer_id)
+      REFERENCES openchpl.vendor (vendor_id) MATCH FULL
+      ON UPDATE CASCADE ON DELETE RESTRICT
+);
+
 CREATE INDEX fki_certified_product_id_fk
 ON openchpl.ehr_certification_id_product_map
 USING btree

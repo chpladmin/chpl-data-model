@@ -120,6 +120,8 @@ CREATE TRIGGER attestation_form_audit AFTER INSERT OR UPDATE OR DELETE on opench
 CREATE TRIGGER attestation_form_timestamp BEFORE UPDATE on openchpl.attestation_form FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER attestation_period_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.attestation_period FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER attestation_period_timestamp BEFORE UPDATE on openchpl.attestation_period FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
+CREATE TRIGGER attestation_period_developer_exception_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.attestation_period_developer_exception FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+CREATE TRIGGER attestation_period_developer_exception_timestamp BEFORE UPDATE on openchpl.attestation_period_developer_exception FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER attestation_valid_response_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.attestation_valid_response FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER attestation_valid_response_timestamp BEFORE UPDATE on openchpl.attestation_valid_response FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER broken_surveillance_rules_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.broken_surveillance_rules FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
