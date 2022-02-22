@@ -1,0 +1,3 @@
+-- remove deprecated response fields from /search/beta
+-- remove deprecated response field usage from /search/beta
+-- add /search/beta as deprecated endpoint
