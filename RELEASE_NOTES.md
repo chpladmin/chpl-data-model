@@ -1,5 +1,16 @@
 # Release Notes
 
+## Version 20.12.0
+_22 February 2022_
+
+### Features
+* Add tables to support new Attestation change request submission process
+
+### Data Changes
+* Deprecate original upload/confirm/reject endpoints; remove some endpoints with deprecated response fields where the endpoint itself is now deprecated
+
+---
+
 ## Version 20.11.3
 _24 January 2022_
 
