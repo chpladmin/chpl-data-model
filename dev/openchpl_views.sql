@@ -604,7 +604,7 @@ LEFT JOIN
             vendor_status.name AS vendor_status_name
            FROM openchpl.vendor_status) vendor_status ON vendor_status_history.vendor_status_id = vendor_status.vendor_status_id
 LEFT JOIN
-  (SELECT string_agg(vendor_1.vendor_id||':'||vendor_1.name, '|') AS history_vendor_id_and_name,
+  (SELECT string_agg(vendor_1.vendor_id||'☹'||vendor_1.name, '☺') AS history_vendor_id_and_name,
           product_owner_history_map.product_id AS history_product_id
    FROM openchpl.vendor vendor_1
    JOIN openchpl.product_owner_history_map ON vendor_1.vendor_id = product_owner_history_map.vendor_id
@@ -672,7 +672,7 @@ LEFT JOIN
   (SELECT surv.certified_product_id,
           STRING_AGG(
 		(EXTRACT(EPOCH FROM surv.start_date)*1000)::text
-		||'&'||
+		||':'||
 		COALESCE((EXTRACT(EPOCH FROM surv.end_date)*1000)::text, ''), '|') AS surv_date_ranges
    FROM openchpl.surveillance surv
    WHERE surv.deleted = FALSE
