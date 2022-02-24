@@ -34,7 +34,7 @@ CREATE TRIGGER attestation_period_developer_exception_timestamp BEFORE UPDATE on
 
 -- Set the correct attestation periods for go live!
 INSERT INTO openchpl.attestation_period (period_start, period_end, submission_start, submission_end, description, last_modified_user)
-SELECT '2021-01-01', '2022-03-30', '2022-04-01', '2022-04-30', 'First Period', -1
+SELECT '2020-06-30', '2022-03-31', '2022-04-01', '2022-04-30', 'First Period', -1
 WHERE NOT EXISTS (
 	SELECT *
 	FROM openchpl.attestation_period
