@@ -480,7 +480,7 @@ SELECT cp.certified_product_id,
 	   cp.rwt_plans_url,
 	   cp.rwt_results_url,
        certs_with_api_documentation.criteria_with_api_documentation,
-       certs_with_service_base_url_list.criteria_with_service_base_url,
+       certs_with_service_base_url_list.criteria_with_service_base_url_list,
        COALESCE(survs.count_surveillance_activities, 0::bigint) AS surveillance_count,
        COALESCE(surv_open.count_open_surveillance_activities, 0::bigint) as open_surveillance_count,
        COALESCE(surv_closed.count_closed_surveillance_activities, 0::bigint) as closed_surveillance_count,
@@ -704,7 +704,7 @@ LEFT JOIN
   (SELECT string_agg(DISTINCT certification_criterion.certification_criterion_id::text||':'
 						||certification_criterion.number||':'
 						||certification_criterion.title||'☹'
-						||certification_result.service_base_url_list, '☺') AS criteria_with_service_base_url,
+						||certification_result.service_base_url_list, '☺') AS criteria_with_service_base_url_list,
 	certification_result.certified_product_id
 	FROM openchpl.certification_criterion
 	JOIN openchpl.certification_result ON certification_criterion.certification_criterion_id = certification_result.certification_criterion_id
