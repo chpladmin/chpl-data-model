@@ -46,6 +46,8 @@ BEGIN
 		FROM openchpl.developer_attestation_submission
 		WHERE developer_id = NEW.vendor_id);
 
+	UPDATE openchpl.attestation_period_developer_exception as src SET deleted = NEW.deleted WHERE src.developer_id = NEW.vendor_id;
+
     RETURN NEW;
 END;
 $$ language 'plpgsql';
