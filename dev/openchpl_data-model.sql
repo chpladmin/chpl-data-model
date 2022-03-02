@@ -871,7 +871,7 @@ CREATE TABLE openchpl.test_data_criteria_map (
 		MATCH FULL ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
-CREATE TABLE openchpl.conformance_method_criteria_map (
+CREATE TABLE openchpl.certification_result_conformance_method (
 	id bigserial NOT NULL,
 	criteria_id bigint NOT NULL,
 	conformance_method_id bigint NOT NULL,
@@ -885,6 +885,25 @@ CREATE TABLE openchpl.conformance_method_criteria_map (
 		MATCH FULL ON DELETE RESTRICT ON UPDATE CASCADE,
 	CONSTRAINT conformance_method_fk FOREIGN KEY (conformance_method_id)
 		REFERENCES openchpl.conformance_method (id)
+		MATCH FULL ON DELETE RESTRICT ON UPDATE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS openchpl.certification_result_conformance_method
+(
+    id bigint NOT NULL,
+    certification_result_id bigint NOT NULL,
+    conformance_method_id bigint NOT NULL,
+    version character varying(50),
+    creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
+    CONSTRAINT certification_result_conformance_method_pk PRIMARY KEY (id),
+    CONSTRAINT certification_result_fk FOREIGN KEY (certification_result_id)
+        REFERENCES openchpl.certification_result (certification_result_id)
+		MATCH FULL ON DELETE RESTRICT ON UPDATE CASCADE,
+    CONSTRAINT conformance_method_fk FOREIGN KEY (conformance_method_id)
+        REFERENCES openchpl.conformance_method (id)
 		MATCH FULL ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
