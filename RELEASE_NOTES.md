@@ -1,5 +1,13 @@
 # Release Notes
 
+## Version 20.13.0
+_7 March 2022_
+
+### Features
+* Remove transparency attestation from tables and columns
+
+---
+
 ## Version 20.12.0
 _22 February 2022_
 
