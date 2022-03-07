@@ -24,7 +24,6 @@ SET search_path TO pg_catalog,public,openchpl;
 -- ddl-end --
 
 CREATE TYPE openchpl.fuzzy_type as enum('UCD Process', 'QMS Standard', 'Accessibility Standard');
-CREATE TYPE openchpl.transparency_attestation as enum('Affirmative', 'Negative', 'N/A');
 CREATE TYPE openchpl.validation_message_type as enum('Error', 'Warning');
 CREATE TYPE openchpl.job_status_type as enum('In Progress', 'Complete', 'Error');
 CREATE TYPE openchpl.questionable_activity_trigger_level as enum('Version', 'Product', 'Developer', 'Listing', 'Certification Criteria');
@@ -219,22 +218,6 @@ CREATE TABLE openchpl.vendor_status_history (
 	CONSTRAINT vendor_status_fk FOREIGN KEY (vendor_status_id) REFERENCES openchpl.vendor_status (vendor_status_id)
 		MATCH FULL ON DELETE RESTRICT ON UPDATE CASCADE
 );
-
-CREATE TABLE openchpl.acb_vendor_map (
-	acb_vendor_map_id bigserial NOT NULL,
-	vendor_id bigint NOT NULL,
-	certification_body_id bigint NOT NULL,
-	transparency_attestation transparency_attestation,
-	creation_date timestamp NOT NULL DEFAULT NOW(),
-	last_modified_date timestamp NOT NULL DEFAULT NOW(),
-	last_modified_user bigint NOT NULL,
-	deleted bool NOT NULL DEFAULT false,
-	CONSTRAINT acb_vendor_pk PRIMARY KEY (acb_vendor_map_id),
-    CONSTRAINT acb_vendor_map_vendor_id_certification_body_id_key UNIQUE (vendor_id, certification_body_id)
-);
-
--- ALTER TABLE openchpl.acb_vendor_map OWNER TO openchpl;
--- ddl-end --
 
 CREATE TABLE openchpl.qms_standard (
 	qms_standard_id bigserial NOT NULL,
@@ -1136,14 +1119,6 @@ REFERENCES openchpl.address (address_id) MATCH FULL
 ON DELETE SET NULL ON UPDATE CASCADE;
 -- ddl-end --
 
-ALTER TABLE openchpl.acb_vendor_map ADD CONSTRAINT vendor_fk FOREIGN KEY (vendor_id)
-REFERENCES openchpl.vendor (vendor_id) MATCH FULL
-ON DELETE RESTRICT ON UPDATE CASCADE;
-
-ALTER TABLE openchpl.acb_vendor_map ADD CONSTRAINT certification_body_fk FOREIGN KEY (certification_body_id)
-REFERENCES openchpl.certification_body (certification_body_id) MATCH FULL
-ON DELETE RESTRICT ON UPDATE CASCADE;
-
 -- object: openchpl.contact | type: TABLE --
 -- DROP TABLE IF EXISTS openchpl.contact CASCADE;
 CREATE TABLE openchpl.contact(
@@ -1472,7 +1447,6 @@ CREATE TABLE openchpl.pending_certified_product (
 	vendor_email text,
 	vendor_contact_name text,
 	vendor_phone text,
-	vendor_transparency_attestation transparency_attestation,
 	vendor_mandatory_disclosures varchar(1024),
 	self_developer bool,
 	accessibility_certified boolean default false,
