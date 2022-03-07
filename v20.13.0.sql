@@ -1,3 +1,6 @@
+-- Deployment file for version 20.13.0
+--     as of 2022-03-07
+-- ./changes/ocd-3824.sql
 -- change email address for jira api key
 UPDATE openchpl.api_key
 SET email = 'CSrinadhu@ainq.com',
@@ -20,3 +23,8 @@ ALTER TABLE openchpl.pending_certified_product DROP COLUMN IF EXISTS vendor_tran
 
 -- delete columns
 DROP TYPE IF EXISTS openchpl.transparency_attestation;
+;
+insert into openchpl.data_model_version (version, deploy_date, last_modified_user) values ('20.13.0', '2022-03-07', -1);
+\i dev/openchpl_soft-delete.sql
+\i dev/openchpl_views.sql
+\i dev/openchpl_grant-all.sql
