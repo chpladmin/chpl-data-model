@@ -54,7 +54,7 @@ CREATE TRIGGER developer_soft_delete AFTER UPDATE of deleted on openchpl.vendor 
 CREATE OR REPLACE FUNCTION openchpl.product_soft_delete()
 RETURNS TRIGGER AS $$
 BEGIN
-	UPDATE openchpl.product_owner_history_ap as src SET deleted = NEW.deleted WHERE src.product_id = NEW.product_id;
+	UPDATE openchpl.product_owner_history_map as src SET deleted = NEW.deleted WHERE src.product_id = NEW.product_id;
     RETURN NEW;
 END;
 $$ language 'plpgsql';
