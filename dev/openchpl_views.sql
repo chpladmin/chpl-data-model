@@ -1,5 +1,3 @@
-DROP VIEW IF EXISTS openchpl.developers_with_attestations;
-DROP VIEW IF EXISTS openchpl.acb_developer_transparency_mappings;
 DROP VIEW IF EXISTS openchpl.product_certification_statuses;
 DROP VIEW IF EXISTS openchpl.developer_certification_statuses;
 DROP VIEW IF EXISTS openchpl.certified_product_search_result;
@@ -198,7 +196,6 @@ CREATE VIEW openchpl.certified_product_details AS
     r.certification_status_id,
     r.last_certification_status_change,
     n.certification_status_name,
-    p.transparency_attestation,
     cures_update.cures_update
    FROM openchpl.certified_product a
      LEFT JOIN (
@@ -278,10 +275,6 @@ CREATE VIEW openchpl.certified_product_details AS
             vendor.contact_id AS vendor_contact,
             vendor.vendor_status_id
            FROM openchpl.vendor) h ON g.vendor_id = h.vendor_id
-     LEFT JOIN ( SELECT acb_vendor_map.vendor_id,
-            acb_vendor_map.certification_body_id,
-            acb_vendor_map.transparency_attestation
-           FROM openchpl.acb_vendor_map) p ON h.vendor_id = p.vendor_id AND a.certification_body_id = p.certification_body_id
      LEFT JOIN ( SELECT address.address_id,
             address.street_line_1,
             address.street_line_2,
@@ -912,57 +905,6 @@ FROM openchpl.product p
 
     LEFT JOIN openchpl.certification_status cs ON lastCertStatusEvent.certification_status_id = cs.certification_status_id
 GROUP BY p.product_id;
-
-CREATE VIEW openchpl.acb_developer_transparency_mappings AS
-SELECT row_number() OVER () AS id,
-    certification_body.certification_body_id,
-    certification_body."name" AS acb_name,
-    acb_vendor_map.transparency_attestation,
-    vendor."name" AS developer_name,
-    vendor.vendor_id
-FROM openchpl.vendor
-    LEFT JOIN openchpl.acb_vendor_map ON acb_vendor_map.vendor_id = vendor.vendor_id
-    LEFT JOIN openchpl.certification_body ON acb_vendor_map.certification_body_id = certification_body.certification_body_id
-WHERE (certification_body.deleted = false OR certification_body.deleted IS NULL) AND vendor.deleted = false;
-
-CREATE VIEW openchpl.developers_with_attestations AS
-SELECT
-    v.vendor_id as vendor_id,
-    v.name as vendor_name,
-    s.name as status_name,
-    sum(case when certification_status.certification_status = 'Active' then 1 else 0 end) as countActiveListings,
-    sum(case when certification_status.certification_status = 'Retired' then 1 else 0 end) as countRetiredListings,
-    sum(case when certification_status.certification_status = 'Pending' then 1 else 0 end) as countPendingListings,
-    sum(case when certification_status.certification_status = 'Withdrawn by Developer' then 1 else 0 end) as countWithdrawnByDeveloperListings,
-    sum(case when certification_status.certification_status = 'Withdrawn by ONC-ACB' then 1 else 0 end) as countWithdrawnByOncAcbListings,
-    sum(case when certification_status.certification_status = 'Suspended by ONC-ACB' then 1 else 0 end) as countSuspendedByOncAcbListings,
-    sum(case when certification_status.certification_status = 'Suspended by ONC' then 1 else 0 end) as countSuspendedByOncListings,
-    sum(case when certification_status.certification_status = 'Terminated by ONC' then 1 else 0 end) as countTerminatedByOncListings,
-    sum(case when certification_status.certification_status = 'Withdrawn by Developer Under Surveillance/Review' then 1 else 0 end) as countWithdrawnByDeveloperUnderSurveillanceListings,
---only include urls that are not empty strings and come from
--- a listing with one of the active... or suspended... statuses
-    string_agg(DISTINCT
-	case when
-	listings.mandatory_disclosures::text != ''
-	and
-	(certification_status.certification_status = 'Active'
-	    or
-	    certification_status.certification_status = 'Suspended by ONC'
-	    or
-	    certification_status.certification_status = 'Suspended by ONC-ACB')
-	then listings.mandatory_disclosures::text else null end, '☺')
-    as "mandatory_disclosures",
---using coalesce here because the attestation can be null and concatting null with anything just gives null
---so null/empty attestations are left out unless we replace null with empty string
-    string_agg(DISTINCT acb.name::text||':'||COALESCE(attestations.transparency_attestation::text, ''), '☺') as "attestations"
-FROM openchpl.vendor v
-    LEFT OUTER JOIN openchpl.vendor_status s ON v.vendor_status_id = s.vendor_status_id
-    LEFT OUTER JOIN openchpl.certified_product_details listings ON listings.vendor_id = v.vendor_id AND listings.deleted != true
-    LEFT OUTER JOIN openchpl.certification_status ON listings.certification_status_id = certification_status.certification_status_id
-    LEFT OUTER JOIN openchpl.acb_vendor_map attestations ON attestations.vendor_id = v.vendor_id AND attestations.deleted != true
-    LEFT OUTER JOIN openchpl.certification_body acb ON attestations.certification_body_id = acb.certification_body_id AND acb.deleted != true
-WHERE v.deleted != true
-GROUP BY v.vendor_id, v.name, s.name;
 
 CREATE VIEW openchpl.ehr_certification_ids_and_products AS
 SELECT
