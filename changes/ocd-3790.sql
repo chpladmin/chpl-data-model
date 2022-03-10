@@ -61,9 +61,21 @@ SET description = 'We attest to compliance with the Communications Condition and
 WHERE description = 'We attest to compliance with the Communications Condition and Maintenance of Certification requirements described in [§170.403](https://ecfr.federalregister.gov/current/title-45/subtitle-A/subchapter-D/part-170/subpart-D/section-170.403).';
 
 UPDATE openchpl.attestation
-SET description = 'We attest to compliance with the APIs Condition and Maintenance of Certification requirements described in [45 CFR 170.404](https://ecfr.federalregister.gov/current/title-45/subtitle-A/subchapter-D/part-170/subpart-D/section-170.404).'
+SET description = 'We attest to compliance with the Application Programming Interfaces (APIs) Condition and Maintenance of Certification requirements described in [45 CFR 170.404](https://ecfr.federalregister.gov/current/title-45/subtitle-A/subchapter-D/part-170/subpart-D/section-170.404).'
 WHERE description = 'We attest to compliance with the APIs Condition and Maintenance of Certification requirements described in [§170.404](https://ecfr.federalregister.gov/current/title-45/subtitle-A/subchapter-D/part-170/subpart-D/section-170.404).';
 
 UPDATE openchpl.attestation
 SET description = 'We attest to compliance with the Real World Testing Condition and Maintenance of Certification requirements described in [45 CFR 170.405](https://ecfr.federalregister.gov/current/title-45/subtitle-A/subchapter-D/part-170/subpart-D/section-170.405).'
 WHERE description = 'We attest to compliance with the Real World Testing Condition and Maintenance of Certification requirements described in [§170.405](https://ecfr.federalregister.gov/current/title-45/subtitle-A/subchapter-D/part-170/subpart-D/section-170.405).';
+
+UPDATE openchpl.attestation_condition
+SET name = 'Application Programming Interfaces'
+WHERE name = 'Application Programming Interfaces (APIs)';
+
+UPDATE openchpl.attestation_valid_response
+SET response = 'Compliant with the requirements of 45 CFR 170.402; certifies to the criterion at 45 CFR 170.315(b)(10) and provides all of its customers of certified health IT with health IT certified to the certification criterion in 45 CFR 170.315(b)(10).'
+WHERE response = 'Compliant with the requirements of §45 CFR §170.402; certifies to the criterion at §45 CFR §170.315(b)(10) and provides all of its customers of certified health IT with health IT certified to the certification criterion in §45 CFR §170.315(b)(10)';
+
+UPDATE openchpl.attestation_valid_response
+SET response = 'Compliant with the requirements of 45 CFR 170.402; does not certify to the criterion at 45 CFR 170.315(b)(10) or does not provide all of its customers of certified health IT with health IT certified to the certification criterion in 45 CFR 170.315(b)(10).'
+WHERE response = 'Compliant with the requirements of §45 CFR §170.402; does not certify to the criterion at §45 CFR §170.315(b)(10) or does not provide all of its customers of certified health IT with health IT certified to the certification criterion in §45 CFR §170.315(b)(10)';
