@@ -1066,12 +1066,30 @@ AND acb.retired = false
 AND developer_status_name = 'Under certification ban by ONC';
 
 CREATE OR REPLACE VIEW openchpl.developer_certification_body_map
-AS SELECT DISTINCT cp.certification_body_id,
-     dev.vendor_id
-   FROM openchpl.certified_product cp
-     JOIN openchpl.product_version prod_ver ON cp.product_version_id = prod_ver.product_version_id
-     JOIN openchpl.product prod ON prod_ver.product_id = prod.product_id
-     JOIN openchpl.vendor dev ON prod.vendor_id = dev.vendor_id;
+AS
+SELECT DISTINCT cp.certification_body_id, dev.vendor_id
+FROM openchpl.certified_product cp
+	JOIN openchpl.product_version prod_ver
+		ON cp.product_version_id = prod_ver.product_version_id
+   	JOIN openchpl.product prod
+   		ON prod_ver.product_id = prod.product_id
+    JOIN openchpl.vendor dev
+    	ON prod.vendor_id = dev.vendor_id
+    JOIN (SELECT cse.certification_status_id,
+    		cse.certified_product_id,
+            cse.last_certification_status_change
+         FROM (SELECT cse_inner.certification_status_id,
+         		cse_inner.certified_product_id,
+                cse_inner.event_date AS last_certification_status_change,
+                ROW_NUMBER() OVER (
+                	PARTITION BY cse_inner.certified_product_id
+                    ORDER BY cse_inner.event_date DESC) rownum
+             FROM openchpl.certification_status_event cse_inner
+             WHERE cse_inner.deleted = false) cse
+         WHERE cse.rownum = 1
+         AND cse.certification_status_id IN (1, 6, 7)) as listing_status
+         ON cp.certified_product_id = listing_status.certified_product_id
+AND cp.certification_edition_id = 3;
 
 CREATE OR REPLACE VIEW openchpl.aggregated_nonconformity_statistics
 AS select ROW_NUMBER() OVER (ORDER BY nonconformity_count) as id, *
