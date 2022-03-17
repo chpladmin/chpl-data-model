@@ -9,7 +9,7 @@ CREATE TABLE openchpl.certified_product_chpl_product_number_history (
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_user bigint NOT NULL,
 	deleted bool NOT NULL DEFAULT false,
-	CONSTRAINT certified_product_qms_standard_pk PRIMARY KEY (certified_product_qms_standard_id),
+	CONSTRAINT certified_product_chpl_product_number_history_pk PRIMARY KEY (id),
 	CONSTRAINT certified_product_fk FOREIGN KEY (certified_product_id)
       REFERENCES openchpl.certified_product (certified_product_id) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION
