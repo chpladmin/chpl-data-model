@@ -1,3 +1,6 @@
+-- Deployment file for version 20.14.0
+--     as of 2022-03-22
+-- ./changes/ocd-3790.sql
 DROP TABLE IF EXISTS openchpl.attestation_period_developer_exception;
 
 TRUNCATE openchpl.change_request_website,
@@ -79,3 +82,43 @@ WHERE response = 'Compliant with the requirements of §45 CFR §170.402; certifi
 UPDATE openchpl.attestation_valid_response
 SET response = 'Compliant with the requirements of 45 CFR 170.402; does not certify to the criterion at 45 CFR 170.315(b)(10) or does not provide all of its customers of certified health IT with health IT certified to the certification criterion in 45 CFR 170.315(b)(10).'
 WHERE response = 'Compliant with the requirements of §45 CFR §170.402; does not certify to the criterion at §45 CFR §170.315(b)(10) or does not provide all of its customers of certified health IT with health IT certified to the certification criterion in §45 CFR §170.315(b)(10)';
+;
+-- ./changes/ocd-3850.sql
+-- remove deprecated response field API from /search/beta
+UPDATE openchpl.deprecated_response_field_api
+SET deleted = false
+WHERE api_operation = '/search/beta';
+
+-- remove deprecated response field usage from /search/beta
+UPDATE openchpl.deprecated_response_field_api_usage
+SET deleted = true
+WHERE deprecated_response_field_api_id IN(
+	SELECT id 
+	FROM openchpl.deprecated_response_field
+	WHERE deprecated_api_id IN (
+		SELECT id 
+		FROM openchpl.deprecated_response_field_api
+		WHERE api_operation = '/search/beta'));
+
+-- add /search/beta as deprecated endpoint
+INSERT INTO openchpl.deprecated_api (http_method, api_operation, request_parameter, change_description, removal_date, last_modified_user)
+SELECT 'GET',
+	'/search/beta',
+	NULL,
+	'This endpoint is deprecated and will be removed in a future release. Please use /search/v2 to perform searches.',
+	'2022-09-07',
+	-1
+WHERE NOT EXISTS (SELECT * FROM openchpl.deprecated_api WHERE http_method = 'GET' and api_operation LIKE '/search/beta');
+
+INSERT INTO openchpl.deprecated_api (http_method, api_operation, request_parameter, change_description, removal_date, last_modified_user)
+SELECT 'POST',
+	'/search/beta',
+	NULL,
+	'This endpoint is deprecated and will be removed in a future release. Please POST to /search/v2 to perform searches.',
+	'2022-09-07',
+	-1
+WHERE NOT EXISTS (SELECT * FROM openchpl.deprecated_api WHERE http_method = 'POST' and api_operation LIKE '/search/beta');;
+insert into openchpl.data_model_version (version, deploy_date, last_modified_user) values ('20.14.0', '2022-03-22', -1);
+\i dev/openchpl_soft-delete.sql
+\i dev/openchpl_views.sql
+\i dev/openchpl_grant-all.sql
