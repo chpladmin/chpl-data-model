@@ -45,11 +45,23 @@ BEGIN
 		FROM openchpl.developer_attestation_submission
 		WHERE developer_id = NEW.vendor_id);
 
+	UPDATE openchpl.attestation_period_developer_exception as src SET deleted = NEW.deleted WHERE src.developer_id = NEW.vendor_id;
+
     RETURN NEW;
 END;
 $$ language 'plpgsql';
 DROP TRIGGER IF EXISTS developer_soft_delete on openchpl.vendor;
 CREATE TRIGGER developer_soft_delete AFTER UPDATE of deleted on openchpl.vendor FOR EACH ROW EXECUTE PROCEDURE openchpl.developer_soft_delete();
+
+CREATE OR REPLACE FUNCTION openchpl.product_soft_delete()
+RETURNS TRIGGER AS $$
+BEGIN
+	UPDATE openchpl.product_owner_history_map as src SET deleted = NEW.deleted WHERE src.product_id = NEW.product_id;
+    RETURN NEW;
+END;
+$$ language 'plpgsql';
+DROP TRIGGER IF EXISTS product_soft_delete on openchpl.product;
+CREATE TRIGGER product_soft_delete AFTER UPDATE of deleted on openchpl.product FOR EACH ROW EXECUTE PROCEDURE openchpl.product_soft_delete();
 
 CREATE OR REPLACE FUNCTION openchpl.certified_product_soft_delete()
 RETURNS TRIGGER AS $$
