@@ -131,3 +131,33 @@ SELECT 'GET',
 	'2022-10-18',
 	-1
 WHERE NOT EXISTS (SELECT * FROM openchpl.deprecated_api WHERE http_method = 'GET' and api_operation LIKE '/activity/metadata/beta/api-keys');
+
+
+-- remove the */certification_results endpoints since they now have 0 deprecated response fields
+UPDATE openchpl.deprecated_response_field_api
+SET deleted = true
+WHERE api_operation = '/certified_products/{certifiedProductId:^-?\d+$}/certification_results'
+AND http_method = 'GET';
+
+UPDATE openchpl.deprecated_response_field_api
+SET deleted = true
+WHERE api_operation = '/certified_products/{year}.{testingLab}.{certBody}.{vendorCode}.{productCode}.{versionCode}.{icsCode}.{addlSoftwareCode}.{certDateCode}/certification_results'
+AND http_method = 'GET';
+
+UPDATE openchpl.deprecated_response_field_api
+SET deleted = true
+WHERE api_operation = '/certified_products/{chplPrefix}-{identifier}/certification_results'
+AND http_method = 'GET';
+
+UPDATE openchpl.deprecated_response_field_api
+SET deleted = true
+WHERE api_operation = '/key'
+AND http_method = 'GET';
+
+UPDATE openchpl.deprecated_response_field_api
+SET deleted = true
+WHERE api_operation = '/key/confirm'
+AND http_method = 'POST';
+
+-- remove anywhere "number" and "title" are referenced as deprecated response fields 
+-- are any places left? The various "details" calls are candidates unless they had all their deprecated response fields removed already
