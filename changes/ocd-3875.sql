@@ -181,21 +181,6 @@ SET deleted = true
 WHERE api_operation = '/surveillance-report/quarterly/{quarterlyReportId}'
 AND http_method = 'GET';
 
-UPDATE openchpl.deprecated_response_field_api
-SET deleted = true
-WHERE api_operation = '/search/beta'
-AND http_method = 'GET';
-
-UPDATE openchpl.deprecated_response_field_api
-SET deleted = true
-WHERE api_operation = '/search/beta'
-AND http_method = 'POST';
-
-UPDATE openchpl.deprecated_response_field_api
-SET deleted = true
-WHERE api_operation = '/collections/certified-products'
-AND http_method = 'GET';
-
 --
 -- Remove deprecated response fields where the API endpoint has remaining deprecated response fields
 --
