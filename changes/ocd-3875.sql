@@ -159,5 +159,26 @@ SET deleted = true
 WHERE api_operation = '/key/confirm'
 AND http_method = 'POST';
 
+UPDATE openchpl.deprecated_response_field_api
+SET deleted = true
+WHERE api_operation = '/surveillance-report/quarterly'
+AND http_method = 'PUT';
+
+UPDATE openchpl.deprecated_response_field_api
+SET deleted = true
+WHERE api_operation = '/surveillance-report/quarterly'
+AND http_method = 'GET';
+
+UPDATE openchpl.deprecated_response_field_api
+SET deleted = true
+WHERE api_operation = '/surveillance-report/quarterly'
+AND http_method = 'POST';
+
+UPDATE openchpl.deprecated_response_field_api
+SET deleted = true
+WHERE api_operation = '/surveillance-report/quarterly/{quarterlyReportId}'
+AND http_method = 'GET';
+
 -- remove anywhere "number" and "title" are referenced as deprecated response fields 
+-- remove anywhere "currentMeaningfulUseUsers" is referenced as a deprecated response field
 -- are any places left? The various "details" calls are candidates unless they had all their deprecated response fields removed already
