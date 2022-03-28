@@ -132,8 +132,10 @@ SELECT 'GET',
 	-1
 WHERE NOT EXISTS (SELECT * FROM openchpl.deprecated_api WHERE http_method = 'GET' and api_operation LIKE '/activity/metadata/beta/api-keys');
 
+--
+-- Remove endpoints that now have 0 deprecated response fields
+--
 
--- remove the */certification_results endpoints since they now have 0 deprecated response fields
 UPDATE openchpl.deprecated_response_field_api
 SET deleted = true
 WHERE api_operation = '/certified_products/{certifiedProductId:^-?\d+$}/certification_results'
@@ -179,6 +181,31 @@ SET deleted = true
 WHERE api_operation = '/surveillance-report/quarterly/{quarterlyReportId}'
 AND http_method = 'GET';
 
--- remove anywhere "number" and "title" are referenced as deprecated response fields 
--- remove anywhere "currentMeaningfulUseUsers" is referenced as a deprecated response field
--- are any places left? The various "details" calls are candidates unless they had all their deprecated response fields removed already
+--
+-- Remove deprecated response fields where the API endpoint has remaining deprecated response fields
+--
+
+UPDATE openchpl.deprecated_response_field
+SET deleted = true
+WHERE response_field like '%number%';
+
+UPDATE openchpl.deprecated_response_field
+SET deleted = true
+WHERE response_field like '%title%';
+
+UPDATE openchpl.deprecated_response_field
+SET deleted = true
+WHERE response_field like '%currentMeaningfulUseUsers%';
+
+UPDATE openchpl.deprecated_response_field
+SET deleted = true
+WHERE response_field like '%transparencyAttestationUrl%';
+
+UPDATE openchpl.deprecated_response_field
+SET deleted = true
+WHERE response_field like '%startDate%';
+
+UPDATE openchpl.deprecated_response_field
+SET deleted = true
+WHERE response_field like '%endDate%';
+
