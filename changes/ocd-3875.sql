@@ -196,6 +196,66 @@ SET deleted = true
 WHERE api_operation = '/collections/certified-products'
 AND http_method = 'GET';
 
+UPDATE openchpl.deprecated_response_field_api
+SET deleted = true
+WHERE api_operation = '/schedules/triggers'
+AND http_method = 'GET';
+
+UPDATE openchpl.deprecated_response_field_api
+SET deleted = true
+WHERE api_operation = '/schedules/triggers'
+AND http_method = 'POST';
+
+UPDATE openchpl.deprecated_response_field_api
+SET deleted = true
+WHERE api_operation = '/schedules/triggers'
+AND http_method = 'PUT';
+
+UPDATE openchpl.deprecated_response_field_api
+SET deleted = true
+WHERE api_operation = '/schedules/triggers/one_time'
+AND http_method = 'POST';
+
+UPDATE openchpl.deprecated_response_field_api
+SET deleted = true
+WHERE api_operation = '/schedules/jobs'
+AND http_method = 'GET';
+
+UPDATE openchpl.deprecated_response_field_api
+SET deleted = true
+WHERE api_operation = '/schedules/jobs'
+AND http_method = 'PUT';
+
+UPDATE openchpl.deprecated_response_field_api
+SET deleted = true
+WHERE api_operation = '/developers/{developerId}/split'
+AND http_method = 'POST';
+
+UPDATE openchpl.deprecated_response_field_api
+SET deleted = true
+WHERE api_operation = '/developers/merge'
+AND http_method = 'POST';
+
+UPDATE openchpl.deprecated_response_field_api
+SET deleted = true
+WHERE api_operation = '/promoting-interoperability/upload'
+AND http_method = 'POST';
+
+UPDATE openchpl.deprecated_response_field_api
+SET deleted = true
+WHERE api_operation = '/surveillance-report/export/annual/{annualReportId}'
+AND http_method = 'GET';
+
+UPDATE openchpl.deprecated_response_field_api
+SET deleted = true
+WHERE api_operation = '/surveillance-report/export/quarterly/{quarterlyReportId}'
+AND http_method = 'GET';
+
+UPDATE openchpl.deprecated_response_field_api
+SET deleted = true
+WHERE api_operation = '/surveillance/reports/activity'
+AND http_method = 'GET';
+
 --
 -- Remove deprecated response fields where the API endpoint has remaining deprecated response fields
 --
@@ -251,3 +311,8 @@ WHERE response_field like '%capMustCompleteDate%';
 UPDATE openchpl.deprecated_response_field
 SET deleted = true
 WHERE response_field like '%capApprovalDate%';
+
+UPDATE openchpl.deprecated_response_field
+SET deleted = true
+WHERE response_field like '%frequency%'
+AND deleted = false;
