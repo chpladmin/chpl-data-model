@@ -181,6 +181,21 @@ SET deleted = true
 WHERE api_operation = '/surveillance-report/quarterly/{quarterlyReportId}'
 AND http_method = 'GET';
 
+UPDATE openchpl.deprecated_response_field_api
+SET deleted = true
+WHERE api_operation = '/search/beta'
+AND http_method = 'GET';
+
+UPDATE openchpl.deprecated_response_field_api
+SET deleted = true
+WHERE api_operation = '/search/beta'
+AND http_method = 'POST';
+
+UPDATE openchpl.deprecated_response_field_api
+SET deleted = true
+WHERE api_operation = '/collections/certified-products'
+AND http_method = 'GET';
+
 --
 -- Remove deprecated response fields where the API endpoint has remaining deprecated response fields
 --
@@ -209,3 +224,30 @@ UPDATE openchpl.deprecated_response_field
 SET deleted = true
 WHERE response_field like '%endDate%';
 
+UPDATE openchpl.deprecated_response_field
+SET deleted = true
+WHERE response_field like '%status%';
+
+UPDATE openchpl.deprecated_response_field
+SET deleted = true
+WHERE response_field like '%nonconformityCloseDate%';
+
+UPDATE openchpl.deprecated_response_field
+SET deleted = true
+WHERE response_field like '%dateOfDetermination%';
+
+UPDATE openchpl.deprecated_response_field
+SET deleted = true
+WHERE response_field like '%capStartDate%';
+
+UPDATE openchpl.deprecated_response_field
+SET deleted = true
+WHERE response_field like '%capEndDate%';
+
+UPDATE openchpl.deprecated_response_field
+SET deleted = true
+WHERE response_field like '%capMustCompleteDate%';
+
+UPDATE openchpl.deprecated_response_field
+SET deleted = true
+WHERE response_field like '%capApprovalDate%';
