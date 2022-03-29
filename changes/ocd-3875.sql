@@ -1,7 +1,8 @@
 -- Delete all deprecated endpoints that had a removal date of 4/15/22
 UPDATE openchpl.deprecated_api
 SET deleted = true 
-WHERE removal_date = '2022-04-15';
+WHERE removal_date = '2022-04-15'
+AND api_operation != '/meaningful_use/upload';
 
 -- deprecate /activity/users/{id}
 INSERT INTO openchpl.deprecated_api (http_method, api_operation, request_parameter, change_description, removal_date, last_modified_user)
