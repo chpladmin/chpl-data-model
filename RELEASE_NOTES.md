@@ -1,5 +1,24 @@
 # Release Notes
 
+## Version 20.14.1
+_1 April 2022_
+
+### Data Changes
+* Add Attestations Requirement value for Surveillance
+* Deprecate bulk reject of pending Listings
+
+---
+
+## Version 20.14.0
+_22 March 2022_
+
+### Features
+* Add table to support attestation period exceptions for developers 
+* Add listing_search view to support /search/v2 endpoint
+* Update developer_certification_body_map view to filter for 2015 and active certificates
+
+---
+
 ## Version 20.13.0
 _7 March 2022_
 
