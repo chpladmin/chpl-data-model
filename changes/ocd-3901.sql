@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS openchpl.certified_product_chpl_product_number_history;
+DROP TABLE IF EXISTS openchpl.certified_product_chpl_product_number_history CASCADE;
 
 CREATE TABLE openchpl.certified_product_chpl_product_number_history (
 	id bigserial NOT NULL,
