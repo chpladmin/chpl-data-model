@@ -273,57 +273,71 @@ AND http_method = 'GET';
 
 UPDATE openchpl.deprecated_response_field
 SET deleted = true
-WHERE response_field like '%number%';
+WHERE response_field like '%number%'
+AND id < 312;
 
 UPDATE openchpl.deprecated_response_field
 SET deleted = true
-WHERE response_field like '%title%';
+WHERE response_field like '%title%'
+AND id < 312;
 
 UPDATE openchpl.deprecated_response_field
 SET deleted = true
-WHERE response_field like '%currentMeaningfulUseUsers%';
+WHERE response_field like '%currentMeaningfulUseUsers%'
+AND id < 312;
 
 UPDATE openchpl.deprecated_response_field
 SET deleted = true
-WHERE response_field like '%transparencyAttestationUrl%';
+WHERE response_field like '%transparencyAttestationUrl%'
+AND id < 312;
 
 UPDATE openchpl.deprecated_response_field
 SET deleted = true
-WHERE response_field like '%startDate%';
+WHERE response_field like '%startDate%'
+AND id < 312;
 
 UPDATE openchpl.deprecated_response_field
 SET deleted = true
-WHERE response_field like '%endDate%';
+WHERE response_field like '%endDate%'
+AND id < 312;
 
 UPDATE openchpl.deprecated_response_field
 SET deleted = true
-WHERE response_field like '%status%';
+WHERE response_field like '%status%'
+AND id < 312;
 
 UPDATE openchpl.deprecated_response_field
 SET deleted = true
-WHERE response_field like '%nonconformityCloseDate%';
+WHERE response_field like '%nonconformityCloseDate%'
+AND id < 312;
 
 UPDATE openchpl.deprecated_response_field
 SET deleted = true
-WHERE response_field like '%dateOfDetermination%';
+WHERE response_field like '%dateOfDetermination%'
+AND id < 312;
 
 UPDATE openchpl.deprecated_response_field
 SET deleted = true
-WHERE response_field like '%capStartDate%';
+WHERE response_field like '%capStartDate%'
+AND id < 312;
 
 UPDATE openchpl.deprecated_response_field
 SET deleted = true
-WHERE response_field like '%capEndDate%';
+WHERE response_field like '%capEndDate%'
+AND id < 312;
 
 UPDATE openchpl.deprecated_response_field
 SET deleted = true
-WHERE response_field like '%capMustCompleteDate%';
+WHERE response_field like '%capMustCompleteDate%'
+AND id < 312;
 
 UPDATE openchpl.deprecated_response_field
 SET deleted = true
-WHERE response_field like '%capApprovalDate%';
+WHERE response_field like '%capApprovalDate%'
+AND id < 312;
 
 UPDATE openchpl.deprecated_response_field
 SET deleted = true
 WHERE response_field like '%frequency%'
-AND deleted = false;
+AND deleted = false
+AND id < 312;
