@@ -453,6 +453,7 @@ SELECT cp.certified_product_id,
        certs.certification_criteria_met,
        cqms.cqms_met,
        openchpl.get_chpl_product_number(cp.certified_product_id) AS chpl_product_number,
+	   cpnHistory.previous_chpl_product_numbers,
        piuResult.promoting_interoperability_user_count,
 	   piuResult.promoting_interoperability_user_count_date,
        cp.mandatory_disclosures,
@@ -722,6 +723,11 @@ LEFT JOIN
      AND cqm_result.deleted = FALSE
      AND cqm_criterion.deleted = FALSE
    GROUP BY certified_product_id) cqms ON cqms.certified_product_id = cp.certified_product_id
+LEFT JOIN
+  (SELECT string_agg(DISTINCT hist.chpl_product_number, '|') AS previous_chpl_product_numbers, hist.certified_product_id
+   FROM openchpl.certified_product_chpl_product_number_history hist
+   WHERE hist.deleted = false
+   GROUP BY hist.certified_product_id) cpnHistory ON cpnHistory.certified_product_id = cp.certified_product_id
 WHERE cp.deleted <> TRUE;
 
 -- deprecated
