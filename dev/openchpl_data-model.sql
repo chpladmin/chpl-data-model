@@ -301,7 +301,22 @@ COMMENT ON TABLE openchpl.certified_product IS 'A product that has been Certifie
 -- ALTER TABLE openchpl.certified_product OWNER TO openchpl;
 -- ddl-end --
 
-CREATE TABLE openchpl.listing_to_listing_map(
+CREATE TABLE openchpl.certified_product_chpl_product_number_history (
+	id bigserial NOT NULL,
+	certified_product_id bigint NOT NULL,
+	chpl_product_number text NOT NULL,
+	end_date timestamp NOT NULL,
+	creation_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_date timestamp NOT NULL DEFAULT NOW(),
+	last_modified_user bigint NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
+	CONSTRAINT certified_product_chpl_product_number_history_pk PRIMARY KEY (id),
+	CONSTRAINT certified_product_fk FOREIGN KEY (certified_product_id)
+      REFERENCES openchpl.certified_product (certified_product_id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+);
+
+CREATE TABLE openchpl.listing_to_listing_map (
 	listing_to_listing_map_id bigserial NOT NULL,
 	parent_listing_id bigint NOT NULL,
 	child_listing_id bigint NOT NULL,
