@@ -7,9 +7,9 @@ GRANT ALL ON SCHEMA shared_data TO openchpl_dev;
 GRANT USAGE ON SCHEMA shared_data TO openchpl;
 
 CREATE TABLE IF NOT EXISTS shared_data.shared_data (
-	type TEXT NOT NULL,
+	domain TEXT NOT NULL,
 	key TEXT NOT NULL,
 	value TEXT,
-	put_date TIMESTAMP NOT NULL DEFAULT NOW()
-	PRIMARY KEY(type, key)
+	put_date TIMESTAMP NOT NULL DEFAULT NOW(),
+	CONSTRAINT shared_data_pk PRIMARY KEY (domain, key)
 );
