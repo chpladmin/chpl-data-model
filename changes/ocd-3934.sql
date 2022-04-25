@@ -1,15 +1,16 @@
 -- SCHEMA: shared_data
+DROP SCHEMA IF EXISTS shared_data;
 
-CREATE SCHEMA IF NOT EXISTS shared_data
+CREATE SCHEMA IF NOT EXISTS shared_store
     AUTHORIZATION openchpl_dev;
-	
-GRANT ALL ON SCHEMA shared_data TO openchpl_dev;
-GRANT USAGE ON SCHEMA shared_data TO openchpl;
 
-CREATE TABLE IF NOT EXISTS shared_data.shared_data (
+GRANT ALL ON SCHEMA shared_store TO openchpl_dev;
+GRANT USAGE ON SCHEMA shared_store TO openchpl;
+
+CREATE TABLE IF NOT EXISTS shared_store.shared_store (
 	domain TEXT NOT NULL,
 	key TEXT NOT NULL,
 	value TEXT,
 	put_date TIMESTAMP NOT NULL DEFAULT NOW(),
-	CONSTRAINT shared_data_pk PRIMARY KEY (domain, key)
+	CONSTRAINT shared_store_pk PRIMARY KEY (domain, key)
 );

@@ -1,12 +1,12 @@
 -- SCHEMA: shared_data
 
-CREATE SCHEMA shared_data
+CREATE SCHEMA shared_store
     AUTHORIZATION openchpl_dev;
-	
-GRANT ALL ON SCHEMA shared_data TO openchpl_dev;
-GRANT USAGE ON SCHEMA shared_data TO openchpl;
 
-CREATE TABLE shared_data.shared_data (
+GRANT ALL ON SCHEMA shared_store TO openchpl_dev;
+GRANT USAGE ON SCHEMA shared_store TO openchpl;
+
+CREATE TABLE shared_store.shared_store (
 	type TEXT NOT NULL,
 	key TEXT NOT NULL,
 	value TEXT,
