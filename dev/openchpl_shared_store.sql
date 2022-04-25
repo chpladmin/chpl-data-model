@@ -1,4 +1,4 @@
--- SCHEMA: shared_data
+-- SCHEMA: shared_store
 
 CREATE SCHEMA shared_store
     AUTHORIZATION openchpl_dev;

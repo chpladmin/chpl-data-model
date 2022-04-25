@@ -1,4 +1,4 @@
--- SCHEMA: shared_data
+-- SCHEMA: shared_store
 DROP SCHEMA IF EXISTS shared_data;
 
 CREATE SCHEMA IF NOT EXISTS shared_store
