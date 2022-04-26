@@ -1,5 +1,14 @@
 # Release Notes
 
+## Version 20.15.0
+_13 April 2022_
+
+### Features
+* Add previous CHPL Product Numbers into search view
+* Create table to store CHPL Product Number changes over time for each Listing
+
+---
+
 ## Version 20.14.1
 _1 April 2022_
 
