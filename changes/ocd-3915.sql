@@ -1,3 +1,7 @@
+-- Correct the triggers on cures_update_event table
+DROP TRIGGER IF EXISTS cures_update_event_timestamp ON openchpl.cures_update_event;
+CREATE TRIGGER cures_update_event_timestamp BEFORE UPDATE on openchpl.cures_update_event FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
+
 
 --********************************************************
 -- Listing 10850 had an update that removed it's Cures Update designation. 
