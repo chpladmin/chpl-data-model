@@ -1,5 +1,14 @@
 # Release Notes
 
+## Version 20.15.1
+_2 May 2022_
+
+### Data Changes
+* Remove deprecated APIs and Response Fields that had a removal date of 4/15/22.
+* Indicate deprecated Announcement API & field data
+
+---
+
 ## Version 20.15.0
 _13 April 2022_
 
