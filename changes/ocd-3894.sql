@@ -26,3 +26,10 @@ CREATE TABLE IF NOT EXISTS openchpl.change_request_developer_demographic (
         MATCH SIMPLE ON UPDATE NO ACTION ON DELETE RESTRICT
 );
 
+UPDATE openchpl.change_request_type
+SET deleted = true
+WHERE name = 'Website Change Request';
+
+UPDATE openchpl.change_request_type
+SET name = 'Developer Demographics Change Request'
+WHERE name = 'Developer Details Change Request';
