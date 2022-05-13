@@ -223,7 +223,7 @@ CREATE TRIGGER criterion_listing_statistic_timestamp BEFORE UPDATE on openchpl.c
 CREATE TRIGGER criterion_product_statistics_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.criterion_product_statistics FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER criterion_product_statistics_timestamp BEFORE UPDATE on openchpl.criterion_product_statistics FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER cures_update_event_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.cures_update_event FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
-CREATE TRIGGER cures_update_event_timestamp AFTER INSERT OR UPDATE OR DELETE on openchpl.cures_update_event FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
+CREATE TRIGGER cures_update_event_timestamp BEFORE UPDATE on openchpl.cures_update_event FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER criterion_upgraded_from_original_listing_stat_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.criterion_upgraded_from_original_listing_statistic FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER criterion_upgraded_from_original_listing_stat_timestamp BEFORE UPDATE on openchpl.criterion_upgraded_from_original_listing_statistic FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER cures_criterion_upgraded_without_orig_listing_stat_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.cures_criterion_upgraded_without_original_listing_statistic FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();

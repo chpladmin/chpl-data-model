@@ -55,6 +55,9 @@ then
     done
 fi
 
+echo "Updating soft-delete"
 psql -U $USER -h $HOST -f dev/openchpl_soft-delete.sql openchpl
+echo "Updating views"
 psql -U $USER -h $HOST -f dev/openchpl_views.sql openchpl
+echo "Updating grant-all"
 psql -U $USER -h $HOST -f dev/openchpl_grant-all.sql openchpl
