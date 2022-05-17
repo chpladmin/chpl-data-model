@@ -1,5 +1,16 @@
 # Release Notes
 
+## Version 20.16.0
+_16 May 2022_
+
+### Features
+* Add schema and table to support 'shared-data'
+
+### Data Changes
+* Repair erroneous Cures update events
+
+---
+
 ## Version 20.15.1
 _2 May 2022_
 
