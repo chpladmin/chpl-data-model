@@ -791,6 +791,7 @@ CREATE TABLE openchpl.certification_result_additional_software
 CREATE TABLE openchpl.conformance_method (
 	id bigserial NOT NULL,
 	name varchar(255) NOT NULL,
+	removal_date date,
 	creation_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_user bigint NOT NULL,
