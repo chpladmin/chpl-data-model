@@ -11,13 +11,7 @@ BEGIN
 		FROM openchpl.change_request
 		WHERE developer_id = NEW.vendor_id);
 
-	UPDATE openchpl.change_request_developer_details as src SET deleted = NEW.deleted
-	WHERE change_request_id IN (
-		SELECT id
-		FROM openchpl.change_request
-		WHERE developer_id = NEW.vendor_id);
-
-	UPDATE openchpl.change_request_website as src SET deleted = NEW.deleted
+	UPDATE openchpl.change_request_developer_demographic as src SET deleted = NEW.deleted
 	WHERE change_request_id IN (
 		SELECT id
 		FROM openchpl.change_request
