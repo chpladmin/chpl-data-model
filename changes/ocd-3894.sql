@@ -1,7 +1,8 @@
 DROP TABLE IF EXISTS openchpl.change_request_website;
 DROP TABLE IF EXISTS openchpl.change_request_developer_details;
+DROP TABLE IF EXISTS openchpl.change_request_developer_demographic;
 
-CREATE TABLE IF NOT EXISTS openchpl.change_request_developer_demographic (
+CREATE TABLE IF NOT EXISTS openchpl.change_request_developer_demographics (
 	id bigserial NOT NULL,
 	change_request_id bigint NOT NULL,
 	self_developer boolean,
