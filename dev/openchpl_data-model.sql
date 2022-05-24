@@ -3132,7 +3132,7 @@ CREATE TABLE openchpl.change_request_status (
         MATCH SIMPLE ON UPDATE NO ACTION ON DELETE RESTRICT
 );
 
-CREATE TABLE openchpl.change_request_developer_demographic (
+CREATE TABLE openchpl.change_request_developer_demographics (
 	id bigserial NOT NULL,
 	change_request_id bigint NOT NULL,
 	self_developer boolean,
@@ -3151,7 +3151,7 @@ CREATE TABLE openchpl.change_request_developer_demographic (
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_user bigint NOT NULL,
 	deleted bool NOT NULL DEFAULT false,
-	CONSTRAINT change_request_developer_demographic_pk PRIMARY KEY (id),
+	CONSTRAINT change_request_developer_demographics_pk PRIMARY KEY (id),
 	CONSTRAINT change_request_fk FOREIGN KEY (change_request_id)
 	    REFERENCES openchpl.change_request (id)
         MATCH SIMPLE ON UPDATE NO ACTION ON DELETE RESTRICT
