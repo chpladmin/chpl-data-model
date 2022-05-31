@@ -1,5 +1,14 @@
 # Release Notes
 
+## Version 20.16.1
+_31 May 2022_
+
+### Data Changes
+* Remove deprecated endpoint and response fields eligible for deletion
+* Remove deprecated endpoint that has always been behind a flag
+
+---
+
 ## Version 20.16.0
 _16 May 2022_
 
