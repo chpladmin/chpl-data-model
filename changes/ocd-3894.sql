@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS openchpl.change_request_developer_demographics (
 CREATE TRIGGER change_request_developer_demographics_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.change_request_developer_demographics FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER change_request_developer_demographics_timestamp BEFORE UPDATE on openchpl.change_request_developer_demographics FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 
-DELETE openchpl.change_request_type
+DELETE FROM openchpl.change_request_type
 WHERE name = 'Website Change Request';
 
 UPDATE openchpl.change_request_type
