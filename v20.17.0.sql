@@ -1,3 +1,6 @@
+-- Deployment file for version 20.17.0
+--     as of 2022-06-06
+-- ./changes/ocd-3894.sql
 DROP TABLE IF EXISTS openchpl.change_request_website;
 DROP TABLE IF EXISTS openchpl.change_request_developer_details;
 DROP TABLE IF EXISTS openchpl.change_request_developer_demographic;
@@ -36,3 +39,8 @@ WHERE name = 'Website Change Request';
 UPDATE openchpl.change_request_type
 SET name = 'Developer Demographics Change Request'
 WHERE name = 'Developer Details Change Request';
+;
+insert into openchpl.data_model_version (version, deploy_date, last_modified_user) values ('20.17.0', '2022-06-06', -1);
+\i dev/openchpl_soft-delete.sql
+\i dev/openchpl_views.sql
+\i dev/openchpl_grant-all.sql
