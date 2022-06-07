@@ -1,3 +1,6 @@
+-- Deployment file for version 20.17.0
+--     as of 2022-06-06
+-- ./changes/ocd-3894.sql
 DROP TABLE IF EXISTS openchpl.change_request_website;
 DROP TABLE IF EXISTS openchpl.change_request_developer_details;
 DROP TABLE IF EXISTS openchpl.change_request_developer_demographic;
@@ -30,9 +33,14 @@ CREATE TABLE IF NOT EXISTS openchpl.change_request_developer_demographics (
 CREATE TRIGGER change_request_developer_demographics_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.change_request_developer_demographics FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER change_request_developer_demographics_timestamp BEFORE UPDATE on openchpl.change_request_developer_demographics FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 
-DELETE openchpl.change_request_type
+DELETE FROM openchpl.change_request_type
 WHERE name = 'Website Change Request';
 
 UPDATE openchpl.change_request_type
 SET name = 'Developer Demographics Change Request'
 WHERE name = 'Developer Details Change Request';
+;
+insert into openchpl.data_model_version (version, deploy_date, last_modified_user) values ('20.17.0', '2022-06-06', -1);
+\i dev/openchpl_soft-delete.sql
+\i dev/openchpl_views.sql
+\i dev/openchpl_grant-all.sql
