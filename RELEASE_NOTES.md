@@ -1,5 +1,13 @@
 # Release Notes
 
+## Version 20.17.0
+_6 June 2022_
+
+### Features
+* Combine Developer Details and Website Change Request to Developer Demographics Change Request
+
+---
+
 ## Version 20.16.1
 _31 May 2022_
 
