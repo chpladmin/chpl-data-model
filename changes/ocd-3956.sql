@@ -6,3 +6,8 @@ SELECT
 	'2022-12-31',
 	-1
 WHERE NOT EXISTS (SELECT * FROM openchpl.deprecated_api WHERE http_method = 'GET' AND api_operation = '/change-requests');
+
+
+-- TODO - ChangeRequest has deprecated response field - developerId
+-- We need to remove /change-requests from the deprecated_response_field_api table data since the whole endpoint is now deprecated
+-- Blocked by OCD-3898
