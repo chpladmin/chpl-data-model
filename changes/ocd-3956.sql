@@ -11,3 +11,5 @@ WHERE NOT EXISTS (SELECT * FROM openchpl.deprecated_api WHERE http_method = 'GET
 -- TODO - ChangeRequest has deprecated response field - developerId
 -- We need to remove /change-requests from the deprecated_response_field_api table data since the whole endpoint is now deprecated
 -- Blocked by OCD-3898
+
+-- TODO the /change-requests/{id} has an ambiguous mapping between it and /change-requests/search so need to fix that
