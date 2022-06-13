@@ -1,5 +1,17 @@
 # Release Notes
 
+## Version 20.18.0
+_13 June 2022_
+
+### Table Changes
+* Add removal date to Conformance Method table and give a removal date for 'NCQA eCQM Test Method'
+
+### Data Changes
+* Add "Touchstone" as an available Conformance Method
+* Add deprecated response fields for developerId, productId, and versionId
+
+---
+
 ## Version 20.17.0
 _6 June 2022_
 
