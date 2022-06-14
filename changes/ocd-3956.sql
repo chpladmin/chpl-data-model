@@ -7,9 +7,17 @@ SELECT
 	-1
 WHERE NOT EXISTS (SELECT * FROM openchpl.deprecated_api WHERE http_method = 'GET' AND api_operation = '/change-requests');
 
+-- ChangeRequest has a deprecated response field - developerId
+-- We need to remove /change-requests from the deprecated_response_field_api table data 
+-- since the whole endpoint is now deprecated
+UPDATE openchpl.deprecated_response_field_api
+SET deleted = true
+WHERE http_method = 'GET'
+AND api_operation = '/change-requests'
+AND deleted = false;
 
--- TODO - ChangeRequest has deprecated response field - developerId
--- We need to remove /change-requests from the deprecated_response_field_api table data since the whole endpoint is now deprecated
--- Blocked by OCD-3898
-
--- TODO the /change-requests/{id} has an ambiguous mapping between it and /change-requests/search so need to fix that
+-- Update '/change-requests/{changeRequestId}' so mapping is not ambiguous with new /change-requests/search endpoint
+UPDATE openchpl.deprecated_response_field_api
+SET api_operation = '/change-requests/{changeRequestId:^-?\\d+$}'
+WHERE http_method = 'GET'
+AND api_operation = '/change-requests/{changeRequestId}';
