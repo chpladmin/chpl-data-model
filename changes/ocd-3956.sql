@@ -18,6 +18,6 @@ AND deleted = false;
 
 -- Update '/change-requests/{changeRequestId}' so mapping is not ambiguous with new /change-requests/search endpoint
 UPDATE openchpl.deprecated_response_field_api
-SET api_operation = '/change-requests/{changeRequestId:^-?\\d+$}'
+SET api_operation = '/change-requests/{changeRequestId:^-?\d+$}'
 WHERE http_method = 'GET'
 AND api_operation = '/change-requests/{changeRequestId}';
