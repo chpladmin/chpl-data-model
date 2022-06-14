@@ -1,3 +1,13 @@
+-- Deployment file for version 20.18.0
+--     as of 2022-06-13
+-- ./changes/ocd-3817.sql
+ALTER TABLE openchpl.conformance_method DROP COLUMN IF EXISTS removal_date;
+ALTER TABLE openchpl.conformance_method ADD COLUMN removal_date date;
+
+UPDATE openchpl.conformance_method
+SET removal_date = '2021-11-15'
+WHERE name = 'NCQA eCQM Test Method';;
+-- ./changes/ocd-3898.sql
 -- IcsFamilyTreeNode
 -- /certified-products/{year}.{testingLab}.{certBody}.{vendorCode}.{productCode}.{versionCode}.{icsCode}.{addlSoftwareCode}.{certDateCode}/ics_relationships
 INSERT INTO openchpl.deprecated_response_field (deprecated_api_id, response_field, change_description, removal_date, last_modified_user)
@@ -981,3 +991,22 @@ SELECT
 WHERE NOT EXISTS (SELECT * FROM openchpl.deprecated_response_field WHERE deprecated_api_id = (SELECT id FROM openchpl.deprecated_response_field_api WHERE http_method = 'POST' AND api_operation = '/versions/{versionId}/split') and response_field = 'newVersion -> versionId');
 
 
+;
+-- ./changes/ocd-3968.sql
+insert into openchpl.conformance_method (name, last_modified_user)
+select 'Touchstone',
+       -1
+where not exists (select * from openchpl.conformance_method where name = 'Touchstone');
+
+insert into openchpl.conformance_method_criteria_map (criteria_id, conformance_method_id, last_modified_user)
+select (select certification_criterion_id from openchpl.certification_criterion where number = '170.315 (g)(10)'),
+       (select id from openchpl.conformance_method where name = 'Touchstone'),
+       -1
+where not exists (select * from openchpl.conformance_method_criteria_map
+      where criteria_id = (select certification_criterion_id from openchpl.certification_criterion where number = '170.315 (g)(10)')
+      and conformance_method_id = (select id from openchpl.conformance_method where name = 'Touchstone'));
+;
+insert into openchpl.data_model_version (version, deploy_date, last_modified_user) values ('20.18.0', '2022-06-13', -1);
+\i dev/openchpl_soft-delete.sql
+\i dev/openchpl_views.sql
+\i dev/openchpl_grant-all.sql
