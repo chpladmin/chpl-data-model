@@ -1,7 +1,8 @@
 #!/bin/bash
+(set -o igncr) 2>/dev/null && set -o igncr; # this comment is required to trick cygwin into dealing with windows vs. linux EOL characters
 
 if [ $# -lt 2 ]; then
-    psql -Upostgres -c "TRUNCATE shared_store.shared_store;" openchpl
+    psql -Uopenchpl_dev -c "TRUNCATE shared_store.shared_store;" openchpl
 elif [ $# -eq 2 ]; then
     host=$1
     user=$2
@@ -16,8 +17,3 @@ elif [ $# -eq 3 ]; then
 else
     echo 'This script can be run with 0, 2, or 3 arguments. Please check your input and try again.'
 fi
-
-
-
-
-
