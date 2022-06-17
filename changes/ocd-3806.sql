@@ -18,6 +18,15 @@ SELECT
 	-1
 WHERE NOT EXISTS (SELECT * FROM openchpl.deprecated_response_field WHERE deprecated_api_id = (SELECT id FROM openchpl.deprecated_response_field_api WHERE http_method = 'GET' AND api_operation = '/certified_products/{year}.{testingLab}.{certBody}.{vendorCode}.{productCode}.{versionCode}.{icsCode}.{addlSoftwareCode}.{certDateCode}/details') and response_field = 'surveillance -> requirements -> nonconformities -> nonconformityTypeName');
 
+INSERT INTO openchpl.deprecated_response_field (deprecated_api_id, response_field, change_description, removal_date, last_modified_user)
+SELECT 
+	(SELECT id FROM openchpl.deprecated_response_field_api WHERE http_method = 'GET' AND api_operation = '/certified_products/{year}.{testingLab}.{certBody}.{vendorCode}.{productCode}.{versionCode}.{icsCode}.{addlSoftwareCode}.{certDateCode}/details'),
+	'surveillance -> requirements -> nonconformities -> documents',
+	'This field is deprecated and will be removed from the response data in a future release.',
+	'2023-01-01',
+	-1
+WHERE NOT EXISTS (SELECT * FROM openchpl.deprecated_response_field WHERE deprecated_api_id = (SELECT id FROM openchpl.deprecated_response_field_api WHERE http_method = 'GET' AND api_operation = '/certified_products/{year}.{testingLab}.{certBody}.{vendorCode}.{productCode}.{versionCode}.{icsCode}.{addlSoftwareCode}.{certDateCode}/details') and response_field = 'surveillance -> requirements -> nonconformities -> documents');
+
 -- CertifiedProductSearchDetails
 -- /certified_products/{chplPrefix}-{identifier}/details
 INSERT INTO openchpl.deprecated_response_field (deprecated_api_id, response_field, change_description, removal_date, last_modified_user)
@@ -37,6 +46,15 @@ SELECT
 	'2023-01-01',
 	-1
 WHERE NOT EXISTS (SELECT * FROM openchpl.deprecated_response_field WHERE deprecated_api_id = (SELECT id FROM openchpl.deprecated_response_field_api WHERE http_method = 'GET' AND api_operation = '/certified_products/{chplPrefix}-{identifier}/details') and response_field = 'surveillance -> requirements -> nonconformities -> nonconformityTypeName');
+
+INSERT INTO openchpl.deprecated_response_field (deprecated_api_id, response_field, change_description, removal_date, last_modified_user)
+SELECT 
+	(SELECT id FROM openchpl.deprecated_response_field_api WHERE http_method = 'GET' AND api_operation = '/certified_products/{chplPrefix}-{identifier}/details'),
+	'surveillance -> requirements -> nonconformities -> documents',
+	'This field is deprecated and will be removed from the response data in a future release.',
+	'2023-01-01',
+	-1
+WHERE NOT EXISTS (SELECT * FROM openchpl.deprecated_response_field WHERE deprecated_api_id = (SELECT id FROM openchpl.deprecated_response_field_api WHERE http_method = 'GET' AND api_operation = '/certified_products/{chplPrefix}-{identifier}/details') and response_field = 'surveillance -> requirements -> nonconformities -> documents');
 
 -- CertifiedProductSearchDetails
 -- /certified_products/{certifiedProductId:^-?\d+$}/details
@@ -58,6 +76,15 @@ SELECT
 	-1
 WHERE NOT EXISTS (SELECT * FROM openchpl.deprecated_response_field WHERE deprecated_api_id = (SELECT id FROM openchpl.deprecated_response_field_api WHERE http_method = 'GET' AND api_operation = '/certified_products/{certifiedProductId:^-?\d+$}/details') and response_field = 'surveillance -> requirements -> nonconformities -> nonconformityTypeName');
 
+INSERT INTO openchpl.deprecated_response_field (deprecated_api_id, response_field, change_description, removal_date, last_modified_user)
+SELECT 
+	(SELECT id FROM openchpl.deprecated_response_field_api WHERE http_method = 'GET' AND api_operation = '/certified_products/{certifiedProductId:^-?\d+$}/details'),
+	'surveillance -> requirements -> nonconformities -> documents',
+	'This field is deprecated and will be removed from the response data in a future release.',
+	'2023-01-01',
+	-1
+WHERE NOT EXISTS (SELECT * FROM openchpl.deprecated_response_field WHERE deprecated_api_id = (SELECT id FROM openchpl.deprecated_response_field_api WHERE http_method = 'GET' AND api_operation = '/certified_products/{certifiedProductId:^-?\d+$}/details') and response_field = 'surveillance -> requirements -> nonconformities -> documents');
+
 -- CertifiedProductSearchDetails
 -- GET /listings/pending/{id:^-?\d+$}
 INSERT INTO openchpl.deprecated_response_field (deprecated_api_id, response_field, change_description, removal_date, last_modified_user)
@@ -77,6 +104,15 @@ SELECT
 	'2023-01-01',
 	-1
 WHERE NOT EXISTS (SELECT * FROM openchpl.deprecated_response_field WHERE deprecated_api_id = (SELECT id FROM openchpl.deprecated_response_field_api WHERE http_method = 'GET' AND api_operation = '/listings/pending/{id:^-?\d+$}') and response_field = 'surveillance -> requirements -> nonconformities -> nonconformityTypeName');
+
+INSERT INTO openchpl.deprecated_response_field (deprecated_api_id, response_field, change_description, removal_date, last_modified_user)
+SELECT 
+	(SELECT id FROM openchpl.deprecated_response_field_api WHERE http_method = 'GET' AND api_operation = '/listings/pending/{id:^-?\d+$}'),
+	'surveillance -> requirements -> nonconformities -> documents',
+	'This field is deprecated and will be removed from the response data in a future release.',
+	'2023-01-01',
+	-1
+WHERE NOT EXISTS (SELECT * FROM openchpl.deprecated_response_field WHERE deprecated_api_id = (SELECT id FROM openchpl.deprecated_response_field_api WHERE http_method = 'GET' AND api_operation = '/listings/pending/{id:^-?\d+$}') and response_field = 'surveillance -> requirements -> nonconformities -> documents');
 
 -- CertifiedProductSearchDetails
 -- GET /listings/pending/{id:^-?\d+$}/submitted
@@ -98,6 +134,15 @@ SELECT
 	-1
 WHERE NOT EXISTS (SELECT * FROM openchpl.deprecated_response_field WHERE deprecated_api_id = (SELECT id FROM openchpl.deprecated_response_field_api WHERE http_method = 'GET' AND api_operation = '/listings/pending/{id:^-?\d+$}/submitted') and response_field = 'surveillance -> requirements -> nonconformities -> nonconformityTypeName');
 
+INSERT INTO openchpl.deprecated_response_field (deprecated_api_id, response_field, change_description, removal_date, last_modified_user)
+SELECT 
+	(SELECT id FROM openchpl.deprecated_response_field_api WHERE http_method = 'GET' AND api_operation = '/listings/pending/{id:^-?\d+$}/submitted'),
+	'surveillance -> requirements -> nonconformities -> documents',
+	'This field is deprecated and will be removed from the response data in a future release.',
+	'2023-01-01',
+	-1
+WHERE NOT EXISTS (SELECT * FROM openchpl.deprecated_response_field WHERE deprecated_api_id = (SELECT id FROM openchpl.deprecated_response_field_api WHERE http_method = 'GET' AND api_operation = '/listings/pending/{id:^-?\d+$}/submitted') and response_field = 'surveillance -> requirements -> nonconformities -> documents');
+
 -- CertifiedProductSearchDetails
 -- PUT /certified_products/{certifiedProductId}
 INSERT INTO openchpl.deprecated_response_field (deprecated_api_id, response_field, change_description, removal_date, last_modified_user)
@@ -117,6 +162,15 @@ SELECT
 	'2023-01-01',
 	-1
 WHERE NOT EXISTS (SELECT * FROM openchpl.deprecated_response_field WHERE deprecated_api_id = (SELECT id FROM openchpl.deprecated_response_field_api WHERE http_method = 'PUT' AND api_operation = '/certified_products/{certifiedProductId}') and response_field = 'surveillance -> requirements -> nonconformities -> nonconformityTypeName');
+
+INSERT INTO openchpl.deprecated_response_field (deprecated_api_id, response_field, change_description, removal_date, last_modified_user)
+SELECT 
+	(SELECT id FROM openchpl.deprecated_response_field_api WHERE http_method = 'PUT' AND api_operation = '/certified_products/{certifiedProductId}'),
+	'surveillance -> requirements -> nonconformities -> documents',
+	'This field is deprecated and will be removed from the response data in a future release.',
+	'2023-01-01',
+	-1
+WHERE NOT EXISTS (SELECT * FROM openchpl.deprecated_response_field WHERE deprecated_api_id = (SELECT id FROM openchpl.deprecated_response_field_api WHERE http_method = 'PUT' AND api_operation = '/certified_products/{certifiedProductId}') and response_field = 'surveillance -> requirements -> nonconformities -> documents');
 
 -- CertifiedProductSearchBasicDetails
 -- /certified_products/{year}.{testingLab}.{certBody}.{vendorCode}.{productCode}.{versionCode}.{icsCode}.{addlSoftwareCode}.{certDateCode}
@@ -138,6 +192,15 @@ SELECT
 	-1
 WHERE NOT EXISTS (SELECT * FROM openchpl.deprecated_response_field WHERE deprecated_api_id = (SELECT id FROM openchpl.deprecated_response_field_api WHERE http_method = 'GET' AND api_operation = '/certified_products/{year}.{testingLab}.{certBody}.{vendorCode}.{productCode}.{versionCode}.{icsCode}.{addlSoftwareCode}.{certDateCode}') and response_field = 'surveillance -> requirements -> nonconformities -> nonconformityTypeName');
 
+INSERT INTO openchpl.deprecated_response_field (deprecated_api_id, response_field, change_description, removal_date, last_modified_user)
+SELECT 
+	(SELECT id FROM openchpl.deprecated_response_field_api WHERE http_method = 'GET' AND api_operation = '/certified_products/{year}.{testingLab}.{certBody}.{vendorCode}.{productCode}.{versionCode}.{icsCode}.{addlSoftwareCode}.{certDateCode}'),
+	'surveillance -> requirements -> nonconformities -> documents',
+	'This field is deprecated and will be removed from the response data in a future release.',
+	'2023-01-01',
+	-1
+WHERE NOT EXISTS (SELECT * FROM openchpl.deprecated_response_field WHERE deprecated_api_id = (SELECT id FROM openchpl.deprecated_response_field_api WHERE http_method = 'GET' AND api_operation = '/certified_products/{year}.{testingLab}.{certBody}.{vendorCode}.{productCode}.{versionCode}.{icsCode}.{addlSoftwareCode}.{certDateCode}') and response_field = 'surveillance -> requirements -> nonconformities -> documents');
+
 -- CertifiedProductSearchBasicDetails
 -- /certified_products/{chplPrefix}-{identifier}
 INSERT INTO openchpl.deprecated_response_field (deprecated_api_id, response_field, change_description, removal_date, last_modified_user)
@@ -157,6 +220,15 @@ SELECT
 	'2023-01-01',
 	-1
 WHERE NOT EXISTS (SELECT * FROM openchpl.deprecated_response_field WHERE deprecated_api_id = (SELECT id FROM openchpl.deprecated_response_field_api WHERE http_method = 'GET' AND api_operation = '/certified_products/{chplPrefix}-{identifier}') and response_field = 'surveillance -> requirements -> nonconformities -> nonconformityTypeName');
+
+INSERT INTO openchpl.deprecated_response_field (deprecated_api_id, response_field, change_description, removal_date, last_modified_user)
+SELECT 
+	(SELECT id FROM openchpl.deprecated_response_field_api WHERE http_method = 'GET' AND api_operation = '/certified_products/{chplPrefix}-{identifier}'),
+	'surveillance -> requirements -> nonconformities -> documents',
+	'This field is deprecated and will be removed from the response data in a future release.',
+	'2023-01-01',
+	-1
+WHERE NOT EXISTS (SELECT * FROM openchpl.deprecated_response_field WHERE deprecated_api_id = (SELECT id FROM openchpl.deprecated_response_field_api WHERE http_method = 'GET' AND api_operation = '/certified_products/{chplPrefix}-{identifier}') and response_field = 'surveillance -> requirements -> nonconformities -> documents');
 
 -- CertifiedProductSearchBasicDetails
 -- /certified_products/{certifiedProductId:^-?\d+$}
@@ -178,6 +250,15 @@ SELECT
 	-1
 WHERE NOT EXISTS (SELECT * FROM openchpl.deprecated_response_field WHERE deprecated_api_id = (SELECT id FROM openchpl.deprecated_response_field_api WHERE http_method = 'GET' AND api_operation = '/certified_products/{certifiedProductId:^-?\d+$}') and response_field = 'surveillance -> requirements -> nonconformities -> nonconformityTypeName');
 
+INSERT INTO openchpl.deprecated_response_field (deprecated_api_id, response_field, change_description, removal_date, last_modified_user)
+SELECT 
+	(SELECT id FROM openchpl.deprecated_response_field_api WHERE http_method = 'GET' AND api_operation = '/certified_products/{certifiedProductId:^-?\d+$}'),
+	'surveillance -> requirements -> nonconformities -> documents',
+	'This field is deprecated and will be removed from the response data in a future release.',
+	'2023-01-01',
+	-1
+WHERE NOT EXISTS (SELECT * FROM openchpl.deprecated_response_field WHERE deprecated_api_id = (SELECT id FROM openchpl.deprecated_response_field_api WHERE http_method = 'GET' AND api_operation = '/certified_products/{certifiedProductId:^-?\d+$}') and response_field = 'surveillance -> requirements -> nonconformities -> documents');
+
 -- Surveillance
 -- /suveillance/pending/confirm
 INSERT INTO openchpl.deprecated_response_field (deprecated_api_id, response_field, change_description, removal_date, last_modified_user)
@@ -197,6 +278,15 @@ SELECT
 	'2023-01-01',
 	-1
 WHERE NOT EXISTS (SELECT * FROM openchpl.deprecated_response_field WHERE deprecated_api_id = (SELECT id FROM openchpl.deprecated_response_field_api WHERE http_method = 'POST' AND api_operation = '/surveillance/pending/confirm') and response_field = 'requirements -> nonconformities -> nonconformityTypeName');
+
+INSERT INTO openchpl.deprecated_response_field (deprecated_api_id, response_field, change_description, removal_date, last_modified_user)
+SELECT 
+	(SELECT id FROM openchpl.deprecated_response_field_api WHERE http_method = 'POST' AND api_operation = '/surveillance/pending/confirm'),
+	'requirements -> nonconformities -> documents',
+	'This field is deprecated and will be removed from the response data in a future release.',
+	'2023-01-01',
+	-1
+WHERE NOT EXISTS (SELECT * FROM openchpl.deprecated_response_field WHERE deprecated_api_id = (SELECT id FROM openchpl.deprecated_response_field_api WHERE http_method = 'POST' AND api_operation = '/surveillance/pending/confirm') and response_field = 'requirements -> nonconformities -> documents');
 
 -- Surveillance
 -- /suveillance
@@ -218,6 +308,15 @@ SELECT
 	-1
 WHERE NOT EXISTS (SELECT * FROM openchpl.deprecated_response_field WHERE deprecated_api_id = (SELECT id FROM openchpl.deprecated_response_field_api WHERE http_method = 'POST' AND api_operation = '/surveillance') and response_field = 'requirements -> nonconformities -> nonconformityTypeName');
 
+INSERT INTO openchpl.deprecated_response_field (deprecated_api_id, response_field, change_description, removal_date, last_modified_user)
+SELECT 
+	(SELECT id FROM openchpl.deprecated_response_field_api WHERE http_method = 'POST' AND api_operation = '/surveillance'),
+	'requirements -> nonconformities -> documents',
+	'This field is deprecated and will be removed from the response data in a future release.',
+	'2023-01-01',
+	-1
+WHERE NOT EXISTS (SELECT * FROM openchpl.deprecated_response_field WHERE deprecated_api_id = (SELECT id FROM openchpl.deprecated_response_field_api WHERE http_method = 'POST' AND api_operation = '/surveillance') and response_field = 'requirements -> nonconformities -> documents');
+
 -- Surveillance
 -- /suveillance/{surveillanceId}
 INSERT INTO openchpl.deprecated_response_field (deprecated_api_id, response_field, change_description, removal_date, last_modified_user)
@@ -237,6 +336,15 @@ SELECT
 	'2023-01-01',
 	-1
 WHERE NOT EXISTS (SELECT * FROM openchpl.deprecated_response_field WHERE deprecated_api_id = (SELECT id FROM openchpl.deprecated_response_field_api WHERE http_method = 'PUT' AND api_operation = '/surveillance/{surveillanceId}') and response_field = 'requirements -> nonconformities -> nonconformityTypeName');
+
+INSERT INTO openchpl.deprecated_response_field (deprecated_api_id, response_field, change_description, removal_date, last_modified_user)
+SELECT 
+	(SELECT id FROM openchpl.deprecated_response_field_api WHERE http_method = 'PUT' AND api_operation = '/surveillance/{surveillanceId}'),
+	'requirements -> nonconformities -> documents',
+	'This field is deprecated and will be removed from the response data in a future release.',
+	'2023-01-01',
+	-1
+WHERE NOT EXISTS (SELECT * FROM openchpl.deprecated_response_field WHERE deprecated_api_id = (SELECT id FROM openchpl.deprecated_response_field_api WHERE http_method = 'PUT' AND api_operation = '/surveillance/{surveillanceId}') and response_field = 'requirements -> nonconformities -> documents');
 
 -- SurveillanceResults
 -- /suveillance/pending
@@ -258,6 +366,15 @@ SELECT
 	-1
 WHERE NOT EXISTS (SELECT * FROM openchpl.deprecated_response_field WHERE deprecated_api_id = (SELECT id FROM openchpl.deprecated_response_field_api WHERE http_method = 'GET' AND api_operation = '/surveillance/pending') and response_field = 'pendingSurveillance -> requirements -> nonconformities -> nonconformityTypeName');
 
+INSERT INTO openchpl.deprecated_response_field (deprecated_api_id, response_field, change_description, removal_date, last_modified_user)
+SELECT 
+	(SELECT id FROM openchpl.deprecated_response_field_api WHERE http_method = 'GET' AND api_operation = '/surveillance/pending'),
+	'pendingSurveillance -> requirements -> nonconformities -> documents',
+	'This field is deprecated and will be removed from the response data in a future release.',
+	'2023-01-01',
+	-1
+WHERE NOT EXISTS (SELECT * FROM openchpl.deprecated_response_field WHERE deprecated_api_id = (SELECT id FROM openchpl.deprecated_response_field_api WHERE http_method = 'GET' AND api_operation = '/surveillance/pending') and response_field = 'pendingSurveillance -> requirements -> nonconformities -> documents');
+
 -- SurveillanceResults
 -- /suveillance/upload
 INSERT INTO openchpl.deprecated_response_field (deprecated_api_id, response_field, change_description, removal_date, last_modified_user)
@@ -277,6 +394,15 @@ SELECT
 	'2023-01-01',
 	-1
 WHERE NOT EXISTS (SELECT * FROM openchpl.deprecated_response_field WHERE deprecated_api_id = (SELECT id FROM openchpl.deprecated_response_field_api WHERE http_method = 'POST' AND api_operation = '/surveillance/upload') and response_field = 'pendingSurveillance -> requirements -> nonconformities -> nonconformityTypeName');
+
+INSERT INTO openchpl.deprecated_response_field (deprecated_api_id, response_field, change_description, removal_date, last_modified_user)
+SELECT 
+	(SELECT id FROM openchpl.deprecated_response_field_api WHERE http_method = 'POST' AND api_operation = '/surveillance/upload'),
+	'pendingSurveillance -> requirements -> nonconformities -> documents',
+	'This field is deprecated and will be removed from the response data in a future release.',
+	'2023-01-01',
+	-1
+WHERE NOT EXISTS (SELECT * FROM openchpl.deprecated_response_field WHERE deprecated_api_id = (SELECT id FROM openchpl.deprecated_response_field_api WHERE http_method = 'POST' AND api_operation = '/surveillance/upload') and response_field = 'pendingSurveillance -> requirements -> nonconformities -> documents');
 
 -- Add Non-Conformity Document is deprecated 
 -- POST to '/surveillance/{surveillanceId}/nonconformity/{nonconformityId}/document'
@@ -299,5 +425,16 @@ SELECT
 	'2023-01-01',
 	-1
 WHERE NOT EXISTS (SELECT * FROM openchpl.deprecated_api WHERE http_method = 'DELETE' and api_operation = '/surveillance/{surveillanceId}/document/{docId}');
+
+-- Get Non-conformity Document is deprecated
+-- GET to '/surveillance/document/{documentId}'
+INSERT INTO openchpl.deprecated_api (http_method, api_operation, change_description, removal_date, last_modified_user)
+SELECT 
+	'GET',
+	'/surveillance/document/{documentId}',
+	'This endpoint is deprecated and will be removed in a future release.',
+	'2023-01-01',
+	-1
+WHERE NOT EXISTS (SELECT * FROM openchpl.deprecated_api WHERE http_method = 'GET' and api_operation = '/surveillance/document/{documentId}');
 
 
