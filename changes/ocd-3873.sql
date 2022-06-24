@@ -9,7 +9,7 @@ WHERE NOT EXISTS (
     FROM openchpl.deprecated_api
     WHERE http_method = 'GET'
     AND api_operation = '/developers/{developerId}/attestations/exception'
-    AND deleted = false);./load	
+    AND deleted = false);
 
 INSERT INTO openchpl.deprecated_api (http_method, api_operation, change_description, removal_date, last_modified_user)
 SELECT 'GET',
