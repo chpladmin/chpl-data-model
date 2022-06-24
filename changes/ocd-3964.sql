@@ -1,7 +1,7 @@
 ---------  Change the existing datamodel to updated model  ---------
 
 alter table if exists openchpl.attestation_valid_response rename to valid_response;
-alter table if exists openchpl.valid_response_map rename constraint attestation_form_pk to attestation_valid_response_map_pk;
+alter table if exists openchpl.attestation_valid_response_map rename constraint attestation_form_pk to attestation_valid_response_map_pk;
 
 alter table if exists openchpl.attestation_form rename to attestation_valid_response_map;
 alter table if exists openchpl.attestation_valid_response_map rename constraint attestation_form_pk to attestation_valid_response_map_pk;
@@ -15,6 +15,7 @@ create table if not exists openchpl.attestation_form_item (
     attestation_period_id bigint not null,
     attestation_id bigint not null,
     sort_order bigint not null,
+    required boolean not null default true,
     creation_date timestamp NOT NULL DEFAULT now(),
 	last_modified_date timestamp NOT NULL DEFAULT now(),
 	last_modified_user int8 NOT NULL,
@@ -129,6 +130,7 @@ create table if not exists openchpl.dependent_attestation_form_item (
     when_valid_response_id bigint not null,
     child_attestation_id bigint not null,
     sort_order bigint not null,
+    required boolean not null default true,
     creation_date timestamp NOT NULL DEFAULT now(),
 	last_modified_date timestamp NOT NULL DEFAULT now(),
 	last_modified_user int8 NOT NULL,
@@ -145,7 +147,7 @@ create table if not exists openchpl.dependent_attestation_form_item (
         MATCH SIMPLE ON UPDATE NO ACTION ON DELETE restrict);
   
 ---------  Add the Dependent Attestations  ---------
-insert into openchpl.dependent_attestation_form_item (attestation_form_item_id, when_valid_response_id, child_attestation_id, sort_order, last_modified_user)
+insert into openchpl.dependent_attestation_form_item (attestation_form_item_id, when_valid_response_id, child_attestation_id, sort_order, required, last_modified_user)
 select 
     (select id 
     from openchpl.attestation_form_item 
@@ -154,6 +156,7 @@ select
     (select id from openchpl.valid_response where response = 'Noncompliant'),
     (select id from openchpl.attestation where description = 'For a selection of "Noncompliant", please indicate the status of a Corrective Action Plan (CAP) under the Certification Program.'),
     1,
+    false,
     -1
 where not exists
     (select * 
@@ -166,7 +169,7 @@ where not exists
     and when_valid_response_id = (select id from openchpl.valid_response where response = 'Noncompliant')
     and child_attestation_id = (select id from openchpl.attestation where description = 'For a selection of "Noncompliant", please indicate the status of a Corrective Action Plan (CAP) under the Certification Program.'));
        
-insert into openchpl.dependent_attestation_form_item (attestation_form_item_id, when_valid_response_id, child_attestation_id, sort_order, last_modified_user)
+insert into openchpl.dependent_attestation_form_item (attestation_form_item_id, when_valid_response_id, child_attestation_id, sort_order, required, last_modified_user)
 select 
     (select id 
     from openchpl.attestation_form_item 
@@ -175,6 +178,7 @@ select
     (select id from openchpl.valid_response where response = 'Noncompliant'),
     (select id from openchpl.attestation where description = 'For a selection of "Noncompliant", please indicate the status of a Corrective Action Plan (CAP) under the Certification Program.'),
     1,
+    false,
     -1
 where not exists
     (select * 
@@ -187,7 +191,7 @@ where not exists
     and when_valid_response_id = (select id from openchpl.valid_response where response = 'Noncompliant')
     and child_attestation_id = (select id from openchpl.attestation where description = 'For a selection of "Noncompliant", please indicate the status of a Corrective Action Plan (CAP) under the Certification Program.'));
        
-insert into openchpl.dependent_attestation_form_item (attestation_form_item_id, when_valid_response_id, child_attestation_id, sort_order, last_modified_user)
+insert into openchpl.dependent_attestation_form_item (attestation_form_item_id, when_valid_response_id, child_attestation_id, sort_order, required, last_modified_user)
 select 
     (select id 
     from openchpl.attestation_form_item 
@@ -196,6 +200,7 @@ select
     (select id from openchpl.valid_response where response = 'Noncompliant'),
     (select id from openchpl.attestation where description = 'For a selection of "Noncompliant", please indicate the status of a Corrective Action Plan (CAP) under the Certification Program.'),
     1,
+    false,
     -1
 where not exists
     (select * 
@@ -208,7 +213,7 @@ where not exists
     and when_valid_response_id = (select id from openchpl.valid_response where response = 'Noncompliant')
     and child_attestation_id = (select id from openchpl.attestation where description = 'For a selection of "Noncompliant", please indicate the status of a Corrective Action Plan (CAP) under the Certification Program.'));
  
-insert into openchpl.dependent_attestation_form_item (attestation_form_item_id, when_valid_response_id, child_attestation_id, sort_order, last_modified_user)
+insert into openchpl.dependent_attestation_form_item (attestation_form_item_id, when_valid_response_id, child_attestation_id, sort_order, required, last_modified_user)
 select 
     (select id 
     from openchpl.attestation_form_item 
@@ -217,6 +222,7 @@ select
     (select id from openchpl.valid_response where response = 'Noncompliant'),
     (select id from openchpl.attestation where description = 'For a selection of "Noncompliant", please indicate the status of a Corrective Action Plan (CAP) under the Certification Program.'),
     1,
+    false,
     -1
 where not exists
     (select * 
@@ -229,7 +235,7 @@ where not exists
     and when_valid_response_id = (select id from openchpl.valid_response where response = 'Noncompliant')
     and child_attestation_id = (select id from openchpl.attestation where description = 'For a selection of "Noncompliant", please indicate the status of a Corrective Action Plan (CAP) under the Certification Program.'));
 
-insert into openchpl.dependent_attestation_form_item (attestation_form_item_id, when_valid_response_id, child_attestation_id, sort_order, last_modified_user)
+insert into openchpl.dependent_attestation_form_item (attestation_form_item_id, when_valid_response_id, child_attestation_id, sort_order, required, last_modified_user)
 select 
     (select id 
     from openchpl.attestation_form_item 
@@ -238,6 +244,7 @@ select
     (select id from openchpl.valid_response where response = 'Noncompliant'),
     (select id from openchpl.attestation where description = 'For a selection of "Noncompliant", please indicate the status of a Corrective Action Plan (CAP) under the Certification Program.'),
     1,
+    false,
     -1
 where not exists
     (select * 
