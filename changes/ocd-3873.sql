@@ -1,5 +1,18 @@
 INSERT INTO openchpl.deprecated_api (http_method, api_operation, change_description, removal_date, last_modified_user)
 SELECT 'GET',
+    '/{developerId}/attestations/exception',
+    'This endpoint is deprecated and will be removed in a future release. Please use /developer/attestations/{attestationPeriodId}/exception to get the Attestation Form for an Attestation Period',
+    '2023-01-01',
+    -1
+WHERE NOT EXISTS (
+    SELECT *
+    FROM openchpl.deprecated_api
+    WHERE http_method = 'GET'
+    AND api_operation = '/{developerId}/attestations/exception'
+    AND deleted = false);
+
+INSERT INTO openchpl.deprecated_api (http_method, api_operation, change_description, removal_date, last_modified_user)
+SELECT 'GET',
     '/attestations/form',
     'This endpoint is deprecated and will be removed in a future release. Please use /attestations/periods/{periodId}/form to get the Attestation Form for an Attestation Period',
     '2023-01-01',
