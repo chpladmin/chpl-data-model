@@ -14,7 +14,7 @@ create table if not exists openchpl.attestation_form_item (
     id bigserial not null,
     attestation_period_id bigint not null,
     attestation_id bigint not null,
-    parent_attestation_id bigint,
+    parent_attestation_form_item_id bigint,
     when_valid_response_id bigint,
     sort_order bigint not null,
     required boolean not null default true,
@@ -26,9 +26,6 @@ create table if not exists openchpl.attestation_form_item (
 	CONSTRAINT attestation_fk FOREIGN KEY (attestation_id)
 	    REFERENCES openchpl.attestation (id)
         MATCH SIMPLE ON UPDATE NO ACTION ON DELETE restrict,
-    CONSTRAINT parent_attestation_fk FOREIGN KEY (parent_attestation_id)
-	    REFERENCES openchpl.attestation (id)
-        MATCH SIMPLE ON UPDATE NO ACTION ON DELETE restrict,
     CONSTRAINT when_valid_response_fk FOREIGN KEY (when_valid_response_id)
 	    REFERENCES openchpl.valid_response (id)
         MATCH SIMPLE ON UPDATE NO ACTION ON DELETE restrict,
@@ -36,6 +33,14 @@ create table if not exists openchpl.attestation_form_item (
 	    REFERENCES openchpl.attestation (id)
         MATCH SIMPLE ON UPDATE NO ACTION ON DELETE restrict
 );
+
+alter table openchpl.attestation_form_item
+drop constraint if exists parent_attestation_form_item_fk;
+
+alter table openchpl.attestation_form_item
+add constraint parent_attestation_form_item_fk FOREIGN KEY (parent_attestation_form_item_id)
+	    REFERENCES openchpl.attestation_form_id (id)
+        MATCH SIMPLE ON UPDATE NO ACTION ON DELETE restrict;
 
 insert into openchpl.attestation_form_item (attestation_period_id, attestation_id, sort_order, last_modified_user)
 select 
@@ -131,37 +136,15 @@ where not exists
    where attestation_id = (select id from openchpl.attestation where description = 'For a selection of "Noncompliant", please indicate the status of a Corrective Action Plan (CAP) under the Certification Program.')
    and valid_response_id = (select id from openchpl.valid_response where response = 'Completed a CAP'));
 
----------  Add the table to support dependent attestations  ---------
-  /*
-create table if not exists openchpl.dependent_attestation_form_item (
-    id bigserial not null,
-    attestation_form_item_id bigint not null,
-    when_valid_response_id bigint not null,
-    child_attestation_id bigint not null,
-    sort_order bigint not null,
-    required boolean not null default true,
-    creation_date timestamp NOT NULL DEFAULT now(),
-	last_modified_date timestamp NOT NULL DEFAULT now(),
-	last_modified_user int8 NOT NULL,
-	deleted bool NOT NULL DEFAULT false,
-	CONSTRAINT dependent_attestation_form_item_pk PRIMARY KEY (id),
-	CONSTRAINT attestation_form_item_fk FOREIGN KEY (attestation_form_item_id)
-	    REFERENCES openchpl.attestation_form_item (id)
-        MATCH SIMPLE ON UPDATE NO ACTION ON DELETE restrict,
-    CONSTRAINT when_valid_response_fk FOREIGN KEY (when_valid_response_id)
-	    REFERENCES openchpl.valid_response (id)
-        MATCH SIMPLE ON UPDATE NO ACTION ON DELETE restrict,
-    CONSTRAINT child_attestation_fk FOREIGN KEY (child_attestation_id)
-	    REFERENCES openchpl.attestation (id)
-        MATCH SIMPLE ON UPDATE NO ACTION ON DELETE restrict);
-*/  
 ---------  Add the Dependent Attestations  ---------
-insert into openchpl.attestation_form_item (attestation_period_id, attestation_id, when_valid_response_id, parent_attestation_id, sort_order, required, last_modified_user)
+insert into openchpl.attestation_form_item (attestation_period_id, attestation_id, when_valid_response_id, parent_attestation_form_item_id, sort_order, required, last_modified_user)
 select
 	(select id from openchpl.attestation_period where description = 'Second Period'),
     (select id from openchpl.attestation where description = 'For a selection of "Noncompliant", please indicate the status of a Corrective Action Plan (CAP) under the Certification Program.'),
     (select id from openchpl.valid_response where response = 'Noncompliant'),
-    (select id from openchpl.attestation where description = 'We attest to compliance with the Information Blocking Condition of Certification requirement described in [45 CFR 170.401](https://ecfr.federalregister.gov/current/title-45/subtitle-A/subchapter-D/part-170/subpart-D/section-170.401).'),
+    (select id from openchpl.attestation_form_item 
+    	where attestation_id = (select id from openchpl.attestation where description = 'We attest to compliance with the Information Blocking Condition of Certification requirement described in [45 CFR 170.401](https://ecfr.federalregister.gov/current/title-45/subtitle-A/subchapter-D/part-170/subpart-D/section-170.401).')
+    	and attestation_period_id = (select id from openchpl.attestation_period where description = 'Second Period')),
     1,
     false,
     -1
@@ -171,16 +154,19 @@ where not exists
     where attestation_period_id = (select id from openchpl.attestation_period where description = 'Second Period') 
     and attestation_id = (select id from openchpl.attestation where description = 'For a selection of "Noncompliant", please indicate the status of a Corrective Action Plan (CAP) under the Certification Program.')
     and when_valid_response_id = (select id from openchpl.valid_response where response = 'Noncompliant')
-    and parent_attestation_id = 
-    	(select id from openchpl.attestation 
-		where description ='We attest to compliance with the Information Blocking Condition of Certification requirement described in [45 CFR 170.401](https://ecfr.federalregister.gov/current/title-45/subtitle-A/subchapter-D/part-170/subpart-D/section-170.401).'));
+    and parent_attestation_form_item_id = 
+    	(select id from openchpl.attestation_form_item
+		where attestation_id = (select id from openchpl.attestation where description ='We attest to compliance with the Information Blocking Condition of Certification requirement described in [45 CFR 170.401](https://ecfr.federalregister.gov/current/title-45/subtitle-A/subchapter-D/part-170/subpart-D/section-170.401).')
+	    and attestation_period_id = (select id from openchpl.attestation_period where description = 'Second Period')));
     			
-insert into openchpl.attestation_form_item (attestation_period_id, attestation_id, when_valid_response_id, parent_attestation_id, sort_order, required, last_modified_user)
+insert into openchpl.attestation_form_item (attestation_period_id, attestation_id, when_valid_response_id, parent_attestation_form_item_id, sort_order, required, last_modified_user)
 select
 	(select id from openchpl.attestation_period where description = 'Second Period'),
     (select id from openchpl.attestation where description = 'For a selection of "Noncompliant", please indicate the status of a Corrective Action Plan (CAP) under the Certification Program.'),
     (select id from openchpl.valid_response where response = 'Noncompliant'),
-    (select id from openchpl.attestation where description = 'We attest to compliance with the Assurances Condition and Maintenance of Certification requirements described in [45 CFR 170.402](https://ecfr.federalregister.gov/current/title-45/subtitle-A/subchapter-D/part-170/subpart-D/section-170.402).'),
+    (select id from openchpl.attestation_form_item
+        where attestation_id = (select id from openchpl.attestation where description = 'We attest to compliance with the Assurances Condition and Maintenance of Certification requirements described in [45 CFR 170.402](https://ecfr.federalregister.gov/current/title-45/subtitle-A/subchapter-D/part-170/subpart-D/section-170.402).')
+        and attestation_period_id = (select id from openchpl.attestation_period where description = 'Second Period')),
     1,
     false,
     -1
@@ -190,17 +176,20 @@ where not exists
     where attestation_period_id = (select id from openchpl.attestation_period where description = 'Second Period') 
     and attestation_id = (select id from openchpl.attestation where description = 'For a selection of "Noncompliant", please indicate the status of a Corrective Action Plan (CAP) under the Certification Program.')
     and when_valid_response_id = (select id from openchpl.valid_response where response = 'Noncompliant')
-    and parent_attestation_id = 
-    	(select id from openchpl.attestation 
-		where description ='We attest to compliance with the Assurances Condition and Maintenance of Certification requirements described in [45 CFR 170.402](https://ecfr.federalregister.gov/current/title-45/subtitle-A/subchapter-D/part-170/subpart-D/section-170.402).'));
+    and parent_attestation_form_item_id = 
+    	(select id from openchpl.attestation_form_item 
+		where attestation_id = (select id from openchpl.attestation where description ='We attest to compliance with the Assurances Condition and Maintenance of Certification requirements described in [45 CFR 170.402](https://ecfr.federalregister.gov/current/title-45/subtitle-A/subchapter-D/part-170/subpart-D/section-170.402).')
+	    and attestation_period_id = (select id from openchpl.attestation_period where description = 'Second Period')));
 
 			
-insert into openchpl.attestation_form_item (attestation_period_id, attestation_id, when_valid_response_id, parent_attestation_id, sort_order, required, last_modified_user)
+insert into openchpl.attestation_form_item (attestation_period_id, attestation_id, when_valid_response_id, parent_attestation_form_item_id, sort_order, required, last_modified_user)
 select
 	(select id from openchpl.attestation_period where description = 'Second Period'),
     (select id from openchpl.attestation where description = 'For a selection of "Noncompliant", please indicate the status of a Corrective Action Plan (CAP) under the Certification Program.'),
     (select id from openchpl.valid_response where response = 'Noncompliant'),
-    (select id from openchpl.attestation where description = 'We attest to compliance with the Communications Condition and Maintenance of Certification requirements described in [45 CFR 170.403](https://ecfr.federalregister.gov/current/title-45/subtitle-A/subchapter-D/part-170/subpart-D/section-170.403).'),
+    (select id from openchpl.attestation_form_item 
+        where attestation_id = (select id from openchpl.attestation where description = 'We attest to compliance with the Communications Condition and Maintenance of Certification requirements described in [45 CFR 170.403](https://ecfr.federalregister.gov/current/title-45/subtitle-A/subchapter-D/part-170/subpart-D/section-170.403).')
+        and attestation_period_id = (select id from openchpl.attestation_period where description = 'Second Period')),
     1,
     false,
     -1
@@ -210,16 +199,19 @@ where not exists
     where attestation_period_id = (select id from openchpl.attestation_period where description = 'Second Period') 
     and attestation_id = (select id from openchpl.attestation where description = 'For a selection of "Noncompliant", please indicate the status of a Corrective Action Plan (CAP) under the Certification Program.')
     and when_valid_response_id = (select id from openchpl.valid_response where response = 'Noncompliant')
-    and parent_attestation_id = 
-    	(select id from openchpl.attestation 
-		where description ='We attest to compliance with the Communications Condition and Maintenance of Certification requirements described in [45 CFR 170.403](https://ecfr.federalregister.gov/current/title-45/subtitle-A/subchapter-D/part-170/subpart-D/section-170.403).'));
+    and parent_attestation_form_item_id = 
+    	(select id from openchpl.attestation_form_item 
+		where attestation_id = (select id from openchpl.attestation where description ='We attest to compliance with the Communications Condition and Maintenance of Certification requirements described in [45 CFR 170.403](https://ecfr.federalregister.gov/current/title-45/subtitle-A/subchapter-D/part-170/subpart-D/section-170.403).')
+	    and attestation_period_id = (select id from openchpl.attestation_period where description = 'Second Period')));
 	
-insert into openchpl.attestation_form_item (attestation_period_id, attestation_id, when_valid_response_id, parent_attestation_id, sort_order, required, last_modified_user)
+insert into openchpl.attestation_form_item (attestation_period_id, attestation_id, when_valid_response_id, parent_attestation_form_item_id, sort_order, required, last_modified_user)
 select
 	(select id from openchpl.attestation_period where description = 'Second Period'),
     (select id from openchpl.attestation where description = 'For a selection of "Noncompliant", please indicate the status of a Corrective Action Plan (CAP) under the Certification Program.'),
     (select id from openchpl.valid_response where response = 'Noncompliant'),
-    (select id from openchpl.attestation where description = 'We attest to compliance with the Application Programming Interfaces (APIs) Condition and Maintenance of Certification requirements described in [45 CFR 170.404](https://ecfr.federalregister.gov/current/title-45/subtitle-A/subchapter-D/part-170/subpart-D/section-170.404).'),
+    (select id from openchpl.attestation_form_item 
+        where attestation_id = (select id from openchpl.attestation where description = 'We attest to compliance with the Application Programming Interfaces (APIs) Condition and Maintenance of Certification requirements described in [45 CFR 170.404](https://ecfr.federalregister.gov/current/title-45/subtitle-A/subchapter-D/part-170/subpart-D/section-170.404).')
+        and attestation_period_id = (select id from openchpl.attestation_period where description = 'Second Period')),
     1,
     false,
     -1
@@ -229,16 +221,19 @@ where not exists
     where attestation_period_id = (select id from openchpl.attestation_period where description = 'Second Period') 
     and attestation_id = (select id from openchpl.attestation where description = 'For a selection of "Noncompliant", please indicate the status of a Corrective Action Plan (CAP) under the Certification Program.')
     and when_valid_response_id = (select id from openchpl.valid_response where response = 'Noncompliant')
-    and parent_attestation_id = 
-    	(select id from openchpl.attestation 
-		where description ='We attest to compliance with the Application Programming Interfaces (APIs) Condition and Maintenance of Certification requirements described in [45 CFR 170.404](https://ecfr.federalregister.gov/current/title-45/subtitle-A/subchapter-D/part-170/subpart-D/section-170.404).'));
+    and parent_attestation_form_item_id = 
+    	(select id from openchpl.attestation_form_item 
+		where attestation_id = (select id from openchpl.attestation where description ='We attest to compliance with the Application Programming Interfaces (APIs) Condition and Maintenance of Certification requirements described in [45 CFR 170.404](https://ecfr.federalregister.gov/current/title-45/subtitle-A/subchapter-D/part-170/subpart-D/section-170.404).')
+		and attestation_period_id = (select id from openchpl.attestation_period where description = 'Second Period')));
     			
-insert into openchpl.attestation_form_item (attestation_period_id, attestation_id, when_valid_response_id, parent_attestation_id, sort_order, required, last_modified_user)
+insert into openchpl.attestation_form_item (attestation_period_id, attestation_id, when_valid_response_id, parent_attestation_form_item_id, sort_order, required, last_modified_user)
 select
 	(select id from openchpl.attestation_period where description = 'Second Period'),
     (select id from openchpl.attestation where description = 'For a selection of "Noncompliant", please indicate the status of a Corrective Action Plan (CAP) under the Certification Program.'),
     (select id from openchpl.valid_response where response = 'Noncompliant'),
-    (select id from openchpl.attestation where description = 'We attest to compliance with the Real World Testing Condition and Maintenance of Certification requirements described in [45 CFR 170.405](https://ecfr.federalregister.gov/current/title-45/subtitle-A/subchapter-D/part-170/subpart-D/section-170.405).'),
+    (select id from openchpl.attestation_form_item 
+        where attestation_id = (select id from openchpl.attestation where description = 'We attest to compliance with the Real World Testing Condition and Maintenance of Certification requirements described in [45 CFR 170.405](https://ecfr.federalregister.gov/current/title-45/subtitle-A/subchapter-D/part-170/subpart-D/section-170.405).')
+        and attestation_period_id = (select id from openchpl.attestation_period where description = 'Second Period')),
     1,
     false,
     -1
@@ -248,6 +243,7 @@ where not exists
     where attestation_period_id = (select id from openchpl.attestation_period where description = 'Second Period') 
     and attestation_id = (select id from openchpl.attestation where description = 'For a selection of "Noncompliant", please indicate the status of a Corrective Action Plan (CAP) under the Certification Program.')
     and when_valid_response_id = (select id from openchpl.valid_response where response = 'Noncompliant')
-    and parent_attestation_id = 
-    	(select id from openchpl.attestation 
-		where description ='We attest to compliance with the Real World Testing Condition and Maintenance of Certification requirements described in [45 CFR 170.405](https://ecfr.federalregister.gov/current/title-45/subtitle-A/subchapter-D/part-170/subpart-D/section-170.405).'));
+    and parent_attestation_form_item_id = 
+    	(select id from openchpl.attestation_form_item 
+		where attestation_id = (select id from openchpl.attestation where description ='We attest to compliance with the Real World Testing Condition and Maintenance of Certification requirements described in [45 CFR 170.405](https://ecfr.federalregister.gov/current/title-45/subtitle-A/subchapter-D/part-170/subpart-D/section-170.405).')
+		and attestation_period_id = (select id from openchpl.attestation_period where description = 'Second Period')));
