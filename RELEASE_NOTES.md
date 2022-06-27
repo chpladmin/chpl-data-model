@@ -1,5 +1,14 @@
 # Release Notes
 
+## Version 20.18.1
+_27 June 2022_
+
+### Data Changes
+* Mark /change-requests endpoint as deprecated and remove it from the deprecated_response_field_api table
+* Update conformance method name from "Touchstone" to "Drummond G10+ FHIR API powered by Touchstone"
+
+---
+
 ## Version 20.18.0
 _13 June 2022_
 
