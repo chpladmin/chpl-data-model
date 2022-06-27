@@ -1,3 +1,6 @@
+-- Deployment file for version 20.18.1
+--     as of 2022-06-27
+-- ./changes/ocd-3956.sql
 INSERT INTO openchpl.deprecated_api (http_method, api_operation, change_description, removal_date, last_modified_user)
 SELECT 
 	'GET',
@@ -20,4 +23,12 @@ AND deleted = false;
 UPDATE openchpl.deprecated_response_field_api
 SET api_operation = '/change-requests/{changeRequestId:^-?\d+$}'
 WHERE http_method = 'GET'
-AND api_operation = '/change-requests/{changeRequestId}';
+AND api_operation = '/change-requests/{changeRequestId}';;
+-- ./changes/ocd-3989.sql
+UPDATE openchpl.conformance_method
+SET name = 'Drummond G10+ FHIR API powered by Touchstone'
+WHERE name = 'Touchstone';;
+insert into openchpl.data_model_version (version, deploy_date, last_modified_user) values ('20.18.1', '2022-06-27', -1);
+\i dev/openchpl_soft-delete.sql
+\i dev/openchpl_views.sql
+\i dev/openchpl_grant-all.sql
