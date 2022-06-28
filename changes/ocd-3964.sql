@@ -1,3 +1,155 @@
+create table if not exists openchpl.response_cardinality_type (
+    id bigserial not null,
+    description text not null,
+    creation_date timestamp not null default now(),
+	last_modified_date timestamp not null default now(),
+	last_modified_user int8 not null ,
+	deleted bool not null default false,
+	constraint response_cardinality_type_pk primary key (id)
+);
+
+create table if not exists openchpl.section_heading (
+    id bigserial not null,
+    name text not null,
+    sort_order int8 not null,
+    creation_date timestamp not null default now(),
+	last_modified_date timestamp not null default now(),
+	last_modified_user int8 not null ,
+	deleted bool not null default false,
+	constraint section_heading_pk primary key (id)
+);
+
+create table if not exists openchpl.question (
+    id bigserial not null,
+    question text not null,
+    response_cardinality_type_id bigint not null,
+    section_heading_id bigint not null,
+    creation_date timestamp not null default now(),
+	last_modified_date timestamp not null default now(),
+	last_modified_user int8 not null ,
+	deleted bool not null default false,
+	constraint question_pk primary key (id),
+	constraint response_cardinality_type_fk foreign key (response_cardinality_type_id)
+	    references openchpl.response_cardinality_type (id)
+        match simple on update no action on delete restrict,
+    constraint section_heading_fk foreign key (section_heading_id)
+	    references openchpl.section_heading (id)
+        match simple on update no action on delete restrict
+);
+
+create table if not exists openchpl.allowed_response (
+	id bigserial not null,
+    response text not null,
+    creation_date timestamp not null default now(),
+	last_modified_date timestamp not null default now(),
+	last_modified_user int8 not null ,
+	deleted bool not null default false,
+	constraint allowed_response_pk primary key (id)
+);
+
+create table if not exists openchpl.question_allowed_response_map (
+	id bigserial not null,
+	question_id bigint not null,
+	allowed_response_id bigint not null,
+	sort_order int8 not null,
+	creation_date timestamp not null default now(),
+	last_modified_date timestamp not null default now(),
+	last_modified_user int8 not null ,
+	deleted bool not null default false,
+	constraint question_allowed_response_map_pk primary key (id)
+);
+
+create table if not exists openchpl.form (
+	id bigserial not null,
+	description text not null,
+	creation_date timestamp not null default now(),
+	last_modified_date timestamp not null default now(),
+	last_modified_user int8 not null ,
+	deleted bool not null default false,
+	constraint form_pk primary key (id)
+);
+
+create table if not exists openchpl.form_item (
+	id bigserial not null,
+	form_id bigint not null,
+	question_id bigint not null,
+	parent_form_item_id bigint,
+	parent_response_id bigint,
+	sort_order int8 not null,
+	required boolean not null default true,
+	creation_date timestamp not null default now(),
+	last_modified_date timestamp not null default now(),
+	last_modified_user int8 not null ,
+	deleted bool not null default false,
+	constraint form_item_pk primary key (id),
+	constraint question_fk foreign key (question_id)
+	    references openchpl.question (id)
+        match simple on update no action on delete restrict,
+    constraint parent_response_fk foreign key (parent_response_id)
+	    references openchpl.allowed_response (id)
+        match simple on update no action on delete restrict
+);
+
+alter table openchpl.form_item
+drop constraint if exists parent_form_item_fk;
+
+alter table openchpl.form_item
+add constraint parent_form_item_fk FOREIGN KEY (parent_form_item_id)
+	    REFERENCES openchpl.form_item (id)
+        MATCH SIMPLE ON UPDATE NO ACTION ON DELETE restrict;
+
+
+------------------------------------------------------------------------------------       
+       
+insert into openchpl.response_cardinality_type (description, last_modified_user) 
+select 'Single', -1
+where not exists (
+    select *
+    from openchpl.response_cardinality_type
+    where description = 'Single');
+
+insert into openchpl.response_cardinality_type (description, last_modified_user) 
+select 'Multiple', -1
+where not exists (
+    select *
+    from openchpl.response_cardinality_type
+    where description = 'Multiple');
+
+------------------------------------------------------------------------------------       
+   
+insert into openchpl.section_heading (name, sort_order, last_modified_user) 
+select name, sort_order, -1
+from openchpl.attestation_condition ac
+where not exists (
+    select *
+    from openchpl.section_heading sh
+    where sh.name = ac.name
+);
+   
+------------------------------------------------------------------------------------       
+
+insert into openchpl.question (question, response_cardinality_type_id, section_heading_id, last_modified_user)
+select att.description,
+    (select id from openchpl.response_cardinality_type where description = 'Single'),
+    (select sh.id 
+    from openchpl.attestation_condition ac
+        inner join openchpl.section_heading sh
+        on ac.name = sh.name
+    where ac.id = att.attestation_condition_id),
+    -1
+from openchpl.attestation att
+where not exists (
+    select *
+    from openchpl.question q
+    where q.question = att.description
+);
+
+
+
+
+
+
+
 ---------  Change the existing datamodel to updated model  ---------
 
 alter table if exists openchpl.attestation_valid_response rename to valid_response;
