@@ -94,10 +94,20 @@ alter table openchpl.form_item
 drop constraint if exists parent_form_item_fk;
 
 alter table openchpl.form_item
-add constraint parent_form_item_fk FOREIGN KEY (parent_form_item_id)
-	    REFERENCES openchpl.form_item (id)
-        MATCH SIMPLE ON UPDATE NO ACTION ON DELETE restrict;
+add constraint parent_form_item_fk foreign key (parent_form_item_id)
+	    references openchpl.form_item (id)
+        match simple on update no action on delete restrict;
 
+alter table openchpl.attestation_period 
+add column if not exists form_id bigint;
+
+alter table openchpl.attestation_period
+drop constraint if exists form_fk;
+
+alter table openchpl.attestation_period
+add constraint form_fk foreign key (form_id)
+	    references openchpl.form (id)
+        match simple on update no action on delete restrict;
 
 ------------------------------------------------------------------------------------       
 ------              CONVERT THE EXISTING FORM TO THE NEW MODEL                ------
