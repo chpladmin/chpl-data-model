@@ -230,6 +230,12 @@ where not exists (
             inner join openchpl.attestation att_b
             on q.question = att_b.description 
         where att_b.id = att.id));
+
+------------------------------------------------------------------------------------
+
+update openchpl.attestation_period
+set form_id = (select id from openchpl.form where description = 'Attestation Period 2020-06-30 to 2022-03-31')
+where description = 'First Period';
        
 ------------------------------------------------------------------------------------       
 ------              ADD THE NEW FORM TO THE NEW MODEL                ------
@@ -441,3 +447,7 @@ where not exists (
         where form_id = (select id from openchpl.form where description = 'Attestation Period 2022-04-01 to 2022-09-30')
     	and question_id = (select id from openchpl.question where question = 'We attest to compliance with the Real World Testing Condition and Maintenance of Certification requirements described in [45 CFR 170.405](https://ecfr.federalregister.gov/current/title-45/subtitle-A/subchapter-D/part-170/subpart-D/section-170.405).'))
     and parent_response_id = (select id from openchpl.allowed_response where response = 'Noncompliant'));
+
+update openchpl.attestation_period
+set form_id = (select id from openchpl.form where description = 'Attestation Period 2022-04-01 to 2022-09-30')
+where description = 'Second Period';
