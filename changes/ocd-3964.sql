@@ -451,3 +451,59 @@ where not exists (
 update openchpl.attestation_period
 set form_id = (select id from openchpl.form where description = 'Attestation Period 2022-04-01 to 2022-09-30')
 where description = 'Second Period';
+
+------------------------------------------------------------------------------------       
+------     CONVERT DEVELOPER ATTESTATIONS TO SUPPORT MULTIPLE RESPONSES       ------
+------------------------------------------------------------------------------------
+
+create table if not exists openchpl.attestation_submission (
+	id bigserial not null,
+	developer_id bigint not null,
+	attestation_period_id bigint not null,
+	creation_date timestamp not null default now(),
+	last_modified_date timestamp not null default now(),
+	last_modified_user bigint not null,
+	deleted bool not null default false,
+	constraint attestation_submission_pk primary key (id),
+	constraint developer_id_fk foreign key (developer_id)
+        references openchpl.vendor (vendor_id) match full
+        on update cascade on delete restrict,
+	constraint attestation_period_id_fk foreign key (attestation_period_id)
+        references openchpl.attestation_period (id) match full
+        on update cascade on delete restrict
+);
+
+create table if not exists openchpl.attestation_question (
+	id bigserial not null,
+	attestation_submission_id bigint not null,
+	question_id bigint not null,
+	creation_date timestamp not null default now(),
+	last_modified_date timestamp not null default now(),
+	last_modified_user bigint not null,
+	deleted bool not null default false,
+	constraint attestation_question_pk primary key (id),
+	constraint attestation_submission_fk foreign key (attestation_submission_id)
+        references openchpl.attestation_submission (id) match full
+        on update cascade on delete restrict,
+	constraint question_fk foreign key (question_id)
+        references openchpl.question (id) match full
+        on update cascade on delete restrict
+);
+
+create table if not exists openchpl.attestation_question_response (
+	id bigserial not null,
+	attestation_question_id bigint not null,
+	allowed_response_id bigint not null,
+	creation_date timestamp not null default now(),
+	last_modified_date timestamp not null default now(),
+	last_modified_user bigint not null,
+	deleted bool not null default false,
+	constraint attestation_question_response_pk primary key (id),
+	constraint attestation_question_fk foreign key (attestation_question_id)
+        references openchpl.attestation_question (id) match full
+        on update cascade on delete restrict,
+	constraint allowed_response_fk foreign key (allowed_response_id)
+        references openchpl.question (id) match full
+        on update cascade on delete restrict
+);
+
