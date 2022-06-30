@@ -460,10 +460,13 @@ create table if not exists openchpl.attestation_submission (
 	id bigserial not null,
 	developer_id bigint not null,
 	attestation_period_id bigint not null,
+	signature text not null,
+	signature_email text not null,
 	creation_date timestamp not null default now(),
 	last_modified_date timestamp not null default now(),
 	last_modified_user bigint not null,
 	deleted bool not null default false,
+	drop_developer_attestation_submission_id bigint,
 	constraint attestation_submission_pk primary key (id),
 	constraint developer_id_fk foreign key (developer_id)
         references openchpl.vendor (vendor_id) match full
@@ -473,37 +476,84 @@ create table if not exists openchpl.attestation_submission (
         on update cascade on delete restrict
 );
 
-create table if not exists openchpl.attestation_question (
+create table if not exists openchpl.attestation_submission_response (
 	id bigserial not null,
 	attestation_submission_id bigint not null,
-	question_id bigint not null,
+	response_id bigint not null,
+	form_item_id bigint not null,
 	creation_date timestamp not null default now(),
 	last_modified_date timestamp not null default now(),
 	last_modified_user bigint not null,
 	deleted bool not null default false,
-	constraint attestation_question_pk primary key (id),
+	constraint attestation_submission_response_pk primary key (id),
 	constraint attestation_submission_fk foreign key (attestation_submission_id)
         references openchpl.attestation_submission (id) match full
         on update cascade on delete restrict,
-	constraint question_fk foreign key (question_id)
-        references openchpl.question (id) match full
-        on update cascade on delete restrict
-);
-
-create table if not exists openchpl.attestation_question_response (
-	id bigserial not null,
-	attestation_question_id bigint not null,
-	allowed_response_id bigint not null,
-	creation_date timestamp not null default now(),
-	last_modified_date timestamp not null default now(),
-	last_modified_user bigint not null,
-	deleted bool not null default false,
-	constraint attestation_question_response_pk primary key (id),
-	constraint attestation_question_fk foreign key (attestation_question_id)
-        references openchpl.attestation_question (id) match full
+	constraint response_fk foreign key (response_id)
+        references openchpl.allowed_response (id) match full
         on update cascade on delete restrict,
-	constraint allowed_response_fk foreign key (allowed_response_id)
-        references openchpl.question (id) match full
+   constraint form_item_fk foreign key (form_item_id)
+        references openchpl.form_item (id) match full
         on update cascade on delete restrict
 );
 
+insert into openchpl.attestation_submission (developer_id, attestation_period_id, signature, signature_email, last_modified_user, deleted, drop_developer_attestation_submission_id) 
+select developer_id, attestation_period_id, signature, signature_email, last_modified_user, deleted, id
+from openchpl.developer_attestation_submission das
+where not exists (
+	select *
+	from openchpl.attestation_submission
+	where developer_id = das.developer_id
+	and attestation_period_id = das.attestation_period_id
+	and deleted = das.deleted
+);
+
+insert into openchpl.attestation_submission_response (attestation_submission_id, response_id, form_item_id, last_modified_user, deleted)
+select 
+	(select id from openchpl.attestation_submission where drop_developer_attestation_submission_id = dar.developer_attestation_submission_id),
+	(select ar.id 
+	from openchpl.allowed_response ar
+		inner join openchpl.attestation_valid_response avr
+		on ar.response = avr.response 
+	where avr.id = dar.attestation_valid_response_id),
+	-- This is a little hard coded
+	(select fi.id
+	from openchpl.form f
+	    inner join openchpl.form_item fi
+	    	on f.id = fi.form_id 
+	    inner join openchpl.question q
+	        on fi.question_id = q.id
+	    inner join openchpl.attestation a
+	        on q.question = a.description
+	    inner join openchpl.attestation_period ap
+	    	on ap.form_id = f.id
+	 where ap.id = 1
+	 and a.id = dar.attestation_id),
+	 dar.last_modified_user,
+	 dar.deleted 
+from openchpl.developer_attestation_response dar
+where not exists (
+	select *
+	from openchpl.attestation_submission_response
+	where attestation_submission_id = (select id from openchpl.attestation_submission where drop_developer_attestation_submission_id = dar.developer_attestation_submission_id)
+	and response_id = (
+		select ar.id 
+		from openchpl.allowed_response ar
+			inner join openchpl.attestation_valid_response avr
+			on ar.response = avr.response 
+		where avr.id = dar.attestation_valid_response_id)
+	and form_item_id = (
+	    select fi.id
+		from openchpl.form f
+	    	inner join openchpl.form_item fi
+	    		on f.id = fi.form_id 
+		    inner join openchpl.question q
+		        on fi.question_id = q.id
+		    inner join openchpl.attestation a
+		        on q.question = a.description
+		    inner join openchpl.attestation_period ap
+		    	on ap.form_id = f.id
+	 	where ap.id = 1
+	 	and a.id = dar.attestation_id)
+	 and deleted = dar.deleted);
+	 
