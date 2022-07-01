@@ -557,3 +557,76 @@ where not exists (
 	 	and a.id = dar.attestation_id)
 	 and deleted = dar.deleted);
 	 
+------------------------------------------------------------------------------------       
+------     CONVERT CHANGE REQUEST ATTESTATIONS TO SUPPORT MULTIPLE RESPONSES       ------
+------------------------------------------------------------------------------------
+
+create table if not exists openchpl.change_request_attestation_submission_response (
+	id bigserial not null,
+	change_request_attestation_submission_id bigint not null,
+	response_id bigint not null,
+	form_item_id bigint not null,
+	creation_date timestamp not null default now(),
+	last_modified_date timestamp not null default now(),
+	last_modified_user bigint not null,
+	deleted bool not null default false,
+	constraint change_request_attestation_submission_response_pk primary key (id),
+	constraint change_request_attestation_submission_fk foreign key (change_request_attestation_submission_id)
+        references openchpl.change_request_attestation_submission (id) match full
+        on update cascade on delete restrict,
+	constraint response_fk foreign key (response_id)
+        references openchpl.allowed_response (id) match full
+        on update cascade on delete restrict,
+   constraint form_item_fk foreign key (form_item_id)
+        references openchpl.form_item (id) match full
+        on update cascade on delete restrict
+);
+
+insert into openchpl.change_request_attestation_submission_response (change_request_attestation_submission_id, response_id, form_item_id, last_modified_user, deleted)
+select 
+	crar.change_request_attestation_submission_id,
+	(select ar.id 
+	from openchpl.allowed_response ar
+		inner join openchpl.attestation_valid_response avr
+		on ar.response = avr.response 
+	where avr.id = crar.attestation_valid_response_id),
+	-- This is a little hard coded
+	(select fi.id
+	from openchpl.form f
+	    inner join openchpl.form_item fi
+	    	on f.id = fi.form_id 
+	    inner join openchpl.question q
+	        on fi.question_id = q.id
+	    inner join openchpl.attestation a
+	        on q.question = a.description
+	    inner join openchpl.attestation_period ap
+	    	on ap.form_id = f.id
+	 where ap.id = 1
+	 and a.id = crar.attestation_id),
+	 crar.last_modified_user,
+	 crar.deleted 
+from openchpl.change_request_attestation_response crar
+where not exists (
+	select *
+	from openchpl.change_request_attestation_submission_response
+	where change_request_attestation_submission_id = crar.change_request_attestation_submission_id
+	and response_id = (
+		select ar.id 
+		from openchpl.allowed_response ar
+			inner join openchpl.attestation_valid_response avr
+			on ar.response = avr.response 
+		where avr.id = crar.attestation_valid_response_id)
+	and form_item_id = (
+	    select fi.id
+		from openchpl.form f
+	    	inner join openchpl.form_item fi
+	    		on f.id = fi.form_id 
+		    inner join openchpl.question q
+		        on fi.question_id = q.id
+		    inner join openchpl.attestation a
+		        on q.question = a.description
+		    inner join openchpl.attestation_period ap
+		    	on ap.form_id = f.id
+	 	where ap.id = 1
+	 	and a.id = crar.attestation_id)
+	 and deleted = crar.deleted);
