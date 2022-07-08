@@ -1,5 +1,14 @@
 # Release Notes
 
+## Version 20.18.2
+_6 July 2022_
+
+### Data Changes
+* Add/Remove "Touchstone" related testing options
+* Remove invalid g10 measure mapping to EC measure
+
+---
+
 ## Version 20.18.1
 _27 June 2022_
 
