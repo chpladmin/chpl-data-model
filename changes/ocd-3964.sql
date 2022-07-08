@@ -177,7 +177,7 @@ select
     from openchpl.attestation_valid_response att
         inner join openchpl.allowed_response r
         on att.response = r.response
-    where r.id = af.attestation_valid_response_id),
+    where att.id = af.attestation_valid_response_id),
     (select sort_order
     from openchpl.attestation_valid_response avr
     where id = af.attestation_valid_response_id),
