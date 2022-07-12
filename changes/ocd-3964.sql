@@ -7,6 +7,10 @@ create table if not exists openchpl.response_cardinality_type (
 	deleted bool not null default false,
 	constraint response_cardinality_type_pk primary key (id)
 );
+drop trigger if exists response_cardinality_type_audit on openchpl.response_cardinality_type; 
+create trigger response_cardinality_type_audit after insert or update or delete on openchpl.response_cardinality_type for each row execute procedure audit.if_modified_func();
+drop trigger if exists response_cardinality_type_timestamp on openchpl.response_cardinality_type;
+create trigger response_cardinality_type_timestamp before update on openchpl.response_cardinality_type for each row execute procedure openchpl.update_last_modified_date_column();
 
 create table if not exists openchpl.section_heading (
     id bigserial not null,
@@ -18,6 +22,10 @@ create table if not exists openchpl.section_heading (
 	deleted bool not null default false,
 	constraint section_heading_pk primary key (id)
 );
+drop trigger if exists section_heading_audit on openchpl.section_heading;
+create trigger section_heading_audit after insert or update or delete on openchpl.section_heading for each row execute procedure audit.if_modified_func();
+drop trigger if exists section_heading_timestamp on openchpl.section_heading;
+create trigger section_heading_timestamp before update on openchpl.section_heading for each row execute procedure openchpl.update_last_modified_date_column();
 
 create table if not exists openchpl.question (
     id bigserial not null,
@@ -36,6 +44,10 @@ create table if not exists openchpl.question (
 	    references openchpl.section_heading (id)
         match simple on update no action on delete restrict
 );
+drop trigger if exists question_audit on openchpl.question;
+create trigger question_audit after insert or update or delete on openchpl.question for each row execute procedure audit.if_modified_func();
+drop trigger if exists question_timestamp on openchpl.question;
+create trigger question_timestamp before update on openchpl.question for each row execute procedure openchpl.update_last_modified_date_column();
 
 create table if not exists openchpl.allowed_response (
 	id bigserial not null,
@@ -46,6 +58,10 @@ create table if not exists openchpl.allowed_response (
 	deleted bool not null default false,
 	constraint allowed_response_pk primary key (id)
 );
+drop trigger if exists allowed_response_audit on openchpl.allowed_response;
+create trigger allowed_response_audit after insert or update or delete on openchpl.allowed_response for each row execute procedure audit.if_modified_func();
+drop trigger if exists allowed_response_timestamp on openchpl.allowed_response;
+create trigger allowed_response_timestamp before update on openchpl.allowed_response for each row execute procedure openchpl.update_last_modified_date_column();
 
 create table if not exists openchpl.question_allowed_response_map (
 	id bigserial not null,
@@ -58,6 +74,10 @@ create table if not exists openchpl.question_allowed_response_map (
 	deleted bool not null default false,
 	constraint question_allowed_response_map_pk primary key (id)
 );
+drop trigger if exists question_allowed_response_map_audit on openchpl.question_allowed_response_map;
+create trigger question_allowed_response_map_audit after insert or update or delete on openchpl.question_allowed_response_map for each row execute procedure audit.if_modified_func();
+drop trigger if exists question_allowed_response_map_timestamp on openchpl.question_allowed_response_map;
+create trigger question_allowed_response_map_timestamp before update on openchpl.question_allowed_response_map for each row execute procedure openchpl.update_last_modified_date_column();
 
 create table if not exists openchpl.form (
 	id bigserial not null,
@@ -68,6 +88,11 @@ create table if not exists openchpl.form (
 	deleted bool not null default false,
 	constraint form_pk primary key (id)
 );
+drop trigger if exists form_audit on openchpl.form;
+create trigger form_audit after insert or update or delete on openchpl.form for each row execute procedure audit.if_modified_func();
+drop trigger if exists form_timestamp on openchpl.form;
+create trigger form_timestamp before update on openchpl.form for each row execute procedure openchpl.update_last_modified_date_column();
+
 
 create table if not exists openchpl.form_item (
 	id bigserial not null,
@@ -89,6 +114,11 @@ create table if not exists openchpl.form_item (
 	    references openchpl.allowed_response (id)
         match simple on update no action on delete restrict
 );
+drop trigger if exists form_item_audit on openchpl.form_item;
+create trigger form_item_audit after insert or update or delete on openchpl.form_item for each row execute procedure audit.if_modified_func();
+drop trigger if exists form_item_timestamp on openchpl.form_item;
+create trigger form_item_timestamp before update on openchpl.form_item for each row execute procedure openchpl.update_last_modified_date_column();
+
 
 alter table openchpl.form_item
 drop constraint if exists parent_form_item_fk;
@@ -475,6 +505,10 @@ create table if not exists openchpl.attestation_submission (
         references openchpl.attestation_period (id) match full
         on update cascade on delete restrict
 );
+drop trigger if exists attestation_submission_audit on openchpl.attestation_submission;
+create trigger attestation_submission_audit after insert or update or delete on openchpl.attestation_submission for each row execute procedure audit.if_modified_func();
+drop trigger if exists attestation_submission_timestamp on openchpl.attestation_submission;
+create trigger attestation_submission_timestamp before update on openchpl.attestation_submission for each row execute procedure openchpl.update_last_modified_date_column();
 
 create table if not exists openchpl.attestation_submission_response (
 	id bigserial not null,
@@ -496,6 +530,10 @@ create table if not exists openchpl.attestation_submission_response (
         references openchpl.form_item (id) match full
         on update cascade on delete restrict
 );
+drop trigger if exists attestation_submission_response_audit on openchpl.attestation_submission_response;
+create trigger attestation_submission_response_audit after insert or update or delete on openchpl.attestation_submission_response for each row execute procedure audit.if_modified_func();
+drop trigger if exists attestation_submission_response_timestamp on openchpl.attestation_submission_response;
+create trigger attestation_submission_response_timestamp before update on openchpl.attestation_submission_response for each row execute procedure openchpl.update_last_modified_date_column();
 
 insert into openchpl.attestation_submission (developer_id, attestation_period_id, signature, signature_email, last_modified_user, deleted, drop_developer_attestation_submission_id) 
 select developer_id, attestation_period_id, signature, signature_email, last_modified_user, deleted, id
@@ -516,7 +554,6 @@ select
 		inner join openchpl.attestation_valid_response avr
 		on ar.response = avr.response 
 	where avr.id = dar.attestation_valid_response_id),
-	-- This is a little hard coded
 	(select fi.id
 	from openchpl.form f
 	    inner join openchpl.form_item fi
@@ -581,6 +618,10 @@ create table if not exists openchpl.change_request_attestation_submission_respon
         references openchpl.form_item (id) match full
         on update cascade on delete restrict
 );
+drop trigger if exists change_request_attestation_submission_response_audit on openchpl.change_request_attestation_submission_response;
+create trigger change_request_attestation_submission_response_audit after insert or update or delete on openchpl.change_request_attestation_submission_response for each row execute procedure audit.if_modified_func();
+drop trigger if exists change_request_attestation_submission_response_timestamp on openchpl.change_request_attestation_submission_response;
+create trigger change_request_attestation_submission_response_timestamp before update on openchpl.change_request_attestation_submission_response for each row execute procedure openchpl.update_last_modified_date_column();
 
 insert into openchpl.change_request_attestation_submission_response (change_request_attestation_submission_id, response_id, form_item_id, last_modified_user, deleted)
 select 
@@ -630,3 +671,17 @@ where not exists (
 	 	where ap.id = 1
 	 	and a.id = crar.attestation_id)
 	 and deleted = crar.deleted);
+
+------------------------------------------------------------------------------------       
+------             DROP TEMP COLUMNS USED DURING DATA CONVERSION              ------
+------------------------------------------------------------------------------------
+--alter table openchpl.attestation_submission
+--drop column if exists drop_developer_attestation_submission_id;
+
+--attestation
+--attestation_condition
+--attestation_form
+--attestation_valid_response
+--change_request_attestation_response
+--developer_attestation_response
+--developer_attestation_submission
