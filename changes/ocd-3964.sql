@@ -299,9 +299,9 @@ where not exists (
 );
 
 insert into openchpl.allowed_response (response, last_modified_user) 
-select 'Completed a CAP', -1
+select 'Completed a CAP during the specified Attestation Period', -1
 where not exists (
-    select * from openchpl.allowed_response where response = 'Completed a CAP'
+    select * from openchpl.allowed_response where response = 'Completed a CAP during the specified Attestation Period'
 );
 
 insert into openchpl.question_allowed_response_map (question_id, allowed_response_id, sort_order, last_modified_user)
