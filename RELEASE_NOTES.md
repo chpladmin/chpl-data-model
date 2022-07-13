@@ -1,5 +1,13 @@
 # Release Notes
 
+## Version 20.18.3
+_11 July 2022_
+
+### Data Changes
+* Add deprecated field mappings for surveillance requirementName and nonconformityTypeName. Add deprecated endpoints for nonConformity document upload and delete.
+
+---
+
 ## Version 20.18.2
 _6 July 2022_
 

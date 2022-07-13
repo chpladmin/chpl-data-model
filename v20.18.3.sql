@@ -1,3 +1,6 @@
+-- Deployment file for version 20.18.3
+--     as of 2022-07-11
+-- ./changes/ocd-3806.sql
 -- CertifiedProductSearchDetails
 -- /certified_products/{year}.{testingLab}.{certBody}.{vendorCode}.{productCode}.{versionCode}.{icsCode}.{addlSoftwareCode}.{certDateCode}/details
 INSERT INTO openchpl.deprecated_response_field (deprecated_api_id, response_field, change_description, removal_date, last_modified_user)
@@ -438,3 +441,8 @@ SELECT
 WHERE NOT EXISTS (SELECT * FROM openchpl.deprecated_api WHERE http_method = 'GET' and api_operation = '/surveillance/document/{documentId}');
 
 
+;
+insert into openchpl.data_model_version (version, deploy_date, last_modified_user) values ('20.18.3', '2022-07-11', -1);
+\i dev/openchpl_soft-delete.sql
+\i dev/openchpl_views.sql
+\i dev/openchpl_grant-all.sql
