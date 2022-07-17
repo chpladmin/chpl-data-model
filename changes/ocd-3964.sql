@@ -331,14 +331,14 @@ where not exists (
 insert into openchpl.question_allowed_response_map (question_id, allowed_response_id, sort_order, last_modified_user)
 select
     (select id from openchpl.question where question = 'For a selection of "Noncompliant", please indicate the status of a Corrective Action Plan (CAP) under the Certification Program. (optional)'),
-    (select id from openchpl.allowed_response where response = 'Completed a CAP'),
+    (select id from openchpl.allowed_response where response = 'Completed a CAP during the specified Attestation Period'),
     1,
     -1
 where not exists (
     select *
     from openchpl.question_allowed_response_map
     where question_id = (select id from openchpl.question where question = 'For a selection of "Noncompliant", please indicate the status of a Corrective Action Plan (CAP) under the Certification Program. (optional)')
-    and allowed_response_id  = (select id from openchpl.allowed_response where response = 'Completed a CAP'));
+    and allowed_response_id  = (select id from openchpl.allowed_response where response = 'Completed a CAP during the specified Attestation Period'));
 
 ----  For the second period form items, copy the first period form items, but attach to second period form table.
 ----  Then add the subordinate questions...
