@@ -1,5 +1,15 @@
 # Release Notes
 
+## Version 20.19.0
+_25 July 2022_
+
+### Data Changes
+* Remove API endpoints with no more deprecated fields as of 5/15/22
+* Remove deprecated response fields eligible as of 5/15/22.
+* Add deprecated endpoints related to modifying attestations from previous periods
+
+---
+
 ## Version 20.18.3
 _11 July 2022_
 
