@@ -1,3 +1,6 @@
+-- Deployment file for version 20.19.0
+--     as of 2022-07-25
+-- ./changes/ocd-3873.sql
 INSERT INTO openchpl.deprecated_api (http_method, api_operation, change_description, removal_date, last_modified_user)
 SELECT 'GET',
     '/developers/{developerId}/attestations/exception',
@@ -48,3 +51,46 @@ WHERE NOT EXISTS (
     WHERE deprecated_api_id = (SELECT id FROM openchpl.deprecated_response_field_api WHERE http_method = 'GET' AND api_operation = '/developers/{developerId}/attestations')
     AND response_field = 'canSubmitAttestationChangeRequest'
     AND deleted = false);
+;
+-- ./changes/ocd-3951.sql
+UPDATE openchpl.deprecated_response_field_api
+SET deleted = true
+WHERE http_method = 'GET'
+AND api_operation = '/complaints';
+
+UPDATE openchpl.deprecated_response_field_api
+SET deleted = true
+WHERE http_method = 'POST'
+AND api_operation = '/complaints';
+
+UPDATE openchpl.deprecated_response_field_api
+SET deleted = true
+WHERE http_method = 'PUT'
+AND api_operation = '/complaints/{complaintId}';
+
+UPDATE openchpl.deprecated_response_field_api
+SET deleted = true
+WHERE http_method = 'GET'
+AND api_operation = '/surveillance-report/quarterly/{quarterlyReportId}/listings';
+
+UPDATE openchpl.deprecated_response_field_api
+SET deleted = true
+WHERE http_method = 'GET'
+AND api_operation = '/surveillance-report/quarterly/{quarterlyReportId}/complaints';
+
+UPDATE openchpl.deprecated_response_field_api
+SET deleted = true
+WHERE http_method = 'PUT'
+AND api_operation = '/surveillance-report/quarterly/{quarterlyReportId}/listings/{listingId}';
+
+UPDATE openchpl.deprecated_response_field
+SET deleted = true
+WHERE id IN (249, 250, 251, 252, 253, 254, 256, 261, 262, 263, 264, 265, 266, 269, 349, 355);
+
+
+
+;
+insert into openchpl.data_model_version (version, deploy_date, last_modified_user) values ('20.19.0', '2022-07-25', -1);
+\i dev/openchpl_soft-delete.sql
+\i dev/openchpl_views.sql
+\i dev/openchpl_grant-all.sql
