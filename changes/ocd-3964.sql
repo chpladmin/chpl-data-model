@@ -227,7 +227,7 @@ where not exists (
         from openchpl.attestation_valid_response att
             inner join openchpl.allowed_response r
             on att.response = r.response
-        where r.id = af.attestation_valid_response_id));
+        where att.id = af.attestation_valid_response_id));
 
 ------------------------------------------------------------------------------------
        
@@ -320,7 +320,7 @@ insert into openchpl.question_allowed_response_map (question_id, allowed_respons
 select
     (select id from openchpl.question where question = 'For a selection of "Noncompliant", please indicate the status of a Corrective Action Plan (CAP) under the Certification Program. (optional)'),
     (select id from openchpl.allowed_response where response = 'Under an open CAP'),
-    1,
+    2,
     -1
 where not exists (
     select *
@@ -332,7 +332,7 @@ insert into openchpl.question_allowed_response_map (question_id, allowed_respons
 select
     (select id from openchpl.question where question = 'For a selection of "Noncompliant", please indicate the status of a Corrective Action Plan (CAP) under the Certification Program. (optional)'),
     (select id from openchpl.allowed_response where response = 'Completed a CAP during the specified Attestation Period'),
-    1,
+    3,
     -1
 where not exists (
     select *
