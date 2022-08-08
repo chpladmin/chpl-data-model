@@ -277,13 +277,13 @@ where not exists (
 );
 
 insert into openchpl.question (question, response_cardinality_type_id, last_modified_user)
-select 'For a selection of "Noncompliant", please indicate the status of a Corrective Action Plan (CAP) under the Certification Program. (optional)',
+select 'For a selection of "Noncompliant", please indicate the status of a Corrective Action Plan (CAP) under the Certification Program. (optional - check all that apply)',
     (select id from openchpl.response_cardinality_type where description = 'Multiple'),
     -1
 where not exists (
     select *
     from openchpl.question q
-    where q.question = 'For a selection of "Noncompliant", please indicate the status of a Corrective Action Plan (CAP) under the Certification Program. (optional)'
+    where q.question = 'For a selection of "Noncompliant", please indicate the status of a Corrective Action Plan (CAP) under the Certification Program. (optional - check all that apply)'
 );
 
 insert into openchpl.allowed_response (response, last_modified_user) 
@@ -306,38 +306,38 @@ where not exists (
 
 insert into openchpl.question_allowed_response_map (question_id, allowed_response_id, sort_order, last_modified_user)
 select
-    (select id from openchpl.question where question = 'For a selection of "Noncompliant", please indicate the status of a Corrective Action Plan (CAP) under the Certification Program. (optional)'),
+    (select id from openchpl.question where question = 'For a selection of "Noncompliant", please indicate the status of a Corrective Action Plan (CAP) under the Certification Program. (optional - check all that apply)'),
     (select id from openchpl.allowed_response where response = 'Not under a CAP'),
     1,
     -1
 where not exists (
     select *
     from openchpl.question_allowed_response_map
-    where question_id = (select id from openchpl.question where question = 'For a selection of "Noncompliant", please indicate the status of a Corrective Action Plan (CAP) under the Certification Program. (optional)')
+    where question_id = (select id from openchpl.question where question = 'For a selection of "Noncompliant", please indicate the status of a Corrective Action Plan (CAP) under the Certification Program. (optional - check all that apply)')
     and allowed_response_id  = (select id from openchpl.allowed_response where response = 'Not under a CAP'));
    
 insert into openchpl.question_allowed_response_map (question_id, allowed_response_id, sort_order, last_modified_user)
 select
-    (select id from openchpl.question where question = 'For a selection of "Noncompliant", please indicate the status of a Corrective Action Plan (CAP) under the Certification Program. (optional)'),
+    (select id from openchpl.question where question = 'For a selection of "Noncompliant", please indicate the status of a Corrective Action Plan (CAP) under the Certification Program. (optional - check all that apply)'),
     (select id from openchpl.allowed_response where response = 'Under an open CAP'),
     2,
     -1
 where not exists (
     select *
     from openchpl.question_allowed_response_map
-    where question_id = (select id from openchpl.question where question = 'For a selection of "Noncompliant", please indicate the status of a Corrective Action Plan (CAP) under the Certification Program. (optional)')
+    where question_id = (select id from openchpl.question where question = 'For a selection of "Noncompliant", please indicate the status of a Corrective Action Plan (CAP) under the Certification Program. (optional - check all that apply)')
     and allowed_response_id  = (select id from openchpl.allowed_response where response = 'Under an open CAP'));
    
 insert into openchpl.question_allowed_response_map (question_id, allowed_response_id, sort_order, last_modified_user)
 select
-    (select id from openchpl.question where question = 'For a selection of "Noncompliant", please indicate the status of a Corrective Action Plan (CAP) under the Certification Program. (optional)'),
+    (select id from openchpl.question where question = 'For a selection of "Noncompliant", please indicate the status of a Corrective Action Plan (CAP) under the Certification Program. (optional - check all that apply)'),
     (select id from openchpl.allowed_response where response = 'Completed a CAP during the specified Attestation Period'),
     3,
     -1
 where not exists (
     select *
     from openchpl.question_allowed_response_map
-    where question_id = (select id from openchpl.question where question = 'For a selection of "Noncompliant", please indicate the status of a Corrective Action Plan (CAP) under the Certification Program. (optional)')
+    where question_id = (select id from openchpl.question where question = 'For a selection of "Noncompliant", please indicate the status of a Corrective Action Plan (CAP) under the Certification Program. (optional - check all that apply)')
     and allowed_response_id  = (select id from openchpl.allowed_response where response = 'Completed a CAP during the specified Attestation Period'));
 
 ----  For the second period form items, copy the first period form items, but attach to second period form table.
@@ -361,7 +361,7 @@ and not exists (
 insert into openchpl.form_item (form_id, question_id, parent_form_item_id, parent_response_id, sort_order, required, last_modified_user)
 select 
     (select id from openchpl.form where description = 'Attestation Period 2022-04-01 to 2022-09-30'),
-    (select id from openchpl.question where question = 'For a selection of "Noncompliant", please indicate the status of a Corrective Action Plan (CAP) under the Certification Program. (optional)'),
+    (select id from openchpl.question where question = 'For a selection of "Noncompliant", please indicate the status of a Corrective Action Plan (CAP) under the Certification Program. (optional - check all that apply)'),
     (select id 
     from openchpl.form_item 
     where form_id = (select id from openchpl.form where description = 'Attestation Period 2022-04-01 to 2022-09-30')
@@ -374,7 +374,7 @@ where not exists (
 	select *
 	from openchpl.form_item
     where form_id = (select id from openchpl.form where description = 'Attestation Period 2022-04-01 to 2022-09-30')
-    and question_id = (select id from openchpl.question where question = 'For a selection of "Noncompliant", please indicate the status of a Corrective Action Plan (CAP) under the Certification Program. (optional)')
+    and question_id = (select id from openchpl.question where question = 'For a selection of "Noncompliant", please indicate the status of a Corrective Action Plan (CAP) under the Certification Program. (optional - check all that apply)')
     and parent_form_item_id = (
         select id 
         from openchpl.form_item 
@@ -385,7 +385,7 @@ where not exists (
 insert into openchpl.form_item (form_id, question_id, parent_form_item_id, parent_response_id, sort_order, required, last_modified_user)
 select 
     (select id from openchpl.form where description = 'Attestation Period 2022-04-01 to 2022-09-30'),
-    (select id from openchpl.question where question = 'For a selection of "Noncompliant", please indicate the status of a Corrective Action Plan (CAP) under the Certification Program. (optional)'),
+    (select id from openchpl.question where question = 'For a selection of "Noncompliant", please indicate the status of a Corrective Action Plan (CAP) under the Certification Program. (optional - check all that apply)'),
     (select id 
     from openchpl.form_item 
     where form_id = (select id from openchpl.form where description = 'Attestation Period 2022-04-01 to 2022-09-30')
@@ -398,7 +398,7 @@ where not exists (
 	select *
 	from openchpl.form_item
     where form_id = (select id from openchpl.form where description = 'Attestation Period 2022-04-01 to 2022-09-30')
-    and question_id = (select id from openchpl.question where question = 'For a selection of "Noncompliant", please indicate the status of a Corrective Action Plan (CAP) under the Certification Program. (optional)')
+    and question_id = (select id from openchpl.question where question = 'For a selection of "Noncompliant", please indicate the status of a Corrective Action Plan (CAP) under the Certification Program. (optional - check all that apply)')
     and parent_form_item_id = (
         select id 
         from openchpl.form_item 
@@ -409,7 +409,7 @@ where not exists (
 insert into openchpl.form_item (form_id, question_id, parent_form_item_id, parent_response_id, sort_order, required, last_modified_user)
 select 
     (select id from openchpl.form where description = 'Attestation Period 2022-04-01 to 2022-09-30'),
-    (select id from openchpl.question where question = 'For a selection of "Noncompliant", please indicate the status of a Corrective Action Plan (CAP) under the Certification Program. (optional)'),
+    (select id from openchpl.question where question = 'For a selection of "Noncompliant", please indicate the status of a Corrective Action Plan (CAP) under the Certification Program. (optional - check all that apply)'),
     (select id 
     from openchpl.form_item 
     where form_id = (select id from openchpl.form where description = 'Attestation Period 2022-04-01 to 2022-09-30')
@@ -422,7 +422,7 @@ where not exists (
 	select *
 	from openchpl.form_item
     where form_id = (select id from openchpl.form where description = 'Attestation Period 2022-04-01 to 2022-09-30')
-    and question_id = (select id from openchpl.question where question = 'For a selection of "Noncompliant", please indicate the status of a Corrective Action Plan (CAP) under the Certification Program. (optional)')
+    and question_id = (select id from openchpl.question where question = 'For a selection of "Noncompliant", please indicate the status of a Corrective Action Plan (CAP) under the Certification Program. (optional - check all that apply)')
     and parent_form_item_id = (
         select id 
         from openchpl.form_item 
@@ -433,7 +433,7 @@ where not exists (
 insert into openchpl.form_item (form_id, question_id, parent_form_item_id, parent_response_id, sort_order, required, last_modified_user)
 select 
     (select id from openchpl.form where description = 'Attestation Period 2022-04-01 to 2022-09-30'),
-    (select id from openchpl.question where question = 'For a selection of "Noncompliant", please indicate the status of a Corrective Action Plan (CAP) under the Certification Program. (optional)'),
+    (select id from openchpl.question where question = 'For a selection of "Noncompliant", please indicate the status of a Corrective Action Plan (CAP) under the Certification Program. (optional - check all that apply)'),
     (select id 
     from openchpl.form_item 
     where form_id = (select id from openchpl.form where description = 'Attestation Period 2022-04-01 to 2022-09-30')
@@ -446,7 +446,7 @@ where not exists (
 	select *
 	from openchpl.form_item
     where form_id = (select id from openchpl.form where description = 'Attestation Period 2022-04-01 to 2022-09-30')
-    and question_id = (select id from openchpl.question where question = 'For a selection of "Noncompliant", please indicate the status of a Corrective Action Plan (CAP) under the Certification Program. (optional)')
+    and question_id = (select id from openchpl.question where question = 'For a selection of "Noncompliant", please indicate the status of a Corrective Action Plan (CAP) under the Certification Program. (optional - check all that apply)')
     and parent_form_item_id = (
         select id 
         from openchpl.form_item 
@@ -457,7 +457,7 @@ where not exists (
 insert into openchpl.form_item (form_id, question_id, parent_form_item_id, parent_response_id, sort_order, required, last_modified_user)
 select 
     (select id from openchpl.form where description = 'Attestation Period 2022-04-01 to 2022-09-30'),
-    (select id from openchpl.question where question = 'For a selection of "Noncompliant", please indicate the status of a Corrective Action Plan (CAP) under the Certification Program. (optional)'),
+    (select id from openchpl.question where question = 'For a selection of "Noncompliant", please indicate the status of a Corrective Action Plan (CAP) under the Certification Program. (optional - check all that apply)'),
     (select id 
     from openchpl.form_item 
     where form_id = (select id from openchpl.form where description = 'Attestation Period 2022-04-01 to 2022-09-30')
@@ -470,7 +470,7 @@ where not exists (
 	select *
 	from openchpl.form_item
     where form_id = (select id from openchpl.form where description = 'Attestation Period 2022-04-01 to 2022-09-30')
-    and question_id = (select id from openchpl.question where question = 'For a selection of "Noncompliant", please indicate the status of a Corrective Action Plan (CAP) under the Certification Program. (optional)')
+    and question_id = (select id from openchpl.question where question = 'For a selection of "Noncompliant", please indicate the status of a Corrective Action Plan (CAP) under the Certification Program. (optional - check all that apply)')
     and parent_form_item_id = (
         select id 
         from openchpl.form_item 
