@@ -3523,25 +3523,14 @@ CREATE TABLE openchpl.cures_listing_statistics_by_acb (
       ON UPDATE CASCADE ON DELETE RESTRICT
 );
 
-CREATE TABLE openchpl.deprecated_api (
-	id bigserial NOT NULL,
-	http_method varchar(10) NOT NULL,
-	api_operation text NOT NULL,
-	request_parameter text,
-	change_description text NOT NULL,
-	removal_date date NOT NULL,
-	creation_date timestamp NOT NULL DEFAULT NOW(),
-	last_modified_date timestamp NOT NULL DEFAULT NOW(),
-	last_modified_user bigint NOT NULL,
-	deleted bool NOT NULL DEFAULT false,
-	CONSTRAINT deprecated_api_pk PRIMARY KEY (id),
-	CONSTRAINT deprecated_api_method_and_api_operation_and_parameter_idx UNIQUE (http_method, api_operation, request_parameter)
-);
-
 CREATE TABLE openchpl.deprecated_api_usage (
 	id bigserial NOT NULL,
 	api_key_id bigint NOT NULL,
-	deprecated_api_id bigint NOT NULL,
+	http_method varchar(10) NOT NULL,
+	api_operation text NOT NULL,
+	response_field text,
+	removal_date date NOT NULL,
+	message text NOT NULL,
 	api_call_count bigint NOT NULL DEFAULT 0,
 	last_accessed_date timestamp NOT NULL DEFAULT NOW(),
 	notification_sent timestamp,
@@ -3553,60 +3542,7 @@ CREATE TABLE openchpl.deprecated_api_usage (
 	CONSTRAINT api_key_id_fk FOREIGN KEY (api_key_id)
       REFERENCES openchpl.api_key (api_key_id) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION,
-	CONSTRAINT deprecated_api_id_fk FOREIGN KEY (deprecated_api_id)
-      REFERENCES openchpl.deprecated_api (id) MATCH SIMPLE
-      ON UPDATE NO ACTION ON DELETE NO ACTION,
-	CONSTRAINT deprecated_api_usage_api_key_and_deprecated_api_idx UNIQUE (api_key_id, deprecated_api_id, notification_sent)
-);
-
-CREATE TABLE openchpl.deprecated_response_field_api (
-	id bigserial NOT NULL,
-	http_method varchar(10) NOT NULL,
-	api_operation text NOT NULL,
-	creation_date timestamp NOT NULL DEFAULT NOW(),
-	last_modified_date timestamp NOT NULL DEFAULT NOW(),
-	last_modified_user bigint NOT NULL,
-	deleted bool NOT NULL DEFAULT false,
-	CONSTRAINT deprecated_response_field_api_pk PRIMARY KEY (id),
-	CONSTRAINT deprecated_response_field_api_method_and_api_operation_idx UNIQUE (http_method, api_operation)
-);
-
-CREATE TABLE openchpl.deprecated_response_field (
-	id bigserial NOT NULL,
-	deprecated_api_id bigint NOT NULL,
-	response_field text,
-	removal_date date NOT NULL,
-	change_description text NOT NULL,
-	creation_date timestamp NOT NULL DEFAULT NOW(),
-	last_modified_date timestamp NOT NULL DEFAULT NOW(),
-	last_modified_user bigint NOT NULL,
-	deleted bool NOT NULL DEFAULT false,
-	CONSTRAINT deprecated_response_field_pk PRIMARY KEY (id),
-	CONSTRAINT deprecated_api_id_fk FOREIGN KEY (deprecated_api_id)
-      REFERENCES openchpl.deprecated_response_field_api (id) MATCH SIMPLE
-      ON UPDATE NO ACTION ON DELETE NO ACTION,
-	CONSTRAINT deprecated_response_field_response_field_idx UNIQUE (deprecated_api_id, response_field)
-);
-
-CREATE TABLE openchpl.deprecated_response_field_api_usage (
-	id bigserial NOT NULL,
-	api_key_id bigint NOT NULL,
-	deprecated_response_field_api_id bigint NOT NULL,
-	api_call_count bigint NOT NULL DEFAULT 0,
-	last_accessed_date timestamp NOT NULL DEFAULT NOW(),
-	notification_sent timestamp,
-	creation_date timestamp NOT NULL DEFAULT NOW(),
-	last_modified_date timestamp NOT NULL DEFAULT NOW(),
-	last_modified_user bigint NOT NULL,
-	deleted bool NOT NULL DEFAULT false,
-	CONSTRAINT deprecated_response_field_api_usage_pk PRIMARY KEY (id),
-	CONSTRAINT api_key_id_fk FOREIGN KEY (api_key_id)
-      REFERENCES openchpl.api_key (api_key_id) MATCH SIMPLE
-      ON UPDATE NO ACTION ON DELETE NO ACTION,
-	CONSTRAINT deprecated_api_id_fk FOREIGN KEY (deprecated_api_id)
-      REFERENCES openchpl.deprecated_response_field_api (id) MATCH SIMPLE
-      ON UPDATE NO ACTION ON DELETE NO ACTION,
-	CONSTRAINT deprecated_response_field_api_usage_idx UNIQUE (api_key_id, deprecated_response_field_api_id, notification_sent)
+	CONSTRAINT deprecated_api_usage_api_key_and_endpoint_idx UNIQUE (api_key_id, http_method, api_operation, response_field, notification_sent)
 );
 
 CREATE TABLE openchpl.test_tool_criteria_map (
