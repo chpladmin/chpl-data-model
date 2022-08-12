@@ -672,16 +672,3 @@ where not exists (
 	 	and a.id = crar.attestation_id)
 	 and deleted = crar.deleted);
 
-------------------------------------------------------------------------------------       
-------             DROP TEMP COLUMNS USED DURING DATA CONVERSION              ------
-------------------------------------------------------------------------------------
---alter table openchpl.attestation_submission
---drop column if exists drop_developer_attestation_submission_id;
-
---attestation
---attestation_condition
---attestation_form
---attestation_valid_response
---change_request_attestation_response
---developer_attestation_response
---developer_attestation_submission
