@@ -3789,6 +3789,23 @@ CREATE TABLE IF NOT EXISTS openchpl.attestation_period_developer_exception (
       ON UPDATE CASCADE ON DELETE RESTRICT
 );
 
+CREATE TABLE IF NOT EXISTS openchpl.change_request_certification_body_map (
+    id bigserial NOT NULL,
+    change_request_id bigint NOT NULL,
+    certification_body_id bigint NOT NULL,
+    creation_date timestamp NOT NULL DEFAULT now(),
+	last_modified_date timestamp NOT NULL DEFAULT now(),
+	last_modified_user int8 NOT NULL,
+	deleted bool NOT NULL DEFAULT false,
+	CONSTRAINT change_request_certification_body_map_pk PRIMARY KEY (id),
+	CONSTRAINT change_request_fk FOREIGN KEY (change_request_id)
+	    REFERENCES openchpl.change_request (id)
+        ON UPDATE CASCADE ON DELETE RESTRICT,
+    CONSTRAINT certification_body_fk foreign key (certification_body_id)
+	    REFERENCES openchpl.certification_body (certification_body_id)
+        ON UPDATE CASCADE ON DELETE RESTRICT
+);
+
 CREATE INDEX fki_certified_product_id_fk
 ON openchpl.ehr_certification_id_product_map
 USING btree
