@@ -1,5 +1,13 @@
 # Release Notes
 
+## Version 20.20.0
+_8 August 2022_
+
+### Features
+* Add script to truncate the shared_store.shared_store table
+
+---
+
 ## Version 20.19.0
 _25 July 2022_
 
