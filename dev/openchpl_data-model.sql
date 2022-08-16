@@ -3808,6 +3808,7 @@ CREATE TABLE IF NOT EXISTS openchpl.change_request_certification_body_map (
     CONSTRAINT certification_body_fk foreign key (certification_body_id)
 	    REFERENCES openchpl.certification_body (certification_body_id)
         ON UPDATE CASCADE ON DELETE RESTRICT
+);
 
 create table if not exists openchpl.response_cardinality_type (
     id bigserial not null,
