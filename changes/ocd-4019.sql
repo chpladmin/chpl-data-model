@@ -1,11 +1,12 @@
 -- Drop old deprecated api, response field, and usage tables
-DROP FUNCTION IF EXISTS openchpl.deprecated_response_field_api_soft_delete();
-DROP FUNCTION IF EXISTS openchpl.deprecated_api_soft_delete();
+DROP FUNCTION IF EXISTS openchpl.deprecated_response_field_api_soft_delete() CASCADE;
+DROP FUNCTION IF EXISTS openchpl.deprecated_api_soft_delete() CASCADE;
 
-DROP TABLE IF EXISTS openchpl.deprecated_api;
 DROP TABLE IF EXISTS openchpl.deprecated_api_usage;
-DROP TABLE IF EXISTS openchpl.deprecated_response_field;
+DROP TABLE IF EXISTS openchpl.deprecated_api;
 DROP TABLE IF EXISTS openchpl.deprecated_response_field_api_usage;
+DROP TABLE IF EXISTS openchpl.deprecated_response_field;
+DROP TABLE IF EXISTS openchpl.deprecated_response_field_api;
 
 -- Create new deprecated usage table
 CREATE TABLE openchpl.deprecated_api_usage (
@@ -30,8 +31,8 @@ CREATE TABLE openchpl.deprecated_api_usage (
 	CONSTRAINT deprecated_api_usage_api_key_and_endpoint_idx UNIQUE (api_key_id, http_method, api_operation, response_field, notification_sent)
 );
 
-CREATE TRIGGER deprecated_api_usage_audit AFTER INSERT OR UPDATE OR DELETE ON openchpl.deprecated_api FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
-CREATE TRIGGER deprecated_api_usage_timestamp BEFORE UPDATE ON openchpl.deprecated_api FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
+CREATE TRIGGER deprecated_api_usage_audit AFTER INSERT OR UPDATE OR DELETE ON openchpl.deprecated_api_usage FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+CREATE TRIGGER deprecated_api_usage_timestamp BEFORE UPDATE ON openchpl.deprecated_api_usage FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 
 
 -- Do we still need access to the pending listing ACTIVITY? I don't think we have ever called it.. but I need to keep certain objects around if we want it.

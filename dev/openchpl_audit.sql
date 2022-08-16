@@ -240,8 +240,8 @@ CREATE TRIGGER cures_listing_statistics_by_acb_audit AFTER INSERT OR UPDATE OR D
 CREATE TRIGGER cures_listing_statistics_by_acb_timestamp BEFORE UPDATE on openchpl.cures_listing_statistics_by_acb FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER data_model_version_audit AFTER INSERT OR UPDATE OR DELETE ON openchpl.data_model_version FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER data_model_version_timestamp BEFORE UPDATE ON openchpl.data_model_version FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
-CREATE TRIGGER deprecated_api_usage_audit AFTER INSERT OR UPDATE OR DELETE ON openchpl.deprecated_api FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
-CREATE TRIGGER deprecated_api_usage_timestamp BEFORE UPDATE ON openchpl.deprecated_api FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
+CREATE TRIGGER deprecated_api_usage_audit AFTER INSERT OR UPDATE OR DELETE ON openchpl.deprecated_api_usage FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+CREATE TRIGGER deprecated_api_usage_timestamp BEFORE UPDATE ON openchpl.deprecated_api_usage FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER developer_attestation_submission_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.developer_attestation_submission FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER developer_attestation_submission_timestamp BEFORE UPDATE on openchpl.developer_attestation_submission FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER developer_attestation_response_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.developer_attestation_response FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
