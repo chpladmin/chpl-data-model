@@ -10,6 +10,12 @@ BEGIN
 		SELECT id
 		FROM openchpl.change_request
 		WHERE developer_id = NEW.vendor_id);
+	
+	UPDATE openchpl.change_request_certification_body_map as src SET deleted = NEW.deleted
+	WHERE change_request_id IN (
+		SELECT id
+		FROM openchpl.change_request
+		WHERE developer_id = NEW.vendor_id);
 
 	UPDATE openchpl.change_request_developer_demographics as src SET deleted = NEW.deleted
 	WHERE change_request_id IN (
