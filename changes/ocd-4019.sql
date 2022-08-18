@@ -29,6 +29,7 @@ CREATE TABLE openchpl.deprecated_api_usage (
       REFERENCES openchpl.api_key (api_key_id) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION,
 	CONSTRAINT deprecated_api_usage_api_key_and_endpoint_idx UNIQUE (api_key_id, http_method, api_operation, response_field, notification_sent)
+	-- add index on notifications sent
 );
 
 CREATE TRIGGER deprecated_api_usage_audit AFTER INSERT OR UPDATE OR DELETE ON openchpl.deprecated_api_usage FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
@@ -36,9 +37,10 @@ CREATE TRIGGER deprecated_api_usage_timestamp BEFORE UPDATE ON openchpl.deprecat
 
 
 -- Do we still need access to the pending listing ACTIVITY? I don't think we have ever called it.. but I need to keep certain objects around if we want it.
+	-- Get rid of it. - Andrew
 
--- Do we want to drop all the old pending* tables? Any reason to keep them around for audit purposes?
+-- Do we want to drop all the old pending* tables? Any reason to keep them around for audit purposes? - Yes
 
--- Can I drop the upload template tables?
-	-- We never deprecated /data/upload_template_versions... can I please delete it anyway?
+-- Can I drop the upload template tables? - Yes
+	-- We never deprecated /data/upload_template_versions... can I please delete it anyway? - Yes
 	-- Add a note somewhere to delete upload template cache from ehcache.xml files
