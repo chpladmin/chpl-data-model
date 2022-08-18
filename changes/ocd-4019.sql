@@ -36,10 +36,10 @@ CREATE TRIGGER deprecated_api_usage_audit AFTER INSERT OR UPDATE OR DELETE ON op
 CREATE TRIGGER deprecated_api_usage_timestamp BEFORE UPDATE ON openchpl.deprecated_api_usage FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 
 -- Drop all pending tables because those endpoints are gone
+DROP VIEW IF EXISTS openchpl.certified_product_summary;
 ALTER TABLE openchpl.certified_product
-DROP COLUMN IF EXISTS pending_certified_product_id bigint;
+DROP COLUMN IF EXISTS pending_certified_product_id;
 
-DROP TABLE IF EXISTS openchpl.pending_certification_result CASCADE;
 DROP TABLE IF EXISTS openchpl.pending_certification_result_additional_software CASCADE;
 DROP TABLE IF EXISTS openchpl.pending_certification_result_conformance_method CASCADE;
 DROP TABLE IF EXISTS openchpl.pending_certification_result_optional_standard CASCADE;
@@ -51,16 +51,17 @@ DROP TABLE IF EXISTS openchpl.pending_certification_result_test_task CASCADE;
 DROP TABLE IF EXISTS openchpl.pending_certification_result_test_task_participant CASCADE;
 DROP TABLE IF EXISTS openchpl.pending_certification_result_test_tool CASCADE;
 DROP TABLE IF EXISTS openchpl.pending_certification_result_ucd_process CASCADE;
-DROP TABLE IF EXISTS openchpl.pending_certifed_product CASCADE;
-DROP TABLE IF EXISTS openchpl.pending_certifed_product_accessibility_standard CASCADE;
-DROP TABLE IF EXISTS openchpl.pending_certifed_product_measure CASCADE;
-DROP TABLE IF EXISTS openchpl.pending_certifed_product_measure_criteria CASCADE;
-DROP TABLE IF EXISTS openchpl.pending_certifed_product_parent_listing CASCADE;
-DROP TABLE IF EXISTS openchpl.pending_certifed_product_qms_standard CASCADE;
-DROP TABLE IF EXISTS openchpl.pending_certifed_product_targeted_user CASCADE;
-DROP TABLE IF EXISTS openchpl.pending_certifed_product_testing_lab_map CASCADE;
-DROP TABLE IF EXISTS openchpl.pending_cqm_certfication_criteria CASCADE;
+DROP TABLE IF EXISTS openchpl.pending_certification_result CASCADE;
+DROP TABLE IF EXISTS openchpl.pending_certified_product_accessibility_standard CASCADE;
+DROP TABLE IF EXISTS openchpl.pending_certified_product_measure CASCADE;
+DROP TABLE IF EXISTS openchpl.pending_certified_product_measure_criteria CASCADE;
+DROP TABLE IF EXISTS openchpl.pending_certified_product_parent_listing CASCADE;
+DROP TABLE IF EXISTS openchpl.pending_certified_product_qms_standard CASCADE;
+DROP TABLE IF EXISTS openchpl.pending_certified_product_targeted_user CASCADE;
+DROP TABLE IF EXISTS openchpl.pending_certified_product_testing_lab_map CASCADE;
+DROP TABLE IF EXISTS openchpl.pending_certified_product CASCADE;
 DROP TABLE IF EXISTS openchpl.pending_cqm_criterion CASCADE;
+DROP TABLE IF EXISTS openchpl.pending_cqm_certification_criteria CASCADE;
 DROP TABLE IF EXISTS openchpl.pending_test_participant CASCADE;
 DROP TABLE IF EXISTS openchpl.pending_test_task CASCADE;
 
