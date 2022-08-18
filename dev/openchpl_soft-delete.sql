@@ -71,7 +71,6 @@ BEGIN
 	UPDATE openchpl.certified_product_testing_lab_map as src SET deleted = NEW.deleted WHERE src.certified_product_id = NEW.certified_product_id;
     UPDATE openchpl.cqm_result as src SET deleted = NEW.deleted WHERE src.certified_product_id = NEW.certified_product_id;
     UPDATE openchpl.ehr_certification_id_product_map as src SET deleted = NEW.deleted WHERE src.certified_product_id = NEW.certified_product_id;
-    UPDATE openchpl.pending_certification_result_additional_software as src SET deleted = NEW.deleted WHERE src.certified_product_id = NEW.certified_product_id;
     UPDATE openchpl.surveillance as src SET deleted = NEW.deleted WHERE src.certified_product_id = NEW.certified_product_id;
 	UPDATE openchpl.pending_surveillance as src SET deleted = NEW.deleted WHERE src.certified_product_id = NEW.certified_product_id;
     UPDATE openchpl.listing_to_listing_map as src SET deleted = NEW.deleted WHERE src.parent_listing_id = NEW.certified_product_id;

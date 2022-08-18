@@ -35,12 +35,34 @@ CREATE TABLE openchpl.deprecated_api_usage (
 CREATE TRIGGER deprecated_api_usage_audit AFTER INSERT OR UPDATE OR DELETE ON openchpl.deprecated_api_usage FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER deprecated_api_usage_timestamp BEFORE UPDATE ON openchpl.deprecated_api_usage FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 
+-- Drop all pending tables because those endpoints are gone
+ALTER TABLE openchpl.certified_product
+DROP COLUMN IF EXISTS pending_certified_product_id bigint;
 
--- Do we still need access to the pending listing ACTIVITY? I don't think we have ever called it.. but I need to keep certain objects around if we want it.
-	-- Get rid of it. - Andrew
+DROP TABLE IF EXISTS openchpl.pending_certification_result CASCADE;
+DROP TABLE IF EXISTS openchpl.pending_certification_result_additional_software CASCADE;
+DROP TABLE IF EXISTS openchpl.pending_certification_result_conformance_method CASCADE;
+DROP TABLE IF EXISTS openchpl.pending_certification_result_optional_standard CASCADE;
+DROP TABLE IF EXISTS openchpl.pending_certification_result_test_data CASCADE;
+DROP TABLE IF EXISTS openchpl.pending_certification_result_test_functionality CASCADE;
+DROP TABLE IF EXISTS openchpl.pending_certification_result_test_procedure CASCADE;
+DROP TABLE IF EXISTS openchpl.pending_certification_result_test_standard CASCADE;
+DROP TABLE IF EXISTS openchpl.pending_certification_result_test_task CASCADE;
+DROP TABLE IF EXISTS openchpl.pending_certification_result_test_task_participant CASCADE;
+DROP TABLE IF EXISTS openchpl.pending_certification_result_test_tool CASCADE;
+DROP TABLE IF EXISTS openchpl.pending_certification_result_ucd_process CASCADE;
+DROP TABLE IF EXISTS openchpl.pending_certifed_product CASCADE;
+DROP TABLE IF EXISTS openchpl.pending_certifed_product_accessibility_standard CASCADE;
+DROP TABLE IF EXISTS openchpl.pending_certifed_product_measure CASCADE;
+DROP TABLE IF EXISTS openchpl.pending_certifed_product_measure_criteria CASCADE;
+DROP TABLE IF EXISTS openchpl.pending_certifed_product_parent_listing CASCADE;
+DROP TABLE IF EXISTS openchpl.pending_certifed_product_qms_standard CASCADE;
+DROP TABLE IF EXISTS openchpl.pending_certifed_product_targeted_user CASCADE;
+DROP TABLE IF EXISTS openchpl.pending_certifed_product_testing_lab_map CASCADE;
+DROP TABLE IF EXISTS openchpl.pending_cqm_certfication_criteria CASCADE;
+DROP TABLE IF EXISTS openchpl.pending_cqm_criterion CASCADE;
+DROP TABLE IF EXISTS openchpl.pending_test_participant CASCADE;
+DROP TABLE IF EXISTS openchpl.pending_test_task CASCADE;
 
--- Do we want to drop all the old pending* tables? Any reason to keep them around for audit purposes? - Yes
-
--- Can I drop the upload template tables? - Yes
-	-- We never deprecated /data/upload_template_versions... can I please delete it anyway? - Yes
-	-- Add a note somewhere to delete upload template cache from ehcache.xml files
+-- Drop the upload template tables because that endpoint is gone
+DROP TABLE IF EXISTS openchpl.upload_template_version CASCADE;
