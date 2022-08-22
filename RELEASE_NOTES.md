@@ -1,5 +1,16 @@
 # Release Notes
 
+## Version 20.21.0
+_22 August 2022_
+
+### New Feature
+* Add tables to support Attestation Optional Responses and migrate data from original tables
+
+### Bug Fixes
+* Allow SVAP to be associated with correct criteria
+
+---
+
 ## Version 20.20.0
 _8 August 2022_
 

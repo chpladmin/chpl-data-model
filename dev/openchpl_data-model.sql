@@ -3633,11 +3633,15 @@ CREATE TABLE IF NOT EXISTS openchpl.attestation_period (
 	submission_start date NOT NULL,
 	submission_end date NOT NULL,
 	description text NULL,
+	form_id bigint NULL,
 	creation_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_date timestamp NOT NULL DEFAULT NOW(),
 	last_modified_user bigint NOT NULL,
 	deleted bool NOT NULL DEFAULT false,
-	CONSTRAINT attestation_period_pk PRIMARY KEY (id)
+	CONSTRAINT attestation_period_pk PRIMARY KEY (id),
+	constraint form_fk foreign key (form_id)
+	    references openchpl.form (id)
+        match simple on update no action on delete restrict
 );
 
 CREATE TABLE IF NOT EXISTS openchpl.attestation_condition (
@@ -3787,6 +3791,166 @@ CREATE TABLE IF NOT EXISTS openchpl.attestation_period_developer_exception (
 	CONSTRAINT developer_id_fk FOREIGN KEY (developer_id)
       REFERENCES openchpl.vendor (vendor_id) MATCH FULL
       ON UPDATE CASCADE ON DELETE RESTRICT
+);
+
+create table if not exists openchpl.response_cardinality_type (
+    id bigserial not null,
+    description text not null,
+    creation_date timestamp not null default now(),
+	last_modified_date timestamp not null default now(),
+	last_modified_user int8 not null ,
+	deleted bool not null default false,
+	constraint response_cardinality_type_pk primary key (id)
+);
+
+create table if not exists openchpl.section_heading (
+    id bigserial not null,
+    name text not null,
+    sort_order int8 not null,
+    creation_date timestamp not null default now(),
+	last_modified_date timestamp not null default now(),
+	last_modified_user int8 not null ,
+	deleted bool not null default false,
+	constraint section_heading_pk primary key (id)
+);
+
+create table if not exists openchpl.question (
+    id bigserial not null,
+    question text not null,
+    response_cardinality_type_id bigint not null,
+    section_heading_id bigint,
+    creation_date timestamp not null default now(),
+	last_modified_date timestamp not null default now(),
+	last_modified_user int8 not null ,
+	deleted bool not null default false,
+	constraint question_pk primary key (id),
+	constraint response_cardinality_type_fk foreign key (response_cardinality_type_id)
+	    references openchpl.response_cardinality_type (id)
+        match simple on update no action on delete restrict,
+    constraint section_heading_fk foreign key (section_heading_id)
+	    references openchpl.section_heading (id)
+        match simple on update no action on delete restrict
+);
+
+create table if not exists openchpl.allowed_response (
+	id bigserial not null,
+    response text not null,
+    creation_date timestamp not null default now(),
+	last_modified_date timestamp not null default now(),
+	last_modified_user int8 not null ,
+	deleted bool not null default false,
+	constraint allowed_response_pk primary key (id)
+);
+
+create table if not exists openchpl.question_allowed_response_map (
+	id bigserial not null,
+	question_id bigint not null,
+	allowed_response_id bigint not null,
+	sort_order int8 not null,
+	creation_date timestamp not null default now(),
+	last_modified_date timestamp not null default now(),
+	last_modified_user int8 not null ,
+	deleted bool not null default false,
+	constraint question_allowed_response_map_pk primary key (id)
+);
+
+create table if not exists openchpl.form (
+	id bigserial not null,
+	description text not null,
+	creation_date timestamp not null default now(),
+	last_modified_date timestamp not null default now(),
+	last_modified_user int8 not null ,
+	deleted bool not null default false,
+	constraint form_pk primary key (id)
+);
+
+create table if not exists openchpl.form_item (
+	id bigserial not null,
+	form_id bigint not null,
+	question_id bigint not null,
+	parent_form_item_id bigint,
+	parent_response_id bigint,
+	sort_order int8 not null,
+	required boolean not null default true,
+	creation_date timestamp not null default now(),
+	last_modified_date timestamp not null default now(),
+	last_modified_user int8 not null ,
+	deleted bool not null default false,
+	constraint form_item_pk primary key (id),
+	constraint question_fk foreign key (question_id)
+	    references openchpl.question (id)
+        match simple on update no action on delete restrict,
+    constraint parent_response_fk foreign key (parent_response_id)
+	    references openchpl.allowed_response (id)
+        match simple on update no action on delete restrict
+);
+
+--Cannot seem to create self-referencing constraint when table is created
+alter table openchpl.form_item
+add constraint parent_form_item_fk foreign key (parent_form_item_id)
+	    references openchpl.form_item (id)
+        match simple on update no action on delete restrict;
+
+create table if not exists openchpl.attestation_submission (
+	id bigserial not null,
+	developer_id bigint not null,
+	attestation_period_id bigint not null,
+	signature text not null,
+	signature_email text not null,
+	creation_date timestamp not null default now(),
+	last_modified_date timestamp not null default now(),
+	last_modified_user bigint not null,
+	deleted bool not null default false,
+	drop_developer_attestation_submission_id bigint,
+	constraint attestation_submission_pk primary key (id),
+	constraint developer_id_fk foreign key (developer_id)
+        references openchpl.vendor (vendor_id) match full
+        on update cascade on delete restrict,
+	constraint attestation_period_id_fk foreign key (attestation_period_id)
+        references openchpl.attestation_period (id) match full
+        on update cascade on delete restrict
+);
+
+create table if not exists openchpl.attestation_submission_response (
+	id bigserial not null,
+	attestation_submission_id bigint not null,
+	response_id bigint not null,
+	form_item_id bigint not null,
+	creation_date timestamp not null default now(),
+	last_modified_date timestamp not null default now(),
+	last_modified_user bigint not null,
+	deleted bool not null default false,
+	constraint attestation_submission_response_pk primary key (id),
+	constraint attestation_submission_fk foreign key (attestation_submission_id)
+        references openchpl.attestation_submission (id) match full
+        on update cascade on delete restrict,
+	constraint response_fk foreign key (response_id)
+        references openchpl.allowed_response (id) match full
+        on update cascade on delete restrict,
+   constraint form_item_fk foreign key (form_item_id)
+        references openchpl.form_item (id) match full
+        on update cascade on delete restrict
+);
+
+create table if not exists openchpl.change_request_attestation_submission_response (
+	id bigserial not null,
+	change_request_attestation_submission_id bigint not null,
+	response_id bigint not null,
+	form_item_id bigint not null,
+	creation_date timestamp not null default now(),
+	last_modified_date timestamp not null default now(),
+	last_modified_user bigint not null,
+	deleted bool not null default false,
+	constraint change_request_attestation_submission_response_pk primary key (id),
+	constraint change_request_attestation_submission_fk foreign key (change_request_attestation_submission_id)
+        references openchpl.change_request_attestation_submission (id) match full
+        on update cascade on delete restrict,
+	constraint response_fk foreign key (response_id)
+        references openchpl.allowed_response (id) match full
+        on update cascade on delete restrict,
+   constraint form_item_fk foreign key (form_item_id)
+        references openchpl.form_item (id) match full
+        on update cascade on delete restrict
 );
 
 CREATE INDEX fki_certified_product_id_fk

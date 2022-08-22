@@ -100,6 +100,8 @@ CREATE TRIGGER activity_concept_timestamp BEFORE UPDATE on openchpl.activity_con
 CREATE TRIGGER activity_timestamp BEFORE UPDATE on openchpl.activity FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER address_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.address FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER address_timestamp BEFORE UPDATE on openchpl.address FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
+create trigger allowed_response_audit after insert or update or delete on openchpl.allowed_response for each row execute procedure audit.if_modified_func();
+create trigger allowed_response_timestamp before update on openchpl.allowed_response for each row execute procedure openchpl.update_last_modified_date_column();
 CREATE TRIGGER announcement_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.announcement FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER announcement_timestamp BEFORE UPDATE on openchpl.announcement FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER annual_report_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.annual_report FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
@@ -120,6 +122,10 @@ CREATE TRIGGER attestation_period_audit AFTER INSERT OR UPDATE OR DELETE on open
 CREATE TRIGGER attestation_period_timestamp BEFORE UPDATE on openchpl.attestation_period FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER attestation_period_developer_exception_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.attestation_period_developer_exception FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER attestation_period_developer_exception_timestamp BEFORE UPDATE on openchpl.attestation_period_developer_exception FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
+create trigger attestation_submission_audit after insert or update or delete on openchpl.attestation_submission for each row execute procedure audit.if_modified_func();
+create trigger attestation_submission_timestamp before update on openchpl.attestation_submission for each row execute procedure openchpl.update_last_modified_date_column();
+create trigger attestation_submission_response_audit after insert or update or delete on openchpl.attestation_submission_response for each row execute procedure audit.if_modified_func();
+create trigger attestation_submission_response_timestamp before update on openchpl.attestation_submission_response for each row execute procedure openchpl.update_last_modified_date_column();
 CREATE TRIGGER attestation_valid_response_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.attestation_valid_response FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER attestation_valid_response_timestamp BEFORE UPDATE on openchpl.attestation_valid_response FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER broken_surveillance_rules_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.broken_surveillance_rules FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
@@ -182,6 +188,8 @@ CREATE TRIGGER change_request_attestation_response_audit AFTER INSERT OR UPDATE 
 CREATE TRIGGER change_request_attestation_response_timestamp BEFORE UPDATE on openchpl.change_request_attestation_response FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER change_request_attestation_submission_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.change_request_attestation_submission FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER change_request_attestation_submission_timestamp BEFORE UPDATE on openchpl.change_request_attestation_submission FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
+create trigger change_request_attestation_submission_response_audit after insert or update or delete on openchpl.change_request_attestation_submission_response for each row execute procedure audit.if_modified_func();
+create trigger change_request_attestation_submission_response_timestamp before update on openchpl.change_request_attestation_submission_response for each row execute procedure openchpl.update_last_modified_date_column();
 CREATE TRIGGER change_request_developer_demographics_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.change_request_developer_demographics FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER change_request_developer_demographics_timestamp BEFORE UPDATE on openchpl.change_request_developer_demographics FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER change_request_status_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.change_request_status FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
@@ -258,6 +266,10 @@ CREATE TRIGGER filter_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.filter 
 CREATE TRIGGER filter_timestamp BEFORE UPDATE on openchpl.filter FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER filter_type_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.filter_type FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER filter_type_timestamp BEFORE UPDATE on openchpl.filter_type FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
+create trigger form_audit after insert or update or delete on openchpl.form for each row execute procedure audit.if_modified_func();
+create trigger form_timestamp before update on openchpl.form for each row execute procedure openchpl.update_last_modified_date_column();
+create trigger form_item_audit after insert or update or delete on openchpl.form_item for each row execute procedure audit.if_modified_func();
+create trigger form_item_timestamp before update on openchpl.form_item for each row execute procedure openchpl.update_last_modified_date_column();
 CREATE TRIGGER chpl_file_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.chpl_file FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER chpl_file_timestamp BEFORE UPDATE on openchpl.chpl_file FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER fuzzy_choices_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.fuzzy_choices FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
@@ -372,6 +384,10 @@ CREATE TRIGGER quarterly_report_excluded_listing_map_audit AFTER INSERT OR UPDAT
 CREATE TRIGGER quarterly_report_excluded_listing_map_timestamp BEFORE UPDATE on openchpl.quarterly_report_excluded_listing_map FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER quarterly_report_surveillance_map_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.quarterly_report_surveillance_map FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER quarterly_report_surveillance_map_timestamp BEFORE UPDATE on openchpl.quarterly_report_surveillance_map FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
+create trigger question_audit after insert or update or delete on openchpl.question for each row execute procedure audit.if_modified_func();
+create trigger question_timestamp before update on openchpl.question for each row execute procedure openchpl.update_last_modified_date_column();
+create trigger question_allowed_response_map_audit after insert or update or delete on openchpl.question_allowed_response_map for each row execute procedure audit.if_modified_func();
+create trigger question_allowed_response_map_timestamp before update on openchpl.question_allowed_response_map for each row execute procedure openchpl.update_last_modified_date_column();
 CREATE TRIGGER questionable_activity_trigger_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.questionable_activity_trigger FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER questionable_activity_trigger_timestamp BEFORE UPDATE on openchpl.questionable_activity_trigger FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER questionable_activity_version_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.questionable_activity_version FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
@@ -384,6 +400,10 @@ CREATE TRIGGER questionable_activity_listing_audit AFTER INSERT OR UPDATE OR DEL
 CREATE TRIGGER questionable_activity_listing_timestamp BEFORE UPDATE on openchpl.questionable_activity_listing FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER questionable_activity_certification_result_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.questionable_activity_certification_result FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER questionable_activity_certification_result_timestamp BEFORE UPDATE on openchpl.questionable_activity_certification_result FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
+create trigger response_cardinality_type_audit after insert or update or delete on openchpl.response_cardinality_type for each row execute procedure audit.if_modified_func();
+create trigger response_cardinality_type_timestamp before update on openchpl.response_cardinality_type for each row execute procedure openchpl.update_last_modified_date_column();
+create trigger section_heading_audit after insert or update or delete on openchpl.section_heading for each row execute procedure audit.if_modified_func();
+create trigger section_heading_timestamp before update on openchpl.section_heading for each row execute procedure openchpl.update_last_modified_date_column();
 CREATE TRIGGER sed_participants_statistics_count_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.sed_participants_statistics_count FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER sed_participants_statistics_count_timestamp BEFORE UPDATE on openchpl.sed_participants_statistics_count FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 CREATE TRIGGER summary_statistics_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.summary_statistics FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
