@@ -1,3 +1,6 @@
+-- Deployment file for version 20.21.0
+--     as of 2022-08-22
+-- ./changes/ocd-3964.sql
 create table if not exists openchpl.response_cardinality_type (
     id bigserial not null,
     description text not null,
@@ -671,4 +674,17 @@ where not exists (
 	 	where ap.id = 1
 	 	and a.id = crar.attestation_id)
 	 and deleted = crar.deleted);
+
+;
+-- ./changes/ocd-4004.sql
+update openchpl.certification_criterion_attribute
+set svap = true where criterion_id = 181;
+
+update openchpl.certification_criterion_attribute
+set svap = false where criterion_id = 58;
+;
+insert into openchpl.data_model_version (version, deploy_date, last_modified_user) values ('20.21.0', '2022-08-22', -1);
+\i dev/openchpl_soft-delete.sql
+\i dev/openchpl_views.sql
+\i dev/openchpl_grant-all.sql
 
