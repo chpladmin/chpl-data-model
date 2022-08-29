@@ -82,3 +82,12 @@ create or replace view openchpl.nonconformity_type as
 	union
 	select id, null, name, null, removed, 'REQUIREMENT'
 	from openchpl.additional_nonconformity_type;
+
+update openchpl.surveillance_nonconformity
+set nonconformity_type_id = certification_criterion_id 
+where certification_criterion_id is not null;
+
+update openchpl.surveillance_nonconformity sn
+set nonconformity_type_id = (select id from openchpl.nonconformity_type where number = sn.nonconformity_type) 
+where certification_criterion_id is null;
+
