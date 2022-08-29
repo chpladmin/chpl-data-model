@@ -80,7 +80,7 @@ create or replace view openchpl.nonconformity_type as
 	from openchpl.certification_criterion
 	where certification_edition_id in (3,2)
 	union
-	select id, null, name, null, removed, 'REQUIREMENT'
+	select id, null, null, name, removed, 'REQUIREMENT'
 	from openchpl.additional_nonconformity_type;
 
 update openchpl.surveillance_nonconformity
@@ -91,3 +91,88 @@ update openchpl.surveillance_nonconformity sn
 set nonconformity_type_id = (select id from openchpl.nonconformity_type where number = sn.nonconformity_type) 
 where certification_criterion_id is null;
 
+
+/*
+create table if not exists openchpl.additional_requirement_type(
+    id bigint not null default nextval('openchpl.certification_criterion_certification_criterion_id_seq'),
+    name text not null,
+    removed boolean not null default false,
+	creation_date timestamp not null default now(),
+	last_modified_date timestamp not null default now(),
+	last_modified_user bigint not null,
+	deleted bool not null default false,
+    constraint additional_requirement_type_pk primary key (id)
+);
+
+insert into openchpl.additional_requirement_type(name, removed, last_modified_user) 
+select '170.523 (k)(1)', false, -1
+where not exists (
+    select * 
+    from openchpl.additional_requirement_type
+    where name = '170.523 (k)(1)'
+    and removed = false
+);
+
+insert into openchpl.additional_requirement_type(name, removed, last_modified_user) 
+select '170.523 (k)(2)', true, -1
+where not exists (
+    select * 
+    from openchpl.additional_requirement_type
+    where name = '170.523 (k)(2)'
+    and removed = true
+);
+
+insert into openchpl.additional_requirement_type(name, removed, last_modified_user) 
+select '170.523 (l)', false, -1
+where not exists (
+    select * 
+    from openchpl.additional_requirement_type
+    where name = '170.523 (l)'
+    and removed = false
+);
+
+insert into openchpl.additional_requirement_type(name, removed, last_modified_user) 
+select 'Annual Real World Testing Plan', false, -1
+where not exists (
+    select * 
+    from openchpl.additional_requirement_type
+    where name = 'Annual Real World Testing Plan'
+    and removed = false
+);
+
+
+insert into openchpl.additional_requirement_type(name, removed, last_modified_user) 
+select 'Annual Real World Testing Results', false, -1
+where not exists (
+    select * 
+    from openchpl.additional_requirement_type
+    where name = 'Annual Real World Testing Results'
+    and removed = false
+);
+
+
+insert into openchpl.additional_requirement_type(name, removed, last_modified_user) 
+select 'Semiannual Attestations Submission', false, -1
+where not exists (
+    select * 
+    from openchpl.additional_requirement_type
+    where name = 'Semiannual Attestations Submission'
+    and removed = false
+);
+
+create or replace view openchpl.requirement_type as  
+	select certification_criterion_id as id, certification_edition_id, number, title, removed, 'CRITERION' as classification
+	from openchpl.certification_criterion
+	where certification_edition_id in (3,2)
+	union
+	select id, null, name, null, removed, 'REQUIREMENT'
+	from openchpl.additional_requirement_type;
+
+update openchpl.surveillance_nonconformity
+set nonconformity_type_id = certification_criterion_id 
+where certification_criterion_id is not null;
+
+update openchpl.surveillance_nonconformity sn
+set nonconformity_type_id = (select id from openchpl.nonconformity_type where number = sn.nonconformity_type) 
+where certification_criterion_id is null;
+*/
