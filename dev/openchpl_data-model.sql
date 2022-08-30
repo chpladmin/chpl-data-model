@@ -3260,6 +3260,7 @@ create table if not exists openchpl.question_allowed_response_map (
 create table if not exists openchpl.form (
 	id bigserial not null,
 	description text not null,
+        instructions text,
 	creation_date timestamp not null default now(),
 	last_modified_date timestamp not null default now(),
 	last_modified_user int8 not null ,
