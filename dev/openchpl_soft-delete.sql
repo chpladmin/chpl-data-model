@@ -10,6 +10,12 @@ BEGIN
 		SELECT id
 		FROM openchpl.change_request
 		WHERE developer_id = NEW.vendor_id);
+	
+	UPDATE openchpl.change_request_certification_body_map as src SET deleted = NEW.deleted
+	WHERE change_request_id IN (
+		SELECT id
+		FROM openchpl.change_request
+		WHERE developer_id = NEW.vendor_id);
 
 	UPDATE openchpl.change_request_developer_demographics as src SET deleted = NEW.deleted
 	WHERE change_request_id IN (
@@ -71,7 +77,6 @@ BEGIN
 	UPDATE openchpl.certified_product_testing_lab_map as src SET deleted = NEW.deleted WHERE src.certified_product_id = NEW.certified_product_id;
     UPDATE openchpl.cqm_result as src SET deleted = NEW.deleted WHERE src.certified_product_id = NEW.certified_product_id;
     UPDATE openchpl.ehr_certification_id_product_map as src SET deleted = NEW.deleted WHERE src.certified_product_id = NEW.certified_product_id;
-    UPDATE openchpl.pending_certification_result_additional_software as src SET deleted = NEW.deleted WHERE src.certified_product_id = NEW.certified_product_id;
     UPDATE openchpl.surveillance as src SET deleted = NEW.deleted WHERE src.certified_product_id = NEW.certified_product_id;
 	UPDATE openchpl.pending_surveillance as src SET deleted = NEW.deleted WHERE src.certified_product_id = NEW.certified_product_id;
     UPDATE openchpl.listing_to_listing_map as src SET deleted = NEW.deleted WHERE src.parent_listing_id = NEW.certified_product_id;
@@ -247,24 +252,3 @@ END;
 $$ language 'plpgsql';
 DROP TRIGGER IF EXISTS quarterly_report_soft_delete on openchpl.quarterly_report;
 CREATE TRIGGER quarterly_report_soft_delete AFTER UPDATE of deleted on openchpl.quarterly_report FOR EACH ROW EXECUTE PROCEDURE openchpl.quarterly_report_soft_delete();
-
-CREATE OR REPLACE FUNCTION openchpl.deprecated_api_soft_delete()
-RETURNS TRIGGER AS $$
-BEGIN
-    UPDATE openchpl.deprecated_api_usage as src SET deleted = NEW.deleted WHERE src.deprecated_api_id = NEW.id;
-    RETURN NEW;
-END;
-$$ language 'plpgsql';
-DROP TRIGGER IF EXISTS deprecated_api_soft_delete on openchpl.deprecated_api;
-CREATE TRIGGER deprecated_api_soft_delete AFTER UPDATE of deleted on openchpl.deprecated_api FOR EACH ROW EXECUTE PROCEDURE openchpl.deprecated_api_soft_delete();
-
-CREATE OR REPLACE FUNCTION openchpl.deprecated_response_field_api_soft_delete()
-RETURNS TRIGGER AS $$
-BEGIN
-    UPDATE openchpl.deprecated_response_field as src SET deleted = NEW.deleted WHERE src.deprecated_api_id = NEW.id;
-	UPDATE openchpl.deprecated_response_field_api_usage as src SET deleted = NEW.deleted WHERE src.deprecated_response_field_api_id = NEW.id;
-    RETURN NEW;
-END;
-$$ language 'plpgsql';
-DROP TRIGGER IF EXISTS deprecated_response_field_api_soft_delete on openchpl.deprecated_response_field_api;
-CREATE TRIGGER deprecated_response_field_api_soft_delete AFTER UPDATE of deleted on openchpl.deprecated_response_field_api FOR EACH ROW EXECUTE PROCEDURE openchpl.deprecated_response_field_api_soft_delete();
