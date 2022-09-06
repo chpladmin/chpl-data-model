@@ -1,5 +1,22 @@
 # Release Notes
 
+## Version 21.0.0
+_6 September 2022_
+
+### Breaking Changes
+* Drop old deprecated usage tables and create new deprecated usage tracking table
+* Drop all pending certified product tables that are no longer used
+
+### Features
+* Add table to support associating ONC-ACBs to change requests based on the type of change request
+* Add column to attestation form table to include submission instructions
+
+### Data Changes
+* Allow SVAP to be connected to h1 and h2
+* Set Attestation Period dates for Periods 2 and 3
+
+---
+
 ## Version 20.21.0
 _22 August 2022_
 
