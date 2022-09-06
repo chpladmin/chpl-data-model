@@ -1249,7 +1249,6 @@ CREATE VIEW openchpl.certified_product_summary AS
     cp.last_modified_date,
     cp.last_modified_user,
     cp.deleted,
-    cp.pending_certified_product_id,
     cp.rwt_plans_url,
     cp.rwt_plans_check_date,
     cp.rwt_results_url,
