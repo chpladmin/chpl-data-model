@@ -90,10 +90,8 @@ set nonconformity_type_id = certification_criterion_id
 where certification_criterion_id is not null;
 
 update openchpl.surveillance_nonconformity sn
-set nonconformity_type_id = (select id from openchpl.nonconformity_type where number = sn.nonconformity_type) 
+set nonconformity_type_id = (select id from openchpl.nonconformity_type where title = sn.nonconformity_type) 
 where certification_criterion_id is null;
-
-
 
 create table if not exists openchpl.additional_requirement_detail_type(
     id bigint not null default nextval('openchpl.certification_criterion_certification_criterion_id_seq'),
@@ -167,7 +165,7 @@ where not exists (
 
 drop view if exists openchpl.surveillance_requirement_detail_type;
 
-create view openchpl.surveillance_requirement_detail_type as 
+create view openchpl.requirement_detail_type as 
 select certification_criterion_id as id, title, number, removed, certification_edition_id, 1 as surveillance_requirement_type_id
 from openchpl.certification_criterion
 where certification_edition_id in (2,3)
@@ -176,26 +174,26 @@ select id, name, null, removed, null, surveillance_requirement_type_id
 from openchpl.additional_requirement_detail_type;
 
 alter table openchpl.surveillance_requirement
-add column if not exists surveillance_requirement_detail_id bigint;
+add column if not exists requirement_detail_type_id bigint;
 
 alter table openchpl.surveillance_requirement
-add column if not exists surveillance_requirement_detail_other text;
+add column if not exists requirement_detail_other text;
 
 --Convert the requirements that are criterion
 update openchpl.surveillance_requirement
-set surveillance_requirement_detail_id = certification_criterion_id 
+set requirement_detail_type_id = certification_criterion_id 
 where type_id = 1;
 
 --convert everything that is not a criterion or other
 update openchpl.surveillance_requirement sr
-set surveillance_requirement_detail_id = 
+set requirement_detail_type_id = 
     (select id 
-    from openchpl.surveillance_requirement_detail_type 
+    from openchpl.requirement_detail_type 
     where title = sr.requirement)
 where type_id not in (1, 3);
 
 --convert other
 update openchpl.surveillance_requirement sr
-set surveillance_requirement_detail_id = null,
-surveillance_requirement_detail_other = requirement
+set requirement_detail_type_id = 3,
+requirement_detail_other = requirement
 where type_id = 3;
