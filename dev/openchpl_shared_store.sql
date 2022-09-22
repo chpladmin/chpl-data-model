@@ -7,9 +7,9 @@ GRANT ALL ON SCHEMA shared_store TO openchpl_dev;
 GRANT USAGE ON SCHEMA shared_store TO openchpl;
 
 CREATE TABLE shared_store.shared_store (
-	type TEXT NOT NULL,
+	domain TEXT NOT NULL,
 	key TEXT NOT NULL,
 	value TEXT,
-	put_date TIMESTAMP NOT NULL DEFAULT NOW()
-	PRIMARY KEY(type, key)
+	put_date TIMESTAMP NOT NULL DEFAULT NOW(),
+	PRIMARY KEY(domain, key)
 );

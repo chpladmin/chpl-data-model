@@ -1,5 +1,13 @@
 # Release Notes
 
+## Version 21.0.1
+_19 September 2022_
+
+### Data Changes
+* Add new Questionable Activity triggers for Real World Testing updates
+
+---
+
 ## Version 21.0.0
 _6 September 2022_
 

@@ -41,8 +41,35 @@ Run the `load-pending-changes.sh` script.  This will execute:
 * The `dev/openchpl_grant-all.sql` script (set permissions for all database objects)
 
 ## Data model load
-Rename `dev/openchpl_role-template.sql` to `dev/openchpl_role.sql` and set the password for the `openchpl` role. These instructions assume the role/username used for the CHPL database is `openchpl`, and that the password in `openchpl_role.sql`, currently recorded as "change this password" will be update to match your installation. If the installer chooses to change the username/role, make sure it's also changed in the `openchpl.sql` file wherever the role is used.
+CHPL currently recommends using Postgres version 14 running on the standard port of 5432.
+1. Create the necessary roles in our database
+    * Create a new file `dev/openchpl_role.sql` based on `dev/openchpl_role-template.sql` and set the password for the `openchpl` and `openchpl_dev` roles in the new file. The password is recorded as "change this password" in the template file.
+   ```sh
+   psql -Upostgres -f dev/openchpl_role.sql
+   ```
+1. Create the openchpl database
+   ```sh
+   psql -Upostgres -f dev/openchpl_database.sql
+   ```
+1. Download the latest backup file from Bamboo and load it
+   * The artifact name in Bamboo is openchpl.final.backup. It should be downloaded and copied into the `maint` directory as `openchpl.backup`.
+   ```sh
+   maint/load.sh
+   ```
+1. Run scripts to add tables for all other schemas
+   ```sh
+   psql -Uopenchpl_dev -f dev/openchpl_ff4j.sql openchpl
+   psql -Uopenchpl_dev -f dev/openchpl_ff4j_audit.sql openchpl
+   psql -Uopenchpl_dev -f dev/openchpl_quartz.sql openchpl
+   psql -Uopenchpl_dev -f dev/openchpl_quartz_audit.sql openchpl
 
-Next, run the script `dev/reset.sh` or `dev/reset.bat` from the `/dev` directory. These two scripts remove any previous CHPL data model installation, with the associated roles, then recreate the required roles and databases, as well as fill out some of those database schemas with some required information.
-
-Next, follow the `maint/procedure.md` file to load the CHPL with data.
+   # The shared store schema does have its single table loaded during the load of the prod backup.
+   # I would have expected the above schemas to also have their tables loaded and am not sure why they do not.
+   # psql -Upostgres -f openchpl_shared_store.sql
+   ```
+1. Load the latest data model code from the staging branch or relevant feature branch
+   ```sh
+   ./load-pending-changes.sh
+   ```
+1. Start Tomcat
+   * The FF4j data does not come with the production data dump by default. You will need to add the current set of feature flags via the FF4j UI.
