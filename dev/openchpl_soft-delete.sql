@@ -29,22 +29,6 @@ BEGIN
 		FROM openchpl.change_request
 		WHERE developer_id = NEW.vendor_id);
 
-	UPDATE openchpl.change_request_attestation_response as src SET deleted = NEW.deleted
-	WHERE change_request_attestation_submission_id IN (
-		SELECT id
-		FROM openchpl.change_request_attestation_submission
-		WHERE change_request_id IN (
-			SELECT id
-			FROM openchpl.change_request
-			WHERE developer_id = NEW.vendor_id));
-
-	UPDATE openchpl.developer_attestation_submission as src SET deleted = NEW.deleted WHERE src.developer_id = NEW.vendor_id;
-	UPDATE openchpl.developer_attestation_response as src SET deleted = NEW.deleted
-	WHERE developer_attestation_submission_id IN (
-		SELECT id
-		FROM openchpl.developer_attestation_submission
-		WHERE developer_id = NEW.vendor_id);
-
 	UPDATE openchpl.attestation_period_developer_exception as src SET deleted = NEW.deleted WHERE src.developer_id = NEW.vendor_id;
 
     RETURN NEW;
