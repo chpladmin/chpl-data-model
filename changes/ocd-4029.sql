@@ -75,7 +75,7 @@ where not exists (
     and removed = false
 );
 
-drop view openchpl.nonconformity_type;
+drop view if exists openchpl.nonconformity_type;
 
 create or replace view openchpl.nonconformity_type as  
 	select certification_criterion_id as id, certification_edition_id, number, title, removed, 'CRITERION' as classification
@@ -135,21 +135,21 @@ where not exists (
 */
 
 insert into openchpl.additional_requirement_detail_type(surveillance_requirement_type_id, name, removed, last_modified_user) 
-select 4, 'Annual Real World Testing Plan', false, -1
+select 4, 'Annual Real World Testing Plan Reports', false, -1
 where not exists (
     select * 
     from openchpl.additional_requirement_detail_type
-    where name = 'Annual Real World Testing Plan'
+    where name = 'Annual Real World Testing Plan Reports'
     and removed = false
 );
 
 
 insert into openchpl.additional_requirement_detail_type(surveillance_requirement_type_id, name, removed, last_modified_user) 
-select 4, 'Annual Real World Testing Results', false, -1
+select 4, 'Annual Real World Testing Results Reports', false, -1
 where not exists (
     select * 
     from openchpl.additional_requirement_detail_type
-    where name = 'Annual Real World Testing Results'
+    where name = 'Annual Real World Testing Results Reports'
     and removed = false
 );
 
@@ -163,7 +163,14 @@ where not exists (
     and removed = false
 );
 
-drop view if exists openchpl.surveillance_requirement_detail_type;
+--If these have already been added, we need to delete them.
+delete from openchpl.additional_requirement_detail_type
+where name = 'Annual Real World Testing Plan';
+
+delete from openchpl.additional_requirement_detail_type
+where name = 'Annual Real World Testing Results';
+
+drop view if exists openchpl.requirement_detail_type;
 
 create view openchpl.requirement_detail_type as 
 select certification_criterion_id as id, title, number, removed, certification_edition_id, 1 as surveillance_requirement_type_id
@@ -185,6 +192,15 @@ set requirement_detail_type_id = certification_criterion_id
 where type_id = 1;
 
 --convert everything that is not a criterion or other
+--make sure the requirement has been updated
+update openchpl.surveillance_requirement
+set requirement = 'Annual Real World Testing Results Reports'
+where requirement = 'Annual Real World Testing Results';
+
+update openchpl.surveillance_requirement
+set requirement = 'Annual Real World Testing Plan Reports'
+where requirement = 'Annual Real World Testing Plan';
+
 update openchpl.surveillance_requirement sr
 set requirement_detail_type_id = 
     (select id 
@@ -192,8 +208,18 @@ set requirement_detail_type_id =
     where title = sr.requirement)
 where type_id not in (1, 3);
 
---convert other
+--convert other, anything that has not been converted
 update openchpl.surveillance_requirement sr
-set requirement_detail_type_id = 3,
+set requirement_detail_type_id = null,
 requirement_detail_other = requirement
-where type_id = 3;
+where requirement_detail_type_id is null;
+
+alter table openchpl.surveillance_requirement
+alter column type_id drop not null;
+
+--COLUMNS TO BE DROPPED IN THE FUTURE
+--surveillance_requirement.type_id
+--surveillance_requirement.certification_criterion_id
+--surveillance_requirement.requirement
+--surveillance_nonconformity.certification_criterion_id
+--surveillance_nonconformity.nonconformity_type
