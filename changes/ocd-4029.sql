@@ -135,21 +135,21 @@ where not exists (
 */
 
 insert into openchpl.additional_requirement_detail_type(surveillance_requirement_type_id, name, removed, last_modified_user) 
-select 4, 'Annual Real World Testing Plan Reports', false, -1
+select 4, 'Annual Real World Testing Plan', false, -1
 where not exists (
     select * 
     from openchpl.additional_requirement_detail_type
-    where name = 'Annual Real World Testing Plan Reports'
+    where name = 'Annual Real World Testing Plan'
     and removed = false
 );
 
 
 insert into openchpl.additional_requirement_detail_type(surveillance_requirement_type_id, name, removed, last_modified_user) 
-select 4, 'Annual Real World Testing Results Reports', false, -1
+select 4, 'Annual Real World Testing Results', false, -1
 where not exists (
     select * 
     from openchpl.additional_requirement_detail_type
-    where name = 'Annual Real World Testing Results Reports'
+    where name = 'Annual Real World Testing Results'
     and removed = false
 );
 
@@ -192,15 +192,6 @@ set requirement_detail_type_id = certification_criterion_id
 where type_id = 1;
 
 --convert everything that is not a criterion or other
---make sure the requirement has been updated
-update openchpl.surveillance_requirement
-set requirement = 'Annual Real World Testing Results Reports'
-where requirement = 'Annual Real World Testing Results';
-
-update openchpl.surveillance_requirement
-set requirement = 'Annual Real World Testing Plan Reports'
-where requirement = 'Annual Real World Testing Plan';
-
 update openchpl.surveillance_requirement sr
 set requirement_detail_type_id = 
     (select id 
