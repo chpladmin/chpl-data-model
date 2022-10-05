@@ -49,11 +49,11 @@ where not exists (
 );
 
 insert into openchpl.additional_nonconformity_type(name, removed, last_modified_user) 
-select 'Annual Real World Testing Results', false, -1
+select 'Annual Real World Testing Results Reports', false, -1
 where not exists (
     select * 
     from openchpl.additional_nonconformity_type
-    where name = 'Annual Real World Testing Results'
+    where name = 'Annual Real World Testing Results Reports' 
     and removed = false
 );
 
@@ -145,11 +145,11 @@ where not exists (
 
 
 insert into openchpl.additional_requirement_detail_type(surveillance_requirement_type_id, name, removed, last_modified_user) 
-select 4, 'Annual Real World Testing Results', false, -1
+select 4, 'Annual Real World Testing Results Reports', false, -1
 where not exists (
     select * 
     from openchpl.additional_requirement_detail_type
-    where name = 'Annual Real World Testing Results'
+    where name = 'Annual Real World Testing Results Reports'
     and removed = false
 );
 
