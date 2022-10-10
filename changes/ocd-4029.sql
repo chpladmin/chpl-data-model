@@ -123,17 +123,6 @@ where not exists (
     and removed = true
 );
 
-/*
-insert into openchpl.additional_requirement_detail_type(name, removed, last_modified_user) 
-select '170.523 (l)', false, -1
-where not exists (
-    select * 
-    from openchpl.additional_requirement_detail_type
-    where name = '170.523 (l)'
-    and removed = false
-);
-*/
-
 insert into openchpl.additional_requirement_detail_type(surveillance_requirement_type_id, name, removed, last_modified_user) 
 select 4, 'Annual Real World Testing Plan', false, -1
 where not exists (
@@ -141,8 +130,7 @@ where not exists (
     from openchpl.additional_requirement_detail_type
     where name = 'Annual Real World Testing Plan'
     and removed = false
-);
-
+);	
 
 insert into openchpl.additional_requirement_detail_type(surveillance_requirement_type_id, name, removed, last_modified_user) 
 select 4, 'Annual Real World Testing Results Reports', false, -1
@@ -153,7 +141,6 @@ where not exists (
     and removed = false
 );
 
-
 insert into openchpl.additional_requirement_detail_type(surveillance_requirement_type_id, name, removed, last_modified_user) 
 select 5, 'Semiannual Attestations Submission', false, -1
 where not exists (
@@ -163,10 +150,7 @@ where not exists (
     and removed = false
 );
 
---If these have already been added, we need to delete them.
-delete from openchpl.additional_requirement_detail_type
-where name = 'Annual Real World Testing Plan';
-
+--If this has already been added, we need to delete it.
 delete from openchpl.additional_requirement_detail_type
 where name = 'Annual Real World Testing Results';
 
