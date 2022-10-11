@@ -93,9 +93,12 @@ update openchpl.surveillance_nonconformity sn
 set nonconformity_type_id = (select id from openchpl.nonconformity_type where title = sn.nonconformity_type) 
 where certification_criterion_id is null;
 
-create table if not exists openchpl.additional_requirement_detail_type(
+alter table if exists openchpl.surveillance_requirement_type 
+rename to requirement_group_type;
+
+create table if not exists openchpl.additional_requirement_type(
     id bigint not null default nextval('openchpl.certification_criterion_certification_criterion_id_seq'),
-    surveillance_requirement_type_id bigint not null,
+	requirement_group_type_id bigint not null,
     name text not null,
     removed boolean not null default false,
 	creation_date timestamp not null default now(),
@@ -105,89 +108,89 @@ create table if not exists openchpl.additional_requirement_detail_type(
     constraint additional_requirement_type_pk primary key (id)
 );
 
-insert into openchpl.additional_requirement_detail_type(surveillance_requirement_type_id, name, removed, last_modified_user) 
+insert into openchpl.additional_requirement_type(requirement_group_type_id, name, removed, last_modified_user) 
 select 2, '170.523 (k)(1)', false, -1
 where not exists (
     select * 
-    from openchpl.additional_requirement_detail_type
+    from openchpl.additional_requirement_type
     where name = '170.523 (k)(1)'
     and removed = false
 );
 
-insert into openchpl.additional_requirement_detail_type(surveillance_requirement_type_id, name, removed, last_modified_user) 
+insert into openchpl.additional_requirement_type(requirement_group_type_id, name, removed, last_modified_user) 
 select 2, '170.523 (k)(2)', true, -1
 where not exists (
     select * 
-    from openchpl.additional_requirement_detail_type
+    from openchpl.additional_requirement_type
     where name = '170.523 (k)(2)'
     and removed = true
 );
 
-insert into openchpl.additional_requirement_detail_type(surveillance_requirement_type_id, name, removed, last_modified_user) 
+insert into openchpl.additional_requirement_type(requirement_group_type_id, name, removed, last_modified_user) 
 select 4, 'Annual Real World Testing Plan', false, -1
 where not exists (
     select * 
-    from openchpl.additional_requirement_detail_type
+    from openchpl.additional_requirement_type
     where name = 'Annual Real World Testing Plan'
     and removed = false
 );	
 
-insert into openchpl.additional_requirement_detail_type(surveillance_requirement_type_id, name, removed, last_modified_user) 
+insert into openchpl.additional_requirement_type(requirement_group_type_id, name, removed, last_modified_user) 
 select 4, 'Annual Real World Testing Results Reports', false, -1
 where not exists (
     select * 
-    from openchpl.additional_requirement_detail_type
+    from openchpl.additional_requirement_type
     where name = 'Annual Real World Testing Results Reports'
     and removed = false
 );
 
-insert into openchpl.additional_requirement_detail_type(surveillance_requirement_type_id, name, removed, last_modified_user) 
+insert into openchpl.additional_requirement_type(requirement_group_type_id, name, removed, last_modified_user) 
 select 5, 'Semiannual Attestations Submission', false, -1
 where not exists (
     select * 
-    from openchpl.additional_requirement_detail_type
+    from openchpl.additional_requirement_type
     where name = 'Semiannual Attestations Submission'
     and removed = false
 );
 
 --If this has already been added, we need to delete it.
-delete from openchpl.additional_requirement_detail_type
+delete from openchpl.additional_requirement_type
 where name = 'Annual Real World Testing Results';
 
-drop view if exists openchpl.requirement_detail_type;
+drop view if exists openchpl.requirement_type;
 
-create view openchpl.requirement_detail_type as 
-select certification_criterion_id as id, title, number, removed, certification_edition_id, 1 as surveillance_requirement_type_id
+create view openchpl.requirement_type as 
+select certification_criterion_id as id, title, number, removed, certification_edition_id, 1 as requirement_group_type_id
 from openchpl.certification_criterion
 where certification_edition_id in (2,3)
 union
-select id, name, null, removed, null, surveillance_requirement_type_id
-from openchpl.additional_requirement_detail_type;
+select id, name, null, removed, null, requirement_group_type_id
+from openchpl.additional_requirement_type;
 
 alter table openchpl.surveillance_requirement
-add column if not exists requirement_detail_type_id bigint;
+add column if not exists requirement_type_id bigint;
 
 alter table openchpl.surveillance_requirement
-add column if not exists requirement_detail_other text;
+add column if not exists requirement_type_other text;
 
 --Convert the requirements that are criterion
 update openchpl.surveillance_requirement
-set requirement_detail_type_id = certification_criterion_id 
+set requirement_type_id = certification_criterion_id 
 where type_id = 1;
 
 --convert everything that is not a criterion or other
 update openchpl.surveillance_requirement sr
-set requirement_detail_type_id = 
+set requirement_type_id = 
     (select id 
-    from openchpl.requirement_detail_type 
+    from openchpl.requirement_type 
     where title = sr.requirement)
 where type_id not in (1, 3);
 
 --convert other, anything that has not been converted
 update openchpl.surveillance_requirement sr
-set requirement_detail_type_id = null,
-requirement_detail_other = requirement
-where requirement_detail_type_id is null;
+set requirement_type_id = null,
+requirement_type_other = requirement
+where requirement_type_id is null;
 
 alter table openchpl.surveillance_requirement
 alter column type_id drop not null;
