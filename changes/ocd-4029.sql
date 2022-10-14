@@ -195,6 +195,125 @@ where requirement_type_id is null;
 alter table openchpl.surveillance_requirement
 alter column type_id drop not null;
 
+
+--new requirement types
+insert into openchpl.requirement_group_type (name, last_modified_user)
+select 'Developer Submission Requirement', -1
+where not exists (
+    select *
+	from openchpl.requirement_group_type
+	where name = 'Developer Submission Requirement'
+);
+
+insert into openchpl.additional_requirement_type (requirement_group_type_id, name, last_modified_user)
+select (select id from openchpl.requirement_group_type where name = 'Developer Submission Requirement'),
+    '170.523 (m)(1): Adaptations and updates',
+	-1
+where not exists (
+    select *
+	from openchpl.additional_requirement_type
+    where name = '170.523 (m)(1): Adaptations and updates'
+);
+
+insert into openchpl.additional_requirement_type (requirement_group_type_id, name, last_modified_user)
+select (select id from openchpl.requirement_group_type where name = 'Developer Submission Requirement'),
+    '170.523 (m)(2): Adaptations and updates',
+	-1
+where not exists (
+    select *
+	from openchpl.additional_requirement_type
+    where name = '170.523 (m)(2): Adaptations and updates'
+);
+
+insert into openchpl.additional_requirement_type (requirement_group_type_id, name, last_modified_user)
+select (select id from openchpl.requirement_group_type where name = 'Developer Submission Requirement'),
+    '170.523 (m)(3): Adaptations and updates',
+	-1
+where not exists (
+    select *
+	from openchpl.additional_requirement_type
+    where name = '170.523 (m)(3): Adaptations and updates'
+);
+
+insert into openchpl.additional_requirement_type (requirement_group_type_id, name, last_modified_user)
+select (select id from openchpl.requirement_group_type where name = 'Developer Submission Requirement'),
+    '170.523 (m)(4): Adaptations and updates',
+	-1
+where not exists (
+    select *
+	from openchpl.additional_requirement_type
+    where name = '170.523 (m)(4): Adaptations and updates'
+);
+
+insert into openchpl.additional_requirement_type (requirement_group_type_id, name, last_modified_user)
+select (select id from openchpl.requirement_group_type where name = 'Developer Submission Requirement'),
+    '170.523 (m)(5): Adaptations and updates',
+	-1
+where not exists (
+    select *
+	from openchpl.additional_requirement_type
+    where name = '170.523 (m)(5): Adaptations and updates'
+);
+
+
+insert into openchpl.additional_requirement_type (requirement_group_type_id, name, last_modified_user)
+select (select id from openchpl.requirement_group_type where name = 'Developer Submission Requirement'),
+    '170.523 (t): Health IT Module voluntary standards and implementation specifications updates notices',
+	-1
+where not exists (
+    select *
+	from openchpl.additional_requirement_type
+    where name = '170.523 (t): Health IT Module voluntary standards and implementation specifications updates notices'
+);
+
+--new requirement types
+insert into openchpl.additional_nonconformity_type (name, removed, last_modified_user)
+select '170.523 (m)(1): Adaptations and updates', false, -1
+where not exists (
+    select *
+	from openchpl.additional_nonconformity_type
+	where name = '170.523 (m)(1): Adaptations and updates'
+);
+
+insert into openchpl.additional_nonconformity_type (name, removed, last_modified_user)
+select '170.523 (m)(2): Adaptations and updates', false, -1
+where not exists (
+    select *
+	from openchpl.additional_nonconformity_type
+	where name = '170.523 (m)(2): Adaptations and updates'
+);
+
+insert into openchpl.additional_nonconformity_type (name, removed, last_modified_user)
+select '170.523 (m)(3): Adaptations and updates', false, -1
+where not exists (
+    select *
+	from openchpl.additional_nonconformity_type
+	where name = '170.523 (m)(3): Adaptations and updates'
+);
+
+insert into openchpl.additional_nonconformity_type (name, removed, last_modified_user)
+select '170.523 (m)(4): Adaptations and updates', false, -1
+where not exists (
+    select *
+	from openchpl.additional_nonconformity_type
+	where name = '170.523 (m)(4): Adaptations and updates'
+);
+
+insert into openchpl.additional_nonconformity_type (name, removed, last_modified_user)
+select '170.523 (m)(5): Adaptations and updates', false, -1
+where not exists (
+    select *
+	from openchpl.additional_nonconformity_type
+	where name = '170.523 (m)(5): Adaptations and updates'
+);
+
+insert into openchpl.additional_nonconformity_type (name, removed, last_modified_user)
+select '170.523 (t): Health IT Module voluntary standards and implementation specifications updates notices', false, -1
+where not exists (
+    select *
+	from openchpl.additional_nonconformity_type
+	where name = '170.523 (t): Health IT Module voluntary standards and implementation specifications updates notices'
+);
 --COLUMNS TO BE DROPPED IN THE FUTURE
 --surveillance_requirement.type_id
 --surveillance_requirement.certification_criterion_id
