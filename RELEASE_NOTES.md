@@ -1,5 +1,13 @@
 # Release Notes
 
+## Version 21.1.1
+_17 October 2022_
+
+### Data Changes
+* Add 2023 eCQM versions and measures
+
+---
+
 ## Version 21.1.0
 _3 October 2022_
 
