@@ -1,5 +1,25 @@
 # Release Notes
 
+## Version 21.1.1
+_17 October 2022_
+
+### Data Changes
+* Add 2023 eCQM versions and measures
+
+---
+
+## Version 21.1.0
+_3 October 2022_
+
+### Features
+* Remove tables related to old Attestation format
+
+### Data Changes
+* Delete orphaned version and related activity
+* Append b10, d12, d13, and g10 with "(Cures Update)" title
+
+---
+
 ## Version 21.0.1
 _19 September 2022_
 
