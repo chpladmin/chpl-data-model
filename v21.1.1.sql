@@ -1,3 +1,6 @@
+-- Deployment file for version 21.1.1
+--     as of 2022-10-17
+-- ./changes/ocd-4049.sql
 INSERT INTO openchpl.cqm_version (version, last_modified_user)
 SELECT 'v12', -1
 WHERE NOT EXISTS (SELECT version FROM openchpl.cqm_version WHERE version = 'v12');
@@ -103,3 +106,8 @@ INSERT INTO openchpl.cqm_criterion (cms_id, title, description, cqm_domain, nqf_
 INSERT INTO openchpl.cqm_criterion (cms_id, title, description, cqm_domain, nqf_number, last_modified_user, cqm_version_id, cqm_criterion_type_id, retired)
   SELECT 'CMS996', 'Appropriate Treatment for ST-Segment Elevation Myocardial Infarction (STEMI) Patients in the Emergency Department (ED)', 'Percentage of emergency department (ED) encounters for patients 18 years and older with a diagnosis of ST-segment elevation myocardial infarction (STEMI) that received appropriate treatment, defined as fibrinolytic therapy within 30 minutes of ED arrival, percutaneous coronary intervention (PCI) within 90 minutes of ED arrival, or transfer within 45 minutes of ED arrival', 'Promote effective prevention and treatment of chronic disease', '3613e', -1, (SELECT cqm_version_id FROM openchpl.cqm_version WHERE version = 'v3'), (select cqm_criterion_type_id from openchpl.cqm_criterion_type where name = 'Ambulatory'), false
   WHERE NOT EXISTS (select * from openchpl.cqm_criterion where cms_ID = 'CMS996');
+;
+insert into openchpl.data_model_version (version, deploy_date, last_modified_user) values ('21.1.1', '2022-10-17', -1);
+\i dev/openchpl_soft-delete.sql
+\i dev/openchpl_views.sql
+\i dev/openchpl_grant-all.sql
