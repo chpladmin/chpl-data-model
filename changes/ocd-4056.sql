@@ -12,14 +12,12 @@ and notification_sent is null;
 
 update openchpl.deprecated_api_usage
 set deleted = true
-where (response_field like '%announcement -> startDate%'
-    or response_field like '%announcement -> startDate%')
+where response_field like '%announcement -> startDate%'
 and notification_sent is null;
 
 update openchpl.deprecated_api_usage
 set deleted = true
-where (response_field like '%announcement -> endDate%'
-    or response_field like '%announcement -> endDate%')
+where response_field like '%announcement -> endDate%'
 and notification_sent is null;
 
 update openchpl.deprecated_api_usage
