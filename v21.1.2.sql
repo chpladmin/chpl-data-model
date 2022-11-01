@@ -1,3 +1,6 @@
+-- Deployment file for version 21.1.2
+--     as of 2022-10-31
+-- ./changes/ocd-3899.sql
 -- Remove developer activities without meaningful changes
 
 DELETE FROM openchpl.activity
@@ -12,3 +15,8 @@ WHERE activity_id IN (82818,82811,1864,18191,54900,39989,76651,18720,5595,5594,2
 
 DELETE FROM openchpl.activity
 WHERE activity_id IN (69243, 40027);
+;
+insert into openchpl.data_model_version (version, deploy_date, last_modified_user) values ('21.1.2', '2022-10-31', -1);
+\i dev/openchpl_soft-delete.sql
+\i dev/openchpl_views.sql
+\i dev/openchpl_grant-all.sql

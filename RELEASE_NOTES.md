@@ -1,5 +1,13 @@
 # Release Notes
 
+## Version 21.1.2
+_31 October 2022_
+
+### Data Changes
+* Delete developer, product and version activity events without meaningful changes
+
+---
+
 ## Version 21.1.1
 _17 October 2022_
 
