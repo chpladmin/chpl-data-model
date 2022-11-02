@@ -313,7 +313,7 @@ CREATE VIEW openchpl.certified_product_details AS
      LEFT JOIN ( SELECT max(certification_status_event.event_date) AS decertification_date,
             certification_status_event.certified_product_id
            FROM openchpl.certification_status_event
-          WHERE (certification_status_event.certification_status_id = ANY (ARRAY[3::bigint, 4::bigint, 8::bigint])) AND certification_status_event.deleted <> true
+          WHERE (certification_status_event.certification_status_id = ANY (ARRAY[3::bigint, 4::bigint, 8::bigint, 9::bigint])) AND certification_status_event.deleted <> true
           GROUP BY certification_status_event.certified_product_id) decert ON a.certified_product_id = decert.certified_product_id
      LEFT JOIN ( SELECT j.certified_product_id,
             count(*) AS count_certifications
@@ -617,7 +617,8 @@ LEFT JOIN
    FROM openchpl.certification_status_event
    WHERE certification_status_event.certification_status_id = ANY (ARRAY[3::bigint,
                                                                          4::bigint,
-                                                                         8::bigint])
+                                                                         8::bigint,
+																		 9::bigint])
      AND certification_status_event.deleted = FALSE
    GROUP BY certification_status_event.certified_product_id) decert ON cp.certified_product_id = decert.certified_product_id
 LEFT JOIN
@@ -894,7 +895,8 @@ LEFT JOIN
    FROM openchpl.certification_status_event
    WHERE certification_status_event.certification_status_id = ANY (ARRAY[3::bigint,
                                                                          4::bigint,
-                                                                         8::bigint])
+                                                                         8::bigint,
+																		 9::bigint])
      AND certification_status_event.deleted = FALSE
    GROUP BY certification_status_event.certified_product_id) decert ON cp.certified_product_id = decert.certified_product_id
 LEFT JOIN
@@ -1079,7 +1081,7 @@ FROM
     -- Practice type (2014 only)
 	LEFT JOIN (SELECT practice_type_id, name as "practice_type_name" FROM openchpl.practice_type) prac on cp.practice_type_id = prac.practice_type_id
     --decertification date
-	LEFT JOIN (SELECT MAX(event_date) as "decertification_date", certified_product_id from openchpl.certification_status_event where certification_status_id IN (3, 4, 8) group by (certified_product_id)) decert on cp.certified_product_id = decert.certified_product_id
+	LEFT JOIN (SELECT MAX(event_date) as "decertification_date", certified_product_id from openchpl.certification_status_event where certification_status_id IN (3, 4, 8, 9) group by (certified_product_id)) decert on cp.certified_product_id = decert.certified_product_id
     -- developer history
 	LEFT JOIN (SELECT name as "history_vendor_name", product_owner_history_map.product_id as "history_product_id"
 	FROM openchpl.vendor
