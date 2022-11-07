@@ -87,11 +87,13 @@ create or replace view openchpl.nonconformity_type as
 
 update openchpl.surveillance_nonconformity
 set nonconformity_type_id = certification_criterion_id 
-where certification_criterion_id is not null;
+where certification_criterion_id is not null
+and nonconformity_type_id is null;
 
 update openchpl.surveillance_nonconformity sn
 set nonconformity_type_id = (select id from openchpl.nonconformity_type where title = sn.nonconformity_type) 
-where certification_criterion_id is null;
+where certification_criterion_id is null
+and nonconformity_type_id is null;
 
 alter table if exists openchpl.surveillance_requirement_type 
 rename to requirement_group_type;
@@ -176,7 +178,8 @@ add column if not exists requirement_type_other text;
 --Convert the requirements that are criterion
 update openchpl.surveillance_requirement
 set requirement_type_id = certification_criterion_id 
-where type_id = 1;
+where type_id = 1
+and requirement_type_id is null;
 
 --convert everything that is not a criterion or other
 update openchpl.surveillance_requirement sr
@@ -184,13 +187,15 @@ set requirement_type_id =
     (select id 
     from openchpl.requirement_type 
     where title = sr.requirement)
-where type_id not in (1, 3);
+where type_id not in (1, 3)
+and requirement_type_id is null;
 
 --convert other, anything that has not been converted
 update openchpl.surveillance_requirement sr
 set requirement_type_id = null,
 requirement_type_other = requirement
-where requirement_type_id is null;
+where requirement_type_id is null
+and requirement_type_id is null;
 
 alter table openchpl.surveillance_requirement
 alter column type_id drop not null;
