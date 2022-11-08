@@ -155,10 +155,6 @@ where not exists (
     and removed = false
 );
 
---If this has already been added, we need to delete it.
-delete from openchpl.additional_requirement_type
-where name = 'Annual Real World Testing Results';
-
 drop view if exists openchpl.requirement_type;
 
 create view openchpl.requirement_type as 
