@@ -1,5 +1,21 @@
 # Release Notes
 
+## Version 21.2.0
+_14 November 2022_
+
+### Features
+* Add new views for Surveillance Requirement & Non-Conformity Types
+* Alter product ownership transfer date from timestamp to date
+
+### Data Changes
+* Add new Questionable Activity Trigger for non-active Certificate edits
+* Add and modify Surveillance Requirement and Non-Conformity Types
+
+### Bug Fixes
+* Include Withdrawn by Developer Under Surveillance in decertified date calculations
+
+---
+
 ## Version 21.1.2
 _31 October 2022_
 

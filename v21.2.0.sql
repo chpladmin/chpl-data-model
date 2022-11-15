@@ -1,3 +1,6 @@
+-- Deployment file for version 21.2.0
+--     as of 2022-11-14
+-- ./changes/ocd-4029.sql
 create table if not exists openchpl.additional_nonconformity_type(
     id bigint not null default nextval('openchpl.certification_criterion_certification_criterion_id_seq'),
     name text not null,
@@ -321,3 +324,24 @@ where not exists (
 --surveillance_requirement.requirement
 --surveillance_nonconformity.certification_criterion_id
 --surveillance_nonconformity.nonconformity_type
+;
+-- ./changes/ocd-4048.sql
+DROP VIEW openchpl.openchpl.product_active_owner_history_map;
+
+ALTER TABLE openchpl.product_owner_history_map
+ALTER COLUMN transfer_date TYPE date;
+;
+-- ./changes/ocd-4057.sql
+insert into openchpl.questionable_activity_trigger (name, level, last_modified_user)
+select 'Non Active Certificate Edited', 'Listing', -1
+where not exists (
+    select *
+    from openchpl.questionable_activity_trigger
+    where name = 'Non Active Certificate Edited'
+    and level = 'Listing'
+);
+;
+insert into openchpl.data_model_version (version, deploy_date, last_modified_user) values ('21.2.0', '2022-11-14', -1);
+\i dev/openchpl_soft-delete.sql
+\i dev/openchpl_views.sql
+\i dev/openchpl_grant-all.sql
