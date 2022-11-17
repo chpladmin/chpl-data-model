@@ -10,7 +10,7 @@ BEGIN
 		SELECT id
 		FROM openchpl.change_request
 		WHERE developer_id = NEW.vendor_id);
-	
+
 	UPDATE openchpl.change_request_certification_body_map as src SET deleted = NEW.deleted
 	WHERE change_request_id IN (
 		SELECT id
@@ -62,7 +62,6 @@ BEGIN
     UPDATE openchpl.cqm_result as src SET deleted = NEW.deleted WHERE src.certified_product_id = NEW.certified_product_id;
     UPDATE openchpl.ehr_certification_id_product_map as src SET deleted = NEW.deleted WHERE src.certified_product_id = NEW.certified_product_id;
     UPDATE openchpl.surveillance as src SET deleted = NEW.deleted WHERE src.certified_product_id = NEW.certified_product_id;
-	UPDATE openchpl.pending_surveillance as src SET deleted = NEW.deleted WHERE src.certified_product_id = NEW.certified_product_id;
     UPDATE openchpl.listing_to_listing_map as src SET deleted = NEW.deleted WHERE src.parent_listing_id = NEW.certified_product_id;
     UPDATE openchpl.listing_to_listing_map as src SET deleted = NEW.deleted WHERE src.child_listing_id = NEW.certified_product_id;
 	UPDATE openchpl.quarterly_report_excluded_listing_map as src SET deleted = NEW.deleted WHERE src.listing_id = NEW.certified_product_id;
