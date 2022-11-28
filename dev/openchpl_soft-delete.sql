@@ -140,16 +140,6 @@ $$ language 'plpgsql';
 DROP TRIGGER IF EXISTS surveillance_requirement_soft_delete on openchpl.surveillance_requirement;
 CREATE TRIGGER surveillance_requirement_soft_delete AFTER UPDATE of deleted on openchpl.surveillance_requirement FOR EACH ROW EXECUTE PROCEDURE openchpl.surveillance_requirement_soft_delete();
 
-CREATE OR REPLACE FUNCTION openchpl.surveillance_nonconformity_soft_delete()
-RETURNS TRIGGER AS $$
-BEGIN
-    UPDATE openchpl.surveillance_nonconformity_document as src SET deleted = NEW.deleted WHERE src.surveillance_nonconformity_id = NEW.id;
-    RETURN NEW;
-END;
-$$ language 'plpgsql';
-DROP TRIGGER IF EXISTS surveillance_nonconformity_soft_delete on openchpl.surveillance_nonconformity;
-CREATE TRIGGER surveillance_nonconformity_soft_delete AFTER UPDATE of deleted on openchpl.surveillance_nonconformity FOR EACH ROW EXECUTE PROCEDURE openchpl.surveillance_nonconformity_soft_delete();
-
 CREATE OR REPLACE FUNCTION openchpl.certification_result_test_task_soft_delete()
 RETURNS TRIGGER AS $$
 BEGIN
