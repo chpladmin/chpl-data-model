@@ -1,5 +1,18 @@
 # Release Notes
 
+## Version 21.3.0
+_28 November 2022_
+
+### Features
+* Add column for Test Data Criteria attribute and populate it
+* Update ucd_process name to be 'text' instead of 200 chars
+* Convert sed_testing_end from timestamp to date
+
+### Data Changes
+* Remove unsent notifications for removed properties and endpoints
+
+---
+
 ## Version 21.2.0
 _14 November 2022_
 
