@@ -1,3 +1,5 @@
+DROP TRIGGER IF EXISTS surveillance_nonconformity_soft_delete on openchpl.surveillance_nonconformity;
+
 CREATE OR REPLACE FUNCTION openchpl.developer_soft_delete()
 RETURNS TRIGGER AS $$
 BEGIN
