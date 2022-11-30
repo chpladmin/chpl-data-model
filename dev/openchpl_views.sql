@@ -1378,20 +1378,3 @@ FROM openchpl.certified_product cp
          AND cse.certification_status_id IN (1, 6, 7)) as listing_status
          ON cp.certified_product_id = listing_status.certified_product_id
 AND cp.certification_edition_id = 3;
-
-CREATE OR REPLACE VIEW openchpl.aggregated_nonconformity_statistics
-AS select ROW_NUMBER() OVER (ORDER BY nonconformity_count) as id, *
-from
-((select count(sn.nonconformity_type) as nonconformity_count, sn.nonconformity_type as non_criterion_type, null as certification_criterion_id
-from openchpl.surveillance_nonconformity sn
-left outer join openchpl.certification_criterion cc on cc.certification_criterion_id = sn.certification_criterion_id
-where sn.deleted = false
-and cc is null
-group by sn.nonconformity_type)
-union 
-(select count(cc.certification_criterion_id) as nonconformity_count, null as non_criterion_type, cc.certification_criterion_id as certification_criterion_id
-from openchpl.surveillance_nonconformity sn
-join openchpl.certification_criterion cc on cc.certification_criterion_id = sn.certification_criterion_id
-where sn.deleted = false and cc.removed = false
-group by cc.certification_criterion_id
-order by cc.certification_criterion_id)) as subquery;
