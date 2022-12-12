@@ -1,5 +1,21 @@
 # Release Notes
 
+## Version 22.0.0
+_12 December 2022_
+
+### Breaking Changes
+* Remove unused view aggregated_nonconformity_statistics
+* Drop "pending" surveillance tables
+* Drop table nonconformity_documents
+* Remove "key" column from ehr_certification_id table
+
+### Data Changes
+* Remove extra space in complainant type name
+* Update complainant type to simply be 'Other'
+* Correct (c)(3) attested criteria vs CQM criteria mismatch
+
+---
+
 ## Version 21.3.0
 _28 November 2022_
 
