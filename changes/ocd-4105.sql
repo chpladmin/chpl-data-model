@@ -20,7 +20,7 @@ begin
 
   	raise notice 'The number of surveillance requirements is %', m_requirement_count;
 
-  	if m_requirement_count = 0 then
+  	if m_requirement_count > 0 then
   		raise notice 'Need to "remove" the requirements';
   		update openchpl.additional_requirement_type
   		set removed = true 
@@ -65,7 +65,7 @@ begin
 	into m_nonconformity_count
 	from openchpl.surveillance_nonconformity sn
 	where nonconformity_type_id in
-   		(select id 
+   		(select id
    		from openchpl.nonconformity_type
    		where title in ('170.523 (m)(1): Adaptations and updates',
    						'170.523 (m)(2): Adaptations and updates',
@@ -75,7 +75,7 @@ begin
 
   	raise notice 'The number of surveillance nonconforities is %', m_nonconformity_count;
 
-  	if m_nonconformity_count = 0 then
+  	if m_nonconformity_count > 0 then
   		raise notice 'Need to "remove" the nonconformities';
   		update openchpl.additional_nonconformity_type
   		set removed = true 
