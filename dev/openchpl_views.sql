@@ -716,7 +716,7 @@ LEFT JOIN
     AND certification_criterion.deleted = FALSE
 	GROUP BY certified_product_id) certs_with_service_base_url_list ON certs_with_service_base_url_list.certified_product_id = cp.certified_product_id
 LEFT JOIN
-  (SELECT string_agg(DISTINCT cqm_criterion.cqm_criterion_id||':'||COALESCE(cqm_criterion.cms_id, ('NQF-'::text || cqm_criterion.nqf_number::text)::CHARACTER varying), '|') AS cqms_met,
+  (SELECT string_agg(DISTINCT cqm_criterion.cqm_criterion_id||':'||COALESCE(cqm_criterion.cms_id, cqm_criterion.nqf_number), '|') AS cqms_met,
           cqm_result.certified_product_id
    FROM openchpl.cqm_criterion
    JOIN openchpl.cqm_result ON cqm_criterion.cqm_criterion_id = cqm_result.cqm_criterion_id
