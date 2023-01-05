@@ -45,21 +45,25 @@ begin
   	end if;
 
   	insert into openchpl.additional_requirement_type (requirement_group_type_id, name, removed, last_modified_user)
-  	select 6, '170.523(m) Adaptations and updates', false, -1
+  	select 6, '170.523 (m): Adaptations and updates', false, -1
   	where not exists 
   		(select *
   		from openchpl.additional_requirement_type
-  		where name = '170.523(m) Adaptations and updates');
+  		where name = '170.523 (m): Adaptations and updates');
 
   	get diagnostics affected_count = row_count;
 
-  	if affected_count = 0 then
-  		raise notice '170.523(m) requirement already exists';
+	update openchpl.additional_requirement_type
+	set name = '170.523 (m): Adaptations and updates')
+	where name= '170.523(m) Adaptations and updates';
+
+	if affected_count = 0 then
+  		raise notice '170.523 (m) requirement already exists';
   	else
-  		raise notice '170.523(m) requirement added';
+  		raise notice '170.523 (m) requirement added';
   	end if;
 
-  raise notice '******  NONCONFORMITY TYPE *******';
+  	raise notice '******  NONCONFORMITY TYPE *******';
 
 	select count(*)
 	into m_nonconformity_count
@@ -100,18 +104,22 @@ begin
   	end if;
 
   	insert into openchpl.additional_nonconformity_type (name, removed, last_modified_user)
-  	select '170.523(m) Adaptations and updates', false, -1
+  	select '170.523 (m): Adaptations and updates', false, -1
   	where not exists 
   		(select *
   		from openchpl.additional_nonconformity_type
-  		where name = '170.523(m) Adaptations and updates');
+  		where name = '170.523 (m): Adaptations and updates');
 
   	get diagnostics affected_count = row_count;
 
+	update openchpl.additional_requirement_type
+	set name = '170.523 (m): Adaptations and updates')
+	where name= '170.523(m) Adaptations and updates';
+
   	if affected_count = 0 then
-  		raise notice '170.523(m) nonconfomrity already exists';
+  		raise notice '170.523 (m) nonconfomrity already exists';
   	else
-  		raise notice '170.523(m) nonconformity added';
+  		raise notice '170.523 (m) nonconformity added';
   	end if;
   	raise notice 'Completed';
 end $$;
