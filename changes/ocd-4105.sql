@@ -54,7 +54,7 @@ begin
   	get diagnostics affected_count = row_count;
 
 	update openchpl.additional_requirement_type
-	set name = '170.523 (m): Adaptations and updates')
+	set name = '170.523 (m): Adaptations and updates'
 	where name= '170.523(m) Adaptations and updates';
 
 	if affected_count = 0 then
@@ -112,8 +112,8 @@ begin
 
   	get diagnostics affected_count = row_count;
 
-	update openchpl.additional_requirement_type
-	set name = '170.523 (m): Adaptations and updates')
+	update openchpl.additional_nonconformity_type
+	set name = '170.523 (m): Adaptations and updates'
 	where name= '170.523(m) Adaptations and updates';
 
   	if affected_count = 0 then
