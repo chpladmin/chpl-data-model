@@ -1,3 +1,6 @@
+-- Deployment file for version 22.1.0
+--     as of 2023-01-09
+-- ./changes/ocd-4105.sql
 do $$
 declare
   	m_requirement_count integer := 0;
@@ -123,3 +126,8 @@ begin
   	end if;
   	raise notice 'Completed';
 end $$;
+;
+insert into openchpl.data_model_version (version, deploy_date, last_modified_user) values ('22.1.0', '2023-01-09', -1);
+\i dev/openchpl_soft-delete.sql
+\i dev/openchpl_views.sql
+\i dev/openchpl_grant-all.sql

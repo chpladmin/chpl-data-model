@@ -1,5 +1,16 @@
 # Release Notes
 
+## Version 22.1.0
+_9 January 2023_
+
+### Features
+* Stop prepending NQF- to listing_search view CQM data
+
+### Data Changes
+* Modify Surveillance Requirement and Non-conformity values
+
+---
+
 ## Version 22.0.0
 _12 December 2022_
 
