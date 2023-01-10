@@ -12,7 +12,9 @@ DROP VIEW IF EXISTS openchpl.ehr_certification_ids_and_products;
 DROP VIEW IF EXISTS openchpl.listings_from_banned_developers;
 DROP VIEW IF EXISTS openchpl.surveillance_basic;
 DROP VIEW IF EXISTS openchpl.developer_certification_body_map;
-DROP VIEw IF EXISTS openchpl.aggregated_nonconformity_statistics;
+DROP VIEW IF EXISTS openchpl.aggregated_nonconformity_statistics;
+DROP VIEW IF EXISTS openchpl.requirement_type;
+DROP VIEW IF EXISTS openchpl.nonconformity_type;
 
 create or replace function openchpl.get_testing_lab_code(input_id bigint) returns
     table (
@@ -1378,3 +1380,23 @@ FROM openchpl.certified_product cp
          AND cse.certification_status_id IN (1, 6, 7)) as listing_status
          ON cp.certified_product_id = listing_status.certified_product_id
 AND cp.certification_edition_id = 3;
+
+CREATE OR REPLACE VIEW openchpl.requirement_type
+AS
+SELECT certification_criterion_id as id, title, number, removed, certification_edition_id, 1 as requirement_group_type_id
+FROM openchpl.certification_criterion
+WHERE certification_edition_id in (2,3)
+UNION
+SELECT id, name, null, removed, null, requirement_group_type_id
+FROM openchpl.additional_requirement_type
+WHERE deleted = false;
+
+CREATE OR REPLACE VIEW openchpl.nonconformity_type
+AS
+SELECT certification_criterion_id as id, certification_edition_id, number, title, removed, 'CRITERION' as classification
+FROM openchpl.certification_criterion
+WHERE certification_edition_id in (3,2)
+UNION
+SELECT id, null, null, name, removed, 'REQUIREMENT'
+FROM openchpl.additional_nonconformity_type
+WHERE DELETED = false;
