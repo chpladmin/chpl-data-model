@@ -1,3 +1,53 @@
+--
+-- Rename tables, columns, indexes to use functionality_tested language
+--
+
+ALTER TABLE IF EXISTS openchpl.test_functionality
+RENAME COLUMN test_functionality_id TO id;
+
+ALTER TABLE IF EXISTS openchpl.test_functionality
+RENAME TO functionality_tested;
+
+ALTER INDEX IF EXISTS openchpl.test_functionality_pk RENAME TO functionality_tested_pk;
+ALTER INDEX IF EXISTS openchpl.ix_test_functionality RENAME TO ix_functionality_tested;
+DROP TRIGGER IF EXISTS test_functionality_audit on openchpl.functionality_tested;
+DROP TRIGGER IF EXISTS functionality_tested_audit on openchpl.functionality_tested;
+CREATE TRIGGER functionality_tested_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.functionality_tested FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+DROP TRIGGER IF EXISTS test_functionality_timestamp on openchpl.functionality_tested;
+DROP TRIGGER IF EXISTS functionality_tested_timestamp on openchpl.functionality_tested;
+CREATE TRIGGER functionality_tested_timestamp BEFORE UPDATE on openchpl.functionality_tested FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
+
+ALTER TABLE IF EXISTS openchpl.test_functionality_criteria_map
+RENAME COLUMN test_functionality_id TO functionality_tested_id;
+
+ALTER TABLE IF EXISTS openchpl.test_functionality_criteria_map
+RENAME TO functionality_tested_criteria_map;
+
+ALTER INDEX IF EXISTS openchpl.test_functionality_criteria_map_pk RENAME TO functionality_tested_criteria_map_pk;
+DROP TRIGGER IF EXISTS test_functionality_criteria_map_audit on openchpl.functionality_tested_criteria_map;
+DROP TRIGGER IF EXISTS functionality_tested_criteria_map_audit on openchpl.functionality_tested_criteria_map;
+CREATE TRIGGER functionality_tested_criteria_map_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.functionality_tested_criteria_map FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+DROP TRIGGER IF EXISTS test_functionality_criteria_map_timestamp on openchpl.functionality_tested_criteria_map;
+DROP TRIGGER IF EXISTS functionality_tested_criteria_map_timestamp on openchpl.functionality_tested_criteria_map;
+CREATE TRIGGER functionality_tested_criteria_map_timestamp BEFORE UPDATE on openchpl.functionality_tested_criteria_map FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
+
+ALTER TABLE IF EXISTS openchpl.certification_result_test_functionality
+RENAME COLUMN certification_result_test_functionality_id TO id;
+
+ALTER TABLE IF EXISTS openchpl.certification_result_test_functionality
+RENAME COLUMN test_functionality_id TO functionality_tested_id;
+
+ALTER TABLE IF EXISTS openchpl.certification_result_test_functionality
+RENAME TO certification_result_functionality_tested;
+
+ALTER INDEX IF EXISTS openchpl.certification_result_test_functionality_pk RENAME TO certification_result_functionality_tested_pk;
+ALTER INDEX IF EXISTS openchpl.ix_certification_result_test_functionality RENAME TO ix_certification_result_functionality_tested;
+--audit triggers for this table are already properly named
+
+--
+-- Add functionality tested to criterion attribute table
+--
+
 ALTER TABLE openchpl.certification_criterion_attribute
 ADD COLUMN IF NOT EXISTS functionality_tested bool NOT NULL default false;
 
