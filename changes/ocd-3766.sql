@@ -8,6 +8,9 @@ RENAME COLUMN test_functionality_id TO id;
 ALTER TABLE IF EXISTS openchpl.test_functionality
 RENAME TO functionality_tested;
 
+ALTER TABLE openchpl.functionality_tested
+DROP COLUMN IF EXISTS certification_edition_id;
+
 ALTER INDEX IF EXISTS openchpl.test_functionality_pk RENAME TO functionality_tested_pk;
 ALTER INDEX IF EXISTS openchpl.ix_test_functionality RENAME TO ix_functionality_tested;
 DROP TRIGGER IF EXISTS test_functionality_audit on openchpl.functionality_tested;
