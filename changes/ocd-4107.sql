@@ -17,6 +17,10 @@ ADD CONSTRAINT certified_product_fk
 	REFERENCES openchpl.certified_product (certified_product_id) 
 	MATCH FULL ON UPDATE CASCADE ON DELETE RESTRICT;
 
+-- Allow URL field to be null and we won't fill it in any longer
+ALTER TABLE openchpl.inheritance_errors_report
+ALTER COLUMN url DROP NOT NULL;
+
 -- TODO in a future PR
 --ALTER TABLE openchpl.inheritance_errors_report
 --DROP COLUMN IF EXISTS url;
