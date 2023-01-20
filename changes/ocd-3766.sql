@@ -277,6 +277,14 @@ UPDATE openchpl.certification_criterion_attribute
 SET functionality_tested = true
 WHERE criterion_id = 112;
 
+--
+-- This is not related to functionality tested, but with OCD-3793, we moved test data attributes into this criterion attribute table.
+-- When we did that, we did not set test_data to true for g9-original(we did set it to true for g9-Cures).
+-- I checked this with our PO and confirmed that both g9 and g9Cures should be allowed to have test data.
+--
+UPDATE openchpl.certification_criterion_attribute
+SET test_data = true
+WHERE criterion_id = 58;
 
 
 
