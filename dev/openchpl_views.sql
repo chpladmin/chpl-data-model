@@ -547,7 +547,8 @@ LEFT JOIN
         (SELECT chpl_product_number
          FROM openchpl.get_chpl_product_number(child_listing_id)) AS child_chpl_product_number
       FROM openchpl.listing_to_listing_map
-      JOIN openchpl.certified_product ON listing_to_listing_map.parent_listing_id = certified_product.certified_product_id) children
+      JOIN openchpl.certified_product ON listing_to_listing_map.deleted = false 
+		AND listing_to_listing_map.parent_listing_id = certified_product.certified_product_id) children
    GROUP BY parent_listing_id) child ON cp.certified_product_id = child.parent_listing_id
 LEFT JOIN
   (SELECT string_agg(DISTINCT parents.parent_listing_id::text||':'||parent_chpl_product_number, '|'::text) AS parents,
@@ -556,7 +557,8 @@ LEFT JOIN
         (SELECT chpl_product_number
          FROM openchpl.get_chpl_product_number(parent_listing_id)) AS parent_chpl_product_number, certified_product.chpl_product_number
       FROM openchpl.listing_to_listing_map
-      JOIN openchpl.certified_product ON listing_to_listing_map.child_listing_id = certified_product.certified_product_id) parents
+      JOIN openchpl.certified_product ON listing_to_listing_map.deleted = false 
+		AND listing_to_listing_map.child_listing_id = certified_product.certified_product_id) parents
    GROUP BY child_listing_id) parent ON cp.certified_product_id = parent.child_listing_id
 LEFT JOIN
   (SELECT certification_edition.certification_edition_id,
@@ -825,7 +827,8 @@ LEFT JOIN
         (SELECT chpl_product_number
          FROM openchpl.get_chpl_product_number(child_listing_id)) AS child_chpl_product_number
       FROM openchpl.listing_to_listing_map
-      JOIN openchpl.certified_product ON listing_to_listing_map.parent_listing_id = certified_product.certified_product_id) children
+      JOIN openchpl.certified_product ON listing_to_listing_map.deleted = false 
+		AND listing_to_listing_map.parent_listing_id = certified_product.certified_product_id) children
    GROUP BY parent_listing_id) child ON cp.certified_product_id = child.parent_listing_id
 LEFT JOIN
   (SELECT string_agg(DISTINCT parent_chpl_product_number||'☹'||parents.parent_listing_id::text, '☹'::text) AS parent,
@@ -834,7 +837,8 @@ LEFT JOIN
         (SELECT chpl_product_number
          FROM openchpl.get_chpl_product_number(parent_listing_id)) AS parent_chpl_product_number, certified_product.chpl_product_number
       FROM openchpl.listing_to_listing_map
-      JOIN openchpl.certified_product ON listing_to_listing_map.child_listing_id = certified_product.certified_product_id) parents
+      JOIN openchpl.certified_product ON listing_to_listing_map.deleted = false 
+		AND listing_to_listing_map.child_listing_id = certified_product.certified_product_id) parents
    GROUP BY child_listing_id) parent ON cp.certified_product_id = parent.child_listing_id
 LEFT JOIN
   (SELECT certification_edition.certification_edition_id,
