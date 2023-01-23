@@ -1,5 +1,23 @@
 # Release Notes
 
+## Version 23.0.0
+_23 January 2023_
+
+### Breaking Changes
+* Remove legacy measure mapping tables
+* Remove fuzzy_choices table
+
+### Data Changes
+* Remove incorrectly uploaded Listing
+* Add "Inherited Certified Status" surveillance requirement type
+* Add Questionable Activity type for cures update removal
+* Create ROLE_STARTUP to have permission to tomcat startup apis
+
+### Bug Fixes
+* Stop including deleted ics relationships in views
+
+---
+
 ## Version 22.1.0
 _9 January 2023_
 
