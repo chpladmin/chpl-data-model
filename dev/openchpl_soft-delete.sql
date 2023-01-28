@@ -170,27 +170,6 @@ $$ language 'plpgsql';
 DROP TRIGGER IF EXISTS test_task_soft_delete on openchpl.test_task;
 CREATE TRIGGER test_task_soft_delete AFTER UPDATE of deleted on openchpl.test_task FOR EACH ROW EXECUTE PROCEDURE openchpl.test_task_soft_delete();
 
-CREATE OR REPLACE FUNCTION openchpl.test_task_participant_map_soft_delete()
-RETURNS TRIGGER AS $$
-BEGIN
-   	UPDATE openchpl.test_participant 
-	SET deleted = NEW.deleted 
-	WHERE test_participant_id IN ( 
-		SELECT DISTINCT tp.test_participant_id 
-		FROM openchpl.test_participant tp 
-		WHERE NOT EXISTS ( 
-			SELECT 1 
-			FROM openchpl.test_task_participant_map ttpm 
-			WHERE tp.test_participant_id = ttpm.test_participant_id 
-			AND ttpm.deleted = false 
-		) 
-	);
-    RETURN NEW;
-END;
-$$ language 'plpgsql';
-DROP TRIGGER IF EXISTS test_task_participant_map_soft_delete on openchpl.test_task_participant_map;
-CREATE TRIGGER test_task_participant_map_soft_delete AFTER UPDATE of deleted on openchpl.test_task_participant_map FOR EACH ROW EXECUTE PROCEDURE openchpl.test_task_participant_map_soft_delete();
-
 CREATE OR REPLACE FUNCTION openchpl.user_soft_delete()
 RETURNS TRIGGER AS $$
 BEGIN
