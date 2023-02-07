@@ -1,5 +1,18 @@
 # Release Notes
 
+## Version 23.1.0
+_6 February 2023_
+
+### Features
+* Remove edition relationship from functionality tested
+* Rename test_functionality tables functionality_tested
+
+### Data Changes
+* Set up Attestation data for Period 3 attestations
+* Add functionality tested to criterion_attribute table
+
+---
+
 ## Version 23.0.0
 _23 January 2023_
 
