@@ -1,5 +1,13 @@
 # Release Notes
 
+## Version 23.2.0
+_21 February 2023_
+
+### Table changes
+* Delete columns from ICS Errors Report that could be derived
+
+---
+
 ## Version 23.1.0
 _6 February 2023_
 
