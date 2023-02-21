@@ -8,7 +8,7 @@ port=5432
 user=openchpl_dev
 database=openchpl
 
-while getopts 'f:h:p:u:?' flag; do
+while getopts 'd:f:h:p:u:?' flag; do
     case "${flag}" in
         d) database="${OPTARG}" ;;
         f) filename="${OPTARG}" ;;

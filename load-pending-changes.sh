@@ -20,10 +20,10 @@ function helpFunction {
     exit 1 # Exit script after printing help
 }
 
-while getopts 'dh:u:?' flag; do
+while getopts 'd:b:h:u:?' flag; do
     case "${flag}" in
         d) DUMMY=false ;;
-        d) DATABASE="${OPTARG}" ;;
+        b) DATABASE="${OPTARG}" ;;
         h) HOST="${OPTARG}" ;;
         u) USER="${OPTARG}" ;;
         *) helpFunction ;;
