@@ -1,4 +1,12 @@
 --
+-- Remove existing P&S Values for b10
+--
+UPDATE openchpl.certification_result
+SET privacy_security_framework = NULL
+WHERE certification_criterion_id = 171
+AND privacy_security_framework IS NOT NULL;
+
+--
 -- Add privacy and security to criterion attribute table
 --
 
