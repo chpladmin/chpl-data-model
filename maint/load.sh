@@ -16,7 +16,7 @@ while getopts 'd:f:h:p:u:?' flag; do
         p) port="${OPTARG}" ;;
         u) user="${OPTARG}" ;;
         *) printf 'Usage: %s: [-f filename ] [-h host] [-p port] [-u user]
-   -d: database name to restore tp (default "openchpl")
+   -d: database name to restore to (default "openchpl")
    -f: backup file to load (default "openchpl.backup")
    -h: host IP for postgres DB (default "localhost")
    -p: host port for postgres DB (default "5432")
