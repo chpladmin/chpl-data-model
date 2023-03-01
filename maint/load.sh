@@ -8,15 +8,15 @@ port=5432
 user=openchpl_dev
 database=openchpl
 
-while getopts 'd:f:h:p:u:?' flag; do
+while getopts 'b:f:h:p:u:?' flag; do
     case "${flag}" in
-        d) database="${OPTARG}" ;;
+        b) database="${OPTARG}" ;;
         f) filename="${OPTARG}" ;;
         h) host="${OPTARG}" ;;
         p) port="${OPTARG}" ;;
         u) user="${OPTARG}" ;;
         *) printf 'Usage: %s: [-f filename ] [-h host] [-p port] [-u user]
-   -d: database name to restore to (default "openchpl")
+   -b: database name to restore to (default "openchpl")
    -f: backup file to load (default "openchpl.backup")
    -h: host IP for postgres DB (default "localhost")
    -p: host port for postgres DB (default "5432")
