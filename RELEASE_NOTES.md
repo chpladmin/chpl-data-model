@@ -1,5 +1,13 @@
 # Release Notes
 
+## Version 23.2.1
+_6 March 2023_
+
+### Data Changes
+* Remove developers that have no listings
+
+---
+
 ## Version 23.2.0
 _21 February 2023_
 
