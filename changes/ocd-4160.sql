@@ -1,3 +1,5 @@
+-- Add activity ID columns to all questionable activity tables
+
 ALTER TABLE openchpl.questionable_activity_certification_result
 DROP COLUMN IF EXISTS activity_id;
 
@@ -47,3 +49,10 @@ ADD COLUMN activity_id bigint;
 ALTER TABLE openchpl.questionable_activity_version 
 ADD CONSTRAINT activity_to_questionable_activity_version_fk FOREIGN KEY (activity_id) REFERENCES openchpl.activity (activity_id)
 ON DELETE RESTRICT;
+
+-- Add reason column to activity table 
+ALTER TABLE openchpl.activity
+DROP COLUMN IF EXISTS reason;
+
+ALTER TABLE openchpl.activity
+ADD COLUMN reason text;
