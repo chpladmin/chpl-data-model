@@ -1,3 +1,6 @@
+-- Deployment file for version 23.3.0
+--     as of 2023-03-20
+-- ./changes/ocd-4157.sql
 --
 -- Remove existing P&S Values for b10
 --
@@ -286,3 +289,8 @@ WHERE criterion_id = 59;
 UPDATE openchpl.certification_criterion_attribute
 SET privacy_security_framework = true
 WHERE criterion_id = 60;
+;
+insert into openchpl.data_model_version (version, deploy_date, last_modified_user) values ('23.3.0', '2023-03-20', -1);
+\i dev/openchpl_soft-delete.sql
+\i dev/openchpl_views.sql
+\i dev/openchpl_grant-all.sql

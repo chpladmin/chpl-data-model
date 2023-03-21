@@ -1,5 +1,16 @@
 # Release Notes
 
+## Version 23.3.0
+_20 March 2023_
+
+### Features
+* Insert privacy_security_framework as criteria attribute
+
+### Data Changes
+* Remove existing P&S Framework values for b10
+
+---
+
 ## Version 23.2.1
 _6 March 2023_
 
