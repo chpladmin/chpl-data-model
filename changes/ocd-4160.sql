@@ -58,6 +58,17 @@ UPDATE openchpl.questionable_activity_trigger
 SET name = 'Current Certification Status Date Edited'
 WHERE name = 'Current Certification Date Edited'; 
 
+UPDATE openchpl.questionable_activity_trigger
+SET name = 'Current Certification Status Date Edited'
+WHERE name = 'Current Certification Date Edited'; 
+
+INSERT INTO openchpl.questionable_activity_trigger (name, level, last_modified_user)
+	SELECT 'Certification Date Edited', 'Listing', -1
+	WHERE NOT EXISTS 
+		(SELECT * FROM openchpl.questionable_activity_trigger 
+		WHERE name = 'Certification Date Edited' 
+		AND level = 'Listing');
+		
 -- Add reason column to activity table 
 ALTER TABLE openchpl.activity
 DROP COLUMN IF EXISTS reason;
