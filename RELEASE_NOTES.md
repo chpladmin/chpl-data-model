@@ -1,5 +1,14 @@
 # Release Notes
 
+## Version 23.3.1
+_3 April 2023_
+
+### Data Changes
+* Remove duplicate attestation submission data
+* Add Functionalities Tested as an option for 170.315 (b)(3) Cures Update criterion
+
+---
+
 ## Version 23.3.0
 _20 March 2023_
 

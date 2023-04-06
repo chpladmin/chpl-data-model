@@ -1,3 +1,6 @@
+-- Deployment file for version 23.3.1
+--     as of 2023-04-03
+-- ./changes/ocd-4148.sql
 -- Add the new functionalities tested
 
 INSERT INTO openchpl.functionality_tested (number, name, last_modified_user)
@@ -57,3 +60,26 @@ INSERT INTO openchpl.functionality_tested_criteria_map (criteria_id, functionali
 		(SELECT * from openchpl.functionality_tested_criteria_map
 		WHERE criteria_id = 167
 		AND functionality_tested_id = (SELECT id FROM openchpl.functionality_tested WHERE number = '(b)(3)(ii)(C)(2)(iv)'));
+;
+-- ./changes/ocd-4169.sql
+-- hard delete since this is bad data that should have never been here
+
+-- delete duplicate response
+DELETE 
+FROM openchpl.attestation_submission_response
+WHERE attestation_submission_id = 671;
+
+-- delete duplicate submission
+DELETE 
+FROM openchpl.attestation_submission
+WHERE id = 671;
+
+-- delete duplicate change request "Approved" status update
+DELETE
+FROM openchpl.change_request_status
+WHERE id = 2021;
+;
+insert into openchpl.data_model_version (version, deploy_date, last_modified_user) values ('23.3.1', '2023-04-03', -1);
+\i dev/openchpl_soft-delete.sql
+\i dev/openchpl_views.sql
+\i dev/openchpl_grant-all.sql
