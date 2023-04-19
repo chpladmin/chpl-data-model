@@ -1,3 +1,6 @@
+-- Deployment file for version 23.4.0
+--     as of 2023-04-19
+-- ./changes/ocd-4160.sql
 -- Add activity ID columns to all questionable activity tables
 
 ALTER TABLE openchpl.questionable_activity_certification_result
@@ -74,4 +77,8 @@ ALTER TABLE openchpl.activity
 DROP COLUMN IF EXISTS reason;
 
 ALTER TABLE openchpl.activity
-ADD COLUMN reason text;
+ADD COLUMN reason text;;
+insert into openchpl.data_model_version (version, deploy_date, last_modified_user) values ('23.4.0', '2023-04-19', -1);
+\i dev/openchpl_soft-delete.sql
+\i dev/openchpl_views.sql
+\i dev/openchpl_grant-all.sql
