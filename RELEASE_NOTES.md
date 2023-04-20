@@ -1,5 +1,17 @@
 # Release Notes
 
+## Version 23.4.0
+_19 April 2023_
+
+### Features
+* Add reason column to activity table
+* Add activity_id column to all questionable activity tables
+
+### Data Changes
+i* Rename Current Certification Date Changed Questionable Activity trigger
+
+---
+
 ## Version 23.3.1
 _3 April 2023_
 
