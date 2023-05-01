@@ -1,5 +1,13 @@
 # Release Notes
 
+## Version 23.5.0
+_1 May 2023_
+
+### Features
+* Remove listing_modified_date from listing validation report table
+
+---
+
 ## Version 23.4.0
 _19 April 2023_
 
