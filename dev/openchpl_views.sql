@@ -1,6 +1,7 @@
 DROP VIEW IF EXISTS openchpl.product_certification_statuses;
 DROP VIEW IF EXISTS openchpl.developer_certification_statuses;
 DROP VIEW IF EXISTS openchpl.certified_product_search_result;
+DROP VIEW IF EXISTS openchpl.questionable_activity_combined;
 DROP VIEW IF EXISTS openchpl.listing_search;
 DROP VIEW IF EXISTS openchpl.certified_product_search;
 DROP VIEW IF EXISTS openchpl.certified_product_details;
@@ -1423,7 +1424,7 @@ WHERE DELETED = false;
 
 CREATE OR REPLACE VIEW openchpl.questionable_activity_combined
 AS
-	SELECT all_questionable_activity.developer_id, all_questionable_activity.developer_name, 
+	SELECT row_number() over() as id, all_questionable_activity.developer_id, all_questionable_activity.developer_name, 
 	all_questionable_activity.product_id, all_questionable_activity.product_name,
 	all_questionable_activity.version_id, all_questionable_activity.version_name, 
 	all_questionable_activity.certified_product_id, all_questionable_activity.certification_criterion_id,
