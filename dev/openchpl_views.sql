@@ -1434,7 +1434,12 @@ AS
 	all_questionable_activity.activity_id, 
 	all_questionable_activity.activity_user_id, 
 	trigger.level as trigger_level, trigger.name as trigger_name,
-	listing_search.chpl_product_number
+	listing_search.chpl_product_number,
+	listing_search.certification_body_id,
+	listing_search.certification_body_name,
+	listing_search.certification_status_id,
+	listing_search.certification_status_name,
+	COALESCE(c.email, u.user_name, c.full_name) as user_contact_info
 	FROM (
 			SELECT dev.vendor_id as developer_id, dev.name as developer_name, prod.product_id, prod.name as product_name,
 				ver.product_version_id as version_id, ver.version as version_name,
@@ -1494,4 +1499,6 @@ AS
 	) all_questionable_activity
 	JOIN openchpl.questionable_activity_trigger trigger ON all_questionable_activity.questionable_activity_trigger_id = trigger.id
 	LEFT JOIN openchpl.listing_search ON all_questionable_activity.certified_product_id = listing_search.certified_product_id
+	JOIN openchpl.user u on all_questionable_activity.activity_user_id = u.user_id
+	JOIN openchpl.contact c on u.contact_id = c.contact_id
 	
