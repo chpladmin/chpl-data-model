@@ -1,5 +1,16 @@
 # Release Notes
 
+## Version 23.6.0
+_15 May 2023_
+
+### Features
+* Add SVAP data to listing_search view
+
+### Data Changes
+* Clean up questionable activity
+
+---
+
 ## Version 23.5.0
 _1 May 2023_
 
