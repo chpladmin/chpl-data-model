@@ -1,3 +1,6 @@
+-- Deployment file for version 23.6.0
+--     as of 2023-05-15
+-- ./changes/ocd-4197.sql
 -- These questionable activity trigger types are no longer being checked.
 -- Delete all of their existing data as data cleanup.
 
@@ -92,3 +95,8 @@ WHERE name = 'Measures Successfully Tested for 170.315 (g)(1) Removed';
 UPDATE openchpl.questionable_activity_trigger
 SET deleted = TRUE
 WHERE name = 'Measures Successfully Tested for 170.315 (g)(2) Removed';
+;
+insert into openchpl.data_model_version (version, deploy_date, last_modified_user) values ('23.6.0', '2023-05-15', -1);
+\i dev/openchpl_soft-delete.sql
+\i dev/openchpl_views.sql
+\i dev/openchpl_grant-all.sql
