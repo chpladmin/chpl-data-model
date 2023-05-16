@@ -1500,5 +1500,6 @@ AS
 	JOIN openchpl.questionable_activity_trigger trigger ON all_questionable_activity.questionable_activity_trigger_id = trigger.id
 	LEFT JOIN openchpl.listing_search ON all_questionable_activity.certified_product_id = listing_search.certified_product_id
 	JOIN openchpl.user u on all_questionable_activity.activity_user_id = u.user_id
-	JOIN openchpl.contact c on u.contact_id = c.contact_id
+	JOIN openchpl.contact c on u.contact_id = c.contact_id;
+
 	
