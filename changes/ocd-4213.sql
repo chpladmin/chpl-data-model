@@ -76,7 +76,7 @@ VALUES ((SELECT id FROM openchpl.subscription_type WHERE name = 'Listing'), 'Cer
 -- Consolidation Method. Tells the sort of batching that observations will be sent to the subscriber
 CREATE TABLE openchpl.subcription_consolidation_method (
 	id bigserial NOT NULL,
-	method_name varchar(200) NOT NULL,
+	name varchar(200) NOT NULL,
 	creation_date timestamp without time zone NOT NULL DEFAULT now(),
     last_modified_date timestamp without time zone NOT NULL DEFAULT now(),
     last_modified_user bigint NOT NULL,
