@@ -1,7 +1,7 @@
 DROP TABLE IF EXISTS openchpl.subscription_observation;
 DROP TABLE IF EXISTS openchpl.subscription;
 DROP TABLE IF EXISTS openchpl.subscription_subject;
-DROP TABLE IF EXISTS openchpl.subscription_type;
+DROP TABLE IF EXISTS openchpl.subscribed_object_type;
 DROP TABLE IF EXISTS openchpl.subscription_consolidation_method;
 DROP TABLE IF EXISTS openchpl.subscription_reason;
 DROP TABLE IF EXISTS openchpl.subscriber;
@@ -39,8 +39,8 @@ CREATE TABLE openchpl.subscriber (
 );
   
 
--- Subscription type. Tells whether this subscription on a Listing, Developer, or Product
-CREATE TABLE openchpl.subscription_type (
+-- Subscribed object type. Tells whether the type of thing subscribed to is a Listing, Developer, or Product
+CREATE TABLE openchpl.subscribed_object_type (
 	id bigserial NOT NULL,
 	name varchar(200) NOT NULL,
 	creation_date timestamp without time zone NOT NULL DEFAULT now(),
@@ -50,7 +50,7 @@ CREATE TABLE openchpl.subscription_type (
 	PRIMARY KEY (id)
 );
 
-INSERT INTO openchpl.subscription_type (name, last_modified_user)
+INSERT INTO openchpl.subscribed_object_type (name, last_modified_user)
 VALUES ('Listing', -1),
 ('Developer', -1), 
 ('Product', -1);
@@ -59,24 +59,24 @@ VALUES ('Listing', -1),
 -- Subscription subject. Tells what specific changes we are looking for
 CREATE TABLE openchpl.subscription_subject (
 	id bigserial NOT NULL,
-	subscription_type_id bigint NOT NULL,
+	subscribed_object_type_id bigint NOT NULL,
 	subject varchar(200) NOT NULL,
 	creation_date timestamp without time zone NOT NULL DEFAULT now(),
     last_modified_date timestamp without time zone NOT NULL DEFAULT now(),
     last_modified_user bigint NOT NULL,
     deleted boolean NOT NULL DEFAULT false,
 	PRIMARY KEY (id),
-	CONSTRAINT subscription_type_fk FOREIGN KEY (subscription_type_id) REFERENCES openchpl.subscription_type(id) 
+	CONSTRAINT subscribed_object_type_fk FOREIGN KEY (subscribed_object_type_id) REFERENCES openchpl.subscribed_object_type(id) 
 		ON DELETE RESTRICT
 );
 
-INSERT INTO openchpl.subscription_subject (subscription_type_id, subject, last_modified_user)
-VALUES ((SELECT id FROM openchpl.subscription_type WHERE name = 'Listing'), 'Certification Status Changed', -1),
-((SELECT id FROM openchpl.subscription_type WHERE name = 'Listing'), 'Certification Criterion Added', -1),
-((SELECT id FROM openchpl.subscription_type WHERE name = 'Listing'), 'Certification Criterion Removed', -1),
-((SELECT id FROM openchpl.subscription_type WHERE name = 'Listing'), 'Real World Testing Updated', -1),
-((SELECT id FROM openchpl.subscription_type WHERE name = 'Developer'), 'New Listing Confirmed', -1), 
-((SELECT id FROM openchpl.subscription_type WHERE name = 'Product'), 'New Listing Confirmed', -1);
+INSERT INTO openchpl.subscription_subject (subscribed_object_type_id, subject, last_modified_user)
+VALUES ((SELECT id FROM openchpl.subscribed_object_type WHERE name = 'Listing'), 'Certification Status Changed', -1),
+((SELECT id FROM openchpl.subscribed_object_type WHERE name = 'Listing'), 'Certification Criterion Added', -1),
+((SELECT id FROM openchpl.subscribed_object_type WHERE name = 'Listing'), 'Certification Criterion Removed', -1),
+((SELECT id FROM openchpl.subscribed_object_type WHERE name = 'Listing'), 'Real World Testing Updated', -1),
+((SELECT id FROM openchpl.subscribed_object_type WHERE name = 'Developer'), 'New Listing Confirmed', -1), 
+((SELECT id FROM openchpl.subscribed_object_type WHERE name = 'Product'), 'New Listing Confirmed', -1);
 -- TODO: Decide to add all these subjects now or later?
 
 
