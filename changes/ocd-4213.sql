@@ -1,7 +1,7 @@
 DROP TABLE IF EXISTS openchpl.subscription_observation;
 DROP TABLE IF EXISTS openchpl.subscription;
 DROP TABLE IF EXISTS openchpl.subscription_subject;
-DROP TABLE IF EXISTS openchpl.subscribed_object_type;
+DROP TABLE IF EXISTS openchpl.subscription_object_type;
 DROP TABLE IF EXISTS openchpl.subscription_consolidation_method;
 DROP TABLE IF EXISTS openchpl.subscription_reason;
 DROP TABLE IF EXISTS openchpl.subscriber;
@@ -40,7 +40,7 @@ CREATE TABLE openchpl.subscriber (
   
 
 -- Subscribed object type. Tells whether the type of thing subscribed to is a Listing, Developer, or Product
-CREATE TABLE openchpl.subscribed_object_type (
+CREATE TABLE openchpl.subscription_object_type (
 	id bigserial NOT NULL,
 	name varchar(200) NOT NULL,
 	creation_date timestamp without time zone NOT NULL DEFAULT now(),
@@ -50,7 +50,7 @@ CREATE TABLE openchpl.subscribed_object_type (
 	PRIMARY KEY (id)
 );
 
-INSERT INTO openchpl.subscribed_object_type (name, last_modified_user)
+INSERT INTO openchpl.subscription_object_type (name, last_modified_user)
 VALUES ('Listing', -1),
 ('Developer', -1), 
 ('Product', -1);
@@ -59,24 +59,24 @@ VALUES ('Listing', -1),
 -- Subscription subject. Tells what specific changes we are looking for
 CREATE TABLE openchpl.subscription_subject (
 	id bigserial NOT NULL,
-	subscribed_object_type_id bigint NOT NULL,
+	subscription_object_type_id bigint NOT NULL,
 	subject varchar(200) NOT NULL,
 	creation_date timestamp without time zone NOT NULL DEFAULT now(),
     last_modified_date timestamp without time zone NOT NULL DEFAULT now(),
     last_modified_user bigint NOT NULL,
     deleted boolean NOT NULL DEFAULT false,
 	PRIMARY KEY (id),
-	CONSTRAINT subscribed_object_type_fk FOREIGN KEY (subscribed_object_type_id) REFERENCES openchpl.subscribed_object_type(id) 
+	CONSTRAINT subscription_object_type_fk FOREIGN KEY (subscription_object_type_id) REFERENCES openchpl.subscription_object_type(id) 
 		ON DELETE RESTRICT
 );
 
-INSERT INTO openchpl.subscription_subject (subscribed_object_type_id, subject, last_modified_user)
-VALUES ((SELECT id FROM openchpl.subscribed_object_type WHERE name = 'Listing'), 'Certification Status Changed', -1),
-((SELECT id FROM openchpl.subscribed_object_type WHERE name = 'Listing'), 'Certification Criterion Added', -1),
-((SELECT id FROM openchpl.subscribed_object_type WHERE name = 'Listing'), 'Certification Criterion Removed', -1),
-((SELECT id FROM openchpl.subscribed_object_type WHERE name = 'Listing'), 'Real World Testing Updated', -1),
-((SELECT id FROM openchpl.subscribed_object_type WHERE name = 'Developer'), 'New Listing Confirmed', -1), 
-((SELECT id FROM openchpl.subscribed_object_type WHERE name = 'Product'), 'New Listing Confirmed', -1);
+INSERT INTO openchpl.subscription_subject (subscription_object_type_id, subject, last_modified_user)
+VALUES ((SELECT id FROM openchpl.subscription_object_type WHERE name = 'Listing'), 'Certification Status Changed', -1),
+((SELECT id FROM openchpl.subscription_object_type WHERE name = 'Listing'), 'Certification Criterion Added', -1),
+((SELECT id FROM openchpl.subscription_object_type WHERE name = 'Listing'), 'Certification Criterion Removed', -1),
+((SELECT id FROM openchpl.subscription_object_type WHERE name = 'Listing'), 'Real World Testing Updated', -1),
+((SELECT id FROM openchpl.subscription_object_type WHERE name = 'Developer'), 'New Listing Confirmed', -1), 
+((SELECT id FROM openchpl.subscription_object_type WHERE name = 'Product'), 'New Listing Confirmed', -1);
 -- TODO: Decide to add all these subjects now or later?
 
 
@@ -158,21 +158,6 @@ CREATE TABLE openchpl.subscription_observation (
 		ON DELETE RESTRICT
 );
 
--- Workflow
-	-- User clicks button to subscribe to something
-		-- Does a Confirmed subscriber with the email address already exist?
-			-- Create a new subscription for this subscriber
-		-- Does a Pending subscriber with the email address already exist?
-			-- Re-send the email with a link using their same subscriber token
-		-- Does no subscriber with the email address exist?
-			-- Create a Pending subscriber and the subscription for them
-			-- Send them an email with a link using their subscriber token
-		-- If subscription is a duplicate (same subscriber id, subject, object) then do nothing
-	-- User clicks link in email to confirm their email is valid 
-		-- Update their subscriber status to Confirmed
-	-- All subscriptions for Confirmed Subscribers will have Observations saved for future processing
-		
-	
 		
 -- How are we going to know whether an observation is eligible for processing each time the job runs?
 	-- The job will have a parameter that has the consolidation method name
