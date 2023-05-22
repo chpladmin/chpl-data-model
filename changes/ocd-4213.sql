@@ -22,6 +22,9 @@ INSERT INTO openchpl.subscriber_status (name, last_modified_user)
 VALUES ('Pending', -1),
 ('Confirmed', -1);
 
+CREATE TRIGGER subscriber_status_audit AFTER INSERT OR UPDATE OR DELETE ON openchpl.subscriber_status FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+CREATE TRIGGER subscriber_status_timestamp BEFORE UPDATE ON openchpl.subscriber_status FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
+
 
 -- Subscriber. An email address and token that can be used to get to subscriptions related to that email address for management purposes.
 -- A subscriber must be confirmed by clicking a link so we know their email is valid.
@@ -37,6 +40,9 @@ CREATE TABLE openchpl.subscriber (
 	CONSTRAINT subscriber_status_fk FOREIGN KEY (subscriber_status_id) REFERENCES openchpl.subscriber_status(id) 
 		ON DELETE RESTRICT
 );
+
+CREATE TRIGGER subscriber_audit AFTER INSERT OR UPDATE OR DELETE ON openchpl.subscriber FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+CREATE TRIGGER subscriber_timestamp BEFORE UPDATE ON openchpl.subscriber FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
   
 
 -- Subscribed object type. Tells whether the type of thing subscribed to is a Listing, Developer, or Product
@@ -54,6 +60,9 @@ INSERT INTO openchpl.subscription_object_type (name, last_modified_user)
 VALUES ('Listing', -1),
 ('Developer', -1), 
 ('Product', -1);
+
+CREATE TRIGGER subscription_object_type_audit AFTER INSERT OR UPDATE OR DELETE ON openchpl.subscription_object_type FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+CREATE TRIGGER subscription_object_type_timestamp BEFORE UPDATE ON openchpl.subscription_object_type FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 
 
 -- Subscription subject. Tells what specific changes we are looking for
@@ -79,6 +88,9 @@ VALUES ((SELECT id FROM openchpl.subscription_object_type WHERE name = 'Listing'
 ((SELECT id FROM openchpl.subscription_object_type WHERE name = 'Product'), 'New Listing Confirmed', -1);
 -- TODO: Decide to add all these subjects now or later?
 
+CREATE TRIGGER subscription_subject_audit AFTER INSERT OR UPDATE OR DELETE ON openchpl.subscription_subject FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+CREATE TRIGGER subscription_subject_timestamp BEFORE UPDATE ON openchpl.subscription_subject FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
+
 
 -- Consolidation Method. Tells the sort of batching that observations will be sent to the subscriber
 CREATE TABLE openchpl.subscription_consolidation_method (
@@ -95,6 +107,10 @@ INSERT INTO openchpl.subscription_consolidation_method (name, last_modified_user
 VALUES ('Daily', -1),
 ('Weekly', -1);
 -- I feel like we could implement 'Push' at some point but maybe it's not useful to put it in here at this time.
+
+CREATE TRIGGER subscription_consolidation_method_audit AFTER INSERT OR UPDATE OR DELETE ON openchpl.subscription_consolidation_method FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+CREATE TRIGGER subscription_consolidation_method_timestamp BEFORE UPDATE ON openchpl.subscription_consolidation_method FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
+
 
 
 -- Ask if we want to keep the "Persona" language in the UI. I find the term to be a big turn-off to filling it out.
@@ -116,7 +132,10 @@ VALUES ('Researcher', 1, -1),
 ('Other', 3, -1),
 ('Prefer Not to Answer', 4, -1);
 
-	
+CREATE TRIGGER subscription_reason_audit AFTER INSERT OR UPDATE OR DELETE ON openchpl.subscription_reason FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+CREATE TRIGGER subscription_reason_timestamp BEFORE UPDATE ON openchpl.subscription_reason FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
+
+
 -- Subscription.
 -- Once the status of the subscriber_id is Confirmed we will log observations for all subscriptions for that subscriber
 CREATE TABLE openchpl.subscription (
@@ -141,6 +160,9 @@ CREATE TABLE openchpl.subscription (
 		ON DELETE RESTRICT
 );
 
+CREATE TRIGGER subscription_audit AFTER INSERT OR UPDATE OR DELETE ON openchpl.subscription FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+CREATE TRIGGER subscription_timestamp BEFORE UPDATE ON openchpl.subscription FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
+
 
 -- Subscription Observations. Whenever a relevant change is observed we will save that fact here.
 CREATE TABLE openchpl.subscription_observation (
@@ -158,23 +180,6 @@ CREATE TABLE openchpl.subscription_observation (
 		ON DELETE RESTRICT
 );
 
-		
--- How are we going to know whether an observation is eligible for processing each time the job runs?
-	-- The job will have a parameter that has the consolidation method name
-  	-- We can schedule the system job to run daily for 'Daily' subscriptions with that parameter value,
-    -- weekly for 'Weekly' subscriptions with that paremeter value,
-    -- and a 'Push' subscription would probably just schedule the job to run immediately with 'Push'
-    -- as the parameter value.
-    
-	-- When the job runs it looks at this parameter and gathers non-deleted observations for subscriptions 
-	-- that match it's consolidationMethod parameter and processes them.
-  	-- Processing means sends an email to all the observations for the same email address that apply to the consolidationMethod
-  	-- We probably need to throttle the emails somehow...
-	-- Soft delete observations
-	
-	-- When creating the email
-		-- Each subscription subject has a concrete class that knows how to deal with a certain type of Activity and turn it into what we want to display in the email
-		-- There is an abstract class ObservationFormatter each of these concrete classes extend from
-
-
+CREATE TRIGGER subscription_observation_audit AFTER INSERT OR UPDATE OR DELETE ON openchpl.subscription_observation FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+CREATE TRIGGER subscription_observation_timestamp BEFORE UPDATE ON openchpl.subscription_observation FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 
