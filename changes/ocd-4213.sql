@@ -82,11 +82,7 @@ CREATE TABLE openchpl.subscription_subject (
 INSERT INTO openchpl.subscription_subject (subscription_object_type_id, subject, last_modified_user)
 VALUES ((SELECT id FROM openchpl.subscription_object_type WHERE name = 'Listing'), 'Certification Status Changed', -1),
 ((SELECT id FROM openchpl.subscription_object_type WHERE name = 'Listing'), 'Certification Criterion Added', -1),
-((SELECT id FROM openchpl.subscription_object_type WHERE name = 'Listing'), 'Certification Criterion Removed', -1),
-((SELECT id FROM openchpl.subscription_object_type WHERE name = 'Listing'), 'Real World Testing Updated', -1),
-((SELECT id FROM openchpl.subscription_object_type WHERE name = 'Developer'), 'New Listing Confirmed', -1), 
-((SELECT id FROM openchpl.subscription_object_type WHERE name = 'Product'), 'New Listing Confirmed', -1);
--- TODO: Decide to add all these subjects now or later?
+((SELECT id FROM openchpl.subscription_object_type WHERE name = 'Listing'), 'Certification Criterion Removed', -1);
 
 CREATE TRIGGER subscription_subject_audit AFTER INSERT OR UPDATE OR DELETE ON openchpl.subscription_subject FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER subscription_subject_timestamp BEFORE UPDATE ON openchpl.subscription_subject FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
@@ -110,7 +106,6 @@ VALUES ('Daily', -1),
 
 CREATE TRIGGER subscription_consolidation_method_audit AFTER INSERT OR UPDATE OR DELETE ON openchpl.subscription_consolidation_method FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER subscription_consolidation_method_timestamp BEFORE UPDATE ON openchpl.subscription_consolidation_method FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
-
 
 
 -- Ask if we want to keep the "Persona" language in the UI. I find the term to be a big turn-off to filling it out.
