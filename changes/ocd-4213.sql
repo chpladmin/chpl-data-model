@@ -122,10 +122,23 @@ CREATE TABLE openchpl.subscription_reason (
 );
 
 INSERT INTO openchpl.subscription_reason (name, sort_order, last_modified_user)
-VALUES ('Researcher', 1, -1),
-('Developer', 2, -1),
-('Other', 3, -1),
-('Prefer Not to Answer', 4, -1);
+VALUES ('Health IT Vendor', 1, -1),
+('App Developer', 2, -1),
+('HIE (Health Information Exchange)', 3, -1),
+('Hospital or Healthcare System', 4, -1),
+('Healthcare Provider', 5, -1),
+('Pharmacy or Laboratory Service', 6, -1),
+('Patient/Healthcare Consumer', 7, -1),
+('Patient Advocacy Group', 8, -1),
+('Payer', 9, -1),
+('QIO (Quality Improvement Organization)', 10, -1),
+('Public Health Department', 11, -1),
+('Government (Federal, State, Local, Tribal)', 12, -1),
+('Regulator', 13, -1),
+('Educational Institution', 14, -1),
+('Researcher', 15, -1),
+('Other', 16, -1);
+
 
 CREATE TRIGGER subscription_reason_audit AFTER INSERT OR UPDATE OR DELETE ON openchpl.subscription_reason FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER subscription_reason_timestamp BEFORE UPDATE ON openchpl.subscription_reason FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
