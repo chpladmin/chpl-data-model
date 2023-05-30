@@ -3,8 +3,8 @@ DROP TABLE IF EXISTS openchpl.subscription;
 DROP TABLE IF EXISTS openchpl.subscription_subject;
 DROP TABLE IF EXISTS openchpl.subscription_object_type;
 DROP TABLE IF EXISTS openchpl.subscription_consolidation_method;
-DROP TABLE IF EXISTS openchpl.subscription_reason;
 DROP TABLE IF EXISTS openchpl.subscriber;
+DROP TABLE IF EXISTS openchpl.subscriber_role;
 DROP TABLE IF EXISTS openchpl.subscriber_status;
 
 -- Subscriber status. Indicates if the subscriber has confirmed their email.
@@ -25,12 +25,47 @@ VALUES ('Pending', -1),
 CREATE TRIGGER subscriber_status_audit AFTER INSERT OR UPDATE OR DELETE ON openchpl.subscriber_status FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE TRIGGER subscriber_status_timestamp BEFORE UPDATE ON openchpl.subscriber_status FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 
+-- Subscriber role
+CREATE TABLE openchpl.subscriber_role (
+	id bigserial NOT NULL,
+	name varchar(300) NOT NULL,
+	sort_order int NOT NULL,
+	creation_date timestamp without time zone NOT NULL DEFAULT now(),
+    last_modified_date timestamp without time zone NOT NULL DEFAULT now(),
+    last_modified_user bigint NOT NULL,
+    deleted boolean NOT NULL DEFAULT false,
+	PRIMARY KEY (id)
+);
+
+INSERT INTO openchpl.subscriber_role (name, sort_order, last_modified_user)
+VALUES ('Health IT Vendor', 1, -1),
+('App Developer', 2, -1),
+('HIE (Health Information Exchange)', 3, -1),
+('Hospital or Healthcare System', 4, -1),
+('Healthcare Provider', 5, -1),
+('Pharmacy or Laboratory Service', 6, -1),
+('Patient/Healthcare Consumer', 7, -1),
+('Patient Advocacy Group', 8, -1),
+('Payer', 9, -1),
+('QIO (Quality Improvement Organization)', 10, -1),
+('Public Health Department', 11, -1),
+('Government (Federal, State, Local, Tribal)', 12, -1),
+('Regulator', 13, -1),
+('Educational Institution', 14, -1),
+('Researcher', 15, -1),
+('Other', 16, -1);
+
+
+CREATE TRIGGER subscriber_role_audit AFTER INSERT OR UPDATE OR DELETE ON openchpl.subscriber_role FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+CREATE TRIGGER subscriber_role_timestamp BEFORE UPDATE ON openchpl.subscriber_role FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
+
 
 -- Subscriber. An email address and token that can be used to get to subscriptions related to that email address for management purposes.
 -- A subscriber must be confirmed by clicking a link so we know their email is valid.
 CREATE TABLE openchpl.subscriber (
 	id uuid NOT NULL,
 	subscriber_status_id bigint NOT NULL,
+	subscriber_role_id bigint NOT NULL,
 	email text NOT NULL,
 	creation_date timestamp without time zone NOT NULL DEFAULT now(),
     last_modified_date timestamp without time zone NOT NULL DEFAULT now(),
@@ -38,6 +73,8 @@ CREATE TABLE openchpl.subscriber (
     deleted boolean NOT NULL DEFAULT false,
 	PRIMARY KEY (id),
 	CONSTRAINT subscriber_status_fk FOREIGN KEY (subscriber_status_id) REFERENCES openchpl.subscriber_status(id) 
+		ON DELETE RESTRICT,
+	CONSTRAINT subscriber_role_fk FOREIGN KEY (subscriber_role_id) REFERENCES openchpl.subscriber_role(id) 
 		ON DELETE RESTRICT
 );
 
@@ -108,48 +145,12 @@ CREATE TRIGGER subscription_consolidation_method_audit AFTER INSERT OR UPDATE OR
 CREATE TRIGGER subscription_consolidation_method_timestamp BEFORE UPDATE ON openchpl.subscription_consolidation_method FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 
 
--- Ask if we want to keep the "Persona" language in the UI. I find the term to be a big turn-off to filling it out.
--- Ask if we want the persona attached to the subscriber or to the subscription
-CREATE TABLE openchpl.subscription_reason (
-	id bigserial NOT NULL,
-	name varchar(300) NOT NULL,
-	sort_order int NOT NULL,
-	creation_date timestamp without time zone NOT NULL DEFAULT now(),
-    last_modified_date timestamp without time zone NOT NULL DEFAULT now(),
-    last_modified_user bigint NOT NULL,
-    deleted boolean NOT NULL DEFAULT false,
-	PRIMARY KEY (id)
-);
-
-INSERT INTO openchpl.subscription_reason (name, sort_order, last_modified_user)
-VALUES ('Health IT Vendor', 1, -1),
-('App Developer', 2, -1),
-('HIE (Health Information Exchange)', 3, -1),
-('Hospital or Healthcare System', 4, -1),
-('Healthcare Provider', 5, -1),
-('Pharmacy or Laboratory Service', 6, -1),
-('Patient/Healthcare Consumer', 7, -1),
-('Patient Advocacy Group', 8, -1),
-('Payer', 9, -1),
-('QIO (Quality Improvement Organization)', 10, -1),
-('Public Health Department', 11, -1),
-('Government (Federal, State, Local, Tribal)', 12, -1),
-('Regulator', 13, -1),
-('Educational Institution', 14, -1),
-('Researcher', 15, -1),
-('Other', 16, -1);
-
-
-CREATE TRIGGER subscription_reason_audit AFTER INSERT OR UPDATE OR DELETE ON openchpl.subscription_reason FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
-CREATE TRIGGER subscription_reason_timestamp BEFORE UPDATE ON openchpl.subscription_reason FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
-
 
 -- Subscription.
 -- Once the status of the subscriber_id is Confirmed we will log observations for all subscriptions for that subscriber
 CREATE TABLE openchpl.subscription (
     id bigserial NOT NULL,	
 	subscriber_id uuid NOT NULL, 
-    subscription_reason_id bigint NOT NULL,  
 	subscription_subject_id bigint NOT NULL,
 	subscribed_object_id bigint NOT NULL, -- the ID of the developer, product, listing, etc. 
 	subscription_consolidation_method_id bigint NOT NULL, -- We would always default to Daily for now I think...
@@ -159,8 +160,6 @@ CREATE TABLE openchpl.subscription (
     deleted boolean NOT NULL DEFAULT false,
 	PRIMARY KEY (id),
 	CONSTRAINT subscriber_fk FOREIGN KEY (subscriber_id) REFERENCES openchpl.subscriber(id) 
-		ON DELETE RESTRICT,
-	CONSTRAINT subscription_reason_fk FOREIGN KEY (subscription_reason_id) REFERENCES openchpl.subscription_reason(id) 
 		ON DELETE RESTRICT,
 	CONSTRAINT subscription_subject_fk FOREIGN KEY (subscription_subject_id) REFERENCES openchpl.subscription_subject(id) 
 		ON DELETE RESTRICT,
