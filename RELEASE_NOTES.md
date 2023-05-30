@@ -1,5 +1,16 @@
 # Release Notes
 
+## Version 23.7.0
+_30 May 2023_
+
+### Features
+* Create combined questionable activity view
+
+### Data Changes
+* Remove activity that has no real changes
+
+---
+
 ## Version 23.6.0
 _15 May 2023_
 

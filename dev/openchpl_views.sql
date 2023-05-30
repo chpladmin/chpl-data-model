@@ -1,6 +1,7 @@
 DROP VIEW IF EXISTS openchpl.product_certification_statuses;
 DROP VIEW IF EXISTS openchpl.developer_certification_statuses;
 DROP VIEW IF EXISTS openchpl.certified_product_search_result;
+DROP VIEW IF EXISTS openchpl.questionable_activity_combined;
 DROP VIEW IF EXISTS openchpl.listing_search;
 DROP VIEW IF EXISTS openchpl.certified_product_search;
 DROP VIEW IF EXISTS openchpl.certified_product_details;
@@ -1420,3 +1421,85 @@ UNION
 SELECT id, null, null, name, removed, 'REQUIREMENT'
 FROM openchpl.additional_nonconformity_type
 WHERE DELETED = false;
+
+CREATE OR REPLACE VIEW openchpl.questionable_activity_combined
+AS
+	SELECT row_number() over() as id, all_questionable_activity.developer_id, all_questionable_activity.developer_name, 
+	all_questionable_activity.product_id, all_questionable_activity.product_name,
+	all_questionable_activity.version_id, all_questionable_activity.version_name, 
+	all_questionable_activity.certified_product_id, all_questionable_activity.certification_criterion_id,
+	all_questionable_activity.before_data, all_questionable_activity.after_data, 
+	all_questionable_activity.activity_date, all_questionable_activity.reason, 
+	all_questionable_activity.certification_status_change_reason,
+	all_questionable_activity.activity_id, 
+	all_questionable_activity.activity_user_id, 
+	trigger.level as trigger_level, trigger.name as trigger_name,
+	listing_search.chpl_product_number,
+	listing_search.certification_body_id,
+	listing_search.certification_body_name,
+	listing_search.certification_status_id,
+	listing_search.certification_status_name,
+	COALESCE(c.email, u.user_name, c.full_name) as user_contact_info
+	FROM (
+			SELECT dev.vendor_id as developer_id, dev.name as developer_name, prod.product_id, prod.name as product_name,
+				ver.product_version_id as version_id, ver.version as version_name,
+				cp.certified_product_id, cc.certification_criterion_id, 
+				before_data, after_data, activity_date, reason, 
+				null as certification_status_change_reason, activity_id, 
+				activity_user_id, questionable_activity_trigger_id
+			FROM openchpl.questionable_activity_certification_result qacr
+			JOIN openchpl.questionable_activity_trigger qa_trigger ON qacr.questionable_activity_trigger_id = qa_trigger.id
+			JOIN openchpl.certification_result cr ON cr.certification_result_id = qacr.certification_result_id
+			JOIN openchpl.certification_criterion cc ON cr.certification_criterion_id = cc.certification_criterion_id
+			JOIN openchpl.certified_product cp ON cr.certified_product_id = cp.certified_product_id
+			JOIN openchpl.product_version ver ON cp.product_version_id = ver.product_version_id
+			JOIN openchpl.product prod ON prod.product_id = ver.product_id
+			JOIN openchpl.vendor dev ON prod.vendor_id = dev.vendor_id
+			WHERE qacr.deleted = false
+		UNION
+			SELECT dev.vendor_id as developer_id, dev.name as developer_name, prod.product_id, prod.name as product_name,
+				ver.product_version_id as version_id, ver.version as version_name, cp.certified_product_id, 
+				null, before_data, after_data, activity_date, reason, certification_status_change_reason, activity_id,
+				activity_user_id, questionable_activity_trigger_id
+			FROM openchpl.questionable_activity_listing qal
+			JOIN openchpl.questionable_activity_trigger qa_trigger ON qal.questionable_activity_trigger_id = qa_trigger.id
+			JOIN openchpl.certified_product cp ON qal.listing_id = cp.certified_product_id
+			JOIN openchpl.product_version ver ON cp.product_version_id = ver.product_version_id
+			JOIN openchpl.product prod ON prod.product_id = ver.product_id
+			JOIN openchpl.vendor dev ON prod.vendor_id = dev.vendor_id
+			WHERE qal.deleted = false
+		UNION
+			SELECT dev.vendor_id as developer_id, dev.name as developer_name, prod.product_id, 
+				prod.name as product_name, ver.product_version_id, ver.version as version_name,
+				null, null, before_data, after_data, activity_date, null, null, activity_id,
+				activity_user_id, questionable_activity_trigger_id
+			FROM openchpl.questionable_activity_version qav
+			JOIN openchpl.questionable_activity_trigger qa_trigger ON qav.questionable_activity_trigger_id = qa_trigger.id
+			JOIN openchpl.product_version ver ON ver.product_version_id = qav.version_id
+			JOIN openchpl.product prod ON prod.product_id = ver.product_id
+			JOIN openchpl.vendor dev ON dev.vendor_id = prod.vendor_id
+			WHERE qav.deleted = false
+		UNION
+			SELECT dev.vendor_id as developer_id, dev.name as developer_name, prod.product_id, 
+				prod.name as product_name, null, null, null, null, before_data, after_data, activity_date, 
+				null, null, activity_id, activity_user_id, questionable_activity_trigger_id
+			FROM openchpl.questionable_activity_product qap
+			JOIN openchpl.questionable_activity_trigger qa_trigger ON qap.questionable_activity_trigger_id = qa_trigger.id
+			JOIN openchpl.product prod ON prod.product_id = qap.product_id
+			JOIN openchpl.vendor dev ON dev.vendor_id = prod.vendor_id
+			WHERE qap.deleted = false
+		UNION
+			SELECT dev.vendor_id as developer_id, dev.name as developer_name, null, null, null, null, null, null, 
+				before_data, after_data, activity_date, null, null, activity_id,
+				activity_user_id, questionable_activity_trigger_id
+			FROM openchpl.questionable_activity_developer qad
+			JOIN openchpl.questionable_activity_trigger qa_trigger ON qad.questionable_activity_trigger_id = qa_trigger.id
+			JOIN openchpl.vendor dev ON dev.vendor_id = qad.developer_id
+			WHERE qad.deleted = false
+	) all_questionable_activity
+	JOIN openchpl.questionable_activity_trigger trigger ON all_questionable_activity.questionable_activity_trigger_id = trigger.id
+	LEFT JOIN openchpl.listing_search ON all_questionable_activity.certified_product_id = listing_search.certified_product_id
+	JOIN openchpl.user u on all_questionable_activity.activity_user_id = u.user_id
+	JOIN openchpl.contact c on u.contact_id = c.contact_id;
+
+	
