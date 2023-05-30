@@ -1,3 +1,6 @@
+-- Deployment file for version 23.7.0
+--     as of 2023-05-30
+-- ./changes/ocd-4205.sql
 -- deletes 59 records
 -- These are listing questionable activities that were mapped
 -- to have an activity source of an activity which had no changes
@@ -22,3 +25,8 @@ AND deleted = false
 AND activity_id IS NULL;
 
 
+;
+insert into openchpl.data_model_version (version, deploy_date, last_modified_user) values ('23.7.0', '2023-05-30', -1);
+\i dev/openchpl_soft-delete.sql
+\i dev/openchpl_views.sql
+\i dev/openchpl_grant-all.sql
