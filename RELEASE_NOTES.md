@@ -1,5 +1,17 @@
 # Release Notes
 
+## Version 23.8.0
+_12 June 2023_
+
+### Features
+* Add tables for storing url monitoring data
+
+### Data Changes
+* Remove ROLE_ONC_STAFF and related users
+* Soft-delete ROLE_ATL role, ONC-ATL mappings, and users with the ROLE_ATL role
+
+---
+
 ## Version 23.7.0
 _30 May 2023_
 
