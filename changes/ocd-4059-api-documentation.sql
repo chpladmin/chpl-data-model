@@ -34,9 +34,3 @@ UPDATE openchpl.certification_criterion_attribute
 SET api_documentation = true
 WHERE criterion_id = 182;
 
-
-
-
-
-
-

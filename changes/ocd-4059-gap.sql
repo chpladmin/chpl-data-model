@@ -698,10 +698,3 @@ WHERE criterion_id = 118;
 UPDATE openchpl.certification_criterion_attribute
 SET gap = true
 WHERE criterion_id = 119;
-
-
-
-
-
-
-
