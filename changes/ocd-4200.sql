@@ -1,5 +1,2 @@
 ALTER TABLE openchpl.change_request_attestation_submission_response
-DROP COLUMN IF EXISTS response_message;
-
-ALTER TABLE openchpl.change_request_attestation_submission_response
-ADD COLUMN response_message text;
+ADD COLUMN IF NOT EXISTS response_message text;
