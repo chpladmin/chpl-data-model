@@ -7,4 +7,5 @@
 \i ocd-4059-g1-success.sql
 \i ocd-4059-g2-success.sql
 \i ocd-4059-sed.sql
+\i ocd-4059-test-standard.sql
 \i ocd-4059-use-cases.sql
