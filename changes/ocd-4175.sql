@@ -1,3 +1,6 @@
+drop table if exists openchpl.chpl_uptime_monitor_test;
+drop table if exists openchpl.chpl_uptime_monitor;
+
 create table if not exists openchpl.url_uptime_monitor (
 	id bigserial not null,
 	developer_id bigint not null,
