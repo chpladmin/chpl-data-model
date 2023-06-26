@@ -36,6 +36,8 @@ create table if not exists openchpl.url_uptime_monitor_test (
         match simple on update no action on delete restrict
 );
 drop trigger if exists url_uptime_monitor_test_audit on openchpl.url_uptime_monitor_test;
-create trigger url_uptimemonitor_test_audit after insert or update or delete on openchpl.url_uptime_monitor_test for each row execute procedure audit.if_modified_func();
+create trigger url_uptime_monitor_test_audit after insert or update or delete on openchpl.url_uptime_monitor_test for each row execute procedure audit.if_modified_func();
 drop trigger if exists url_uptime_monitor_test_timestamp on openchpl.url_uptime_monitor_test;
 create trigger url_uptime_monitor_test_timestamp before update on openchpl.url_uptime_monitor_test for each row execute procedure openchpl.update_last_modified_date_column();
+
+alter table openchpl.url_uptime_monitor drop column if exists datadog_public_id;
