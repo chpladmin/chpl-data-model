@@ -1,3 +1,16 @@
+-- Deployment file for version 23.9.0
+--     as of 2023-06-26
+-- ./changes/ocd-4055.sql
+ALTER TABLE openchpl.certification_body
+ALTER COLUMN retirement_date TYPE date;
+
+ALTER TABLE openchpl.testing_lab
+ALTER COLUMN retirement_date TYPE date;
+
+ALTER TABLE openchpl.testing_lab
+DROP COLUMN IF EXISTS accredidation_number;
+;
+-- ./changes/ocd-4213.sql
 --
 -- Subscriber status. Indicates if the subscriber has confirmed their email.
 --
@@ -330,3 +343,8 @@ CREATE TRIGGER subscription_observation_audit AFTER INSERT OR UPDATE OR DELETE O
 DROP TRIGGER IF EXISTS subscription_observation_timestamp on openchpl.subscription_observation;
 CREATE TRIGGER subscription_observation_timestamp BEFORE UPDATE ON openchpl.subscription_observation FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 
+;
+insert into openchpl.data_model_version (version, deploy_date, last_modified_user) values ('23.9.0', '2023-06-26', -1);
+\i dev/openchpl_soft-delete.sql
+\i dev/openchpl_views.sql
+\i dev/openchpl_grant-all.sql
