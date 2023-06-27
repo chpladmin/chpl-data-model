@@ -4,7 +4,6 @@ drop table if exists openchpl.chpl_uptime_monitor;
 create table if not exists openchpl.url_uptime_monitor (
 	id bigserial not null,
 	developer_id bigint not null,
-	datadog_public_id text not null,
 	url text not null,
 	creation_date timestamp not null default now(),
 	last_modified_date timestamp not null default now(),
