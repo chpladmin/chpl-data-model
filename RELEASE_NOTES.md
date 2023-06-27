@@ -1,5 +1,15 @@
 # Release Notes
 
+## Version 23.9.0
+_26 June 2023_
+
+### Features
+* Drop accredidation_number column for ONC-ATLs
+* Convert retirement_date columns from timestamp to date
+* Create tables to support public user subscriptions
+
+---
+
 ## Version 23.8.0
 _12 June 2023_
 
