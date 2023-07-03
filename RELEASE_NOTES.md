@@ -1,5 +1,13 @@
 # Release Notes
 
+## Version 23.10.0
+_3 July 2023_
+
+### Features
+* Store Change Request message with attestation responses
+
+---
+
 ## Version 23.9.0
 _26 June 2023_
 
