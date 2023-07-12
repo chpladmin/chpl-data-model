@@ -25,4 +25,4 @@ alter table openchpl.test_tool add column if not exists value text;
 update openchpl.test_tool
     set value = name;
 
-alter table openchpl.test_tool add column if not exists regulation_text_citation text;
+alter table openchpl.test_tool add column if not exists regulatory_text_citation text;
