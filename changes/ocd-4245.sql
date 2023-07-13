@@ -22,8 +22,6 @@ select '2024-04-01',
     -1
 where not exists (select * from openchpl.attestation_period where period_start = '2024-04-01' and period_end = '2024-09-30');
 
-
-
 insert into openchpl.attestation_period (period_start, period_end, submission_start, submission_end, description, form_id, last_modified_user)
 select '2024-10-01',
     '2025-03-31',
@@ -55,7 +53,7 @@ select '2025-10-01',
 where not exists (select * from openchpl.attestation_period where period_start = '2025-10-01' and period_end = '2026-03-31');
 
 insert into openchpl.attestation_period (period_start, period_end, submission_start, submission_end, description, form_id, last_modified_user)
-select '2024-04-01',
+select '2026-04-01',
     '2026-09-30',
     '2026-10-01',
     '2026-10-31',
