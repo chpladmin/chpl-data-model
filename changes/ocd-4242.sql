@@ -8,6 +8,14 @@ create table if not exists openchpl.rule (
     constraint rule_pk primary key (id)
 );
 
+insert into openchpl.rule (name, last_modified_user)
+select 'Cures', -1
+where not exists (select * from openchpl.rule where name = 'Cures');
+
+insert into openchpl.rule (name, last_modified_user)
+select 'HTI-1', -1
+where not exists (select * from openchpl.rule where name = 'HTI-1');
+
 alter table openchpl.test_tool add column if not exists start_day date;
 
 alter table openchpl.test_tool add column if not exists end_day date;
