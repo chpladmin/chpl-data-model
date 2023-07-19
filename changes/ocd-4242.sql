@@ -9,12 +9,28 @@ create table if not exists openchpl.rule (
 );
 
 insert into openchpl.rule (name, last_modified_user)
+select '2011', -1
+where not exists (select * from openchpl.rule where name = '2011');
+
+insert into openchpl.rule (name, last_modified_user)
+select '2014', -1
+where not exists (select * from openchpl.rule where name = '2014');
+
+insert into openchpl.rule (name, last_modified_user)
+select '2015', -1
+where not exists (select * from openchpl.rule where name = '2015');
+
+insert into openchpl.rule (name, last_modified_user)
 select 'Cures', -1
 where not exists (select * from openchpl.rule where name = 'Cures');
 
 insert into openchpl.rule (name, last_modified_user)
 select 'HTI-1', -1
 where not exists (select * from openchpl.rule where name = 'HTI-1');
+
+insert into openchpl.rule (name, last_modified_user)
+select 'HTI-2', -1
+where not exists (select * from openchpl.rule where name = 'HTI-2');
 
 alter table openchpl.test_tool add column if not exists start_day date;
 
