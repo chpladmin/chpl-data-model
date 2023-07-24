@@ -1,3 +1,6 @@
+-- Deployment file for version 23.11.0
+--     as of 2023-07-24
+-- ./changes/ocd-4059.sql
 --
 -- Add Additional Software to criterion attribute table
 --
@@ -730,3 +733,52 @@ ADD COLUMN IF NOT EXISTS use_cases bool NOT NULL default false;
 UPDATE openchpl.certification_criterion_attribute
 SET use_cases = true
 WHERE criterion_id = 177;
+;
+-- ./changes/ocd-4175.sql
+drop table if exists openchpl.chpl_uptime_monitor_test;
+drop table if exists openchpl.chpl_uptime_monitor;
+
+create table if not exists openchpl.url_uptime_monitor (
+	id bigserial not null,
+	developer_id bigint not null,
+	url text not null,
+	creation_date timestamp not null default now(),
+	last_modified_date timestamp not null default now(),
+	last_modified_user bigint not null ,
+	deleted bool not null default false,
+	constraint url_uptime_monitor_pk primary key (id),
+	constraint developer_fk foreign key (developer_id)
+	    references openchpl.vendor (vendor_id)
+        match simple on update no action on delete restrict
+);
+drop trigger if exists url_uptime_monitor_audit on openchpl.url_uptime_monitor;
+create trigger url_uptime_monitor_audit after insert or update or delete on openchpl.url_uptime_monitor for each row execute procedure audit.if_modified_func();
+drop trigger if exists url_uptime_monitor_timestamp on openchpl.url_uptime_monitor;
+create trigger url_uptime_monitor_timestamp before update on openchpl.url_uptime_monitor for each row execute procedure openchpl.update_last_modified_date_column();
+
+create table if not exists openchpl.url_uptime_monitor_test (
+	id bigserial not null,
+	url_uptime_monitor_id bigint not null,
+	datadog_test_key text not null,
+	check_time timestamp not null,
+	passed bool not null,
+	creation_date timestamp not null default now(),
+	last_modified_date timestamp not null default now(),
+	last_modified_user bigint not null ,
+	deleted bool not null default false,
+	constraint url_uptime_monitor_test_pk primary key (id),
+	constraint url_uptime_monitor_fk foreign key (url_uptime_monitor_id)
+	    references openchpl.url_uptime_monitor (id)
+        match simple on update no action on delete restrict
+);
+drop trigger if exists url_uptime_monitor_test_audit on openchpl.url_uptime_monitor_test;
+create trigger url_uptime_monitor_test_audit after insert or update or delete on openchpl.url_uptime_monitor_test for each row execute procedure audit.if_modified_func();
+drop trigger if exists url_uptime_monitor_test_timestamp on openchpl.url_uptime_monitor_test;
+create trigger url_uptime_monitor_test_timestamp before update on openchpl.url_uptime_monitor_test for each row execute procedure openchpl.update_last_modified_date_column();
+
+alter table openchpl.url_uptime_monitor drop column if exists datadog_public_id;
+;
+insert into openchpl.data_model_version (version, deploy_date, last_modified_user) values ('23.11.0', '2023-07-24', -1);
+\i dev/openchpl_soft-delete.sql
+\i dev/openchpl_views.sql
+\i dev/openchpl_grant-all.sql
