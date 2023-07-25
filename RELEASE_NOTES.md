@@ -1,5 +1,34 @@
 # Release Notes
 
+## Version 23.11.0
+_24 July 2023_
+
+### Features
+* Track and analyze (g)(10) Service Base URL List availability
+
+### Data Changes
+* Add test standards to certification_criterion_attribute table
+* Add SED to certification_criterion_attribute table
+* Add additional software to certification_criterion_attribute tbl
+* Add attestation answer to certification_criterion_attribute table
+* Add G2 Success to certification_criterion_attribute table
+* Add G1 Success to certification_criterion_attribute table
+* Add Use Cases to certification_criterion_attribute table
+* Add Documentation URL to certification_criterion_attribute table
+* Add export documentation to certification_criterion_attribute tbl
+* Add API Documentation to certification_criterion_attribute table
+* Add GAP to certification_criterion_attribute table
+
+---
+
+## Version 23.10.0
+_3 July 2023_
+
+### Features
+* Store Change Request message with attestation responses
+
+---
+
 ## Version 23.9.0
 _26 June 2023_
 
