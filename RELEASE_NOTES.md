@@ -1,5 +1,16 @@
 # Release Notes
 
+## Version 23.12.0
+_7 August 2023_
+
+### Features
+* Update tables to support Test Tools and HTI-1
+
+### Data Changes
+* Add future Attestation Periods
+
+---
+
 ## Version 23.11.0
 _24 July 2023_
 
