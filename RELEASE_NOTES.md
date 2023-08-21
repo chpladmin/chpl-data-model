@@ -1,5 +1,13 @@
 # Release Notes
 
+## Version 23.13.0
+_21 August 2023_
+
+### Features
+* Allow subscriber role to be null
+
+---
+
 ## Version 23.12.0
 _7 August 2023_
 
