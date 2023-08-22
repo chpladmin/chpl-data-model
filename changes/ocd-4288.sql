@@ -10,6 +10,8 @@ alter table openchpl.functionality_tested add column if not exists value text;
 
 alter table openchpl.functionality_tested add column if not exists regulatory_text_citation text;
 
+alter table openchpl.functionality_tested add column if not exists additional_information text;
+
 alter table openchpl.functionality_tested add column if not exists start_day date;
 
 alter table openchpl.functionality_tested add column if not exists end_day date;
