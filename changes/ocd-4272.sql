@@ -25,3 +25,12 @@ WHERE number LIKE '170.315%' and title NOT LIKE '%Cures Update%';
 UPDATE openchpl.certification_criterion
 SET rule_id = (SELECT id FROM openchpl.rule WHERE name = 'Cures')
 WHERE number LIKE '170.315%' and title LIKE '%Cures Update%';
+
+--
+-- fix criteria attributes that are incorrectly showing for certain criteria
+--
+
+-- No 2015 criteria should have test procedures
+UPDATE openchpl.certification_criterion_attribute
+SET test_procedure = FALSE
+WHERE criterion_id <= 60 OR criterion_id >= 165;
