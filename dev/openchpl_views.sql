@@ -49,7 +49,7 @@ create or replace function openchpl.get_chpl_product_number(id bigint) returns
     begin
     return query
 select
-    COALESCE(a.chpl_product_number, substring(b.year from 3 for 2)||'.'||(select openchpl.get_testing_lab_code(a.certified_product_id))||'.'||c.certification_body_code||'.'||h.vendor_code||'.'||a.product_code||'.'||a.version_code||'.'||a.ics_code||'.'||a.additional_software_code||'.'||a.certified_date_code) as "chpl_product_number"
+    COALESCE(a.chpl_product_number, COALESCE(substring(b.year from 3 for 2), 'XX')||'.'||(select openchpl.get_testing_lab_code(a.certified_product_id))||'.'||c.certification_body_code||'.'||h.vendor_code||'.'||a.product_code||'.'||a.version_code||'.'||a.ics_code||'.'||a.additional_software_code||'.'||a.certified_date_code) as "chpl_product_number"
 FROM openchpl.certified_product a
     LEFT JOIN (SELECT certification_edition_id, year FROM openchpl.certification_edition) b on a.certification_edition_id = b.certification_edition_id
     LEFT JOIN (SELECT certification_body_id, name as "certification_body_name", acb_code as "certification_body_code" FROM openchpl.certification_body) c on a.certification_body_id = c.certification_body_id
@@ -1050,7 +1050,7 @@ FROM
     --certification date
 	INNER JOIN (SELECT MIN(event_date) as "certification_date", certified_product_id from openchpl.certification_status_event where certification_status_id = 1 group by (certified_product_id)) certStatusEvent on cp.certified_product_id = certStatusEvent.certified_product_id
     --year
-	INNER JOIN (SELECT certification_edition_id, year FROM openchpl.certification_edition) edition on cp.certification_edition_id = edition.certification_edition_id
+	LEFT JOIN (SELECT certification_edition_id, year FROM openchpl.certification_edition) edition on cp.certification_edition_id = edition.certification_edition_id
     --ACB
 	INNER JOIN (SELECT certification_body_id, name as "certification_body_name", acb_code as "certification_body_code" FROM openchpl.certification_body) acb on cp.certification_body_id = acb.certification_body_id
     -- version
@@ -1295,7 +1295,7 @@ CREATE VIEW openchpl.certified_product_summary AS
     cb.name AS certification_body_name,
     cb.website AS certification_body_website
    FROM openchpl.certified_product cp
-     JOIN openchpl.certification_edition ce ON cp.certification_edition_id = ce.certification_edition_id
+     LEFT JOIN openchpl.certification_edition ce ON cp.certification_edition_id = ce.certification_edition_id
 	 LEFT JOIN ( SELECT cse.certification_status_id,
             cse.certified_product_id,
             cse.last_certification_status_change
