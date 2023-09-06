@@ -1,5 +1,20 @@
 # Release Notes
 
+## Version 24.0.0
+_5 September 2023_
+
+### Breaking Changes
+* Drop tables related to unused portion of Cures Statistics Report
+
+### Features
+* Add start day, end day, and rule to criterion table
+
+### Data Changes
+* Mark GAP Medicaid g1/g2 measures as Removed
+* No 2015 criteria may have test procedures
+
+---
+
 ## Version 23.13.0
 _21 August 2023_
 
