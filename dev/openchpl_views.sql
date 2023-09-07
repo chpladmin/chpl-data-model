@@ -1398,9 +1398,8 @@ FROM openchpl.certified_product cp
              FROM openchpl.certification_status_event cse_inner
              WHERE cse_inner.deleted = false) cse
          WHERE cse.rownum = 1
-         AND cse.certification_status_id IN (1, 6, 7)) as listing_status
-         ON cp.certified_product_id = listing_status.certified_product_id
-AND cp.certification_edition_id = 3;
+			AND cse.certification_status_id IN (1, 6, 7)) as listing_status
+		ON cp.certified_product_id = listing_status.certified_product_id;
 
 CREATE OR REPLACE VIEW openchpl.requirement_type
 AS
