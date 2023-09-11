@@ -159,8 +159,26 @@ BEGIN
 		
 			GET DIAGNOSTICS _rec_count = ROW_COUNT;
 			RAISE NOTICE 'functionality_tested rows deleted: %', _rec_count;
+		
 		ELSE 
 			RAISE NOTICE 'Functionality Tested % has already been converted', _citation_text;
 		END IF;
 	END LOOP;
+
+	--Add optional standards as a criteria attribute on (b)(4) and (b)(5)
+	update openchpl.certification_criterion_attribute
+	set optional_standard = true
+	where criterion_id in (19, 20);
+
+	GET DIAGNOSTICS _rec_count = ROW_COUNT;
+	RAISE NOTICE 'certification_criterion_attribute rows updated to allow optional standards: %', _rec_count;
+
+	--Remove Functionality tested as a criteria attribute on (b)(5)
+	update openchpl.certification_criterion_attribute
+	set optional_standard = true
+	where criterion_id in (20);
+
+	GET DIAGNOSTICS _rec_count = ROW_COUNT;
+	RAISE NOTICE 'certification_criterion_attribute rows updated to not allow functionality tested: %', _rec_count;
+		
 END $$;
