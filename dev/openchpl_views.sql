@@ -1403,21 +1403,21 @@ FROM openchpl.certified_product cp
 
 CREATE OR REPLACE VIEW openchpl.requirement_type
 AS
-SELECT certification_criterion_id as id, title, number, (end_day IS NOT NULL AND end_day < NOW()) as removed, certification_edition_id, 1 as requirement_group_type_id
+SELECT certification_criterion_id as id, title, number, start_day, end_day, certification_edition_id, 1 as requirement_group_type_id
 FROM openchpl.certification_criterion
 WHERE certification_edition_id in (2,3)
 UNION
-SELECT id, name, null, removed, null, requirement_group_type_id
+SELECT id, name, null, null, null, null, requirement_group_type_id
 FROM openchpl.additional_requirement_type
 WHERE deleted = false;
 
 CREATE OR REPLACE VIEW openchpl.nonconformity_type
 AS
-SELECT certification_criterion_id as id, certification_edition_id, number, title, (end_day IS NOT NULL AND end_day < NOW()) as removed, 'CRITERION' as classification
+SELECT certification_criterion_id as id, certification_edition_id, number, title, start_day, end_day, 'CRITERION' as classification
 FROM openchpl.certification_criterion
 WHERE certification_edition_id in (3,2)
 UNION
-SELECT id, null, null, name, removed, 'REQUIREMENT'
+SELECT id, null, null, name, null, null, 'REQUIREMENT'
 FROM openchpl.additional_nonconformity_type
 WHERE DELETED = false;
 
