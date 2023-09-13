@@ -34,6 +34,11 @@ alter table openchpl.functionality_tested alter column value set not null;
 
 alter table openchpl.functionality_tested alter column regulatory_text_citation set not null;
 
+-- Remove Functionality Tested criteria attribute from 170.315 (h)(1)
+update openchpl.certification_criterion_attribute
+set functionality_tested = false
+where criterion_id = 59;
+
 -- Update the dates and rule for functionalities Tested
 update openchpl.functionality_tested set rule_id = (select id from openchpl.rule where name = '2015'), start_day = '2016-01-14' where id = (select id from openchpl.functionality_tested where value ='Optional: 170.315(a)(1)(ii)  Include a "reason for order" field' and regulatory_text_citation = '(a)(1)(ii)');
 update openchpl.functionality_tested set rule_id = (select id from openchpl.rule where name = '2015'), start_day = '2016-01-14', end_day = '2022-01-01' where id = (select id from openchpl.functionality_tested where value ='Alternative: 170.315(a)(10)(i) Drug formulary checks. Automatically check whether a drug formulary exists for a given patient and medication' and regulatory_text_citation = '(a)(10)(i)');
