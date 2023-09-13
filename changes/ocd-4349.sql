@@ -146,19 +146,19 @@ BEGIN
 			WHERE functionality_tested_id = _functionality_tested_id;
 			
 			GET DIAGNOSTICS _rec_count = ROW_COUNT;
-			RAISE NOTICE 'certification_result_functionality_tested rows deleted: %', _rec_count;
+			RAISE NOTICE 'certification_result_functionality_tested rows related to % deleted: %', _citation_text, _rec_count;
 						
 			DELETE FROM openchpl.functionality_tested_criteria_map
 			WHERE functionality_tested_id = _functionality_tested_id;
 			
 			GET DIAGNOSTICS _rec_count = ROW_COUNT;
-			RAISE NOTICE 'functionality_tested_criteria_map rows deleted: %', _rec_count;
+			RAISE NOTICE 'functionality_tested_criteria_map rows related to & deleted: %', _citation_text, _rec_count;
 			
 			DELETE FROM openchpl.functionality_tested
 			WHERE id = _functionality_tested_id;
 		
 			GET DIAGNOSTICS _rec_count = ROW_COUNT;
-			RAISE NOTICE 'functionality_tested rows deleted: %', _rec_count;
+			RAISE NOTICE 'functionality_tested rows related to % deleted: %', _citation_text, _rec_count;
 		
 		ELSE 
 			RAISE NOTICE 'Functionality Tested % has already been converted', _citation_text;
