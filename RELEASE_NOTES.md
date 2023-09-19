@@ -1,5 +1,19 @@
 # Release Notes
 
+## Version 24.1.0
+_18 September 2023_
+
+### Features
+* Add columns to Functionality Tested to support HTI-1
+* remove test_tool.required_day column
+* Remove 'XX' code from CHPL Prod Number calculated in view
+* DEV->ACB Map excludes edition; only considers status
+
+### Data Changes
+* Add criteria start and end dates
+
+---
+
 ## Version 24.0.0
 _5 September 2023_
 
