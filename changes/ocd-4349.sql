@@ -172,13 +172,4 @@ BEGIN
 
 	GET DIAGNOSTICS _rec_count = ROW_COUNT;
 	RAISE NOTICE 'certification_criterion_attribute rows updated to allow optional standards: %', _rec_count;
-
-	--Remove Functionality tested as a criteria attribute on (b)(5)
-	update openchpl.certification_criterion_attribute
-	set optional_standard = true
-	where criterion_id in (20);
-
-	GET DIAGNOSTICS _rec_count = ROW_COUNT;
-	RAISE NOTICE 'certification_criterion_attribute rows updated to not allow functionality tested: %', _rec_count;
-		
 END $$;
