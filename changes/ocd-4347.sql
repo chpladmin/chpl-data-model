@@ -1,3 +1,4 @@
+# Created to make deletes faster
 create index if not exists certification_result_additional_software_cert_res_id_idx on openchpl.certification_result_additional_software (certification_result_id);
 create index if not exists certification_result_conformance_method_cert_res_id_idx on openchpl.certification_result_conformance_method (certification_result_id);
 create index if not exists certification_result_functionality_tested_cert_res_id_idx on openchpl.certification_result_functionality_tested (certification_result_id);
