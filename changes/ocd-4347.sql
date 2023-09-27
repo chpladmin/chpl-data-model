@@ -25,6 +25,6 @@ delete from openchpl.optional_functionality_met child where exists (select * fro
 delete from openchpl.questionable_activity_certification_result child where exists (select * from openchpl.certification_result where certification_result_id = child.certification_result_id and (success = false or deleted = true));
 delete from openchpl.certification_result_additional_software child where exists (select * from openchpl.certification_result where certification_result_id = child.certification_result_id and (success = false or deleted = true));
 
-delete from openchpl.certification_result cr 
-where (success = false and g1_success = false and g2_success = false)
+delete from openchpl.certification_result cr
+where (success = false and (g1_success is null or g1_success = false) and (g2_success is null or g2_success = false))
 or deleted = true;
