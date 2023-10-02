@@ -1,3 +1,6 @@
+-- Deployment file for version 24.1.1
+--     as of 2023-10-02
+-- ./changes/ocd-4349.sql
 DO $$
 DECLARE _citation_text_array text[] := array['170.102(13)(ii)(C)', '170.102(19)(i)', '170.102(19)(ii)'];
 DECLARE _citation_text text;
@@ -173,3 +176,8 @@ BEGIN
 	GET DIAGNOSTICS _rec_count = ROW_COUNT;
 	RAISE NOTICE 'certification_criterion_attribute rows updated to allow optional standards: %', _rec_count;
 END $$;
+;
+insert into openchpl.data_model_version (version, deploy_date, last_modified_user) values ('24.1.1', '2023-10-02', -1);
+\i dev/openchpl_soft-delete.sql
+\i dev/openchpl_views.sql
+\i dev/openchpl_grant-all.sql
