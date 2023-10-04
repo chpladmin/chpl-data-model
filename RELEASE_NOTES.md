@@ -1,5 +1,13 @@
 # Release Notes
 
+## Version 24.1.1
+_2 October 2023_
+
+### Data Changes
+* Data cleanup for Functionality Tested
+
+---
+
 ## Version 24.1.0
 _18 September 2023_
 
