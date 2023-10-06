@@ -30,3 +30,8 @@ WHERE NOT EXISTS (SELECT * FROM openchpl.certification_criterion_attribute WHERE
 INSERT INTO openchpl.certification_criterion_attribute (criterion_id, svap, service_base_url_list, optional_standard, test_tool, conformance_method, test_procedure, test_data, functionality_tested, privacy_security_framework, additional_software, api_documentation, attestation_answer, documentation_url, export_documentation, gap, g1_success, g2_success, sed, test_standard, use_cases, risk_management_summary_information, last_modified_user)
 SELECT (SELECT certification_criterion_id FROM openchpl.certification_criterion where number = '170.315 (d)(14)'), false, false, false, false, true, false, false, true, false, false, false, false, false, false, false, false, false, false, false, false, false, -1
 WHERE NOT EXISTS (SELECT * FROM openchpl.certification_criterion_attribute WHERE criterion_id = (SELECT certification_criterion_id FROM openchpl.certification_criterion where number = '170.315 (d)(14)'));
+
+-- Add the new criteria attribute to the cert result table 
+ALTER TABLE openchpl.certification_result
+ADD COLUMN IF NOT EXISTS risk_management_summary_information text DEFAULT NULL;
+
