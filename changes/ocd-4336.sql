@@ -33,5 +33,5 @@ WHERE NOT EXISTS (SELECT * FROM openchpl.certification_criterion_attribute WHERE
 
 -- Add the new criteria attribute to the cert result table 
 ALTER TABLE openchpl.certification_result
-ADD COLUMN IF NOT EXISTS risk_management_summary_information text DEFAULT NULL;
+ADD COLUMN IF NOT EXISTS risk_management_summary_information varchar(1024) DEFAULT NULL;
 
