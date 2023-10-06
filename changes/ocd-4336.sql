@@ -15,6 +15,24 @@ INSERT INTO openchpl.certification_criterion (number, title, start_day, end_day,
 SELECT '170.315 (d)(14)', 'Patient Requested Restrictions', '2024-04-30', NULL, -1
 WHERE NOT EXISTS (SELECT * FROM openchpl.certification_criterion WHERE number = '170.315 (d)(14)');
 
+-- Add allowed conformance method for b11
+INSERT INTO openchpl.conformance_method_criteria_map (conformance_method_id, criteria_id, last_modified_user)
+SELECT (SELECT id FROM openchpl.conformance_method WHERE name = 'Attestation'),  
+	(SELECT certification_criterion_id FROM openchpl.certification_criterion where number = '170.315 (b)(11)'),
+	-1
+WHERE NOT EXISTS (
+	SELECT * FROM openchpl.conformance_method_criteria_map 
+	WHERE criteria_id = (SELECT certification_criterion_id FROM openchpl.certification_criterion where number = '170.315 (b)(11)'));
+	
+-- Add allowed conformance method for d14
+INSERT INTO openchpl.conformance_method_criteria_map (conformance_method_id, criteria_id, last_modified_user)
+SELECT (SELECT id FROM openchpl.conformance_method WHERE name = 'Attestation'),  
+	(SELECT certification_criterion_id FROM openchpl.certification_criterion where number = '170.315 (d)(14)'),
+	-1
+WHERE NOT EXISTS (
+	SELECT * FROM openchpl.conformance_method_criteria_map 
+	WHERE criteria_id = (SELECT certification_criterion_id FROM openchpl.certification_criterion where number = '170.315 (d)(14)'));
+
 --
 -- Add the new type of criteria attribute
 --
