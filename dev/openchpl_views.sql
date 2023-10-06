@@ -95,6 +95,7 @@ SELECT
     a.documentation_url,
     a.use_cases,
     a.service_base_url_list,
+	a.risk_management_summary_information,
     a.privacy_security_framework,
     b.number,
     b.title
