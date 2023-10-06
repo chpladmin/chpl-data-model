@@ -35,3 +35,8 @@ WHERE NOT EXISTS (SELECT * FROM openchpl.certification_criterion_attribute WHERE
 ALTER TABLE openchpl.certification_result
 ADD COLUMN IF NOT EXISTS risk_management_summary_information varchar(1024) DEFAULT NULL;
 
+-- Add to url_type table to support bad URL checking
+INSERT INTO openchpl.url_type (name, last_modified_user)
+SELECT 'Risk Management Summary Information', -1
+WHERE NOT EXISTS (SELECT * FROM openchpl.url_type WHERE name = 'Risk Management Summary Information');
+
