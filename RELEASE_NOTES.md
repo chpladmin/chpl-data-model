@@ -1,5 +1,16 @@
 # Release Notes
 
+## Version 24.2.0
+_16 October 2023_
+
+### Features
+* Remove certification_criterion 'removed' column
+
+### Data Changes
+* Set empty string values for certified products to null
+
+---
+
 ## Version 24.1.1
 _2 October 2023_
 
