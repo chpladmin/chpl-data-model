@@ -57,3 +57,12 @@ create table if not exists openchpl.certification_result_standard (
 );
 CREATE or replace TRIGGER certification_result_standard_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.certification_result_standard FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE or replace TRIGGER certification_result_standard_timestamp BEFORE UPDATE on openchpl.certification_result_standard FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
+
+alter table openchpl.certification_criterion_attribute add column if not exists standard boolean default false;
+
+update openchpl.certification_criterion_attribute cca
+set standard = true
+where criterion_id in (
+	select cc.certification_criterion_id
+	from openchpl.certification_criterion cc
+	where cc.number like '%.315%');
