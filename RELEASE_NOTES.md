@@ -1,4 +1,12 @@
 # Release Notes
+`
+## Version 24.2.1
+_13 November 2023_
+
+### Data Changes
+* Remove "unattested criteria" from Listings in data
+
+---
 
 ## Version 24.2.0
 _16 October 2023_
