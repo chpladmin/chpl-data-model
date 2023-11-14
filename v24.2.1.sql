@@ -1,3 +1,6 @@
+-- Deployment file for version 24.2.1
+--     as of 2023-11-13
+-- ./changes/ocd-4347.sql
 -- Created to make deletes faster
 create index if not exists certification_result_additional_software_cert_res_id_idx on openchpl.certification_result_additional_software (certification_result_id);
 create index if not exists certification_result_conformance_method_cert_res_id_idx on openchpl.certification_result_conformance_method (certification_result_id);
@@ -28,3 +31,8 @@ delete from openchpl.certification_result_additional_software child where exists
 delete from openchpl.certification_result cr
 where (success = false and (g1_success is null or g1_success = false) and (g2_success is null or g2_success = false))
 or deleted = true;
+;
+insert into openchpl.data_model_version (version, deploy_date, last_modified_user) values ('24.2.1', '2023-11-13', -1);
+\i dev/openchpl_soft-delete.sql
+\i dev/openchpl_views.sql
+\i dev/openchpl_grant-all.sql
