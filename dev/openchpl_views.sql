@@ -95,6 +95,7 @@ SELECT
     a.documentation_url,
     a.use_cases,
     a.service_base_url_list,
+	a.risk_management_summary_information,
     a.privacy_security_framework,
     b.number,
     b.title
@@ -1405,7 +1406,8 @@ CREATE OR REPLACE VIEW openchpl.requirement_type
 AS
 SELECT certification_criterion_id as id, title, number, start_day, end_day, certification_edition_id, 1 as requirement_group_type_id
 FROM openchpl.certification_criterion
-WHERE certification_edition_id in (2,3)
+WHERE (certification_edition_id IS NULL 
+	OR certification_edition_id != (SELECT certification_edition_id FROM openchpl.certification_edition where year = '2011'))
 UNION
 SELECT id, name, null, null, null, null, requirement_group_type_id
 FROM openchpl.additional_requirement_type
@@ -1415,7 +1417,8 @@ CREATE OR REPLACE VIEW openchpl.nonconformity_type
 AS
 SELECT certification_criterion_id as id, certification_edition_id, number, title, start_day, end_day, 'CRITERION' as classification
 FROM openchpl.certification_criterion
-WHERE certification_edition_id in (3,2)
+WHERE (certification_edition_id IS null
+	OR certification_edition_id != (SELECT certification_edition_id FROM openchpl.certification_edition where year = '2011'))
 UNION
 SELECT id, null, null, name, null, null, 'REQUIREMENT'
 FROM openchpl.additional_nonconformity_type
