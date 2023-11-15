@@ -30,7 +30,7 @@ create table if not exists openchpl.standard_criteria_map (
     deleted bool not null default false,
     constraint standard_criteria_map_pk primary key (id),
     constraint standard_fk foreign key (standard_id)
-        references openchpl.rule (id)
+        references openchpl.standard (id)
         match simple on update no action on delete restrict,
     constraint certification_criterion_fk foreign key (certification_criterion_id)
         references openchpl.certification_criterion (certification_criterion_id)
@@ -49,7 +49,7 @@ create table if not exists openchpl.certification_result_standard (
     deleted bool not null default false,
     constraint certification_result_standard_pk primary key (id),
     constraint standard_fk foreign key (standard_id)
-        references openchpl.rule (id)
+        references openchpl.standard (id)
         match simple on update no action on delete restrict,
     constraint certification_result_fk foreign key (certification_result_id)
         references openchpl.certification_result (certification_result_id)
