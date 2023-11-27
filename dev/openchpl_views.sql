@@ -16,7 +16,7 @@ DROP VIEW IF EXISTS openchpl.developer_certification_body_map;
 DROP VIEW IF EXISTS openchpl.aggregated_nonconformity_statistics;
 DROP VIEW IF EXISTS openchpl.requirement_type;
 DROP VIEW IF EXISTS openchpl.nonconformity_type;
-DROP VIEW IF EXISTS openchpl.subscription_listing;
+DROP VIEW IF EXISTS openchpl.subscription_search_results;
 
 create or replace function openchpl.get_testing_lab_code(input_id bigint) returns
     table (
@@ -1505,12 +1505,70 @@ AS
 	JOIN openchpl.user u on all_questionable_activity.activity_user_id = u.user_id
 	JOIN openchpl.contact c on u.contact_id = c.contact_id;
 
-CREATE VIEW openchpl.subscription_listing AS
- SELECT s.*,
-    openchpl.get_chpl_product_number(s.subscribed_object_id) AS chpl_product_number
+CREATE VIEW openchpl.subscription_search_results AS
+ SELECT subscriber.id as subscriber_id,
+	subscriber.email as subscriber_email,
+	role.name as subscriber_role,
+	status.name as subscriber_status,
+	string_agg(subj.subject, ',') as subscription_subjects,
+	obj_type.name as subscription_object_type,
+	consolidation.name as subscription_consolidation_method,
+	s.subscribed_object_id,
+    openchpl.get_chpl_product_number(s.subscribed_object_id) AS subscribed_object_name,
+	s.creation_date
  FROM openchpl.subscription s
  JOIN openchpl.subscription_subject subj ON s.subscription_subject_id = subj.id
  JOIN openchpl.subscription_object_type obj_type ON subj.subscription_object_type_id = obj_type.id
+ JOIN openchpl.subscription_consolidation_method consolidation ON s.subscription_consolidation_method_id = consolidation.id
+ JOIN openchpl.subscriber subscriber ON s.subscriber_id = subscriber.id
+ JOIN openchpl.subscriber_role role ON subscriber.subscriber_role_id = role.id
+ JOIN openchpl.subscriber_status status ON subscriber.subscriber_status_id = status.id
  WHERE s.deleted = false
- AND obj_type.name = 'Listing';
+ AND obj_type.id = 1 -- Listing
+ GROUP BY (subscriber.id, subscriber.email, role.name, status.name, obj_type.name, consolidation.name, s.subscribed_object_id, subscribed_object_name, s.creation_date)
+ UNION
+ SELECT subscriber.id as subscriber_id,
+	subscriber.email as subscriber_email,
+	role.name as subscriber_role,
+	status.name as subscriber_status,
+	string_agg(subj.subject, ',') as subscription_subjects,
+	obj_type.name as subscription_object_type,
+	consolidation.name as subscription_consolidation_method,
+	s.subscribed_object_id,
+    dev.name AS subscribed_object_name,
+	s.creation_date
+ FROM openchpl.subscription s
+ JOIN openchpl.subscription_subject subj ON s.subscription_subject_id = subj.id
+ JOIN openchpl.subscription_object_type obj_type ON subj.subscription_object_type_id = obj_type.id
+ JOIN openchpl.subscription_consolidation_method consolidation ON s.subscription_consolidation_method_id = consolidation.id
+ JOIN openchpl.subscriber subscriber ON s.subscriber_id = subscriber.id
+ JOIN openchpl.subscriber_role role ON subscriber.subscriber_role_id = role.id
+ JOIN openchpl.subscriber_status status ON subscriber.subscriber_status_id = status.id
+ JOIN openchpl.vendor dev ON dev.vendor_id = s.subscribed_object_id
+ WHERE s.deleted = false
+ AND obj_type.id = 2 -- Developer
+ GROUP BY (subscriber.id, subscriber.email, role.name, status.name, obj_type.name, consolidation.name, s.subscribed_object_id, subscribed_object_name, s.creation_date)
+ UNION
+ SELECT subscriber.id as subscriber_id,
+	subscriber.email as subscriber_email,
+	role.name as subscriber_role,
+	status.name as subscriber_status,
+	string_agg(subj.subject, ',') as subscription_subjects,
+	obj_type.name as subscription_object_type,
+	consolidation.name as subscription_consolidation_method,
+	s.subscribed_object_id,
+    prod.name AS subscribed_object_name,
+	s.creation_date
+ FROM openchpl.subscription s
+ JOIN openchpl.subscription_subject subj ON s.subscription_subject_id = subj.id
+ JOIN openchpl.subscription_object_type obj_type ON subj.subscription_object_type_id = obj_type.id
+ JOIN openchpl.subscription_consolidation_method consolidation ON s.subscription_consolidation_method_id = consolidation.id
+ JOIN openchpl.subscriber subscriber ON s.subscriber_id = subscriber.id
+ JOIN openchpl.subscriber_role role ON subscriber.subscriber_role_id = role.id
+ JOIN openchpl.subscriber_status status ON subscriber.subscriber_status_id = status.id
+ JOIN openchpl.product prod ON prod.product_id = s.subscribed_object_id
+ WHERE s.deleted = false
+ AND obj_type.id = 3 -- Product
+ GROUP BY (subscriber.id, subscriber.email, role.name, status.name, obj_type.name, consolidation.name, s.subscribed_object_id, subscribed_object_name, s.creation_date) 
+
  
