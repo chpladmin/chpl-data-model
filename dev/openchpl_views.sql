@@ -16,6 +16,7 @@ DROP VIEW IF EXISTS openchpl.developer_certification_body_map;
 DROP VIEW IF EXISTS openchpl.aggregated_nonconformity_statistics;
 DROP VIEW IF EXISTS openchpl.requirement_type;
 DROP VIEW IF EXISTS openchpl.nonconformity_type;
+DROP VIEW IF EXISTS openchpl.subscription_listing;
 
 create or replace function openchpl.get_testing_lab_code(input_id bigint) returns
     table (
@@ -1504,4 +1505,12 @@ AS
 	JOIN openchpl.user u on all_questionable_activity.activity_user_id = u.user_id
 	JOIN openchpl.contact c on u.contact_id = c.contact_id;
 
-	
+CREATE VIEW openchpl.subscription_listing AS
+ SELECT s.*,
+    openchpl.get_chpl_product_number(s.subscribed_object_id) AS chpl_product_number
+ FROM openchpl.subscription s
+ JOIN openchpl.subscription_subject subj ON s.subscription_subject_id = subj.id
+ JOIN openchpl.subscription_object_type obj_type ON subj.subscription_object_type_id = obj_type.id
+ WHERE s.deleted = false
+ AND obj_type.name = 'Listing';
+ 
