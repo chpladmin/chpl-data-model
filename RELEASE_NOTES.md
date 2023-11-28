@@ -1,4 +1,18 @@
 # Release Notes
+
+## Version 24.3.0
+_27 November 2023_
+
+### Features
+* Add risk management summary information to certification result table
+
+### Data Changes
+* Update eCQM numbers and versions for 2024 reporting bundle
+* Include requirement/non-conformity types with null edition
+* Insert allowed conformance methods for b11, d14
+* Add two new criteria that become active in the future
+
+---
 `
 ## Version 24.2.1
 _13 November 2023_
