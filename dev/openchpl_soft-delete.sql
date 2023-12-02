@@ -96,21 +96,6 @@ CREATE TRIGGER certified_product_measure_soft_delete AFTER UPDATE of deleted on 
 CREATE OR REPLACE FUNCTION openchpl.certification_result_soft_delete()
 RETURNS TRIGGER AS $$
 BEGIN
-<<<<<<< Updated upstream
-    UPDATE openchpl.certification_result_additional_software as src SET deleted = NEW.deleted WHERE src.certification_result_id = NEW.certification_result_id;
-    UPDATE openchpl.certification_result_conformance_method as src SET deleted = NEW.deleted WHERE src.certification_result_id = NEW.certification_result_id;
-    UPDATE openchpl.certification_result_optional_standard as src SET deleted = NEW.deleted WHERE src.certification_result_id = NEW.certification_result_id;
-    UPDATE openchpl.certification_result_svap as src SET deleted = NEW.deleted WHERE src.certification_result_id = NEW.certification_result_id;
-    UPDATE openchpl.certification_result_test_data as src SET deleted = NEW.deleted WHERE src.certification_result_id = NEW.certification_result_id;
-    UPDATE openchpl.certification_result_functionality_tested as src SET deleted = NEW.deleted WHERE src.certification_result_id = NEW.certification_result_id;
-    UPDATE openchpl.certification_result_test_procedure as src SET deleted = NEW.deleted WHERE src.certification_result_id = NEW.certification_result_id;
-    UPDATE openchpl.certification_result_test_standard as src SET deleted = NEW.deleted WHERE src.certification_result_id = NEW.certification_result_id;
-    UPDATE openchpl.certification_result_test_task as src SET deleted = NEW.deleted WHERE src.certification_result_id = NEW.certification_result_id;
-    UPDATE openchpl.certification_result_test_tool as src SET deleted = NEW.deleted WHERE src.certification_result_id = NEW.certification_result_id;
-    UPDATE openchpl.certification_result_ucd_process as src SET deleted = NEW.deleted WHERE src.certification_result_id = NEW.certification_result_id;
-    UPDATE openchpl.optional_functionality_met as src SET deleted = NEW.deleted WHERE src.certification_result_id = NEW.certification_result_id;
-	UPDATE openchpl.questionable_activity_certification_result as src SET deleted = NEW.deleted WHERE src.certification_result_id = NEW.certification_result_id;
-=======
     UPDATE openchpl.certification_result_additional_software as src SET deleted = NEW.deleted WHERE src.certification_result_id = NEW.certification_result_id and NEW.deleted != deleted;
     UPDATE openchpl.certification_result_conformance_method as src SET deleted = NEW.deleted WHERE src.certification_result_id = NEW.certification_result_id and NEW.deleted != deleted;
     UPDATE openchpl.certification_result_optional_standard as src SET deleted = NEW.deleted WHERE src.certification_result_id = NEW.certification_result_id and NEW.deleted != deleted;
@@ -125,8 +110,6 @@ BEGIN
     UPDATE openchpl.certification_result_standard as src SET deleted = NEW.deleted WHERE src.certification_result_id = NEW.certification_result_id and NEW.deleted != deleted;
     UPDATE openchpl.optional_functionality_met as src SET deleted = NEW.deleted WHERE src.certification_result_id = NEW.certification_result_id and NEW.deleted != deleted;
     UPDATE openchpl.questionable_activity_certification_result as src SET deleted = NEW.deleted WHERE src.certification_result_id = NEW.certification_result_id and NEW.deleted != deleted;
-    
->>>>>>> Stashed changes
     RETURN NEW;
 END;
 $$ language 'plpgsql';
