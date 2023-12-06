@@ -113,7 +113,7 @@ BEGIN
 		UPDATE openchpl.optional_functionality_met as src SET deleted = NEW.deleted WHERE src.certification_result_id = NEW.certification_result_id;
 		UPDATE openchpl.questionable_activity_certification_result as src SET deleted = NEW.deleted WHERE src.certification_result_id = NEW.certification_result_id;
     END IF;
-	RETURN NEW;
+    RETURN NEW;
 END;
 $$ language 'plpgsql';
 DROP TRIGGER IF EXISTS certification_result_soft_delete on openchpl.certification_result;
