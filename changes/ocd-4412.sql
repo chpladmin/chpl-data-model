@@ -10,3 +10,10 @@ INSERT INTO openchpl.cqm_criterion (cms_id, title, description, cqm_domain, nqf_
 	false
   WHERE NOT EXISTS (select * from openchpl.cqm_criterion where cms_ID = 'CMS314');
 
+-- This is necessary to fix the descriuption in the lower envs, where the description was originally cut short due to copy/paste error
+UPDATE openchpl.cqm_criterion
+SET description = 'Percentage of patients, regardless of age, diagnosed with HIV prior to or during the first 90 days of the measurement period, with an eligible encounter in the first 240 days of the measurement period, whose last HIV viral load test result was less than 200 copies/mL during the measurement period'
+WHERE cms_id = 'CMS314';
+
+
+
