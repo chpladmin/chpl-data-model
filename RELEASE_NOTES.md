@@ -1,5 +1,18 @@
 # Release Notes
 
+## Version 24.4.0
+_11 December 2023_
+
+### Features
+* Create tables for Standards
+
+### Data Changes
+* Update eCQM numbers and versions for 2024 reporting bundle - CMS 314
+* Add new types of questionable activity
+* Remove Cures Update from all criteria titles
+
+---
+
 ## Version 24.3.0
 _27 November 2023_
 
