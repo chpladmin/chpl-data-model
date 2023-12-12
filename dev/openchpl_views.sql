@@ -340,6 +340,7 @@ CREATE VIEW openchpl.certified_product_details AS
                     certification_result.creation_date,
                     certification_result.last_modified_date,
                     certification_result.last_modified_user,
+                    certification_result.last_modified_sso_user,
                     certification_result.deleted
                    FROM openchpl.certification_result
                   WHERE certification_result.success = true AND certification_result.deleted <> true) j
@@ -365,6 +366,7 @@ CREATE VIEW openchpl.certified_product_details AS
                     surveillance.creation_date,
                     surveillance.last_modified_date,
                     surveillance.last_modified_user,
+                    surveillance.last_modified_sso_user,
                     surveillance.deleted
                    FROM openchpl.surveillance
                   WHERE surveillance.deleted <> true) n_1
@@ -381,6 +383,7 @@ CREATE VIEW openchpl.certified_product_details AS
                     surveillance.creation_date,
                     surveillance.last_modified_date,
                     surveillance.last_modified_user,
+                    surveillance.last_modified_sso_user,
                     surveillance.deleted
                    FROM openchpl.surveillance
                   WHERE surveillance.deleted <> true AND surveillance.start_date <= now() AND (surveillance.end_date IS NULL OR surveillance.end_date >= now())) n_1
@@ -397,6 +400,7 @@ CREATE VIEW openchpl.certified_product_details AS
                     surveillance.creation_date,
                     surveillance.last_modified_date,
                     surveillance.last_modified_user,
+                    surveillance.last_modified_sso_user,
                     surveillance.deleted
                    FROM openchpl.surveillance
                   WHERE surveillance.deleted <> true AND surveillance.start_date <= now() AND surveillance.end_date IS NOT NULL AND surveillance.end_date <= now()) n_1
@@ -1243,6 +1247,7 @@ SELECT id,
     creation_date,
     last_modified_date,
     last_modified_user,
+    last_modified_sso_user,
     deleted
 FROM openchpl.product_owner_history_map
 WHERE deleted = false;
@@ -1275,6 +1280,7 @@ CREATE VIEW openchpl.certified_product_summary AS
     cp.creation_date,
     cp.last_modified_date,
     cp.last_modified_user,
+    cp.last_modified_sso_user,
     cp.deleted,
     cp.rwt_plans_url,
     cp.rwt_plans_check_date,
