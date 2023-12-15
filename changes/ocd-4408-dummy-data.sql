@@ -40,7 +40,7 @@ SELECT NULL,'G4 Standard 10','10.10','','2016-01-01','2025-01-01','2016-01-01',-
 where not exists (select * from openchpl.standard where value = 'G4 Standard 10');
 
 INSERT INTO openchpl.standard (rule_id,value,regulatory_text_citation,additional_information,start_day,end_day,required_day,last_modified_user,deleted,last_modified_sso_user,group_name)
-SELECT NULL,'G4 Standard 11','11.11','','2022-01-01',null,'2025-01-01',-1,false,NULL,'Test Group 2'
+SELECT NULL,'G4 Standard 11','11.11','','2024-01-01',null,'2025-01-01',-1,false,NULL,'Test Group 2'
 where not exists (select * from openchpl.standard where value = 'G4 Standard 11');
 
 
