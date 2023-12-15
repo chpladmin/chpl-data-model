@@ -1,3 +1,7 @@
+-------------------------------
+-- Add all the companion guide URLs
+-------------------------------
+
 ALTER TABLE openchpl.certification_criterion
 ADD COLUMN IF NOT EXISTS certification_companion_guide_link text;
 
@@ -216,3 +220,13 @@ WHERE certification_criterion_id = 59;
 UPDATE openchpl.certification_criterion
 SET certification_companion_guide_link = 'https://www.healthit.gov/test-method/direct-project-edge-protocol-and-xdrxdm'
 WHERE certification_criterion_id = 60;
+
+
+-------------------------------
+-- Set up data for these URLs to be in the Questionable URL report
+-------------------------------
+INSERT INTO openchpl.url_type (name, last_modified_user)
+SELECT 'Certification Criterion', -1
+WHERE NOT EXISTS (
+	SELECT id from openchpl.url_type where name = 'Certification Criterion'
+);
