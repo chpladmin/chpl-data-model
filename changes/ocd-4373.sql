@@ -79,7 +79,7 @@ BEGIN
 		and cert_result.deleted = false
 		loop 
 			
-			select *
+			select count(*)
 			into v_cert_result_standard_cnt
 			from openchpl.certification_result_standard
 			where certification_result_id = v_cert_result.certification_result_id
