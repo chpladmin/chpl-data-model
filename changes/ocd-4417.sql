@@ -221,6 +221,9 @@ UPDATE openchpl.certification_criterion
 SET certification_companion_guide_link = 'https://www.healthit.gov/test-method/direct-project-edge-protocol-and-xdrxdm'
 WHERE certification_criterion_id = 60;
 
+UPDATE openchpl.certification_criterion
+SET certification_companion_guide_link = 'https://www.healthit.gov/test-method/decision-support-interventions'
+WHERE certification_criterion_id = 210;
 
 -------------------------------
 -- Set up data for these URLs to be in the Questionable URL report
