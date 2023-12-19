@@ -26,8 +26,8 @@ BEGIN
 	where s.regulatory_text_citation = p_regulatory_text;
 	
 	if v_standard_cnt = 0 then
-		insert into openchpl.standard(rule_id, value, regulatory_text_citation, additional_information, start_day, required_day, end_day, last_modified_user)
-		select p_rule_id, p_value, p_regulatory_text, p_additional_info, p_start_day, p_required_day, p_end_day, -1 
+		insert into openchpl.standard(rule_id, value, regulatory_text_citation, additional_information, group_name, start_day, required_day, end_day, last_modified_user)
+		select p_rule_id, p_value, p_regulatory_text, p_additional_info, p_group_name, p_start_day, p_required_day, p_end_day, -1 
 		where not exists (
 			select * from openchpl.standard s where s.regulatory_text_citation = p_regulatory_text)
 		returning * into v_standard;
