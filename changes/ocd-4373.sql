@@ -12,60 +12,94 @@ CREATE OR REPLACE PROCEDURE openchpl.backfill_standards(
   p_criterion_ids			int[])
 LANGUAGE plpgsql AS $$
 DECLARE
-  	v_standard 					record;
- 	v_criterion_id				int;
- 	v_cert_result				record;
- 	v_certification_criterion 	record;
+  	v_standard_cnt							int;	
+	v_standard_criterion_map_cnt			int;	
+	v_cert_result_standard_cnt				int;	
+	v_standard 								record;
+ 	v_criterion_id							int;
+ 	v_cert_result							record;
+ 	v_certification_criterion 				record;
 BEGIN
-  	insert into openchpl.standard(rule_id, value, regulatory_text_citation, additional_information, start_day, required_day, end_day, last_modified_user)
-  	select p_rule_id, p_value, p_regulatory_text, p_additional_info, p_start_day, p_required_day, p_end_day, -1 
-  	where not exists (
-  		select * from openchpl.standard s where s.regulatory_text_citation = p_regulatory_text)
-  	returning * into v_standard;
+	select count(*)
+	into v_standard_cnt
+	from openchpl.standard s 
+	where s.regulatory_text_citation = p_regulatory_text;
 	
-  	raise notice 'Inserted Standard: %', v_standard;--p_regulatory_text;
+	if v_standard_cnt = 0 then
+		insert into openchpl.standard(rule_id, value, regulatory_text_citation, additional_information, start_day, required_day, end_day, last_modified_user)
+		select p_rule_id, p_value, p_regulatory_text, p_additional_info, p_start_day, p_required_day, p_end_day, -1 
+		where not exists (
+			select * from openchpl.standard s where s.regulatory_text_citation = p_regulatory_text)
+		returning * into v_standard;
+	
+		raise notice 'Inserted Standard: %', v_standard;--p_regulatory_text;
+	else 
+		select *
+		into v_standard
+		from openchpl.standard s 
+		where s.regulatory_text_citation = p_regulatory_text;
+		
+		raise notice 'Standard Exists: %', v_standard;--p_regulatory_text;
+	end if;
   	
-  	--if v_standard is not null and v_standard.id is not null then
-  		
-  		foreach v_criterion_id in array p_criterion_ids
-  		loop
-	  		
-	  		select * 
-	  		into v_certification_criterion
-	  		from openchpl.certification_criterion 
-	  		where certification_criterion_id = v_criterion_id;	  		
-  			
-	  		insert into openchpl.standard_criteria_map(standard_id, certification_criterion_id, last_modified_user)
-  			select v_standard.id, v_criterion_id, -1
-  			where not exists (
-  				select * 
-  				from openchpl.standard_criteria_map where standard_id = v_standard.id 
-  				and certification_criterion_id = v_criterion_id);
-  			
-  			raise notice 'Inserted Standard Crtieria Map: % -- % (%)', p_regulatory_text, v_certification_criterion.number, v_criterion_id;
-  				
-  			for v_cert_result in select cpd.chpl_product_number, cpd.certification_date, cert_result.*
-  			from openchpl.certification_result cert_result
-  				inner join openchpl.certified_product_details cpd 
-  					on cert_result.certified_product_id = cpd.certified_product_id
-  			where cert_result.certification_criterion_id = v_criterion_id
-  			and cpd.certification_date between v_standard.required_day and coalesce(v_standard.end_day, '2099-12-31')
-			and cert_result.deleted = false
-  			loop 
-  				
-	  			insert into openchpl.certification_result_standard(standard_id, certification_result_id, last_modified_user)
-	  			select v_standard.id, v_cert_result.certification_result_id, -1
-	  			where not exists (
-	  				select *
-	  				from openchpl.certification_result_standard
-	  				where certification_result_id = v_cert_result.certification_result_id
-	  				and standard_id = v_standard.id);
-	  			
-	  			raise notice 'Inserted Certification Result Standard %  -- %  -- %', v_cert_result.chpl_product_number, v_certification_criterion.number, v_standard.regulatory_text_citation;
-	  			
-  			end loop;	  		
-  		end loop;
-  	--end if;
+	foreach v_criterion_id in array p_criterion_ids
+	loop
+		
+		select * 
+		into v_certification_criterion
+		from openchpl.certification_criterion 
+		where certification_criterion_id = v_criterion_id;	  		
+		
+		select count(*)
+		into v_standard_criterion_map_cnt
+		from openchpl.standard_criteria_map where standard_id = v_standard.id 
+		and certification_criterion_id = v_criterion_id;
+		
+		if v_standard_criterion_map_cnt = 0 then
+		
+			insert into openchpl.standard_criteria_map(standard_id, certification_criterion_id, last_modified_user)
+			select v_standard.id, v_criterion_id, -1
+			where not exists (
+				select * 
+				from openchpl.standard_criteria_map where standard_id = v_standard.id 
+				and certification_criterion_id = v_criterion_id);
+			
+			raise notice 'Inserted Standard Crtieria Map: % -- % (%)', p_regulatory_text, v_certification_criterion.number, v_criterion_id;
+		
+		else
+			raise notice 'Standard Crtieria Map Exists: % -- % (%)', p_regulatory_text, v_certification_criterion.number, v_criterion_id;
+		end if;
+		
+		for v_cert_result in select cpd.chpl_product_number, cpd.certification_date, cert_result.*
+		from openchpl.certification_result cert_result
+			inner join openchpl.certified_product_details cpd 
+				on cert_result.certified_product_id = cpd.certified_product_id
+		where cert_result.certification_criterion_id = v_criterion_id
+		and cpd.certification_date between v_standard.required_day and coalesce(v_standard.end_day, '2099-12-31')
+		and cert_result.deleted = false
+		loop 
+			
+			select *
+			into v_cert_result_standard_cnt
+			from openchpl.certification_result_standard
+			where certification_result_id = v_cert_result.certification_result_id
+			and standard_id = v_standard.id;
+			
+			if v_cert_result_standard_cnt = 0 then
+				insert into openchpl.certification_result_standard(standard_id, certification_result_id, last_modified_user)
+				select v_standard.id, v_cert_result.certification_result_id, -1
+				where not exists (
+					select *
+					from openchpl.certification_result_standard
+					where certification_result_id = v_cert_result.certification_result_id
+					and standard_id = v_standard.id);
+			
+				raise notice 'Inserted Certification Result Standard %  -- %  -- %', v_cert_result.chpl_product_number, v_certification_criterion.number, v_standard.regulatory_text_citation;
+			else 
+				raise notice 'Certification Result Standard Exists %  -- %  -- %', v_cert_result.chpl_product_number, v_certification_criterion.number, v_standard.regulatory_text_citation;
+			end if;
+		end loop;	  		
+	end loop;
 end $$;
 
 
