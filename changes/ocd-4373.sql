@@ -103,13 +103,15 @@ BEGIN
 end $$;
 
 
-call openchpl.backfill_standards('170.202(a)(2)', 'Direct Project: ONC Applicability Statement for Secure Health Transport, Version 1.2 August 2015', 3, '2016-01-14', '2016-01-14', null, null, 'Aplies to both b1 and b1 cures', array[16, 59, 60, 165]);
+call openchpl.backfill_standards('170.202(a)(2)', 'Direct Project: ONC Applicability Statement for Secure Health Transport, Version 1.2 August 2015', 3, '2016-01-14', '2016-01-14', null, null, null, array[16, 59, 60, 165]);
 
 call openchpl.backfill_standards('170.202(b)', 'ONC XDR and XDM for Direct Messaging Specification', 3, '2016-01-14', '2016-01-14', null, null, null, array[60]);
 
 call openchpl.backfill_standards('170.202(d)', 'ONC Implementation Guide for Direct Edge Protocols, Version 1.1, June 25, 2014', 3, '2016-01-14', '2016-01-14', null, null, null, array[16, 60, 165]);
 
-call openchpl.backfill_standards('170.202(e)(1)', 'Delivery Notification - Implementation Guide for Delivery Notification in Direct v1.0', 3, '2016-01-14', '2016-01-14', null, null, null, array[40, 59, 60, 178]);
+call openchpl.backfill_standards('170.202(e)(1)', 'Delivery Notification - Implementation Guide for Delivery Notification in Direct v1.0', 3, '2016-01-14', '2016-01-14', null, null, null, array[59, 60]);
+
+call openchpl.backfill_standards('170.204(a)(1)', 'Web Content Accessibility Guidelines (WCAG) 2.0, Level A Conformance', 3, '2016-01-14', '2016-01-14', null, null, null, array[40, 178]);
 
 call openchpl.backfill_standards('170.204(a)(2)', 'Web Content Accessibility Guidelines (WCAG) 2.0, Level AA Conformance', 3, '2016-01-14', '2016-01-14', null, null, null, array[40, 178]);
 
@@ -247,7 +249,7 @@ call openchpl.backfill_standards('170.210(g)', 'The date and time recorded utili
 
 call openchpl.backfill_standards('170.210(h)', 'Audit log content. ASTM E2147-18 Standard Specification for Audit and Disclosure Logs for Use in Health Information Systems.', 4, '2020-06-30', '2020-06-30', null, null, null, array[173, 174, 175]);
 
-call openchpl.backfill_standards('170.213(a)', 'United States Core Data for Interoperability (USCDI), July 2020 Errata, Version 1', 4, '2020-06-30', '2022-12-31', '2025-12-31', 'USCDI', 'Must be replaced by United States Core Data for Interoperability (USCDI), October 2022 Errata, Version 3', array[47, 165, 166, 178, 47, 180, 181, 182, 210]);
+call openchpl.backfill_standards('170.213(a)', 'United States Core Data for Interoperability (USCDI), July 2020 Errata, Version 1', 4, '2020-06-30', '2022-12-31', '2025-12-31', 'USCDI', 'Must be replaced by United States Core Data for Interoperability (USCDI), October 2022 Errata, Version 3', array[47, 165, 166, 178, 180, 181, 182, 210]);
 
 call openchpl.backfill_standards('170.213(b)', 'United States Core Data for Interoperability (USCDI), October 2022 Errata, Version 3', 5, '2024-02-11', '2025-12-31', null, 'USCDI', null, array[47, 165, 166, 178, 180, 181, 182, 210]);
 
