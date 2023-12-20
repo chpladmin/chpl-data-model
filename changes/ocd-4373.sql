@@ -270,3 +270,61 @@ call openchpl.backfill_standards('170.215(b)(1)(ii)', 'HL7 FHIR® US Core Implem
 call openchpl.backfill_standards('170.215(c)(2)', 'HL7 SMART Application Launch Framework Implementation Guide Release 2.0.0', 5, '2024-02-11', '2025-12-31', null, 'SMART', null, array[182]);
 
 call openchpl.backfill_standards('170.315(g)(3)(iv)', 'NISTIR 7742 Customized Common Industry Format Template for Electronic Health Record Usability Testing', 3, '2016-01-14', '2016-01-14', null, null, null, array[52]);
+
+call openchpl.backfill_standards('170.205(r)(1)', 'HL7 Implementation Guide for CDA® Release 2 – Level 3: Healthcare Associated Infection Reports, Release 1, U.S. Realm, August 2013
+Technology is only required to conform to the following sections of the implementation guide:
+HAI Antimicrobial Use and Resistance (AUR) Antimicrobial Resistance Option (ARO) Report (Numerator) specific document template in Section 2.1.2.1 (pages 69-72);
+Antimicrobial Resistance Option (ARO) Summary Report (Denominator) specific document template in Section 2.1.1.1 (pages 54-56); and
+Antimicrobial Use (AUP) Summary Report (Numerator and Denominator) specific document template in Section 2.1.1.2 (pages 56-58)', 3, '2016-01-14', '2016-01-14', null, null, null, array[48]);
+
+
+call openchpl.backfill_standards('170.205(t)(1)', 'HL7 FHIR® Implementation Guide: Electronic Case Reporting (eCR)—US Realm 2.1.0—STU 2 US (HL7 FHIR eCR IG)', 5, '2024-02-11', '2025-12-31', null, 'F5-group-1', 'For creating a case report, must certify to the eICR profile of the HL7 FHIR eCR IG in § 170.205(t)(1) or 
+(2) The HL7 CDA eICR IG in § 170.205(t)(2). If certifiying to the HL7 FHIR eCR IG for case report creation, must also certify to this standard for report receipt, consumption and processing.', array[47]);
+
+
+call openchpl.backfill_standards('170.205(t)(2)', 'HL7 CDA® R2 Implementation Guide: Public Health Case Report—the Electronic Initial Case Report (eICR) Release 2, STU Release 3.1—US Realm (HL7 CDA eICR IG)', 5, '2024-02-11', '2025-12-31', null, 'F5-group-1', 'For creating a case report, must certify to the eICR profile of the HL7 FHIR eCR IG in § 170.205(t)(1) or 
+(2) The HL7 CDA eICR IG in § 170.205(t)(2). If certifiying to the HL7 CDA eICR IG for case report creation, must also certify to HL7 CDA RR IG in § 170.205(t)(3) for report receipt, consumption and processing.', array[47]);
+
+
+call openchpl.backfill_standards('170.207(i)', 'Encounter diagnoses: The code set specified at 45 CFR 162.1002(c)(2) for the indicated conditions ICD-10-CM as maintained and distributed by HHS, for the following conditions:
+Diseases.
+Injuries.
+Impairments.
+Other health problems and their manifestations.
+Causes of injury, disease, impairment, or health problems.', 3, '2016-01-14', '2016-01-14', null, null, null, array[16, 19, 20, 21, 165]);
+
+
+call openchpl.backfill_standards('170.207(n)(1)', 'Birth sex must be coded in accordance with HL7 Version 3 Standard, Value Sets for AdministrativeGender and NullFlavor attributed as follows:
+Male. M; Female. F; Unknown. UNK', 3, '2016-01-14', '2016-01-14', '2025-12-31', 'Sex Code Set', 'Sex must be coded in accordance with, at a minimum, the version of SNOMED CT® codes specified in §170.207(a)(1)', array[5, 16, 28, 165]);
+
+
+call openchpl.backfill_standards('170.207(o)(1)', 'Sexual orientation must be coded in accordance with, at a minimum, the version of SNOMED CT® codes adopted at paragraph (a)(4) of this section for paragraphs (o)(1)(i) through (iii) of this section and HL7 Version 3 for paragraphs (o)(1)(iv) through (vi) of this section, attributed as follows:
+
+Lesbian, gay or homosexual. 38628009
+Straight or heterosexual. 20430005
+Bisexual. 42035005
+Something else, please describe. nullFlavor OTH
+Don’t know. nullFlavor UNK
+Choose not to disclose. nullFlavor ASKU', 3, '2016-01-14', '2016-01-14', '2025-12-31', 'SOGI', 'Sexual Orientation and Gender Identity must be coded in accordance with, at a minimum, the version of SNOMED CT® codes specified in §170.207(a)(1)', array[5]);
+
+call openchpl.backfill_standards('170.207(o)(2)', 'Gender identity must be coded in accordance with, at a minimum, the version of SNOMED CT® codes adopted at paragraph (a)(4) of this section for paragraphs (o)(2)(i) through (v) of this section and HL7 Version 3 for paragraphs (o)(2)(vi) and (vii) of this section, attributed as follows:
+
+Identifies as Male. 446151000124109
+Identifies as Female. 446141000124107
+Female-to-Male (FTM)/Transgender Male/Trans Man. 407377005
+Male-to-Female (MTF)/Transgender Female/Trans Woman. 407376001
+Genderqueer, neither exclusively male nor female. 446131000124102
+Additional gender category or other, please specify. nullFlavor OTH
+Choose not to disclose. nullFlavor ASKU', 3, '2016-01-14', '2016-01-14', '2025-12-31', 'SOGI', 'Sexual Orientation and Gender Identity must be coded in accordance with, at a minimum, the version of SNOMED CT® codes specified in §170.207(a)(1)', array[5]);
+
+
+call openchpl.backfill_standards('170.210(e)(1)', 'The audit log must record the information specified in sections 7.1.1 and and 7.1.2 and 7.1.6 through 7.1.9 of the standard specified in § 170.210(h) and changes to user privileges when health IT is in use.
+The date and time must be recorded in accordance with the standard specified at § 170.210(g).', 4, '2020-06-30', '2020-06-30', null, null, null, array[173, 175]);
+--call openchpl.backfill_standards('170.210(e)(1)', 'The audit log must record the information specified in sections 7.2 through 7.4, 7.6, and 7.7 of the standard specified in § 170.210(h) and changes to user privileges when health IT is in use.
+--The date and time must be recorded in accordance with the standard specified at § 170.210(g).
+--(2) The audit log must record the information specified in sections 7.2 and 7.4 of the standard specified at § 170.210(h) when the audit log status is changed.
+--The date and time each action occurs in accordance with the standard specified at § 170.210(g).
+--(3) The audit log must record the information specified in sections 7.2 and 7.4 of the standard specified at § 170.210(h) when the encryption status of electronic health information locally stored by EHR technology on end-user devices is changed. The date and time each action occurs in accordance with the standard specified at § 170.210(g).', 4, '2020-06-30', '2020-06-30', null, null, null, array[174]);"
+
+call openchpl.backfill_standards('170.210(e)(2)', 'The audit log must record the information specified in sections 7.1.1 and 7.1.7 of the standard specified at § 170.210(h) when the audit log status is changed. 
+The date and time each action occurs in accordance with the standard specified at § 170.210(g).', 4, '2020-06-30', '2020-06-30', null, null, null, array[173]);
