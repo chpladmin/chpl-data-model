@@ -1,9 +1,9 @@
 DROP PROCEDURE if exists openchpl.backfill_standards;
 
 CREATE OR REPLACE PROCEDURE openchpl.backfill_standards(
-  p_regulatory_text     	text,
-  p_value 					text,
-  p_rule_id 				int,
+  p_regulatory_text			text,
+  p_value					text,
+  p_rule_id					int,
   p_start_day				date,
   p_required_day			date,
   p_end_day					date,
@@ -12,9 +12,9 @@ CREATE OR REPLACE PROCEDURE openchpl.backfill_standards(
   p_criterion_ids			int[])
 LANGUAGE plpgsql AS $$
 DECLARE
-  	v_standard_cnt							int;	
-	v_standard_criterion_map_cnt			int;	
-	v_cert_result_standard_cnt				int;	
+  	v_standard_cnt							int;
+	v_standard_criterion_map_cnt			int;
+	v_cert_result_standard_cnt				int;
 	v_standard 								record;
  	v_criterion_id							int;
  	v_cert_result							record;
@@ -22,69 +22,69 @@ DECLARE
 BEGIN
 	select count(*)
 	into v_standard_cnt
-	from openchpl.standard s 
+	from openchpl.standard s
 	where s.regulatory_text_citation = p_regulatory_text;
-	
+
 	if v_standard_cnt = 0 then
 		insert into openchpl.standard(rule_id, value, regulatory_text_citation, additional_information, group_name, start_day, required_day, end_day, last_modified_user)
-		select p_rule_id, p_value, p_regulatory_text, p_additional_info, p_group_name, p_start_day, p_required_day, p_end_day, -1 
+		select p_rule_id, p_value, p_regulatory_text, p_additional_info, p_group_name, p_start_day, p_required_day, p_end_day, -1
 		where not exists (
 			select * from openchpl.standard s where s.regulatory_text_citation = p_regulatory_text)
 		returning * into v_standard;
-	
+
 		raise notice 'Inserted Standard: %', v_standard;--p_regulatory_text;
-	else 
+	else
 		select *
 		into v_standard
-		from openchpl.standard s 
+		from openchpl.standard s
 		where s.regulatory_text_citation = p_regulatory_text;
-		
+
 		raise notice 'Standard Exists: %', v_standard;--p_regulatory_text;
 	end if;
-  	
+
 	foreach v_criterion_id in array p_criterion_ids
 	loop
-		
-		select * 
+
+		select *
 		into v_certification_criterion
-		from openchpl.certification_criterion 
-		where certification_criterion_id = v_criterion_id;	  		
-		
+		from openchpl.certification_criterion
+		where certification_criterion_id = v_criterion_id;
+
 		select count(*)
 		into v_standard_criterion_map_cnt
-		from openchpl.standard_criteria_map where standard_id = v_standard.id 
+		from openchpl.standard_criteria_map where standard_id = v_standard.id
 		and certification_criterion_id = v_criterion_id;
-		
+
 		if v_standard_criterion_map_cnt = 0 then
-		
+
 			insert into openchpl.standard_criteria_map(standard_id, certification_criterion_id, last_modified_user)
 			select v_standard.id, v_criterion_id, -1
 			where not exists (
-				select * 
-				from openchpl.standard_criteria_map where standard_id = v_standard.id 
+				select *
+				from openchpl.standard_criteria_map where standard_id = v_standard.id
 				and certification_criterion_id = v_criterion_id);
-			
+
 			raise notice 'Inserted Standard Crtieria Map: % -- % (%)', p_regulatory_text, v_certification_criterion.number, v_criterion_id;
-		
+
 		else
 			raise notice 'Standard Crtieria Map Exists: % -- % (%)', p_regulatory_text, v_certification_criterion.number, v_criterion_id;
 		end if;
-		
+
 		for v_cert_result in select cpd.chpl_product_number, cpd.certification_date, cert_result.*
 		from openchpl.certification_result cert_result
-			inner join openchpl.certified_product_details cpd 
+			inner join openchpl.certified_product_details cpd
 				on cert_result.certified_product_id = cpd.certified_product_id
 		where cert_result.certification_criterion_id = v_criterion_id
 		and cpd.certification_date between v_standard.required_day and coalesce(v_standard.end_day, '2099-12-31')
 		and cert_result.deleted = false
-		loop 
-			
+		loop
+
 			select count(*)
 			into v_cert_result_standard_cnt
 			from openchpl.certification_result_standard
 			where certification_result_id = v_cert_result.certification_result_id
 			and standard_id = v_standard.id;
-			
+
 			if v_cert_result_standard_cnt = 0 then
 				insert into openchpl.certification_result_standard(standard_id, certification_result_id, last_modified_user)
 				select v_standard.id, v_cert_result.certification_result_id, -1
@@ -93,12 +93,12 @@ BEGIN
 					from openchpl.certification_result_standard
 					where certification_result_id = v_cert_result.certification_result_id
 					and standard_id = v_standard.id);
-			
+
 				raise notice 'Inserted Certification Result Standard %  -- %  -- %', v_cert_result.chpl_product_number, v_certification_criterion.number, v_standard.regulatory_text_citation;
-			else 
+			else
 				raise notice 'Certification Result Standard Exists %  -- %  -- %', v_cert_result.chpl_product_number, v_certification_criterion.number, v_standard.regulatory_text_citation;
 			end if;
-		end loop;	  		
+		end loop;
 	end loop;
 end $$;
 
@@ -191,8 +191,6 @@ call openchpl.backfill_standards('170.207(f)(3)', 'CDC Race and Ethnicity Code S
 
 call openchpl.backfill_standards('170.207(g)(2)', 'Request for Comments (RFC) 5646, “Tags for Identifying Languages,” September 2009', 3, '2016-01-14', '2016-01-14', null, null, null, array[5]);
 
-call openchpl.backfill_standards('170.207(m)(1)', 'The Unified Code of Units of Measure, Revision 1.9', 3, '2016-01-14', '2016-01-14', null, null, null, array[15]);
-
 call openchpl.backfill_standards('170.207(n)(2)', 'Sex must be coded in accordance with, at a minimum, the version of SNOMED CT® codes specified in §170.207(a)(1)', 5, '2024-02-11', '2025-12-31', null, 'Sex Code Set', null, array[5, 28, 165]);
 
 call openchpl.backfill_standards('170.207(n)(3)', 'Sex Parameter for Clinical Use must be coded in accordance with, at a minimum, the version of LOINC® codes specified in § 170.207(c)(1)', 5, '2024-02-11', '2025-12-31', null, null, null, array[5]);
@@ -278,11 +276,11 @@ Antimicrobial Resistance Option (ARO) Summary Report (Denominator) specific docu
 Antimicrobial Use (AUP) Summary Report (Numerator and Denominator) specific document template in Section 2.1.1.2 (pages 56-58)', 3, '2016-01-14', '2016-01-14', null, null, null, array[48]);
 
 
-call openchpl.backfill_standards('170.205(t)(1)', 'HL7 FHIR® Implementation Guide: Electronic Case Reporting (eCR)—US Realm 2.1.0—STU 2 US (HL7 FHIR eCR IG)', 5, '2024-02-11', '2025-12-31', null, 'F5-group-1', 'For creating a case report, must certify to the eICR profile of the HL7 FHIR eCR IG in § 170.205(t)(1) or 
+call openchpl.backfill_standards('170.205(t)(1)', 'HL7 FHIR® Implementation Guide: Electronic Case Reporting (eCR)—US Realm 2.1.0—STU 2 US (HL7 FHIR eCR IG)', 5, '2024-02-11', '2025-12-31', null, 'F5-group-1', 'For creating a case report, must certify to the eICR profile of the HL7 FHIR eCR IG in § 170.205(t)(1) or
 (2) The HL7 CDA eICR IG in § 170.205(t)(2). If certifiying to the HL7 FHIR eCR IG for case report creation, must also certify to this standard for report receipt, consumption and processing.', array[47]);
 
 
-call openchpl.backfill_standards('170.205(t)(2)', 'HL7 CDA® R2 Implementation Guide: Public Health Case Report—the Electronic Initial Case Report (eICR) Release 2, STU Release 3.1—US Realm (HL7 CDA eICR IG)', 5, '2024-02-11', '2025-12-31', null, 'F5-group-1', 'For creating a case report, must certify to the eICR profile of the HL7 FHIR eCR IG in § 170.205(t)(1) or 
+call openchpl.backfill_standards('170.205(t)(2)', 'HL7 CDA® R2 Implementation Guide: Public Health Case Report—the Electronic Initial Case Report (eICR) Release 2, STU Release 3.1—US Realm (HL7 CDA eICR IG)', 5, '2024-02-11', '2025-12-31', null, 'F5-group-1', 'For creating a case report, must certify to the eICR profile of the HL7 FHIR eCR IG in § 170.205(t)(1) or
 (2) The HL7 CDA eICR IG in § 170.205(t)(2). If certifiying to the HL7 CDA eICR IG for case report creation, must also certify to HL7 CDA RR IG in § 170.205(t)(3) for report receipt, consumption and processing.', array[47]);
 
 
@@ -320,11 +318,8 @@ Choose not to disclose. nullFlavor ASKU', 3, '2016-01-14', '2016-01-14', '2025-1
 
 call openchpl.backfill_standards('170.210(e)(1)', 'The audit log must record the information specified in sections 7.1.1 and and 7.1.2 and 7.1.6 through 7.1.9 of the standard specified in § 170.210(h) and changes to user privileges when health IT is in use.
 The date and time must be recorded in accordance with the standard specified at § 170.210(g).', 4, '2020-06-30', '2020-06-30', null, null, null, array[173, 175]);
---call openchpl.backfill_standards('170.210(e)(1)', 'The audit log must record the information specified in sections 7.2 through 7.4, 7.6, and 7.7 of the standard specified in § 170.210(h) and changes to user privileges when health IT is in use.
---The date and time must be recorded in accordance with the standard specified at § 170.210(g).
---(2) The audit log must record the information specified in sections 7.2 and 7.4 of the standard specified at § 170.210(h) when the audit log status is changed.
---The date and time each action occurs in accordance with the standard specified at § 170.210(g).
---(3) The audit log must record the information specified in sections 7.2 and 7.4 of the standard specified at § 170.210(h) when the encryption status of electronic health information locally stored by EHR technology on end-user devices is changed. The date and time each action occurs in accordance with the standard specified at § 170.210(g).', 4, '2020-06-30', '2020-06-30', null, null, null, array[174]);"
 
-call openchpl.backfill_standards('170.210(e)(2)', 'The audit log must record the information specified in sections 7.1.1 and 7.1.7 of the standard specified at § 170.210(h) when the audit log status is changed. 
+call openchpl.backfill_standards('170.210(e)(2)', 'The audit log must record the information specified in sections 7.1.1 and 7.1.7 of the standard specified at § 170.210(h) when the audit log status is changed.
 The date and time each action occurs in accordance with the standard specified at § 170.210(g).', 4, '2020-06-30', '2020-06-30', null, null, null, array[173]);
+
+DROP PROCEDURE if exists openchpl.backfill_standards;
