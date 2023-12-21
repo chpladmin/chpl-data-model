@@ -54,10 +54,6 @@ SET certification_companion_guide_link = 'https://www.healthit.gov/test-method/e
 WHERE certification_criterion_id = 167;
 
 UPDATE openchpl.certification_criterion
-SET certification_companion_guide_link = 'https://www.healthit.gov/test-method/data-export'
-WHERE certification_criterion_id = 21;
-
-UPDATE openchpl.certification_criterion
 SET certification_companion_guide_link = 'https://www.healthit.gov/test-method/security-tags-summary-care-send'
 WHERE certification_criterion_id = 168;
 
