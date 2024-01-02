@@ -159,83 +159,83 @@ call openchpl.backfill_standards('170.205(t)(3)', 'HL7 CDA® R2 Implementation G
 
 call openchpl.backfill_standards('170.205(t)(4)', 'Reportable Conditions Trigger Codes Value Set for Electronic Case Reporting. RCTC OID: 2.16.840.1.114222.4.11.7508, Release March 29, 2022', 5, '2024-02-11', '2025-12-31', null, 'F5-group-1', 'Must certify to the Reportable Conditions Trigger Codes Cvalue Set for eCR.', array[47]);
 
-call openchpl.backfill_standards('170.207(a)(1)', 'IHTSDO SNOMED CT®, U.S. Edition, March 2022 Release', 5, '2024-02-11', '2024-02-11', null, 'SNOMED', null, array[12, 21, 28, 45, 46, 165]);
+--call openchpl.backfill_standards('170.207(a)(1)', 'IHTSDO SNOMED CT®, U.S. Edition, March 2022 Release', 5, '2024-02-11', '2024-02-11', null, 'SNOMED', null, array[12, 21, 28, 45, 46, 165]);
 
-call openchpl.backfill_standards('170.207(a)(3)', 'IHTSDO SNOMED CT® International Release July 31, 2012 and US Extension to SNOMED CT® March 2012', 3, '2016-01-14', '2016-01-14', '2024-02-11', 'SNOMED', 'Must be updated to SNOMED CT, U.S. Edition, March 2022 Release', array[45]);
+--call openchpl.backfill_standards('170.207(a)(3)', 'IHTSDO SNOMED CT® International Release July 31, 2012 and US Extension to SNOMED CT® March 2012', 3, '2016-01-14', '2016-01-14', '2024-02-11', 'SNOMED', 'Must be updated to SNOMED CT, U.S. Edition, March 2022 Release', array[45]);
 
-call openchpl.backfill_standards('170.207(a)(4)', 'IHTSDO SNOMED CT®, U.S. Edition, September 2015 Release', 3, '2016-01-14', '2016-01-14', '2024-02-11', 'SNOMED', 'Must be updated to SNOMED CT, U.S. Edition, March 2022 Release', array[6, 12, 16, 19, 20, 21, 28, 46, 165]);
+--call openchpl.backfill_standards('170.207(a)(4)', 'IHTSDO SNOMED CT®, U.S. Edition, September 2015 Release', 3, '2016-01-14', '2016-01-14', '2024-02-11', 'SNOMED', 'Must be updated to SNOMED CT, U.S. Edition, March 2022 Release', array[6, 12, 16, 19, 20, 21, 28, 46, 165]);
 
-call openchpl.backfill_standards('170.207(c)(1)', 'LOINC® Database Version 2.72, February 16, 2022', 5, '2024-02-11', '2024-02-11', null, 'LOINC', null, array[45, 46]);
+--call openchpl.backfill_standards('170.207(c)(1)', 'LOINC® Database Version 2.72, February 16, 2022', 5, '2024-02-11', '2024-02-11', null, 'LOINC', null, array[45, 46]);
 
-call openchpl.backfill_standards('170.207(c)(2)', 'LOINC® Database version 2.40, Released July 2012', 3, '2016-01-14', '2016-01-14', '2024-02-11', 'LOINC', 'Must be updated to LOINC Database Version 2.72, February 16, 2022', array[45]);
+--call openchpl.backfill_standards('170.207(c)(2)', 'LOINC® Database version 2.40, Released July 2012', 3, '2016-01-14', '2016-01-14', '2024-02-11', 'LOINC', 'Must be updated to LOINC Database Version 2.72, February 16, 2022', array[45]);
 
-call openchpl.backfill_standards('170.207(c)(3)', 'LOINC® Database version 2.52, Released June 2015', 3, '2016-01-14', '2016-01-14', '2025-12-31', 'LOINC', 'Must be updated to LOINC Database Version 2.72, February 16, 2022', array[46]);
+--call openchpl.backfill_standards('170.207(c)(3)', 'LOINC® Database version 2.52, Released June 2015', 3, '2016-01-14', '2016-01-14', '2025-12-31', 'LOINC', 'Must be updated to LOINC Database Version 2.72, February 16, 2022', array[46]);
 
-call openchpl.backfill_standards('170.207(d)(1)', 'RxNorm, July 5, 2022 Full Monthly Release', 5, '2024-02-11', '2024-02-11', null, 'RxNorm', null, array[167]);
+--call openchpl.backfill_standards('170.207(d)(1)', 'RxNorm, July 5, 2022 Full Monthly Release', 5, '2024-02-11', '2024-02-11', null, 'RxNorm', null, array[167]);
 
-call openchpl.backfill_standards('170.207(d)(2)', 'RxNorm, August 6, 2012 Full Release Update', 3, '2016-01-14', '2016-01-14', '2022-12-31', 'RxNorm', null, array[18]);
+--call openchpl.backfill_standards('170.207(d)(2)', 'RxNorm, August 6, 2012 Full Release Update', 3, '2016-01-14', '2016-01-14', '2022-12-31', 'RxNorm', null, array[18]);
 
-call openchpl.backfill_standards('170.207(d)(3)', 'RxNorm, September 8, 2015 Full Release Update', 4, '2020-06-30', '2022-12-31', '2024-02-11', 'RxNorm', 'Must be updated to RxNorm, July 5, 2022 Full Monthly Release', array[167]);
+--call openchpl.backfill_standards('170.207(d)(3)', 'RxNorm, September 8, 2015 Full Release Update', 4, '2020-06-30', '2022-12-31', '2024-02-11', 'RxNorm', 'Must be updated to RxNorm, July 5, 2022 Full Monthly Release', array[167]);
 
-call openchpl.backfill_standards('170.207(e)(1)', 'HL7 Standard Code Set CVX—Vaccines Administered, updates through June 15, 2022', 5, '2024-02-11', '2024-02-11', null, 'CVX', null, array[43]);
+--call openchpl.backfill_standards('170.207(e)(1)', 'HL7 Standard Code Set CVX—Vaccines Administered, updates through June 15, 2022', 5, '2024-02-11', '2024-02-11', null, 'CVX', null, array[43]);
 
-call openchpl.backfill_standards('170.207(e)(2)', 'National Drug Code Directory (NDC)—Vaccine NDC Linker, updates through July 19, 2022', 5, '2024-02-11', '2024-02-11', null, 'NDC', null, array[43]);
+--call openchpl.backfill_standards('170.207(e)(2)', 'National Drug Code Directory (NDC)—Vaccine NDC Linker, updates through July 19, 2022', 5, '2024-02-11', '2024-02-11', null, 'NDC', null, array[43]);
 
-call openchpl.backfill_standards('170.207(e)(3)', 'HL7 Standard Code Set CVX— Vaccines Administered, updates through August 17, 2015', 3, '2016-01-14', '2016-01-14', '2024-02-11', 'CVX', 'Must be updated to HL7 Standard Code Set CVX—Vaccines Administered, updates through June 15, 2022', array[43]);
+--call openchpl.backfill_standards('170.207(e)(3)', 'HL7 Standard Code Set CVX— Vaccines Administered, updates through August 17, 2015', 3, '2016-01-14', '2016-01-14', '2024-02-11', 'CVX', 'Must be updated to HL7 Standard Code Set CVX—Vaccines Administered, updates through June 15, 2022', array[43]);
 
-call openchpl.backfill_standards('170.207(e)(4)', 'National Drug Code (NDC) Directory– Vaccine NDC Linker, updates through August 17, 2015', 3, '2016-01-14', '2016-01-14', '2024-02-11', 'NDC', 'Must be updated to National Drug Code Directory (NDC)—Vaccine NDC Linker, updates through July 19, 2022', array[43]);
+--call openchpl.backfill_standards('170.207(e)(4)', 'National Drug Code (NDC) Directory– Vaccine NDC Linker, updates through August 17, 2015', 3, '2016-01-14', '2016-01-14', '2024-02-11', 'NDC', 'Must be updated to National Drug Code Directory (NDC)—Vaccine NDC Linker, updates through July 19, 2022', array[43]);
 
-call openchpl.backfill_standards('170.207(f)(1)', 'The Office of Management and Budget Standards for Maintaining, Collecting, and Presenting Federal Data on Race and Ethnicity, Statistical Policy Directive No. 15, as revised, October 30, 1997', 3, '2016-01-14', '2016-01-14', null, null, null, array[5]);
+--call openchpl.backfill_standards('170.207(f)(1)', 'The Office of Management and Budget Standards for Maintaining, Collecting, and Presenting Federal Data on Race and Ethnicity, Statistical Policy Directive No. 15, as revised, October 30, 1997', 3, '2016-01-14', '2016-01-14', null, null, null, array[5]);
 
-call openchpl.backfill_standards('170.207(f)(2)', 'CDC Race and Ethnicity Code Set Version 1.0 (March 2000)', 3, '2016-01-14', '2016-01-14', '2024-02-11', 'Race and Ethnicity', 'Must be updated to CDC Race and Ethnicity Code Set Version 1.2 (July 15, 2021)', array[5, 28]);
+--call openchpl.backfill_standards('170.207(f)(2)', 'CDC Race and Ethnicity Code Set Version 1.0 (March 2000)', 3, '2016-01-14', '2016-01-14', '2024-02-11', 'Race and Ethnicity', 'Must be updated to CDC Race and Ethnicity Code Set Version 1.2 (July 15, 2021)', array[5, 28]);
 
-call openchpl.backfill_standards('170.207(f)(3)', 'CDC Race and Ethnicity Code Set Version 1.2 (July 15, 2021)', 5, '2024-02-11', '2024-02-11', null, 'Race and Ethnicity', null, array[5, 28]);
+--call openchpl.backfill_standards('170.207(f)(3)', 'CDC Race and Ethnicity Code Set Version 1.2 (July 15, 2021)', 5, '2024-02-11', '2024-02-11', null, 'Race and Ethnicity', null, array[5, 28]);
 
-call openchpl.backfill_standards('170.207(g)(2)', 'Request for Comments (RFC) 5646, “Tags for Identifying Languages,” September 2009', 3, '2016-01-14', '2016-01-14', null, null, null, array[5]);
+--call openchpl.backfill_standards('170.207(g)(2)', 'Request for Comments (RFC) 5646, “Tags for Identifying Languages,” September 2009', 3, '2016-01-14', '2016-01-14', null, null, null, array[5]);
 
-call openchpl.backfill_standards('170.207(n)(2)', 'Sex must be coded in accordance with, at a minimum, the version of SNOMED CT® codes specified in §170.207(a)(1)', 5, '2024-02-11', '2025-12-31', null, 'Sex Code Set', null, array[5, 28, 165]);
+--call openchpl.backfill_standards('170.207(n)(2)', 'Sex must be coded in accordance with, at a minimum, the version of SNOMED CT® codes specified in §170.207(a)(1)', 5, '2024-02-11', '2025-12-31', null, 'Sex Code Set', null, array[5, 28, 165]);
 
-call openchpl.backfill_standards('170.207(n)(3)', 'Sex Parameter for Clinical Use must be coded in accordance with, at a minimum, the version of LOINC® codes specified in § 170.207(c)(1)', 5, '2024-02-11', '2025-12-31', null, null, null, array[5]);
+--call openchpl.backfill_standards('170.207(n)(3)', 'Sex Parameter for Clinical Use must be coded in accordance with, at a minimum, the version of LOINC® codes specified in § 170.207(c)(1)', 5, '2024-02-11', '2025-12-31', null, null, null, array[5]);
 
-call openchpl.backfill_standards('170.207(o)(3)', 'Sexual Orientation and Gender Identity must be coded in accordance with, at a minimum, the version of SNOMED CT® codes specified in § 170.207(a)(1)', 5, '2024-02-11', '2025-12-31', null, 'SOGI', null, array[5]);
+--call openchpl.backfill_standards('170.207(o)(3)', 'Sexual Orientation and Gender Identity must be coded in accordance with, at a minimum, the version of SNOMED CT® codes specified in § 170.207(a)(1)', 5, '2024-02-11', '2025-12-31', null, 'SOGI', null, array[5]);
 
-call openchpl.backfill_standards('170.207(o)(4)', 'Pronouns must be coded in accordance with, at a minimum, the version of LOINC codes specified in 170.207(c)(1)', 5, '2024-02-11', '2025-12-31', null, null, null, array[5]);
+--call openchpl.backfill_standards('170.207(o)(4)', 'Pronouns must be coded in accordance with, at a minimum, the version of LOINC codes specified in 170.207(c)(1)', 5, '2024-02-11', '2025-12-31', null, null, null, array[5]);
 
-call openchpl.backfill_standards('170.207(p)(1)', 'Financial resource strain. Financial resource strain must be coded in accordance with, at a minimum, the version of LOINC® codes specified in § 170.207(c)(3) and attributed with the LOINC® code 76513-1 and LOINC® answer list ID LL3266-5.', 3, '2016-01-14', '2016-01-14', null, null, null, array[15]);
+--call openchpl.backfill_standards('170.207(p)(1)', 'Financial resource strain. Financial resource strain must be coded in accordance with, at a minimum, the version of LOINC® codes specified in § 170.207(c)(3) and attributed with the LOINC® code 76513-1 and LOINC® answer list ID LL3266-5.', 3, '2016-01-14', '2016-01-14', null, null, null, array[15]);
 
-call openchpl.backfill_standards('170.207(p)(2)', 'Education. Education must be coded in accordance with, at a minimum, the version of LOINC® codes specified in § 170.207(c)(3) and attributed with LOINC® code 63504-5 and LOINC® answer list ID LL1069-5.', 3, '2016-01-14', '2016-01-14', null, null, null, array[15]);
+--call openchpl.backfill_standards('170.207(p)(2)', 'Education. Education must be coded in accordance with, at a minimum, the version of LOINC® codes specified in § 170.207(c)(3) and attributed with LOINC® code 63504-5 and LOINC® answer list ID LL1069-5.', 3, '2016-01-14', '2016-01-14', null, null, null, array[15]);
 
-call openchpl.backfill_standards('170.207(p)(3)', 'Stress. Stress must be coded in accordance with, at a minimum, the version of LOINC® codes specified in § 170.207(c)(3) and attributed with the LOINC® code 76542-0 and LOINC® answer list LL3267-3.', 3, '2016-01-14', '2016-01-14', null, null, null, array[15]);
+--call openchpl.backfill_standards('170.207(p)(3)', 'Stress. Stress must be coded in accordance with, at a minimum, the version of LOINC® codes specified in § 170.207(c)(3) and attributed with the LOINC® code 76542-0 and LOINC® answer list LL3267-3.', 3, '2016-01-14', '2016-01-14', null, null, null, array[15]);
 
-call openchpl.backfill_standards('170.207(p)(4)', 'Depression. Depression must be coded in accordance with, at a minimum, the version of LOINC® codes specified in § 170.207(c)(3) and attributed with LOINC® codes 55757-9, 44250-9 (with LOINC® answer list ID LL358-3), 44255-8 (with LOINC® answer list ID LL358-3), and 55758-7 (with the answer coded with the associated applicable unit of measure in the standard specified in § 170.207(m)(2)).', 5, '2024-02-11', '2024-02-11', null, null, null, array[15]);
+--call openchpl.backfill_standards('170.207(p)(4)', 'Depression. Depression must be coded in accordance with, at a minimum, the version of LOINC® codes specified in § 170.207(c)(3) and attributed with LOINC® codes 55757-9, 44250-9 (with LOINC® answer list ID LL358-3), 44255-8 (with LOINC® answer list ID LL358-3), and 55758-7 (with the answer coded with the associated applicable unit of measure in the standard specified in § 170.207(m)(2)).', 5, '2024-02-11', '2024-02-11', null, null, null, array[15]);
 
-call openchpl.backfill_standards('170.207(p)(4)-Original', 'Depression. Depression must be coded in accordance with, at a minimum, the version of LOINC® codes specified in § 170.207(c)(3) and attributed with LOINC® codes 55757-9, 44250-9 (with LOINC® answer list ID LL358-3), 44255-8 (with LOINC® answer list ID LL358-3), and 55758-7 (with the answer coded with the associated applicable unit of measure in the standard specified in § 170.207(m)(1)).', 3, '2016-01-14', '2016-01-14', '2024-02-11', null, null, array[15]);
+--call openchpl.backfill_standards('170.207(p)(4)-Original', 'Depression. Depression must be coded in accordance with, at a minimum, the version of LOINC® codes specified in § 170.207(c)(3) and attributed with LOINC® codes 55757-9, 44250-9 (with LOINC® answer list ID LL358-3), 44255-8 (with LOINC® answer list ID LL358-3), and 55758-7 (with the answer coded with the associated applicable unit of measure in the standard specified in § 170.207(m)(1)).', 3, '2016-01-14', '2016-01-14', '2024-02-11', null, null, array[15]);
 
-call openchpl.backfill_standards('170.207(p)(5)', 'Physical activity. Physical activity must be coded in accordance with, at a minimum, the version of LOINC® codes specified in § 170.207(c)(3) and attributed with LOINC® codes 68515-6 and 68516-4. The answers must be coded with the associated applicable unit of measure in the standard specified in § 170.207(m)(2).', 5, '2024-02-11', '2024-02-11', null, null, null, array[15]);
+--call openchpl.backfill_standards('170.207(p)(5)', 'Physical activity. Physical activity must be coded in accordance with, at a minimum, the version of LOINC® codes specified in § 170.207(c)(3) and attributed with LOINC® codes 68515-6 and 68516-4. The answers must be coded with the associated applicable unit of measure in the standard specified in § 170.207(m)(2).', 5, '2024-02-11', '2024-02-11', null, null, null, array[15]);
 
-call openchpl.backfill_standards('170.207(p)(5)-Original', 'Physical activity. Physical activity must be coded in accordance with, at a minimum, the version of LOINC® codes specified in § 170.207(c)(3) and attributed with LOINC® codes 68515-6 and 68516-4. The answers must be coded with the associated applicable unit of measure in the standard specified in § 170.207(m)(1).', 3, '2016-01-14', '2016-01-14', '2024-02-11', null, null, array[15]);
+--call openchpl.backfill_standards('170.207(p)(5)-Original', 'Physical activity. Physical activity must be coded in accordance with, at a minimum, the version of LOINC® codes specified in § 170.207(c)(3) and attributed with LOINC® codes 68515-6 and 68516-4. The answers must be coded with the associated applicable unit of measure in the standard specified in § 170.207(m)(1).', 3, '2016-01-14', '2016-01-14', '2024-02-11', null, null, array[15]);
 
-call openchpl.backfill_standards('170.207(p)(6)', 'Alcohol use must be coded in accordance with, at a minimum, the version of LOINC® codes specified in § 170.207(c)(1) of this section and attributed with LOINC® codes 72109-2, 68518-0 (with LOINC® answer list ID LL2179-1), 68519-8 (with LOINC® answer list ID LL2180-9), 68520-6 (with LOINC® answer list ID LL2181-7), and 75626-2 (with the answer coded with the associated applicable unit of measure in the standard specified in § 170.207(m)(2)).', 5, '2024-02-11', '2024-02-11', null, null, null, array[15]);
+--call openchpl.backfill_standards('170.207(p)(6)', 'Alcohol use must be coded in accordance with, at a minimum, the version of LOINC® codes specified in § 170.207(c)(1) of this section and attributed with LOINC® codes 72109-2, 68518-0 (with LOINC® answer list ID LL2179-1), 68519-8 (with LOINC® answer list ID LL2180-9), 68520-6 (with LOINC® answer list ID LL2181-7), and 75626-2 (with the answer coded with the associated applicable unit of measure in the standard specified in § 170.207(m)(2)).', 5, '2024-02-11', '2024-02-11', null, null, null, array[15]);
 
-call openchpl.backfill_standards('170.207(p)(6)-Original', 'Alcohol use. Alcohol use must be coded in accordance with, at a minimum, the version of LOINC® codes specified in § 170.207(c)(3) and attributed with LOINC® codes 72109-2, 68518-0 (with LOINC® answer list ID LL2179-1), 68519-8 (with LOINC® answer list ID LL2180-9), 68520-6 (with LOINC® answer list ID LL2181-7), and 75626-2.', 3, '2016-01-14', '2016-01-14', '2024-02-11', null, null, array[15]);
+--call openchpl.backfill_standards('170.207(p)(6)-Original', 'Alcohol use. Alcohol use must be coded in accordance with, at a minimum, the version of LOINC® codes specified in § 170.207(c)(3) and attributed with LOINC® codes 72109-2, 68518-0 (with LOINC® answer list ID LL2179-1), 68519-8 (with LOINC® answer list ID LL2180-9), 68520-6 (with LOINC® answer list ID LL2181-7), and 75626-2.', 3, '2016-01-14', '2016-01-14', '2024-02-11', null, null, array[15]);
 
-call openchpl.backfill_standards('170.207(p)(7)', 'Social connection and isolation. Social connection and isolation must be coded in accordance with, at a minimum, the version of LOINC® codes specified in § 170.207(c)(1) of this section and attributed with the LOINC® codes 76506-5, 63503-7 (with LOINC® answer list ID LL1068-7), 76508-1 (with the associated applicable unit of measure in the standard specified in § 170.207(m)(2)), 76509-9 (with the associated applicable unit of measure in the standard specified in § 170.207(m)(2)), 76510-7 (with the associated applicable unit of measure in the standard specified in § 170.207(m)(2)), 76511-5 (with LOINC answer list ID LL963-0), and 76512-3 (with the associated applicable unit of measure in the standard specified in § 170.207(m)(2)).', 5, '2024-02-11', '2024-02-11', null, null, null, array[15]);
+--call openchpl.backfill_standards('170.207(p)(7)', 'Social connection and isolation. Social connection and isolation must be coded in accordance with, at a minimum, the version of LOINC® codes specified in § 170.207(c)(1) of this section and attributed with the LOINC® codes 76506-5, 63503-7 (with LOINC® answer list ID LL1068-7), 76508-1 (with the associated applicable unit of measure in the standard specified in § 170.207(m)(2)), 76509-9 (with the associated applicable unit of measure in the standard specified in § 170.207(m)(2)), 76510-7 (with the associated applicable unit of measure in the standard specified in § 170.207(m)(2)), 76511-5 (with LOINC answer list ID LL963-0), and 76512-3 (with the associated applicable unit of measure in the standard specified in § 170.207(m)(2)).', 5, '2024-02-11', '2024-02-11', null, null, null, array[15]);
 
-call openchpl.backfill_standards('170.207(p)(7)-Original', 'Social connection and isolation. Social connection and isolation must be coded in accordance with, at a minimum, the version of LOINC® codes specified in § 170.207(c)(3) and attributed with the LOINC® codes 76506-5, 63503-7 (with LOINC answer list ID LL1068-7), 76508-1 (with the associated applicable unit of measure in the standard specified in § 170.207(m)(1)), 76509-9 (with the associated applicable unit of measure in the standard specified in § 170.207(m)(1)), 76510-7 (with the associated applicable unit of measure in the standard specified in § 170.207(m)(1)), 76511-5 (with LOINC answer list ID LL963-0), and 76512-3 (with the associated applicable unit of measure in the standard specified in § 170.207(m)(1)).', 3, '2016-01-14', '2016-01-14', '2024-02-11', null, null, array[15]);
+--call openchpl.backfill_standards('170.207(p)(7)-Original', 'Social connection and isolation. Social connection and isolation must be coded in accordance with, at a minimum, the version of LOINC® codes specified in § 170.207(c)(3) and attributed with the LOINC® codes 76506-5, 63503-7 (with LOINC answer list ID LL1068-7), 76508-1 (with the associated applicable unit of measure in the standard specified in § 170.207(m)(1)), 76509-9 (with the associated applicable unit of measure in the standard specified in § 170.207(m)(1)), 76510-7 (with the associated applicable unit of measure in the standard specified in § 170.207(m)(1)), 76511-5 (with LOINC answer list ID LL963-0), and 76512-3 (with the associated applicable unit of measure in the standard specified in § 170.207(m)(1)).', 3, '2016-01-14', '2016-01-14', '2024-02-11', null, null, array[15]);
 
-call openchpl.backfill_standards('170.207(p)(8)', 'Exposure to violence (intimate partner violence). Exposure to violence: Intimate partner violence must be coded in accordance with, at a minimum, the version of LOINC® codes specified in § 170.207(c)(1) of this section and attributed with the LOINC® code 76499-3, 76500-8 (with LOINC® answer list ID LL963-0), 76501-6 (with LOINC® answer list ID LL963-0), 76502-4 (with LOINC® answer list ID LL963-0), 76503-2 (with LOINC® answer list ID LL963-0), and 76504-0 (with the associated applicable unit of measure in the standard specified in § 170.207(m)(2)).', 5, '2024-02-11', '2024-02-11', null, null, null, array[15]);
+--call openchpl.backfill_standards('170.207(p)(8)', 'Exposure to violence (intimate partner violence). Exposure to violence: Intimate partner violence must be coded in accordance with, at a minimum, the version of LOINC® codes specified in § 170.207(c)(1) of this section and attributed with the LOINC® code 76499-3, 76500-8 (with LOINC® answer list ID LL963-0), 76501-6 (with LOINC® answer list ID LL963-0), 76502-4 (with LOINC® answer list ID LL963-0), 76503-2 (with LOINC® answer list ID LL963-0), and 76504-0 (with the associated applicable unit of measure in the standard specified in § 170.207(m)(2)).', 5, '2024-02-11', '2024-02-11', null, null, null, array[15]);
 
-call openchpl.backfill_standards('170.207(p)(8)-Original', 'Exposure to violence (intimate partner violence). Exposure to violence: intimate partner violence must be coded in accordance with, at a minimum, the version of LOINC® codes specified in § 170.207(c)(3) and attributed with the LOINC® code 76499-3, 76500-8 (with LOINC® answer list ID LL963-0), 76501-6 (with LOINC® answer list ID LL963-0), 76502-4 (with LOINC® answer list ID LL963-0), 76503-2 (with LOINC® answer list ID LL963-0), and 76504-0 (with the associated applicable unit of measure in the standard specified in § 170.207(m)(1)).', 3, '2016-01-14', '2016-01-14', '2024-02-11', null, null, array[15]);
+--call openchpl.backfill_standards('170.207(p)(8)-Original', 'Exposure to violence (intimate partner violence). Exposure to violence: intimate partner violence must be coded in accordance with, at a minimum, the version of LOINC® codes specified in § 170.207(c)(3) and attributed with the LOINC® code 76499-3, 76500-8 (with LOINC® answer list ID LL963-0), 76501-6 (with LOINC® answer list ID LL963-0), 76502-4 (with LOINC® answer list ID LL963-0), 76503-2 (with LOINC® answer list ID LL963-0), and 76504-0 (with the associated applicable unit of measure in the standard specified in § 170.207(m)(1)).', 3, '2016-01-14', '2016-01-14', '2024-02-11', null, null, array[15]);
 
-call openchpl.backfill_standards('170.207(q)(1)', 'International Telecommunication Union E.123: Notation for national and international telephone numbers, e-mail addresses and web addresses and International Telecommunication Union E.164: The international public telecommunication numbering plan', 3, '2016-01-14', '2016-01-14', null, null, null, array[16, 165]);
+--call openchpl.backfill_standards('170.207(q)(1)', 'International Telecommunication Union E.123: Notation for national and international telephone numbers, e-mail addresses and web addresses and International Telecommunication Union E.164: The international public telecommunication numbering plan', 3, '2016-01-14', '2016-01-14', null, null, null, array[16, 165]);
 
-call openchpl.backfill_standards('170.207(r)(1)', 'Crosswalk: Medicare Provider/Supplier to Healthcare Provider Taxonomy, April 2, 2015', 3, '2016-01-14', '2016-01-14', '2024-02-11', 'Provider/Supplier Taxonomy', 'Must be updated to Crosswalk: Medicare Provider/Supplier to Healthcare Provider Taxonomy, October 29, 2021', array[28]);
+--call openchpl.backfill_standards('170.207(r)(1)', 'Crosswalk: Medicare Provider/Supplier to Healthcare Provider Taxonomy, April 2, 2015', 3, '2016-01-14', '2016-01-14', '2024-02-11', 'Provider/Supplier Taxonomy', 'Must be updated to Crosswalk: Medicare Provider/Supplier to Healthcare Provider Taxonomy, October 29, 2021', array[28]);
 
-call openchpl.backfill_standards('170.207(r)(2)', 'Crosswalk: Medicare Provider/Supplier to Healthcare Provider Taxonomy, October 29, 2021', 5, '2024-02-11', '2024-02-11', null, 'Provider/Supplier Taxonomy', null, array[28]);
+--call openchpl.backfill_standards('170.207(r)(2)', 'Crosswalk: Medicare Provider/Supplier to Healthcare Provider Taxonomy, October 29, 2021', 5, '2024-02-11', '2024-02-11', null, 'Provider/Supplier Taxonomy', null, array[28]);
 
-call openchpl.backfill_standards('170.207(s)(1)', 'Public Health Data Standards Consortium Source of Payment Typology Code Set Version 5.0 (October 2011)', 3, '2016-01-14', '2016-01-14', '2024-02-11', 'Payment Typology', 'Must be updated to Public Health Data Standards Consortium Source of Payment Typology Code Set Version 9.2 (December 2020)', array[28]);
+--call openchpl.backfill_standards('170.207(s)(1)', 'Public Health Data Standards Consortium Source of Payment Typology Code Set Version 5.0 (October 2011)', 3, '2016-01-14', '2016-01-14', '2024-02-11', 'Payment Typology', 'Must be updated to Public Health Data Standards Consortium Source of Payment Typology Code Set Version 9.2 (December 2020)', array[28]);
 
-call openchpl.backfill_standards('170.207(s)(2)', 'Public Health Data Standards Consortium Source of Payment Typology Code Set Version 9.2 (December 2020)', 5, '2024-02-11', '2024-02-11', null, 'Payment Typology', null, array[28]);
+--call openchpl.backfill_standards('170.207(s)(2)', 'Public Health Data Standards Consortium Source of Payment Typology Code Set Version 9.2 (December 2020)', 5, '2024-02-11', '2024-02-11', null, 'Payment Typology', null, array[28]);
 
 call openchpl.backfill_standards('170.210(a)(2)', 'General. Any encryption algorithm identified by the National Institute of Standards and Technology (NIST) as an approved security function in Annex A of the Federal Information Processing Standards (FIPS) Publication 140-2, October 8, 2014 (incorporated by reference in §170.299).', 3, '2016-01-14', '2016-01-14', null, null, null, array[35, 37, 176]);
 
@@ -284,36 +284,36 @@ call openchpl.backfill_standards('170.205(t)(2)', 'HL7 CDA® R2 Implementation G
 (2) The HL7 CDA eICR IG in § 170.205(t)(2). If certifiying to the HL7 CDA eICR IG for case report creation, must also certify to HL7 CDA RR IG in § 170.205(t)(3) for report receipt, consumption and processing.', array[47]);
 
 
-call openchpl.backfill_standards('170.207(i)', 'Encounter diagnoses: The code set specified at 45 CFR 162.1002(c)(2) for the indicated conditions ICD-10-CM as maintained and distributed by HHS, for the following conditions:
-Diseases.
-Injuries.
-Impairments.
-Other health problems and their manifestations.
-Causes of injury, disease, impairment, or health problems.', 3, '2016-01-14', '2016-01-14', null, null, null, array[16, 19, 20, 21, 165]);
+--call openchpl.backfill_standards('170.207(i)', 'Encounter diagnoses: The code set specified at 45 CFR 162.1002(c)(2) for the indicated conditions ICD-10-CM as maintained and distributed by HHS, for the following conditions:
+--Diseases.
+--Injuries.
+--Impairments.
+--Other health problems and their manifestations.
+--Causes of injury, disease, impairment, or health problems.', 3, '2016-01-14', '2016-01-14', null, null, null, array[16, 19, 20, 21, 165]);
 
 
-call openchpl.backfill_standards('170.207(n)(1)', 'Birth sex must be coded in accordance with HL7 Version 3 Standard, Value Sets for AdministrativeGender and NullFlavor attributed as follows:
-Male. M; Female. F; Unknown. UNK', 3, '2016-01-14', '2016-01-14', '2025-12-31', 'Sex Code Set', 'Sex must be coded in accordance with, at a minimum, the version of SNOMED CT® codes specified in §170.207(a)(1)', array[5, 16, 28, 165]);
+--call openchpl.backfill_standards('170.207(n)(1)', 'Birth sex must be coded in accordance with HL7 Version 3 Standard, Value Sets for AdministrativeGender and NullFlavor attributed as follows:
+--Male. M; Female. F; Unknown. UNK', 3, '2016-01-14', '2016-01-14', '2025-12-31', 'Sex Code Set', 'Sex must be coded in accordance with, at a minimum, the version of SNOMED CT® codes specified in §170.207(a)(1)', array[5, 16, 28, 165]);
 
 
-call openchpl.backfill_standards('170.207(o)(1)', 'Sexual orientation must be coded in accordance with, at a minimum, the version of SNOMED CT® codes adopted at paragraph (a)(4) of this section for paragraphs (o)(1)(i) through (iii) of this section and HL7 Version 3 for paragraphs (o)(1)(iv) through (vi) of this section, attributed as follows:
+--call openchpl.backfill_standards('170.207(o)(1)', 'Sexual orientation must be coded in accordance with, at a minimum, the version of SNOMED CT® codes adopted at paragraph (a)(4) of this section for paragraphs (o)(1)(i) through (iii) of this section and HL7 Version 3 for paragraphs (o)(1)(iv) through (vi) of this section, attributed as follows:
+--
+--Lesbian, gay or homosexual. 38628009
+--Straight or heterosexual. 20430005
+--Bisexual. 42035005
+--Something else, please describe. nullFlavor OTH
+--Don’t know. nullFlavor UNK
+--Choose not to disclose. nullFlavor ASKU', 3, '2016-01-14', '2016-01-14', '2025-12-31', 'SOGI', 'Sexual Orientation and Gender Identity must be coded in accordance with, at a minimum, the version of SNOMED CT® codes specified in §170.207(a)(1)', array[5]);
 
-Lesbian, gay or homosexual. 38628009
-Straight or heterosexual. 20430005
-Bisexual. 42035005
-Something else, please describe. nullFlavor OTH
-Don’t know. nullFlavor UNK
-Choose not to disclose. nullFlavor ASKU', 3, '2016-01-14', '2016-01-14', '2025-12-31', 'SOGI', 'Sexual Orientation and Gender Identity must be coded in accordance with, at a minimum, the version of SNOMED CT® codes specified in §170.207(a)(1)', array[5]);
-
-call openchpl.backfill_standards('170.207(o)(2)', 'Gender identity must be coded in accordance with, at a minimum, the version of SNOMED CT® codes adopted at paragraph (a)(4) of this section for paragraphs (o)(2)(i) through (v) of this section and HL7 Version 3 for paragraphs (o)(2)(vi) and (vii) of this section, attributed as follows:
-
-Identifies as Male. 446151000124109
-Identifies as Female. 446141000124107
-Female-to-Male (FTM)/Transgender Male/Trans Man. 407377005
-Male-to-Female (MTF)/Transgender Female/Trans Woman. 407376001
-Genderqueer, neither exclusively male nor female. 446131000124102
-Additional gender category or other, please specify. nullFlavor OTH
-Choose not to disclose. nullFlavor ASKU', 3, '2016-01-14', '2016-01-14', '2025-12-31', 'SOGI', 'Sexual Orientation and Gender Identity must be coded in accordance with, at a minimum, the version of SNOMED CT® codes specified in §170.207(a)(1)', array[5]);
+--call openchpl.backfill_standards('170.207(o)(2)', 'Gender identity must be coded in accordance with, at a minimum, the version of SNOMED CT® codes adopted at paragraph (a)(4) of this section for paragraphs (o)(2)(i) through (v) of this section and HL7 Version 3 for paragraphs (o)(2)(vi) and (vii) of this section, attributed as follows:
+--
+--Identifies as Male. 446151000124109
+--Identifies as Female. 446141000124107
+--Female-to-Male (FTM)/Transgender Male/Trans Man. 407377005
+--Male-to-Female (MTF)/Transgender Female/Trans Woman. 407376001
+--Genderqueer, neither exclusively male nor female. 446131000124102
+--Additional gender category or other, please specify. nullFlavor OTH
+--Choose not to disclose. nullFlavor ASKU', 3, '2016-01-14', '2016-01-14', '2025-12-31', 'SOGI', 'Sexual Orientation and Gender Identity must be coded in accordance with, at a minimum, the version of SNOMED CT® codes specified in §170.207(a)(1)', array[5]);
 
 
 call openchpl.backfill_standards('170.210(e)(1)', 'The audit log must record the information specified in sections 7.1.1 and and 7.1.2 and 7.1.6 through 7.1.9 of the standard specified in § 170.210(h) and changes to user privileges when health IT is in use.
