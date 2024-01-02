@@ -237,13 +237,13 @@ call openchpl.backfill_standards('170.205(t)(4)', 'Reportable Conditions Trigger
 
 --call openchpl.backfill_standards('170.207(s)(2)', 'Public Health Data Standards Consortium Source of Payment Typology Code Set Version 9.2 (December 2020)', 5, '2024-02-11', '2024-02-11', null, 'Payment Typology', null, array[28]);
 
-call openchpl.backfill_standards('170.210(a)(2)', 'General. Any encryption algorithm identified by the National Institute of Standards and Technology (NIST) as an approved security function in Annex A of the Federal Information Processing Standards (FIPS) Publication 140-2, October 8, 2014 (incorporated by reference in §170.299).', 3, '2016-01-14', '2016-01-14', null, null, null, array[35, 37, 176]);
+call openchpl.backfill_standards('170.210(a)(2)', 'Any encryption algorithm identified by the National Institute of Standards and Technology (NIST) as an approved security function in Annex A of the Federal Information Processing Standards (FIPS) Publication 140–2, October 8, 2014', 3, '2016-01-14', '2016-01-14', null, null, null, array[35, 37, 176]);
 
 call openchpl.backfill_standards('170.210(c)(2)', 'A hashing algorithm with a security strength equal to or greater than SHA-2 as specified by NIST in FIPS Publication 180-4, Secure Hash Standard, 180-4 (August 2015).', 3, '2016-01-14', '2016-01-14', null, null, null, array[36, 37]);
 
 call openchpl.backfill_standards('170.210(d)', 'Record treatment, payment, and health care operations disclosures. The date, time, patient identification, user identification, and a description of the disclosure must be recorded for disclosures for treatment, payment, and health care operations, as these terms are defined at 45 CFR 164.501.', 3, '2016-01-14', '2016-01-14', null, null, null, array[39]);
 
-call openchpl.backfill_standards('170.210(e)(3)', 'The audit log must record the information specified in sections 7.1.1 and 7.1.7 of the standard specified at § 170.210(h) when the encryption status of electronic health information locally stored by EHR technology on end-user devices is changed. The date and time each action occurs in accordance with the standard specified at § 170.210(g).', 4, '2020-06-30', '2020-06-30', null, null, null, array[173]);
+call openchpl.backfill_standards('170.210(e)(3)', 'The audit log must record the information specified in sections 7.1.1 and 7.1.7 of the standard specified at § 170.210(h) when the encryption status of electronic health information locally stored by EHR technology on end-user devices is changed. The date and time each action occurs in accordance with the standard specified at § 170.210(g).', 4, '2020-06-30', '2020-06-30', null, null, null, array[173, 174]);
 
 call openchpl.backfill_standards('170.210(g)', 'The date and time recorded utilize a system clock that has been synchronized using any Network Time Protocol (NTP) standard.', 3, '2016-01-14', '2016-01-14', null, null, null, array[30, 31, 38, 40]);
 
@@ -320,6 +320,6 @@ call openchpl.backfill_standards('170.210(e)(1)', 'The audit log must record the
 The date and time must be recorded in accordance with the standard specified at § 170.210(g).', 4, '2020-06-30', '2020-06-30', null, null, null, array[173, 175]);
 
 call openchpl.backfill_standards('170.210(e)(2)', 'The audit log must record the information specified in sections 7.1.1 and 7.1.7 of the standard specified at § 170.210(h) when the audit log status is changed.
-The date and time each action occurs in accordance with the standard specified at § 170.210(g).', 4, '2020-06-30', '2020-06-30', null, null, null, array[173]);
+The date and time each action occurs in accordance with the standard specified at § 170.210(g).', 4, '2020-06-30', '2020-06-30', null, null, null, array[173, 174]);
 
 DROP PROCEDURE if exists openchpl.backfill_standards;
