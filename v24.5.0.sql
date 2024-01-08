@@ -1,3 +1,98 @@
+-- Deployment file for version 24.5.0
+--     as of 2024-01-08
+-- ./changes/ocd-4377.sql
+ALTER TABLE openchpl.ehr_certification_id ADD COLUMN IF NOT EXISTS deleted BOOL NOT NULL DEFAULT false;
+
+CREATE OR REPLACE FUNCTION "openchpl".column_exists (ptable text, pcolumn text, pschema text DEFAULT 'public')
+    RETURNS boolean
+    LANGUAGE sql
+    STABLE STRICT
+    AS $BODY$
+    -- does the requested table.column exist in schema?
+    SELECT
+        EXISTS (
+            SELECT
+                NULL
+            FROM
+                information_schema.columns
+            WHERE
+                table_name = ptable
+                AND column_name = pcolumn
+                AND table_schema = pschema);
+$BODY$;
+
+
+CREATE OR REPLACE FUNCTION openchpl.last_modified_user_constraint() RETURNS trigger LANGUAGE plpgsql
+AS $function$
+BEGIN
+	IF NEW.last_modified_user IS NULL AND NEW.last_modified_sso_user IS NULL THEN
+		RAISE EXCEPTION 'Column last_modified_user or last_modified_sso_user requires a value.';
+	ELSIF  NEW.last_modified_user IS NOT NULL AND NEW.last_modified_sso_user IS NOT NULL THEN
+		RAISE EXCEPTION 'Only one of the columns [last_modified_user , last_modified_sso_user] can have a value.';
+	END IF;
+	RETURN NEW;
+END;
+$function$;
+
+
+DO $$
+DECLARE
+    row record;
+    cmd text;
+    table_name text;
+BEGIN
+	FOR row IN SELECT schemaname, tablename FROM pg_tables WHERE schemaname = 'openchpl' ORDER BY tablename LOOP
+		IF openchpl.column_exists(row.tablename, 'last_modified_user', row.schemaname) THEN
+	        	cmd := format('ALTER TABLE %I.%I ADD COLUMN IF NOT EXISTS last_modified_sso_user uuid;', row.schemaname, row.tablename);
+		        --RAISE NOTICE '%', cmd;
+		        EXECUTE cmd;
+
+			cmd :=  format('ALTER TABLE %I.%I ALTER COLUMN last_modified_user DROP NOT NULL;', row.schemaname, row.tablename);
+			--RAISE NOTICE '%', cmd;
+			EXECUTE cmd;
+
+			cmd := format('DROP TRIGGER IF EXISTS %s_last_modified_user_constraint on %I.%I;', row.tablename, row.schemaname, row.tablename);
+			--RAISE NOTICE '%', cmd;
+			EXECUTE cmd;
+
+			cmd := format('CREATE CONSTRAINT TRIGGER %s_last_modified_user_constraint AFTER INSERT OR UPDATE ON %I.%I DEFERRABLE INITIALLY DEFERRED FOR EACH ROW EXECUTE PROCEDURE openchpl.last_modified_user_constraint();', row.tablename, row.schemaname, row.tablename);
+			--RAISE NOTICE '%', cmd;
+        		EXECUTE cmd;
+		ELSE
+			RAISE NOTICE '%s does not have a last_modified_user column', row.tablename;
+		END IF;
+
+		IF not openchpl.column_exists(row.tablename, 'deleted', row.schemaname) THEN
+			RAISE NOTICE '%s does not have a deleted', row.tablename;
+		END IF;
+    	END LOOP;
+END
+$$ LANGUAGE plpgsql;
+
+
+DROP FUNCTION openchpl.column_exists;
+;
+-- ./changes/ocd-4383.sql
+insert into openchpl.certification_result (certified_product_id, certification_criterion_id, success, g1_success, g2_success, last_modified_user)
+select cp.certified_product_id, crit.certification_criterion_id, false, false, false, -1
+from openchpl.certified_product cp,
+	(select cc.certification_criterion_id
+	from openchpl.certification_criterion cc
+		inner join openchpl.certification_criterion_attribute cca
+			on cc.certification_criterion_id = cca.criterion_id
+	where cc.certification_edition_id = 2
+	and (cca.g1_success or cca.g2_success)) crit
+where certification_edition_id = 2
+and cp.deleted = false
+and not exists (
+	select certification_result_id
+	from openchpl.certification_result cr
+	where cr.certification_criterion_id = crit.certification_criterion_id
+	and cr.certified_product_id = cp.certified_product_id
+	and cr.deleted = false
+);
+;
+-- ./changes/ocd-4417.sql
 -------------------------------
 -- Add all the companion guide URLs
 -------------------------------
@@ -228,4 +323,8 @@ INSERT INTO openchpl.url_type (name, last_modified_user)
 SELECT 'Certification Criterion', -1
 WHERE NOT EXISTS (
 	SELECT id from openchpl.url_type where name = 'Certification Criterion'
-);
+);;
+insert into openchpl.data_model_version (version, deploy_date, last_modified_user) values ('24.5.0', '2024-01-08', -1);
+\i dev/openchpl_soft-delete.sql
+\i dev/openchpl_views.sql
+\i dev/openchpl_grant-all.sql
