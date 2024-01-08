@@ -1,4 +1,20 @@
 # Release Notes
+	
+## Version 24.5.0
+_8 January 2024_
+
+### Features
+* Add last_modified_sso_user column to all tables
+* Add views for RWT urls by developer
+* Create subscription_search_results view
+* Create view for listing subscriptions to get CHPL Prod Nbr
+
+### Data Changes
+* Backfill Certification Results for 2014 Listings
+* Add Certification Criterion URL type for url report
+* Add companion guide link to criteria where available
+
+---
 
 ## Version 24.4.0
 _11 December 2023_
