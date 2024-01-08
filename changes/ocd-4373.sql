@@ -119,11 +119,11 @@ call openchpl.backfill_standards('170.205(a)(3)', 'HL7 Implementation Guide for 
 
 call openchpl.backfill_standards('170.205(a)(4)', 'HL7 Implementation Guide for CDA® Release 2: Consolidated CDA Templates for Clinical Notes (US Realm), Draft Standard for Trial Use Release 2.1, August 2015', 3, '2016-01-14', '2016-01-14', null, null, null, array[16, 17, 19, 20, 21, 22, 23, 24, 40, 55, 59, 165, 166, 168, 169, 170, 178, 180, 181]);
 
-call openchpl.backfill_standards('170.205(a)(5)', 'HL7® CDA R2 IG: C-CDA Templates for Clinical Notes R2.1 Companion Guide, Release 2, October 2019, IBR approved for § 170.205(a)(5).', 4, '2020-06-30', '2022-12-31', '2025-12-31', 'CCDA-CG', 'Must be replaced by C-CDA Templates for Clinical Notes R2.1 Companion Guide, Release 4-US Realm, May 2023', array[165, 166, 170, 178, 180, 181]);
+call openchpl.backfill_standards('170.205(a)(5)', 'HL7® CDA R2 IG: C-CDA Templates for Clinical Notes R2.1 Companion Guide, Release 2, October 2019, IBR approved for § 170.205(a)(5).', 4, '2020-06-30', '2020-06-30', '2025-12-31', 'CCDA-CG', 'Must be replaced by C-CDA Templates for Clinical Notes R2.1 Companion Guide, Release 4-US Realm, May 2023', array[165, 166, 170, 178, 180, 181]);
 
 call openchpl.backfill_standards('170.205(a)(6)', 'HL7® CDA R2 Implementation Guide: C-CDA Templates for Clinical Notes R2.1 Companion Guide, Release 4-US Realm, May 2023', 5, '2024-02-11', '2025-12-31', null, 'CCDA-CG', null, array[165, 166, 170, 178, 180, 181]);
 
-call openchpl.backfill_standards('170.205(b)(1)', 'NCPDP SCRIPT Standard, Implementation Guide, Version 2017071', 4, '2020-06-30', '2022-12-31', null, null, null, array[167]);
+call openchpl.backfill_standards('170.205(b)(1)', 'NCPDP SCRIPT Standard, Implementation Guide, Version 2017071', 4, '2020-06-30', '2020-06-30', null, null, null, array[167]);
 
 call openchpl.backfill_standards('170.205(d)(4)', 'HL7 2.5.1. Implementation specifications. PHIN Messaging Guide for Syndromic Surveillance: Emergency Department, Urgent Care, Inpatient and Ambulatory Care Settings, Release 2.0, April 21, 2015 and Erratum to the CDC PHIN 2.0 Implementation Guide, August 2015; Erratum to the CDC PHIN 2.0 Messaging Guide, April 2015 Release for Syndromic Surveillance: Emergency Department, Urgent Care, Inpatient and Ambulatory Care Settings.', 3, '2016-01-14', '2016-01-14', null, null, null, array[44]);
 
@@ -135,7 +135,7 @@ call openchpl.backfill_standards('170.205(h)(2)', 'HL7 CDA® Release 2 Implement
 
 call openchpl.backfill_standards('170.205(h)(2)-Cures', 'HL7 CDA® Release 2 Implementation Guide for: Quality Reporting Document Architecture – Category I (QRDA I); Release 1, DSTU Release 3 (US Realm), Volume 1', 4, '2020-06-30', '2020-06-30', '2022-12-31', null, null, array[172]);
 
-call openchpl.backfill_standards('170.205(h)(3)', 'CMS Implementation Guide for Quality Reporting Document Architecture: Category I; Hospital Quality Reporting; Implementation Guide for 2020', 4, '2020-06-30', '2022-12-31', null, null, null, array[172]);
+call openchpl.backfill_standards('170.205(h)(3)', 'CMS Implementation Guide for Quality Reporting Document Architecture: Category I; Hospital Quality Reporting; Implementation Guide for 2020', 4, '2020-06-30', '2020-06-30', null, null, null, array[172]);
 
 call openchpl.backfill_standards('170.205(i)(2)', 'HL7 Implementation Guide for CDA© Release 2: Reporting to Public Health Cancer Registries from Ambulatory Healthcare Providers, Release 1, DSTU Release 1.1, April 2015', 3, '2016-01-14', '2016-01-14', null, null, null, array[46]);
 
@@ -147,7 +147,7 @@ call openchpl.backfill_standards('170.205(k)(2)-Cures', 'Errata to the HL7 Imple
 
 call openchpl.backfill_standards('170.205(k)(2)', 'Errata to the HL7 Implementation Guide for CDA® Release 2: Quality Reporting Document Architecture—Category III, DSTU Release 1 (US Realm), September 2014', 3, '2016-01-14', '2016-01-14', null, null, null, array[27, 28]);
 
-call openchpl.backfill_standards('170.205(k)(3)', 'CMS Implementation Guide for Quality Reporting Document Architecture: Category III; Eligible Clinicians and Eligible Professionals Programs; Implementation Guide for 2020', 4, '2020-06-30', '2022-12-31', null, null, null, array[172]);
+call openchpl.backfill_standards('170.205(k)(3)', 'CMS Implementation Guide for Quality Reporting Document Architecture: Category III; Eligible Clinicians and Eligible Professionals Programs; Implementation Guide for 2020', 4, '2020-06-30', '2020-06-30', null, null, null, array[172]);
 
 call openchpl.backfill_standards('170.205(o)(1)', 'HL7 Implementation Guide: Data Segmentation for Privacy (DS4P), Release 1', 3, '2016-01-14', '2016-01-14', null, null, null, array[22, 23, 168, 169]);
 
@@ -249,13 +249,13 @@ call openchpl.backfill_standards('170.210(g)', 'The date and time recorded utili
 
 call openchpl.backfill_standards('170.210(h)', 'Audit log content. ASTM E2147-18 Standard Specification for Audit and Disclosure Logs for Use in Health Information Systems.', 4, '2020-06-30', '2020-06-30', null, null, null, array[173, 174, 175]);
 
-call openchpl.backfill_standards('170.213(a)', 'United States Core Data for Interoperability (USCDI), July 2020 Errata, Version 1', 4, '2020-06-30', '2022-12-31', '2025-12-31', 'USCDI', 'Must be replaced by United States Core Data for Interoperability (USCDI), October 2022 Errata, Version 3', array[47, 165, 166, 178, 180, 181, 182, 210]);
+call openchpl.backfill_standards('170.213(a)', 'United States Core Data for Interoperability (USCDI), July 2020 Errata, Version 1', 4, '2020-06-30', '2020-06-30', '2025-12-31', 'USCDI', 'Must be replaced by United States Core Data for Interoperability (USCDI), October 2022 Errata, Version 3', array[47, 165, 166, 178, 180, 181, 182, 210]);
 
 call openchpl.backfill_standards('170.213(b)', 'United States Core Data for Interoperability (USCDI), October 2022 Errata, Version 3', 5, '2024-02-11', '2025-12-31', null, 'USCDI', null, array[47, 165, 166, 178, 180, 181, 182, 210]);
 
-call openchpl.backfill_standards('170.215(a)(1)', 'HL7® Version 4.0.1 FHIR® Release 4, October 30, 2019', 4, '2020-06-30', '2022-12-31', null, null, null, array[182]);
+call openchpl.backfill_standards('170.215(a)(1)', 'HL7® Version 4.0.1 FHIR® Release 4, October 30, 2019', 4, '2020-06-30', '2020-06-30', null, null, null, array[182]);
 
-call openchpl.backfill_standards('170.215(a)(2)', 'HL7 FHIR® US Core Implementation Guide STU V3.1.1', 4, '2020-06-30', '2022-12-31', '2025-12-31', 'US Core', 'Must be updated to HL7 FHIR® US Core Implementation Guide STU 6.1.0', array[182]);
+call openchpl.backfill_standards('170.215(a)(2)', 'HL7 FHIR® US Core Implementation Guide STU V3.1.1', 4, '2020-06-30', '2020-06-30', '2025-12-31', 'US Core', 'Must be updated to HL7 FHIR® US Core Implementation Guide STU 6.1.0', array[182]);
 
 call openchpl.backfill_standards('170.215(a)(3)', 'HL7® SMART Application Launch Framework Implementation Guide Release 1.0.0', 4, '2020-06-30', '2022-12-31', '2025-12-31', 'SMART', 'Must be updated to HL7 SMART Application Launch Framework Implementation Guide Release 2.0.0', array[182]);
 
