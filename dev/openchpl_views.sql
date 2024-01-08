@@ -16,6 +16,8 @@ DROP VIEW IF EXISTS openchpl.developer_certification_body_map;
 DROP VIEW IF EXISTS openchpl.aggregated_nonconformity_statistics;
 DROP VIEW IF EXISTS openchpl.requirement_type;
 DROP VIEW IF EXISTS openchpl.nonconformity_type;
+DROP VIEW IF EXISTS openchpl.rwt_plans_by_developer;
+DROP VIEW IF EXISTS openchpl.rwt_results_by_developer;
 DROP VIEW IF EXISTS openchpl.subscription_search_result;
 
 create or replace function openchpl.get_testing_lab_code(input_id bigint) returns
@@ -1510,6 +1512,54 @@ AS
 	LEFT JOIN openchpl.listing_search ON all_questionable_activity.certified_product_id = listing_search.certified_product_id
 	JOIN openchpl.user u on all_questionable_activity.activity_user_id = u.user_id
 	JOIN openchpl.contact c on u.contact_id = c.contact_id;
+	
+CREATE OR REPLACE VIEW openchpl.rwt_plans_by_developer
+AS
+	SELECT cp.rwt_plans_url, dev.vendor_id as developer_id, count(*) as active_certificate_count
+	FROM openchpl.certified_product cp
+	JOIN openchpl.product_version ver on cp.product_version_id = ver.product_version_id
+	JOIN openchpl.product prod on ver.product_id = prod.product_id 
+	JOIN openchpl.vendor dev on prod.vendor_id = dev.vendor_id
+	JOIN (SELECT cse.certification_status_id,
+    		cse.certified_product_id,
+            cse.last_certification_status_change
+         FROM (SELECT cse_inner.certification_status_id,
+         		cse_inner.certified_product_id,
+                cse_inner.event_date AS last_certification_status_change,
+                ROW_NUMBER() OVER (
+                	PARTITION BY cse_inner.certified_product_id
+                    ORDER BY cse_inner.event_date DESC) rownum
+             FROM openchpl.certification_status_event cse_inner
+             WHERE cse_inner.deleted = false) cse
+         WHERE cse.rownum = 1
+		 AND cse.certification_status_id IN (1, 6, 7)) as listing_status
+		ON cp.certified_product_id = listing_status.certified_product_id
+	WHERE cp.deleted = false
+	GROUP BY cp.rwt_plans_url, dev.vendor_id;
+	
+CREATE OR REPLACE VIEW openchpl.rwt_results_by_developer
+AS
+	SELECT cp.rwt_results_url, dev.vendor_id as developer_id, count(*) as active_certificate_count
+	FROM openchpl.certified_product cp
+	JOIN openchpl.product_version ver on cp.product_version_id = ver.product_version_id
+	JOIN openchpl.product prod on ver.product_id = prod.product_id 
+	JOIN openchpl.vendor dev on prod.vendor_id = dev.vendor_id
+	JOIN (SELECT cse.certification_status_id,
+    		cse.certified_product_id,
+            cse.last_certification_status_change
+         FROM (SELECT cse_inner.certification_status_id,
+         		cse_inner.certified_product_id,
+                cse_inner.event_date AS last_certification_status_change,
+                ROW_NUMBER() OVER (
+                	PARTITION BY cse_inner.certified_product_id
+                    ORDER BY cse_inner.event_date DESC) rownum
+             FROM openchpl.certification_status_event cse_inner
+             WHERE cse_inner.deleted = false) cse
+         WHERE cse.rownum = 1
+		 AND cse.certification_status_id IN (1, 6, 7)) as listing_status
+		ON cp.certified_product_id = listing_status.certified_product_id
+	WHERE cp.deleted = false
+	GROUP BY cp.rwt_results_url, dev.vendor_id;	
 
 CREATE VIEW openchpl.subscription_search_result AS
  SELECT subscriber.id as subscriber_id,
@@ -1575,6 +1625,5 @@ CREATE VIEW openchpl.subscription_search_result AS
  JOIN openchpl.product prod ON prod.product_id = s.subscribed_object_id
  WHERE s.deleted = false
  AND obj_type.id = 3 -- Product
- GROUP BY (subscriber.id, subscriber.email, role.name, status.name, obj_type.name, consolidation.name, s.subscribed_object_id, subscribed_object_name, s.creation_date) 
-
+ GROUP BY (subscriber.id, subscriber.email, role.name, status.name, obj_type.name, consolidation.name, s.subscribed_object_id, subscribed_object_name, s.creation_date);
  
