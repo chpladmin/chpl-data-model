@@ -70,35 +70,38 @@ BEGIN
 			raise notice 'Standard Crtieria Map Exists: % -- % (%)', p_regulatory_text, v_certification_criterion.number, v_criterion_id;
 		end if;
 
-		for v_cert_result in select cpd.chpl_product_number, cpd.certification_date, cert_result.*
-		from openchpl.certification_result cert_result
-			inner join openchpl.certified_product_details cpd
-				on cert_result.certified_product_id = cpd.certified_product_id
-		where cert_result.certification_criterion_id = v_criterion_id
-		and cpd.certification_date between v_standard.required_day and coalesce(v_standard.end_day, '2099-12-31')
-		and cert_result.deleted = false
-		loop
+		--Check if this is an HTI-1 standard, if so, do not add it to any listings
+		if v_standard.required_day < now() then
+			for v_cert_result in select cpd.chpl_product_number, cpd.certification_date, cert_result.*
+			from openchpl.certification_result cert_result
+				inner join openchpl.certified_product_details cpd
+					on cert_result.certified_product_id = cpd.certified_product_id
+			where cert_result.certification_criterion_id = v_criterion_id
+			and cpd.certification_date <= coalesce(v_standard.end_day, '2099-12-31')
+			and cert_result.deleted = false
+			loop
 
-			select count(*)
-			into v_cert_result_standard_cnt
-			from openchpl.certification_result_standard
-			where certification_result_id = v_cert_result.certification_result_id
-			and standard_id = v_standard.id;
+				select count(*)
+				into v_cert_result_standard_cnt
+				from openchpl.certification_result_standard
+				where certification_result_id = v_cert_result.certification_result_id
+				and standard_id = v_standard.id;
 
-			if v_cert_result_standard_cnt = 0 then
-				insert into openchpl.certification_result_standard(standard_id, certification_result_id, last_modified_user)
-				select v_standard.id, v_cert_result.certification_result_id, -1
-				where not exists (
-					select *
-					from openchpl.certification_result_standard
-					where certification_result_id = v_cert_result.certification_result_id
-					and standard_id = v_standard.id);
+				if v_cert_result_standard_cnt = 0 then
+					insert into openchpl.certification_result_standard(standard_id, certification_result_id, last_modified_user)
+					select v_standard.id, v_cert_result.certification_result_id, -1
+					where not exists (
+						select *
+						from openchpl.certification_result_standard
+						where certification_result_id = v_cert_result.certification_result_id
+						and standard_id = v_standard.id);
 
-				raise notice 'Inserted Certification Result Standard %  -- %  -- %', v_cert_result.chpl_product_number, v_certification_criterion.number, v_standard.regulatory_text_citation;
-			else
-				raise notice 'Certification Result Standard Exists %  -- %  -- %', v_cert_result.chpl_product_number, v_certification_criterion.number, v_standard.regulatory_text_citation;
-			end if;
-		end loop;
+					raise notice 'Inserted Certification Result Standard %  -- %  -- %', v_cert_result.chpl_product_number, v_certification_criterion.number, v_standard.regulatory_text_citation;
+				else
+					raise notice 'Certification Result Standard Exists %  -- %  -- %', v_cert_result.chpl_product_number, v_certification_criterion.number, v_standard.regulatory_text_citation;
+				end if;
+			end loop;
+		end if;
 	end loop;
 end $$;
 
