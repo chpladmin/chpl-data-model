@@ -320,7 +320,7 @@ call openchpl.backfill_standards('170.205(t)(2)', 'HL7 CDA® R2 Implementation G
 
 
 call openchpl.backfill_standards('170.210(e)(1)', 'The audit log must record the information specified in sections 7.1.1 and and 7.1.2 and 7.1.6 through 7.1.9 of the standard specified in § 170.210(h) and changes to user privileges when health IT is in use.
-The date and time must be recorded in accordance with the standard specified at § 170.210(g).', 4, '2020-06-30', '2020-06-30', null, null, null, array[173, 175]);
+The date and time must be recorded in accordance with the standard specified at § 170.210(g).', 4, '2020-06-30', '2020-06-30', null, null, null, array[173, 174, 175]);
 
 call openchpl.backfill_standards('170.210(e)(2)', 'The audit log must record the information specified in sections 7.1.1 and 7.1.7 of the standard specified at § 170.210(h) when the audit log status is changed.
 The date and time each action occurs in accordance with the standard specified at § 170.210(g).', 4, '2020-06-30', '2020-06-30', null, null, null, array[173, 174]);
