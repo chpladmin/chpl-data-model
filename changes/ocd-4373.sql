@@ -118,7 +118,7 @@ call openchpl.backfill_standards('170.204(a)(1)', 'Web Content Accessibility Gui
 
 call openchpl.backfill_standards('170.204(a)(2)', 'Web Content Accessibility Guidelines (WCAG) 2.0, Level AA Conformance', 3, '2016-01-14', '2016-01-14', null, null, null, array[40, 178]);
 
-call openchpl.backfill_standards('170.205(a)(3)', 'HL7 Implementation Guide for CDA® Release 2: IHE Health Story Consolidation, DSTU Release 1.1 (US Realm) Draft Standard for Trial Use July 2012', 3, '2016-01-14', '2016-01-14', null, null, null, array[16, 17, 20, 165, 166]);
+call openchpl.backfill_standards('170.205(a)(3)', 'HL7 Implementation Guide for CDA® Release 2: IHE Health Story Consolidation, (incorporated by reference in § 170.299). The use of the “unstructured document” document-level template is prohibited.', 3, '2016-01-14', '2016-01-14', null, null, null, array[16, 17, 20, 165, 166]);
 
 call openchpl.backfill_standards('170.205(a)(4)', 'HL7 Implementation Guide for CDA® Release 2: Consolidated CDA Templates for Clinical Notes (US Realm), Draft Standard for Trial Use Release 2.1, August 2015', 3, '2016-01-14', '2016-01-14', null, null, null, array[16, 17, 19, 20, 21, 22, 23, 24, 40, 55, 58, 165, 166, 168, 169, 170, 178, 180, 181]);
 
