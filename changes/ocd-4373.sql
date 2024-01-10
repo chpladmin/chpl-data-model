@@ -260,11 +260,11 @@ call openchpl.backfill_standards('170.215(a)(1)', 'HL7® Version 4.0.1 FHIR® Re
 
 call openchpl.backfill_standards('170.215(a)(2)', 'HL7 FHIR® US Core Implementation Guide STU V3.1.1', 4, '2020-06-30', '2020-06-30', '2025-12-31', 'US Core', 'Must be updated to HL7 FHIR® US Core Implementation Guide STU 6.1.0', array[182]);
 
-call openchpl.backfill_standards('170.215(a)(3)', 'HL7® SMART Application Launch Framework Implementation Guide Release 1.0.0', 4, '2020-06-30', '2022-12-31', '2025-12-31', 'SMART', 'Must be updated to HL7 SMART Application Launch Framework Implementation Guide Release 2.0.0', array[182]);
+call openchpl.backfill_standards('170.215(a)(3)', 'HL7® SMART Application Launch Framework Implementation Guide Release 1.0.0', 4, '2020-06-30', '2020-06-30', '2025-12-31', 'SMART', 'Must be updated to HL7 SMART Application Launch Framework Implementation Guide Release 2.0.0', array[182]);
 
-call openchpl.backfill_standards('170.215(a)(4)', 'HL7® FHIR® Bulk Data Access (Flat FHIR®) (V1.0.0:STU 1)', 4, '2020-06-30', '2022-12-31', null, null, null, array[182]);
+call openchpl.backfill_standards('170.215(a)(4)', 'HL7® FHIR® Bulk Data Access (Flat FHIR®) (V1.0.0:STU 1)', 4, '2020-06-30', '2020-06-30', null, null, null, array[182]);
 
-call openchpl.backfill_standards('170.215(b)', 'OpenID Connect Core 1.0 incorporating errata set 1', 4, '2020-06-30', '2022-12-31', null, null, null, array[182]);
+call openchpl.backfill_standards('170.215(b)', 'OpenID Connect Core 1.0 incorporating errata set 1', 4, '2020-06-30', '2020-06-30', null, null, null, array[182]);
 
 call openchpl.backfill_standards('170.215(b)(1)(ii)', 'HL7 FHIR® US Core Implementation Guide STU 6.1.0', 5, '2024-02-08', '2025-12-31', null, 'US Core', null, array[182]);
 
