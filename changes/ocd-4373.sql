@@ -120,7 +120,7 @@ call openchpl.backfill_standards('170.204(a)(2)', 'Web Content Accessibility Gui
 
 call openchpl.backfill_standards('170.205(a)(3)', 'HL7 Implementation Guide for CDA® Release 2: IHE Health Story Consolidation, DSTU Release 1.1 (US Realm) Draft Standard for Trial Use July 2012', 3, '2016-01-14', '2016-01-14', null, null, null, array[16, 17, 20, 165, 166]);
 
-call openchpl.backfill_standards('170.205(a)(4)', 'HL7 Implementation Guide for CDA® Release 2: Consolidated CDA Templates for Clinical Notes (US Realm), Draft Standard for Trial Use Release 2.1, August 2015', 3, '2016-01-14', '2016-01-14', null, null, null, array[16, 17, 19, 20, 21, 22, 23, 24, 40, 55, 59, 165, 166, 168, 169, 170, 178, 180, 181]);
+call openchpl.backfill_standards('170.205(a)(4)', 'HL7 Implementation Guide for CDA® Release 2: Consolidated CDA Templates for Clinical Notes (US Realm), Draft Standard for Trial Use Release 2.1, August 2015', 3, '2016-01-14', '2016-01-14', null, null, null, array[16, 17, 19, 20, 21, 22, 23, 24, 40, 55, 58, 165, 166, 168, 169, 170, 178, 180, 181]);
 
 call openchpl.backfill_standards('170.205(a)(5)', 'HL7® CDA R2 IG: C-CDA Templates for Clinical Notes R2.1 Companion Guide, Release 2, October 2019, IBR approved for § 170.205(a)(5).', 4, '2020-06-30', '2020-06-30', '2025-12-31', 'CCDA-CG', 'Must be replaced by C-CDA Templates for Clinical Notes R2.1 Companion Guide, Release 4-US Realm, May 2023', array[165, 166, 170, 178, 180, 181]);
 
