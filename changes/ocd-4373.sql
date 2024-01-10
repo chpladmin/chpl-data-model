@@ -272,19 +272,11 @@ call openchpl.backfill_standards('170.215(c)(2)', 'HL7 SMART Application Launch 
 
 call openchpl.backfill_standards('170.315(g)(3)(iv)', 'NISTIR 7742 Customized Common Industry Format Template for Electronic Health Record Usability Testing', 3, '2016-01-14', '2016-01-14', null, null, null, array[52]);
 
-call openchpl.backfill_standards('170.205(r)(1)', 'HL7 Implementation Guide for CDA® Release 2 – Level 3: Healthcare Associated Infection Reports, Release 1, U.S. Realm, August 2013
-Technology is only required to conform to the following sections of the implementation guide:
-HAI Antimicrobial Use and Resistance (AUR) Antimicrobial Resistance Option (ARO) Report (Numerator) specific document template in Section 2.1.2.1 (pages 69-72);
-Antimicrobial Resistance Option (ARO) Summary Report (Denominator) specific document template in Section 2.1.1.1 (pages 54-56); and
-Antimicrobial Use (AUP) Summary Report (Numerator and Denominator) specific document template in Section 2.1.1.2 (pages 56-58)', 3, '2016-01-14', '2016-01-14', null, null, null, array[48]);
+call openchpl.backfill_standards('170.205(r)(1)', 'The following sections of HL7 Implementation Guide for CDA® Release 2—Level 3: Healthcare Associated Infection Reports, Release 1, U.S. Realm (incorporated by reference in § 170.299 ). Technology is only required to conform to the following sections of the implementation guide: (i) HAI Antimicrobial Use and Resistance (AUR) Antimicrobial Resistance Option (ARO) Report (Numerator) specific document template in Section 2.1.2.1 (pages 69–72); (ii) Antimicrobial Resistance Option (ARO) Summary Report (Denominator) specific document template in Section 2.1.1.1 (pages 54–56); and (iii) Antimicrobial Use (AUP) Summary Report (Numerator and Denominator) specific document template in Section 2.1.1.2 (pages 56–58).', 3, '2016-01-14', '2016-01-14', null, null, null, array[48]);
 
+call openchpl.backfill_standards('170.205(t)(1)', 'HL7 FHIR® Implementation Guide: Electronic Case Reporting (eCR)—US Realm 2.1.0—STU 2 US (HL7 FHIR eCR IG)', 5, '2024-02-08', '2025-12-31', null, 'F5-group-1', 'For creating a case report, must certify to the eICR profile of the HL7 FHIR eCR IG in § 170.205(t)(1) or (2) The HL7 CDA eICR IG in § 170.205(t)(2). If certifiying to the HL7 FHIR eCR IG for case report creation, must also certify to this standard for report receipt, consumption and processing.', array[47]);
 
-call openchpl.backfill_standards('170.205(t)(1)', 'HL7 FHIR® Implementation Guide: Electronic Case Reporting (eCR)—US Realm 2.1.0—STU 2 US (HL7 FHIR eCR IG)', 5, '2024-02-08', '2025-12-31', null, 'F5-group-1', 'For creating a case report, must certify to the eICR profile of the HL7 FHIR eCR IG in § 170.205(t)(1) or
-(2) The HL7 CDA eICR IG in § 170.205(t)(2). If certifiying to the HL7 FHIR eCR IG for case report creation, must also certify to this standard for report receipt, consumption and processing.', array[47]);
-
-
-call openchpl.backfill_standards('170.205(t)(2)', 'HL7 CDA® R2 Implementation Guide: Public Health Case Report—the Electronic Initial Case Report (eICR) Release 2, STU Release 3.1—US Realm (HL7 CDA eICR IG)', 5, '2024-02-08', '2025-12-31', null, 'F5-group-1', 'For creating a case report, must certify to the eICR profile of the HL7 FHIR eCR IG in § 170.205(t)(1) or
-(2) The HL7 CDA eICR IG in § 170.205(t)(2). If certifiying to the HL7 CDA eICR IG for case report creation, must also certify to HL7 CDA RR IG in § 170.205(t)(3) for report receipt, consumption and processing.', array[47]);
+call openchpl.backfill_standards('170.205(t)(2)', 'HL7 CDA® R2 Implementation Guide: Public Health Case Report—the Electronic Initial Case Report (eICR) Release 2, STU Release 3.1—US Realm (HL7 CDA eICR IG)', 5, '2024-02-08', '2025-12-31', null, 'F5-group-1', 'For creating a case report, must certify to the eICR profile of the HL7 FHIR eCR IG in § 170.205(t)(1) or (2) The HL7 CDA eICR IG in § 170.205(t)(2). If certifiying to the HL7 CDA eICR IG for case report creation, must also certify to HL7 CDA RR IG in § 170.205(t)(3) for report receipt, consumption and processing.', array[47]);
 
 
 --call openchpl.backfill_standards('170.207(i)', 'Encounter diagnoses: The code set specified at 45 CFR 162.1002(c)(2) for the indicated conditions ICD-10-CM as maintained and distributed by HHS, for the following conditions:
@@ -319,10 +311,8 @@ call openchpl.backfill_standards('170.205(t)(2)', 'HL7 CDA® R2 Implementation G
 --Choose not to disclose. nullFlavor ASKU', 3, '2016-01-14', '2016-01-14', '2025-12-31', 'SOGI', 'Sexual Orientation and Gender Identity must be coded in accordance with, at a minimum, the version of SNOMED CT® codes specified in §170.207(a)(1)', array[5]);
 
 
-call openchpl.backfill_standards('170.210(e)(1)', 'The audit log must record the information specified in sections 7.1.1 and and 7.1.2 and 7.1.6 through 7.1.9 of the standard specified in § 170.210(h) and changes to user privileges when health IT is in use.
-The date and time must be recorded in accordance with the standard specified at § 170.210(g).', 4, '2020-06-30', '2020-06-30', null, null, null, array[173, 174, 175]);
+call openchpl.backfill_standards('170.210(e)(1)', '(i) The audit log must record the information specified in sections 7.1.1 and 7.1.2 and 7.1.6 through 7.1.9 of the standard specified in § 170.210(h) and changes to user privileges when health IT is in use (ii) The date and time must be recorded in accordance with the standard specified at § 170.210(g).', 4, '2020-06-30', '2020-06-30', null, null, null, array[173, 174, 175]);
 
-call openchpl.backfill_standards('170.210(e)(2)', 'The audit log must record the information specified in sections 7.1.1 and 7.1.7 of the standard specified at § 170.210(h) when the audit log status is changed.
-The date and time each action occurs in accordance with the standard specified at § 170.210(g).', 4, '2020-06-30', '2020-06-30', null, null, null, array[173, 174]);
+call openchpl.backfill_standards('170.210(e)(2)', '(i) The audit log must record the information specified in sections 7.1.1 and 7.1.7 of the standard specified at § 170.210(h) when the audit log status is changed. (ii) The date and time each action occurs in accordance with the standard specified at § 170.210(g).', 4, '2020-06-30', '2020-06-30', null, null, null, array[173, 174]);
 
 DROP PROCEDURE if exists openchpl.backfill_standards;
