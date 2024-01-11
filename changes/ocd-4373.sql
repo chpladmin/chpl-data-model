@@ -252,7 +252,7 @@ call openchpl.backfill_standards('170.210(g)', 'The date and time recorded utili
 
 call openchpl.backfill_standards('170.210(h)', 'Audit log content. ASTM E2147-18 Standard Specification for Audit and Disclosure Logs for Use in Health Information Systems.', 4, '2020-06-30', '2020-06-30', null, null, null, array[173, 174, 175]);
 
-call openchpl.backfill_standards('170.213(a)', 'United States Core Data for Interoperability (USCDI), July 2020 Errata, Version 1', 4, '2020-06-30', '2020-06-30', '2025-12-31', 'USCDI', 'Must be replaced by United States Core Data for Interoperability (USCDI), October 2022 Errata, Version 3', array[165, 166, 178, 179. 180, 181, 182, 210]);
+call openchpl.backfill_standards('170.213(a)', 'United States Core Data for Interoperability (USCDI), July 2020 Errata, Version 1', 4, '2020-06-30', '2020-06-30', '2025-12-31', 'USCDI', 'Must be replaced by United States Core Data for Interoperability (USCDI), October 2022 Errata, Version 3', array[165, 166, 178, 179, 180, 181, 182, 210]);
 
 call openchpl.backfill_standards('170.213(b)', 'United States Core Data for Interoperability (USCDI), October 2022 Errata, Version 3', 5, '2024-02-08', '2025-12-31', null, 'USCDI', null, array[47, 165, 166, 178, 180, 181, 182, 210]);
 
