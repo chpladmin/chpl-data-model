@@ -1,6 +1,7 @@
 create table if not exists openchpl.updated_listing_status_report (
     id bigserial not null,
     certified_product_id bigint not null,
+    report_day date not null,
     criteria_require_update_count int,
     days_updated_early int,
     creation_date timestamp not null default now(),
