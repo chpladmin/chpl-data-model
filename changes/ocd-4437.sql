@@ -16,7 +16,7 @@ create table if not exists openchpl.updated_listing_status_report (
     creation_date timestamp not null default now(),
     last_modified_date timestamp not null default now(),
     last_modified_user bigint,
-    last_modified_sso_user bigint,
+    last_modified_sso_user uuid,
     deleted bool not null default false,
     constraint updated_listing_status_report_pk primary key (id),
     constraint certified_product_fk foreign key (certified_product_id)
