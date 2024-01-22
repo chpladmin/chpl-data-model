@@ -100,6 +100,7 @@ SELECT
     a.service_base_url_list,
 	a.risk_management_summary_information,
     a.privacy_security_framework,
+	a.code_set,
     b.number,
     b.title
 FROM openchpl.certification_result a
