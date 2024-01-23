@@ -14,7 +14,7 @@ set code_sets = false
 where certification_criterion_id in 
     (select criterion_id 
 	from openchpl.certification_criterion_attribute 
-	where code_set = true)
+	where code_sets = true)
 and certified_product_id in 
     (select cpd.certified_product_id 
 	from openchpl.certified_product_details cpd 
@@ -26,7 +26,7 @@ set code_sets = true
 where certification_criterion_id in 
     (select criterion_id 
 	from openchpl.certification_criterion_attribute 
-	where code_set = true)
+	where code_sets = true)
 and certified_product_id in 
     (select cpd.certified_product_id 
 	from openchpl.certified_product_details cpd 
