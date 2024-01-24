@@ -1,3 +1,6 @@
+-- the column is added in ocd-4408, but if this file runs first and the column is not there then things fail
+ALTER TABLE openchpl.standard ADD COLUMN IF NOT EXISTS group_name text;
+
 DROP PROCEDURE if exists openchpl.backfill_standards;
 
 CREATE OR REPLACE PROCEDURE openchpl.backfill_standards(
