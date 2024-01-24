@@ -18,7 +18,8 @@ where certification_criterion_id in
 and certified_product_id in 
     (select cpd.certified_product_id 
 	from openchpl.certified_product_details cpd 
-	where cpd.certification_status_name in ('Active', 'Suspended by ONC-ACB', 'Suspended by ONC'));
+	where cpd.certification_status_name in ('Active', 'Suspended by ONC-ACB', 'Suspended by ONC'))
+and deleted = false;
 
 -- Set the code_sets column to true for listings with non-active certificates
 update openchpl.certification_result
@@ -30,7 +31,8 @@ where certification_criterion_id in
 and certified_product_id in 
     (select cpd.certified_product_id 
 	from openchpl.certified_product_details cpd 
-	where cpd.certification_status_name not in ('Active', 'Suspended by ONC-ACB', 'Suspended by ONC'));
+	where cpd.certification_status_name not in ('Active', 'Suspended by ONC-ACB', 'Suspended by ONC'))
+and deleted = false;
 
 insert into openchpl.questionable_activity_trigger (name, level, last_modified_user)
 select 'Code Sets changed to false', 'Certification Criteria', -1
