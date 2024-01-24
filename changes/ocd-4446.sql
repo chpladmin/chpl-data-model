@@ -31,3 +31,9 @@ and certified_product_id in
     (select cpd.certified_product_id 
 	from openchpl.certified_product_details cpd 
 	where cpd.certification_status_name not in ('Active', 'Suspended by ONC-ACB', 'Suspended by ONC'));
+
+insert into openchpl.questionable_activity_trigger (name, level, last_modified_user)
+select 'Code Set changed to false', 'Certification Criteria', -1
+where not exists (select * from openchpl.questionable_activity_trigger where name = 'Code Set changed to false');
+
+
