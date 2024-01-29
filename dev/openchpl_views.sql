@@ -202,18 +202,16 @@ CREATE VIEW openchpl.certified_product_details AS
     COALESCE(nc_open.count_open_nonconformities, 0::bigint) AS count_open_nonconformities,
     COALESCE(nc_closed.count_closed_nonconformities, 0::bigint) AS count_closed_nonconformities,
     r.certification_status_id,
-    r.last_certification_status_change,
     n.certification_status_name,
     cures_update.cures_update
    FROM openchpl.certified_product a
      LEFT JOIN (
          SELECT cse.certification_status_id,
             cse.certified_product_id,
-            cse.last_certification_status_change
          FROM (
              SELECT cse_inner.certification_status_id,
                  cse_inner.certified_product_id,
-                 cse_inner.event_date AS last_certification_status_change,
+                 cse_inner.event_date,
                  ROW_NUMBER() OVER (
                      PARTITION BY cse_inner.certified_product_id
                      ORDER BY cse_inner.event_date DESC) rownum
