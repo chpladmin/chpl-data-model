@@ -74,7 +74,8 @@ BEGIN
 		end if;
 
 		--Check if this is an HTI-1 standard, if so, do not add it to any listings
-		if v_standard.required_day < now() then
+		--Do not populate any standards that are already expired
+		if v_standard.required_day < now() and now() < coalesce(v_standard.end_day, '2099-12-31') then
 			for v_cert_result in select cpd.chpl_product_number, cpd.certification_date, cert_result.*
 			from openchpl.certification_result cert_result
 				inner join openchpl.certified_product_details cpd
@@ -139,19 +140,25 @@ call openchpl.backfill_standards('170.205(g)', 'HL7 2.5.1 (incorporated by refer
 
 call openchpl.backfill_standards('170.205(h)(2)', 'HL7 CDA® Release 2 Implementation Guide for: Quality Reporting Document Architecture – Category I (QRDA I); Release 1, DSTU Release 3 (US Realm), Volume 1', 3, '2016-01-14', '2016-01-14', null, null, null, array[25, 26, 27, 28]);
 
-call openchpl.backfill_standards('170.205(h)(2)-Cures', 'HL7 CDA® Release 2 Implementation Guide for: Quality Reporting Document Architecture – Category I (QRDA I); Release 1, DSTU Release 3 (US Realm), Volume 1', 4, '2020-06-30', '2020-06-30', '2022-12-31', null, null, array[172]);
+--call openchpl.backfill_standards('170.205(h)(2)-Cures', 'HL7 CDA® Release 2 Implementation Guide for: Quality Reporting Document Architecture – Category I (QRDA I); Release 1, DSTU Release 3 (US Realm), Volume 1', 4, '2020-06-30', '2020-06-30', '2022-12-31', null, null, array[172]);
+
+call openchpl.backfill_standards('170.205(h)(2) for (c)(3)', 'HL7 CDA® Release 2 Implementation Guide for: Quality Reporting Document Architecture – Category I (QRDA I); Release 1, DSTU Release 3 (US Realm), Volume 1', 3, '2016-01-14', '2016-01-14', '2022-12-31', null, null, array[27, 172]);
 
 call openchpl.backfill_standards('170.205(h)(3)', 'CMS Implementation Guide for Quality Reporting Document Architecture: Category I; Hospital Quality Reporting; Implementation Guide for 2020', 4, '2020-06-30', '2020-06-30', null, null, null, array[172]);
 
 call openchpl.backfill_standards('170.205(i)(2)', 'HL7 Implementation Guide for CDA© Release 2: Reporting to Public Health Cancer Registries from Ambulatory Healthcare Providers, Release 1, DSTU Release 1.1, April 2015', 3, '2016-01-14', '2016-01-14', null, null, null, array[46]);
 
-call openchpl.backfill_standards('170.205(k)(1)', 'Quality Reporting Document Architecture Category III, Implementation Guide for CDA Release 2', 3, '2016-01-14', '2016-01-14', null, null, null, array[27, 28]);
+call openchpl.backfill_standards('170.205(k)(1)', 'Quality Reporting Document Architecture Category III, Implementation Guide for CDA Release 2', 3, '2016-01-14', '2016-01-14', null, null, null, array[28]);
 
-call openchpl.backfill_standards('170.205(k)(1)-Cures', 'Quality Reporting Document Architecture Category III, Implementation Guide for CDA Release 2', 4, '2020-06-30', '2020-06-30', '2022-12-31', null, null, array[172]);
+--call openchpl.backfill_standards('170.205(k)(1)-Cures', 'Quality Reporting Document Architecture Category III, Implementation Guide for CDA Release 2', 4, '2020-06-30', '2020-06-30', '2022-12-31', null, null, array[172]);
 
-call openchpl.backfill_standards('170.205(k)(2)-Cures', 'Errata to the HL7 Implementation Guide for CDA® Release 2: Quality Reporting Document Architecture—Category III, DSTU Release 1 (US Realm), September 2014', 4, '2020-06-30', '2020-06-30', '2022-12-31', null, null, array[172]);
+call openchpl.backfill_standards('170.205(k)(1) for (c)(3)', 'Quality Reporting Document Architecture Category III, Implementation Guide for CDA Release 2', 4, '2016-01-14', '2016-01-14', '2022-12-31', null, null, array[27, 172]);
 
-call openchpl.backfill_standards('170.205(k)(2)', 'Errata to the HL7 Implementation Guide for CDA® Release 2: Quality Reporting Document Architecture—Category III, DSTU Release 1 (US Realm), September 2014', 3, '2016-01-14', '2016-01-14', null, null, null, array[27, 28]);
+--call openchpl.backfill_standards('170.205(k)(2)-Cures', 'Errata to the HL7 Implementation Guide for CDA® Release 2: Quality Reporting Document Architecture—Category III, DSTU Release 1 (US Realm), September 2014', 4, '2020-06-30', '2020-06-30', '2022-12-31', null, null, array[172]);
+
+call openchpl.backfill_standards('170.205(k)(2)', 'Errata to the HL7 Implementation Guide for CDA® Release 2: Quality Reporting Document Architecture—Category III, DSTU Release 1 (US Realm), September 2014', 3, '2016-01-14', '2016-01-14', null, null, null, array[28]);
+
+call openchpl.backfill_standards('170.205(k)(2) for (c)(3)', 'Errata to the HL7 Implementation Guide for CDA® Release 2: Quality Reporting Document Architecture—Category III, DSTU Release 1 (US Realm), September 2014', 3, '2016-01-14', '2016-01-14', '2022-12-31', null, null, array[27, 172]);
 
 call openchpl.backfill_standards('170.205(k)(3)', 'CMS Implementation Guide for Quality Reporting Document Architecture: Category III; Eligible Clinicians and Eligible Professionals Programs; Implementation Guide for 2020', 4, '2020-06-30', '2020-06-30', null, null, null, array[172]);
 
