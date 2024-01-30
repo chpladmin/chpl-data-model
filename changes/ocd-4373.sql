@@ -138,7 +138,7 @@ call openchpl.backfill_standards('170.205(e)(4)', 'HL7 2.5.1 (incorporated by re
 
 call openchpl.backfill_standards('170.205(g)', 'HL7 2.5.1 (incorporated by reference in § 170.299). Implementation specifications. HL7 Version 2.5.1 Implementation Guide: Electronic Laboratory Reporting to Public Health, Release 1 (US Realm) (incorporated by reference in § 170.299) with Errata and Clarifications, (incorporated by reference in § 170.299) and ELR 2.5.1 Clarification Document for EHR Technology Certification, (incorporated by reference in § 170.299).', 3, '2016-01-14', '2016-01-14', null, null, null, array[45]);
 
-call openchpl.backfill_standards('170.205(h)(2)', 'HL7 CDA® Release 2 Implementation Guide for: Quality Reporting Document Architecture – Category I (QRDA I); Release 1, DSTU Release 3 (US Realm), Volume 1', 3, '2016-01-14', '2016-01-14', null, null, null, array[25, 26, 27, 28]);
+call openchpl.backfill_standards('170.205(h)(2)', 'HL7 CDA® Release 2 Implementation Guide for: Quality Reporting Document Architecture – Category I (QRDA I); Release 1, DSTU Release 3 (US Realm), Volume 1', 3, '2016-01-14', '2016-01-14', null, null, null, array[25, 26, 28]);
 
 call openchpl.backfill_standards('170.205(h)(2) for (c)(3)', 'HL7 CDA® Release 2 Implementation Guide for: Quality Reporting Document Architecture – Category I (QRDA I); Release 1, DSTU Release 3 (US Realm), Volume 1', 3, '2016-01-14', '2016-01-14', '2022-12-31', null, null, array[27, 172]);
 
