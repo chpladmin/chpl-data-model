@@ -93,7 +93,8 @@ CREATE OR REPLACE FUNCTION openchpl.get_current_certification_status_event_id(id
 		  AND cse.event_date <= now()
 		  GROUP BY cse.certified_product_id) cse_inner
 		ON cse.certified_product_id = cse_inner.certified_product_id
-		AND cse.event_date = cse_inner.todays_status_event_date;
+		AND cse.event_date = cse_inner.todays_status_event_date
+		AND cse.deleted = false;
     END;
     $$ LANGUAGE plpgsql
 stable;
@@ -223,12 +224,12 @@ CREATE VIEW openchpl.certified_product_details AS
     cures_update.cures_update
    FROM openchpl.certified_product a
 	 LEFT JOIN (
-		 SELECT cse.certification_status_id, cs.certification_status as certification_status_name, cse.certified_product_id
+		 SELECT cse.certification_status_event_id, cse.certification_status_id, cs.certification_status as certification_status_name, cse.certified_product_id
 		 FROM openchpl.certification_status_event cse
 		 JOIN openchpl.certification_status cs ON cse.certification_status_id = cs.certification_status_id
 		 WHERE cse.deleted = false
 		 ) certstatus 
-	 ON certstatus.certification_status_id = 
+	 ON certstatus.certification_status_event_id = 
 		(SELECT get_current_certification_status_event_id.current_certification_status_event_id
 			FROM openchpl.get_current_certification_status_event_id(a.certified_product_id))
      LEFT JOIN (
@@ -509,12 +510,12 @@ SELECT cp.certified_product_id,
 	   status_events.status_events
 FROM openchpl.certified_product cp
 LEFT JOIN (
-	 SELECT cse.certification_status_id, cs.certification_status as certification_status_name, cse.certified_product_id
+	 SELECT cse.certification_status_event_id, cse.certification_status_id, cs.certification_status as certification_status_name, cse.certified_product_id
 	 FROM openchpl.certification_status_event cse
 	 JOIN openchpl.certification_status cs ON cse.certification_status_id = cs.certification_status_id
 	 WHERE cse.deleted = false
 	 ) certstatus 
-ON certstatus.certification_status_id = 
+ON certstatus.certification_status_event_id = 
 	(SELECT get_current_certification_status_event_id.current_certification_status_event_id
 		FROM openchpl.get_current_certification_status_event_id(cp.certified_product_id))
 LEFT JOIN (
@@ -791,12 +792,12 @@ SELECT cp.certified_product_id,
 	   status_events.status_events
 FROM openchpl.certified_product cp
 LEFT JOIN (
-	 SELECT cse.certification_status_id, cs.certification_status as certification_status_name, cse.certified_product_id
+	 SELECT cse.certification_status_event_id, cse.certification_status_id, cs.certification_status as certification_status_name, cse.certified_product_id
 	 FROM openchpl.certification_status_event cse
 	 JOIN openchpl.certification_status cs ON cse.certification_status_id = cs.certification_status_id
 	 WHERE cse.deleted = false
 	 ) certstatus 
-ON certstatus.certification_status_id = 
+ON certstatus.certification_status_event_id = 
 	(SELECT get_current_certification_status_event_id.current_certification_status_event_id
 		FROM openchpl.get_current_certification_status_event_id(cp.certified_product_id))
 LEFT JOIN (
@@ -1095,12 +1096,12 @@ CREATE VIEW openchpl.certified_product_summary AS
           WHERE certification_status_event.certification_status_id = 1 AND certification_status_event.deleted <> true
           GROUP BY certification_status_event.certified_product_id) certdate ON cp.certified_product_id = certdate.certified_product_id
 	 LEFT JOIN (
-		 SELECT cse.certification_status_id, cs.certification_status as certification_status_name, cse.certified_product_id
+		 SELECT cse.certification_status_event_id, cse.certification_status_id, cs.certification_status as certification_status_name, cse.certified_product_id
 		 FROM openchpl.certification_status_event cse
 		 JOIN openchpl.certification_status cs ON cse.certification_status_id = cs.certification_status_id
 		 WHERE cse.deleted = false
 		 ) certstatus 
-	 ON certstatus.certification_status_id = 
+	 ON certstatus.certification_status_event_id = 
 		(SELECT get_current_certification_status_event_id.current_certification_status_event_id
 			FROM openchpl.get_current_certification_status_event_id(cp.certified_product_id))
 	 LEFT OUTER JOIN (
