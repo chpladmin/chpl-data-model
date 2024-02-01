@@ -17,4 +17,4 @@ DELETE FROM openchpl.certification_criterion WHERE number = '170.315 (d)(14)';
 ALTER SEQUENCE openchpl.certification_criterion_certification_criterion_id_seq RESTART WITH 211;
 
 -- set the correct start date for b11
-UPDATE openchpl.certification_criterion SET start_day = '2024-02-08' WHERE certification_criterion_id = 210;
+UPDATE openchpl.certification_criterion SET start_day = '2024-03-11' WHERE certification_criterion_id = 210;
