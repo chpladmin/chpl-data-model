@@ -1,4 +1,18 @@
 # Release Notes
+
+## Version 24.6.0
+_5 February 2024_
+
+### Features
+* Create new report table for listings that need to be updated for HTI-1
+* Populate all historical listings with Standards
+* Add column group_name to standard table
+
+### Data Changes
+* Set b11 start date to March 11, 2024
+* Remove d14 criterion
+
+---
 	
 ## Version 24.5.0
 _8 January 2024_
