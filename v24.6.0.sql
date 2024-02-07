@@ -1,3 +1,6 @@
+-- Deployment file for version 24.6.0
+--     as of 2024-02-05
+-- ./changes/ocd-4373.sql
 -- the column is added in ocd-4408, but if this file runs first and the column is not there then things fail
 ALTER TABLE openchpl.standard ADD COLUMN IF NOT EXISTS group_name text;
 
@@ -209,3 +212,66 @@ call openchpl.backfill_standards('170.210(e)(1)', '(i) The audit log must record
 call openchpl.backfill_standards('170.210(e)(2)', '(i) The audit log must record the information specified in sections 7.1.1 and 7.1.7 of the standard specified at § 170.210(h) when the audit log status is changed. (ii) The date and time each action occurs in accordance with the standard specified at § 170.210(g).', 4, '2020-06-30', '2020-06-30', null, null, null, array[173, 174]);
 
 DROP PROCEDURE if exists openchpl.backfill_standards;
+;
+-- ./changes/ocd-4408.sql
+alter table openchpl.standard add column if not exists group_name text;
+
+;
+-- ./changes/ocd-4424.sql
+-- delete from criterion attributes
+DELETE FROM openchpl.certification_criterion_attribute WHERE criterion_id = 211;
+
+-- set the sequence back so the next attribute will have the expected ID
+ALTER SEQUENCE openchpl.certification_criterion_attribute_id_seq RESTART WITH 162;
+
+-- delete d14 conformance methods
+DELETE FROM openchpl.conformance_method_criteria_map WHERE criteria_id = 211;
+
+-- set the sequence back so the next attribute will have the expected ID
+ALTER SEQUENCE openchpl.conformance_method_criteria_map_id_seq RESTART WITH 87;
+
+-- delete d14
+DELETE FROM openchpl.certification_criterion WHERE number = '170.315 (d)(14)';
+
+-- set the sequence back so the next criterion will have the expected ID
+ALTER SEQUENCE openchpl.certification_criterion_certification_criterion_id_seq RESTART WITH 211;
+
+-- set the correct start date for b11
+UPDATE openchpl.certification_criterion SET start_day = '2024-03-11' WHERE certification_criterion_id = 210;
+;
+-- ./changes/ocd-4437.sql
+create table if not exists openchpl.updated_listing_status_report (
+    id bigserial not null,
+    certified_product_id bigint not null,
+    report_day date not null,
+    criteria_require_update_count int,
+    days_updated_early int,
+    chpl_product_number text not null,
+    product text not null,
+    version text not null,
+    developer text not null,
+    certification_body text not null,
+    certification_status_name text not null,
+    developer_id bigint not null,
+    certification_body_id bigint not null,
+    certification_status_id bigint not null,
+    creation_date timestamp not null default now(),
+    last_modified_date timestamp not null default now(),
+    last_modified_user bigint,
+    last_modified_sso_user uuid,
+    deleted bool not null default false,
+    constraint updated_listing_status_report_pk primary key (id),
+    constraint certified_product_fk foreign key (certified_product_id)
+	    references openchpl.certified_product (certified_product_id)
+	    match simple on update no action on delete restrict
+);
+CREATE or replace TRIGGER updated_listing_status_report_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.updated_listing_status_report FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+CREATE or replace TRIGGER updated_listing_status_report_timestamp BEFORE UPDATE on openchpl.updated_listing_status_report FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
+
+DROP TRIGGER IF EXISTS updated_listing_status_report_last_modified_user_constraint ON openchpl.updated_listing_status_report;
+CREATE CONSTRAINT TRIGGER updated_listing_status_report_last_modified_user_constraint AFTER INSERT OR UPDATE ON openchpl.updated_listing_status_report DEFERRABLE INITIALLY DEFERRED FOR EACH ROW EXECUTE PROCEDURE openchpl.last_modified_user_constraint();
+;
+insert into openchpl.data_model_version (version, deploy_date, last_modified_user) values ('24.6.0', '2024-02-05', -1);
+\i dev/openchpl_soft-delete.sql
+\i dev/openchpl_views.sql
+\i dev/openchpl_grant-all.sql
