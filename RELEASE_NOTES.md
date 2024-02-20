@@ -1,5 +1,13 @@
 # Release Notes
 
+## Version 24.6.1
+_20 February 2024_
+
+### Data Changes
+* Allow SED for b11 criterion
+
+---
+
 ## Version 24.6.0
 _5 February 2024_
 
