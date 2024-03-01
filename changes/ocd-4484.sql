@@ -1,3 +1,6 @@
+-- drop table that was never used
+DROP TABLE IF EXISTS openchpl.quarterly_report_excluded_listing_map;
+
 -- create new table for many-to-many map of surveillance process type to quarterly report
 CREATE TABLE IF NOT EXISTS openchpl.quarterly_report_surveillance_process_type_map (
     id bigserial not null,
