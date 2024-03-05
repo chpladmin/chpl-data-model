@@ -1,5 +1,19 @@
 # Release Notes
 
+## Version 24.7.0
+_5 March 2024_
+
+### Features
+* Add Code Set functionality to selected criteria
+* Change certification status calculation for many views
+* Remove three views our API is no longer using
+
+### Data Changes
+* Delete standards 170.204(a)(1) and 170.204(a)(2)
+* Add questionable activity trigger for future cert status
+
+---
+
 ## Version 24.6.1
 _20 February 2024_
 
