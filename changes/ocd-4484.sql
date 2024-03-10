@@ -52,3 +52,8 @@ SELECT 'Correspondence with Developer', -1
 WHERE NOT EXISTS (
 	SELECT * FROM openchpl.surveillance_process_type WHERE name = 'Correspondence with Developer'
 );
+
+
+-- TODO: There are only 2 records using the 'surveillance process type other' field and they both have the 
+-- value 'Correspondence with Developer' so I wonder if we can just make those NOT be 'Other' type and map
+-- them to the new process type added above. 
