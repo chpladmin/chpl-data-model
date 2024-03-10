@@ -36,6 +36,12 @@ WHERE NOT EXISTS (
 
 -- add new surveillance process types
 INSERT INTO openchpl.surveillance_process_type (name, last_modified_user)
+SELECT 'Correspondence with End User', -1
+WHERE NOT EXISTS (
+	SELECT * FROM openchpl.surveillance_process_type WHERE name = 'Correspondence with End User'
+);
+
+INSERT INTO openchpl.surveillance_process_type (name, last_modified_user)
 SELECT 'Correspondence with Complainant', -1
 WHERE NOT EXISTS (
 	SELECT * FROM openchpl.surveillance_process_type WHERE name = 'Correspondence with Complainant'
