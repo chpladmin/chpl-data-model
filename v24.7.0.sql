@@ -1,3 +1,21 @@
+-- Deployment file for version 24.7.0
+--     as of 2024-03-05
+-- ./changes/ocd-4452.sql
+DROP VIEW IF EXISTS openchpl.product_certification_statuses;
+DROP VIEW IF EXISTS openchpl.developer_certification_statuses;
+DROP VIEW IF EXISTS openchpl.certified_product_search_result;
+
+-- this index is needed for the function that calculates current status event for a listing
+CREATE INDEX IF NOT EXISTS cse_certified_product_id_idx ON openchpl.certification_status_event (certified_product_id);
+
+-- we will trigger questionable activity if the certification status is set far into the future
+INSERT INTO openchpl.questionable_activity_trigger (name, level, last_modified_user)
+SELECT 'Future Certification Status', 'Listing', -1
+WHERE NOT EXISTS (
+	SELECT id from openchpl.questionable_activity_trigger where name = 'Future Certification Status'
+); 
+;
+-- ./changes/ocd-4482.sql
 create table if not exists openchpl.code_set (
     id bigserial not null,
     required_day date not null,
@@ -80,3 +98,25 @@ where not exists (
 	where certification_criterion_id = crit_id
 	and code_set_id = (select id from openchpl.code_set where required_day = '2025-12-31')
 );
+;
+-- ./changes/ocd-4506.sql
+delete from openchpl.certification_result_standard
+where standard_id in (
+	select id
+	from openchpl.standard
+	where regulatory_text_citation in ('170.204(a)(1)', '170.204(a)(2)'));
+
+delete from openchpl.standard_criteria_map
+where standard_id in (
+	select id
+	from openchpl.standard
+	where regulatory_text_citation in ('170.204(a)(1)', '170.204(a)(2)'));
+
+delete from openchpl.standard
+where regulatory_text_citation in ('170.204(a)(1)', '170.204(a)(2)');
+
+;
+insert into openchpl.data_model_version (version, deploy_date, last_modified_user) values ('24.7.0', '2024-03-05', -1);
+\i dev/openchpl_soft-delete.sql
+\i dev/openchpl_views.sql
+\i dev/openchpl_grant-all.sql
