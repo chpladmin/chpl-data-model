@@ -2,7 +2,6 @@ create table if not exists openchpl.user_invitation (
     id bigserial not null,
     email text not null,
 	token uuid not null,
-	invite_dat
 	creation_date timestamp not null default now(),
     last_modified_date timestamp not null default now(),
     last_modified_user bigint,
