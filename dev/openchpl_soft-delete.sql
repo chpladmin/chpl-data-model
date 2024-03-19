@@ -223,7 +223,6 @@ CREATE OR REPLACE FUNCTION openchpl.quarterly_report_soft_delete()
 RETURNS TRIGGER AS $$
 BEGIN
 	IF NEW.deleted = true THEN
-		UPDATE openchpl.quarterly_report_excluded_listing_map as src SET deleted = NEW.deleted WHERE src.quarterly_report_id = NEW.id;
 		UPDATE openchpl.quarterly_report_surveillance_map as src SET deleted = NEW.deleted WHERE src.quarterly_report_id = NEW.id;
     END IF;
 	RETURN NEW;
@@ -231,3 +230,15 @@ END;
 $$ language 'plpgsql';
 DROP TRIGGER IF EXISTS quarterly_report_soft_delete on openchpl.quarterly_report;
 CREATE TRIGGER quarterly_report_soft_delete AFTER UPDATE of deleted on openchpl.quarterly_report FOR EACH ROW EXECUTE PROCEDURE openchpl.quarterly_report_soft_delete();
+
+CREATE OR REPLACE FUNCTION openchpl.quarterly_report_surveillance_map_soft_delete()
+RETURNS TRIGGER AS $$
+BEGIN
+	IF NEW.deleted = true THEN
+		UPDATE openchpl.quarterly_report_surveillance_process_type_map as src SET deleted = NEW.deleted WHERE src.quarterly_report_surveillance_map_id = NEW.id;
+    END IF;
+	RETURN NEW;
+END;
+$$ language 'plpgsql';
+DROP TRIGGER IF EXISTS quarterly_report_surveillance_map_soft_delete on openchpl.quarterly_report_surveillance_map;
+CREATE TRIGGER quarterly_report_surveillance_map_soft_delete AFTER UPDATE of deleted on openchpl.quarterly_report_surveillance_map FOR EACH ROW EXECUTE PROCEDURE openchpl.quarterly_report_surveillance_map_soft_delete();
