@@ -83,3 +83,7 @@ AND NOT EXISTS (
 
 UPDATE openchpl.quarterly_report_surveillance_map SET surveillance_process_type_other = NULL WHERE id = 315;
 
+-- Change 'Other - [Please Describe]' to just 'Other' (approved by Roxanne 3/21/24)
+UPDATE openchpl.surveillance_process_type SET name = 'Other' WHERE name = 'Other - [Please describe]';
+
+
