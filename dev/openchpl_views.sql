@@ -1219,14 +1219,12 @@ AS
 	all_questionable_activity.activity_date, all_questionable_activity.reason, 
 	all_questionable_activity.certification_status_change_reason,
 	all_questionable_activity.activity_id, 
-	--all_questionable_activity.activity_user_id, 
 	trigger.level as trigger_level, trigger.name as trigger_name,
 	listing_search.chpl_product_number,
 	listing_search.certification_body_id,
 	listing_search.certification_body_name,
 	listing_search.certification_status_id,
 	listing_search.certification_status_name,
-	--COALESCE(c.email, u.user_name, c.full_name) as user_contact_info
 	act.last_modified_user as activity_user_id,
 	act.last_modified_sso_user as activity_sso_user_id
 	FROM (
@@ -1288,10 +1286,8 @@ AS
 	) all_questionable_activity
 	JOIN openchpl.questionable_activity_trigger trigger ON all_questionable_activity.questionable_activity_trigger_id = trigger.id
 	LEFT JOIN openchpl.listing_search ON all_questionable_activity.certified_product_id = listing_search.certified_product_id
-	--JOIN openchpl.user u on all_questionable_activity.activity_user_id = u.user_id
-	--JOIN openchpl.contact c on u.contact_id = c.contact_id
 	LEFT JOIN openchpl.activity act on all_questionable_activity.activity_id = act.activity_id;
-	
+
 CREATE OR REPLACE VIEW openchpl.rwt_plans_by_developer
 AS
 	SELECT cp.rwt_plans_url, dev.vendor_id as developer_id, count(*) as active_certificate_count
