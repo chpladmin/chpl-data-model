@@ -1,5 +1,21 @@
 # Release Notes
 
+## Version 24.8.0
+_1 April 2024_
+
+### Features
+* Add new user invitation table to support invited Cognito users
+* Add table to support updated criteria status report
+* Drop table that was never used for quarterly report exclusions
+* Migrate surveillance process type to many-to-many relationship
+
+### Data Changes
+* Insert a questionable activity trigger for removed code set(s)
+* Add 170.315(f)(5)(i) standard to any listing with (f)(5)
+* Change surveillance process type 'Other - [Please Describe]' to 'Other'
+
+---
+
 ## Version 24.7.0
 _5 March 2024_
 
