@@ -1384,8 +1384,8 @@ LEFT JOIN (SELECT att.id, att.developer_id
 			WHERE att.attestation_period_id = (SELECT id FROM openchpl.most_recent_past_attestation_period)
 			AND att.deleted = false) developer_attestation_submission
 		ON developer_attestation_submission.developer_id = dev.vendor_id
-LEFT JOIN (SELECT string_agg(certification_body_id::text, ',') as acbs_for_developer_active_listings, vendor_id 
-		FROM (SELECT DISTINCT cp.certification_body_id, dev.vendor_id
+LEFT JOIN (SELECT string_agg(certification_body_id::text||':'||name, '|') as acbs_for_developer_active_listings, vendor_id 
+		FROM (SELECT DISTINCT acb.certification_body_id, acb.name, dev.vendor_id
 				FROM openchpl.certified_product cp
 				JOIN openchpl.product_version prod_ver
 					ON cp.product_version_id = prod_ver.product_version_id
@@ -1393,6 +1393,7 @@ LEFT JOIN (SELECT string_agg(certification_body_id::text, ',') as acbs_for_devel
 					ON prod_ver.product_id = prod.product_id
 				JOIN openchpl.vendor dev
 					ON prod.vendor_id = dev.vendor_id
+				JOIN openchpl.certification_body acb ON cp.certification_body_id = acb.certification_body_id
 				JOIN (
 					 SELECT cse.certification_status_event_id, cse.certification_status_id, cse.certified_product_id
 					 FROM openchpl.certification_status_event cse
@@ -1406,8 +1407,8 @@ LEFT JOIN (SELECT string_agg(certification_body_id::text, ',') as acbs_for_devel
 				) dev_acb_map_inner 
 		GROUP BY vendor_id) dev_acb_map
 	    ON dev_acb_map.vendor_id = dev.vendor_id
-LEFT JOIN (SELECT string_agg(certification_body_id::text, ',') as acbs_for_developer_all_listings, vendor_id 
-		FROM (SELECT DISTINCT cp.certification_body_id, dev.vendor_id
+LEFT JOIN (SELECT string_agg(certification_body_id::text||':'||name, '|') as acbs_for_developer_all_listings, vendor_id 
+		FROM (SELECT DISTINCT acb.certification_body_id, acb.name, dev.vendor_id
 				FROM openchpl.certified_product cp
 				JOIN openchpl.product_version prod_ver
 					ON cp.product_version_id = prod_ver.product_version_id
@@ -1415,6 +1416,7 @@ LEFT JOIN (SELECT string_agg(certification_body_id::text, ',') as acbs_for_devel
 					ON prod_ver.product_id = prod.product_id
 				JOIN openchpl.vendor dev
 					ON prod.vendor_id = dev.vendor_id
+				JOIN openchpl.certification_body acb ON cp.certification_body_id = acb.certification_body_id
 				) dev_acb_map_inner 
 		GROUP BY vendor_id) dev_acb_map2
 	    ON dev_acb_map2.vendor_id = dev.vendor_id		
