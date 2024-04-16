@@ -1421,9 +1421,6 @@ LEFT JOIN (SELECT string_agg(certification_body_id::text||':'||name, '|') as acb
 	    ON dev_acb_map2.vendor_id = dev.vendor_id		
 WHERE dev.deleted = false;
 
--- TODO: add count of active listings during last attestation period	   
-
-
 CREATE VIEW openchpl.subscription_search_result AS
  SELECT subscriber.id as subscriber_id,
 	subscriber.email as subscriber_email,
