@@ -84,7 +84,7 @@ echo "f = $FILE"
 # It is not checked into this file because creating the users includes assigning a password.
 
 # Dump data that Power BI needs from the source database
-pg_dump --host $SOURCE_HOST --port $SOURCE_PORT --username $SOURCE_USER --no-password --format custom --blobs --verbose --exclude-table-data=shared_store.* --exclude-table-data=quartz.* --exclude-table-data=ff4j.* --exclude-table-data=audit.*  --exclude-table-data=openchpl.api_key_activity  --exclude-table-data=openchpl.activity --file $FILE openchpl
+pg_dump --host $SOURCE_HOST --port $SOURCE_PORT --username $SOURCE_USER --no-password --format custom --blobs --verbose --exclude-table-data=shared_store.* --exclude-table-data=quartz.* --exclude-table-data=ff4j.* --exclude-table-data=audit.*  --exclude-table-data=openchpl.api_key_activity  --exclude-table-data=openchpl.activity --exclude-table-data=openchpl.complaint --exclude-table-data=openchpl.complainant_type --exclude-table-data=openchpl.complaint_criterion_map --exclude-table-data=openchpl.complaint_listing_map --exclude-table-data=openchpl.complaint_surveillance_map --file $FILE openchpl
 
 # Create the destination database if it does not exist
 psql -h $DEST_HOST -c "DROP DATABASE IF EXISTS openchpl_bi;" -U$DEST_ADMIN_USER -qtAX
