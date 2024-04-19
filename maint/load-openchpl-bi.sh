@@ -24,7 +24,7 @@ DEST_ADMIN_USER=openchpl_bi_admin
 DEST_DB=openchpl_bi
 FILE=openchpl.bi.backup
 
-while getopts "h:p:u:v:d:f?" OPTION; do
+while getopts "h:p:u:v:d:f:?" OPTION; do
     case "$OPTION" in
         h)
 			DEST_HOST=$OPTARG
@@ -68,12 +68,12 @@ echo "f = $FILE"
 
 # Clearing the tables in the destination db
 echo "Clearing $DEST_DB database on $DEST_HOST"
-psql --host $DEST_HOST --port $DEST_PORT --username $DEST_ADMIN_USER --no-password -c "DROP schema IF EXISTS openchpl CASCADE;" $DEST_DB
+psql --host $DEST_HOST --port $DEST_PORT --username $DEST_ADMIN_USER --dbname $DEST_DB --no-password -c "DROP schema IF EXISTS openchpl CASCADE;" $DEST_DB
 echo "Completed clearing $DEST_DB database on $DEST_HOST"
 
 # Load data for Power BI into the destination database
 echo "Loading $FILE into $DEST_DB database on $DEST_HOST"
-pg_restore --host $DEST_HOST --port $DEST_PORT --username $DEST_ADMIN_USER --no-password --verbose --clean --if-exists --dbname $DEST_DB $FILE
+pg_restore --host $DEST_HOST --port $DEST_PORT --username $DEST_ADMIN_USER --dbname $DEST_DB --no-password --verbose --clean --if-exists --dbname $DEST_DB $FILE
 echo "Completed loading $FILE into $DEST_DB database on $DEST_HOST"
 
 # Set read-only privileges for the destination query user
