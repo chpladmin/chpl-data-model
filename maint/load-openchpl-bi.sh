@@ -10,7 +10,7 @@ Usage: $(basename "$0") [OPTION]...
   -u VALUE    User name to connect to the destination database for queries				(default: openchpl_bi)
   -v VALUE    User name to connect to the destination database for admin				(default: openchpl_bi_admin)    
   -d VALUE    Database name on the destination system									(default: openchpl_bi)    
-  -f VALUE    File name to load                                                   		(default: openchpl.powerbi.backup)
+  -f VALUE    File name to load                                                   		(default: openchpl.bi.backup)
   -?          display help
 EOM
 
@@ -22,7 +22,7 @@ DEST_PORT=5432
 DEST_QUERY_USER=openchpl_bi
 DEST_ADMIN_USER=openchpl_bi_admin
 DEST_DB=openchpl_bi
-FILE=openchpl.powerbi.backup
+FILE=openchpl.bi.backup
 
 while getopts "h:p:u:v:d:f?" OPTION; do
     case "$OPTION" in

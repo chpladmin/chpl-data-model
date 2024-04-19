@@ -9,7 +9,7 @@ Usage: $(basename "$0") [OPTION]...
   -p VALUE    Port to connect on the source database machine						(default: 5432)
   -u VALUE    User name to connect to the source database 							(default: openchpl_dev)    
   -d VALUE    Database name on the source system									(default: openchpl)    
-  -f VALUE    File name of output                                                   (default: openchpl.powerbi.backup)
+  -f VALUE    File name of output                                                   (default: openchpl.bi.backup)
   -?          display help
 EOM
 
@@ -20,7 +20,7 @@ SOURCE_HOST=localhost
 SOURCE_PORT=5432
 SOURCE_USER=openchpl_dev
 SOURCE_DB=openchpl
-FILE=openchpl.powerbi.backup
+FILE=openchpl.bi.backup
 
 while getopts "h:p:u:d:f?" OPTION; do
     case "$OPTION" in
