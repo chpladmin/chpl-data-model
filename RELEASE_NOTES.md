@@ -1,5 +1,18 @@
 # Release Notes
 
+## Version 24.9.0
+_29 April 2024_
+
+### Features
+* Add additional columns to support inviting users with other roles
+* Update Activity and Questionable Activity to incorporate Cognito users
+
+### Data Changes
+* Update Companion Guide URL for 170.315 (a)(5)
+* Add activity types for SVAP, Standards, and Functionality Tested activity
+
+---
+
 ## Version 24.8.0
 _1 April 2024_
 
