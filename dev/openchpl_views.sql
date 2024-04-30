@@ -1350,7 +1350,8 @@ SELECT dev.vendor_id as developer_id,
 		FROM openchpl.get_active_listings_for_developer_during_period(dev.vendor_id, 
 			(SELECT period_start FROM openchpl.most_recent_past_attestation_period),
 			(SELECT period_end FROM openchpl.most_recent_past_attestation_period))),
-	   developer_attestation_submission.id as submission_id_for_most_recent_past_attestation_period,
+	   developer_attestation_submission.id as published_attestation_submission_id,
+	   developer_attestation_submission_change_request.id as attestation_submission_change_request_id,
 	   dev_acb_map.acbs_for_developer_active_listings,
 	   dev_acb_map2.acbs_for_developer_all_listings,
 	   dev.creation_date,
@@ -1383,6 +1384,20 @@ LEFT JOIN (SELECT att.id, att.developer_id
 			WHERE att.attestation_period_id = (SELECT id FROM openchpl.most_recent_past_attestation_period)
 			AND att.deleted = false) developer_attestation_submission
 		ON developer_attestation_submission.developer_id = dev.vendor_id
+LEFT JOIN (SELECT cr.id, cr.developer_id, crStatus.status_change_date
+			FROM openchpl.change_request cr
+			JOIN openchpl.change_request_attestation_submission cras ON cras.change_request_id = cr.id AND cras.deleted = false
+			JOIN openchpl.change_request_status crStatus ON cr.id = crStatus.change_request_id and crStatus.deleted = false
+			WHERE cras.attestation_period_id = (SELECT id FROM openchpl.most_recent_past_attestation_period)
+			AND cr.deleted = false
+			AND crStatus.status_change_date = 
+			   (SELECT MAX(crStatusInner.status_change_date) 
+				FROM openchpl.change_request crInner
+				JOIN openchpl.change_request_status crStatusInner ON crInner.id = crStatusInner.change_request_id AND crStatusInner.deleted = false
+				WHERE crInner.deleted = false
+				AND crInner.developer_id = cr.developer_id
+				AND crStatus.change_request_status_type_id IN (1,2,3))) developer_attestation_submission_change_request
+		ON developer_attestation_submission_change_request.developer_id = dev.vendor_id		
 LEFT JOIN (SELECT string_agg(certification_body_id::text||':'||name, '|') as acbs_for_developer_active_listings, vendor_id 
 		FROM (SELECT DISTINCT acb.certification_body_id, acb.name, dev.vendor_id
 				FROM openchpl.certified_product cp
