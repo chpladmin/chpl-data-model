@@ -6,14 +6,15 @@ DROP VIEW IF EXISTS openchpl.certification_result_details;
 DROP VIEW IF EXISTS openchpl.product_active_owner_history_map;
 DROP VIEW IF EXISTS openchpl.certified_product_summary;
 DROP VIEW IF EXISTS openchpl.ehr_certification_ids_and_products;
-DROP VIEW IF EXISTS openchpl.listings_from_banned_developers;
 DROP VIEW IF EXISTS openchpl.surveillance_basic;
+DROP VIEW IF EXISTS openchpl.developer_search;
 DROP VIEW IF EXISTS openchpl.developer_certification_body_map;
 DROP VIEW IF EXISTS openchpl.requirement_type;
 DROP VIEW IF EXISTS openchpl.nonconformity_type;
 DROP VIEW IF EXISTS openchpl.rwt_plans_by_developer;
 DROP VIEW IF EXISTS openchpl.rwt_results_by_developer;
 DROP VIEW IF EXISTS openchpl.subscription_search_result;
+DROP VIEW IF EXISTS openchpl.most_recent_past_attestation_period;
 DROP VIEW IF EXISTS openchpl.listing_search;
 
 create or replace function openchpl.get_testing_lab_code(input_id bigint) returns
@@ -51,10 +52,10 @@ select
     COALESCE(a.chpl_product_number, COALESCE(substring(b.year from 3 for 2), '15')||'.'||(select openchpl.get_testing_lab_code(a.certified_product_id))||'.'||c.certification_body_code||'.'||h.vendor_code||'.'||a.product_code||'.'||a.version_code||'.'||a.ics_code||'.'||a.additional_software_code||'.'||a.certified_date_code) as "chpl_product_number"
 FROM openchpl.certified_product a
     LEFT JOIN (SELECT certification_edition_id, year FROM openchpl.certification_edition) b on a.certification_edition_id = b.certification_edition_id
-    LEFT JOIN (SELECT certification_body_id, name as "certification_body_name", acb_code as "certification_body_code" FROM openchpl.certification_body) c on a.certification_body_id = c.certification_body_id
-    LEFT JOIN (SELECT product_version_id, version as "product_version", product_id from openchpl.product_version) f on a.product_version_id = f.product_version_id
-    LEFT JOIN (SELECT product_id, vendor_id, name as "product_name" FROM openchpl.product) g ON f.product_id = g.product_id
-    LEFT JOIN (SELECT vendor_id, name as "vendor_name", vendor_code, website as "vendor_website", address_id as "vendor_address", contact_id as "vendor_contact", vendor_status_id from openchpl.vendor) h on g.vendor_id = h.vendor_id
+    LEFT JOIN (SELECT certification_body_id, acb_code as "certification_body_code" FROM openchpl.certification_body) c on a.certification_body_id = c.certification_body_id
+    LEFT JOIN (SELECT product_version_id, product_id from openchpl.product_version) f on a.product_version_id = f.product_version_id
+    LEFT JOIN (SELECT product_id, vendor_id FROM openchpl.product) g ON f.product_id = g.product_id
+    LEFT JOIN (SELECT vendor_id, vendor_code from openchpl.vendor) h on g.vendor_id = h.vendor_id
 WHERE a.certified_product_id = id;
     end;
     $$ language plpgsql
@@ -98,6 +99,43 @@ CREATE OR REPLACE FUNCTION openchpl.get_current_certification_status_event_id(id
     END;
     $$ LANGUAGE plpgsql
 stable;
+
+CREATE OR REPLACE FUNCTION openchpl.get_active_listings_for_developer_during_period(developer_id bigint, period_start date, period_end date) RETURNS
+    TABLE (
+        active_certified_product_id bigint
+        ) AS $$
+    BEGIN
+    RETURN query
+		SELECT distinct active_listings_with_date_ranges.certified_product_id
+		FROM (
+		  SELECT cse.certified_product_id, cse.certification_status_event_id, cse.certification_status_id, cse.event_date as event_start_date,
+		  -- event end date is either the same as the start of the next status event
+		  -- or the current date if there is no "next" event
+		  COALESCE(
+			(SELECT event_date 
+				FROM openchpl.certification_status_event
+				WHERE certified_product_id = cse.certified_product_id
+				AND event_date > cse.event_date
+				ORDER BY event_date ASC
+				LIMIT 1), 
+			 NOW()) as event_end_date
+		  FROM openchpl.certification_status_event cse
+		  JOIN (SELECT cp.certified_product_id
+				FROM openchpl.certified_product cp
+				JOIN openchpl.product_version ver ON cp.product_version_id = ver.product_version_id
+				JOIN openchpl.product prod ON prod.product_id = ver.product_id
+				JOIN openchpl.vendor dev ON dev.vendor_id = prod.vendor_id
+				WHERE dev.vendor_id = developer_id
+				AND cp.deleted = false) listings_for_developer
+		  ON cse.certified_product_id = listings_for_developer.certified_product_id
+		  WHERE cse.deleted = false
+		  AND cse.certification_status_id IN (1,6,7)
+		  ORDER BY event_start_date asc) active_listings_with_date_ranges
+		WHERE (event_start_date, event_end_date) OVERLAPS (period_start, period_end);
+    END;
+    $$ LANGUAGE plpgsql
+stable;
+
 
 CREATE VIEW openchpl.certification_result_details AS
 SELECT
@@ -286,8 +324,7 @@ CREATE VIEW openchpl.certified_product_details AS
             vendor.website AS vendor_website,
             vendor.self_developer AS self_developer,
             vendor.address_id AS vendor_address,
-            vendor.contact_id AS vendor_contact,
-            vendor.vendor_status_id
+            vendor.contact_id AS vendor_contact
            FROM openchpl.vendor) h ON g.vendor_id = h.vendor_id
      LEFT JOIN ( SELECT address.address_id,
             address.street_line_1,
@@ -591,8 +628,7 @@ LEFT JOIN
 LEFT JOIN
   (SELECT vendor_1.vendor_id,
           vendor_1.name AS vendor_name,
-          vendor_1.vendor_code,
-          vendor_1.vendor_status_id
+          vendor_1.vendor_code
    FROM openchpl.vendor vendor_1) vendor ON product.vendor_id = vendor.vendor_id
      LEFT JOIN ( SELECT vshistory.vendor_status_id,
             vshistory.vendor_id,
@@ -873,8 +909,7 @@ LEFT JOIN
 LEFT JOIN
   (SELECT vendor_1.vendor_id,
           vendor_1.name AS vendor_name,
-          vendor_1.vendor_code,
-          vendor_1.vendor_status_id
+          vendor_1.vendor_code
    FROM openchpl.vendor vendor_1) vendor ON product.vendor_id = vendor.vendor_id
      LEFT JOIN ( SELECT vshistory.vendor_status_id,
             vshistory.vendor_id,
@@ -1138,40 +1173,6 @@ CREATE VIEW openchpl.certified_product_summary AS
 					AND piu.user_count_date = piuInner.user_count_date
           WHERE piu.deleted <> true) piuResult ON piuResult.certified_product_id = cp.certified_product_id;
 
-CREATE VIEW openchpl.listings_from_banned_developers AS
-SELECT
-	listing.certified_product_id,
-    listing.deleted,
-    acb.certification_body_id AS acb_id,
-	acb.name as acb_name,
-    dev.vendor_id AS developer_id,
-	dev.name AS developer_name,
-    devStatusList.developer_status_id,
-    devStatusList.developer_status_name,
-    devStatusHistory.last_dev_status_change
-FROM openchpl.certified_product listing
-     LEFT JOIN openchpl.certification_body acb ON listing.certification_body_id = acb.certification_body_id
-     LEFT JOIN openchpl.product_version ver ON listing.product_version_id = ver.product_version_id and ver.deleted = false
-     LEFT JOIN openchpl.product prod ON ver.product_id = prod.product_id and prod.deleted = false
-     LEFT JOIN openchpl.vendor dev ON prod.vendor_id = dev.vendor_id and dev.deleted = false
-     LEFT JOIN ( SELECT vshistory.vendor_status_id,
-            vshistory.vendor_id,
-            vshistory.status_date AS last_dev_status_change
-           FROM openchpl.vendor_status_history vshistory
-             JOIN ( SELECT vendor_status_history.vendor_id,
-                    max(vendor_status_history.status_date) AS status_date
-                   FROM openchpl.vendor_status_history
-                  WHERE vendor_status_history.deleted = false
-                  GROUP BY vendor_status_history.vendor_id) vsinner 
-				ON vshistory.vendor_id = vsinner.vendor_id 
-				AND vshistory.status_date = vsinner.status_date
-				AND vshistory.deleted = false) devStatusHistory ON devStatusHistory.vendor_id = dev.vendor_id
-     LEFT JOIN ( SELECT vendor_status.vendor_status_id as developer_status_id,
-            vendor_status.name AS developer_status_name
-           FROM openchpl.vendor_status) devStatusList ON devStatusHistory.vendor_status_id = devStatusList.developer_status_id
-WHERE listing.deleted = false
-AND acb.retired = false
-AND developer_status_name = 'Under certification ban by ONC';
 
 CREATE OR REPLACE VIEW openchpl.developer_certification_body_map
 AS
@@ -1313,6 +1314,127 @@ AS
 		AND listing_search.certification_status_id IN (1,6,7)
 	WHERE cp.deleted = false
 	GROUP BY cp.rwt_results_url, dev.vendor_id;	
+
+
+CREATE VIEW openchpl.most_recent_past_attestation_period AS 
+SELECT id, period_start, period_end, submission_start, submission_end
+FROM 
+	(SELECT id, period_start, period_end, submission_start, submission_end, extract(day from (period_end - now())) as date_diff
+	 FROM openchpl.attestation_period) all_attestation_periods
+WHERE date_diff < 0
+ORDER BY date_diff DESC
+LIMIT 1;
+
+CREATE VIEW openchpl.developer_search AS
+SELECT dev.vendor_id as developer_id,
+       dev.vendor_code as developer_code,
+	   dev.name as developer_name,
+	   dev.website as developer_website,
+	   dev.self_developer,
+	   dev.address_id,
+	   addr.street_line_1,
+	   addr.street_line_2,
+	   addr.city,
+	   addr.state,
+	   addr.zipcode,
+	   addr.country,
+	   dev.contact_id,
+	   contact.email as contact_email,
+	   contact.phone_number as contact_phone_number,
+	   contact.full_name as contact_name,
+	   vendor_status.vendor_status_id as current_status_id,
+       vendor_status.vendor_status_name as current_status_name,
+	   vendor_status_history.last_developer_status_change as last_developer_status_change,
+	   COALESCE(current_active_listings_for_dev.current_active_listing_count, 0) as current_active_listing_count,
+	   (SELECT count(*) as most_recent_past_attestation_period_active_listing_count
+		FROM openchpl.get_active_listings_for_developer_during_period(dev.vendor_id, 
+			(SELECT period_start FROM openchpl.most_recent_past_attestation_period),
+			(SELECT period_end FROM openchpl.most_recent_past_attestation_period))),
+	   developer_attestation_submission.id as published_attestation_submission_id,
+	   developer_attestation_submission_change_request.id as attestation_submission_change_request_id,
+	   dev_acb_map.acbs_for_developer_active_listings,
+	   dev_acb_map2.acbs_for_developer_all_listings,
+	   dev.creation_date,
+	   dev.deleted
+FROM openchpl.vendor dev
+LEFT JOIN openchpl.address addr ON addr.address_id = dev.address_id
+LEFT JOIN openchpl.contact contact ON contact.contact_id = dev.contact_id
+LEFT JOIN (SELECT vshistory.vendor_status_id,
+            vshistory.vendor_id,
+            vshistory.status_date AS last_developer_status_change
+           FROM openchpl.vendor_status_history vshistory
+           JOIN (SELECT vendor_status_history.vendor_id,
+                    max(vendor_status_history.status_date) AS status_date
+                   FROM openchpl.vendor_status_history
+                  WHERE vendor_status_history.deleted = false
+                  GROUP BY vendor_status_history.vendor_id) vsinner 
+		  ON vshistory.deleted = false 
+		  AND vshistory.vendor_id = vsinner.vendor_id 
+		  AND vshistory.status_date = vsinner.status_date) vendor_status_history ON vendor_status_history.vendor_id = dev.vendor_id
+LEFT JOIN (SELECT vendor_status.vendor_status_id,
+            vendor_status.name AS vendor_status_name
+           FROM openchpl.vendor_status) vendor_status ON vendor_status_history.vendor_status_id = vendor_status.vendor_status_id
+LEFT JOIN (SELECT listing_search.developer_id, count(*) as current_active_listing_count
+			FROM openchpl.listing_search 
+			WHERE listing_search.certification_status_id IN (1,6,7)
+			GROUP BY listing_search.developer_id) current_active_listings_for_dev
+		ON current_active_listings_for_dev.developer_id = dev.vendor_id
+LEFT JOIN (SELECT att.id, att.developer_id
+			FROM openchpl.attestation_submission att
+			WHERE att.attestation_period_id = (SELECT id FROM openchpl.most_recent_past_attestation_period)
+			AND att.deleted = false) developer_attestation_submission
+		ON developer_attestation_submission.developer_id = dev.vendor_id
+LEFT JOIN (SELECT cr.id, cr.developer_id, crStatus.status_change_date
+			FROM openchpl.change_request cr
+			JOIN openchpl.change_request_attestation_submission cras ON cras.change_request_id = cr.id AND cras.deleted = false
+			JOIN openchpl.change_request_status crStatus ON cr.id = crStatus.change_request_id and crStatus.deleted = false
+			WHERE cras.attestation_period_id = (SELECT id FROM openchpl.most_recent_past_attestation_period)
+			AND cr.deleted = false
+			AND crStatus.status_change_date = 
+			   (SELECT MAX(crStatusInner.status_change_date) 
+				FROM openchpl.change_request crInner
+				JOIN openchpl.change_request_status crStatusInner ON crInner.id = crStatusInner.change_request_id AND crStatusInner.deleted = false
+				WHERE crInner.deleted = false
+				AND crInner.developer_id = cr.developer_id
+				AND crStatus.change_request_status_type_id IN (1,2,3))) developer_attestation_submission_change_request
+		ON developer_attestation_submission_change_request.developer_id = dev.vendor_id		
+LEFT JOIN (SELECT string_agg(certification_body_id::text||':'||name, '|') as acbs_for_developer_active_listings, vendor_id 
+		FROM (SELECT DISTINCT acb.certification_body_id, acb.name, dev.vendor_id
+				FROM openchpl.certified_product cp
+				JOIN openchpl.product_version prod_ver
+					ON cp.product_version_id = prod_ver.product_version_id
+				JOIN openchpl.product prod
+					ON prod_ver.product_id = prod.product_id
+				JOIN openchpl.vendor dev
+					ON prod.vendor_id = dev.vendor_id
+				JOIN openchpl.certification_body acb ON cp.certification_body_id = acb.certification_body_id
+				JOIN (
+					 SELECT cse.certification_status_event_id, cse.certification_status_id, cse.certified_product_id
+					 FROM openchpl.certification_status_event cse
+					 JOIN openchpl.certification_status cs ON cse.certification_status_id = cs.certification_status_id
+					 WHERE cse.deleted = false
+					 ) certstatus 
+				ON certstatus.certification_status_id IN (1,6,7)
+				AND certstatus.certification_status_event_id = 
+					(SELECT get_current_certification_status_event_id.current_certification_status_event_id
+						FROM openchpl.get_current_certification_status_event_id(cp.certified_product_id))
+				) dev_acb_map_inner 
+		GROUP BY vendor_id) dev_acb_map
+	    ON dev_acb_map.vendor_id = dev.vendor_id
+LEFT JOIN (SELECT string_agg(certification_body_id::text||':'||name, '|') as acbs_for_developer_all_listings, vendor_id 
+		FROM (SELECT DISTINCT acb.certification_body_id, acb.name, dev.vendor_id
+				FROM openchpl.certified_product cp
+				JOIN openchpl.product_version prod_ver
+					ON cp.product_version_id = prod_ver.product_version_id
+				JOIN openchpl.product prod
+					ON prod_ver.product_id = prod.product_id
+				JOIN openchpl.vendor dev
+					ON prod.vendor_id = dev.vendor_id
+				JOIN openchpl.certification_body acb ON cp.certification_body_id = acb.certification_body_id
+				) dev_acb_map_inner 
+		GROUP BY vendor_id) dev_acb_map2
+	    ON dev_acb_map2.vendor_id = dev.vendor_id		
+WHERE dev.deleted = false;
 
 CREATE VIEW openchpl.subscription_search_result AS
  SELECT subscriber.id as subscriber_id,
