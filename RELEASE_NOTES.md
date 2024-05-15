@@ -1,5 +1,14 @@
 # Release Notes
 
+## Version 24.10.0
+_14 May 2024_
+
+### Features
+* Add new column user_group_name and populate it
+* Create developer_search view
+
+---
+
 ## Version 24.9.0
 _29 April 2024_
 
