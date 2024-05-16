@@ -16,7 +16,8 @@ ALTER TABLE openchpl.vendor_status_history ADD COLUMN IF NOT EXISTS end_date dat
 
 -- fill in start dates
 UPDATE openchpl.vendor_status_history 
-SET start_date = status_date::date;
+SET start_date = status_date::date
+WHERE start_date IS NULL;
 
 -- fill in end dates
 UPDATE openchpl.vendor_status_history vsh
@@ -28,7 +29,8 @@ SET end_date =
 	AND vsh2.deleted = false
 	ORDER BY vsh2.status_date ASC
 	LIMIT 1)
-WHERE deleted = false;
+WHERE deleted = false
+AND end_date IS NULL;
 
 DELETE FROM openchpl.vendor_status_history
 WHERE vendor_status_id = (SELECT vendor_status_id FROM openchpl.vendor_status WHERE name = 'Active');
