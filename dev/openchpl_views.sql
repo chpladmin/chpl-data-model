@@ -224,6 +224,7 @@ CREATE VIEW openchpl.certified_product_details AS
     c.certification_body_code,
     c.acb_is_retired,
     d.product_classification_name,
+	e.practice_type_name,
     f.product_version,
     f.product_id,
     g.product_name,
