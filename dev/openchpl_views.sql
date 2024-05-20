@@ -1361,7 +1361,7 @@ LEFT JOIN (SELECT vshistory.vendor_status_id,
 			vshistory.end_date
 			FROM openchpl.vendor_status_history vshistory
             WHERE vshistory.start_date <= now()
-			AND vshistory.end_date >= now()
+			AND (vshistory.end_date IS NULL OR vshistory.end_date >= now())
 			AND vshistory.deleted = false) vendor_status_history ON vendor_status_history.vendor_id = dev.vendor_id
 LEFT JOIN (SELECT vendor_status.vendor_status_id,
             vendor_status.name AS vendor_status_name
