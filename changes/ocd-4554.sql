@@ -1,3 +1,14 @@
+-- Remove old 'statuses' field from Developer
+UPDATE openchpl.activity
+SET original_data = (original_data::jsonb - 'statuses')::text
+WHERE activity_object_concept_id = 3
+AND original_data IS NOT NULL;
+
+UPDATE openchpl.activity
+SET new_data = (new_data::jsonb - 'statuses')::text
+WHERE activity_object_concept_id = 3
+AND new_data IS NOT NULL;
+
 -- Remove the duplicate developer status accidentally created
 -- We are leaving the data from the "first click" and deleting from the "second click"
 DELETE FROM openchpl.vendor_status_history WHERE vendor_status_history_id = 2188;
