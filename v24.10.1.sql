@@ -1,3 +1,6 @@
+-- Deployment file for version 24.10.1
+--     as of 2024-05-28
+-- ./changes/ocd-4544.sql
 --
 -- Add a column for 'display_value' that will be used for selection and display in the CHPL.
 -- For existing optional standards this will match what is in the 'description' field.
@@ -910,3 +913,94 @@ WHERE NOT EXISTS (
 	AND optional_standard_id = (SELECT id FROM openchpl.optional_standard 
 		WHERE display_value = 'USCDI v3 SDOH Interventions: HCPCS Level II')
 );
+;
+-- ./changes/ocd-4563.sql
+INSERT INTO openchpl.subscription_subject (subscription_object_type_id, subject, last_modified_user)
+SELECT 1, 'RWT Plans URL Changed', -1
+WHERE NOT EXISTS (
+	SELECT id FROM openchpl.subscription_subject WHERE subject = 'RWT Plans URL Changed'
+);
+
+INSERT INTO openchpl.subscription_subject (subscription_object_type_id, subject, last_modified_user)
+SELECT 1, 'RWT Results URL Changed', -1
+WHERE NOT EXISTS (
+	SELECT id FROM openchpl.subscription_subject WHERE subject = 'RWT Results URL Changed'
+);
+
+INSERT INTO openchpl.subscription_subject (subscription_object_type_id, subject, last_modified_user)
+SELECT 1, 'Service Base URL List Changed', -1
+WHERE NOT EXISTS (
+	SELECT id FROM openchpl.subscription_subject WHERE subject = 'Service Base URL List Changed'
+);
+
+-- Add these subjects to existing listing subscriptions
+DROP FUNCTION IF EXISTS openchpl.create_missing_subscriptions_for_new_subjects();
+CREATE FUNCTION openchpl.create_missing_subscriptions_for_new_subjects()
+  RETURNS void AS $$
+	DECLARE
+		unique_subscription_rec record;
+		subject_id bigint;
+	BEGIN
+		FOR unique_subscription_rec IN
+			SELECT DISTINCT subscriber_id, subscribed_object_id, creation_date FROM openchpl.subscription
+		LOOP
+		
+			-- RWT Plans URL Subjects
+			SELECT id INTO subject_id FROM openchpl.subscription_subject WHERE subject = 'RWT Plans URL Changed';
+			
+			IF (SELECT COUNT(*) FROM openchpl.subscription WHERE subscriber_id = unique_subscription_rec.subscriber_id AND subscription_subject_id = subject_id AND subscribed_object_id = unique_subscription_rec.subscribed_object_id AND subscription_consolidation_method_id = 1 AND deleted = false)>0 THEN
+				-- subscriptions already exists, print notice
+				RAISE NOTICE 'Subscription for subscriber %, subject %, object % already exists', unique_subscription_rec.subscriber_id, subject_id, unique_subscription_rec.subscribed_object_id;
+			ELSE
+				-- insert the subscription
+				INSERT INTO openchpl.subscription (subscriber_id, subscription_subject_id, subscribed_object_id, subscription_consolidation_method_id, creation_date, last_modified_user)
+				VALUES (unique_subscription_rec.subscriber_id, subject_id, unique_subscription_rec.subscribed_object_id, 1, unique_subscription_rec.creation_date, -1);
+				RAISE NOTICE 'Added subscription for subscriber %, subject %, object % already exists', unique_subscription_rec.subscriber_id, subject_id, unique_subscription_rec.subscribed_object_id;
+			END IF;
+		
+			-- RWT Results URL subjects
+			SELECT id INTO subject_id FROM openchpl.subscription_subject WHERE subject = 'RWT Results URL Changed';
+			
+			IF (SELECT COUNT(*) FROM openchpl.subscription WHERE subscriber_id = unique_subscription_rec.subscriber_id AND subscription_subject_id = subject_id AND subscribed_object_id = unique_subscription_rec.subscribed_object_id AND subscription_consolidation_method_id = 1 AND deleted = false)>0 THEN
+				-- subscriptions already exists, print notice
+				RAISE NOTICE 'Subscription for subscriber %, subject %, object % already exists', unique_subscription_rec.subscriber_id, subject_id, unique_subscription_rec.subscribed_object_id;
+			ELSE
+				-- insert the subscription
+				INSERT INTO openchpl.subscription (subscriber_id, subscription_subject_id, subscribed_object_id, subscription_consolidation_method_id, creation_date, last_modified_user)
+				VALUES (unique_subscription_rec.subscriber_id, subject_id, unique_subscription_rec.subscribed_object_id, 1, unique_subscription_rec.creation_date, -1);
+				RAISE NOTICE 'Added subscription for subscriber %, subject %, object % already exists', unique_subscription_rec.subscriber_id, subject_id, unique_subscription_rec.subscribed_object_id;
+			END IF;
+			
+			-- Service Base URL List subjects
+			SELECT id INTO subject_id FROM openchpl.subscription_subject WHERE subject = 'Service Base URL List Changed';
+			
+			IF (SELECT COUNT(*) FROM openchpl.subscription WHERE subscriber_id = unique_subscription_rec.subscriber_id AND subscription_subject_id = subject_id AND subscribed_object_id = unique_subscription_rec.subscribed_object_id AND subscription_consolidation_method_id = 1 AND deleted = false)>0 THEN
+				-- subscriptions already exists, print notice
+				RAISE NOTICE 'Subscription for subscriber %, subject %, object % already exists', unique_subscription_rec.subscriber_id, subject_id, unique_subscription_rec.subscribed_object_id;
+			ELSE
+				-- insert the subscription
+				INSERT INTO openchpl.subscription (subscriber_id, subscription_subject_id, subscribed_object_id, subscription_consolidation_method_id, creation_date, last_modified_user)
+				VALUES (unique_subscription_rec.subscriber_id, subject_id, unique_subscription_rec.subscribed_object_id, 1, unique_subscription_rec.creation_date, -1);
+				RAISE NOTICE 'Added subscription for subscriber %, subject %, object % already exists', unique_subscription_rec.subscriber_id, subject_id, unique_subscription_rec.subscribed_object_id;
+			END IF;
+			
+
+		END LOOP;
+		RETURN;
+	END;
+$$ language plpgsql
+volatile;
+
+SELECT openchpl.create_missing_subscriptions_for_new_subjects();
+DROP FUNCTION openchpl.create_missing_subscriptions_for_new_subjects();
+
+;
+-- ./changes/ocd-4588.sql
+UPDATE openchpl.certification_criterion_attribute
+SET privacy_security_framework = false
+WHERE criterion_id = 210;
+;
+insert into openchpl.data_model_version (version, deploy_date, last_modified_user) values ('24.10.1', '2024-05-28', -1);
+\i dev/openchpl_soft-delete.sql
+\i dev/openchpl_views.sql
+\i dev/openchpl_grant-all.sql

@@ -1,5 +1,16 @@
 # Release Notes
 
+## Version 24.10.1
+_28 May 2024_
+
+### Data Changes
+* Do not require P&S for b11
+* Add 3 new subscription subjects to existing subscriptions
+* Add new subscription types for URL updates on listing
+* Update some optional standards, add some new ones
+
+---
+
 ## Version 24.10.0
 _14 May 2024_
 
