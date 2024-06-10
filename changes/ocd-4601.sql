@@ -13,21 +13,16 @@
 \echo 'active certificates that attested to d12 and had "Attestation" as "Yes" - pre'
 \copy (select distinct cpd.certified_product_id from openchpl.certified_product_details cpd join openchpl.certification_result cr on cpd.certified_product_id = cr.certified_product_id and cr.success = true and cr.deleted = false where cr.success = true and cr.certification_criterion_id = 176 and cr.attestation_answer = 'Yes' and cpd.deleted = false and cpd.certification_status_id in (1,6,7)) to d12_with_attestation_no.csv with csv header
 
-\echo 'active certificates that attested to d9 - pre'
-\copy (select distinct cpd.certified_product_id from openchpl.certified_product_details cpd join openchpl.certification_result cr on cpd.certified_product_id = cr.certified_product_id and cr.success = true and cr.deleted = false where cr.success = true and cr.certification_criterion_id = 37 and cpd.deleted = false and cpd.certification_status_id in (1,6,7)) to d9.csv with csv header
-
 \echo 'removing certification_result_standard mappings'
-delete from openchpl.certification_result_standard crs
-  where crs.standard_id = 29;
+delete from openchpl.certification_result_standard as crs using openchpl.certification_result
+where crs.standard_id = 29
+and crs.certification_result_id = certification_result.certification_result_id
+and certification_result.certification_criterion_id in (35, 176);
 
 \echo 'removing mappings of standards to criteria'
 delete from openchpl.standard_criteria_map scm
   where scm.standard_id = 29
-  and scm.certification_criterion_id in (35, 37, 176);
-
-\echo 'removing standard'
-delete from openchpl.standard s
-  where s.id = 29;
+  and scm.certification_criterion_id in (35, 176);
 
 \echo 'adding optional standard'
 insert into openchpl.optional_standard (citation, description, last_modified_user, display_value)
@@ -40,12 +35,6 @@ insert into openchpl.optional_standard_criteria_map (optional_standard_id, crite
     where not exists (select * from openchpl.optional_standard_criteria_map
                        where optional_standard_id = (select id from openchpl.optional_standard os where os.citation = '170.210(a)(2)')
                              and criterion_id = 35);
-
-insert into openchpl.optional_standard_criteria_map (optional_standard_id, criterion_id, last_modified_user)
-  select (select id from openchpl.optional_standard os where os.citation = '170.210(a)(2)'), 37, -1
-    where not exists (select * from openchpl.optional_standard_criteria_map
-                       where optional_standard_id = (select id from openchpl.optional_standard os where os.citation = '170.210(a)(2)')
-                             and criterion_id = 37);
 
 insert into openchpl.optional_standard_criteria_map (optional_standard_id, criterion_id, last_modified_user)
   select (select id from openchpl.optional_standard os where os.citation = '170.210(a)(2)'), 176, -1
