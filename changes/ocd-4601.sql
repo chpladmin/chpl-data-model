@@ -26,64 +26,6 @@ delete from openchpl.standard_criteria_map scm
 delete from openchpl.standard s
   where s.id = 29;
 
-\echo 'active certificates that attested to d7 and used functionality tested d7ii - post'
-select distinct cpd.certified_product_id
-from openchpl.certified_product_details cpd
-join openchpl.certification_result cr on cpd.certified_product_id = cr.certified_product_id
-	and cr.success = true and cr.deleted = false
-join openchpl.certification_result_functionality_tested crft on crft.certification_result_id = cr.certification_result_id
-	and crft.deleted = false
-where cr.success = true
-and cr.certification_criterion_id = 35
-and crft.functionality_tested_id = 41
-and cpd.deleted = false
-and cpd.certification_status_id in (1,6,7);
-
-\echo 'active certificates that attested to d7 and did not use functionality tested d7ii - post'
-select distinct cpd.certified_product_id
-from openchpl.certified_product_details cpd
-join openchpl.certification_result cr on cpd.certified_product_id = cr.certified_product_id
-	and cr.success = true and cr.deleted = false
-join openchpl.certification_result_functionality_tested crft on crft.certification_result_id = cr.certification_result_id
-	and crft.deleted = false
-where cr.success = true
-and cr.certification_criterion_id = 35
-and crft.functionality_tested_id <> 41
-and cpd.deleted = false
-and cpd.certification_status_id in (1,6,7);
-
-\echo 'active certificates that attested to d12 and had "Attestation" as "No" - post'
-select distinct cpd.certified_product_id
-from openchpl.certified_product_details cpd
-join openchpl.certification_result cr on cpd.certified_product_id = cr.certified_product_id
-	and cr.success = true and cr.deleted = false
-where cr.success = true
-and cr.certification_criterion_id = 176
-and cr.attestation_answer = 'No'
-and cpd.deleted = false
-and cpd.certification_status_id in (1,6,7);
-
-\echo 'active certificates that attested to d12 and had "Attestation" as "Yes" - post'
-select distinct cpd.certified_product_id
-from openchpl.certified_product_details cpd
-join openchpl.certification_result cr on cpd.certified_product_id = cr.certified_product_id
-	and cr.success = true and cr.deleted = false
-where cr.success = true
-and cr.certification_criterion_id = 176
-and cr.attestation_answer = 'Yes'
-and cpd.deleted = false
-and cpd.certification_status_id in (1,6,7);
-
-\echo 'active certificates that attested to d9 - post'
-select distinct cpd.certified_product_id
-from openchpl.certified_product_details cpd
-join openchpl.certification_result cr on cpd.certified_product_id = cr.certified_product_id
-	and cr.success = true and cr.deleted = false
-where cr.success = true
-and cr.certification_criterion_id = 37
-and cpd.deleted = false
-and cpd.certification_status_id in (1,6,7);
-
 \echo 'adding optional standard'
 insert into openchpl.optional_standard (citation, description, last_modified_user, display_value)
   select '170.210(a)(2)', 'Any encryption algorithm identified by the National Institute of Standards and Technology (NIST) as an approved security function in Annex A of the Federal Information Processing Standards (FIPS) Publication 140–2, October 8, 2014', -1, 'Any encryption algorithm identified by the National Institute of Standards and Technology (NIST) as an approved security function in Annex A of the Federal Information Processing Standards (FIPS) Publication 140–2, October 8, 2014'
