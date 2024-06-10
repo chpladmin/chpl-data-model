@@ -1,60 +1,17 @@
 \echo 'active certificates that attested to d7 and used functionality tested d7ii - pre'
-select distinct cpd.certified_product_id
-from openchpl.certified_product_details cpd
-join openchpl.certification_result cr on cpd.certified_product_id = cr.certified_product_id
-	and cr.success = true and cr.deleted = false
-join openchpl.certification_result_functionality_tested crft on crft.certification_result_id = cr.certification_result_id
-	and crft.deleted = false
-where cr.success = true
-and cr.certification_criterion_id = 35
-and crft.functionality_tested_id = 41
-and cpd.deleted = false
-and cpd.certification_status_id in (1,6,7);
+\copy (select distinct cpd.certified_product_id from openchpl.certified_product_details cpd join openchpl.certification_result cr on cpd.certified_product_id = cr.certified_product_id and cr.success = true and cr.deleted = false join openchpl.certification_result_functionality_tested crft on crft.certification_result_id = cr.certification_result_id and crft.deleted = false where cr.success = true and cr.certification_criterion_id = 35 and crft.functionality_tested_id = 41 and cpd.deleted = false and cpd.certification_status_id in (1,6,7)) to d7_with_d7ii.csv with csv header
 
 \echo 'active certificates that attested to d7 and did not use functionality tested d7ii - pre'
-select distinct cpd.certified_product_id
-from openchpl.certified_product_details cpd
-join openchpl.certification_result cr on cpd.certified_product_id = cr.certified_product_id
-	and cr.success = true and cr.deleted = false
-join openchpl.certification_result_functionality_tested crft on crft.certification_result_id = cr.certification_result_id
-	and crft.deleted = false
-where cr.success = true
-and cr.certification_criterion_id = 35
-and crft.functionality_tested_id <> 41
-and cpd.deleted = false
-and cpd.certification_status_id in (1,6,7);
+\copy (select distinct cpd.certified_product_id from openchpl.certified_product_details cpd join openchpl.certification_result cr on cpd.certified_product_id = cr.certified_product_id and cr.success = true and cr.deleted = false join openchpl.certification_result_functionality_tested crft on crft.certification_result_id = cr.certification_result_id and crft.deleted = false where cr.success = true and cr.certification_criterion_id = 35 and crft.functionality_tested_id <> 41 and cpd.deleted = false and cpd.certification_status_id in (1,6,7)) to d7_without_d7ii.csv with csv header
 
 \echo 'active certificates that attested to d12 and had "Attestation" as "No" - pre'
-select distinct cpd.certified_product_id
-from openchpl.certified_product_details cpd
-join openchpl.certification_result cr on cpd.certified_product_id = cr.certified_product_id
-	and cr.success = true and cr.deleted = false
-where cr.success = true
-and cr.certification_criterion_id = 176
-and cr.attestation_answer = 'No'
-and cpd.deleted = false
-and cpd.certification_status_id in (1,6,7);
+\copy (select distinct cpd.certified_product_id from openchpl.certified_product_details cpd join openchpl.certification_result cr on cpd.certified_product_id = cr.certified_product_id and cr.success = true and cr.deleted = false where cr.success = true and cr.certification_criterion_id = 176 and cr.attestation_answer = 'No' and cpd.deleted = false and cpd.certification_status_id in (1,6,7)) to d12_with_attestation_yes.csv with csv header
 
 \echo 'active certificates that attested to d12 and had "Attestation" as "Yes" - pre'
-select distinct cpd.certified_product_id
-from openchpl.certified_product_details cpd
-join openchpl.certification_result cr on cpd.certified_product_id = cr.certified_product_id
-	and cr.success = true and cr.deleted = false
-where cr.success = true
-and cr.certification_criterion_id = 176
-and cr.attestation_answer = 'Yes'
-and cpd.deleted = false
-and cpd.certification_status_id in (1,6,7);
+\copy (select distinct cpd.certified_product_id from openchpl.certified_product_details cpd join openchpl.certification_result cr on cpd.certified_product_id = cr.certified_product_id and cr.success = true and cr.deleted = false where cr.success = true and cr.certification_criterion_id = 176 and cr.attestation_answer = 'Yes' and cpd.deleted = false and cpd.certification_status_id in (1,6,7)) to d12_with_attestation_no.csv with csv header
 
 \echo 'active certificates that attested to d9 - pre'
-select distinct cpd.certified_product_id
-from openchpl.certified_product_details cpd
-join openchpl.certification_result cr on cpd.certified_product_id = cr.certified_product_id
-	and cr.success = true and cr.deleted = false
-where cr.success = true
-and cr.certification_criterion_id = 37
-and cpd.deleted = false
-and cpd.certification_status_id in (1,6,7);
+\copy (select distinct cpd.certified_product_id from openchpl.certified_product_details cpd join openchpl.certification_result cr on cpd.certified_product_id = cr.certified_product_id and cr.success = true and cr.deleted = false where cr.success = true and cr.certification_criterion_id = 37 and cpd.deleted = false and cpd.certification_status_id in (1,6,7)) to d9.csv with csv header
 
 \echo 'removing certification_result_standard mappings'
 delete from openchpl.certification_result_standard crs
