@@ -91,19 +91,19 @@ insert into openchpl.optional_standard (citation, description, last_modified_use
 
 \echo 'adding optional_standard - criterion mapping'
 insert into openchpl.optional_standard_criteria_map (optional_standard_id, criterion_id, last_modified_user)
-  select (select id from openchpl.optional_standard os where os.citation = '170.212(a)(2)'), 35, -1
+  select (select id from openchpl.optional_standard os where os.citation = '170.210(a)(2)'), 35, -1
     where not exists (select * from openchpl.optional_standard_criteria_map
-                       where id = (select id from openchpl.optional_standard os where os.citation = '170.212(a)(2)')
+                       where optional_standard_id = (select id from openchpl.optional_standard os where os.citation = '170.210(a)(2)')
                              and criterion_id = 35);
 
 insert into openchpl.optional_standard_criteria_map (optional_standard_id, criterion_id, last_modified_user)
-  select (select id from openchpl.optional_standard os where os.citation = '170.212(a)(2)'), 37, -1
+  select (select id from openchpl.optional_standard os where os.citation = '170.210(a)(2)'), 37, -1
     where not exists (select * from openchpl.optional_standard_criteria_map
-                       where id = (select id from openchpl.optional_standard os where os.citation = '170.212(a)(2)')
+                       where optional_standard_id = (select id from openchpl.optional_standard os where os.citation = '170.210(a)(2)')
                              and criterion_id = 37);
 
 insert into openchpl.optional_standard_criteria_map (optional_standard_id, criterion_id, last_modified_user)
-  select (select id from openchpl.optional_standard os where os.citation = '170.212(a)(2)'), 176, -1
+  select (select id from openchpl.optional_standard os where os.citation = '170.210(a)(2)'), 176, -1
     where not exists (select * from openchpl.optional_standard_criteria_map
-                       where id = (select id from openchpl.optional_standard os where os.citation = '170.212(a)(2)')
+                       where optional_standard_id = (select id from openchpl.optional_standard os where os.citation = '170.210(a)(2)')
                              and criterion_id = 176);
