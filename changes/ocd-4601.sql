@@ -41,3 +41,8 @@ insert into openchpl.optional_standard_criteria_map (optional_standard_id, crite
     where not exists (select * from openchpl.optional_standard_criteria_map
                        where optional_standard_id = (select id from openchpl.optional_standard os where os.citation = '170.210(a)(2)')
                              and criterion_id = 176);
+
+\echo 'updating attribute table to support optional standard'
+update openchpl.certification_criterion_attribute
+  set optional_standard = true
+  where criterion_id in (35, 176);
