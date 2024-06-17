@@ -46,3 +46,8 @@ insert into openchpl.optional_standard_criteria_map (optional_standard_id, crite
 update openchpl.certification_criterion_attribute
   set optional_standard = true
   where criterion_id in (35, 176);
+
+\echo 'updating attribute table to remove appropriate standard options'
+update openchpl.certification_criterion_attribute
+  set standard = false
+  where criterion_id in (35, 176);
