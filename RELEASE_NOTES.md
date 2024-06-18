@@ -1,5 +1,13 @@
 # Release Notes
 
+## Version 24.10.2
+_10 June 2024_
+
+### Data Changes
+* Remove certification id activity
+
+---
+
 ## Version 24.10.1
 _28 May 2024_
 
