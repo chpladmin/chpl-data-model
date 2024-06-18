@@ -49,7 +49,7 @@ select 'Cures', '2020-06-30', 1
 where not exists (select * from openchpl.criteria_migration_report where report_name = 'Cures');
 
 insert into openchpl.criteria_migration_report (report_name, start_date, last_modified_user)
-select 'HTI-1', '2024-03-12', 1
+select 'HTI-1', '2024-03-11', 1
 where not exists (select * from openchpl.criteria_migration_report where report_name = 'HTI-1');
 
 insert into openchpl.criteria_migration_definition (criteria_migration_report_id, original_certification_criterion_id, updated_certification_criterion_id, last_modified_user)
