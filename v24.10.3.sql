@@ -1,3 +1,6 @@
+-- Deployment file for version 24.10.3
+--     as of 2024-06-24
+-- ./changes/ocd-4601.sql
 \echo 'loading views'
 \i dev/openchpl_views.sql
 
@@ -46,3 +49,17 @@ insert into openchpl.optional_standard_criteria_map (optional_standard_id, crite
 update openchpl.certification_criterion_attribute
   set optional_standard = true
   where criterion_id in (35, 176);
+;
+-- ./changes/ocd-4608.sql
+-- load changes to the soft delete triggers before attempting to delete the listing
+\i dev/openchpl_soft-delete.sql
+
+-- delete the listing
+UPDATE openchpl.certified_product
+SET deleted = true
+WHERE certified_product_id = 11486;
+;
+insert into openchpl.data_model_version (version, deploy_date, last_modified_user) values ('24.10.3', '2024-06-24', -1);
+\i dev/openchpl_soft-delete.sql
+\i dev/openchpl_views.sql
+\i dev/openchpl_grant-all.sql
