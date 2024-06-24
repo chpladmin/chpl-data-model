@@ -3,9 +3,6 @@
 /maint/openchpl.*backup
 /maint/users.sql
 *-data-model.sh
-push.sh
-promote.sh
-node_modules/
 generate-release-notes.sh
 ready-for-deployment.sh
 ready-for-integration.sh

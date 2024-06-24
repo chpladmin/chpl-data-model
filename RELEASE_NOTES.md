@@ -1,5 +1,14 @@
 # Release Notes
 
+## Version 24.10.3
+_24 June 2024_
+
+### Data Changes
+* Remove incorrectly added listing 15.04.04.3195.Prom.07.00.0.240604
+* Convert 170.210(a)(2) from Standard to Optional Standard
+
+---
+
 ## Version 24.10.2
 _10 June 2024_
 
