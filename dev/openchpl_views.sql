@@ -1192,7 +1192,12 @@ CREATE OR REPLACE VIEW openchpl.requirement_type
 AS
 SELECT certification_criterion_id as id, title, number, start_day, end_day, certification_edition_id, 1 as requirement_group_type_id
 FROM openchpl.certification_criterion
-WHERE (certification_edition_id IS NULL 
+WHERE (certification_edition_id IS NULL
+	OR certification_edition_id != (SELECT certification_edition_id FROM openchpl.certification_edition where year = '2011'))
+UNION
+SELECT certification_criterion_id as id, title, number, start_day, end_day, certification_edition_id, 7 as requirement_group_type_id
+FROM openchpl.certification_criterion
+WHERE (certification_edition_id IS NULL
 	OR certification_edition_id != (SELECT certification_edition_id FROM openchpl.certification_edition where year = '2011'))
 UNION
 SELECT id, name, null, null, null, null, requirement_group_type_id
