@@ -1188,14 +1188,17 @@ FROM openchpl.certified_product cp
 		ON listing_search.certified_product_id = cp.certified_product_id
 		AND listing_search.certification_status_id IN (1,6,7);
 
+-- The 'requirement_type' view uses the magic number 70000.  This number was chosen because the 'requirement_group_type_id' is 7.
+-- If we need to union more data into this view, we should use a similar pattern.  This gives use a range of 10000 
+-- certification_criterion_id before we have an issue with this view.
 CREATE OR REPLACE VIEW openchpl.requirement_type
 AS
-SELECT certification_criterion_id as id, title, number, start_day, end_day, certification_edition_id, 1 as requirement_group_type_id
+SELECT certification_criterion_id + 70000 as id, title, number, start_day, end_day, certification_edition_id, 7 as requirement_group_type_id
 FROM openchpl.certification_criterion
 WHERE (certification_edition_id IS NULL
 	OR certification_edition_id != (SELECT certification_edition_id FROM openchpl.certification_edition where year = '2011'))
 UNION
-SELECT certification_criterion_id as id, title, number, start_day, end_day, certification_edition_id, 7 as requirement_group_type_id
+SELECT certification_criterion_id as id, title, number, start_day, end_day, certification_edition_id, 1 as requirement_group_type_id
 FROM openchpl.certification_criterion
 WHERE (certification_edition_id IS NULL
 	OR certification_edition_id != (SELECT certification_edition_id FROM openchpl.certification_edition where year = '2011'))
