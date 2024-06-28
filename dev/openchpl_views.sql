@@ -1224,17 +1224,17 @@ FROM openchpl.certified_product cp
 
 CREATE OR REPLACE VIEW openchpl.inactive_products
 AS 
-SELECT vendor_id, vendor_name, vendor_website, product_id, product_name, openchpl.get_inactive_date_for_product(product_id) as inactive_date
+SELECT vendor_id, vendor_name, vendor_website, product_id, product_name, openchpl.get_acbs_for_product(product_id) as certification_bodies, openchpl.get_inactive_date_for_product(product_id) as inactive_date
 FROM
   (SELECT vendor_id, vendor_name, vendor_website, product_id, product_name
   FROM openchpl.certified_product_details 
   WHERE certification_status_id NOT IN (1,6,7)
-  AND deleted = false
+  GROUP BY vendor_id, vendor_name, vendor_website, product_id, product_name
   EXCEPT
   SELECT vendor_id, vendor_name, vendor_website, product_id, product_name
   FROM openchpl.certified_product_details 
   WHERE certification_status_id IN (1,6,7)
-  AND deleted = false) innerquery
+  GROUP BY vendor_id, vendor_name, vendor_website, product_id, product_name) innerquery
 ORDER BY vendor_id, product_id;
 
 CREATE OR REPLACE VIEW openchpl.requirement_type
