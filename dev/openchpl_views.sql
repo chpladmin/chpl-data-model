@@ -166,7 +166,7 @@ create or replace function openchpl.get_acbs_for_product(product_id_var bigint) 
         ) as $$
     begin
     return query
-        SELECT string_agg(distinct acb.name, '; ')
+        SELECT string_agg(distinct acb.name, ';')
 		FROM openchpl.certified_product cp
 		JOIN openchpl.product_version ver ON cp.product_version_id = ver.product_version_id
 		JOIN openchpl.product prod ON ver.product_id = prod.product_id
