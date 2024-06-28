@@ -160,6 +160,22 @@ end;
 $$ language plpgsql
 stable;
 
+create or replace function openchpl.get_acbs_for_product(product_id_var bigint) returns
+    table (
+        acbs_for_product text
+        ) as $$
+    begin
+    return query
+        SELECT string_agg(acb.name, '; ')
+		FROM openchpl.certified_product cp
+		JOIN openchpl.product_version ver ON cp.product_version_id = ver.product_version_id
+		JOIN openchpl.product prod ON ver.product_id = prod.product_id
+		JOIN openchpl.certification_body acb ON cp.certification_body_id = acb.certification_body_id
+		WHERE prod.product_id = product_id_var;
+end;
+$$ language plpgsql
+stable;
+
 CREATE VIEW openchpl.certification_result_details AS
 SELECT
     a.certification_result_id,
@@ -1213,15 +1229,17 @@ FROM openchpl.certified_product cp
 
 CREATE OR REPLACE VIEW openchpl.inactive_products
 AS 
-SELECT vendor_id, vendor_name, vendor_website, product_id, product_name, openchpl.get_inactive_date_for_product(product_id)
+SELECT vendor_id, vendor_name, vendor_website, product_id, product_name, openchpl.get_inactive_date_for_product(product_id) as inactive_date
 FROM
   (SELECT vendor_id, vendor_name, vendor_website, product_id, product_name
   FROM openchpl.certified_product_details 
   WHERE certification_status_id NOT IN (1,6,7)
+  AND deleted = false
   EXCEPT
   SELECT vendor_id, vendor_name, vendor_website, product_id, product_name
   FROM openchpl.certified_product_details 
-  WHERE certification_status_id IN (1,6,7)) innerquery
+  WHERE certification_status_id IN (1,6,7)
+  AND deleted = false) innerquery
 ORDER BY vendor_id, product_id;
 
 CREATE OR REPLACE VIEW openchpl.requirement_type
