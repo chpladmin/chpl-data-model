@@ -224,7 +224,7 @@ CREATE VIEW openchpl.certified_product_details AS
     c.certification_body_code,
     c.acb_is_retired,
     d.product_classification_name,
-    e.practice_type_name,
+	e.practice_type_name,
     f.product_version,
     f.product_id,
     g.product_name,
@@ -235,7 +235,8 @@ CREATE VIEW openchpl.certified_product_details AS
     h.self_developer,
     v.vendor_status_id,
     v.vendor_status_name,
-    vendorstatus.last_vendor_status_change,
+    vendorstatus.start_date as vendor_status_start_date,
+	vendorstatus.end_date as vendor_status_end_date,
     t.address_id,
     t.street_line_1,
     t.street_line_2,
@@ -342,16 +343,12 @@ CREATE VIEW openchpl.certified_product_details AS
            FROM openchpl.contact) u ON h.vendor_contact = u.contact_id
      LEFT JOIN ( SELECT vshistory.vendor_status_id,
             vshistory.vendor_id,
-            vshistory.status_date AS last_vendor_status_change
+            vshistory.start_date,
+			vshistory.end_date
            FROM openchpl.vendor_status_history vshistory
-             JOIN ( SELECT vendor_status_history.vendor_id,
-                    max(vendor_status_history.status_date) AS status_date
-                   FROM openchpl.vendor_status_history
-                  WHERE vendor_status_history.deleted = false
-                  GROUP BY vendor_status_history.vendor_id) vsinner 
-				ON vshistory.vendor_id = vsinner.vendor_id 
-				AND vshistory.status_date = vsinner.status_date
-				AND vshistory.deleted = false) vendorstatus ON vendorstatus.vendor_id = h.vendor_id
+           WHERE vshistory.start_date <= now()
+		   AND (vshistory.end_date IS NULL OR vshistory.end_date >= now())
+		   AND vshistory.deleted = false) vendorstatus ON vendorstatus.vendor_id = h.vendor_id
      LEFT JOIN ( SELECT vendor_status.vendor_status_id,
             vendor_status.name AS vendor_status_name
            FROM openchpl.vendor_status) v ON vendorstatus.vendor_status_id = v.vendor_status_id
@@ -632,13 +629,12 @@ LEFT JOIN
    FROM openchpl.vendor vendor_1) vendor ON product.vendor_id = vendor.vendor_id
      LEFT JOIN ( SELECT vshistory.vendor_status_id,
             vshistory.vendor_id,
-            vshistory.status_date AS last_vendor_status_change
+            vshistory.start_date,
+			vshistory.end_date
            FROM openchpl.vendor_status_history vshistory
-           JOIN (SELECT vendor_status_history.vendor_id,
-                    max(vendor_status_history.status_date) AS status_date
-                   FROM openchpl.vendor_status_history
-                  WHERE vendor_status_history.deleted = false
-                  GROUP BY vendor_status_history.vendor_id) vsinner ON vshistory.deleted = false AND vshistory.vendor_id = vsinner.vendor_id AND vshistory.status_date = vsinner.status_date) vendor_status_history ON vendor_status_history.vendor_id = vendor.vendor_id
+           WHERE vshistory.start_date <= now()
+		   AND (vshistory.end_date IS NULL OR vshistory.end_date >= now())
+		   AND vshistory.deleted = false) vendor_status_history ON vendor_status_history.vendor_id = vendor.vendor_id
      LEFT JOIN ( SELECT vendor_status.vendor_status_id,
             vendor_status.name AS vendor_status_name
            FROM openchpl.vendor_status) vendor_status ON vendor_status_history.vendor_status_id = vendor_status.vendor_status_id
@@ -913,13 +909,12 @@ LEFT JOIN
    FROM openchpl.vendor vendor_1) vendor ON product.vendor_id = vendor.vendor_id
      LEFT JOIN ( SELECT vshistory.vendor_status_id,
             vshistory.vendor_id,
-            vshistory.status_date AS last_vendor_status_change
+            vshistory.start_date,
+			vshistory.end_date
            FROM openchpl.vendor_status_history vshistory
-           JOIN (SELECT vendor_status_history.vendor_id,
-                    max(vendor_status_history.status_date) AS status_date
-                   FROM openchpl.vendor_status_history
-                  WHERE vendor_status_history.deleted = false
-                  GROUP BY vendor_status_history.vendor_id) vsinner ON vshistory.deleted = false AND vshistory.vendor_id = vsinner.vendor_id AND vshistory.status_date = vsinner.status_date) vendor_status_history ON vendor_status_history.vendor_id = vendor.vendor_id
+           WHERE vshistory.start_date <= now()
+		   AND (vshistory.end_date IS NULL OR vshistory.end_date >= now())
+		   AND vshistory.deleted = false) vendor_status_history ON vendor_status_history.vendor_id = vendor.vendor_id
      LEFT JOIN ( SELECT vendor_status.vendor_status_id,
             vendor_status.name AS vendor_status_name
            FROM openchpl.vendor_status) vendor_status ON vendor_status_history.vendor_status_id = vendor_status.vendor_status_id
@@ -1344,7 +1339,8 @@ SELECT dev.vendor_id as developer_id,
 	   contact.full_name as contact_name,
 	   vendor_status.vendor_status_id as current_status_id,
        vendor_status.vendor_status_name as current_status_name,
-	   vendor_status_history.last_developer_status_change as last_developer_status_change,
+	   vendor_status_history.start_date as vendor_status_start_date,
+	   vendor_status_history.end_date as vendor_status_end_date,
 	   COALESCE(current_active_listings_for_dev.current_active_listing_count, 0) as current_active_listing_count,
 	   (SELECT count(*) as most_recent_past_attestation_period_active_listing_count
 		FROM openchpl.get_active_listings_for_developer_during_period(dev.vendor_id, 
@@ -1361,16 +1357,12 @@ LEFT JOIN openchpl.address addr ON addr.address_id = dev.address_id
 LEFT JOIN openchpl.contact contact ON contact.contact_id = dev.contact_id
 LEFT JOIN (SELECT vshistory.vendor_status_id,
             vshistory.vendor_id,
-            vshistory.status_date AS last_developer_status_change
-           FROM openchpl.vendor_status_history vshistory
-           JOIN (SELECT vendor_status_history.vendor_id,
-                    max(vendor_status_history.status_date) AS status_date
-                   FROM openchpl.vendor_status_history
-                  WHERE vendor_status_history.deleted = false
-                  GROUP BY vendor_status_history.vendor_id) vsinner 
-		  ON vshistory.deleted = false 
-		  AND vshistory.vendor_id = vsinner.vendor_id 
-		  AND vshistory.status_date = vsinner.status_date) vendor_status_history ON vendor_status_history.vendor_id = dev.vendor_id
+            vshistory.start_date,
+			vshistory.end_date
+			FROM openchpl.vendor_status_history vshistory
+            WHERE vshistory.start_date <= now()
+			AND (vshistory.end_date IS NULL OR vshistory.end_date >= now())
+			AND vshistory.deleted = false) vendor_status_history ON vendor_status_history.vendor_id = dev.vendor_id
 LEFT JOIN (SELECT vendor_status.vendor_status_id,
             vendor_status.name AS vendor_status_name
            FROM openchpl.vendor_status) vendor_status ON vendor_status_history.vendor_status_id = vendor_status.vendor_status_id
