@@ -1,5 +1,5 @@
 DROP VIEW IF EXISTS openchpl.questionable_activity_combined;
-DROP VIEW IF EXISTS openchpl.openchpl.inactive_products;
+DROP VIEW IF EXISTS openchpl.openchpl.inactive_developers_and_products;
 DROP VIEW IF EXISTS openchpl.certified_product_search;
 DROP VIEW IF EXISTS openchpl.certified_product_details;
 DROP VIEW IF EXISTS openchpl.cqm_result_details;
@@ -1222,21 +1222,6 @@ FROM openchpl.certified_product cp
 		ON listing_search.certified_product_id = cp.certified_product_id
 		AND listing_search.certification_status_id IN (1,6,7);
 
-CREATE OR REPLACE VIEW openchpl.inactive_products
-AS 
-SELECT vendor_id, vendor_name, vendor_website, product_id, product_name, openchpl.get_acbs_for_product(product_id) as certification_bodies, openchpl.get_inactive_date_for_product(product_id) as inactive_date
-FROM
-  (SELECT vendor_id, vendor_name, vendor_website, product_id, product_name
-  FROM openchpl.certified_product_details 
-  WHERE certification_status_id NOT IN (1,6,7)
-  GROUP BY vendor_id, vendor_name, vendor_website, product_id, product_name
-  EXCEPT
-  SELECT vendor_id, vendor_name, vendor_website, product_id, product_name
-  FROM openchpl.certified_product_details 
-  WHERE certification_status_id IN (1,6,7)
-  GROUP BY vendor_id, vendor_name, vendor_website, product_id, product_name) innerquery
-ORDER BY vendor_id, product_id;
-
 CREATE OR REPLACE VIEW openchpl.requirement_type
 AS
 SELECT certification_criterion_id as id, title, number, start_day, end_day, certification_edition_id, 1 as requirement_group_type_id
@@ -1481,6 +1466,19 @@ LEFT JOIN (SELECT string_agg(certification_body_id::text||':'||name, '|') as acb
 		GROUP BY vendor_id) dev_acb_map2
 	    ON dev_acb_map2.vendor_id = dev.vendor_id		
 WHERE dev.deleted = false;
+
+CREATE OR REPLACE VIEW openchpl.inactive_developers_and_products
+AS 
+SELECT vendor_id, vendor_name, vendor_website, product_id, product_name, 
+	openchpl.get_acbs_for_product(product_id) as certification_bodies, 
+  openchpl.get_inactive_date_for_product(product_id) as inactive_date
+FROM openchpl.certified_product_details cpd
+JOIN openchpl.developer_search ds
+	ON ds.developer_id = cpd.vendor_id
+  AND ds.current_active_listing_count = 0
+WHERE cpd.deleted = false
+GROUP BY vendor_id, vendor_name, vendor_website, product_id, product_name
+ORDER BY vendor_id, product_id;
 
 CREATE VIEW openchpl.subscription_search_result AS
  SELECT subscriber.id as subscriber_id,
