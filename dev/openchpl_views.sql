@@ -1,5 +1,5 @@
 DROP VIEW IF EXISTS openchpl.questionable_activity_combined;
-DROP VIEW IF EXISTS openchpl.openchpl.inactive_developers_and_products;
+DROP VIEW IF EXISTS openchpl.inactive_developers_and_products;
 DROP VIEW IF EXISTS openchpl.certified_product_search;
 DROP VIEW IF EXISTS openchpl.certified_product_details;
 DROP VIEW IF EXISTS openchpl.cqm_result_details;
