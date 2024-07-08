@@ -1,5 +1,18 @@
 # Release Notes
 
+## Version 24.11.0
+_8 July 2024_
+
+### Features
+* Add tables to support Criteria Migration Report definition and data
+
+### Data Changes
+* Remove 'statuses' field from old developer activity
+* Set start/end days for all developer status entries
+* Delete duplicate developer status change data
+
+---
+
 ## Version 24.10.3
 _24 June 2024_
 
