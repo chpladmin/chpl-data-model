@@ -1,4 +1,5 @@
 DROP VIEW IF EXISTS openchpl.questionable_activity_combined;
+DROP VIEW IF EXISTS openchpl.inactive_developers_and_products;
 DROP VIEW IF EXISTS openchpl.certified_product_search;
 DROP VIEW IF EXISTS openchpl.certified_product_details;
 DROP VIEW IF EXISTS openchpl.cqm_result_details;
@@ -136,6 +137,44 @@ CREATE OR REPLACE FUNCTION openchpl.get_active_listings_for_developer_during_per
     $$ LANGUAGE plpgsql
 stable;
 
+create or replace function openchpl.get_inactive_date_for_product(product_id_var bigint) returns
+    table (
+        inactive_date date
+        ) as $$
+    begin
+    return query
+        SELECT max(date(decert.listing_inactive_date))
+		FROM openchpl.certified_product cp
+		JOIN openchpl.product_version ver ON cp.product_version_id = ver.product_version_id
+		JOIN openchpl.product prod ON ver.product_id = prod.product_id
+		JOIN openchpl.vendor dev ON dev.vendor_id = prod.vendor_id
+		JOIN
+		  (SELECT max(certification_status_event.event_date) AS listing_inactive_date,
+				  certification_status_event.certified_product_id
+		   FROM openchpl.certification_status_event
+		   WHERE certification_status_event.certification_status_id NOT IN (1,6,7)
+		   AND certification_status_event.deleted = FALSE
+		   GROUP BY certification_status_event.certified_product_id) decert ON cp.certified_product_id = decert.certified_product_id
+		WHERE prod.product_id = product_id_var;
+end;
+$$ language plpgsql
+stable;
+
+create or replace function openchpl.get_acbs_for_product(product_id_var bigint) returns
+    table (
+        acbs_for_product text
+        ) as $$
+    begin
+    return query
+        SELECT string_agg(distinct acb.name, ';')
+		FROM openchpl.certified_product cp
+		JOIN openchpl.product_version ver ON cp.product_version_id = ver.product_version_id
+		JOIN openchpl.product prod ON ver.product_id = prod.product_id
+		JOIN openchpl.certification_body acb ON cp.certification_body_id = acb.certification_body_id
+		WHERE prod.product_id = product_id_var;
+end;
+$$ language plpgsql
+stable;
 
 CREATE VIEW openchpl.certification_result_details AS
 SELECT
@@ -1427,6 +1466,19 @@ LEFT JOIN (SELECT string_agg(certification_body_id::text||':'||name, '|') as acb
 		GROUP BY vendor_id) dev_acb_map2
 	    ON dev_acb_map2.vendor_id = dev.vendor_id		
 WHERE dev.deleted = false;
+
+CREATE OR REPLACE VIEW openchpl.inactive_developers_and_products
+AS 
+SELECT vendor_id, vendor_name, vendor_website, product_id, product_name, 
+	openchpl.get_acbs_for_product(product_id) as certification_bodies, 
+  openchpl.get_inactive_date_for_product(product_id) as inactive_date
+FROM openchpl.certified_product_details cpd
+JOIN openchpl.developer_search ds
+	ON ds.developer_id = cpd.vendor_id
+  AND ds.current_active_listing_count = 0
+WHERE cpd.deleted = false
+GROUP BY vendor_id, vendor_name, vendor_website, product_id, product_name
+ORDER BY vendor_id, product_id;
 
 CREATE VIEW openchpl.subscription_search_result AS
  SELECT subscriber.id as subscriber_id,
