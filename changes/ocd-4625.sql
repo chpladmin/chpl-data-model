@@ -1,0 +1,3 @@
+DROP TABLE IF EXISTS openchpl.cures_criterion_upgraded_without_original_listing_statistic;
+DROP TABLE IF EXISTS openchpl.criterion_upgraded_from_original_listing_statistic;
+DROP TABLE IF EXISTS openchpl.criterion_listing_statistic;
