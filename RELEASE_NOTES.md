@@ -1,5 +1,14 @@
 # Release Notes
 
+## Version 24.12.0
+_22 July 2024_
+
+### Features
+* Add criteria in 'Requirement' dropdown for 'Requirement Type' = Inherited Certified Status
+* Create view for inactive products
+
+---
+
 ## Version 24.11.0
 _8 July 2024_
 
