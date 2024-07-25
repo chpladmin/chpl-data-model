@@ -15,7 +15,7 @@ DROP VIEW IF EXISTS openchpl.nonconformity_type;
 DROP VIEW IF EXISTS openchpl.rwt_plans_by_developer;
 DROP VIEW IF EXISTS openchpl.rwt_results_by_developer;
 DROP VIEW IF EXISTS openchpl.subscription_search_result;
-DROP VIEW IF EXISTS openchpl.subscription_observation_notifications;
+DROP VIEW IF EXISTS openchpl.subscription_observation_notification;
 DROP VIEW IF EXISTS openchpl.most_recent_past_attestation_period;
 DROP VIEW IF EXISTS openchpl.listing_search;
 
@@ -1555,8 +1555,13 @@ CREATE VIEW openchpl.subscription_search_result AS
  AND obj_type.id = 3 -- Product
  GROUP BY (subscriber.id, subscriber.email, role.name, status.name, obj_type.name, consolidation.name, s.subscribed_object_id, subscribed_object_name, s.creation_date);
  
- CREATE VIEW openchpl.subscription_observation_notifications AS
- SELECT subscriber.id as subscriber_id,
+ CREATE VIEW openchpl.subscription_observation_notification AS
+ SELECT ROW_NUMBER() OVER(
+	ORDER BY all_notifications.notified_at ASC
+	) as id,
+ all_notifications.* 
+ FROM
+ (SELECT subscriber.id as subscriber_id,
 	subscriber.email as subscriber_email,
 	role.name as subscriber_role,
 	subj.subject as subscription_subject,
@@ -1577,7 +1582,6 @@ CREATE VIEW openchpl.subscription_search_result AS
  JOIN openchpl.subscriber_status status ON subscriber.subscriber_status_id = status.id
  JOIN openchpl.subscription_observation obs ON s.id = obs.subscription_id AND obs.notified_at IS NOT NULL
  JOIN openchpl.listing_search listing ON s.subscribed_object_id = listing.certified_product_id
- WHERE s.deleted = false
  AND obj_type.id = 1 -- Listing
  UNION
  SELECT subscriber.id as subscriber_id,
@@ -1601,7 +1605,6 @@ CREATE VIEW openchpl.subscription_search_result AS
  JOIN openchpl.subscriber_status status ON subscriber.subscriber_status_id = status.id
  JOIN openchpl.subscription_observation obs ON s.id = obs.subscription_id AND obs.notified_at IS NOT NULL
  JOIN openchpl.vendor dev ON dev.vendor_id = s.subscribed_object_id
- WHERE s.deleted = false
  AND obj_type.id = 2 -- Developer
  UNION
  SELECT subscriber.id as subscriber_id,
@@ -1625,6 +1628,7 @@ CREATE VIEW openchpl.subscription_search_result AS
  JOIN openchpl.subscriber_status status ON subscriber.subscriber_status_id = status.id
  JOIN openchpl.subscription_observation obs ON s.id = obs.subscription_id AND obs.notified_at IS NOT NULL
  JOIN openchpl.product prod ON prod.product_id = s.subscribed_object_id
- WHERE s.deleted = false
  AND obj_type.id = 3 -- Product
+ ) all_notifications
+ ORDER BY all_notifications.notified_at ASC;
  ;
