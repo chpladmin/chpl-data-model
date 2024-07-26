@@ -13,7 +13,8 @@ SET notified_at =
 	(SELECT obs2.last_modified_date 
 		FROM openchpl.subscription_observation obs2 
 		JOIN openchpl.subscription sub ON obs2.subscription_id = sub.id AND sub.deleted = false
-		WHERE obs1.id = obs2.id);
+		WHERE obs1.id = obs2.id)
+WHERE notified_at IS NULL;
 
 
 CREATE OR REPLACE TRIGGER subscription_observation_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.subscription_observation FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
