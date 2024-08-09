@@ -1,5 +1,13 @@
 # Release Notes
 
+## Version 25.0.0
+_5 August 2024_
+
+### Features
+* Remove tables related to cures update statistics
+
+---
+
 ## Version 24.12.0
 _22 July 2024_
 
