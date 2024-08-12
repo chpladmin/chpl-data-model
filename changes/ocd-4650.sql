@@ -3,7 +3,7 @@ declare
     cert_result_id bigint;
 begin
 	for cert_result_id in 
-		select certification_result_id from openchpl.certification_result where certification_criterion_id IN (173,174,175,176)
+		select certification_result_id from openchpl.certification_result where certification_criterion_id IN (173,174,175,176) and deleted = false
 	loop 
 		insert into openchpl.certification_result_standard(standard_id, certification_result_id, last_modified_user)
 		select
