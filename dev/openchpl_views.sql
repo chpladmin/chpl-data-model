@@ -1397,6 +1397,7 @@ SELECT dev.vendor_id as developer_id,
 	   developer_attestation_submission_change_request.id as attestation_submission_change_request_id,
 	   dev_acb_map.acbs_for_developer_active_listings,
 	   dev_acb_map2.acbs_for_developer_all_listings,
+	   dev_acb_map3.acbs_for_developer_withdrawn_listings,
 	   dev.creation_date,
 	   dev.deleted
 FROM openchpl.vendor dev
@@ -1473,6 +1474,29 @@ LEFT JOIN (SELECT string_agg(certification_body_id::text||':'||name, '|') as acb
 				) dev_acb_map_inner 
 		GROUP BY vendor_id) dev_acb_map2
 	    ON dev_acb_map2.vendor_id = dev.vendor_id		
+LEFT JOIN (SELECT string_agg(certification_body_id::text||':'||name, '|') as acbs_for_developer_withdrawn_listings, vendor_id 
+		FROM (SELECT DISTINCT acb.certification_body_id, acb.name, dev.vendor_id
+				FROM openchpl.certified_product cp
+				JOIN openchpl.product_version prod_ver
+					ON cp.product_version_id = prod_ver.product_version_id
+				JOIN openchpl.product prod
+					ON prod_ver.product_id = prod.product_id
+				JOIN openchpl.vendor dev
+					ON prod.vendor_id = dev.vendor_id
+				JOIN openchpl.certification_body acb ON cp.certification_body_id = acb.certification_body_id
+				JOIN (
+					 SELECT cse.certification_status_event_id, cse.certification_status_id, cse.certified_product_id
+					 FROM openchpl.certification_status_event cse
+					 JOIN openchpl.certification_status cs ON cse.certification_status_id = cs.certification_status_id
+					 WHERE cse.deleted = false
+					 ) certstatus 
+				ON certstatus.certification_status_id = 3
+				AND certstatus.certification_status_event_id = 
+					(SELECT get_current_certification_status_event_id.current_certification_status_event_id
+						FROM openchpl.get_current_certification_status_event_id(cp.certified_product_id))
+				) dev_acb_map_inner 
+		GROUP BY vendor_id) dev_acb_map3
+	    ON dev_acb_map3.vendor_id = dev.vendor_id
 WHERE dev.deleted = false;
 
 CREATE OR REPLACE VIEW openchpl.inactive_developers_and_products
