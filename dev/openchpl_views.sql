@@ -1399,6 +1399,7 @@ SELECT dev.vendor_id as developer_id,
 	   dev_acb_map.acbs_for_developer_active_listings,
 	   dev_acb_map2.acbs_for_developer_all_listings,
 	   dev_acb_map3.acbs_for_developer_withdrawn_listings,
+	   dev_acb_map4.acbs_for_developer_suspended_listings,
 	   dev.creation_date,
 	   dev.deleted
 FROM openchpl.vendor dev
