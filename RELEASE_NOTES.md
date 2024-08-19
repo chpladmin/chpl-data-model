@@ -1,5 +1,18 @@
 # Release Notes
 
+## Version 25.1.0
+_19 August 2024_
+
+### Features
+* Add table to store forgot password token
+* Create view for subscription notifications
+* Add column for time user was notified of subscribed item change
+
+### Data Changes
+* Backfill notification timestamp for subscription observations
+
+---
+
 ## Version 25.0.0
 _5 August 2024_
 
