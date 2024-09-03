@@ -1,3 +1,6 @@
+-- Deployment file for version 25.1.1
+--     as of 2024-09-03
+-- ./changes/ocd-4650.sql
 create or replace function openchpl.backfill_170210g_standard() returns void as $$
 declare
     cert_result_id bigint;
@@ -23,4 +26,8 @@ volatile;
 
 select openchpl.backfill_170210g_standard();
 
-drop function openchpl.backfill_170210g_standard();
+drop function openchpl.backfill_170210g_standard();;
+insert into openchpl.data_model_version (version, deploy_date, last_modified_user) values ('25.1.1', '2024-09-03', -1);
+\i dev/openchpl_soft-delete.sql
+\i dev/openchpl_views.sql
+\i dev/openchpl_grant-all.sql

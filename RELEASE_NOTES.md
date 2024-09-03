@@ -1,5 +1,13 @@
 # Release Notes
 
+## Version 25.1.1
+_3 September 2024_
+
+### Data Changes
+* Backfill 170.210(g) standard on certain listings
+
+---
+
 ## Version 25.1.0
 _19 August 2024_
 
