@@ -1,3 +1,6 @@
+-- Deployment file for version 25.2.0
+--     as of 2024-09-30
+-- ./changes/ocd-4636.sql
 ALTER TABLE openchpl.test_task
 ADD COLUMN IF NOT EXISTS friendly_id text;
 
@@ -19,3 +22,11 @@ where crtt.test_task_id = tt.test_task_id
 and tt.deleted = true
 and crtt.deleted = false
 and cr.success = true
+;
+-- ./changes/ocd-4653.sql
+-- view changes 
+;
+insert into openchpl.data_model_version (version, deploy_date, last_modified_user) values ('25.2.0', '2024-09-30', -1);
+\i dev/openchpl_soft-delete.sql
+\i dev/openchpl_views.sql
+\i dev/openchpl_grant-all.sql
