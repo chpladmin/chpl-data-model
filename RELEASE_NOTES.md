@@ -1,5 +1,14 @@
 # Release Notes
 
+## Version 25.2.0
+_30 September 2024_
+
+### Features
+* Add ONC-ACBs with withdrawn/suspended listings to developer_search view
+* Add friendly_id fields for test tasks and participants
+
+---
+
 ## Version 25.1.1
 _3 September 2024_
 

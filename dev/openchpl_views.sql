@@ -580,6 +580,8 @@ SELECT cp.certified_product_id,
        COALESCE(surv_closed.count_closed_surveillance_activities, 0::bigint) as closed_surveillance_count,
        COALESCE(nc_open.count_open_nonconformities, 0::bigint) AS open_nonconformity_count,
        COALESCE(nc_closed.count_closed_nonconformities, 0::bigint) AS closed_nonconformity_count,
+	   COALESCE(cap_open.count_open_cap, 0::bigint) AS open_cap_count,
+	   COALESCE(cap_closed.count_closed_cap, 0::bigint) AS closed_cap_count,
        surv_dates.surv_date_ranges,
 	   status_events.status_events
 FROM openchpl.certified_product cp
@@ -744,6 +746,30 @@ LEFT JOIN
    WHERE surv.deleted <> TRUE
      AND surv_nc.non_conformity_close_date is not null
    GROUP BY surv.certified_product_id) nc_closed ON cp.certified_product_id = nc_closed.certified_product_id
+LEFT JOIN
+  (SELECT surv.certified_product_id,
+          count(*) AS count_open_cap
+   FROM openchpl.surveillance surv
+   JOIN openchpl.surveillance_requirement surv_req ON surv.id = surv_req.surveillance_id
+   AND surv_req.deleted <> TRUE
+   JOIN openchpl.surveillance_nonconformity surv_nc ON surv_req.id = surv_nc.surveillance_requirement_id
+   AND surv_nc.deleted <> TRUE
+   WHERE surv.deleted <> TRUE
+   AND surv_nc.corrective_action_plan_approval_date is not null
+   AND surv_nc.corrective_action_end_date is null
+   GROUP BY surv.certified_product_id) cap_open ON cp.certified_product_id = cap_open.certified_product_id
+LEFT JOIN
+  (SELECT surv.certified_product_id,
+          count(*) AS count_closed_cap
+   FROM openchpl.surveillance surv
+   JOIN openchpl.surveillance_requirement surv_req ON surv.id = surv_req.surveillance_id
+   AND surv_req.deleted <> TRUE
+   JOIN openchpl.surveillance_nonconformity surv_nc ON surv_req.id = surv_nc.surveillance_requirement_id
+   AND surv_nc.deleted <> TRUE
+   WHERE surv.deleted <> TRUE
+   AND surv_nc.corrective_action_plan_approval_date is not null
+   AND surv_nc.corrective_action_end_date is not null
+   GROUP BY surv.certified_product_id) cap_closed ON cp.certified_product_id = cap_closed.certified_product_id
 LEFT JOIN
   (SELECT surv.certified_product_id,
           STRING_AGG(
