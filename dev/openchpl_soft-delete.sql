@@ -211,6 +211,7 @@ BEGIN
 		UPDATE openchpl.complaint_listing_map as src SET deleted = NEW.deleted WHERE src.complaint_id = NEW.complaint_id;
 		UPDATE openchpl.complaint_surveillance_map as src SET deleted = NEW.deleted WHERE src.complaint_id = NEW.complaint_id;
 		UPDATE openchpl.complaint_criterion_map as src SET deleted = NEW.deleted WHERE src.complaint_id = NEW.complaint_id;
+		UPDATE openchpl.complaint_to_complaint_type_map SET deleted = NEW.deleted WHERE src.complaint_id = NEW.complaint_id;
     END IF;
 	RETURN NEW;
 END;
