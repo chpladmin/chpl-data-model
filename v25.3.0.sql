@@ -1,3 +1,6 @@
+-- Deployment file for version 25.3.0
+--     as of 2024-10-14
+-- ./changes/ocd-4690.sql
 -- remove unused table
 DROP TABLE IF EXISTS openchpl.optional_functionality_met;
 
@@ -22,3 +25,8 @@ UPDATE openchpl.functionality_tested SET value = trim(regexp_replace(value, '\s+
 UPDATE openchpl.measure SET measure_name = trim(regexp_replace(measure_name, '\s+', ' ', 'g')) WHERE deleted = false;
 UPDATE openchpl.product SET name = trim(regexp_replace(name, '\s+', ' ', 'g')) WHERE deleted = false;
 UPDATE openchpl.targeted_user SET name = trim(regexp_replace(name, '\s+', ' ', 'g')) WHERE deleted = false;
+;
+insert into openchpl.data_model_version (version, deploy_date, last_modified_user) values ('25.3.0', '2024-10-14', -1);
+\i dev/openchpl_soft-delete.sql
+\i dev/openchpl_views.sql
+\i dev/openchpl_grant-all.sql
