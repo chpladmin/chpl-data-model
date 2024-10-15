@@ -1,5 +1,16 @@
 # Release Notes
 
+## Version 25.3.0
+_14 October 2024_
+
+### Features
+* Add fields to listing_search view for CAP counts
+
+### Data Changes
+* Clean up multiple spaces in user-entered data
+
+---
+
 ## Version 25.2.0
 _30 September 2024_
 
