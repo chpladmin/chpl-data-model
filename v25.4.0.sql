@@ -1,3 +1,6 @@
+-- Deployment file for version 25.4.0
+--     as of 2024-10-28
+-- ./changes/ocd-4487.sql
 CREATE TABLE IF NOT EXISTS openchpl.complaint_type (
 	id bigserial NOT NULL,
 	name text NOT NULL,
@@ -63,4 +66,8 @@ CREATE OR replace TRIGGER complaint_to_complaint_type_map_timestamp BEFORE UPDAT
 DROP TRIGGER IF EXISTS complaint_to_complaint_type_map_last_modified_user_constraint ON openchpl.complaint_to_complaint_type_map;
 CREATE CONSTRAINT TRIGGER complaint_to_complaint_type_map_last_modified_user_constraint AFTER INSERT OR UPDATE ON openchpl.complaint_to_complaint_type_map DEFERRABLE INITIALLY DEFERRED FOR EACH ROW EXECUTE PROCEDURE openchpl.last_modified_user_constraint();
 
-ALTER TABLE openchpl.complaint ADD COLUMN IF NOT EXISTS complaint_type_other text;
+ALTER TABLE openchpl.complaint ADD COLUMN IF NOT EXISTS complaint_type_other text;;
+insert into openchpl.data_model_version (version, deploy_date, last_modified_user) values ('25.4.0', '2024-10-28', -1);
+\i dev/openchpl_soft-delete.sql
+\i dev/openchpl_views.sql
+\i dev/openchpl_grant-all.sql

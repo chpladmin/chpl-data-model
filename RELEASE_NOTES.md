@@ -1,5 +1,13 @@
 # Release Notes
 
+## Version 25.4.0
+_28 October 2024_
+
+### Features
+* Add tables to store complaint type mappings to complaints
+
+---
+
 ## Version 25.3.0
 _14 October 2024_
 
