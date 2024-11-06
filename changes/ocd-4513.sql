@@ -384,3 +384,51 @@ select 'PROD',
 where not exists (
 	select * from openchpl.report_metadata where environment = 'PROD' and report_key = 'DirectReviewStatistics'
 );
+
+insert into openchpl.report_metadata (environment, title, report_key, url, display_order, height, last_modified_user)
+select 'DEV', 
+	'Unique Products',
+	'UniqueProducts', 
+	'https://app.powerbi.com/view?r=eyJrIjoiZDQ0MDZiYzktOGMwNy00NDkyLWJlYzctNDMwODdkMDE1NGMxIiwidCI6IjMwN2QyMTJhLWZiODYtNDgwNy04NGRkLTg2Nzc2OWI4MDQyYSIsImMiOjF9',
+	1,
+	'800px',
+	-1
+where not exists (
+	select * from openchpl.report_metadata where environment = 'DEV' and report_key = 'UniqueProducts'
+);
+
+insert into openchpl.report_metadata (environment, title, report_key, url, display_order, height, last_modified_user)
+select 'QA', 
+	'Unique Products',
+	'UniqueProducts', 
+	'https://app.powerbi.com/view?r=eyJrIjoiOGIxMGZmNzMtNDdkYS00NWMxLWJkMTAtYTBhNjNmZGM1ZTFiIiwidCI6IjMwN2QyMTJhLWZiODYtNDgwNy04NGRkLTg2Nzc2OWI4MDQyYSIsImMiOjF9',
+	1,
+	'800px',
+	-1
+where not exists (
+	select * from openchpl.report_metadata where environment = 'QA' and report_key = 'UniqueProducts'
+);
+
+insert into openchpl.report_metadata (environment, title, report_key, url, display_order, height, last_modified_user)
+select 'STG', 
+	'Unique Products',
+	'UniqueProducts', 
+	'https://app.powerbi.com/view?r=eyJrIjoiNjJlMGQ0N2YtOTliNi00OWY3LWE1YjgtNzAwM2IxNTFlMjU0IiwidCI6IjMwN2QyMTJhLWZiODYtNDgwNy04NGRkLTg2Nzc2OWI4MDQyYSIsImMiOjF9',
+	1,
+	'800px',
+	-1
+where not exists (
+	select * from openchpl.report_metadata where environment = 'STG' and report_key = 'UniqueProducts'
+);
+
+insert into openchpl.report_metadata (environment, title, report_key, url, display_order, height, last_modified_user)
+select 'PROD', 
+	'Unique Products',
+	'UniqueProducts', 
+	'https://app.powerbi.com/view?r=eyJrIjoiZTUyYmMxZTQtZTUzYi00NGY5LTgwNmEtYjFkMGVmM2FjYmNkIiwidCI6IjMwN2QyMTJhLWZiODYtNDgwNy04NGRkLTg2Nzc2OWI4MDQyYSIsImMiOjF9',
+	1,
+	'800px',
+	-1
+where not exists (
+	select * from openchpl.report_metadata where environment = 'PROD' and report_key = 'UniqueProducts'
+);
