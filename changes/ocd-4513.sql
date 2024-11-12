@@ -143,7 +143,7 @@ select 'QA',
 	'Criteria Attributes',
 	'CriteriaAttributes', 
 	'dashboard', 
-	'https://app.powerbi.com/view?r=eyJrIjoiMGI2MGMzMzUtYjk5My00ZDRhLTllOWMtMzRhMTFlZDE3ZjIxIiwidCI6IjMwN2QyMTJhLWZiODYtNDgwNy04NGRkLTg2Nzc2OWI4MDQyYSIsImMiOjF9',
+	'https://app.powerbi.com/view?r=eyJrIjoiNjIxMjVkMGUtMDA2Zi00NzMyLThiYTQtZDAwYTMyNzkwYTE0IiwidCI6IjMwN2QyMTJhLWZiODYtNDgwNy04NGRkLTg2Nzc2OWI4MDQyYSIsImMiOjF9',
 	'500px',
 	6,
 	-1
