@@ -335,7 +335,7 @@ where not exists (
 
 insert into openchpl.report_metadata (environment, title, report_key, report_group, url, height, display_order, last_modified_user)
 select 'DEV', 
-	'DirectReview Statistics',
+	'Direct Review Statistics',
 	'DirectReviewStatistics', 
 	'dashboard', 
 	'https://app.powerbi.com/view?r=eyJrIjoiMjU5NWMzZWItMGY3ZS00ZWE4LTk3NWEtNDcwMTA5Zjg4YTAwIiwidCI6IjMwN2QyMTJhLWZiODYtNDgwNy04NGRkLTg2Nzc2OWI4MDQyYSIsImMiOjF9',
@@ -348,7 +348,7 @@ where not exists (
 
 insert into openchpl.report_metadata (environment, title, report_key, report_group, url, height, display_order, last_modified_user)
 select 'QA', 
-	'DirectReview Statistics',
+	'Direct Review Statistics',
 	'DirectReviewStatistics', 
 	'dashboard', 
 	'https://app.powerbi.com/view?r=eyJrIjoiYTYwOGE2MzgtY2I5MS00ZDVjLWEyZTktYzVkNDc3MWRhMjFhIiwidCI6IjMwN2QyMTJhLWZiODYtNDgwNy04NGRkLTg2Nzc2OWI4MDQyYSIsImMiOjF9',
@@ -361,7 +361,7 @@ where not exists (
 
 insert into openchpl.report_metadata (environment, title, report_key, report_group, url, height, display_order, last_modified_user)
 select 'STG', 
-	'DirectReview Statistics',
+	'Direct Review Statistics',
 	'DirectReviewStatistics', 
 	'dashboard', 
 	'https://app.powerbi.com/view?r=eyJrIjoiZjAxOWJkYzUtNzIzNy00ZTRhLThmM2YtN2NjN2JiYjdjZmVhIiwidCI6IjMwN2QyMTJhLWZiODYtNDgwNy04NGRkLTg2Nzc2OWI4MDQyYSIsImMiOjF9',
@@ -374,7 +374,7 @@ where not exists (
 
 insert into openchpl.report_metadata (environment, title, report_key, report_group, url, height, display_order, last_modified_user)
 select 'PROD', 
-	'DirectReview Statistics',
+	'Direct Review Statistics',
 	'DirectReviewStatistics', 
 	'dashboard', 
 	'https://app.powerbi.com/view?r=eyJrIjoiZjE4ZjdhZTctNTU3Yi00MzZkLTliZmItZGZmYWIyNGNmYjZlIiwidCI6IjMwN2QyMTJhLWZiODYtNDgwNy04NGRkLTg2Nzc2OWI4MDQyYSIsImMiOjF9',
