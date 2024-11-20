@@ -6,7 +6,7 @@ select 'DEV',
         'CriteriaAttributes', 
         'dashboard', 
         'https://app.powerbi.com/view?r=eyJrIjoiNjM1MWZmZDUtMDhmZi00NjVkLTljNDktM2E0Y2UzYjYxZTEyIiwidCI6IjMwN2QyMTJhLWZiODYtNDgwNy04NGRkLTg2Nzc2OWI4MDQyYSIsImMiOjF9',
-        '725px',
+        '750px',
         2,
         -1
 where not exists (
@@ -19,7 +19,7 @@ select 'QA',
         'CriteriaAttributes', 
         'dashboard', 
         'https://app.powerbi.com/view?r=eyJrIjoiMzY1M2E1YWMtMDJhMC00OWUxLTliZGItYzViZDNjZDRiZTk0IiwidCI6IjMwN2QyMTJhLWZiODYtNDgwNy04NGRkLTg2Nzc2OWI4MDQyYSIsImMiOjF9',
-        '725px',
+        '750px',
         2,
         -1
 where not exists (
@@ -32,7 +32,7 @@ select 'STG',
         'CriteriaAttributes', 
         'dashboard', 
         'https://app.powerbi.com/view?r=eyJrIjoiMzEwMDI5MWMtMTQ5My00NDIxLTgyMjUtZTM1MGIwNWRkOTlmIiwidCI6IjMwN2QyMTJhLWZiODYtNDgwNy04NGRkLTg2Nzc2OWI4MDQyYSIsImMiOjF9',
-        '725px',
+        '750px',
         2,
         -1
 where not exists (
@@ -45,7 +45,7 @@ select 'PROD',
         'CriteriaAttributes', 
         'dashboard', 
         'https://app.powerbi.com/view?r=eyJrIjoiZWY3Y2RkMzctZDdjMC00ZWJlLWEzMWUtZjAwYTUwN2RlNGQyIiwidCI6IjMwN2QyMTJhLWZiODYtNDgwNy04NGRkLTg2Nzc2OWI4MDQyYSIsImMiOjF9',
-        '725px',
+        '750px',
         2,
         -1
 where not exists (
