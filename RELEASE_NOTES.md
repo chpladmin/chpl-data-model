@@ -1,5 +1,17 @@
 # Release Notes
 
+## Version 25.5.0
+_25 November 2024_
+
+### Features
+* Add table for Report Metadata
+* Add column to Activity table to store Cognito guid
+
+### Data Changes
+* Use correct regtext for 170.213 v4 SVAP value
+
+---
+
 ## Version 25.4.0
 _28 October 2024_
 
