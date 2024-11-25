@@ -1,3 +1,6 @@
+-- Deployment file for version 25.5.0
+--     as of 2024-11-25
+-- ./changes/ocd-4513.sql
 CREATE TABLE IF NOT EXISTS openchpl.report_metadata (
 	id bigserial not null,
 	environment text not null,
@@ -432,3 +435,21 @@ select 'PROD',
 where not exists (
 	select * from openchpl.report_metadata where environment = 'PROD' and report_key = 'UniqueProducts'
 );
+;
+-- ./changes/ocd-4727.sql
+ALTER TABLE openchpl.activity
+ADD COLUMN IF NOT EXISTS activity_object_uuid uuid DEFAULT NULL;
+
+ALTER TABLE openchpl.activity
+ALTER COLUMN activity_object_id DROP NOT NULL;
+;
+-- ./changes/ocd-4745.sql
+UPDATE openchpl.svap
+SET regulatory_text_citation = '170.213 v4'
+WHERE id = 31;
+
+;
+insert into openchpl.data_model_version (version, deploy_date, last_modified_user) values ('25.5.0', '2024-11-25', -1);
+\i dev/openchpl_soft-delete.sql
+\i dev/openchpl_views.sql
+\i dev/openchpl_grant-all.sql
