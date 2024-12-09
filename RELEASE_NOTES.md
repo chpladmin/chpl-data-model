@@ -1,5 +1,13 @@
 # Release Notes
 
+## Version 25.5.1
+_9 December 2024_
+
+### Data Changes
+* Add Criteria Attributes report metadata
+
+---
+
 ## Version 25.5.0
 _25 November 2024_
 
