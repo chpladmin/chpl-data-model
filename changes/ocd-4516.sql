@@ -71,7 +71,7 @@ select 'PROD',
         'Developer Attestations',
         'DeveloperAttestations', 
         'dashboard', 
-        '',
+        'https://app.powerbi.com/view?r=eyJrIjoiYTgzYjczMjktYjY1Yi00OWU3LTg0NDMtNzZlNDQ1NWRjMjcxIiwidCI6IjMwN2QyMTJhLWZiODYtNDgwNy04NGRkLTg2Nzc2OWI4MDQyYSIsImMiOjF9',
         '700px',
         9,
         -1
