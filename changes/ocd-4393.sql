@@ -122,7 +122,7 @@ INSERT INTO openchpl.cqm_criterion (cms_id, title, description, cqm_domain, nqf_
   SELECT 'CMS1074', 
 	'Excessive Radiation Dose or Inadequate Image Quality for Diagnostic Computed Tomography (CT) in Adults (Facility IQR)', 
 	'This measure provides a standardized method for monitoring the performance of diagnostic CT to discourage unnecessarily high radiation doses, a risk factor for cancer, while preserving image quality. This measure is expressed as a percentage of CT exams that are out-of-range based on having either excessive radiation dose or inadequate image quality relative to evidence-based thresholds based on the clinical indication for the exam. All diagnostic CT exams of specified anatomic sites performed in hospital inpatient care settings are eligible. This eCQM requires the use of additional software to access primary data elements stored within radiology electronic health records and translate them into data elements that can be ingested by this eCQM. Additional details are included in the Guidance field.', 
-	'Intermiedate Clinical Outcome', 
+	'Intermediate Clinical Outcome', 
 	'3663e', 
 	-1, 
 	(SELECT cqm_version_id FROM openchpl.cqm_version WHERE version = 'v2'), 
