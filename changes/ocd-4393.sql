@@ -75,7 +75,6 @@ SELECT openchpl.add_version_to_cqm('CMS816', 'v4', 'v3');
 SELECT openchpl.add_version_to_cqm('CMS871', 'v4', 'v3');
 SELECT openchpl.add_version_to_cqm('CMS1028', 'v3', 'v2');
 SELECT openchpl.add_version_to_cqm('CMS996', 'v5', 'v4');
-SELECT openchpl.add_version_to_cqm('CMS1056', 'v2', 'v1');
 SELECT openchpl.add_version_to_cqm('CMS1188', 'v2', 'v1');
 SELECT openchpl.add_version_to_cqm('CMS819', 'v3', 'v2');
 SELECT openchpl.add_version_to_cqm('CMS986', 'v4', 'v3');
@@ -129,3 +128,33 @@ INSERT INTO openchpl.cqm_criterion (cms_id, title, description, cqm_domain, nqf_
 	(select cqm_criterion_type_id from openchpl.cqm_criterion_type where name = 'Inpatient'), 
 	false
   WHERE NOT EXISTS (select * from openchpl.cqm_criterion where cms_ID = 'CMS1074');
+
+INSERT INTO openchpl.cqm_criterion (cms_id, title, description, cqm_domain, nqf_number, last_modified_user, cqm_version_id, cqm_criterion_type_id, retired)
+  SELECT 'CMS1206', 
+	'Excessive Radiation Dose or Inadequate Image Quality for Diagnostic Computed Tomography (CT) in Adults (Facility OQR)', 
+	'This measure is an episode of care measure that provides a standardized method for monitoring the performance of diagnostic CT to discourage unnecessarily high radiation doses, a risk factor for cancer, while preserving image quality. This measure is expressed as a percentage of CT exams that are out-of-range based on having either excessive radiation dose or inadequate image quality relative to evidence-based thresholds based on the clinical indication for the exam. All diagnostic CT exams of specified anatomic sites performed in hospital non-inpatient care settings (including emergency settings) are eligible. This eCQM requires the use of additional software to access primary data elements stored within radiology electronic health records and translate them into data elements that can be ingested by this eCQM. Additional details are included in the Guidance field.', 
+	'Intermediate Clinical Outcome', 
+	'3663e', 
+	-1, 
+	(SELECT cqm_version_id FROM openchpl.cqm_version WHERE version = 'v2'), 
+	(select cqm_criterion_type_id from openchpl.cqm_criterion_type where name = 'Ambulatory'), 
+	false
+  WHERE NOT EXISTS (select * from openchpl.cqm_criterion where cms_ID = 'CMS1206');
+
+INSERT INTO openchpl.cqm_criterion_type (name, description, last_modified_user)
+	SELECT 'Inpatient and Ambulatory',
+		'Inpatient and Ambulatory',
+		-1
+	WHERE NOT EXISTS (select * from openchpl.cqm_criterion_type where name = 'Inpatient and Ambulatory');
+			
+INSERT INTO openchpl.cqm_criterion (cms_id, title, description, cqm_domain, nqf_number, last_modified_user, cqm_version_id, cqm_criterion_type_id, retired)
+  SELECT 'CMS1056', 
+	'Excessive Radiation Dose or Inadequate Image Quality for Diagnostic Computed Tomography (CT) in Adults (Clinician Level)', 
+	'This measure provides a standardized method for monitoring the performance of diagnostic CT to discourage unnecessarily high radiation doses, a risk factor for cancer, while preserving image quality. It is expressed as a percentage of patients with CT exams that are out-of-range based on having either excessive radiation dose or inadequate image quality relative to evidence-based thresholds based on the clinical indication for the exam. All diagnostic CT exams of specified anatomic sites performed in inpatient, outpatient and ambulatory care settings are eligible. This measure is not telehealth eligible. This eCQM requires the use of additional software to access primary data elements stored within radiology electronic health records and translate them into data elements that can be ingested by this eCQM. Additional details are included in the Guidance field.', 
+	'Intermediate Clinical Outcome', 
+	'3663e', 
+	-1, 
+	(SELECT cqm_version_id FROM openchpl.cqm_version WHERE version = 'v2'), 
+	(select cqm_criterion_type_id from openchpl.cqm_criterion_type where name = 'Inpatient and Ambulatory'), 
+	false
+  WHERE NOT EXISTS (select * from openchpl.cqm_criterion where cms_ID = 'CMS1056');
