@@ -35,7 +35,7 @@ SELECT openchpl.add_version_to_cqm('CMS125', 'v13', 'v12');
 SELECT openchpl.add_version_to_cqm('CMS128', 'v13', 'v12');
 SELECT openchpl.add_version_to_cqm('CMS129', 'v14', 'v13');
 SELECT openchpl.add_version_to_cqm('CMS130', 'v13', 'v12');
-SELECT openchpl.add_version_to_cqm('CMS131', 'v13', 'v13');
+SELECT openchpl.add_version_to_cqm('CMS131', 'v13', 'v12');
 SELECT openchpl.add_version_to_cqm('CMS133', 'v13', 'v12');
 SELECT openchpl.add_version_to_cqm('CMS135', 'v13', 'v12');
 SELECT openchpl.add_version_to_cqm('CMS136', 'v14', 'v13');
