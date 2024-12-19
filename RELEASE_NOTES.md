@@ -1,5 +1,13 @@
 # Release Notes
 
+## Version 25.5.2
+_18 December 2024_
+
+### Data Changes
+* Add report metadata for the Service Base URL Listing report
+
+---
+
 ## Version 25.5.1
 _9 December 2024_
 

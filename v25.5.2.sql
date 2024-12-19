@@ -1,3 +1,6 @@
+-- Deployment file for version 25.5.2
+--     as of 2024-12-18
+-- ./changes/ocd-4686.sql
 delete from openchpl.report_metadata where report_key = 'ServiceBaseUrlListingReport';
 
 insert into openchpl.report_metadata (environment, title, report_key, report_group, url, height, display_order, last_modified_user)
@@ -51,3 +54,8 @@ select 'PROD',
 where not exists (
         select * from openchpl.report_metadata where environment = 'PROD' and report_key = 'ServiceBaseUrlListReport'
 );
+;
+insert into openchpl.data_model_version (version, deploy_date, last_modified_user) values ('25.5.2', '2024-12-18', -1);
+\i dev/openchpl_soft-delete.sql
+\i dev/openchpl_views.sql
+\i dev/openchpl_grant-all.sql
