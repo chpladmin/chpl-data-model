@@ -1,5 +1,17 @@
 # Release Notes
 
+## Version 25.6.0
+_6 January 2025_
+
+### Features
+* Add table attestation_report to store data for Developer Attestation Power BI report
+
+### Data Changes
+* Add 2025 CQM bundle
+* Add INVITATION type of activity
+
+---
+
 ## Version 25.5.2
 _18 December 2024_
 
