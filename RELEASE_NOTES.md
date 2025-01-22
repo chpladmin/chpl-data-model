@@ -1,5 +1,15 @@
 # Release Notes
 
+## Version 25.6.1
+_21 January 2025_
+
+### Data Changes
+* Delete tests that failed due to incorrect regex
+* Set empty fields to null from cert results
+* Update the height of the Criteria Attributes report in report_metadata
+
+---
+
 ## Version 25.6.0
 _6 January 2025_
 
