@@ -28,3 +28,25 @@ ALTER TABLE openchpl.contact DROP COLUMN IF EXISTS title;
 ALTER TABLE openchpl.change_request_developer_demographics DROP COLUMN IF EXISTS title;
 
 
+-------------
+-- DROP 'friendly_name' from contact objects
+-------------
+ALTER TABLE openchpl.contact DROP COLUMN IF EXISTS friendly_name;
+
+-------------
+-- DROP *_statistics tables that are no longer used
+-------------
+DROP TABLE IF EXISTS openchpl.listing_count_statistics;
+DROP TABLE IF EXISTS openchpl.incumbent_developers_statistics;
+DROP TABLE IF EXISTS openchpl.criterion_product_statistics;
+DROP TABLE IF EXISTS openchpl.participant_age_statistics;
+DROP TABLE IF EXISTS openchpl.participant_education_statistics;
+DROP TABLE IF EXISTS openchpl.participant_experience_statistics;
+DROP TABLE IF EXISTS openchpl.participant_gender_statistics;
+DROP TABLE IF EXISTS openchpl.sed_participants_statistics_count;
+
+
+
+
+
+
