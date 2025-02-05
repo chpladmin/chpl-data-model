@@ -1,3 +1,20 @@
+-- Deployment file for version 25.6.1
+--     as of 2025-01-21
+-- ./changes/ocd-2037.sql
+update openchpl.report_metadata
+set height = '2500px'
+where report_key = 'CriteriaAttributes';
+;
+-- ./changes/ocd-4785.sql
+update openchpl.url_uptime_monitor_test uumt
+set deleted = true 
+where uumt.passed = false 
+and uumt.url_uptime_monitor_id = (
+	select uum.id
+	from openchpl.url_uptime_monitor uum
+	where uum.url = 'https://fhir.eclinicalworks.com/ecwopendev/external/practiceList?pageId=1');
+;
+-- ./changes/ocd-4793.sql
 UPDATE openchpl.certified_product_qms_standard
 SET modification = null
 WHERE deleted = false
@@ -86,4 +103,8 @@ AND version = '';
 UPDATE openchpl.certification_result_ucd_process
 SET ucd_process_details = null
 WHERE deleted = false
-AND ucd_process_details = '';
+AND ucd_process_details = '';;
+insert into openchpl.data_model_version (version, deploy_date, last_modified_user) values ('25.6.1', '2025-01-21', -1);
+\i dev/openchpl_soft-delete.sql
+\i dev/openchpl_views.sql
+\i dev/openchpl_grant-all.sql
