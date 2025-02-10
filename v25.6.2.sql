@@ -1,3 +1,6 @@
+-- Deployment file for version 25.6.2
+--     as of 2025-02-10
+-- ./changes/ocd-4520.sql
 insert into openchpl.report_metadata (environment, title, report_key, url, height, display_order, last_modified_user)
 select 'DEV', 'Non-Conformity Counts', 'Non-conformityCounts',
     'https://app.powerbi.com/view?r=eyJrIjoiNWFjZGRjZjItZGUyMC00ODc0LWI1NTMtOGVhZjdjZTgyOGJlIiwidCI6IjMwN2QyMTJhLWZiODYtNDgwNy04NGRkLTg2Nzc2OWI4MDQyYSIsImMiOjF9',
@@ -41,3 +44,14 @@ where not exists (
 update openchpl.report_metadata
 set height = '710px'
 where report_key = 'UniqueProducts';
+;
+-- ./changes/ocd-4790.sql
+update openchpl.certification_criterion_attribute
+set privacy_security_framework = true
+where criterion_id = 210;
+
+;
+insert into openchpl.data_model_version (version, deploy_date, last_modified_user) values ('25.6.2', '2025-02-10', -1);
+\i dev/openchpl_soft-delete.sql
+\i dev/openchpl_views.sql
+\i dev/openchpl_grant-all.sql
