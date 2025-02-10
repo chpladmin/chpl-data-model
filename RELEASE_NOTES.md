@@ -1,5 +1,14 @@
 # Release Notes
 
+## Version 25.6.2
+_10 February 2025_
+
+### Data Changes
+* Add report metadata for non-conformities count report
+* Add Privacy & Security Framework to (b)(11)
+
+---
+
 ## Version 25.6.1
 _21 January 2025_
 
