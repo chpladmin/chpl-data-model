@@ -583,7 +583,8 @@ SELECT cp.certified_product_id,
 	   COALESCE(cap_open.count_open_cap, 0::bigint) AS open_cap_count,
 	   COALESCE(cap_closed.count_closed_cap, 0::bigint) AS closed_cap_count,
        surv_dates.surv_date_ranges,
-	   status_events.status_events
+	   status_events.status_events,
+	   standards.standards_met
 FROM openchpl.certified_product cp
 LEFT JOIN (
 	 SELECT cse.certification_status_event_id, cse.certification_status_id, cs.certification_status as certification_status_name, cse.certified_product_id
@@ -845,6 +846,14 @@ LEFT JOIN
      AND cqm_result.deleted = FALSE
      AND cqm_criterion.deleted = FALSE
    GROUP BY certified_product_id) cqms ON cqms.certified_product_id = cp.certified_product_id
+LEFT JOIN
+  (SELECT string_agg(DISTINCT crs.standard_id::text, '|') AS standards_met,
+          cr.certified_product_id
+   FROM openchpl.certification_result_standard crs
+   JOIN openchpl.certification_result cr on crs.certification_result_id = cr.certification_result_id
+   WHERE crs.deleted = FALSE
+     AND cr.deleted = FALSE
+   GROUP BY certified_product_id) standards ON standards.certified_product_id = cp.certified_product_id
 LEFT JOIN
   (SELECT string_agg(DISTINCT hist.chpl_product_number, '|') AS previous_chpl_product_numbers, hist.certified_product_id
    FROM openchpl.certified_product_chpl_product_number_history hist
