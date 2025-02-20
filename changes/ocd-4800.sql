@@ -5,7 +5,7 @@ ALTER TABLE openchpl.quarterly_report
 ADD COLUMN IF NOT EXISTS developer_complaints_log_review text;
 
 ALTER TABLE openchpl.quarterly_report
-ADD COLUMN IF NOT EXISTS post_certification_performance text;
+ADD COLUMN IF NOT EXISTS post_certification_performance_of_certified_capabilities text;
 
 ALTER TABLE openchpl.quarterly_report
 ADD COLUMN IF NOT EXISTS appropriate_use_of_mark text;
