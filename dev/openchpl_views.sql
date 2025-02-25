@@ -575,6 +575,7 @@ SELECT cp.certified_product_id,
        certs_with_api_documentation.criteria_with_api_documentation,
        certs_with_service_base_url_list.criteria_with_service_base_url_list,
 	   certs_with_svap.criteria_with_svap,
+	   certs_with_risk_management.criteria_with_risk_management,
        COALESCE(survs.count_surveillance_activities, 0::bigint) AS surveillance_count,
        COALESCE(surv_open.count_open_surveillance_activities, 0::bigint) as open_surveillance_count,
        COALESCE(surv_closed.count_closed_surveillance_activities, 0::bigint) as closed_surveillance_count,
@@ -837,6 +838,19 @@ LEFT JOIN
     AND certification_criterion.deleted = FALSE
 	AND certification_result_svap.deleted = FALSE
 	GROUP BY certified_product_id) certs_with_svap ON certs_with_svap.certified_product_id = cp.certified_product_id	
+LEFT JOIN
+  (SELECT string_agg(DISTINCT certification_criterion.certification_criterion_id::text||':'
+						||certification_criterion.number||':'
+						||certification_criterion.title||'☹'
+						||certification_result.risk_management_summary_information, '☺') AS criteria_with_risk_management,
+	certification_result.certified_product_id
+	FROM openchpl.certification_criterion
+	JOIN openchpl.certification_result ON certification_criterion.certification_criterion_id = certification_result.certification_criterion_id
+	WHERE certification_result.success = TRUE
+    AND certification_result.risk_management_summary_information IS NOT NULL
+    AND certification_result.deleted = FALSE
+    AND certification_criterion.deleted = FALSE
+	GROUP BY certified_product_id) certs_with_risk_management ON certs_with_risk_management.certified_product_id = cp.certified_product_id
 LEFT JOIN
   (SELECT string_agg(DISTINCT cqm_criterion.cqm_criterion_id||':'||COALESCE(cqm_criterion.cms_id, cqm_criterion.nqf_number), '|') AS cqms_met,
           cqm_result.certified_product_id
