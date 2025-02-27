@@ -288,7 +288,6 @@ CREATE VIEW openchpl.certified_product_details AS
     u.full_name,
     u.email,
     u.phone_number,
-    u.title,
     i.certification_date,
     decert.decertification_date,
     COALESCE(k.count_certifications, 0::bigint) AS count_certifications,
@@ -378,8 +377,7 @@ CREATE VIEW openchpl.certified_product_details AS
      LEFT JOIN ( SELECT contact.contact_id,
             contact.full_name,
             contact.email,
-            contact.phone_number,
-            contact.title
+            contact.phone_number
            FROM openchpl.contact) u ON h.vendor_contact = u.contact_id
      LEFT JOIN ( SELECT vshistory.vendor_status_id,
             vshistory.vendor_id,
@@ -978,8 +976,7 @@ CREATE VIEW openchpl.certified_product_summary AS
 	 LEFT OUTER JOIN ( SELECT contact.contact_id,
             contact.full_name,
             contact.email,
-            contact.phone_number,
-            contact.title
+            contact.phone_number
            FROM openchpl.contact) contact ON v.contact_id = contact.contact_id
      JOIN openchpl.certification_body cb ON cp.certification_body_id = cb.certification_body_id
 	 LEFT OUTER JOIN ( SELECT piu.user_count as promoting_interoperability_user_count,
