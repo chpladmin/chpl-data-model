@@ -1,5 +1,20 @@
 # Release Notes
 
+## Version 26.0.0
+_3 March 2025_
+
+### Breaking Changes
+* Remove statistics tables that are no longer used
+* Drop 'title' from contact tables
+* Remove certified_product_search view
+
+
+### Features
+* Add Risk Management Summary info to the listing_search view
+* Add tables and data for Real World Testing report in Power BI
+
+---
+
 ## Version 25.6.2
 _10 February 2025_
 
