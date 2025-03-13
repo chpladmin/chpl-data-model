@@ -71,7 +71,7 @@ CREATE CONSTRAINT TRIGGER grounds_for_initiating_last_modified_user_constraint A
 --
 CREATE TABLE IF NOT EXISTS openchpl.quarterly_report_surveillance_grounds_for_initiating_map (
 	id bigserial NOT NULL,
-	quarterly_report_surviellance_map_id bigint NOT NULL,
+	quarterly_report_surveillance_map_id bigint NOT NULL,
 	grounds_for_initiating_id bigint NOT NULL,
 	creation_date timestamp without time zone NOT NULL DEFAULT now(),
     last_modified_date timestamp without time zone NOT NULL DEFAULT now(),
@@ -79,8 +79,8 @@ CREATE TABLE IF NOT EXISTS openchpl.quarterly_report_surveillance_grounds_for_in
     deleted boolean NOT NULL DEFAULT false,
     last_modified_sso_user uuid NULL,
 	CONSTRAINT quarterly_report_surveillance_grounds_for_initiating_map_pk PRIMARY KEY (id),
-	CONSTRAINT quarterly_report_surveillance_map_fk FOREIGN KEY (quarterly_report_surviellance_map_id)
-			REFERENCES openchpl.quarterly_report_surviellance_map (id)
+	CONSTRAINT quarterly_report_surveillance_map_fk FOREIGN KEY (quarterly_report_surveillance_map_id)
+			REFERENCES openchpl.quarterly_report_surveillance_map (id)
 			MATCH simple ON UPDATE NO ACTION ON DELETE RESTRICT
 );
 
@@ -105,17 +105,17 @@ ALTER TABLE openchpl.quarterly_report_surveillance_map ADD COLUMN IF NOT EXISTS 
 
 CREATE OR REPLACE FUNCTION openchpl.migrate_grounds_for_initiating() RETURNS void AS $$
 	DECLARE
-	quarterly_report_surveillance_map_id bigint;
+	quarterly_report_surveillance_map_id_var bigint;
     existing_grounds text;
 	BEGIN
-		FOR quarterly_report_surveillance_map_id IN 
+		FOR quarterly_report_surveillance_map_id_var IN 
 			SELECT id FROM openchpl.quarterly_report_surveillance_map
 		LOOP
-			RAISE NOTICE 'Migrating grounds for initiating surveillance from %s', quarterly_report_surveillance_map_id;
+			RAISE NOTICE 'Migrating grounds for initiating surveillance from row %', quarterly_report_surveillance_map_id_var;
 			
 			SELECT grounds_for_initiating 
 				FROM openchpl.quarterly_report_surveillance_map
-				WHERE id = quarterly_report_surveillance_map_id
+				WHERE id = quarterly_report_surveillance_map_id_var
 			INTO existing_grounds;
 		
 			CASE 
@@ -124,7 +124,7 @@ CREATE OR REPLACE FUNCTION openchpl.migrate_grounds_for_initiating() RETURNS voi
 					'Complaint came in and was closed on 9/15/19.  Developer contacted the provider on multiple occasions attempting to educate the provider on how to use the product correctly.  Complainant continued to complain so Drummond requested to demonstrate the listed criteria.',
 					'An anonymous complainant stated that the developer advertised that their certified product could be used for MIPS and also that the product lacked sufficient certified criteria to quality for MIPS use.',
 					'Complaint submitted via user. Stated CQM report exclusions always reporting 0.',
-					'After receiving a complaint from an end user that has already written the developer\'s API,  Drummond was attempting to register to test the eCW API using the Interoperability Hub, the registration link was broken.',
+					'After receiving a complaint from an end user that has already written the developer''s API,  Drummond was attempting to register to test the eCW API using the Interoperability Hub, the registration link was broken.',
 					'Complaint related to NewCropRx',
 					'Drummond received a complaint that the Meditech product was not able to provide patient information requested.',
 					'SLI received a complaint both through the ONC and directly from the complainant.',
@@ -133,64 +133,64 @@ CREATE OR REPLACE FUNCTION openchpl.migrate_grounds_for_initiating() RETURNS voi
 					'Complaint from user that product was not able to calculate CQMs.',
 					'Complaint (NewCropRx)',
 					'Anonymous complainant contacted Drummond and indicated that they had to take a hardship because they were unable to report.  Once the developer investigated they found that many of the CQMs were not calculating correctly.',
-					'SLI received a complaint that originated from the developer\'s customer and was reported to the developer, who reported it to SLI in the developer\'s quarterly report.')	
+					'SLI received a complaint that originated from the developer''s customer and was reported to the developer, who reported it to SLI in the developer''s quarterly report.')	
 				THEN
-					RAISE NOTICE 'Migrating "%s" as Complaint', existing_grounds;
+					RAISE NOTICE 'Migrating "%" as Complaints', existing_grounds;
 					INSERT INTO openchpl.quarterly_report_surveillance_grounds_for_initiating_map 
-						(quarterly_report_surviellance_map_id, grounds_for_initiating_id, last_modified_sso_user, deleted)
-						SELECT quarterly_report_surveillance_map_id, 
-								SELECT id FROM openchpl.grounds_for_initiating WHERE name = 'Complaint',
+						(quarterly_report_surveillance_map_id, grounds_for_initiating_id, last_modified_sso_user, deleted)
+						SELECT quarterly_report_surveillance_map_id_var, 
+								(SELECT id FROM openchpl.grounds_for_initiating WHERE name = 'Complaints'),
 								'6498c4f8-b0f1-70b5-55de-d84faae73402',
-								SELECT deleted FROM openchpl.quarterly_report_surveillance_map WHERE id = quarterly_report_surveillance_map_id
+								(SELECT deleted FROM openchpl.quarterly_report_surveillance_map WHERE id = quarterly_report_surveillance_map_id_var)
 						WHERE NOT EXISTS (
-								SELECT * FROM openchpl.quarterly_report_surveillance_grounds_for_initiating_map 
-								WHERE quarterly_report_surviellance_map_id = quarterly_report_surveillance_map_id
-								AND grounds_for_initiating_id = (SELECT id FROM openchpl.grounds_for_initiating WHERE name = 'Complaint')
+								SELECT * FROM openchpl.quarterly_report_surveillance_grounds_for_initiating_map tbl
+								WHERE tbl.quarterly_report_surveillance_map_id = quarterly_report_surveillance_map_id_var
+								AND grounds_for_initiating_id = (SELECT id FROM openchpl.grounds_for_initiating WHERE name = 'Complaints')
 						);
 				WHEN existing_grounds IN (
 					'Surveillance testing conducted due to Inherited Certified Status (ICS) request for the third time for this product.',
 					'Surveillance testing conducted due to the number of Inherited Certified Status (ICS) requests for this product.')
 				THEN
-					RAISE NOTICE 'Migrating "%s" as ICS', existing_grounds;
+					RAISE NOTICE 'Migrating "%" as ICS', existing_grounds;
 					INSERT INTO openchpl.quarterly_report_surveillance_grounds_for_initiating_map 
-						(quarterly_report_surviellance_map_id, grounds_for_initiating_id, last_modified_sso_user, deleted)
-						SELECT quarterly_report_surveillance_map_id, 
-								SELECT id FROM openchpl.grounds_for_initiating WHERE name = 'ICS',
+						(quarterly_report_surveillance_map_id, grounds_for_initiating_id, last_modified_sso_user, deleted)
+						SELECT quarterly_report_surveillance_map_id_var, 
+								(SELECT id FROM openchpl.grounds_for_initiating WHERE name = 'ICS'),
 								'6498c4f8-b0f1-70b5-55de-d84faae73402',
-								SELECT deleted FROM openchpl.quarterly_report_surveillance_map WHERE id = quarterly_report_surveillance_map_id
+								(SELECT deleted FROM openchpl.quarterly_report_surveillance_map WHERE id = quarterly_report_surveillance_map_id_var)
 						WHERE NOT EXISTS (
-								SELECT * FROM openchpl.quarterly_report_surveillance_grounds_for_initiating_map 
-								WHERE quarterly_report_surviellance_map_id = quarterly_report_surveillance_map_id
+								SELECT * FROM openchpl.quarterly_report_surveillance_grounds_for_initiating_map tbl
+								WHERE tbl.quarterly_report_surveillance_map_id = quarterly_report_surveillance_map_id_var
 								AND grounds_for_initiating_id = (SELECT id FROM openchpl.grounds_for_initiating WHERE name = 'ICS')
 						);
 				WHEN existing_grounds IN (
-					'Routine proactive surveillance of developer\'s website')
+					'Routine proactive surveillance of developer''s website')
 				THEN
-					RAISE NOTICE 'Migrating "%s" as Randomized', existing_grounds;
+					RAISE NOTICE 'Migrating "%" as Randomized', existing_grounds;
 					INSERT INTO openchpl.quarterly_report_surveillance_grounds_for_initiating_map 
-						(quarterly_report_surviellance_map_id, grounds_for_initiating_id, last_modified_sso_user, deleted)
-						SELECT quarterly_report_surveillance_map_id, 
-								SELECT id FROM openchpl.grounds_for_initiating WHERE name = 'Randomized',
+						(quarterly_report_surveillance_map_id, grounds_for_initiating_id, last_modified_sso_user, deleted)
+						SELECT quarterly_report_surveillance_map_id_var, 
+								(SELECT id FROM openchpl.grounds_for_initiating WHERE name = 'Randomized'),
 								'6498c4f8-b0f1-70b5-55de-d84faae73402',
-								SELECT deleted FROM openchpl.quarterly_report_surveillance_map WHERE id = quarterly_report_surveillance_map_id
+								(SELECT deleted FROM openchpl.quarterly_report_surveillance_map WHERE id = quarterly_report_surveillance_map_id_var)
 						WHERE NOT EXISTS (
-								SELECT * FROM openchpl.quarterly_report_surveillance_grounds_for_initiating_map 
-								WHERE quarterly_report_surviellance_map_id = quarterly_report_surveillance_map_id
+								SELECT * FROM openchpl.quarterly_report_surveillance_grounds_for_initiating_map tbl
+								WHERE tbl.quarterly_report_surveillance_map_id = quarterly_report_surveillance_map_id_var
 								AND grounds_for_initiating_id = (SELECT id FROM openchpl.grounds_for_initiating WHERE name = 'Randomized')
 						);
 				WHEN existing_grounds IN (
 					'The Leidos ONC-ACB initiated reactive surveillance on the grounds of a non-conformity self-disclosure by the developer during the course of their RWT.')
 				THEN
-					RAISE NOTICE 'Migrating "%s" as RWT Self-Reported Non-conformance', existing_grounds;
+					RAISE NOTICE 'Migrating "%" as RWT Self-Reported Non-conformance', existing_grounds;
 					INSERT INTO openchpl.quarterly_report_surveillance_grounds_for_initiating_map 
-						(quarterly_report_surviellance_map_id, grounds_for_initiating_id, last_modified_sso_user, deleted)
-						SELECT quarterly_report_surveillance_map_id, 
-								SELECT id FROM openchpl.grounds_for_initiating WHERE name = 'RWT Self-Reported Non-conformance',
+						(quarterly_report_surveillance_map_id, grounds_for_initiating_id, last_modified_sso_user, deleted)
+						SELECT quarterly_report_surveillance_map_id_var, 
+								(SELECT id FROM openchpl.grounds_for_initiating WHERE name = 'RWT Self-Reported Non-conformance'),
 								'6498c4f8-b0f1-70b5-55de-d84faae73402',
-								SELECT deleted FROM openchpl.quarterly_report_surveillance_map WHERE id = quarterly_report_surveillance_map_id
+								(SELECT deleted FROM openchpl.quarterly_report_surveillance_map WHERE id = quarterly_report_surveillance_map_id_var)
 						WHERE NOT EXISTS (
-								SELECT * FROM openchpl.quarterly_report_surveillance_grounds_for_initiating_map 
-								WHERE quarterly_report_surviellance_map_id = quarterly_report_surveillance_map_id
+								SELECT * FROM openchpl.quarterly_report_surveillance_grounds_for_initiating_map tbl
+								WHERE tbl.quarterly_report_surveillance_map_id = quarterly_report_surveillance_map_id_var
 								AND grounds_for_initiating_id = (SELECT id FROM openchpl.grounds_for_initiating WHERE name = 'RWT Self-Reported Non-conformance')
 						);	
 				WHEN existing_grounds IN (
@@ -220,13 +220,13 @@ CREATE OR REPLACE FUNCTION openchpl.migrate_grounds_for_initiating() RETURNS voi
 					'Q2 2019 Qaurterly Attestation Delinquent',
 					'Missed deadline for required 170.523 (m)(1) and (m)(2) quarterly reporting',
 					'Developer failed to submit their Q1 and Q2 2022 Quarterly Attestations.',
-					'A Real World Testing plan was not submitted to the ONC-ACB by the ONC-ACB\'s determined deadline for completeness review.',
+					'A Real World Testing plan was not submitted to the ONC-ACB by the ONC-ACB''s determined deadline for completeness review.',
 					'Health IT Module was not updated to the revised version of 170.315(b)(1), (b)(2), (e)(1), and (g)(6) by the regulatory deadline.',
 					'Health IT Module was not updated to the revised version of b.3, c.3, d.2, d.3 by the regulatory deadline.',
 					'Health IT Module was not updated to the revised version of 170.315(d)(2), (d)(3), (d)(12), and (d)(13) by the regulatory deadline.',
 					'Health IT Module was not updated to the revised version of 170.315(b)(1), (b)(2), (b)(3), (c)(3), (d)(2), (d)(3), (d)(12), (d)(13), (e)(1), (g)(6), and (g)(9) by the regulatory deadline.',
 					'Developer has not submitted a quarterly attestation since 2018. Mandatory disclosure still reflects 2014 Edition.',
-					'A Real World Testing Plan was not submitted to the ONC-ACB by the ONC-ACB\'s determined deadline for completeness review.',
+					'A Real World Testing Plan was not submitted to the ONC-ACB by the ONC-ACB''s determined deadline for completeness review.',
 					'Developer failed to submit their Q1 and Q2 2022 Quarterly Attestations',
 					'Failed to submit a quarterly report of adaptations and updates',
 					'Missed deadline to provide hyperlink to disclosures required in 170.523 (k)(1)',
@@ -234,21 +234,21 @@ CREATE OR REPLACE FUNCTION openchpl.migrate_grounds_for_initiating() RETURNS voi
 					'Developer had 3 delinquent quarterly reports',
 					'Failed to submit a quarterly report of adaptations/updates',
 					'Developer was notified 4/26/2020 and again May 2021 of delinquent attestations and incorrect Mandatory disclosure statement.',
-					'Real World Testing results report was not submitted to the ONC-ACB by the ONC-ACB\'s determined deadline for completeness review.',
+					'Real World Testing results report was not submitted to the ONC-ACB by the ONC-ACB''s determined deadline for completeness review.',
 					'Health IT Module was not updated to the revised version of 170.315(b)(1), (b)(2), (c)(3), (d)(2), (d)(3), (d)(12), (d)(13), (e)(1), (g)(6), and (g)(9) by the regulatory deadline.',
 					'Developer failed to submit a quarterly report per 170.523.m',
 					'Developer failed to submit quarterly attestations for 2021.')
 				  THEN
-					RAISE NOTICE 'Migrating "%s" as Missed Requirement Deadline', existing_grounds;
+					RAISE NOTICE 'Migrating "%" as Missed Requirement Deadline', existing_grounds;
 					INSERT INTO openchpl.quarterly_report_surveillance_grounds_for_initiating_map 
-						(quarterly_report_surviellance_map_id, grounds_for_initiating_id, last_modified_sso_user, deleted)
-						SELECT quarterly_report_surveillance_map_id, 
-								SELECT id FROM openchpl.grounds_for_initiating WHERE name = 'Missed Requirement Deadline',
+						(quarterly_report_surveillance_map_id, grounds_for_initiating_id, last_modified_sso_user, deleted)
+						SELECT quarterly_report_surveillance_map_id_var, 
+								(SELECT id FROM openchpl.grounds_for_initiating WHERE name = 'Missed Requirement Deadline'),
 								'6498c4f8-b0f1-70b5-55de-d84faae73402',
-								SELECT deleted FROM openchpl.quarterly_report_surveillance_map WHERE id = quarterly_report_surveillance_map_id
+								(SELECT deleted FROM openchpl.quarterly_report_surveillance_map WHERE id = quarterly_report_surveillance_map_id_var)
 						WHERE NOT EXISTS (
-								SELECT * FROM openchpl.quarterly_report_surveillance_grounds_for_initiating_map 
-								WHERE quarterly_report_surviellance_map_id = quarterly_report_surveillance_map_id
+								SELECT * FROM openchpl.quarterly_report_surveillance_grounds_for_initiating_map tbl
+								WHERE tbl.quarterly_report_surveillance_map_id = quarterly_report_surveillance_map_id_var
 								AND grounds_for_initiating_id = (SELECT id FROM openchpl.grounds_for_initiating WHERE name = 'Missed Requirement Deadline')
 						);						
 				WHEN existing_grounds IN (
@@ -277,7 +277,7 @@ CREATE OR REPLACE FUNCTION openchpl.migrate_grounds_for_initiating() RETURNS voi
 					'Developer self-reported an issue that may arise under certain circumstances where auditing relating to 170.315(d)(3) may not function for a period of time while a client is being migrated.',
 					'Developer reported that they found issues with the automatic time out functionality.',
 					'Developer self-reported an issue that was found and fixed for a potential 170.315(a)(1) and 170.315(b)(3) issue.',
-					'Developer reported to Drummond after conducting an internal audit:  There is a defect with a second request for a patient\'s immunization history and forecast, also missing audit log records when adding or printing lab/imaging orders, and When logged into the portal as a patient and trying to send a new secure message, sending fails.   The issue does not happen for new sites and is only happening for sites that change configuration settings after the upgrade to 4.6.',
+					'Developer reported to Drummond after conducting an internal audit:  There is a defect with a second request for a patient''s immunization history and forecast, also missing audit log records when adding or printing lab/imaging orders, and When logged into the portal as a patient and trying to send a new secure message, sending fails.   The issue does not happen for new sites and is only happening for sites that change configuration settings after the upgrade to 4.6.',
 					'Developer reported that they found that Lab results entered manually were not being captured on the audit log.',
 					'Developer self-reported an issue that was found and already fixed for a potential issue impacting 170.315(g)(10) where a patientâ€™s previous address may not be included with an API request.',
 					'Developer reported issues with sending to Immunization Registries',
@@ -311,7 +311,7 @@ CREATE OR REPLACE FUNCTION openchpl.migrate_grounds_for_initiating() RETURNS voi
 					'Developer discovered during internal testing relating to Cures, their users do not have Medication History enabled.',
 					'Developer Self-Reported issue.',
 					'Developer reported while going through their 2017071 test with Surescripts they were not transmitting the RxNorm Code.',
-					'Developer reported that their Template pre-selected medications still show on face sheet & CCD\'s even when they are unselected.',
+					'Developer reported that their Template pre-selected medications still show on face sheet & CCD''s even when they are unselected.',
 					'Developer reported: When logged into the portal as a patient and trying to send a new secure message, sending fails.   The issue does not happen for new sites and is only happening for sites that change configuration settings after the upgrade to 4.6. and Prime Suite does provide a separate means to record for birth sex.  The administrative gender collected in patient registration is currently also output in the CCDA as the birth sex.',
 					'Developer found and reported that the implanted device UDI is failing to parse.',
 					'Developer discovered during testing that they do not support submission, receiving, and storing of RxNorm Codes.',
@@ -327,7 +327,7 @@ CREATE OR REPLACE FUNCTION openchpl.migrate_grounds_for_initiating() RETURNS voi
 					'Developer self-reported an issue that was found and fixed for a potential 170.315(f)(6) issue.',
 					'Developer reported during the course of Real World Testing that there may be a user workflow that does not generate a HL7 V2.5.1 compliant Immunization Message. Instead, an older version of the message was being created with a specific workflow.',
 					'Developer reported  that when a user updates patient demographics, specifically address or date of birth, through the claim edits modal, the date of birth and/or address changes are updating information on other patients.  Developer fixed prior to reporting.',
-					'Developer reported their Independent Review Organization identified several issues while conducting an audit.  Developer\'s Quality Committee reviewed and determined the issues reported were not compliant with certification criteria.',
+					'Developer reported their Independent Review Organization identified several issues while conducting an audit.  Developer''s Quality Committee reviewed and determined the issues reported were not compliant with certification criteria.',
 					'Reported by the Developer:  DTR170.314(g)(1)/(2) – 17: Medication Reconciliation A client just reported to us an error, which lead us to find a fault with the logic of this report, requiring that we change the SQL query to accommodate the instance presented by the client.  This change in our code may also result in changes in the results on this measure as reported by clients to CMS. Of course, we will  advise all our clients that an upgrade  to the M 17 query will be made asap to rectify the error and that they rerun the report for the 2018 year.  Developer had the issue fixed at the time it was reported.',
 					'An email from the developer confirmed the certified product did not meet the automated token revocation requirement in 170.315(g)(10)',
 					'Developer found and reported that the implanted device UDI is failing to parse,  diagnosis is missing on a CancelRx or RxChange, and that antigen is in a separate ORC/RCA node.',
@@ -349,35 +349,35 @@ CREATE OR REPLACE FUNCTION openchpl.migrate_grounds_for_initiating() RETURNS voi
 					'Developer self-reported an issue that was found and fixed for a potential 170.315(g)(2) calculation issue specific to RT7.',
 					'Developer reported that they found an issue On the OBChart, when resulting the HCG test as positive, a diagnosis is automatically created indicating the patient is pregnant. The SNOMED value associated with the pregnancy diagnosis is 289908002, which is not in the correct value set and results in the CCDA failing validation.')	
 				THEN
-					RAISE NOTICE 'Migrating "%s" as Developer-Reported', existing_grounds;
+					RAISE NOTICE 'Migrating "%" as Developer-Reported', existing_grounds;
 					INSERT INTO openchpl.quarterly_report_surveillance_grounds_for_initiating_map 
-						(quarterly_report_surviellance_map_id, grounds_for_initiating_id, last_modified_sso_user, deleted)
-						SELECT quarterly_report_surveillance_map_id, 
-								SELECT id FROM openchpl.grounds_for_initiating WHERE name = 'Developer-Reported',
+						(quarterly_report_surveillance_map_id, grounds_for_initiating_id, last_modified_sso_user, deleted)
+						SELECT quarterly_report_surveillance_map_id_var, 
+								(SELECT id FROM openchpl.grounds_for_initiating WHERE name = 'Developer-Reported'),
 								'6498c4f8-b0f1-70b5-55de-d84faae73402',
-								SELECT deleted FROM openchpl.quarterly_report_surveillance_map WHERE id = quarterly_report_surveillance_map_id
+								(SELECT deleted FROM openchpl.quarterly_report_surveillance_map WHERE id = quarterly_report_surveillance_map_id_var)
 						WHERE NOT EXISTS (
-								SELECT * FROM openchpl.quarterly_report_surveillance_grounds_for_initiating_map 
-								WHERE quarterly_report_surviellance_map_id = quarterly_report_surveillance_map_id
+								SELECT * FROM openchpl.quarterly_report_surveillance_grounds_for_initiating_map tbl
+								WHERE tbl.quarterly_report_surveillance_map_id = quarterly_report_surveillance_map_id_var
 								AND grounds_for_initiating_id = (SELECT id FROM openchpl.grounds_for_initiating WHERE name = 'Developer-Reported')
 						);						
 				-- other
 				ELSE
-					RAISE NOTICE 'Migrating "%s" as Other', existing_grounds;
+					RAISE NOTICE 'Migrating "%" as Other', existing_grounds;
 					
 					UPDATE openchpl.quarterly_report_surveillance_map
 					SET grounds_for_initiating_other = existing_grounds
-					WHERE id = quarterly_report_surveillance_map_id;
+					WHERE id = quarterly_report_surveillance_map_id_var;
 					
 					INSERT INTO openchpl.quarterly_report_surveillance_grounds_for_initiating_map 
-						(quarterly_report_surviellance_map_id, grounds_for_initiating_id, last_modified_sso_user, deleted)
-						SELECT quarterly_report_surveillance_map_id, 
-								SELECT id FROM openchpl.grounds_for_initiating WHERE name = 'Other',
+						(quarterly_report_surveillance_map_id, grounds_for_initiating_id, last_modified_sso_user, deleted)
+						SELECT quarterly_report_surveillance_map_id_var, 
+								(SELECT id FROM openchpl.grounds_for_initiating WHERE name = 'Other'),
 								'6498c4f8-b0f1-70b5-55de-d84faae73402',
-								SELECT deleted FROM openchpl.quarterly_report_surveillance_map WHERE id = quarterly_report_surveillance_map_id
+								(SELECT deleted FROM openchpl.quarterly_report_surveillance_map WHERE id = quarterly_report_surveillance_map_id_var)
 						WHERE NOT EXISTS (
-								SELECT * FROM openchpl.quarterly_report_surveillance_grounds_for_initiating_map 
-								WHERE quarterly_report_surviellance_map_id = quarterly_report_surveillance_map_id
+								SELECT * FROM openchpl.quarterly_report_surveillance_grounds_for_initiating_map tbl
+								WHERE tbl.quarterly_report_surveillance_map_id = quarterly_report_surveillance_map_id_var
 								AND grounds_for_initiating_id = (SELECT id FROM openchpl.grounds_for_initiating WHERE name = 'Other')
 						); 
 			END CASE;
