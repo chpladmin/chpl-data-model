@@ -1,7 +1,7 @@
 --
 -- create the grounds for initiating lookup table
 --
-CREATE TABLE IF NOT EXISTS openchpl.grounds_for_initiating (
+CREATE TABLE IF NOT EXISTS openchpl.surveillance_grounds_for_initiating (
 	id bigserial NOT NULL,
 	name text NOT NULL,
 	creation_date timestamp without time zone NOT NULL DEFAULT now(),
@@ -9,62 +9,62 @@ CREATE TABLE IF NOT EXISTS openchpl.grounds_for_initiating (
     last_modified_user bigint NULL,
     deleted boolean NOT NULL DEFAULT false,
     last_modified_sso_user uuid NULL,
-	CONSTRAINT grounds_for_initiating_pk PRIMARY KEY (id)
+	CONSTRAINT surveillance_grounds_for_initiating_pk PRIMARY KEY (id)
 );
 
-INSERT INTO openchpl.grounds_for_initiating (name, last_modified_sso_user)
+INSERT INTO openchpl.surveillance_grounds_for_initiating (name, last_modified_sso_user)
 SELECT 'Other', 
        '6498c4f8-b0f1-70b5-55de-d84faae73402'
 WHERE NOT EXISTS (
-        SELECT * FROM openchpl.grounds_for_initiating WHERE name = 'Other'
+        SELECT * FROM openchpl.surveillance_grounds_for_initiating WHERE name = 'Other'
 );
 
-INSERT INTO openchpl.grounds_for_initiating (name, last_modified_sso_user)
+INSERT INTO openchpl.surveillance_grounds_for_initiating (name, last_modified_sso_user)
 SELECT 'ICS', 
        '6498c4f8-b0f1-70b5-55de-d84faae73402'
 WHERE NOT EXISTS (
-        SELECT * FROM openchpl.grounds_for_initiating WHERE name = 'ICS'
+        SELECT * FROM openchpl.surveillance_grounds_for_initiating WHERE name = 'ICS'
 );
 
-INSERT INTO openchpl.grounds_for_initiating (name, last_modified_sso_user)
+INSERT INTO openchpl.surveillance_grounds_for_initiating (name, last_modified_sso_user)
 SELECT 'Complaints', 
         '6498c4f8-b0f1-70b5-55de-d84faae73402'
 WHERE NOT EXISTS (
-        SELECT * FROM openchpl.grounds_for_initiating WHERE name = 'Complaints'
+        SELECT * FROM openchpl.surveillance_grounds_for_initiating WHERE name = 'Complaints'
 );
 
-INSERT INTO openchpl.grounds_for_initiating (name, last_modified_sso_user)
+INSERT INTO openchpl.surveillance_grounds_for_initiating (name, last_modified_sso_user)
 SELECT 'Developer-Reported', 
         '6498c4f8-b0f1-70b5-55de-d84faae73402'
 WHERE NOT EXISTS (
-        SELECT * FROM openchpl.grounds_for_initiating WHERE name = 'Developer-Reported'
+        SELECT * FROM openchpl.surveillance_grounds_for_initiating WHERE name = 'Developer-Reported'
 );
 
-INSERT INTO openchpl.grounds_for_initiating (name, last_modified_sso_user)
+INSERT INTO openchpl.surveillance_grounds_for_initiating (name, last_modified_sso_user)
 SELECT 'RWT Self-Reported Non-conformance', 
         '6498c4f8-b0f1-70b5-55de-d84faae73402'
 WHERE NOT EXISTS (
-        SELECT * FROM openchpl.grounds_for_initiating WHERE name = 'RWT Self-Reported Non-conformance'
+        SELECT * FROM openchpl.surveillance_grounds_for_initiating WHERE name = 'RWT Self-Reported Non-conformance'
 );
 
-INSERT INTO openchpl.grounds_for_initiating (name, last_modified_sso_user)
+INSERT INTO openchpl.surveillance_grounds_for_initiating (name, last_modified_sso_user)
 SELECT 'Missed Requirement Deadline', 
         '6498c4f8-b0f1-70b5-55de-d84faae73402'
 WHERE NOT EXISTS (
-        SELECT * FROM openchpl.grounds_for_initiating WHERE name = 'Missed Requirement Deadline'
+        SELECT * FROM openchpl.surveillance_grounds_for_initiating WHERE name = 'Missed Requirement Deadline'
 );
 
-INSERT INTO openchpl.grounds_for_initiating (name, last_modified_sso_user)
+INSERT INTO openchpl.surveillance_grounds_for_initiating (name, last_modified_sso_user)
 SELECT 'Randomized', 
         '6498c4f8-b0f1-70b5-55de-d84faae73402'
 WHERE NOT EXISTS (
-        SELECT * FROM openchpl.grounds_for_initiating WHERE name = 'Randomized'
+        SELECT * FROM openchpl.surveillance_grounds_for_initiating WHERE name = 'Randomized'
 );
 
-CREATE OR replace TRIGGER grounds_for_initiating_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.grounds_for_initiating FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
-CREATE OR replace TRIGGER grounds_for_initiating_timestamp BEFORE UPDATE on openchpl.grounds_for_initiating FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
-DROP TRIGGER IF EXISTS grounds_for_initiating_last_modified_user_constraint ON openchpl.grounds_for_initiating;
-CREATE CONSTRAINT TRIGGER grounds_for_initiating_last_modified_user_constraint AFTER INSERT OR UPDATE ON openchpl.grounds_for_initiating DEFERRABLE INITIALLY DEFERRED FOR EACH ROW EXECUTE PROCEDURE openchpl.last_modified_user_constraint();
+CREATE OR replace TRIGGER surveillance_grounds_for_initiating_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.surveillance_grounds_for_initiating FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+CREATE OR replace TRIGGER surveillance_grounds_for_initiating_timestamp BEFORE UPDATE on openchpl.surveillance_grounds_for_initiating FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
+DROP TRIGGER IF EXISTS surveillance_grounds_for_initiating_last_modified_user_constraint ON openchpl.surveillance_grounds_for_initiating;
+CREATE CONSTRAINT TRIGGER surveillance_grounds_for_initiating_last_modified_user_constraint AFTER INSERT OR UPDATE ON openchpl.surveillance_grounds_for_initiating DEFERRABLE INITIALLY DEFERRED FOR EACH ROW EXECUTE PROCEDURE openchpl.last_modified_user_constraint();
 
 --
 -- create the new table for the multi-value mapping between quarterly report surveillance and the grounds for initiating values
@@ -72,7 +72,7 @@ CREATE CONSTRAINT TRIGGER grounds_for_initiating_last_modified_user_constraint A
 CREATE TABLE IF NOT EXISTS openchpl.quarterly_report_surveillance_grounds_for_initiating_map (
 	id bigserial NOT NULL,
 	quarterly_report_surveillance_map_id bigint NOT NULL,
-	grounds_for_initiating_id bigint NOT NULL,
+	surveillance_grounds_for_initiating_id bigint NOT NULL,
 	creation_date timestamp without time zone NOT NULL DEFAULT now(),
     last_modified_date timestamp without time zone NOT NULL DEFAULT now(),
     last_modified_user bigint NULL,
@@ -81,7 +81,10 @@ CREATE TABLE IF NOT EXISTS openchpl.quarterly_report_surveillance_grounds_for_in
 	CONSTRAINT quarterly_report_surveillance_grounds_for_initiating_map_pk PRIMARY KEY (id),
 	CONSTRAINT quarterly_report_surveillance_map_fk FOREIGN KEY (quarterly_report_surveillance_map_id)
 			REFERENCES openchpl.quarterly_report_surveillance_map (id)
-			MATCH simple ON UPDATE NO ACTION ON DELETE RESTRICT
+			MATCH simple ON UPDATE NO ACTION ON DELETE RESTRICT,
+	CONSTRAINT surveillance_grounds_for_initiating_fk FOREIGN KEY (surveillance_grounds_for_initiating_id)
+			REFERENCES openchpl.surveillance_grounds_for_initiating (id)
+			MATCH simple ON UPDATE NO ACTION ON DELETE RESTRICT			
 );
 
 CREATE OR replace TRIGGER quarterly_report_surveillance_grounds_for_initiating_map_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.quarterly_report_surveillance_grounds_for_initiating_map FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
@@ -97,13 +100,13 @@ ALTER TABLE openchpl.quarterly_report_surveillance_map DROP COLUMN IF EXISTS sur
 --
 -- add column for the new "other" field
 --
-ALTER TABLE openchpl.quarterly_report_surveillance_map ADD COLUMN IF NOT EXISTS grounds_for_initiating_other text;
+ALTER TABLE openchpl.quarterly_report_surveillance_map ADD COLUMN IF NOT EXISTS surveillance_grounds_for_initiating_other text;
 
 -- 
 -- migrate all existing grounds for surveillance data to the new table/field
 --
 
-CREATE OR REPLACE FUNCTION openchpl.migrate_grounds_for_initiating() RETURNS void AS $$
+CREATE OR REPLACE FUNCTION openchpl.migrate_surveillance_grounds_for_initiating() RETURNS void AS $$
 	DECLARE
 	quarterly_report_surveillance_map_id_var bigint;
     existing_grounds text;
@@ -138,15 +141,15 @@ CREATE OR REPLACE FUNCTION openchpl.migrate_grounds_for_initiating() RETURNS voi
 				THEN
 					RAISE NOTICE 'Migrating "%" as Complaints', existing_grounds;
 					INSERT INTO openchpl.quarterly_report_surveillance_grounds_for_initiating_map 
-						(quarterly_report_surveillance_map_id, grounds_for_initiating_id, last_modified_sso_user, deleted)
+						(quarterly_report_surveillance_map_id, surveillance_grounds_for_initiating_id, last_modified_sso_user, deleted)
 						SELECT quarterly_report_surveillance_map_id_var, 
-								(SELECT id FROM openchpl.grounds_for_initiating WHERE name = 'Complaints'),
+								(SELECT id FROM openchpl.surveillance_grounds_for_initiating WHERE name = 'Complaints'),
 								'6498c4f8-b0f1-70b5-55de-d84faae73402',
 								(SELECT deleted FROM openchpl.quarterly_report_surveillance_map WHERE id = quarterly_report_surveillance_map_id_var)
 						WHERE NOT EXISTS (
 								SELECT * FROM openchpl.quarterly_report_surveillance_grounds_for_initiating_map tbl
 								WHERE tbl.quarterly_report_surveillance_map_id = quarterly_report_surveillance_map_id_var
-								AND grounds_for_initiating_id = (SELECT id FROM openchpl.grounds_for_initiating WHERE name = 'Complaints')
+								AND surveillance_grounds_for_initiating_id = (SELECT id FROM openchpl.surveillance_grounds_for_initiating WHERE name = 'Complaints')
 						);
 				WHEN existing_grounds IN (
 					'Surveillance testing conducted due to Inherited Certified Status (ICS) request for the third time for this product.',
@@ -154,45 +157,45 @@ CREATE OR REPLACE FUNCTION openchpl.migrate_grounds_for_initiating() RETURNS voi
 				THEN
 					RAISE NOTICE 'Migrating "%" as ICS', existing_grounds;
 					INSERT INTO openchpl.quarterly_report_surveillance_grounds_for_initiating_map 
-						(quarterly_report_surveillance_map_id, grounds_for_initiating_id, last_modified_sso_user, deleted)
+						(quarterly_report_surveillance_map_id, surveillance_grounds_for_initiating_id, last_modified_sso_user, deleted)
 						SELECT quarterly_report_surveillance_map_id_var, 
-								(SELECT id FROM openchpl.grounds_for_initiating WHERE name = 'ICS'),
+								(SELECT id FROM openchpl.surveillance_grounds_for_initiating WHERE name = 'ICS'),
 								'6498c4f8-b0f1-70b5-55de-d84faae73402',
 								(SELECT deleted FROM openchpl.quarterly_report_surveillance_map WHERE id = quarterly_report_surveillance_map_id_var)
 						WHERE NOT EXISTS (
 								SELECT * FROM openchpl.quarterly_report_surveillance_grounds_for_initiating_map tbl
 								WHERE tbl.quarterly_report_surveillance_map_id = quarterly_report_surveillance_map_id_var
-								AND grounds_for_initiating_id = (SELECT id FROM openchpl.grounds_for_initiating WHERE name = 'ICS')
+								AND surveillance_grounds_for_initiating_id = (SELECT id FROM openchpl.surveillance_grounds_for_initiating WHERE name = 'ICS')
 						);
 				WHEN existing_grounds IN (
 					'Routine proactive surveillance of developer''s website')
 				THEN
 					RAISE NOTICE 'Migrating "%" as Randomized', existing_grounds;
 					INSERT INTO openchpl.quarterly_report_surveillance_grounds_for_initiating_map 
-						(quarterly_report_surveillance_map_id, grounds_for_initiating_id, last_modified_sso_user, deleted)
+						(quarterly_report_surveillance_map_id, surveillance_grounds_for_initiating_id, last_modified_sso_user, deleted)
 						SELECT quarterly_report_surveillance_map_id_var, 
-								(SELECT id FROM openchpl.grounds_for_initiating WHERE name = 'Randomized'),
+								(SELECT id FROM openchpl.surveillance_grounds_for_initiating WHERE name = 'Randomized'),
 								'6498c4f8-b0f1-70b5-55de-d84faae73402',
 								(SELECT deleted FROM openchpl.quarterly_report_surveillance_map WHERE id = quarterly_report_surveillance_map_id_var)
 						WHERE NOT EXISTS (
 								SELECT * FROM openchpl.quarterly_report_surveillance_grounds_for_initiating_map tbl
 								WHERE tbl.quarterly_report_surveillance_map_id = quarterly_report_surveillance_map_id_var
-								AND grounds_for_initiating_id = (SELECT id FROM openchpl.grounds_for_initiating WHERE name = 'Randomized')
+								AND surveillance_grounds_for_initiating_id = (SELECT id FROM openchpl.surveillance_grounds_for_initiating WHERE name = 'Randomized')
 						);
 				WHEN existing_grounds IN (
 					'The Leidos ONC-ACB initiated reactive surveillance on the grounds of a non-conformity self-disclosure by the developer during the course of their RWT.')
 				THEN
 					RAISE NOTICE 'Migrating "%" as RWT Self-Reported Non-conformance', existing_grounds;
 					INSERT INTO openchpl.quarterly_report_surveillance_grounds_for_initiating_map 
-						(quarterly_report_surveillance_map_id, grounds_for_initiating_id, last_modified_sso_user, deleted)
+						(quarterly_report_surveillance_map_id, surveillance_grounds_for_initiating_id, last_modified_sso_user, deleted)
 						SELECT quarterly_report_surveillance_map_id_var, 
-								(SELECT id FROM openchpl.grounds_for_initiating WHERE name = 'RWT Self-Reported Non-conformance'),
+								(SELECT id FROM openchpl.surveillance_grounds_for_initiating WHERE name = 'RWT Self-Reported Non-conformance'),
 								'6498c4f8-b0f1-70b5-55de-d84faae73402',
 								(SELECT deleted FROM openchpl.quarterly_report_surveillance_map WHERE id = quarterly_report_surveillance_map_id_var)
 						WHERE NOT EXISTS (
 								SELECT * FROM openchpl.quarterly_report_surveillance_grounds_for_initiating_map tbl
 								WHERE tbl.quarterly_report_surveillance_map_id = quarterly_report_surveillance_map_id_var
-								AND grounds_for_initiating_id = (SELECT id FROM openchpl.grounds_for_initiating WHERE name = 'RWT Self-Reported Non-conformance')
+								AND surveillance_grounds_for_initiating_id = (SELECT id FROM openchpl.surveillance_grounds_for_initiating WHERE name = 'RWT Self-Reported Non-conformance')
 						);	
 				WHEN existing_grounds IN (
 					'Health IT Module was not updated to the applicable revised version of 170.315(c)(3) by the regulatory deadline.', 
@@ -244,15 +247,15 @@ CREATE OR REPLACE FUNCTION openchpl.migrate_grounds_for_initiating() RETURNS voi
 				  THEN
 					RAISE NOTICE 'Migrating "%" as Missed Requirement Deadline', existing_grounds;
 					INSERT INTO openchpl.quarterly_report_surveillance_grounds_for_initiating_map 
-						(quarterly_report_surveillance_map_id, grounds_for_initiating_id, last_modified_sso_user, deleted)
+						(quarterly_report_surveillance_map_id, surveillance_grounds_for_initiating_id, last_modified_sso_user, deleted)
 						SELECT quarterly_report_surveillance_map_id_var, 
-								(SELECT id FROM openchpl.grounds_for_initiating WHERE name = 'Missed Requirement Deadline'),
+								(SELECT id FROM openchpl.surveillance_grounds_for_initiating WHERE name = 'Missed Requirement Deadline'),
 								'6498c4f8-b0f1-70b5-55de-d84faae73402',
 								(SELECT deleted FROM openchpl.quarterly_report_surveillance_map WHERE id = quarterly_report_surveillance_map_id_var)
 						WHERE NOT EXISTS (
 								SELECT * FROM openchpl.quarterly_report_surveillance_grounds_for_initiating_map tbl
 								WHERE tbl.quarterly_report_surveillance_map_id = quarterly_report_surveillance_map_id_var
-								AND grounds_for_initiating_id = (SELECT id FROM openchpl.grounds_for_initiating WHERE name = 'Missed Requirement Deadline')
+								AND surveillance_grounds_for_initiating_id = (SELECT id FROM openchpl.surveillance_grounds_for_initiating WHERE name = 'Missed Requirement Deadline')
 						);						
 				WHEN existing_grounds IN (
 					'Developer self-reported an issue which may impact 170.315(g)(6). The issue was reported and resolved within 30 days.',
@@ -358,38 +361,38 @@ CREATE OR REPLACE FUNCTION openchpl.migrate_grounds_for_initiating() RETURNS voi
 				THEN
 					RAISE NOTICE 'Migrating "%" as Developer-Reported', existing_grounds;
 					INSERT INTO openchpl.quarterly_report_surveillance_grounds_for_initiating_map 
-						(quarterly_report_surveillance_map_id, grounds_for_initiating_id, last_modified_sso_user, deleted)
+						(quarterly_report_surveillance_map_id, surveillance_grounds_for_initiating_id, last_modified_sso_user, deleted)
 						SELECT quarterly_report_surveillance_map_id_var, 
-								(SELECT id FROM openchpl.grounds_for_initiating WHERE name = 'Developer-Reported'),
+								(SELECT id FROM openchpl.surveillance_grounds_for_initiating WHERE name = 'Developer-Reported'),
 								'6498c4f8-b0f1-70b5-55de-d84faae73402',
 								(SELECT deleted FROM openchpl.quarterly_report_surveillance_map WHERE id = quarterly_report_surveillance_map_id_var)
 						WHERE NOT EXISTS (
 								SELECT * FROM openchpl.quarterly_report_surveillance_grounds_for_initiating_map tbl
 								WHERE tbl.quarterly_report_surveillance_map_id = quarterly_report_surveillance_map_id_var
-								AND grounds_for_initiating_id = (SELECT id FROM openchpl.grounds_for_initiating WHERE name = 'Developer-Reported')
+								AND surveillance_grounds_for_initiating_id = (SELECT id FROM openchpl.surveillance_grounds_for_initiating WHERE name = 'Developer-Reported')
 						);						
 				-- other
 				ELSE
 					RAISE NOTICE 'Migrating "%" as Other', existing_grounds;
 					
 					UPDATE openchpl.quarterly_report_surveillance_map
-					SET grounds_for_initiating_other = existing_grounds
+					SET surveillance_grounds_for_initiating_other = existing_grounds
 					WHERE id = quarterly_report_surveillance_map_id_var;
 					
 					INSERT INTO openchpl.quarterly_report_surveillance_grounds_for_initiating_map 
-						(quarterly_report_surveillance_map_id, grounds_for_initiating_id, last_modified_sso_user, deleted)
+						(quarterly_report_surveillance_map_id, surveillance_grounds_for_initiating_id, last_modified_sso_user, deleted)
 						SELECT quarterly_report_surveillance_map_id_var, 
-								(SELECT id FROM openchpl.grounds_for_initiating WHERE name = 'Other'),
+								(SELECT id FROM openchpl.surveillance_grounds_for_initiating WHERE name = 'Other'),
 								'6498c4f8-b0f1-70b5-55de-d84faae73402',
 								(SELECT deleted FROM openchpl.quarterly_report_surveillance_map WHERE id = quarterly_report_surveillance_map_id_var)
 						WHERE NOT EXISTS (
 								SELECT * FROM openchpl.quarterly_report_surveillance_grounds_for_initiating_map tbl
 								WHERE tbl.quarterly_report_surveillance_map_id = quarterly_report_surveillance_map_id_var
-								AND grounds_for_initiating_id = (SELECT id FROM openchpl.grounds_for_initiating WHERE name = 'Other')
+								AND surveillance_grounds_for_initiating_id = (SELECT id FROM openchpl.surveillance_grounds_for_initiating WHERE name = 'Other')
 						); 
 			END CASE;
 		END LOOP;
 	END;
 $$ LANGUAGE plpgsql;
 
-SELECT openchpl.migrate_grounds_for_initiating();
+SELECT openchpl.migrate_surveillance_grounds_for_initiating();
