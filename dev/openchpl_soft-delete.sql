@@ -235,6 +235,7 @@ RETURNS TRIGGER AS $$
 BEGIN
 	IF NEW.deleted = true THEN
 		UPDATE openchpl.quarterly_report_surveillance_process_type_map as src SET deleted = NEW.deleted WHERE src.quarterly_report_surveillance_map_id = NEW.id;
+		UPDATE openchpl.quarterly_report_surveillance_grounds_for_initiating_map as src SET deleted = NEW.deleted WHERE src.quarterly_report_surveillance_map_id = NEW.id;
     END IF;
 	RETURN NEW;
 END;
