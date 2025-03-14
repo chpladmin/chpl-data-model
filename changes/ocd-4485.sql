@@ -133,7 +133,8 @@ CREATE OR REPLACE FUNCTION openchpl.migrate_grounds_for_initiating() RETURNS voi
 					'Complaint from user that product was not able to calculate CQMs.',
 					'Complaint (NewCropRx)',
 					'Anonymous complainant contacted Drummond and indicated that they had to take a hardship because they were unable to report.  Once the developer investigated they found that many of the CQMs were not calculating correctly.',
-					'SLI received a complaint that originated from the developer''s customer and was reported to the developer, who reported it to SLI in the developer''s quarterly report.')	
+					'SLI received a complaint that originated from the developer''s customer and was reported to the developer, who reported it to SLI in the developer''s quarterly report.',
+					'Anonymous complaint received regarding concerns with C-CDA files.')	
 				THEN
 					RAISE NOTICE 'Migrating "%" as Complaints', existing_grounds;
 					INSERT INTO openchpl.quarterly_report_surveillance_grounds_for_initiating_map 
@@ -235,6 +236,8 @@ CREATE OR REPLACE FUNCTION openchpl.migrate_grounds_for_initiating() RETURNS voi
 					'Failed to submit a quarterly report of adaptations/updates',
 					'Developer was notified 4/26/2020 and again May 2021 of delinquent attestations and incorrect Mandatory disclosure statement.',
 					'Real World Testing results report was not submitted to the ONC-ACB by the ONC-ACB''s determined deadline for completeness review.',
+					'Developer failed to provide 2025 Real World Test Plan by the ACB due date of October 15',
+					'Developer failed to provide the required quarterly attestation for Q3 2024',
 					'Health IT Module was not updated to the revised version of 170.315(b)(1), (b)(2), (c)(3), (d)(2), (d)(3), (d)(12), (d)(13), (e)(1), (g)(6), and (g)(9) by the regulatory deadline.',
 					'Developer failed to submit a quarterly report per 170.523.m',
 					'Developer failed to submit quarterly attestations for 2021.')
@@ -279,7 +282,7 @@ CREATE OR REPLACE FUNCTION openchpl.migrate_grounds_for_initiating() RETURNS voi
 					'Developer self-reported an issue that was found and fixed for a potential 170.315(a)(1) and 170.315(b)(3) issue.',
 					'Developer reported to Drummond after conducting an internal audit:  There is a defect with a second request for a patient''s immunization history and forecast, also missing audit log records when adding or printing lab/imaging orders, and When logged into the portal as a patient and trying to send a new secure message, sending fails.   The issue does not happen for new sites and is only happening for sites that change configuration settings after the upgrade to 4.6.',
 					'Developer reported that they found that Lab results entered manually were not being captured on the audit log.',
-					'Developer self-reported an issue that was found and already fixed for a potential issue impacting 170.315(g)(10) where a patientâ€™s previous address may not be included with an API request.',
+					'Developer self-reported an issue that was found and already fixed for a potential issue impacting 170.315(g)(10) where a patient’s previous address may not be included with an API request.',
 					'Developer reported issues with sending to Immunization Registries',
 					'Developer self-reported an issue for Smoking Status where the system is still utilizing the previously valid eight-code value set standard from 107.207(h) which has been retired. New requirements with the USCDI v1 standard allow for a larger range of SNOMED CT codes for Smoking Status that should be available and codified.',
 					'Developer reported through their "reportable event letter" required under their CIA.  Several of the reported events, Drummond required a test to ensure compliance.',
@@ -336,17 +339,21 @@ CREATE OR REPLACE FUNCTION openchpl.migrate_grounds_for_initiating() RETURNS voi
 					'Developer self-reported an issue that was found for a potential issue impacting 170.315(f)(7) relating to Smoking Status where the system is still utilizing the previously valid eight-code value set standard from 107.207(h) which has been retired.',
 					'The developer reported a non-conformity that affects 2 of the certified criteria.',
 					'Reported by Developer: A user that has no security rights to access confidential patient records, can still access records from practice management patient flow tracking when the patient information modeless window is already open. And Audit records created for batch export(b6) incorrectly indicate a view action was taken for each CCD, not a create action. No view action takes place.',
-					'The developer self-reported an issue relating to their audit log where when using a mobile modality, certain audit log actions werenâ€™t being logged as expected.',
+					'The developer self-reported an issue relating to their audit log where when using a mobile modality, certain audit log actions weren’t being logged as expected.',
 					'Developer reported Consolidated Clinical Architecture Document (CCDA) missing required information.',
 					'Developer reported in their Q2 attestation Costs and Limitations that the Infobutton is disabled by default and they had issues with notifications to immunization registries',
 					'Developer reporting during the course of Real World testing, a potential issue impacting 170.315(b)(1) and 170.315(b)(6). Both items were reported within 30 days and resolved.',
 					'Developer reported through their Reportable Event Process that they had corrected issues found with their Drug-Drug, Drug-allergy functionality, ePrescribing functionality, Application Access-data, and Application Acces-All',
-					'Developer reported two issues identified internally (see incident reports in box): Reconciliation Encounters not including C-CDAs were included in the following measures resulting in an inflation of the numbers: 2018 Medicaid PI Objective 7: Health Information Exchange Measures 2 and 3 and 2018 MIPS PI Base Measure: Send a Summary of Care and Performance Measure: Clinical Information Reconciliation. And Undeliverable Direct Messages included in the following 2018 measures: 2018 MIPS Promoting Interoperability - Send a Summary of Care and 2018 Medicaid Promoting Interoperability - Health Information Exchange â€“ Objective 7, Measure 1',
+					'Developer reported two issues identified internally (see incident reports in box): Reconciliation Encounters not including C-CDAs were included in the following measures resulting in an inflation of the numbers: 2018 Medicaid PI Objective 7: Health Information Exchange Measures 2 and 3 and 2018 MIPS PI Base Measure: Send a Summary of Care and Performance Measure: Clinical Information Reconciliation. And Undeliverable Direct Messages included in the following 2018 measures: 2018 MIPS Promoting Interoperability - Send a Summary of Care and 2018 Medicaid Promoting Interoperability - Health Information Exchange – Objective 7, Measure 1',
 					'Developer reported to Drummond they found and fixed an issue with 170.315(b)(2)',
 					'Developer self-reported an issue encountered during the course of Real World testing a potential issue impacting 170.315(b)(1).',
 					'Developer found and reported Quick registered patients by default do not have a patient ID, resulting in audit records without a unique patient identifier. Unique ID is also not present in the batch export.',
 					'Developer reported that When editing the patient or person’s sex field on the registration page, the gender identity is also being updated in the database and CCDA’s fail to create when orthostatic vitals are captured via a connected device.',
 					'Developer self-reported an issue that was found and fixed for a potential 170.315(g)(2) calculation issue specific to RT7.',
+					'Developer self-reported a potential validation error that was found and already fixed impacting 170.315(g)(10). These were discovered in the course of conducting their Real World Testing.',
+					'Developer self-reported an issue that was found and fixed relating to 170.315(f)(1) for a situation where an immunization query for history and forecast may cause an error in software.',
+					'Developer self-reported an issue where during the transmission of data via CDA to a third party for eCQM submission, certain data elements are not correct. This will present an issue for any customers attempting to report to MIPS or other programs until this is resolved.',
+					'Developer self-reported that a fix was made to their g.2 report logic for RT7 to ensure patients with “No known problems” documented were being correctly counted in the report.',
 					'Developer reported that they found an issue On the OBChart, when resulting the HCG test as positive, a diagnosis is automatically created indicating the patient is pregnant. The SNOMED value associated with the pregnancy diagnosis is 289908002, which is not in the correct value set and results in the CCDA failing validation.')	
 				THEN
 					RAISE NOTICE 'Migrating "%" as Developer-Reported', existing_grounds;
