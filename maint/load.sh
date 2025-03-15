@@ -36,3 +36,4 @@ psql --host $host --port $port --username $user --no-password -c "DROP schema if
 #restore to openchpl and audit
 pg_restore --host $host --port $port --username $user --no-password --verbose --clean --if-exists --exclude-schema=ff4j --exclude-schema=quartz --dbname $database  $filename
 
+echo "Completed load of $filename into database $database"
