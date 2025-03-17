@@ -113,6 +113,7 @@ CREATE OR REPLACE FUNCTION openchpl.migrate_surveillance_grounds_for_initiating(
 	BEGIN
 		FOR quarterly_report_surveillance_map_id_var IN 
 			SELECT id FROM openchpl.quarterly_report_surveillance_map
+			WHERE grounds_for_initiating IS NOT NULL
 		LOOP
 			RAISE NOTICE 'Migrating grounds for initiating surveillance from row %', quarterly_report_surveillance_map_id_var;
 			
@@ -396,3 +397,4 @@ CREATE OR REPLACE FUNCTION openchpl.migrate_surveillance_grounds_for_initiating(
 $$ LANGUAGE plpgsql;
 
 SELECT openchpl.migrate_surveillance_grounds_for_initiating();
+DROP FUNCTION IF EXISTS openchpl.migrate_surveillance_grounds_for_initiating;
