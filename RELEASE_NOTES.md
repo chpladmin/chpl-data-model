@@ -1,5 +1,21 @@
 # Release Notes
 
+## Version 26.1.0
+_17 March 2025_
+
+### Features
+* Update listing_search view to include Standards
+* Add new column for quarterly reports - surveillance findings
+* Add columns for new fields for surveillance reporting
+
+### Bug Fixes
+* Re-add criterion_product_statistics table
+
+### Data Changes
+* Allow 170.315 (b)(11) to have SVAPs
+
+---
+
 ## Version 26.0.0
 _3 March 2025_
 
