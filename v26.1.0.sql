@@ -1,3 +1,6 @@
+-- Deployment file for version 26.1.0
+--     as of 2025-03-17
+-- ./changes/ocd-4717.sql
 delete from openchpl.report_metadata where report_key = 'SVAPUsage';
 
 insert into openchpl.report_metadata (environment, title, report_key, report_group, url, height, display_order, last_modified_user)
@@ -103,3 +106,53 @@ select 'PROD',
 where not exists (
         select * from openchpl.report_metadata where environment = 'PROD' and report_key = 'SVAPUsageBySVAP' 
 );
+;
+-- ./changes/ocd-4800.sql
+ALTER TABLE openchpl.quarterly_report
+ADD COLUMN IF NOT EXISTS ics_surveillance_summary text;
+
+ALTER TABLE openchpl.quarterly_report
+ADD COLUMN IF NOT EXISTS developer_complaints_log_review text;
+
+ALTER TABLE openchpl.quarterly_report
+ADD COLUMN IF NOT EXISTS post_certification_performance_of_certified_capabilities text;
+
+ALTER TABLE openchpl.quarterly_report
+ADD COLUMN IF NOT EXISTS appropriate_use_of_mark text;
+
+ALTER TABLE openchpl.quarterly_report_surveillance_map
+ADD COLUMN IF NOT EXISTS surveillance_findings text;
+;
+-- ./changes/ocd-4834.sql
+update openchpl.certification_criterion_attribute
+set svap = true
+where criterion_id = 210;
+;
+-- ./changes/ocd-4843.sql
+CREATE TABLE IF NOT EXISTS
+  openchpl.criterion_product_statistics (
+    id bigserial NOT NULL,
+    product_count bigint NOT NULL,
+    certification_criterion_id bigint NULL,
+    creation_date timestamp without time zone NOT NULL DEFAULT now(),
+    last_modified_date timestamp without time zone NOT NULL DEFAULT now(),
+    last_modified_user bigint NULL,
+    deleted boolean NOT NULL DEFAULT false,
+    last_modified_sso_user uuid NULL,
+	CONSTRAINT criterion_product_statistics_pk PRIMARY KEY (id),
+    CONSTRAINT certification_criterion_fk FOREIGN KEY (certification_criterion_id)
+		REFERENCES openchpl.certification_criterion (certification_criterion_id)
+		MATCH simple ON UPDATE NO ACTION ON DELETE RESTRICT
+  );
+
+CREATE OR replace TRIGGER criterion_product_statistics_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.criterion_product_statistics FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+CREATE OR replace TRIGGER criterion_product_statistics_timestamp BEFORE UPDATE on openchpl.criterion_product_statistics FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
+DROP TRIGGER IF EXISTS criterion_product_statistics_last_modified_user_constraint ON openchpl.criterion_product_statistics;
+CREATE CONSTRAINT TRIGGER criterion_product_statistics_last_modified_user_constraint AFTER INSERT OR UPDATE ON openchpl.criterion_product_statistics DEFERRABLE INITIALLY DEFERRED FOR EACH ROW EXECUTE PROCEDURE openchpl.last_modified_user_constraint();
+
+
+;
+insert into openchpl.data_model_version (version, deploy_date, last_modified_user) values ('26.1.0', '2025-03-17', -1);
+\i dev/openchpl_soft-delete.sql
+\i dev/openchpl_views.sql
+\i dev/openchpl_grant-all.sql
