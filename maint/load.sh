@@ -36,12 +36,5 @@ psql --host $host --port $port --username $user --no-password -c "DROP schema if
 #restore to openchpl and audit
 pg_restore --host $host --port $port --username $user --no-password --verbose --clean --if-exists --exclude-schema=ff4j --exclude-schema=quartz --dbname $database  $filename
 
-# add users if users file exists
-usersFile=users.sql
-if [ -f $usersFile ]
-then
-    psql --host $host --port $port --username $user -f create-user.sql $database
-    psql --host $host --port $port --username $user -f $usersFile $database
-else
-    printf 'No users file to load.'
-fi
+echo "Completed loading $filename to $database"
+
