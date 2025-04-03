@@ -1,5 +1,17 @@
 # Release Notes
 
+## Version 26.2.0
+_31 March 2025_
+
+### Features
+* Add column for delimited ACBs in url_uptime_monitor table
+* Convert surveillance quarterly report fields to multi-select from text
+
+### Data Changes
+* Mark some uploads as not deleted
+
+---
+
 ## Version 26.1.0
 _17 March 2025_
 
