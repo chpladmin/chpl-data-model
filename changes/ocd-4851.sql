@@ -1,9 +1,11 @@
+DROP TABLE IF EXISTS openchpl.attestation_report_developer;
+
 CREATE TABLE IF NOT EXISTS
   openchpl.attestation_report_developer (
     id bigserial NOT NULL,
     attestation_report_id bigint NOT NULL,
     developer_id bigint NOT NULL,
-    change_request_status_type_id bigint NULL,
+    change_request_status_id bigint NULL,
     creation_date timestamp without time zone NOT NULL DEFAULT now(),
     last_modified_date timestamp without time zone NOT NULL DEFAULT now(),
     last_modified_user bigint NULL,
@@ -16,8 +18,8 @@ CREATE TABLE IF NOT EXISTS
 	CONSTRAINT developer_fk FOREIGN KEY (developer_id)
                 REFERENCES openchpl.vendor (vendor_id)
                 MATCH simple ON UPDATE NO ACTION ON DELETE RESTRICT,
-        CONSTRAINT change_request_status_type_fk FOREIGN KEY (change_request_status_type_id)
-                REFERENCES openchpl.change_request_status_type (id)
+        CONSTRAINT change_request_status_fk FOREIGN KEY (change_request_status_id)
+                REFERENCES openchpl.change_request_status (id)
                 MATCH simple ON UPDATE NO ACTION ON DELETE RESTRICT
   );
 
