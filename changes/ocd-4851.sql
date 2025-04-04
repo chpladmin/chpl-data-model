@@ -1,5 +1,3 @@
-DROP TABLE IF EXISTS openchpl.attestation_report_developer;
-
 CREATE TABLE IF NOT EXISTS
   openchpl.attestation_report_developer (
     id bigserial NOT NULL,
