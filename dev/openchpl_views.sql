@@ -1284,7 +1284,7 @@ LEFT JOIN (SELECT string_agg(certification_body_id::text||':'||name, '|') as acb
 					 JOIN openchpl.certification_status cs ON cse.certification_status_id = cs.certification_status_id
 					 WHERE cse.deleted = false
 					 ) certstatus 
-				ON certstatus.certification_status_id = 3
+				ON certstatus.certification_status_id in (3,4,9)
 				AND certstatus.certification_status_event_id = 
 					(SELECT get_current_certification_status_event_id.current_certification_status_event_id
 						FROM openchpl.get_current_certification_status_event_id(cp.certified_product_id))
