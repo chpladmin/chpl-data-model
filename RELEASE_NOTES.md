@@ -1,5 +1,13 @@
 # Release Notes
 
+## Version 26.3.0
+_14 April 2025_
+
+### Features
+* Add missing 'withdrawn' statuses to developer_search view
+
+---
+
 ## Version 26.2.0
 _31 March 2025_
 
