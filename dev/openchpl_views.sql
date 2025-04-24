@@ -1192,6 +1192,7 @@ SELECT dev.vendor_id as developer_id,
 	   dev_acb_map2.acbs_for_developer_all_listings,
 	   dev_acb_map3.acbs_for_developer_withdrawn_listings,
 	   dev_acb_map4.acbs_for_developer_suspended_listings,
+	   dev_criteria.delimited_criteria,
 	   dev.creation_date,
 	   dev.deleted
 FROM openchpl.vendor dev
@@ -1314,6 +1315,18 @@ LEFT JOIN (SELECT string_agg(certification_body_id::text||':'||name, '|') as acb
 				) dev_acb_map_inner 
 		GROUP BY vendor_id) dev_acb_map4
 	    ON dev_acb_map4.vendor_id = dev.vendor_id
+LEFT JOIN (select vendor_id, string_agg(certification_criterion_id::text, '|') delimited_criteria
+			from (select distinct cpd.vendor_id, cc.certification_criterion_id 
+					from openchpl.certification_criterion cc 
+						inner join openchpl.certification_result cr 
+							on cc.certification_criterion_id = cr.certification_criterion_id
+						inner join openchpl.certified_product_details cpd 
+							on cr.certified_product_id = cpd.certified_product_id
+					where cc.deleted = false
+					and cr.deleted = false) dev
+			group by vendor_id) dev_criteria
+	ON dev_criteria.vendor_id = dev.vendor_id
+		
 WHERE dev.deleted = false;
 
 CREATE OR REPLACE VIEW openchpl.inactive_developers_and_products
