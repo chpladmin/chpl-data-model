@@ -1,7 +1,6 @@
 DROP VIEW IF EXISTS openchpl.questionable_activity_combined;
 DROP VIEW IF EXISTS openchpl.inactive_developers_and_products;
 DROP VIEW IF EXISTS openchpl.certified_product_search;
-DROP VIEW IF EXISTS openchpl.certified_product_details;
 DROP VIEW IF EXISTS openchpl.cqm_result_details;
 DROP VIEW IF EXISTS openchpl.certification_result_details;
 DROP VIEW IF EXISTS openchpl.product_active_owner_history_map;
@@ -18,6 +17,7 @@ DROP VIEW IF EXISTS openchpl.subscription_search_result;
 DROP VIEW IF EXISTS openchpl.subscription_observation_notification;
 DROP VIEW IF EXISTS openchpl.most_recent_past_attestation_period;
 DROP VIEW IF EXISTS openchpl.listing_search;
+DROP VIEW IF EXISTS openchpl.certified_product_details;
 
 create or replace function openchpl.get_testing_lab_code(input_id bigint) returns
     table (
@@ -1192,7 +1192,8 @@ SELECT dev.vendor_id as developer_id,
 	   dev_acb_map2.acbs_for_developer_all_listings,
 	   dev_acb_map3.acbs_for_developer_withdrawn_listings,
 	   dev_acb_map4.acbs_for_developer_suspended_listings,
-	   dev_criteria.delimited_criteria,
+	   dev_all_criteria.delimited_criteria_all_listings,
+	   dev_active_criteria.delimited_criteria_active_listings,
 	   dev.creation_date,
 	   dev.deleted
 FROM openchpl.vendor dev
@@ -1315,7 +1316,7 @@ LEFT JOIN (SELECT string_agg(certification_body_id::text||':'||name, '|') as acb
 				) dev_acb_map_inner 
 		GROUP BY vendor_id) dev_acb_map4
 	    ON dev_acb_map4.vendor_id = dev.vendor_id
-LEFT JOIN (select vendor_id, string_agg(certification_criterion_id::text, '|') delimited_criteria
+LEFT JOIN (select vendor_id, string_agg(certification_criterion_id::text, '|') delimited_criteria_all_listings
 			from (select distinct cpd.vendor_id, cc.certification_criterion_id 
 					from openchpl.certification_criterion cc 
 						inner join openchpl.certification_result cr 
@@ -1324,8 +1325,20 @@ LEFT JOIN (select vendor_id, string_agg(certification_criterion_id::text, '|') d
 							on cr.certified_product_id = cpd.certified_product_id
 					where cc.deleted = false
 					and cr.deleted = false) dev
-			group by vendor_id) dev_criteria
-	ON dev_criteria.vendor_id = dev.vendor_id
+			group by vendor_id) dev_all_criteria
+	ON dev_all_criteria.vendor_id = dev.vendor_id
+LEFT JOIN (select vendor_id, string_agg(certification_criterion_id::text, '|') delimited_criteria_active_listings
+			from (select distinct cpd.vendor_id, cc.certification_criterion_id 
+					from openchpl.certification_criterion cc 
+						inner join openchpl.certification_result cr 
+							on cc.certification_criterion_id = cr.certification_criterion_id
+						inner join openchpl.certified_product_details cpd 
+							on cr.certified_product_id = cpd.certified_product_id
+					where cc.deleted = false
+					and cpd.certification_status_id in (1,6,7)
+					and cr.deleted = false) dev
+			group by vendor_id) dev_active_criteria
+	ON dev_active_criteria.vendor_id = dev.vendor_id
 		
 WHERE dev.deleted = false;
 
