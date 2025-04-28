@@ -1,5 +1,17 @@
 # Release Notes
 
+## Version 27.0.0
+_28 April 2025_
+
+### Breaking Changes
+* Remove unused user permission column in change_request_status table
+* Remove unused tables for CHPL Invitations and password resets
+
+### Features
+* Add table to store Developers for Attestation report
+
+---
+
 ## Version 26.3.0
 _14 April 2025_
 
