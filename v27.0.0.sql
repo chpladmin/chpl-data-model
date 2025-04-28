@@ -1,3 +1,14 @@
+-- Deployment file for version 27.0.0
+--     as of 2025-04-28
+-- ./changes/ocd-4598.sql
+ALTER TABLE openchpl.change_request_status DROP COLUMN IF EXISTS user_permission_id;
+;
+-- ./changes/ocd-4704.sql
+DROP TABLE IF EXISTS openchpl.invited_user;
+
+DROP TABLE IF EXISTS openchpl.user_reset_token;
+;
+-- ./changes/ocd-4851.sql
 ALTER TABLE openchpl.attestation_report ALTER COLUMN certification_body_id DROP NOT NULL;
 
 
@@ -28,3 +39,8 @@ CREATE OR replace TRIGGER attestation_report_developer_audit AFTER INSERT OR UPD
 CREATE OR replace TRIGGER attestation_report_developer_timestamp BEFORE UPDATE on openchpl.attestation_report_developer FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 DROP TRIGGER IF EXISTS attestation_report_developer_last_modified_user_constraint ON openchpl.attestation_report_developer;
 CREATE CONSTRAINT TRIGGER attestation_report_developer_last_modified_user_constraint AFTER INSERT OR UPDATE ON openchpl.attestation_report_developer DEFERRABLE INITIALLY DEFERRED FOR EACH ROW EXECUTE PROCEDURE openchpl.last_modified_user_constraint();
+;
+insert into openchpl.data_model_version (version, deploy_date, last_modified_user) values ('27.0.0', '2025-04-28', -1);
+\i dev/openchpl_soft-delete.sql
+\i dev/openchpl_views.sql
+\i dev/openchpl_grant-all.sql
