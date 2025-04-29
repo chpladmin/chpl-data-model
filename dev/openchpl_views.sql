@@ -1324,6 +1324,7 @@ LEFT JOIN (select vendor_id, string_agg(certification_criterion_id::text, '|') d
 						inner join openchpl.certified_product_details cpd 
 							on cr.certified_product_id = cpd.certified_product_id
 					where cc.deleted = false
+					and cr.success = true
 					and cr.deleted = false) dev
 			group by vendor_id) dev_all_criteria
 	ON dev_all_criteria.vendor_id = dev.vendor_id
@@ -1336,6 +1337,7 @@ LEFT JOIN (select vendor_id, string_agg(certification_criterion_id::text, '|') d
 							on cr.certified_product_id = cpd.certified_product_id
 					where cc.deleted = false
 					and cpd.certification_status_id in (1,6,7)
+					and cr.success = true
 					and cr.deleted = false) dev
 			group by vendor_id) dev_active_criteria
 	ON dev_active_criteria.vendor_id = dev.vendor_id
