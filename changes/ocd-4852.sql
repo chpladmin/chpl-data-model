@@ -136,3 +136,15 @@ INSERT INTO openchpl.attestation_report (report_date, attestation_period_id, dev
 INSERT INTO openchpl.attestation_report (report_date, attestation_period_id, developer_count, approved_count, pending_acb_action_count, pending_developer_action_count, no_submission_count, last_modified_sso_user) SELECT '2023-04-03', 4, 438, 0, 5, 0, 433,  '6498c4f8-b0f1-70b5-55de-d84faae73402' WHERE NOT EXISTS (SELECT * FROM openchpl.attestation_report WHERE report_date = '2023-04-03');
 INSERT INTO openchpl.attestation_report (report_date, attestation_period_id, developer_count, approved_count, pending_acb_action_count, pending_developer_action_count, no_submission_count, last_modified_sso_user) SELECT '2023-04-01', 4, 438, 0, 0, 0, 438,  '6498c4f8-b0f1-70b5-55de-d84faae73402' WHERE NOT EXISTS (SELECT * FROM openchpl.attestation_report WHERE report_date = '2023-04-01');
 
+-- Roll up the data from the for "All Acbs" for 4/1 - 4/28
+insert into openchpl.attestation_report (report_date, attestation_period_id, developer_count, approved_count, pending_acb_action_count, pending_developer_action_count, no_submission_count, last_modified_sso_user)
+select report_date, 8, sum(developer_count), sum(approved_count), sum(pending_acb_action_count), 
+	sum(pending_developer_action_count), sum(no_submission_count), '6498c4f8-b0f1-70b5-55de-d84faae73402'
+from openchpl.attestation_report ar 
+where ar.attestation_period_id = 8
+and report_date not in 
+	(select report_date 
+	from openchpl.attestation_report ar2 
+	where attestation_period_id = 8
+	and certification_body_id is null)
+group by report_date;
