@@ -1,3 +1,17 @@
+-- Deployment file for version 27.1.0
+--     as of 2025-05-19
+-- ./changes/ocd-4367.sql
+INSERT INTO openchpl.questionable_activity_trigger (name, level, last_modified_sso_user)
+SELECT 'Created ICS Listing With Withdrawn Parent', 'Listing', '6498c4f8-b0f1-70b5-55de-d84faae73402'
+WHERE NOT EXISTS (
+    SELECT *
+    FROM openchpl.questionable_activity_trigger
+    WHERE name = 'Created ICS Listing With Withdrawn Parent');
+;
+-- ./changes/ocd-4652.sql
+-- View only change
+;
+-- ./changes/ocd-4852.sql
 INSERT INTO openchpl.attestation_report (report_date, attestation_period_id, developer_count, approved_count, pending_acb_action_count, pending_developer_action_count, no_submission_count, last_modified_sso_user) SELECT '2024-11-15', 7, 434, 433, 0, 0, 1,  '6498c4f8-b0f1-70b5-55de-d84faae73402' WHERE NOT EXISTS (SELECT * FROM openchpl.attestation_report WHERE report_date = '2024-11-15');
 INSERT INTO openchpl.attestation_report (report_date, attestation_period_id, developer_count, approved_count, pending_acb_action_count, pending_developer_action_count, no_submission_count, last_modified_sso_user) SELECT '2024-11-13', 7, 434, 430, 2, 1, 1,  '6498c4f8-b0f1-70b5-55de-d84faae73402' WHERE NOT EXISTS (SELECT * FROM openchpl.attestation_report WHERE report_date = '2024-11-13');
 INSERT INTO openchpl.attestation_report (report_date, attestation_period_id, developer_count, approved_count, pending_acb_action_count, pending_developer_action_count, no_submission_count, last_modified_sso_user) SELECT '2024-11-12', 7, 434, 429, 3, 1, 1,  '6498c4f8-b0f1-70b5-55de-d84faae73402' WHERE NOT EXISTS (SELECT * FROM openchpl.attestation_report WHERE report_date = '2024-11-12');
@@ -148,3 +162,15 @@ and report_date not in
 	where attestation_period_id = 8
 	and certification_body_id is null)
 group by report_date;
+;
+-- ./changes/ocd-4862.sql
+ALTER TABLE openchpl.test_tool
+DROP COLUMN IF EXISTS regulatory_text_citation;
+
+ALTER TABLE openchpl.test_tool
+DROP COLUMN IF EXISTS rule_id;
+;
+insert into openchpl.data_model_version (version, deploy_date, last_modified_user) values ('27.1.0', '2025-05-19', -1);
+\i dev/openchpl_soft-delete.sql
+\i dev/openchpl_views.sql
+\i dev/openchpl_grant-all.sql

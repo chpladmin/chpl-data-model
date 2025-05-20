@@ -1,5 +1,18 @@
 # Release Notes
 
+## Version 27.1.0
+_19 May 2025_
+
+### Features
+* Update developer_search view to include Criteria the Developer attests to
+* Remove columns regtext and rule from test tool table
+
+### Data Changes
+* Add new type of questionable activity for inactive parent listing
+* Backfill previous Attestation Period data for the Developer Attestation report
+
+---
+
 ## Version 27.0.0
 _28 April 2025_
 
