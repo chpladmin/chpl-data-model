@@ -45,12 +45,6 @@ INSERT INTO openchpl.change_request_listing_url_type (name, last_modified_sso_us
 SELECT 'Service Base URL List', '6498c4f8-b0f1-70b5-55de-d84faae73402'
 WHERE NOT EXISTS (SELECT * FROM openchpl.change_request_listing_url_type WHERE name = 'Service Base URL List');
 
---This is needed because we updated the name of the CR Type after it was created
---It should have no effect in envs after DEV
-UPDATE openchpl.change_request_type
-SET name = 'Listing URL Change Request'
-WHERE name = 'Listing Service Base URL List Change Request';
-
 INSERT INTO openchpl.change_request_type (name, last_modified_sso_user)
 SELECT 'Listing URL Change Request', '6498c4f8-b0f1-70b5-55de-d84faae73402'
 WHERE NOT EXISTS (SELECT * FROM openchpl.change_request_type WHERE name = 'Listing URL Change Request');
