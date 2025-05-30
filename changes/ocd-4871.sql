@@ -1,0 +1,45 @@
+create table if not exists openchpl.attestation_checkin_report (
+	id bigserial NOT NULL,
+	report_date date not null,
+	developer_code text NOT null,
+	developer_name text NOT null,
+    developer_id bigint NOT null,
+    submitted_datetime timestamp,
+    published boolean not null default false,
+    current_status_name text,
+    last_status_change_datetime timestamp,
+    relevant_acbs text,
+    attestation_period text not null,
+    information_blocking_response text,
+    information_blocking_noncompliant_response text,
+    assurances_response text,
+    assurances_noncompliant_response text,
+    communications_response text,
+    communications_noncompliant_response text,
+    rwt_response text,
+    rwt_noncompliant_response text,
+    api_response text,
+    api_noncompliant_response text,
+    signature text,
+    signature_email text,
+    total_surveillances bigint,
+    total_surveillance_nonconformities bigint,
+    open_surveillance_nonconformities bigint,
+    total_direct_review_nonconformities bigint,
+    open_direct_review_nonconformities bigint,
+    assurances_validation text,
+    real_world_testing_validation text,
+    api_validation text,
+    warnings text,
+    creation_date timestamp without time zone NOT NULL DEFAULT now(),
+    last_modified_date timestamp without time zone NOT NULL DEFAULT now(),
+    last_modified_user bigint NULL,
+    deleted boolean NOT NULL DEFAULT false,
+    last_modified_sso_user uuid NULL,
+	CONSTRAINT attestation_checkin_report_pk PRIMARY KEY (id)
+);
+
+CREATE OR replace TRIGGER attestation_checkin_report_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.attestation_checkin_report FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+CREATE OR replace TRIGGER attestation_checkin_report_timestamp BEFORE UPDATE on openchpl.attestation_checkin_report FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
+DROP TRIGGER IF EXISTS attestation_checkin_report_last_modified_user_constraint ON openchpl.attestation_checkin_report;
+CREATE CONSTRAINT TRIGGER attestation_checkin_report_last_modified_user_constraint AFTER INSERT OR UPDATE ON openchpl.attestation_checkin_report DEFERRABLE INITIALLY DEFERRED FOR EACH ROW EXECUTE PROCEDURE openchpl.last_modified_user_constraint();
