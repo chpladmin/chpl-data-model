@@ -1,5 +1,18 @@
 # Release Notes
 
+## Version 27.2.0
+_9 June 2025_
+
+### Features
+* Add tables and data to support Service Base URL List Change Request
+* Add table to support Developer Attestation Check In Report
+
+### Data Changes
+* Add Listing Attributes report to report_metadata table
+* Increase height of SVAP reports
+
+---
+
 ## Version 27.1.0
 _19 May 2025_
 
