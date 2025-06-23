@@ -1,3 +1,6 @@
+-- Deployment file for version 27.3.0
+--     as of 2025-06-23
+-- ./changes/ocd-4888.sql
 CREATE TABLE IF NOT EXISTS openchpl.criterion_not_up_to_date_reason (
 	id bigserial NOT NULL,
 	name text NOT NULL,
@@ -100,3 +103,8 @@ CREATE OR replace TRIGGER updated_criterion_status_report_audit AFTER INSERT OR 
 CREATE OR replace TRIGGER updated_criterion_status_report_timestamp BEFORE UPDATE on openchpl.updated_criterion_status_report FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 DROP TRIGGER IF EXISTS updated_criterion_status_report_last_modified_user_constraint ON openchpl.updated_criterion_status_report;
 CREATE CONSTRAINT TRIGGER updated_criterion_status_report_last_modified_user_constraint AFTER INSERT OR UPDATE ON openchpl.updated_criterion_status_report DEFERRABLE INITIALLY DEFERRED FOR EACH ROW EXECUTE PROCEDURE openchpl.last_modified_user_constraint();
+;
+insert into openchpl.data_model_version (version, deploy_date, last_modified_user) values ('27.3.0', '2025-06-23', -1);
+\i dev/openchpl_soft-delete.sql
+\i dev/openchpl_views.sql
+\i dev/openchpl_grant-all.sql
