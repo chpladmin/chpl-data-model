@@ -1,5 +1,13 @@
 # Release Notes
 
+## Version 27.3.0
+_23 June 2025_
+
+### Features
+* Add columns to support details about updates needed for criteria
+
+---
+
 ## Version 27.2.0
 _9 June 2025_
 
