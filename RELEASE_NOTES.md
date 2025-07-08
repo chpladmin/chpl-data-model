@@ -1,5 +1,13 @@
 # Release Notes
 
+## Version 27.3.1
+_7 July 2025_
+
+### Data Changes
+* Adjust height of criteria attributes report to remove scrolling
+
+---
+
 ## Version 27.3.0
 _23 June 2025_
 
