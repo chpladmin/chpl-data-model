@@ -4,7 +4,7 @@ select 'DEV',
         'UpdatedCriteriaStatus', 
         'dashboard', 
         'https://app.powerbi.com/view?r=eyJrIjoiNjBlZjk5MGYtMjQ3Ni00ODdhLWE4MjAtNjNlZWViOWNmN2QzIiwidCI6IjMwN2QyMTJhLWZiODYtNDgwNy04NGRkLTg2Nzc2OWI4MDQyYSIsImMiOjF9',
-        '900px',
+        '775px',
         2,
         '6498c4f8-b0f1-70b5-55de-d84faae73402'
 where not exists (
@@ -17,7 +17,7 @@ select 'QA',
         'UpdatedCriteriaStatus', 
         'dashboard', 
         'https://app.powerbi.com/view?r=eyJrIjoiMTA5MDM3YjUtMjI1NS00MjllLWIwOGItYTQ5MTljNjRkYmY1IiwidCI6IjMwN2QyMTJhLWZiODYtNDgwNy04NGRkLTg2Nzc2OWI4MDQyYSIsImMiOjF9',
-        '900px',
+        '775px',
         2,
         '6498c4f8-b0f1-70b5-55de-d84faae73402'
 where not exists (
@@ -30,7 +30,7 @@ select 'STG',
         'UpdatedCriteriaStatus', 
         'dashboard', 
         'https://app.powerbi.com/view?r=eyJrIjoiNjk3MmFiZjYtZDA2Ni00MTVmLTg1MDMtMzUxYjk2YjcxZGU2IiwidCI6IjMwN2QyMTJhLWZiODYtNDgwNy04NGRkLTg2Nzc2OWI4MDQyYSIsImMiOjF9',
-        '900px',
+        '775px',
         2,
         '6498c4f8-b0f1-70b5-55de-d84faae73402'
 where not exists (
@@ -43,7 +43,7 @@ select 'PROD',
         'UpdatedCriteriaStatus', 
         'dashboard', 
         'https://app.powerbi.com/view?r=eyJrIjoiYTI1M2Y4ODItMmZmMy00NjljLThkYTgtOGZmZDg5NTAyYTljIiwidCI6IjMwN2QyMTJhLWZiODYtNDgwNy04NGRkLTg2Nzc2OWI4MDQyYSIsImMiOjF9',
-        '900px',
+        '775px',
         2,
         '6498c4f8-b0f1-70b5-55de-d84faae73402'
 where not exists (
