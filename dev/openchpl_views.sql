@@ -1,4 +1,5 @@
 DROP VIEW IF EXISTS openchpl.questionable_activity_combined;
+DROP VIEW IF EXISTS openchpl.questionable_url_details;
 DROP VIEW IF EXISTS openchpl.inactive_developers_and_products;
 DROP VIEW IF EXISTS openchpl.certified_product_search;
 DROP VIEW IF EXISTS openchpl.cqm_result_details;
@@ -1044,6 +1045,137 @@ UNION
 SELECT id, null, null, name, null, null, 'REQUIREMENT'
 FROM openchpl.additional_nonconformity_type
 WHERE DELETED = false;
+
+CREATE OR REPLACE VIEW openchpl.questionable_url_details
+AS
+SELECT row_number() over() as id, item_id, item_name, url, url_type, response_code, response_message, checked_date
+  FROM (
+    SELECT atl.testing_lab_id as item_id, atl.name as item_name, ur.url, ut.name as url_type,
+      ur.response_code, ur.response_message, ur.checked_date
+    FROM openchpl.url_check_result ur
+    JOIN openchpl.url_type ut ON ur.url_type_id = ut.id
+    JOIN openchpl.testing_lab atl ON atl.website = ur.url
+    WHERE ut.name = 'ONC-ATL'
+    AND ur.deleted = false
+    AND ((ur.response_code < 200 OR ur.response_code > 299) OR response_message IS NOT NULL)
+    UNION
+    SELECT acb.certification_body_id as item_id, acb.name as item_name, ur.url, ut.name as url_type,
+      ur.response_code, ur.response_message, ur.checked_date
+    FROM openchpl.url_check_result ur
+    JOIN openchpl.url_type ut ON ur.url_type_id = ut.id
+    JOIN openchpl.certification_body acb ON acb.website = ur.url
+    WHERE ut.name = 'ONC-ACB'
+    AND ur.deleted = false
+    AND ((ur.response_code < 200 OR ur.response_code > 299) OR response_message IS NOT NULL)
+    UNION 
+    SELECT dev.vendor_id as developer_id, dev.name as developer_name, ur.url, ut.name as url_type,
+      ur.response_code, ur.response_message, ur.checked_date
+    FROM openchpl.url_check_result ur
+    JOIN openchpl.url_type ut ON ur.url_type_id = ut.id
+    JOIN openchpl.vendor dev ON dev.website = ur.url
+    WHERE ut.name = 'Developer'
+    AND ur.deleted = false
+    AND ((ur.response_code < 200 OR ur.response_code > 299) OR response_message IS NOT NULL)
+    UNION 
+    SELECT cp.certified_product_id, openchpl.get_chpl_product_number(cp.certified_product_id) as chpl_product_number, ur.url, ut.name as url_type,
+      ur.response_code, ur.response_message, ur.checked_date
+    FROM openchpl.url_check_result ur
+    JOIN openchpl.url_type ut ON ur.url_type_id = ut.id
+    JOIN openchpl.certified_product cp ON cp.mandatory_disclosures = ur.url
+    WHERE ut.name = 'Mandatory Disclosures'
+    AND ur.deleted = false
+    AND ((ur.response_code < 200 OR ur.response_code > 299) OR response_message IS NOT NULL)
+		UNION 
+    SELECT cp.certified_product_id, openchpl.get_chpl_product_number(cp.certified_product_id) as chpl_product_number, ur.url, ut.name as url_type,
+      ur.response_code, ur.response_message, ur.checked_date
+    FROM openchpl.url_check_result ur
+    JOIN openchpl.url_type ut ON ur.url_type_id = ut.id
+    JOIN openchpl.certified_product cp ON cp.report_file_location = ur.url
+    WHERE ut.name = 'Test Results Summary'
+    AND ur.deleted = false
+    AND ((ur.response_code < 200 OR ur.response_code > 299) OR response_message IS NOT NULL)
+		UNION 
+    SELECT cp.certified_product_id, openchpl.get_chpl_product_number(cp.certified_product_id) as chpl_product_number, ur.url, ut.name as url_type,
+      ur.response_code, ur.response_message, ur.checked_date
+    FROM openchpl.url_check_result ur
+    JOIN openchpl.url_type ut ON ur.url_type_id = ut.id
+    JOIN openchpl.certified_product cp ON cp.sed_report_file_location = ur.url
+    WHERE ut.name = 'Full Usability Report'
+    AND ur.deleted = false
+    AND ((ur.response_code < 200 OR ur.response_code > 299) OR response_message IS NOT NULL)
+    UNION 
+    SELECT cp.certified_product_id, openchpl.get_chpl_product_number(cp.certified_product_id) as chpl_product_number, ur.url, ut.name as url_type,
+      ur.response_code, ur.response_message, ur.checked_date
+    FROM openchpl.url_check_result ur
+    JOIN openchpl.url_type ut ON ur.url_type_id = ut.id
+    JOIN openchpl.certified_product cp ON cp.rwt_plans_url = ur.url
+    WHERE ut.name = 'Real World Testing Plans'
+    AND ur.deleted = false
+    AND ((ur.response_code < 200 OR ur.response_code > 299) OR response_message IS NOT NULL)
+    UNION 
+    SELECT cp.certified_product_id, openchpl.get_chpl_product_number(cp.certified_product_id) as chpl_product_number, ur.url, ut.name as url_type,
+      ur.response_code, ur.response_message, ur.checked_date
+    FROM openchpl.url_check_result ur
+    JOIN openchpl.url_type ut ON ur.url_type_id = ut.id
+    JOIN openchpl.certified_product cp ON cp.rwt_results_url = ur.url
+    WHERE ut.name = 'Real World Testing Results'
+    AND ur.deleted = false
+    AND ((ur.response_code < 200 OR ur.response_code > 299) OR response_message IS NOT NULL)
+    UNION 
+    SELECT cp.certified_product_id, openchpl.get_chpl_product_number(cp.certified_product_id) as chpl_product_number, ur.url, ut.name as url_type,
+      ur.response_code, ur.response_message, ur.checked_date
+    FROM openchpl.url_check_result ur
+    JOIN openchpl.url_type ut ON ur.url_type_id = ut.id
+    JOIN openchpl.certified_product cp ON cp.svap_notice_url = ur.url
+    WHERE ut.name = 'Standards Version Advancement Process Notice'
+    AND ur.deleted = false
+    AND ((ur.response_code < 200 OR ur.response_code > 299) OR response_message IS NOT NULL)
+    UNION 
+    SELECT cr.certified_product_id, openchpl.get_chpl_product_number(cr.certified_product_id) as chpl_product_number, ur.url, ut.name as url_type,
+      ur.response_code, ur.response_message, ur.checked_date
+    FROM openchpl.url_check_result ur
+    JOIN openchpl.url_type ut ON ur.url_type_id = ut.id
+    JOIN openchpl.certification_result cr ON cr.api_documentation = ur.url
+    WHERE ut.name = 'API Documentation'
+    AND ur.deleted = false
+    AND ((ur.response_code < 200 OR ur.response_code > 299) OR response_message IS NOT NULL)
+    UNION 
+    SELECT cr.certified_product_id, openchpl.get_chpl_product_number(cr.certified_product_id) as chpl_product_number, ur.url, ut.name as url_type,
+      ur.response_code, ur.response_message, ur.checked_date
+    FROM openchpl.url_check_result ur
+    JOIN openchpl.url_type ut ON ur.url_type_id = ut.id
+    JOIN openchpl.certification_result cr ON cr.export_documentation = ur.url
+    WHERE ut.name = 'Export Documentation'
+    AND ur.deleted = false
+    AND ((ur.response_code < 200 OR ur.response_code > 299) OR response_message IS NOT NULL)
+    UNION 
+    SELECT cr.certified_product_id, openchpl.get_chpl_product_number(cr.certified_product_id) as chpl_product_number, ur.url, ut.name as url_type,
+      ur.response_code, ur.response_message, ur.checked_date
+    FROM openchpl.url_check_result ur
+    JOIN openchpl.url_type ut ON ur.url_type_id = ut.id
+    JOIN openchpl.certification_result cr ON cr.documentation_url = ur.url
+    WHERE ut.name = 'Documentation'
+    AND ur.deleted = false
+    AND ((ur.response_code < 200 OR ur.response_code > 299) OR response_message IS NOT NULL)
+    UNION 
+    SELECT cr.certified_product_id, openchpl.get_chpl_product_number(cr.certified_product_id) as chpl_product_number, ur.url, ut.name as url_type,
+      ur.response_code, ur.response_message, ur.checked_date
+    FROM openchpl.url_check_result ur
+    JOIN openchpl.url_type ut ON ur.url_type_id = ut.id
+    JOIN openchpl.certification_result cr ON cr.use_cases = ur.url
+    WHERE ut.name = 'Use Cases'
+    AND ur.deleted = false
+    AND ((ur.response_code < 200 OR ur.response_code > 299) OR response_message IS NOT NULL)
+    UNION 
+    SELECT cr.certified_product_id, openchpl.get_chpl_product_number(cr.certified_product_id) as chpl_product_number, ur.url, ut.name as url_type,
+      ur.response_code, ur.response_message, ur.checked_date
+    FROM openchpl.url_check_result ur
+    JOIN openchpl.url_type ut ON ur.url_type_id = ut.id
+    JOIN openchpl.certification_result cr ON cr.risk_management_summary_information = ur.url
+    WHERE ut.name = 'Risk Management Summary Information'
+    AND ur.deleted = false
+    AND ((ur.response_code < 200 OR ur.response_code > 299) OR response_message IS NOT NULL)
+  ) all_questionable_urls;
 
 CREATE OR REPLACE VIEW openchpl.questionable_activity_combined
 AS
