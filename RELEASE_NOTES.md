@@ -1,5 +1,14 @@
 # Release Notes
 
+## Version 27.3.2
+_4 August 2025_
+
+### Data Changes
+* Add conformance method activity concept
+* Add Criteria up-To-Date report to report_metadata table
+
+---
+
 ## Version 27.3.1
 _7 July 2025_
 
