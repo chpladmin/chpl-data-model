@@ -1,3 +1,6 @@
+-- Deployment file for version 27.3.2
+--     as of 2025-08-04
+-- ./changes/ocd-4895.sql
 insert into openchpl.report_metadata (environment, title, report_key, report_group, url, height, display_order, last_modified_sso_user)
 select 'DEV', 
         'Updated Criteria Status',
@@ -48,4 +51,16 @@ select 'PROD',
         '6498c4f8-b0f1-70b5-55de-d84faae73402'
 where not exists (
         select * from openchpl.report_metadata where environment = 'PROD' and report_key = 'UpdatedCriteriaStatus' 
+);;
+-- ./changes/ocd-4939.sql
+insert into openchpl.activity_concept (concept, last_modified_sso_user)
+select 'CONFORMANCE_METHOD',
+        '6498c4f8-b0f1-70b5-55de-d84faae73402'
+where not exists (
+        select * from openchpl.activity_concept where concept = 'CONFORMANCE_METHOD'
 );
+;
+insert into openchpl.data_model_version (version, deploy_date, last_modified_user) values ('27.3.2', '2025-08-04', -1);
+\i dev/openchpl_soft-delete.sql
+\i dev/openchpl_views.sql
+\i dev/openchpl_grant-all.sql
