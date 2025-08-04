@@ -3,8 +3,8 @@ select 'DEV',
         'Questionable URLs',
         'QuestionableUrls', 
         'dashboard', 
-        'https://app.powerbi.com/view?r=eyJrIjoiNjBlZjk5MGYtMjQ3Ni00ODdhLWE4MjAtNjNlZWViOWNmN2QzIiwidCI6IjMwN2QyMTJhLWZiODYtNDgwNy04NGRkLTg2Nzc2OWI4MDQyYSIsImMiOjF9',
-        '775px',
+        'https://app.powerbi.com/view?r=eyJrIjoiOWVhMjg5YTctYTM5Ny00YTVhLThiZGMtNDlkZDhiNzU5MDdjIiwidCI6IjMwN2QyMTJhLWZiODYtNDgwNy04NGRkLTg2Nzc2OWI4MDQyYSIsImMiOjF9',
+        '475px',
         2,
         '6498c4f8-b0f1-70b5-55de-d84faae73402'
 where not exists (
@@ -16,8 +16,8 @@ select 'QA',
         'Questionable URLs',
         'QuestionableUrls', 
         'dashboard', 
-        'https://app.powerbi.com/view?r=eyJrIjoiY2ZjYTU2ZDMtY2YzOC00ZWYwLThkM2MtYTUxZTljOTFjYmFhIiwidCI6IjMwN2QyMTJhLWZiODYtNDgwNy04NGRkLTg2Nzc2OWI4MDQyYSIsImMiOjF9',
-        '775px',
+        'https://app.powerbi.com/view?r=eyJrIjoiNjUwN2YwOGItOWY2YS00ZjU3LTllMDgtMTZmOWI0Yzk2ODI5IiwidCI6IjMwN2QyMTJhLWZiODYtNDgwNy04NGRkLTg2Nzc2OWI4MDQyYSIsImMiOjF9',
+        '475px',
         2,
         '6498c4f8-b0f1-70b5-55de-d84faae73402'
 where not exists (
@@ -29,8 +29,8 @@ select 'STG',
         'Questionable URLs',
         'QuestionableUrls', 
         'dashboard', 
-        'https://app.powerbi.com/view?r=eyJrIjoiNTUyNTcxZDQtNmRlOS00YmQ3LTk0NDctZTMxOTU3ZDQ5Nzk2IiwidCI6IjMwN2QyMTJhLWZiODYtNDgwNy04NGRkLTg2Nzc2OWI4MDQyYSIsImMiOjF9',
-        '775px',
+        'https://app.powerbi.com/view?r=eyJrIjoiYjA3MTVkNGEtMTE3My00ODY4LTk2MzItNTU5YjViNDczZmNjIiwidCI6IjMwN2QyMTJhLWZiODYtNDgwNy04NGRkLTg2Nzc2OWI4MDQyYSIsImMiOjF9',
+        '475px',
         2,
         '6498c4f8-b0f1-70b5-55de-d84faae73402'
 where not exists (
@@ -42,8 +42,8 @@ select 'PROD',
         'Questionable URLs',
         'QuestionableUrls', 
         'dashboard', 
-        'https://app.powerbi.com/view?r=eyJrIjoiMzdjOGJkOGUtNjM3ZC00YWQxLTg0ZTItZmRiYmM5ZTk3OWFkIiwidCI6IjMwN2QyMTJhLWZiODYtNDgwNy04NGRkLTg2Nzc2OWI4MDQyYSIsImMiOjF9',
-        '775px',
+        'https://app.powerbi.com/view?r=eyJrIjoiNWI2ZWRiZmEtNzVjYi00YTMzLWFkNjUtNjViNTk2ODI5MDc0IiwidCI6IjMwN2QyMTJhLWZiODYtNDgwNy04NGRkLTg2Nzc2OWI4MDQyYSIsImMiOjF9',
+        '475px',
         2,
         '6498c4f8-b0f1-70b5-55de-d84faae73402'
 where not exists (
