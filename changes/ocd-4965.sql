@@ -1,9 +1,15 @@
+--
+-- create a new rule to associate with all the new criteria
+--
 INSERT INTO openchpl.rule (name, last_modified_sso_user)
 SELECT 'HTI-4', '6498c4f8-b0f1-70b5-55de-d84faae73402'
 WHERE NOT EXISTS (
 	SELECT * FROM openchpl.rule WHERE name = 'HTI-4'
 );
 
+--
+-- add the new criteria and their attributes
+--
 INSERT INTO openchpl.certification_criterion (number, title, start_date, rule_id, last_modified_sso_user)
 SELECT '170.315 (b)(4)', 
 		'Real-Time Prescription Benefit',
@@ -134,4 +140,67 @@ false, false, false, false, false, false, true, false, '6498c4f8-b0f1-70b5-55de-
 WHERE NOT EXISTS (
 	SELECT * FROM openchpl.certification_criterion_attribute 
 	WHERE certification_criterion_id = (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (j)(21)')
+);
+
+--
+-- add test data associations with the new criteria
+--
+INSERT INTO openchpl.test_data_criteria_map (criteria_id, test_data_id, last_modified_sso_user)
+SELECT (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (b)(4)' AND start_date = '2025-09-15'),
+	(SELECT test_data_id FROM openchpl.test_data WHERE name = 'ONC Test Method'),
+	'6498c4f8-b0f1-70b5-55de-d84faae73402'
+WHERE NOT EXISTS (
+	SELECT * FROM openchpl.test_data_criteria_map
+	WHERE criteria_id = (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (b)(4)' AND start_date = '2025-09-15')
+	AND test_data_id = (SELECT test_data_id FROM openchpl.test_data WHERE name = 'ONC Test Method')
+);
+
+INSERT INTO openchpl.test_data_criteria_map (criteria_id, test_data_id, last_modified_sso_user)
+SELECT (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (g)(31)',
+	(SELECT test_data_id FROM openchpl.test_data WHERE name = 'ONC Test Method'),
+	'6498c4f8-b0f1-70b5-55de-d84faae73402'
+WHERE NOT EXISTS (
+	SELECT * FROM openchpl.test_data_criteria_map
+	WHERE criteria_id = (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (g)(31)'
+	AND test_data_id = (SELECT test_data_id FROM openchpl.test_data WHERE name = 'ONC Test Method')
+);
+
+INSERT INTO openchpl.test_data_criteria_map (criteria_id, test_data_id, last_modified_sso_user)
+SELECT (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (g)(32)',
+	(SELECT test_data_id FROM openchpl.test_data WHERE name = 'ONC Test Method'),
+	'6498c4f8-b0f1-70b5-55de-d84faae73402'
+WHERE NOT EXISTS (
+	SELECT * FROM openchpl.test_data_criteria_map
+	WHERE criteria_id = (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (g)(32)'
+	AND test_data_id = (SELECT test_data_id FROM openchpl.test_data WHERE name = 'ONC Test Method')
+);
+
+INSERT INTO openchpl.test_data_criteria_map (criteria_id, test_data_id, last_modified_sso_user)
+SELECT (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (g)(33)',
+	(SELECT test_data_id FROM openchpl.test_data WHERE name = 'ONC Test Method'),
+	'6498c4f8-b0f1-70b5-55de-d84faae73402'
+WHERE NOT EXISTS (
+	SELECT * FROM openchpl.test_data_criteria_map
+	WHERE criteria_id = (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (g)(33)'
+	AND test_data_id = (SELECT test_data_id FROM openchpl.test_data WHERE name = 'ONC Test Method')
+);
+
+INSERT INTO openchpl.test_data_criteria_map (criteria_id, test_data_id, last_modified_sso_user)
+SELECT (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (j)(20)',
+	(SELECT test_data_id FROM openchpl.test_data WHERE name = 'ONC Test Method'),
+	'6498c4f8-b0f1-70b5-55de-d84faae73402'
+WHERE NOT EXISTS (
+	SELECT * FROM openchpl.test_data_criteria_map
+	WHERE criteria_id = (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (j)(20)'
+	AND test_data_id = (SELECT test_data_id FROM openchpl.test_data WHERE name = 'ONC Test Method')
+);
+
+INSERT INTO openchpl.test_data_criteria_map (criteria_id, test_data_id, last_modified_sso_user)
+SELECT (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (j)(21)',
+	(SELECT test_data_id FROM openchpl.test_data WHERE name = 'ONC Test Method'),
+	'6498c4f8-b0f1-70b5-55de-d84faae73402'
+WHERE NOT EXISTS (
+	SELECT * FROM openchpl.test_data_criteria_map
+	WHERE criteria_id = (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (j)(21)'
+	AND test_data_id = (SELECT test_data_id FROM openchpl.test_data WHERE name = 'ONC Test Method')
 );
