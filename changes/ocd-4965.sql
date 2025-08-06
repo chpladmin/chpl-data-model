@@ -143,6 +143,19 @@ WHERE NOT EXISTS (
 );
 
 --
+-- add code sets associated with the new criteria
+--
+INSERT INTO openchpl.code_set_criteria_map (certification_criterion_id, code_set_id, last_modified_sso_user)
+SELECT (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (b)(4)' AND start_day = '2025-10-01'),
+	(SELECT id FROM openchpl.code_set WHERE required_day = '2025-12-31'),
+	'6498c4f8-b0f1-70b5-55de-d84faae73402'
+WHERE NOT EXISTS (
+	SELECT * FROM openchpl.code_set_criteria_map
+	WHERE certification_criterion_id = (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (b)(4)' AND start_day = '2025-10-01')
+	AND code_set_id = (SELECT id FROM openchpl.code_set WHERE required_day = '2025-12-31')
+);
+
+--
 -- add test data associations with the new criteria
 --
 INSERT INTO openchpl.test_data_criteria_map (criteria_id, test_data_id, last_modified_sso_user)
