@@ -26,7 +26,7 @@ api_documentation, attestation_answer, documentation_url, export_documentation, 
 test_standard, use_cases, risk_management_summary_information, standard, code_set, last_modified_sso_user)
 SELECT (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (b)(4)' AND title = 'Real-Time Prescription Benefit (RTPB)'),
 true, false, false, true, true, false, true, false, false, true, false, false, false, false, 
-false, false, false, false, false, false, false, true, true, '6498c4f8-b0f1-70b5-55de-d84faae73402'
+false, false, false, false, false, false, false, true, false, '6498c4f8-b0f1-70b5-55de-d84faae73402'
 WHERE NOT EXISTS (
 	SELECT * FROM openchpl.certification_criterion_attribute 
 	WHERE criterion_id = (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (b)(4)' AND title = 'Real-Time Prescription Benefit (RTPB)')
