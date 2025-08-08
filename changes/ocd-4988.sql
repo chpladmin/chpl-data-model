@@ -132,7 +132,7 @@ SELECT (SELECT id FROM openchpl.form WHERE description = 'Attestation Period 202
 WHERE NOT EXISTS (
 	SELECT * FROM openchpl.form_item
 	WHERE form_id = (SELECT id FROM openchpl.form WHERE description = 'Attestation Period 2025-04-01 to 2025-09-30')
-	AND question_id = 5
+	AND question_id = (SELECT id FROM openchpl.question WHERE question LIKE 'On June 30, 2025%')
 );
 
 INSERT INTO openchpl.form_item (form_id, question_id, parent_form_item_id, parent_response_id, sort_order, required, last_modified_sso_user)
