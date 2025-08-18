@@ -1076,6 +1076,15 @@ SELECT row_number() over() as id, item_id, item_name, url, url_type, response_co
     WHERE ut.name = 'Developer'
     AND ur.deleted = false
     AND ((ur.response_code < 200 OR ur.response_code > 299) OR response_message IS NOT NULL)
+	UNION 
+    SELECT cc.certification_criterion_id, cc.number, ur.url, ut.name as url_type,
+      ur.response_code, ur.response_message, ur.checked_date
+    FROM openchpl.url_check_result ur
+    JOIN openchpl.url_type ut ON ur.url_type_id = ut.id
+    JOIN openchpl.certification_criterion cc ON cc.certification_companion_guide_link = ur.url
+    WHERE ut.name = 'Certification Criterion'
+    AND ur.deleted = false
+    AND ((ur.response_code < 200 OR ur.response_code > 299) OR response_message IS NOT NULL)
     UNION 
     SELECT cp.certified_product_id, openchpl.get_chpl_product_number(cp.certified_product_id) as chpl_product_number, ur.url, ut.name as url_type,
       ur.response_code, ur.response_message, ur.checked_date
