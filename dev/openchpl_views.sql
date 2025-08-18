@@ -1086,17 +1086,7 @@ SELECT row_number() over() as id, item_id, item_name, url, url_type, response_co
     AND ur.deleted = false
 	AND cp.certification_status_id IN (1,6,7)
     AND ((ur.response_code < 200 OR ur.response_code > 299) OR response_message IS NOT NULL)
-		UNION 
-    SELECT cp.certified_product_id, openchpl.get_chpl_product_number(cp.certified_product_id) as chpl_product_number, ur.url, ut.name as url_type,
-      ur.response_code, ur.response_message, ur.checked_date
-    FROM openchpl.url_check_result ur
-    JOIN openchpl.url_type ut ON ur.url_type_id = ut.id
-    JOIN openchpl.certified_product_details cp ON cp.report_file_location = ur.url
-    WHERE ut.name = 'Test Results Summary'
-    AND ur.deleted = false
-	AND cp.certification_status_id IN (1,6,7)
-    AND ((ur.response_code < 200 OR ur.response_code > 299) OR response_message IS NOT NULL)
-		UNION 
+	UNION 
     SELECT cp.certified_product_id, openchpl.get_chpl_product_number(cp.certified_product_id) as chpl_product_number, ur.url, ut.name as url_type,
       ur.response_code, ur.response_message, ur.checked_date
     FROM openchpl.url_check_result ur
