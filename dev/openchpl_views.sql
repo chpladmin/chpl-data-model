@@ -1082,7 +1082,7 @@ SELECT row_number() over() as id, item_id, item_name, url, url_type, response_co
     FROM openchpl.url_check_result ur
     JOIN openchpl.url_type ut ON ur.url_type_id = ut.id
     JOIN openchpl.certified_product_details cp ON cp.mandatory_disclosures = ur.url
-    WHERE ut.name = 'Mandatory Disclosures'
+    WHERE ut.name = 'Mandatory Disclosure'
     AND ur.deleted = false
 	AND cp.certification_status_id IN (1,6,7)
     AND ((ur.response_code < 200 OR ur.response_code > 299) OR response_message IS NOT NULL)
