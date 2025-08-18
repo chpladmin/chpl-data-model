@@ -13,7 +13,7 @@ WHERE NOT EXISTS (
 -- add the newly worded RWT question
 --
 INSERT INTO openchpl.question (question, response_cardinality_type_id, section_heading_id, last_modified_sso_user)
-SELECT 'On June 30, 2025 ASTP issued the [Real World Testing Condition and Maintenance of Certification Requirements Enforcement Discretion Notice](https://www.healthit.gov/topic/real-world-testing-condition-and-maintenance-certification-requirements-enforcement). Please note that this enforcement discretion does not impact Real World Testing requirements for this Attestation period. We attest to compliance with the Real World Testing Condition and Maintenance of Certification requirements described in [45 CFR 170.405](https://ecfr.federalregister.gov/current/title-45/subtitle-A/subchapter-D/part-170/subpart-D/section-170.405).',
+SELECT 'On June 30, 2025 ASTP issued the [Real World Testing Condition and Maintenance of Certification Requirements Enforcement Discretion Notice](https://www.healthit.gov/topic/real-world-testing-condition-and-maintenance-certification-requirements-enforcement). Please note that this enforcement discretion does not impact Real World Testing requirements for this Attestation period.\n\nWe attest to compliance with the Real World Testing Condition and Maintenance of Certification requirements described in [45 CFR 170.405](https://ecfr.federalregister.gov/current/title-45/subtitle-A/subchapter-D/part-170/subpart-D/section-170.405).',
 	1,
 	4,
 	'6498c4f8-b0f1-70b5-55de-d84faae73402'
