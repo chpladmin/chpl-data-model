@@ -1,17 +1,18 @@
 --
--- Remove Service Base URL List url type, and all past url checks of this type
+-- Remove Test Results Summary url type, and all past url checks of this type.
+-- It only applies to 2014 listings and we should not worry about it anymore.
 --
 UPDATE openchpl.url_type
 SET deleted = TRUE,
 last_modified_user = null,
 last_modified_sso_user = '6498c4f8-b0f1-70b5-55de-d84faae73402'
-WHERE name = 'Service Base URL List';
+WHERE name = 'Test Results Summary';
 
 UPDATE openchpl.url_check_result
 SET deleted = true,
 last_modified_user = null,
 last_modified_sso_user = '6498c4f8-b0f1-70b5-55de-d84faae73402'
-WHERE url_type_id = (SELECT id FROM openchpl.url_type WHERE name = 'Service Base URL List');
+WHERE url_type_id = (SELECT id FROM openchpl.url_type WHERE name = 'Test Results Summary');
 
 --
 -- Add the new report to the Dashboard
