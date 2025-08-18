@@ -1,3 +1,22 @@
+--
+-- Remove Service Base URL List url type, and all past url checks of this type
+--
+UPDATE openchpl.url_type
+SET deleted = TRUE,
+last_modified_user = null,
+last_modified_sso_user = '6498c4f8-b0f1-70b5-55de-d84faae73402'
+WHERE name = 'Service Base URL List';
+
+UPDATE openchpl.url_check_result
+SET deleted = true,
+last_modified_user = null,
+last_modified_sso_user = '6498c4f8-b0f1-70b5-55de-d84faae73402'
+WHERE url_type_id = (SELECT id FROM openchpl.url_type WHERE name = 'Service Base URL List');
+
+--
+-- Add the new report to the Dashboard
+--
+
 insert into openchpl.report_metadata (environment, title, report_key, report_group, url, height, display_order, last_modified_sso_user)
 select 'DEV', 
         'Questionable URLs',
