@@ -47,7 +47,7 @@ conformance_method, test_procedure, test_data, functionality_tested, privacy_sec
 api_documentation, attestation_answer, documentation_url, export_documentation, gap, g1_success, g2_success, sed,
 test_standard, use_cases, risk_management_summary_information, standard, code_set, last_modified_sso_user)
 SELECT (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (g)(31)'),
-true, false, false, true, true, false, true, false, false, true, true, false, false, false, false, 
+true, false, false, true, true, false, false, false, false, true, true, false, false, false, false, 
 false, false, false, false, true, false, true, false, '6498c4f8-b0f1-70b5-55de-d84faae73402'
 WHERE NOT EXISTS (
 	SELECT * FROM openchpl.certification_criterion_attribute 
@@ -69,7 +69,7 @@ conformance_method, test_procedure, test_data, functionality_tested, privacy_sec
 api_documentation, attestation_answer, documentation_url, export_documentation, gap, g1_success, g2_success, sed,
 test_standard, use_cases, risk_management_summary_information, standard, code_set, last_modified_sso_user)
 SELECT (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (g)(32)'),
-true, false, false, true, true, false, true, false, false, true, true, false, false, false,
+true, false, false, true, true, false, false, false, false, true, true, false, false, false,
 false, false, false, false, false, false, false, true, false,  '6498c4f8-b0f1-70b5-55de-d84faae73402'
 WHERE NOT EXISTS (
 	SELECT * FROM openchpl.certification_criterion_attribute 
@@ -91,7 +91,7 @@ conformance_method, test_procedure, test_data, functionality_tested, privacy_sec
 api_documentation, attestation_answer, documentation_url, export_documentation, gap, g1_success, g2_success, sed,
 test_standard, use_cases, risk_management_summary_information, standard, code_set, last_modified_sso_user)
 SELECT (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (g)(33)'),
-true, false, false, true, true, false, true, false, false, true, true, false, false, false, false,
+true, false, false, true, true, false, false, false, false, true, true, false, false, false, false,
 false, false, false, false, false, false, true, false, '6498c4f8-b0f1-70b5-55de-d84faae73402'
 WHERE NOT EXISTS (
 	SELECT * FROM openchpl.certification_criterion_attribute 
@@ -113,7 +113,7 @@ conformance_method, test_procedure, test_data, functionality_tested, privacy_sec
 api_documentation, attestation_answer, documentation_url, export_documentation, gap, g1_success, g2_success, sed,
 test_standard, use_cases, risk_management_summary_information, standard, code_set, last_modified_sso_user)
 SELECT (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (j)(20)'),
-true, false, false, true, true, false, true, false, false, true, false, false, false, false, false,
+true, false, false, true, true, false, false, false, false, true, false, false, false, false, false,
 false, false, false, false, false, false, true, false, '6498c4f8-b0f1-70b5-55de-d84faae73402'
 WHERE NOT EXISTS (
 	SELECT * FROM openchpl.certification_criterion_attribute 
@@ -135,7 +135,7 @@ conformance_method, test_procedure, test_data, functionality_tested, privacy_sec
 api_documentation, attestation_answer, documentation_url, export_documentation, gap, g1_success, g2_success, sed,
 test_standard, use_cases, risk_management_summary_information, standard, code_set, last_modified_sso_user)
 SELECT (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (j)(21)'),
-true, false, false, true, true, false, true, false, false, true, false, false, false, false, false,
+true, false, false, true, true, false, false, false, false, true, false, false, false, false, false,
 false, false, false, false, false, false, true, false, '6498c4f8-b0f1-70b5-55de-d84faae73402'
 WHERE NOT EXISTS (
 	SELECT * FROM openchpl.certification_criterion_attribute 
@@ -165,55 +165,5 @@ SELECT (SELECT certification_criterion_id FROM openchpl.certification_criterion 
 WHERE NOT EXISTS (
 	SELECT * FROM openchpl.test_data_criteria_map
 	WHERE criteria_id = (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (b)(4)' AND title = 'Real-Time Prescription Benefit (RTPB)')
-	AND test_data_id = (SELECT id FROM openchpl.test_data WHERE name = 'ONC Test Method')
-);
-
-INSERT INTO openchpl.test_data_criteria_map (criteria_id, test_data_id, last_modified_sso_user)
-SELECT (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (g)(31)'),
-	(SELECT id FROM openchpl.test_data WHERE name = 'ONC Test Method'),
-	'6498c4f8-b0f1-70b5-55de-d84faae73402'
-WHERE NOT EXISTS (
-	SELECT * FROM openchpl.test_data_criteria_map
-	WHERE criteria_id = (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (g)(31)')
-	AND test_data_id = (SELECT id FROM openchpl.test_data WHERE name = 'ONC Test Method')
-);
-
-INSERT INTO openchpl.test_data_criteria_map (criteria_id, test_data_id, last_modified_sso_user)
-SELECT (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (g)(32)'),
-	(SELECT id FROM openchpl.test_data WHERE name = 'ONC Test Method'),
-	'6498c4f8-b0f1-70b5-55de-d84faae73402'
-WHERE NOT EXISTS (
-	SELECT * FROM openchpl.test_data_criteria_map
-	WHERE criteria_id = (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (g)(32)')
-	AND test_data_id = (SELECT id FROM openchpl.test_data WHERE name = 'ONC Test Method')
-);
-
-INSERT INTO openchpl.test_data_criteria_map (criteria_id, test_data_id, last_modified_sso_user)
-SELECT (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (g)(33)'),
-	(SELECT id FROM openchpl.test_data WHERE name = 'ONC Test Method'),
-	'6498c4f8-b0f1-70b5-55de-d84faae73402'
-WHERE NOT EXISTS (
-	SELECT * FROM openchpl.test_data_criteria_map
-	WHERE criteria_id = (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (g)(33)')
-	AND test_data_id = (SELECT id FROM openchpl.test_data WHERE name = 'ONC Test Method')
-);
-
-INSERT INTO openchpl.test_data_criteria_map (criteria_id, test_data_id, last_modified_sso_user)
-SELECT (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (j)(20)'),
-	(SELECT id FROM openchpl.test_data WHERE name = 'ONC Test Method'),
-	'6498c4f8-b0f1-70b5-55de-d84faae73402'
-WHERE NOT EXISTS (
-	SELECT * FROM openchpl.test_data_criteria_map
-	WHERE criteria_id = (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (j)(20)')
-	AND test_data_id = (SELECT id FROM openchpl.test_data WHERE name = 'ONC Test Method')
-);
-
-INSERT INTO openchpl.test_data_criteria_map (criteria_id, test_data_id, last_modified_sso_user)
-SELECT (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (j)(21)'),
-	(SELECT id FROM openchpl.test_data WHERE name = 'ONC Test Method'),
-	'6498c4f8-b0f1-70b5-55de-d84faae73402'
-WHERE NOT EXISTS (
-	SELECT * FROM openchpl.test_data_criteria_map
-	WHERE criteria_id = (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (j)(21)')
 	AND test_data_id = (SELECT id FROM openchpl.test_data WHERE name = 'ONC Test Method')
 );
