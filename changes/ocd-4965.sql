@@ -10,11 +10,12 @@ WHERE NOT EXISTS (
 --
 -- add the new criteria and their attributes
 --
-INSERT INTO openchpl.certification_criterion (number, title, start_day, rule_id, last_modified_sso_user)
+INSERT INTO openchpl.certification_criterion (number, title, start_day, rule_id, certification_companion_guide_link, last_modified_sso_user)
 SELECT '170.315 (b)(4)', 
 		'Real-Time Prescription Benefit (RTPB)',
 		'2025-10-01', 
 		(SELECT id FROM openchpl.rule WHERE name = 'HTI-4'),
+		'https://www.healthit.gov/test-method/real-time-prescription-benefit#ccg',
 		'6498c4f8-b0f1-70b5-55de-d84faae73402'
 WHERE NOT EXISTS (
 	SELECT * FROM openchpl.certification_criterion WHERE number = '170.315 (b)(4)' AND title = 'Real-Time Prescription Benefit (RTPB)'
@@ -32,11 +33,12 @@ WHERE NOT EXISTS (
 	WHERE criterion_id = (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (b)(4)' AND title = 'Real-Time Prescription Benefit (RTPB)')
 );
 
-INSERT INTO openchpl.certification_criterion (number, title, start_day, rule_id, last_modified_sso_user)
+INSERT INTO openchpl.certification_criterion (number, title, start_day, rule_id, certification_companion_guide_link, last_modified_sso_user)
 SELECT '170.315 (g)(31)', 
 		'Provider Prior Authorization API - Coverage Requirements Discovery',
 		'2025-10-01', 
 		(SELECT id FROM openchpl.rule WHERE name = 'HTI-4'),
+		'https://www.healthit.gov/test-method/provider-prior-authorization-api-coverage-requirements-discovery#ccg',
 		'6498c4f8-b0f1-70b5-55de-d84faae73402'
 WHERE NOT EXISTS (
 	SELECT * FROM openchpl.certification_criterion WHERE number = '170.315 (g)(31)'
@@ -54,11 +56,12 @@ WHERE NOT EXISTS (
 	WHERE criterion_id = (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (g)(31)')
 );
 
-INSERT INTO openchpl.certification_criterion (number, title, start_day, rule_id, last_modified_sso_user)
+INSERT INTO openchpl.certification_criterion (number, title, start_day, rule_id, certification_companion_guide_link, last_modified_sso_user)
 SELECT '170.315 (g)(32)', 
 		'Provider Prior Authorization API - Documentation Templates and Rules',
 		'2025-10-01', 
 		(SELECT id FROM openchpl.rule WHERE name = 'HTI-4'),
+		'https://www.healthit.gov/test-method/provider-prior-authorization-api-documentation-templates-and-rules#ccg',
 		'6498c4f8-b0f1-70b5-55de-d84faae73402'
 WHERE NOT EXISTS (
 	SELECT * FROM openchpl.certification_criterion WHERE number = '170.315 (g)(32)'
@@ -76,11 +79,12 @@ WHERE NOT EXISTS (
 	WHERE criterion_id = (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (g)(32)')
 );
 
-INSERT INTO openchpl.certification_criterion (number, title, start_day, rule_id, last_modified_sso_user)
+INSERT INTO openchpl.certification_criterion (number, title, start_day, rule_id, certification_companion_guide_link, last_modified_sso_user)
 SELECT '170.315 (g)(33)', 
 		'Provider Prior Authorization API - Prior Authorization Support',
 		'2025-10-01', 
 		(SELECT id FROM openchpl.rule WHERE name = 'HTI-4'),
+		'https://www.healthit.gov/test-method/provider-prior-authorization-api-prior-authorization-support#ccg',
 		'6498c4f8-b0f1-70b5-55de-d84faae73402'
 WHERE NOT EXISTS (
 	SELECT * FROM openchpl.certification_criterion WHERE number = '170.315 (g)(33)'
@@ -98,11 +102,12 @@ WHERE NOT EXISTS (
 	WHERE criterion_id = (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (g)(33)')
 );
 
-INSERT INTO openchpl.certification_criterion (number, title, start_day, rule_id, last_modified_sso_user)
+INSERT INTO openchpl.certification_criterion (number, title, start_day, rule_id, certification_companion_guide_link, last_modified_sso_user)
 SELECT '170.315 (j)(20)', 
 		'Workflow Triggers for Decision Support Interventions–Clients',
 		'2025-10-01', 
 		(SELECT id FROM openchpl.rule WHERE name = 'HTI-4'),
+		'https://www.healthit.gov/test-method/workflow-triggers-decision-support-interventions-clients#ccg',
 		'6498c4f8-b0f1-70b5-55de-d84faae73402'
 WHERE NOT EXISTS (
 	SELECT * FROM openchpl.certification_criterion WHERE number = '170.315 (j)(20)'
@@ -120,11 +125,12 @@ WHERE NOT EXISTS (
 	WHERE criterion_id = (SELECT certification_criterion_id FROM openchpl.certification_criterion WHERE number = '170.315 (j)(20)')
 );
 
-INSERT INTO openchpl.certification_criterion (number, title, start_day, rule_id, last_modified_sso_user)
+INSERT INTO openchpl.certification_criterion (number, title, start_day, rule_id, certification_companion_guide_link, last_modified_sso_user)
 SELECT '170.315 (j)(21)', 
 		'Subscriptions–Client',
 		'2025-10-01', 
 		(SELECT id FROM openchpl.rule WHERE name = 'HTI-4'),
+		'https://www.healthit.gov/test-method/subscriptions-client#ccg',
 		'6498c4f8-b0f1-70b5-55de-d84faae73402'
 WHERE NOT EXISTS (
 	SELECT * FROM openchpl.certification_criterion WHERE number = '170.315 (j)(21)'
