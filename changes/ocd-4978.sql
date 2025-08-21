@@ -16,4 +16,12 @@ WHERE NOT EXISTS (
 	SELECT * FROM openchpl.conformance_method WHERE name = 'Gap certification via 2025 Attestation'
 );
 
--- The association between the new conformance method and allowed criteria will be done in the UI by the ADMIN 
+-- We require at least one criteria to be associated with each conformance method
+INSERT INTO openchpl.conformance_method_criteria_map (conformance_method_id, criteria_id, last_modified_sso_user)
+SELECT (SELECT id FROM openchpl.conformance_method WHERE name = 'Gap certification via 2025 Attestation'),
+	45, 
+	'6498c4f8-b0f1-70b5-55de-d84faae73402'
+WHERE NOT EXISTS (
+	SELECT * FROM openchpl.conformance_method_criteria_map WHERE criteria_id = 45
+	AND conformance_method_id = (SELECT id FROM openchpl.conformance_method WHERE name = 'Gap certification via 2025 Attestation')
+);
