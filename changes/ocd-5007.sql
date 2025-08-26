@@ -1,4 +1,3 @@
-RAISE NOTICE 'Below are all the listing IDs that attest to g10 and use the test data ONC Test Method';
 select cr.certified_product_id
 from openchpl.certified_product_details cpd 
 join openchpl.certification_result cr on cr.certified_product_id = cpd.certified_product_id
@@ -18,7 +17,7 @@ WHERE certification_result_id IN
 	FROM openchpl.certification_result 
 	WHERE success = true 
 	AND deleted = FALSE 
-	AND certification_criterion_id = 182)
+	AND certification_criterion_id = 182);
 
 --
 -- Remove test data mappings for g10
@@ -37,4 +36,4 @@ WHERE id = 5;
 --
 UPDATE openchpl.certification_criterion_attribute
 SET test_data = FALSE
-WHERE criteria_id = 182;
+WHERE criterion_id = 182;
