@@ -1,5 +1,13 @@
 # Release Notes
 
+## Version 27.4.0
+_2 September 2025_
+
+### Features
+* Add view to quickly give questionable url details
+
+---
+
 ## Version 27.3.3
 _18 August 2025_
 
