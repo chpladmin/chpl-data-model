@@ -1,3 +1,6 @@
+-- Deployment file for version 27.4.0
+--     as of 2025-09-02
+-- ./changes/ocd-4515.sql
 --
 -- Remove Test Results Summary url type, and all past url checks of this type.
 -- It only applies to 2014 listings and we should not worry about it anymore.
@@ -69,3 +72,8 @@ select 'PROD',
 where not exists (
         select * from openchpl.report_metadata where environment = 'PROD' and report_key = 'QuestionableUrls' 
 );
+;
+insert into openchpl.data_model_version (version, deploy_date, last_modified_user) values ('27.4.0', '2025-09-02', -1);
+\i dev/openchpl_soft-delete.sql
+\i dev/openchpl_views.sql
+\i dev/openchpl_grant-all.sql
