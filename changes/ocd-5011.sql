@@ -30,3 +30,13 @@ WHERE certification_criterion_id = 167;
 UPDATE openchpl.certification_criterion_attribute
 SET code_set = FALSE
 WHERE criterion_id = 167;
+
+--
+-- Delete results about b3 not being up-to-date 
+-- (this works because the ONLY reason b3 could not be up-to-date at this time is because of code sets)
+--
+DELETE FROM openchpl.updated_criterion_status_report ucsr
+USING openchpl.certification_result cr
+WHERE ucsr.certification_result_id = cr.certification_result_id
+AND cr.certification_criterion_id = 167;
+
