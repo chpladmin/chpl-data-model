@@ -1,5 +1,17 @@
 # Release Notes
 
+## Version 27.4.1
+_15 September 2025_
+
+### Data Changes
+* Add 2026 eCQM bundle
+* Remove test data from 170.315 (g)(10)
+* Add Gap Conformance Method
+* Create new attestation form with updated RWT question
+* Add criteria required for HTI-4
+
+---
+
 ## Version 27.4.0
 _2 September 2025_
 
