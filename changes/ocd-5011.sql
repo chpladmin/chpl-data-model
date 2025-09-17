@@ -1,8 +1,19 @@
+\echo 'Listings attesting to b3 with Dec-25 code set';
 select cr.certified_product_id
 from openchpl.certified_product_details cpd 
 join openchpl.certification_result cr on cr.certified_product_id = cpd.certified_product_id
 join openchpl.certification_result_code_Set crcs on cr.certification_result_id = crcs.certification_result_id
 where cr.certification_criterion_id = 167
+and cr.deleted = false
+and crcs.deleted = false
+and cr.success = true;
+
+\echo 'Listings attesting to removed b3 with Dec-25 code set';
+select cr.certified_product_id
+from openchpl.certified_product_details cpd 
+join openchpl.certification_result cr on cr.certified_product_id = cpd.certified_product_id
+join openchpl.certification_result_code_Set crcs on cr.certification_result_id = crcs.certification_result_id
+where cr.certification_criterion_id = 18
 and cr.deleted = false
 and crcs.deleted = false
 and cr.success = true;
@@ -19,10 +30,27 @@ WHERE certification_result_id IN
 	AND certification_criterion_id = 167);
 
 --
+-- Remove cert result+code set mappings if the attested criteria is removed b3
+--
+DELETE FROM openchpl.certification_result_code_set
+WHERE certification_result_id IN 
+	(SELECT certification_result_id 
+	FROM openchpl.certification_result 
+	WHERE success = true 
+	AND deleted = FALSE 
+	AND certification_criterion_id = 18);
+
+--
 -- Remove code set mappings for b3
 --
 DELETE FROM openchpl.code_set_criteria_map
 WHERE certification_criterion_id = 167;
+
+--
+-- Remove code set mappings for removed b3
+--
+DELETE FROM openchpl.code_set_criteria_map
+WHERE certification_criterion_id = 18;
 
 -- 
 -- Update b3 to not be allowed to have code sets
@@ -30,6 +58,13 @@ WHERE certification_criterion_id = 167;
 UPDATE openchpl.certification_criterion_attribute
 SET code_set = FALSE
 WHERE criterion_id = 167;
+
+-- 
+-- Update removed b3 to not be allowed to have code sets
+--
+UPDATE openchpl.certification_criterion_attribute
+SET code_set = FALSE
+WHERE criterion_id = 18;
 
 --
 -- Delete results about b3 not being up-to-date 
