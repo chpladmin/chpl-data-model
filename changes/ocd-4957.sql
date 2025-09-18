@@ -20,5 +20,5 @@ DROP VIEW IF EXISTS openchpl.most_recent_past_attestation_period;
 DROP VIEW IF EXISTS openchpl.listing_search;
 DROP VIEW IF EXISTS openchpl.certified_product_details;
 
-ALTER TABLE openchpl.certification_criterion_attribute DROP COLUMN gap;
-ALTER TABLE openchpl.certification_result DROP COLUMN gap;
+ALTER TABLE openchpl.certification_criterion_attribute DROP COLUMN IF EXISTS gap;
+ALTER TABLE openchpl.certification_result DROP COLUMN IF EXISTS gap;
