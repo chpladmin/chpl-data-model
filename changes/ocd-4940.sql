@@ -1,5 +1,11 @@
+--
+-- Drop unused fields
+--
 ALTER TABLE openchpl.report_metadata
 DROP COLUMN IF EXISTS report_group;
+
+ALTER TABLE openchpl.report_metadata
+DROP COLUMN IF EXISTS display_order;
 
 -- 
 -- Each report can be associated with zero or more roles
