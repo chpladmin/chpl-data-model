@@ -19,6 +19,8 @@ WHERE required_day = '2025-12-31';
 --
 -- functionality tested
 --
+ALTER TABLE openchpl.functionality_tested DROP COLUMN IF EXISTS name;
+ALTER TABLE openchpl.functionality_tested DROP COLUMN IF EXISTS number;
 ALTER TABLE openchpl.functionality_tested ADD COLUMN IF NOT EXISTS extension_end_day date NULL;
 
 UPDATE openchpl.functionality_tested
