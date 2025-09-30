@@ -1,5 +1,16 @@
 # Release Notes
 
+## Version 27.4.2
+_29 September 2025_
+
+### Data Changes
+* Remove incorrectly uploaded Listing
+* Remove Dec-25 code set from the removed b3 criterion
+* Mark RT14 measures as removed
+* Remove code sets as available attribute for b3
+
+---
+
 ## Version 27.4.1
 _15 September 2025_
 
