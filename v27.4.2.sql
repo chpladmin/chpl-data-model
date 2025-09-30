@@ -1,3 +1,6 @@
+-- Deployment file for version 27.4.2
+--     as of 2025-09-29
+-- ./changes/ocd-5011.sql
 \echo 'Listings attesting to b3 with Dec-25 code set';
 select cr.certified_product_id
 from openchpl.certified_product_details cpd 
@@ -75,3 +78,19 @@ USING openchpl.certification_result cr
 WHERE ucsr.certification_result_id = cr.certification_result_id
 AND cr.certification_criterion_id = 167;
 
+;
+-- ./changes/ocd-5023.sql
+UPDATE openchpl.measure
+SET removed = true
+WHERE id IN (33, 34);
+;
+-- ./changes/ocd-5045.sql
+-- delete the listing
+UPDATE openchpl.certified_product
+SET deleted = true
+WHERE certified_product_id = 11695;
+;
+insert into openchpl.data_model_version (version, deploy_date, last_modified_user) values ('27.4.2', '2025-09-29', -1);
+\i dev/openchpl_soft-delete.sql
+\i dev/openchpl_views.sql
+\i dev/openchpl_grant-all.sql
