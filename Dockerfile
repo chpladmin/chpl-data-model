@@ -1,0 +1,26 @@
+# Use the official PostgreSQL 14 image as the base
+FROM postgres:14
+
+# Set environment variables for PostgreSQL
+# These variables are used when the container is first initialized
+ENV POSTGRES_USER=myuser
+#This configures PostgreSQL's pg_hba.conf file to use trust authentication for all local connections, effectively allowing the postgres user (and any other user connecting locally) to connect without a password.
+ENV POSTGRES_HOST_AUTH_METHOD=trust
+
+# The official PostgreSQL Docker image automatically executes any .sql, .sql.gz, or .sh files placed within the /docker-entrypoint-initdb.d/ directory when the container is first started
+# The docker-entrypoint-initdb.d scripts only run on the first startup of a new, empty data volume. If you already have data in your volume, these scripts will not execute again.
+# The scripts are run in alphabetical order (and sql first, sh second) so their naming is reflective of that
+COPY ./dev/openchpl_role.sql /docker-entrypoint-initdb.d/01-create-role.sql
+COPY ./dev/openchpl_database.sql /docker-entrypoint-initdb.d/02-create-database.sql
+COPY ./dev/openchpl_ff4j.sql /docker-entrypoint-initdb.d/03-create-ff4j.sql
+COPY ./dev/openchpl_quartz.sql /docker-entrypoint-initdb.d/04-create-quartz.sql
+COPY ./maint/load-into-docker.sh /docker-entrypoint-initdb.d/05-load-from-backup.sh
+COPY ./maint/openchpl.backup /var/lib/postgresql/openchpl.backup
+#COPY ./load-pending-changes.sh /docker-entrypoint-initdb.d/06-load-pending-changes.sh
+#COPY ./changes/*.sql /docker-entrypoint-initdb.d/changes/*.sql
+#COPY ./dev/openchpl_soft-delete.sql /docker-entrypoint-initdb.d/dev/openchpl_soft-delete.sql
+#COPY ./dev/openchpl_views.sql /docker-entrypoint-initdb.d/dev/openchpl_views.sql
+#COPY ./dev/openchpl_grant-all.sql /docker-entrypoint-initdb.d/dev/openchpl_grant-all.sql
+
+# Expose the default PostgreSQL port
+EXPOSE 5432
