@@ -14,13 +14,16 @@ COPY ./dev/openchpl_role.sql /docker-entrypoint-initdb.d/01-create-role.sql
 COPY ./dev/openchpl_database.sql /docker-entrypoint-initdb.d/02-create-database.sql
 COPY ./dev/openchpl_ff4j.sql /docker-entrypoint-initdb.d/03-create-ff4j.sql
 COPY ./dev/openchpl_quartz.sql /docker-entrypoint-initdb.d/04-create-quartz.sql
-COPY ./maint/load-into-docker.sh /docker-entrypoint-initdb.d/05-load-from-backup.sh
-COPY ./maint/openchpl.backup /var/lib/postgresql/openchpl.backup
-#COPY ./load-pending-changes.sh /docker-entrypoint-initdb.d/06-load-pending-changes.sh
-#COPY ./changes/*.sql /docker-entrypoint-initdb.d/changes/*.sql
-#COPY ./dev/openchpl_soft-delete.sql /docker-entrypoint-initdb.d/dev/openchpl_soft-delete.sql
-#COPY ./dev/openchpl_views.sql /docker-entrypoint-initdb.d/dev/openchpl_views.sql
-#COPY ./dev/openchpl_grant-all.sql /docker-entrypoint-initdb.d/dev/openchpl_grant-all.sql
+# load.sh and load-pending-changes.sh must be mounted as well but they are in another location
+COPY ./changes/ /docker-entrypoint-initdb.d/changes/
+COPY ./dev/openchpl_soft-delete.sql /docker-entrypoint-initdb.d/dev/openchpl_soft-delete.sql
+COPY ./dev/openchpl_views.sql /docker-entrypoint-initdb.d/dev/openchpl_views.sql
+COPY ./dev/openchpl_grant-all.sql /docker-entrypoint-initdb.d/dev/openchpl_grant-all.sql
+
+# Install dos2unix
+RUN apt-get update && apt-get install -y dos2unix
+# Convert all files in the postgres init location
+RUN find /docker-entrypoint-initdb.d -type f -print0 | xargs -0 dos2unix 
 
 # Expose the default PostgreSQL port
 EXPOSE 5432
