@@ -1,11 +1,11 @@
 -- SCHEMA: ff4j
 
-CREATE SCHEMA ff4j
+CREATE SCHEMA IF NOT EXISTS ff4j
     AUTHORIZATION openchpl_dev;
 GRANT ALL ON SCHEMA ff4j TO openchpl_dev;
 GRANT USAGE ON SCHEMA ff4j TO openchpl;
 
-CREATE TABLE ff4j.features (
+CREATE TABLE IF NOT EXISTS ff4j.features (
 	feat_uid VARCHAR(100),
 	enable INTEGER NOT NULL,
 	description VARCHAR(1000),
@@ -15,13 +15,13 @@ CREATE TABLE ff4j.features (
 	PRIMARY KEY(feat_uid)
 );
 
-CREATE TABLE ff4j.roles (
+CREATE TABLE IF NOT EXISTS ff4j.roles (
 	feat_uid VARCHAR(100) REFERENCES ff4j.features(feat_uid),
 	role_name VARCHAR(100),
 	PRIMARY KEY(feat_uid, role_name)
 );
 
-CREATE TABLE ff4j.custom_properties (
+CREATE TABLE IF NOT EXISTS ff4j.custom_properties (
 	property_id VARCHAR(100) NOT NULL,
 	clazz VARCHAR(255) NOT NULL,
 	currentvalue VARCHAR(255),
@@ -31,7 +31,7 @@ CREATE TABLE ff4j.custom_properties (
 	PRIMARY KEY(property_id, feat_uid)
 );
 
-CREATE TABLE ff4j.properties (
+CREATE TABLE IF NOT EXISTS ff4j.properties (
 	property_id VARCHAR(100) NOT NULL,
 	clazz VARCHAR(255) NOT NULL,
 	currentvalue VARCHAR(255),
@@ -40,7 +40,7 @@ CREATE TABLE ff4j.properties (
 	PRIMARY KEY(property_id)
 );
 
-CREATE TABLE ff4j.audit (
+CREATE TABLE IF NOT EXISTS ff4j.audit (
 	evt_uuid VARCHAR(40) NOT NULL,
 	evt_time TIMESTAMP NOT NULL,
 	evt_type VARCHAR(30) NOT NULL,
