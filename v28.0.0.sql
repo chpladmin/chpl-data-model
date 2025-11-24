@@ -1,3 +1,6 @@
+-- Deployment file for version 28.0.0
+--     as of 2025-11-24
+-- ./changes/ocd-4957.sql
 DROP VIEW IF EXISTS openchpl.questionable_activity_combined;
 DROP VIEW IF EXISTS openchpl.questionable_url_details;
 DROP VIEW IF EXISTS openchpl.inactive_developers_and_products;
@@ -22,3 +25,13 @@ DROP VIEW IF EXISTS openchpl.certified_product_details;
 
 ALTER TABLE openchpl.certification_criterion_attribute DROP COLUMN IF EXISTS gap;
 ALTER TABLE openchpl.certification_result DROP COLUMN IF EXISTS gap;
+;
+-- ./changes/ocd-5053.sql
+UPDATE openchpl.certification_criterion
+SET certification_companion_guide_link = 'https://www.healthit.gov/test-method/view-download-and-transmit-3rd-party'
+WHERE certification_criterion_id = 178;
+;
+insert into openchpl.data_model_version (version, deploy_date, last_modified_user) values ('28.0.0', '2025-11-24', -1);
+\i dev/openchpl_soft-delete.sql
+\i dev/openchpl_views.sql
+\i dev/openchpl_grant-all.sql
