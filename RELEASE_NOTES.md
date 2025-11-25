@@ -1,5 +1,16 @@
 # Release Notes
 
+## Version 28.0.0
+_24 November 2025_
+
+### Breaking Changes
+* Remove gap field from tables and views
+
+### Data Changes
+* Set correct CCG URL for 170.315 (e)(1)
+
+---
+
 ## Version 27.4.2
 _29 September 2025_
 
