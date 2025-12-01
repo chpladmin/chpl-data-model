@@ -1,3 +1,6 @@
+-- Deployment file for version 28.1.0
+--     as of 2025-12-01
+-- ./changes/ocd-4940.sql
 --
 -- Drop unused fields
 --
@@ -239,4 +242,13 @@ VALUES (72, 'chpl-onc-acb', '6498c4f8-b0f1-70b5-55de-d84faae73402');
 CREATE OR replace TRIGGER report_metadata_role_map_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.report_metadata_role_map FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
 CREATE OR replace TRIGGER report_metadata_role_map_timestamp BEFORE UPDATE on openchpl.report_metadata_role_map FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
 DROP TRIGGER IF EXISTS report_metadata_role_map_last_modified_user_constraint ON openchpl.report_metadata_role_map;
-CREATE CONSTRAINT TRIGGER report_metadata_role_map_last_modified_user_constraint AFTER INSERT OR UPDATE ON openchpl.report_metadata_role_map DEFERRABLE INITIALLY DEFERRED FOR EACH ROW EXECUTE PROCEDURE openchpl.last_modified_user_constraint();
+CREATE CONSTRAINT TRIGGER report_metadata_role_map_last_modified_user_constraint AFTER INSERT OR UPDATE ON openchpl.report_metadata_role_map DEFERRABLE INITIALLY DEFERRED FOR EACH ROW EXECUTE PROCEDURE openchpl.last_modified_user_constraint();;
+-- ./changes/ocd-5087.sql
+UPDATE openchpl.attestation_period
+SET submission_end = '2025-12-31'
+WHERE id = 9;
+;
+insert into openchpl.data_model_version (version, deploy_date, last_modified_user) values ('28.1.0', '2025-12-01', -1);
+\i dev/openchpl_soft-delete.sql
+\i dev/openchpl_views.sql
+\i dev/openchpl_grant-all.sql
