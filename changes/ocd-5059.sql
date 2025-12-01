@@ -13,3 +13,8 @@ WHERE NOT EXISTS (
 -- Add column to store standard group name
 --
 ALTER TABLE openchpl.updated_criterion_status_report ADD COLUMN IF NOT EXISTS standard_group_name text;
+
+--
+-- Add column to store required date
+--
+ALTER TABLE openchpl.updated_criterion_status_report ADD COLUMN IF NOT EXISTS required_day date;
