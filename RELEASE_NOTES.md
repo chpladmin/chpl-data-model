@@ -1,5 +1,16 @@
 # Release Notes
 
+## Version 28.1.0
+_1 December 2025_
+
+### Features
+* Create table mapping reports to user roles
+
+### Data Changes
+* Set attestation submission end date to 12/31
+
+---
+
 ## Version 28.0.0
 _24 November 2025_
 
