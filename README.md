@@ -4,7 +4,7 @@
 
 ```sh
 $ git clone https://github.com/chpladmin/chpl-data-model.git
-$ cd openchpl-sql
+$ cd chpl-data-model
 ```
 
 ## Data model development process
@@ -41,7 +41,7 @@ Run the `load-pending-changes.sh` script.  This will execute:
 * The `dev/openchpl_grant-all.sql` script (set permissions for all database objects)
 
 ## Data model load
-CHPL currently recommends using Postgres version 14 running on the standard port of 5432.
+CHPL currently recommends using Postgres version 15 running on the standard port of 5432.
 1. Create the necessary roles in our database
     * Create a new file `dev/openchpl_role.sql` based on `dev/openchpl_role-template.sql` and set the password for the `openchpl` and `openchpl_dev` roles in the new file. The password is recorded as "change this password" in the template file.
    ```sh
