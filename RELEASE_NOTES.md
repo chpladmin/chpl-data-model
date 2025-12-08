@@ -1,5 +1,16 @@
 # Release Notes
 
+## Version 28.2.0
+_8 December 2025_
+
+### Features
+* Add extension end day to code sets, functionality tested, and standards
+
+### Data Changes
+* Add CODE_SET activity type
+
+---
+
 ## Version 28.1.0
 _1 December 2025_
 
