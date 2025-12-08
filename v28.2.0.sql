@@ -1,3 +1,6 @@
+-- Deployment file for version 28.2.0
+--     as of 2025-12-08
+-- ./changes/ocd-5042.sql
 --
 -- standards
 --
@@ -35,4 +38,8 @@ SELECT 'CODE_SET',
 		'6498c4f8-b0f1-70b5-55de-d84faae73402'
 WHERE NOT EXISTS (
 	SELECT * FROM openchpl.activity_concept WHERE concept = 'CODE_SET'
-);
+);;
+insert into openchpl.data_model_version (version, deploy_date, last_modified_user) values ('28.2.0', '2025-12-08', -1);
+\i dev/openchpl_soft-delete.sql
+\i dev/openchpl_views.sql
+\i dev/openchpl_grant-all.sql
