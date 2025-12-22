@@ -110,6 +110,7 @@ BEGIN
 		UPDATE openchpl.certification_result_ucd_process as src SET deleted = NEW.deleted WHERE src.certification_result_id = NEW.certification_result_id;
 		UPDATE openchpl.certification_result_standard as src SET deleted = NEW.deleted WHERE src.certification_result_id = NEW.certification_result_id;
 		UPDATE openchpl.questionable_activity_certification_result as src SET deleted = NEW.deleted WHERE src.certification_result_id = NEW.certification_result_id;
+		UPDATE openchpl.updated_criterion_status_report as src SET deleted = NEW.deleted WHERE src.certification_result_id = NEW.certification_result_id;
     END IF;
     RETURN NEW;
 END;
