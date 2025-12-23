@@ -1,5 +1,16 @@
 # Release Notes
 
+## Version 28.3.0
+_22 December 2025_
+
+### Features
+* Add data and column to store required unattested grouped standards
+
+### Data Changes
+* Add new Power BI report for updated criteria status grouped by ONC-ACB
+
+---
+
 ## Version 28.2.0
 _8 December 2025_
 
