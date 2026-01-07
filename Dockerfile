@@ -1,5 +1,5 @@
-# Use the official PostgreSQL 14 image as the base
-FROM postgres:14
+# Use the official PostgreSQL 15 image as the base
+FROM postgres:15
 
 # Set environment variables for PostgreSQL
 # These variables are used when the container is first initialized
