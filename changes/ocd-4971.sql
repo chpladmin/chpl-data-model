@@ -1,3 +1,32 @@
+--
+-- Move all "instructions" to the instructions field
+-- Some of them were hardcoded in the UI but they can all go here and allow us 
+-- to have varying instructions per attestation period over time.
+--
+UPDATE openchpl.form
+SET instructions = E'As a health IT developer of certified health IT that had an active certification under the ONC Health IT Certification Program at any time during the Attestation Period, please indicate your compliance, noncompliance, or the inapplicability of each Condition and Maintenance of Certification requirement for the portion of the Attestation Period you had an active certification.\n\nSelect only one response for each statement.'
+WHERE id = 1;
+
+UPDATE openchpl.form
+SET instructions = E'As a health IT developer of certified health IT that had an active certification under the ONC Health IT Certification Program at any time during the Attestation Period, please indicate your compliance, noncompliance, or the inapplicability of each Condition and Maintenance of Certification requirement for the portion of the Attestation Period you had an active certification.\n\nSelect only one response for each statement.\n\nIf "Noncompliant" is selected, you may, but are not required to, indicate the status of a Corrective Action Plan (CAP) under the Certification Program.'
+WHERE id = 2;
+
+UPDATE openchpl.form
+SET instructions = E'As a health IT developer of certified health IT that had an active certification under the ONC Health IT Certification Program at any time during the Attestation Period, please indicate your compliance, noncompliance, or the inapplicability of each Condition and Maintenance of Certification requirement for the portion of the Attestation Period you had an active certification.\n\nSelect only one response for each statement.\n\nIf "Noncompliant" is selected, you may, but are not required to, indicate the status of a Corrective Action Plan (CAP) under the Certification Program.'
+WHERE id = 3;
+
+UPDATE openchpl.form
+SET instructions = E'As a health IT developer of certified health IT that had an active certification under the ONC Health IT Certification Program at any time during the Attestation Period, please indicate your compliance, noncompliance, or the inapplicability of each Condition and Maintenance of Certification requirement for the portion of the Attestation Period you had an active certification.\n\nSelect only one response for each statement.\n\nIf "Noncompliant" is selected, you may, but are not required to, indicate the status of a Corrective Action Plan (CAP) under the Certification Program.'
+WHERE id = 4;
+
+INSERT INTO openchpl.form (description, instructions, last_modified_sso_user)
+SELECT 'Attestation Period 2025-10-01 to 2026-03-31', 
+	E'Developers that had an active certification under the ONC Health IT Certification Program at any time during the Attestation Period, please indicate your compliance, noncompliance, or the inapplicability of each Condition and Maintenance of Certification requirement for the portion of the Attestation Period you had an active certification.\n\nSelect only one response for each statement.\n\nIf "Noncompliant" is selected, you may, but are not required to, indicate the status of a Corrective Action Plan (CAP) under the Certification Program.',
+	'6498c4f8-b0f1-70b5-55de-d84faae73402'
+WHERE NOT EXISTS (
+	SELECT * FROM openchpl.form WHERE description = 'Attestation Period 2025-10-01 to 2026-03-31'
+);
+
 -- 
 -- create the new form
 --
