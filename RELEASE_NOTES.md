@@ -1,5 +1,13 @@
 # Release Notes
 
+## Version 28.3.1
+_4 February 2026_
+
+### Data Changes
+* Remove incorrect criteria up-to-date calculations
+
+---
+
 ## Version 28.3.0
 _22 December 2025_
 
