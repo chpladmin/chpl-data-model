@@ -1,5 +1,17 @@
 # Release Notes
 
+## Version 28.3.2
+_17 February 2026_
+
+### Bug Fixes
+* Update powerbi report heights to eliminate internal scrollbar
+
+### Data Changes
+* Allow code set attribute for 170.315 (b)(3) criterion
+* Create new attestation form for adjusted RWT question text
+
+---
+
 ## Version 28.3.1
 _4 February 2026_
 

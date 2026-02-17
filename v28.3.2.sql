@@ -1,3 +1,6 @@
+-- Deployment file for version 28.3.2
+--     as of 2026-02-17
+-- ./changes/ocd-4971.sql
 --
 -- Move all "instructions" to the instructions field
 -- Some of them were hardcoded in the UI but they can all go here and allow us 
@@ -246,4 +249,30 @@ WHERE NOT EXISTS (
 --
 UPDATE openchpl.attestation_period
 SET form_id = (SELECT id FROM openchpl.form WHERE description = 'Attestation Period 2025-10-01 to 2026-03-31')
-WHERE id >= 10;
+WHERE id >= 10;;
+-- ./changes/ocd-5064.sql
+UPDATE openchpl.certification_criterion_attribute
+SET code_set = TRUE
+WHERE criterion_id = 167; --b3
+;
+-- ./changes/ocd-5089.sql
+UPDATE openchpl.report_metadata
+SET height = '800px'
+WHERE title = 'Developer Attestations';
+
+UPDATE openchpl.report_metadata
+SET height = '1350px'
+WHERE title = 'Developer Statistics';
+
+UPDATE openchpl.report_metadata
+SET height = '800px'
+WHERE title = 'Direct Review Statistics';
+
+UPDATE openchpl.report_metadata
+SET height = '1400px'
+WHERE title = 'Product Statistics';
+;
+insert into openchpl.data_model_version (version, deploy_date, last_modified_user) values ('28.3.2', '2026-02-17', -1);
+\i dev/openchpl_soft-delete.sql
+\i dev/openchpl_views.sql
+\i dev/openchpl_grant-all.sql
