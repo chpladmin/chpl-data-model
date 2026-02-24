@@ -14,6 +14,7 @@ DROP VIEW IF EXISTS openchpl.requirement_type;
 DROP VIEW IF EXISTS openchpl.nonconformity_type;
 DROP VIEW IF EXISTS openchpl.rwt_plans_by_developer;
 DROP VIEW IF EXISTS openchpl.rwt_results_by_developer;
+DROP VIEW IF EXISTS openchpl.service_base_url_list_by_developer;
 DROP VIEW IF EXISTS openchpl.subscription_search_result;
 DROP VIEW IF EXISTS openchpl.subscription_observation_notification;
 DROP VIEW IF EXISTS openchpl.most_recent_past_attestation_period;
@@ -1295,6 +1296,19 @@ AS
 	WHERE cp.deleted = false
 	GROUP BY cp.rwt_results_url, dev.vendor_id;	
 
+CREATE OR REPLACE VIEW openchpl.service_base_url_list_by_developer
+AS
+	SELECT cr.service_base_url_list, dev.vendor_id as developer_id
+	FROM openchpl.certified_product cp
+	JOIN openchpl.certification_result cr on cp.certified_product_id = cr.certified_product_id and cr.deleted = false and cr.success = true and cr.certification_criterion_id = 182
+	JOIN openchpl.product_version ver on cp.product_version_id = ver.product_version_id
+	JOIN openchpl.product prod on ver.product_id = prod.product_id 
+	JOIN openchpl.vendor dev on prod.vendor_id = dev.vendor_id
+	JOIN openchpl.listing_search 
+		ON listing_search.certified_product_id = cp.certified_product_id
+		AND listing_search.certification_status_id IN (1,6,7)
+	WHERE cp.deleted = false
+	GROUP BY cr.service_base_url_list, dev.vendor_id;
 
 CREATE VIEW openchpl.most_recent_past_attestation_period AS 
 SELECT id, period_start, period_end, submission_start, submission_end
