@@ -1,5 +1,16 @@
 # Release Notes
 
+## Version 28.4.0
+_2 March 2026_
+
+### Features
+* Collect g7, g9, and g10 data for attestations check-in report
+
+### Data Changes
+* Mark as deleted 3 test standards w/2014 listings that were null
+
+---
+
 ## Version 28.3.2
 _17 February 2026_
 
