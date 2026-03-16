@@ -1,5 +1,13 @@
 # Release Notes
 
+## Version 28.4.1
+_16 March 2026_
+
+### Data Changes
+* Add two required CQMs for 2026
+
+---
+
 ## Version 28.4.0
 _2 March 2026_
 
