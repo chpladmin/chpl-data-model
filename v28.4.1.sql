@@ -1,3 +1,6 @@
+-- Deployment file for version 28.4.1
+--     as of 2026-03-16
+-- ./changes/ocd-5195.sql
 INSERT INTO openchpl.cqm_criterion (cms_id, title, description, cqm_domain, nqf_number, last_modified_sso_user, cqm_version_id, cqm_criterion_type_id, retired)
   SELECT 'CMS1173', 
 	'Diagnostic Delay of Venous Thromboembolism in Primary Care', 
@@ -21,4 +24,8 @@ INSERT INTO openchpl.cqm_criterion (cms_id, title, description, cqm_domain, nqf_
 	(select cqm_criterion_type_id from openchpl.cqm_criterion_type where name = 'Inpatient'), 
 	false
   WHERE NOT EXISTS (select * from openchpl.cqm_criterion where cms_ID = 'CMS1154');
-  
+  ;
+insert into openchpl.data_model_version (version, deploy_date, last_modified_user) values ('28.4.1', '2026-03-16', -1);
+\i dev/openchpl_soft-delete.sql
+\i dev/openchpl_views.sql
+\i dev/openchpl_grant-all.sql
