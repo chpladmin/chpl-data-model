@@ -19,8 +19,8 @@ SELECT 'DEV',
         'Questionable URLs',
         'QuestionableUrls', 
         'astp-dashboard', 
-        'https://app.powerbi.com/view?r=eyJrIjoiOWVhMjg5YTctYTM5Ny00YTVhLThiZGMtNDlkZDhiNzU5MDdjIiwidCI6IjMwN2QyMTJhLWZiODYtNDgwNy04NGRkLTg2Nzc2OWI4MDQyYSIsImMiOjF9',
-        '475px',
+        'https://app.powerbi.com/view?r=eyJrIjoiZGUwYjk5NzYtYzI2NS00MWU1LTgyYzEtOGI0ZjdjODU3ODM2IiwidCI6IjMwN2QyMTJhLWZiODYtNDgwNy04NGRkLTg2Nzc2OWI4MDQyYSIsImMiOjF9',
+        '325px',
         '6498c4f8-b0f1-70b5-55de-d84faae73402'
 WHERE NOT EXISTS (
         SELECT * FROM openchpl.report_metadata WHERE environment = 'DEV' AND report_key = 'QuestionableUrls' AND report_group = 'astp-dashboard' 
@@ -31,8 +31,8 @@ SELECT 'QA',
         'Questionable URLs',
         'QuestionableUrls', 
         'astp-dashboard', 
-        'https://app.powerbi.com/view?r=eyJrIjoiNjUwN2YwOGItOWY2YS00ZjU3LTllMDgtMTZmOWI0Yzk2ODI5IiwidCI6IjMwN2QyMTJhLWZiODYtNDgwNy04NGRkLTg2Nzc2OWI4MDQyYSIsImMiOjF9',
-        '475px',
+        'https://app.powerbi.com/view?r=eyJrIjoiYmZiMzQyODYtMGQ4OS00N2MzLTlhZWItNTUxMDkxMjg5MWVmIiwidCI6IjMwN2QyMTJhLWZiODYtNDgwNy04NGRkLTg2Nzc2OWI4MDQyYSIsImMiOjF9',
+        '325px',
         '6498c4f8-b0f1-70b5-55de-d84faae73402'
 WHERE NOT EXISTS (
         SELECT * FROM openchpl.report_metadata WHERE environment = 'QA' AND report_key = 'QuestionableUrls' AND report_group = 'astp-dashboard' 
@@ -43,8 +43,8 @@ SELECT 'STG',
         'Questionable URLs',
         'QuestionableUrls', 
         'astp-dashboard', 
-        'https://app.powerbi.com/view?r=eyJrIjoiYjA3MTVkNGEtMTE3My00ODY4LTk2MzItNTU5YjViNDczZmNjIiwidCI6IjMwN2QyMTJhLWZiODYtNDgwNy04NGRkLTg2Nzc2OWI4MDQyYSIsImMiOjF9',
-        '475px',
+        'https://app.powerbi.com/view?r=eyJrIjoiZWMzYjM2MjAtYzVhMy00MGVhLTg5OGYtYjM5Y2Q3ZWVhZjQyIiwidCI6IjMwN2QyMTJhLWZiODYtNDgwNy04NGRkLTg2Nzc2OWI4MDQyYSIsImMiOjF9',
+        '325px',
         '6498c4f8-b0f1-70b5-55de-d84faae73402'
 WHERE NOT EXISTS (
         SELECT * FROM openchpl.report_metadata WHERE environment = 'STG' AND report_key = 'QuestionableUrls' AND report_group = 'astp-dashboard' 
@@ -55,8 +55,8 @@ SELECT 'PROD',
         'Questionable URLs',
         'QuestionableUrls', 
         'astp-dashboard', 
-        'https://app.powerbi.com/view?r=eyJrIjoiNWI2ZWRiZmEtNzVjYi00YTMzLWFkNjUtNjViNTk2ODI5MDc0IiwidCI6IjMwN2QyMTJhLWZiODYtNDgwNy04NGRkLTg2Nzc2OWI4MDQyYSIsImMiOjF9',
-        '475px',
+        'https://app.powerbi.com/view?r=eyJrIjoiMGZlNmZjZTctMWI0Mi00YjNhLTk5MmEtZjRmMDVlZTQxYjY3IiwidCI6IjMwN2QyMTJhLWZiODYtNDgwNy04NGRkLTg2Nzc2OWI4MDQyYSIsImMiOjF9',
+        '325px',
         '6498c4f8-b0f1-70b5-55de-d84faae73402'
 WHERE NOT EXISTS (
         SELECT * FROM openchpl.report_metadata WHERE environment = 'PROD' AND report_key = 'QuestionableUrls' AND report_group = 'astp-dashboard' 
@@ -157,8 +157,8 @@ SELECT 'DEV',
         'Developer Attestations',
         'DeveloperAttestations', 
         'astp-dashboard', 
-        'https://app.powerbi.com/view?r=eyJrIjoiOWVhMjg5YTctYTM5Ny00YTVhLThiZGMtNDlkZDhiNzU5MDdjIiwidCI6IjMwN2QyMTJhLWZiODYtNDgwNy04NGRkLTg2Nzc2OWI4MDQyYSIsImMiOjF9',
-        '800px',
+        'https://app.powerbi.com/view?r=eyJrIjoiZTcxYTAzMzgtOTFhYi00YTRhLThjZjItZGY3ZmQwYzYzMDlhIiwidCI6IjMwN2QyMTJhLWZiODYtNDgwNy04NGRkLTg2Nzc2OWI4MDQyYSIsImMiOjF9',
+        '525px',
         '6498c4f8-b0f1-70b5-55de-d84faae73402'
 WHERE NOT EXISTS (
         SELECT * FROM openchpl.report_metadata WHERE environment = 'DEV' AND report_key = 'DeveloperAttestations' AND report_group = 'astp-dashboard' 
@@ -169,8 +169,8 @@ SELECT 'QA',
         'Developer Attestations',
         'DeveloperAttestations', 
         'astp-dashboard', 
-        'https://app.powerbi.com/view?r=eyJrIjoiNjUwN2YwOGItOWY2YS00ZjU3LTllMDgtMTZmOWI0Yzk2ODI5IiwidCI6IjMwN2QyMTJhLWZiODYtNDgwNy04NGRkLTg2Nzc2OWI4MDQyYSIsImMiOjF9',
-        '800px',
+        'https://app.powerbi.com/view?r=eyJrIjoiYjYwYTQ1YjAtMGQ1ZC00ZGEzLWJjOTktZmVhMjM5YzcxNTljIiwidCI6IjMwN2QyMTJhLWZiODYtNDgwNy04NGRkLTg2Nzc2OWI4MDQyYSIsImMiOjF9',
+        '525px',
         '6498c4f8-b0f1-70b5-55de-d84faae73402'
 WHERE NOT EXISTS (
         SELECT * FROM openchpl.report_metadata WHERE environment = 'QA' AND report_key = 'DeveloperAttestations' AND report_group = 'astp-dashboard'  
@@ -181,8 +181,8 @@ SELECT 'STG',
         'Developer Attestations',
         'DeveloperAttestations', 
         'astp-dashboard', 
-        'https://app.powerbi.com/view?r=eyJrIjoiYjA3MTVkNGEtMTE3My00ODY4LTk2MzItNTU5YjViNDczZmNjIiwidCI6IjMwN2QyMTJhLWZiODYtNDgwNy04NGRkLTg2Nzc2OWI4MDQyYSIsImMiOjF9',
-        '800px',
+        'https://app.powerbi.com/view?r=eyJrIjoiYjFhMTA3ZWItZDlmOS00NjdkLWE3ZWEtMmNiZWRmOTQ3ZGMyIiwidCI6IjMwN2QyMTJhLWZiODYtNDgwNy04NGRkLTg2Nzc2OWI4MDQyYSIsImMiOjF9',
+        '525px',
         '6498c4f8-b0f1-70b5-55de-d84faae73402'
 WHERE NOT EXISTS (
         SELECT * FROM openchpl.report_metadata WHERE environment = 'STG' AND report_key = 'DeveloperAttestations' AND report_group = 'astp-dashboard' 
@@ -193,8 +193,8 @@ SELECT 'PROD',
         'Developer Attestations',
         'DeveloperAttestations', 
         'astp-dashboard', 
-        'https://app.powerbi.com/view?r=eyJrIjoiNWI2ZWRiZmEtNzVjYi00YTMzLWFkNjUtNjViNTk2ODI5MDc0IiwidCI6IjMwN2QyMTJhLWZiODYtNDgwNy04NGRkLTg2Nzc2OWI4MDQyYSIsImMiOjF9',
-        '800px',
+        'https://app.powerbi.com/view?r=eyJrIjoiYjBiZWE4NTktNzcyMi00OWE2LWIzNjUtMWUyYjFhNWY0OWI0IiwidCI6IjMwN2QyMTJhLWZiODYtNDgwNy04NGRkLTg2Nzc2OWI4MDQyYSIsImMiOjF9',
+        '525px',
         '6498c4f8-b0f1-70b5-55de-d84faae73402'
 WHERE NOT EXISTS (
         SELECT * FROM openchpl.report_metadata WHERE environment = 'PROD' AND report_key = 'DeveloperAttestations' AND report_group = 'astp-dashboard' 
