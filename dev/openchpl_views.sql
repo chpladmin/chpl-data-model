@@ -1202,11 +1202,11 @@ AS
 	all_questionable_activity.certification_status_change_reason,
 	all_questionable_activity.activity_id, 
 	trigger.level as trigger_level, trigger.name as trigger_name,
-	listing_search.chpl_product_number,
-	listing_search.certification_body_id,
-	listing_search.certification_body_name,
-	listing_search.certification_status_id,
-	listing_search.certification_status_name,
+    certified_product_info.chpl_product_number,
+    certified_product_info.certification_body_id,
+    certified_product_info.certification_body_name,
+    certified_product_info.certification_status_id,
+    certified_product_info.certification_status_name,
 	act.last_modified_user as activity_user_id,
 	act.last_modified_sso_user as activity_sso_user_id
 	FROM (
@@ -1267,7 +1267,26 @@ AS
 			WHERE qad.deleted = false
 	) all_questionable_activity
 	JOIN openchpl.questionable_activity_trigger trigger ON all_questionable_activity.questionable_activity_trigger_id = trigger.id
-	LEFT JOIN openchpl.listing_search ON all_questionable_activity.certified_product_id = listing_search.certified_product_id
+    LEFT JOIN
+    (SELECT 
+            certified_product.certified_product_id,
+            openchpl.get_chpl_product_number_as_text(certified_product.certified_product_id) AS chpl_product_number,
+            certification_body.certification_body_id,
+            certification_body.name AS certification_body_name,
+            certification_body.acb_code AS certification_body_code,
+            certstatus.certification_status_id,
+           certstatus.certification_status_name
+     FROM openchpl.certified_product
+     JOIN openchpl.certification_body ON certified_product.certification_body_id = certification_body.certification_body_id
+     LEFT JOIN (
+    	 SELECT cse.certification_status_event_id, cse.certification_status_id, cs.certification_status as certification_status_name, cse.certified_product_id
+    	 FROM openchpl.certification_status_event cse
+    	 JOIN openchpl.certification_status cs ON cse.certification_status_id = cs.certification_status_id
+    	 WHERE cse.deleted = false
+    	 ) certstatus 
+     ON certstatus.certification_status_event_id = 
+    	(SELECT get_current_certification_status_event_id.current_certification_status_event_id
+    		FROM openchpl.get_current_certification_status_event_id(certified_product.certified_product_id))) certified_product_info ON certified_product_info.certified_product_id = all_questionable_activity.certified_product_id
 	LEFT JOIN openchpl.activity act on all_questionable_activity.activity_id = act.activity_id;
 
 CREATE OR REPLACE VIEW openchpl.rwt_plans_by_developer
