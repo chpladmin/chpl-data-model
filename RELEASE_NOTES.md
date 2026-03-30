@@ -1,5 +1,13 @@
 # Release Notes
 
+## Version 28.5.0
+_30 March 2026_
+
+### Features
+* Add index and adjust view to improve questionable activity performance 
+
+---
+
 ## Version 28.4.1
 _16 March 2026_
 
