@@ -1409,7 +1409,7 @@ LEFT JOIN (SELECT cr.id, cr.developer_id, crStatus.status_change_date
 				FROM openchpl.change_request crInner
 				JOIN openchpl.change_request_status crStatusInner ON crInner.id = crStatusInner.change_request_id AND crStatusInner.deleted = false
 				WHERE crInner.deleted = false
-				AND crInner.developer_id = cr.developer_id
+				AND crInner.id = cr.id
 				AND crStatus.change_request_status_type_id IN (1,2,3))) developer_attestation_submission_change_request
 		ON developer_attestation_submission_change_request.developer_id = dev.vendor_id		
 LEFT JOIN (SELECT string_agg(certification_body_id::text||':'||name, '|') as acbs_for_developer_active_listings, vendor_id 
