@@ -1,5 +1,16 @@
 # Release Notes
 
+## Version 28.6.0
+_27 April 2026_
+
+### Features
+* Create service_base_url_list_by_developer view
+
+### Data Changes
+* Add onc-dashboard report metadata
+
+---
+
 ## Version 28.5.0
 _30 March 2026_
 
