@@ -1,5 +1,13 @@
 # Release Notes
 
+## Version 28.6.1
+_11 May 2026_
+
+### Data Changes
+* Add new Service Base URL List Dashboard report to metadata table
+
+---
+
 ## Version 28.6.0
 _27 April 2026_
 
