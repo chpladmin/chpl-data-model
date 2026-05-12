@@ -1,3 +1,6 @@
+-- Deployment file for version 28.6.1
+--     as of 2026-05-11
+-- ./changes/ocd-5224.sql
 --
 -- Add the new Dashboard SBUL report
 -- This will fall under the onc-dashboard group which we can use later to query only those charts
@@ -134,3 +137,8 @@ WHERE NOT EXISTS (
 		WHERE report_metadata_id = (SELECT id FROM openchpl.report_metadata WHERE environment = 'PROD' AND report_key = 'ServiceBaseUrlList' AND report_group = 'onc-dashboard') 
 		AND role_name = 'chpl-onc' 
 );
+;
+insert into openchpl.data_model_version (version, deploy_date, last_modified_user) values ('28.6.1', '2026-05-11', -1);
+\i dev/openchpl_soft-delete.sql
+\i dev/openchpl_views.sql
+\i dev/openchpl_grant-all.sql
