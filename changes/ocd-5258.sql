@@ -1,4 +1,22 @@
 --
+-- Update heights on some dashboard report metadata
+--
+UPDATE openchpl.report_metadata
+SET height = '600px'
+WHERE report_key = 'DeveloperAttestations'
+AND report_group = 'onc-dashboard';
+
+UPDATE openchpl.report_metadata
+SET height = '365px'
+WHERE report_key = 'QuestionableUrls'
+AND report_group = 'onc-dashboard';
+
+UPDATE openchpl.report_metadata
+SET height = '600px'
+WHERE report_key = 'ServiceBaseUrlList'
+AND report_group = 'onc-dashboard';
+
+--
 -- Add report metadata for the new dashboard report in all environments
 --
 
@@ -8,7 +26,7 @@ SELECT 'DEV',
         'DashboardNonconformities', 
         'onc-dashboard', 
         'https://app.powerbi.com/view?r=eyJrIjoiN2U5NjMxMTQtYzcwNS00YzQwLThhYzAtZThiNjc3Mzg0NDI4IiwidCI6IjMwN2QyMTJhLWZiODYtNDgwNy04NGRkLTg2Nzc2OWI4MDQyYSIsImMiOjF9',
-        '500px',
+        '600px',
         '6498c4f8-b0f1-70b5-55de-d84faae73402'
 WHERE NOT EXISTS (
         SELECT * FROM openchpl.report_metadata WHERE environment = 'DEV' AND report_key = 'DashboardNonconformities' AND report_group = 'onc-dashboard' 
@@ -20,7 +38,7 @@ SELECT 'QA',
         'DashboardNonconformities', 
         'onc-dashboard', 
         'https://app.powerbi.com/view?r=eyJrIjoiYTU3NDgzY2YtYTQwZS00ZmU4LTg4Y2ItYzU2NDM1MmQwOGI5IiwidCI6IjMwN2QyMTJhLWZiODYtNDgwNy04NGRkLTg2Nzc2OWI4MDQyYSIsImMiOjF9',
-        '500px',
+        '600px',
         '6498c4f8-b0f1-70b5-55de-d84faae73402'
 WHERE NOT EXISTS (
         SELECT * FROM openchpl.report_metadata WHERE environment = 'QA' AND report_key = 'DashboardNonconformities' AND report_group = 'onc-dashboard' 
@@ -32,7 +50,7 @@ SELECT 'STG',
         'DashboardNonconformities', 
         'onc-dashboard', 
         'https://app.powerbi.com/view?r=eyJrIjoiZTFjNzI2NTYtNzM5MC00YmNkLTk4ODQtMTk1NzQyMTQ5NDdkIiwidCI6IjMwN2QyMTJhLWZiODYtNDgwNy04NGRkLTg2Nzc2OWI4MDQyYSIsImMiOjF9',
-        '500px',
+        '600px',
         '6498c4f8-b0f1-70b5-55de-d84faae73402'
 WHERE NOT EXISTS (
         SELECT * FROM openchpl.report_metadata WHERE environment = 'STG' AND report_key = 'DashboardNonconformities' AND report_group = 'onc-dashboard' 
@@ -44,7 +62,7 @@ SELECT 'PROD',
         'DashboardNonconformities', 
         'onc-dashboard', 
         'https://app.powerbi.com/view?r=eyJrIjoiMGMwZjU2NmEtMzY1Zi00NWZlLWE5MDItYzU4ZmQzNTQyNTM1IiwidCI6IjMwN2QyMTJhLWZiODYtNDgwNy04NGRkLTg2Nzc2OWI4MDQyYSIsImMiOjF9',
-        '500px',
+        '600px',
         '6498c4f8-b0f1-70b5-55de-d84faae73402'
 WHERE NOT EXISTS (
         SELECT * FROM openchpl.report_metadata WHERE environment = 'PROD' AND report_key = 'DashboardNonconformities' AND report_group = 'onc-dashboard' 
