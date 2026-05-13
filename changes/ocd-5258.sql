@@ -16,6 +16,11 @@ SET height = '600px'
 WHERE report_key = 'ServiceBaseUrlList'
 AND report_group = 'onc-dashboard';
 
+UPDATE openchpl.report_metadata
+SET height = '450px'
+WHERE report_key = 'ImportantDates'
+AND report_group = 'onc-dashboard';
+
 --
 -- Add report metadata for the new dashboard report in all environments
 --
