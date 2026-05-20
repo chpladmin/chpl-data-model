@@ -65,49 +65,49 @@ CREATE CONSTRAINT TRIGGER real_world_testing_results_summary_by_developer_report
 INSERT INTO openchpl.report_metadata (environment, title, report_key, report_group, url, height, last_modified_sso_user)
 SELECT 'DEV', 
         'Real World Testing',
-        'DashboardRealWorldTesting', 
+        'RealWorldTesting', 
         'onc-dashboard', 
         'https://app.powerbi.com/view?r=eyJrIjoiNWMyOWQxNGYtNDU4YS00OTFhLTk3ODMtYmMwNjBjMTIxZDljIiwidCI6IjMwN2QyMTJhLWZiODYtNDgwNy04NGRkLTg2Nzc2OWI4MDQyYSIsImMiOjF9',
         '500px',
         '6498c4f8-b0f1-70b5-55de-d84faae73402'
 WHERE NOT EXISTS (
-        SELECT * FROM openchpl.report_metadata WHERE environment = 'DEV' AND report_key = 'DashboardRealWorldTesting' AND report_group = 'onc-dashboard' 
+        SELECT * FROM openchpl.report_metadata WHERE environment = 'DEV' AND report_key = 'RealWorldTesting' AND report_group = 'onc-dashboard' 
 );
 
 INSERT INTO openchpl.report_metadata (environment, title, report_key, report_group, url, height, last_modified_sso_user)
 SELECT 'QA', 
         'Real World Testing',
-        'DashboardRealWorldTesting', 
+        'RealWorldTesting', 
         'onc-dashboard', 
         'https://app.powerbi.com/view?r=eyJrIjoiOTI5MWE1OGYtNTBhNC00YTIyLWFiZGItZWQzNTViMGJlMDhiIiwidCI6IjMwN2QyMTJhLWZiODYtNDgwNy04NGRkLTg2Nzc2OWI4MDQyYSIsImMiOjF9',
         '500px',
         '6498c4f8-b0f1-70b5-55de-d84faae73402'
 WHERE NOT EXISTS (
-        SELECT * FROM openchpl.report_metadata WHERE environment = 'QA' AND report_key = 'DashboardRealWorldTesting' AND report_group = 'onc-dashboard' 
+        SELECT * FROM openchpl.report_metadata WHERE environment = 'QA' AND report_key = 'RealWorldTesting' AND report_group = 'onc-dashboard' 
 );
 
 INSERT INTO openchpl.report_metadata (environment, title, report_key, report_group, url, height, last_modified_sso_user)
 SELECT 'STG', 
         'Real World Testing',
-        'DashboardRealWorldTesting', 
+        'RealWorldTesting', 
         'onc-dashboard', 
         'https://app.powerbi.com/view?r=eyJrIjoiZTNiMzg2NWYtODlhZi00MjZkLWExOGQtYTg4MzNmZDQ2NTQwIiwidCI6IjMwN2QyMTJhLWZiODYtNDgwNy04NGRkLTg2Nzc2OWI4MDQyYSIsImMiOjF9',
         '500px',
         '6498c4f8-b0f1-70b5-55de-d84faae73402'
 WHERE NOT EXISTS (
-        SELECT * FROM openchpl.report_metadata WHERE environment = 'STG' AND report_key = 'DashboardRealWorldTesting' AND report_group = 'onc-dashboard' 
+        SELECT * FROM openchpl.report_metadata WHERE environment = 'STG' AND report_key = 'RealWorldTesting' AND report_group = 'onc-dashboard' 
 );
 
 INSERT INTO openchpl.report_metadata (environment, title, report_key, report_group, url, height, last_modified_sso_user)
 SELECT 'PROD', 
         'Real World Testing',
-        'DashboardRealWorldTesting', 
+        'RealWorldTesting', 
         'onc-dashboard', 
         'https://app.powerbi.com/view?r=eyJrIjoiZmViOGY4YzctM2M4Zi00ZDMwLWEwYTQtZDRkMTA2ODk5ODk4IiwidCI6IjMwN2QyMTJhLWZiODYtNDgwNy04NGRkLTg2Nzc2OWI4MDQyYSIsImMiOjF9',
         '500px',
         '6498c4f8-b0f1-70b5-55de-d84faae73402'
 WHERE NOT EXISTS (
-        SELECT * FROM openchpl.report_metadata WHERE environment = 'PROD' AND report_key = 'DashboardRealWorldTesting' AND report_group = 'onc-dashboard' 
+        SELECT * FROM openchpl.report_metadata WHERE environment = 'PROD' AND report_key = 'RealWorldTesting' AND report_group = 'onc-dashboard' 
 );
 
 --
@@ -115,81 +115,81 @@ WHERE NOT EXISTS (
 -- ADMIN and ONC should have access
 --
 INSERT INTO openchpl.report_metadata_role_map (report_metadata_id, role_name, last_modified_sso_user)
-SELECT (SELECT id FROM openchpl.report_metadata WHERE environment = 'DEV' AND report_key = 'DashboardRealWorldTesting' AND report_group = 'onc-dashboard'), 
+SELECT (SELECT id FROM openchpl.report_metadata WHERE environment = 'DEV' AND report_key = 'RealWorldTesting' AND report_group = 'onc-dashboard'), 
         'chpl-admin',
         '6498c4f8-b0f1-70b5-55de-d84faae73402'
 WHERE NOT EXISTS (
         SELECT * FROM openchpl.report_metadata_role_map 
-		WHERE report_metadata_id = (SELECT id FROM openchpl.report_metadata WHERE environment = 'DEV' AND report_key = 'DashboardRealWorldTesting' AND report_group = 'onc-dashboard') 
+		WHERE report_metadata_id = (SELECT id FROM openchpl.report_metadata WHERE environment = 'DEV' AND report_key = 'RealWorldTesting' AND report_group = 'onc-dashboard') 
 		AND role_name = 'chpl-admin' 
 );
 
 INSERT INTO openchpl.report_metadata_role_map (report_metadata_id, role_name, last_modified_sso_user)
-SELECT (SELECT id FROM openchpl.report_metadata WHERE environment = 'QA' AND report_key = 'DashboardRealWorldTesting' AND report_group = 'onc-dashboard'), 
+SELECT (SELECT id FROM openchpl.report_metadata WHERE environment = 'QA' AND report_key = 'RealWorldTesting' AND report_group = 'onc-dashboard'), 
         'chpl-admin',
         '6498c4f8-b0f1-70b5-55de-d84faae73402'
 WHERE NOT EXISTS (
         SELECT * FROM openchpl.report_metadata_role_map 
-		WHERE report_metadata_id = (SELECT id FROM openchpl.report_metadata WHERE environment = 'QA' AND report_key = 'DashboardRealWorldTesting' AND report_group = 'onc-dashboard') 
+		WHERE report_metadata_id = (SELECT id FROM openchpl.report_metadata WHERE environment = 'QA' AND report_key = 'RealWorldTesting' AND report_group = 'onc-dashboard') 
 		AND role_name = 'chpl-admin' 
 );
 
 INSERT INTO openchpl.report_metadata_role_map (report_metadata_id, role_name, last_modified_sso_user)
-SELECT (SELECT id FROM openchpl.report_metadata WHERE environment = 'STG' AND report_key = 'DashboardRealWorldTesting' AND report_group = 'onc-dashboard'), 
+SELECT (SELECT id FROM openchpl.report_metadata WHERE environment = 'STG' AND report_key = 'RealWorldTesting' AND report_group = 'onc-dashboard'), 
         'chpl-admin',
         '6498c4f8-b0f1-70b5-55de-d84faae73402'
 WHERE NOT EXISTS (
         SELECT * FROM openchpl.report_metadata_role_map 
-		WHERE report_metadata_id = (SELECT id FROM openchpl.report_metadata WHERE environment = 'STG' AND report_key = 'DashboardRealWorldTesting' AND report_group = 'onc-dashboard') 
+		WHERE report_metadata_id = (SELECT id FROM openchpl.report_metadata WHERE environment = 'STG' AND report_key = 'RealWorldTesting' AND report_group = 'onc-dashboard') 
 		AND role_name = 'chpl-admin' 
 );
 
 INSERT INTO openchpl.report_metadata_role_map (report_metadata_id, role_name, last_modified_sso_user)
-SELECT (SELECT id FROM openchpl.report_metadata WHERE environment = 'PROD' AND report_key = 'DashboardRealWorldTesting' AND report_group = 'onc-dashboard'), 
+SELECT (SELECT id FROM openchpl.report_metadata WHERE environment = 'PROD' AND report_key = 'RealWorldTesting' AND report_group = 'onc-dashboard'), 
         'chpl-admin',
         '6498c4f8-b0f1-70b5-55de-d84faae73402'
 WHERE NOT EXISTS (
         SELECT * FROM openchpl.report_metadata_role_map 
-		WHERE report_metadata_id = (SELECT id FROM openchpl.report_metadata WHERE environment = 'PROD' AND report_key = 'DashboardRealWorldTesting' AND report_group = 'onc-dashboard') 
+		WHERE report_metadata_id = (SELECT id FROM openchpl.report_metadata WHERE environment = 'PROD' AND report_key = 'RealWorldTesting' AND report_group = 'onc-dashboard') 
 		AND role_name = 'chpl-admin' 
 );
 
 INSERT INTO openchpl.report_metadata_role_map (report_metadata_id, role_name, last_modified_sso_user)
-SELECT (SELECT id FROM openchpl.report_metadata WHERE environment = 'DEV' AND report_key = 'DashboardRealWorldTesting' AND report_group = 'onc-dashboard'), 
+SELECT (SELECT id FROM openchpl.report_metadata WHERE environment = 'DEV' AND report_key = 'RealWorldTesting' AND report_group = 'onc-dashboard'), 
         'chpl-onc',
         '6498c4f8-b0f1-70b5-55de-d84faae73402'
 WHERE NOT EXISTS (
         SELECT * FROM openchpl.report_metadata_role_map 
-		WHERE report_metadata_id = (SELECT id FROM openchpl.report_metadata WHERE environment = 'DEV' AND report_key = 'DashboardRealWorldTesting' AND report_group = 'onc-dashboard') 
+		WHERE report_metadata_id = (SELECT id FROM openchpl.report_metadata WHERE environment = 'DEV' AND report_key = 'RealWorldTesting' AND report_group = 'onc-dashboard') 
 		AND role_name = 'chpl-onc' 
 );
 
 INSERT INTO openchpl.report_metadata_role_map (report_metadata_id, role_name, last_modified_sso_user)
-SELECT (SELECT id FROM openchpl.report_metadata WHERE environment = 'QA' AND report_key = 'DashboardRealWorldTesting' AND report_group = 'onc-dashboard'), 
+SELECT (SELECT id FROM openchpl.report_metadata WHERE environment = 'QA' AND report_key = 'RealWorldTesting' AND report_group = 'onc-dashboard'), 
         'chpl-onc',
         '6498c4f8-b0f1-70b5-55de-d84faae73402'
 WHERE NOT EXISTS (
         SELECT * FROM openchpl.report_metadata_role_map 
-		WHERE report_metadata_id = (SELECT id FROM openchpl.report_metadata WHERE environment = 'QA' AND report_key = 'DashboardRealWorldTesting' AND report_group = 'onc-dashboard') 
+		WHERE report_metadata_id = (SELECT id FROM openchpl.report_metadata WHERE environment = 'QA' AND report_key = 'RealWorldTesting' AND report_group = 'onc-dashboard') 
 		AND role_name = 'chpl-onc' 
 );
 
 INSERT INTO openchpl.report_metadata_role_map (report_metadata_id, role_name, last_modified_sso_user)
-SELECT (SELECT id FROM openchpl.report_metadata WHERE environment = 'STG' AND report_key = 'DashboardRealWorldTesting' AND report_group = 'onc-dashboard'), 
+SELECT (SELECT id FROM openchpl.report_metadata WHERE environment = 'STG' AND report_key = 'RealWorldTesting' AND report_group = 'onc-dashboard'), 
         'chpl-onc',
         '6498c4f8-b0f1-70b5-55de-d84faae73402'
 WHERE NOT EXISTS (
         SELECT * FROM openchpl.report_metadata_role_map 
-		WHERE report_metadata_id = (SELECT id FROM openchpl.report_metadata WHERE environment = 'STG' AND report_key = 'DashboardRealWorldTesting' AND report_group = 'onc-dashboard') 
+		WHERE report_metadata_id = (SELECT id FROM openchpl.report_metadata WHERE environment = 'STG' AND report_key = 'RealWorldTesting' AND report_group = 'onc-dashboard') 
 		AND role_name = 'chpl-onc' 
 );
 
 INSERT INTO openchpl.report_metadata_role_map (report_metadata_id, role_name, last_modified_sso_user)
-SELECT (SELECT id FROM openchpl.report_metadata WHERE environment = 'PROD' AND report_key = 'DashboardRealWorldTesting' AND report_group = 'onc-dashboard'), 
+SELECT (SELECT id FROM openchpl.report_metadata WHERE environment = 'PROD' AND report_key = 'RealWorldTesting' AND report_group = 'onc-dashboard'), 
         'chpl-onc',
         '6498c4f8-b0f1-70b5-55de-d84faae73402'
 WHERE NOT EXISTS (
         SELECT * FROM openchpl.report_metadata_role_map 
-		WHERE report_metadata_id = (SELECT id FROM openchpl.report_metadata WHERE environment = 'PROD' AND report_key = 'DashboardRealWorldTesting' AND report_group = 'onc-dashboard') 
+		WHERE report_metadata_id = (SELECT id FROM openchpl.report_metadata WHERE environment = 'PROD' AND report_key = 'RealWorldTesting' AND report_group = 'onc-dashboard') 
 		AND role_name = 'chpl-onc' 
 );
