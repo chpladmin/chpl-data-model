@@ -12,29 +12,6 @@ RENAME TO real_world_testing_results_summary_by_acb_report;
 -- Create new tables to hold the RWT summary counts by developer
 --
 
-CREATE TABLE IF NOT EXISTS openchpl.real_world_testing_plan_summary_by_developer_report(
-	id bigserial NOT NULL,
-	real_world_testing_year bigint NOT NULL,
-	developer_id bigint NOT NULL,
-	checked_date date NOT NULL,
-	checked_count bigint NULL,
-	requires_check_count bigint NULL,
-	creation_date timestamp without time zone NOT NULL DEFAULT now(),
-	last_modified_date timestamp without time zone NOT NULL DEFAULT now(),
-	last_modified_user bigint NULL,
-	last_modified_sso_user uuid NULL,
-	deleted boolean NOT NULL DEFAULT false,
-	CONSTRAINT real_world_testing_plan_summary_by_developer_report_pk PRIMARY KEY (id),
-	CONSTRAINT vendor_fk FOREIGN KEY (developer_id)
-		REFERENCES openchpl.vendor (vendor_id)
-		MATCH simple ON UPDATE NO ACTION ON DELETE RESTRICT
-);
-
-CREATE OR replace TRIGGER real_world_testing_plan_summary_by_developer_report_audit AFTER INSERT OR UPDATE OR DELETE on openchpl.real_world_testing_plan_summary_by_developer_report FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
-CREATE OR replace TRIGGER real_world_testing_plan_summary_by_developer_report_timestamp BEFORE UPDATE on openchpl.real_world_testing_plan_summary_by_developer_report FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column();
-DROP TRIGGER IF EXISTS real_world_testing_plan_summary_by_developer_report_last_modified_user_constraint ON openchpl.real_world_testing_plan_summary_by_developer_report;
-CREATE CONSTRAINT TRIGGER real_world_testing_plan_summary_by_developer_report_last_modified_user_constraint AFTER INSERT OR UPDATE ON openchpl.real_world_testing_plan_summary_by_developer_report DEFERRABLE INITIALLY DEFERRED FOR EACH ROW EXECUTE PROCEDURE openchpl.last_modified_user_constraint();
-
 CREATE TABLE IF NOT EXISTS openchpl.real_world_testing_results_summary_by_developer_report(
 	id bigserial NOT NULL,
 	real_world_testing_year bigint NOT NULL,
