@@ -1,5 +1,13 @@
 # Release Notes
 
+## Version 28.6.2
+_26 May 2026_
+
+### Data changes
+* Add metadata for Important Dates dashboard report
+
+---
+
 ## Version 28.6.1
 _11 May 2026_
 
