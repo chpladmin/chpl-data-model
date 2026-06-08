@@ -1,5 +1,13 @@
 # Release Notes
 
+## Version 28.6.3
+_8 June 2026_
+
+### Data Changes
+* Add report metadata for ONC Dashboard Non-conformity report
+
+---
+
 ## Version 28.6.2
 _26 May 2026_
 
