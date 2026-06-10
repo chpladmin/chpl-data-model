@@ -35,6 +35,9 @@ CREATE OR replace TRIGGER real_world_testing_results_summary_by_developer_report
 DROP TRIGGER IF EXISTS real_world_testing_results_summary_by_developer_report_last_modified_user_constraint ON openchpl.real_world_testing_results_summary_by_developer_report;
 CREATE CONSTRAINT TRIGGER real_world_testing_results_summary_by_developer_report_last_modified_user_constraint AFTER INSERT OR UPDATE ON openchpl.real_world_testing_results_summary_by_developer_report DEFERRABLE INITIALLY DEFERRED FOR EACH ROW EXECUTE PROCEDURE openchpl.last_modified_user_constraint();
 
+
+ALTER TABLE openchpl.report_metadata ALTER COLUMN report_key DROP NOT NULL;
+
 --
 -- Add report metadata for the new dashboard report in all environments
 --
