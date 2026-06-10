@@ -36,24 +36,6 @@ DROP TRIGGER IF EXISTS real_world_testing_results_summary_by_developer_report_la
 CREATE CONSTRAINT TRIGGER real_world_testing_results_summary_by_developer_report_last_modified_user_constraint AFTER INSERT OR UPDATE ON openchpl.real_world_testing_results_summary_by_developer_report DEFERRABLE INITIALLY DEFERRED FOR EACH ROW EXECUTE PROCEDURE openchpl.last_modified_user_constraint();
 
 --
--- Another ticket in the queue removes the report_key field, but in the meantime it does not allow null. 
--- I don't want to set it in the SQL below in case it has been removed, so using this below block of SQL to allow it to be null it if exists.
---
-
-DO $$ 
-BEGIN 
-    IF EXISTS (
-        SELECT 1 
-        FROM information_schema.columns 
-        WHERE table_schema = 'openchpl'
-		AND table_name = 'report_metadata' 
-        AND column_name = 'report_key'
-    ) THEN 
-        ALTER TABLE openchpl.report_metadata ALTER COLUMN report_key DROP NOT NULL;
-    END IF;
-END $$;
-
---
 -- Add report metadata for the new dashboard report in all environments
 --
 
