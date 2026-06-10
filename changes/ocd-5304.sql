@@ -1,5 +1,4 @@
-ALTER TABLE openchpl.report_metadata
-DROP COLUMN report_key;
+ALTER TABLE openchpl.report_metadata ALTER COLUMN report_key DROP NOT NULL;
 
 UPDATE openchpl.report_metadata
 SET title = 'Service Base URL List'
