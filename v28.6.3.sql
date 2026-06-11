@@ -1,3 +1,6 @@
+-- Deployment file for version 28.6.3
+--     as of 2026-06-08
+-- ./changes/ocd-5258.sql
 --
 -- Update heights on some dashboard report metadata
 --
@@ -155,4 +158,8 @@ WHERE NOT EXISTS (
         SELECT * FROM openchpl.report_metadata_role_map 
 		WHERE report_metadata_id = (SELECT id FROM openchpl.report_metadata WHERE environment = 'PROD' AND report_key = 'Nonconformities' AND report_group = 'onc-dashboard') 
 		AND role_name = 'chpl-onc' 
-);
+);;
+insert into openchpl.data_model_version (version, deploy_date, last_modified_user) values ('28.6.3', '2026-06-08', -1);
+\i dev/openchpl_soft-delete.sql
+\i dev/openchpl_views.sql
+\i dev/openchpl_grant-all.sql
