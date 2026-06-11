@@ -47,7 +47,7 @@ SELECT 'DEV',
         'Real World Testing',
         'onc-dashboard', 
         'https://app.powerbi.com/view?r=eyJrIjoiNWMyOWQxNGYtNDU4YS00OTFhLTk3ODMtYmMwNjBjMTIxZDljIiwidCI6IjMwN2QyMTJhLWZiODYtNDgwNy04NGRkLTg2Nzc2OWI4MDQyYSIsImMiOjF9',
-        '525px',
+        '365px',
         '6498c4f8-b0f1-70b5-55de-d84faae73402'
 WHERE NOT EXISTS (
         SELECT * FROM openchpl.report_metadata WHERE environment = 'DEV' AND title = 'Real World Testing' AND report_group = 'onc-dashboard' 
@@ -58,7 +58,7 @@ SELECT 'QA',
         'Real World Testing',
         'onc-dashboard', 
         'https://app.powerbi.com/view?r=eyJrIjoiOTI5MWE1OGYtNTBhNC00YTIyLWFiZGItZWQzNTViMGJlMDhiIiwidCI6IjMwN2QyMTJhLWZiODYtNDgwNy04NGRkLTg2Nzc2OWI4MDQyYSIsImMiOjF9',
-        '525px',
+        '365px',
         '6498c4f8-b0f1-70b5-55de-d84faae73402'
 WHERE NOT EXISTS (
         SELECT * FROM openchpl.report_metadata WHERE environment = 'QA' AND title = 'Real World Testing' AND report_group = 'onc-dashboard' 
@@ -69,7 +69,7 @@ SELECT 'STG',
         'Real World Testing',
         'onc-dashboard', 
         'https://app.powerbi.com/view?r=eyJrIjoiZTNiMzg2NWYtODlhZi00MjZkLWExOGQtYTg4MzNmZDQ2NTQwIiwidCI6IjMwN2QyMTJhLWZiODYtNDgwNy04NGRkLTg2Nzc2OWI4MDQyYSIsImMiOjF9',
-        '525px',
+        '365px',
         '6498c4f8-b0f1-70b5-55de-d84faae73402'
 WHERE NOT EXISTS (
         SELECT * FROM openchpl.report_metadata WHERE environment = 'STG' AND title = 'Real World Testing' AND report_group = 'onc-dashboard' 
@@ -80,7 +80,7 @@ SELECT 'PROD',
         'Real World Testing',
         'onc-dashboard', 
         'https://app.powerbi.com/view?r=eyJrIjoiZmViOGY4YzctM2M4Zi00ZDMwLWEwYTQtZDRkMTA2ODk5ODk4IiwidCI6IjMwN2QyMTJhLWZiODYtNDgwNy04NGRkLTg2Nzc2OWI4MDQyYSIsImMiOjF9',
-        '525px',
+        '365px',
         '6498c4f8-b0f1-70b5-55de-d84faae73402'
 WHERE NOT EXISTS (
         SELECT * FROM openchpl.report_metadata WHERE environment = 'PROD' AND title = 'Real World Testing' AND report_group = 'onc-dashboard' 
