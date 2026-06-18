@@ -11,7 +11,7 @@ SELECT 'DEV',
         'Surveillance Activities',
         'onc-dashboard', 
         'https://app.powerbi.com/view?r=eyJrIjoiZDNkNjJjMDAtM2JlMy00Yjg3LTgxYjgtMTRhODQxNDJlZmFhIiwidCI6IjMwN2QyMTJhLWZiODYtNDgwNy04NGRkLTg2Nzc2OWI4MDQyYSIsImMiOjF9',
-        '375px',
+        '450px',
         '6498c4f8-b0f1-70b5-55de-d84faae73402'
 WHERE NOT EXISTS (
         SELECT * FROM openchpl.report_metadata WHERE environment = 'DEV' AND title = 'Surveillance Activities' AND report_group = 'onc-dashboard' 
@@ -22,7 +22,7 @@ SELECT 'QA',
         'Surveillance Activities',
         'onc-dashboard', 
         'https://app.powerbi.com/view?r=eyJrIjoiMjQ4ZjAyZmUtNmJiMy00NGE0LThiOTItM2E3MmU2NzZiM2Y3IiwidCI6IjMwN2QyMTJhLWZiODYtNDgwNy04NGRkLTg2Nzc2OWI4MDQyYSIsImMiOjF9',
-        '375px',
+        '450px',
         '6498c4f8-b0f1-70b5-55de-d84faae73402'
 WHERE NOT EXISTS (
         SELECT * FROM openchpl.report_metadata WHERE environment = 'QA' AND title = 'Surveillance Activities' AND report_group = 'onc-dashboard' 
@@ -33,7 +33,7 @@ SELECT 'STG',
         'Surveillance Activities',
         'onc-dashboard', 
         'https://app.powerbi.com/view?r=eyJrIjoiYzZhYjkzMDktNWFkOS00MDZiLWFmNWYtMWE4NzBmYmRmODZmIiwidCI6IjMwN2QyMTJhLWZiODYtNDgwNy04NGRkLTg2Nzc2OWI4MDQyYSIsImMiOjF9',
-        '375px',
+        '450px',
         '6498c4f8-b0f1-70b5-55de-d84faae73402'
 WHERE NOT EXISTS (
         SELECT * FROM openchpl.report_metadata WHERE environment = 'STG' AND title = 'Surveillance Activities' AND report_group = 'onc-dashboard' 
@@ -44,7 +44,7 @@ SELECT 'PROD',
         'Surveillance Activities',
         'onc-dashboard', 
         'https://app.powerbi.com/view?r=eyJrIjoiY2IwN2I5NTctZjc0MS00NDQ5LTllMDktZDM3Njk2NjJhZGEwIiwidCI6IjMwN2QyMTJhLWZiODYtNDgwNy04NGRkLTg2Nzc2OWI4MDQyYSIsImMiOjF9',
-        '375px',
+        '450px',
         '6498c4f8-b0f1-70b5-55de-d84faae73402'
 WHERE NOT EXISTS (
         SELECT * FROM openchpl.report_metadata WHERE environment = 'PROD' AND title = 'Surveillance Activities' AND report_group = 'onc-dashboard' 
