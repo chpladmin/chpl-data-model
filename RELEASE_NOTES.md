@@ -1,5 +1,13 @@
 # Release Notes
 
+## Version 28.7.0
+_22 June 2026_
+
+### Features
+* Remove report_key field; rename some reports
+
+---
+
 ## Version 28.6.3
 _8 June 2026_
 
