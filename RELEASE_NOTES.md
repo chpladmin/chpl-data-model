@@ -1,5 +1,17 @@
 # Release Notes
 
+## Version 28.8.0
+_6 July 2026_
+
+### Features
+* Add tables for Real World Testing Results by Developer
+
+### Data Changes
+* Add report metadata for Updated Criteria Status Report on the Compliance Dashboard
+* Add report metadata for Real World Testing Report on the Compliance Dashboard
+
+---
+
 ## Version 28.7.0
 _22 June 2026_
 
