@@ -1,5 +1,13 @@
 # Release Notes
 
+## Version 28.8.1
+_20 July 2026_
+
+### Data Changes
+* Add metadata for Surveillance Activities ONC report
+
+---
+
 ## Version 28.8.0
 _6 July 2026_
 
