@@ -7,7 +7,7 @@ INSERT INTO openchpl.report_metadata (environment, title, report_group, url, hei
 SELECT 'DEV', 
         'Direct Review Non-conformities',
         'onc-dashboard', 
-		'https://app.powerbi.com/view?r=eyJrIjoiZjRkYTBjNzctZTcwMy00MjNmLTk3NWEtYzQ3NmY1NzVjZjMyIiwidCI6IjMwN2QyMTJhLWZiODYtNDgwNy04NGRkLTg2Nzc2OWI4MDQyYSIsImMiOjF9',
+		'https://app.powerbi.com/view?r=eyJrIjoiNTFhYTQ0NmUtODIwNS00ZWVkLWEzMzItZWM4NzU1ZmMxZGEwIiwidCI6IjMwN2QyMTJhLWZiODYtNDgwNy04NGRkLTg2Nzc2OWI4MDQyYSIsImMiOjF9',
         '600px',
         '6498c4f8-b0f1-70b5-55de-d84faae73402'
 WHERE NOT EXISTS (
@@ -18,7 +18,7 @@ INSERT INTO openchpl.report_metadata (environment, title, report_group, url, hei
 SELECT 'QA', 
         'Direct Review Non-conformities',
         'onc-dashboard', 
-		'https://app.powerbi.com/view?r=eyJrIjoiNDUzNDM0NjAtOTU3OS00Yzg0LWJkYTctYTQwOTI0NTRmNmMyIiwidCI6IjMwN2QyMTJhLWZiODYtNDgwNy04NGRkLTg2Nzc2OWI4MDQyYSIsImMiOjF9', 
+		'https://app.powerbi.com/view?r=eyJrIjoiYmE3MDg5MDUtNGJmOS00ZjgyLThkNTctYTE5YmE1Mzc1ODcxIiwidCI6IjMwN2QyMTJhLWZiODYtNDgwNy04NGRkLTg2Nzc2OWI4MDQyYSIsImMiOjF9', 
         '600px',
         '6498c4f8-b0f1-70b5-55de-d84faae73402'
 WHERE NOT EXISTS (
@@ -29,7 +29,7 @@ INSERT INTO openchpl.report_metadata (environment, title, report_group, url, hei
 SELECT 'STG', 
         'Direct Review Non-conformities',
         'onc-dashboard', 
-		'https://app.powerbi.com/view?r=eyJrIjoiNzA2ZTIwMDMtYTk5YS00NjU2LTgzMjEtY2I5M2Q3ODc2NDIwIiwidCI6IjMwN2QyMTJhLWZiODYtNDgwNy04NGRkLTg2Nzc2OWI4MDQyYSIsImMiOjF9', 
+		'https://app.powerbi.com/view?r=eyJrIjoiMGM3NWUyNTUtMGNiOS00YzZhLWI5M2ItNWU3MDhlZTU0MGE4IiwidCI6IjMwN2QyMTJhLWZiODYtNDgwNy04NGRkLTg2Nzc2OWI4MDQyYSIsImMiOjF9', 
         '600px',
         '6498c4f8-b0f1-70b5-55de-d84faae73402'
 WHERE NOT EXISTS (
@@ -40,7 +40,7 @@ INSERT INTO openchpl.report_metadata (environment, title, report_group, url, hei
 SELECT 'PROD', 
         'Direct Review Non-conformities',
         'onc-dashboard', 
-		'https://app.powerbi.com/view?r=eyJrIjoiMmRmMzQ0N2YtMDY2My00OGFkLWJlZWYtZGRkZTQ1ZTRkOGRkIiwidCI6IjMwN2QyMTJhLWZiODYtNDgwNy04NGRkLTg2Nzc2OWI4MDQyYSIsImMiOjF9',
+		'https://app.powerbi.com/view?r=eyJrIjoiNzJkZDhiZTItYzc2YS00YjQ2LTk0NGUtNmNkNzdmZWQ2ZWRiIiwidCI6IjMwN2QyMTJhLWZiODYtNDgwNy04NGRkLTg2Nzc2OWI4MDQyYSIsImMiOjF9',
         '600px',
         '6498c4f8-b0f1-70b5-55de-d84faae73402'
 WHERE NOT EXISTS (
