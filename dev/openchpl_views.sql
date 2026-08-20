@@ -104,6 +104,108 @@ CREATE OR REPLACE FUNCTION openchpl.get_current_certification_status_event_id(id
     $$ LANGUAGE plpgsql
 stable;
 
+CREATE OR REPLACE FUNCTION openchpl.get_code_sets_up_to_date(cert_result_id bigint, as_of_date date) 
+  RETURNS BOOLEAN AS $$
+	DECLARE
+		v_certification_criteria_id bigint;
+		v_required_code_set_ids REFCURSOR;
+		v_required_code_set_id INT; 
+		v_exists BOOLEAN;
+	BEGIN
+		SELECT certification_criterion_id INTO v_certification_criteria_id
+		FROM openchpl.certification_result
+		WHERE certification_result_id = cert_result_id;
+
+		 -- Get all required code sets for this criteria as of the date provided
+		OPEN v_required_code_set_ids FOR 
+			SELECT DISTINCT csm.code_set_id 
+			FROM openchpl.code_set_criteria_map csm 
+			JOIN openchpl.code_set cs ON cs.id = csm.code_set_id
+			WHERE csm.certification_criterion_id = v_certification_criteria_id 
+			AND cs.start_day <= as_of_date
+			AND cs.required_day < as_of_date;
+
+		-- Loop through every required code set to determine if all are present
+		LOOP
+			FETCH v_required_code_set_ids INTO v_required_code_set_id;
+			EXIT WHEN NOT FOUND; -- Safe exit if empty or when finished
+
+			-- Check if the current ID exists in the other table
+			SELECT EXISTS (
+				SELECT 1 
+				FROM openchpl.certification_result_code_set 
+				WHERE code_set_id = v_required_code_set_id
+				AND certification_result_id = cert_result_id
+				AND deleted = false
+			) INTO v_exists;
+
+			-- Break early and return FALSE if a match is missing
+			IF NOT v_exists THEN
+				CLOSE v_required_code_set_ids; -- Always clean up the cursor
+				RETURN FALSE;
+			END IF;
+		END LOOP;
+
+		-- Close cursor and return TRUE (all records matched, or cursor was empty)
+		CLOSE v_required_code_set_ids;
+		RETURN TRUE;
+
+	END;
+    $$ LANGUAGE plpgsql
+stable;
+
+CREATE OR REPLACE FUNCTION openchpl.get_functionality_tested_up_to_date(cert_result_id bigint, as_of_date date) 
+  RETURNS BOOLEAN AS $$
+	DECLARE
+		v_certification_criteria_id bigint;
+		v_required_functionality_tested_ids REFCURSOR;
+		v_required_functionality_tested_id INT; 
+		v_exists BOOLEAN;
+	BEGIN
+		SELECT certification_criterion_id INTO v_certification_criteria_id
+		FROM openchpl.certification_result
+		WHERE certification_result_id = cert_result_id;
+
+		 -- Get all required functionality tested for this criteria as of the date provided
+		OPEN v_required_functionality_tested_ids FOR 
+			SELECT DISTINCT ftm.functionality_tested_id 
+			FROM openchpl.functionality_tested_criteria_map ftm 
+			JOIN openchpl.functionality_tested ft ON ft.id = ftm.functionality_tested_id
+			WHERE ftm.criteria_id = v_certification_criteria_id 
+			AND ft.start_day <= as_of_date
+			AND ft.required_day IS NOT null
+			AND ft.required_day < as_of_date
+			AND (ft.end_day IS NULL OR ft.end_day > as_of_date);
+
+		-- Loop through every required functionality tested to determine if all are present
+		LOOP
+			FETCH v_required_functionality_tested_ids INTO v_required_functionality_tested_id;
+			EXIT WHEN NOT FOUND; -- Safe exit if empty or when finished
+
+			-- Check if the current ID exists in the other table
+			SELECT EXISTS (
+				SELECT 1 
+				FROM openchpl.certification_result_functionality_tested
+				WHERE functionality_tested_id = v_required_functionality_tested_id
+				AND certification_result_id = cert_result_id
+				AND deleted = false
+			) INTO v_exists;
+
+			-- Break early and return FALSE if a match is missing
+			IF NOT v_exists THEN
+				CLOSE v_required_functionality_tested_ids; -- Always clean up the cursor
+				RETURN FALSE;
+			END IF;
+		END LOOP;
+
+		-- Close cursor and return TRUE (all records matched, or cursor was empty)
+		CLOSE v_required_functionality_tested_ids;
+		RETURN TRUE;
+
+	END;
+    $$ LANGUAGE plpgsql
+stable;
+
 CREATE OR REPLACE FUNCTION openchpl.get_active_listings_for_developer_during_period(developer_id bigint, period_start date, period_end date) RETURNS
     TABLE (
         active_certified_product_id bigint
