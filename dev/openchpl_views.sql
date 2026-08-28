@@ -104,24 +104,18 @@ CREATE OR REPLACE FUNCTION openchpl.get_current_certification_status_event_id(id
     $$ LANGUAGE plpgsql
 stable;
 
-CREATE OR REPLACE FUNCTION openchpl.get_code_sets_up_to_date(cert_result_id bigint, as_of_date date) 
+CREATE OR REPLACE FUNCTION openchpl.get_code_sets_up_to_date(v_certification_criterion_id bigint, cert_result_code_set_ids bigint[], as_of_date date) 
   RETURNS BOOLEAN AS $$
 	DECLARE
-		v_certification_criteria_id bigint;
 		v_required_code_set_ids bigint[];
-		v_required_code_set_id bigint; 
 		v_exists BOOLEAN;
 	BEGIN
-		SELECT certification_criterion_id INTO v_certification_criteria_id
-		FROM openchpl.certification_result
-		WHERE certification_result_id = cert_result_id;
-
 		 -- Get all required code sets for this criteria as of the date provided
 		SELECT DISTINCT ARRAY_AGG(csm.code_set_id)
 		INTO v_required_code_set_ids
 		FROM openchpl.code_set_criteria_map csm 
 		JOIN openchpl.code_set cs ON cs.id = csm.code_set_id
-		WHERE csm.certification_criterion_id = v_certification_criteria_id 
+		WHERE csm.certification_criterion_id = v_certification_criterion_id 
 		AND cs.deleted = false
 		AND csm.deleted = false
 		AND cs.start_day <= as_of_date
@@ -130,47 +124,26 @@ CREATE OR REPLACE FUNCTION openchpl.get_code_sets_up_to_date(cert_result_id bigi
 		IF v_required_code_set_ids IS NULL THEN 
 			RETURN TRUE;
 		END IF;
-		
-		-- Loop through every required code set to determine if all are present
-		FOREACH v_required_code_set_id IN ARRAY v_required_code_set_ids LOOP
-			-- Check if the cert result has the required code set
-			SELECT EXISTS (
-				SELECT 1 
-				FROM openchpl.certification_result_code_set 
-				WHERE code_set_id = v_required_code_set_id
-				AND certification_result_id = cert_result_id
-				AND deleted = false
-			) INTO v_exists;
 
-			-- Break early and return FALSE if a code set is missing
-			IF NOT v_exists THEN
-				RETURN FALSE;
-			END IF;
-		END LOOP;
-
-		RETURN TRUE;
+		-- Check if all of the required code set ids exist on the cert result
+		SELECT COALESCE(cert_result_code_set_ids, ARRAY[]::bigint[]) @> COALESCE(v_required_code_set_ids, ARRAY[]::bigint[]) INTO v_exists;
+		RETURN v_exists;
 	END;
     $$ LANGUAGE plpgsql
 stable;
 
-CREATE OR REPLACE FUNCTION openchpl.get_functionality_tested_up_to_date(cert_result_id bigint, as_of_date date) 
+CREATE OR REPLACE FUNCTION openchpl.get_functionality_tested_up_to_date(v_certification_criterion_id bigint, cert_result_functionality_tested_ids bigint[], as_of_date date) 
   RETURNS BOOLEAN AS $$
 	DECLARE
-		v_certification_criteria_id bigint;
 		v_required_functionality_tested_ids bigint[];
-		v_required_functionality_tested_id bigint; 
 		v_exists BOOLEAN;
 	BEGIN
-		SELECT certification_criterion_id INTO v_certification_criteria_id
-		FROM openchpl.certification_result
-		WHERE certification_result_id = cert_result_id;
-
 		 -- Get all required functionality tested for this criteria as of the date provided
 		SELECT DISTINCT ARRAY_AGG(ftm.functionality_tested_id)
 		INTO v_required_functionality_tested_ids
 		FROM openchpl.functionality_tested_criteria_map ftm 
 		JOIN openchpl.functionality_tested ft ON ft.id = ftm.functionality_tested_id
-		WHERE ftm.criteria_id = v_certification_criteria_id
+		WHERE ftm.criteria_id = v_certification_criterion_id
 		AND ft.deleted = false
 		AND ftm.deleted = false
 		AND ft.start_day <= as_of_date
@@ -182,46 +155,26 @@ CREATE OR REPLACE FUNCTION openchpl.get_functionality_tested_up_to_date(cert_res
 			RETURN TRUE;
 		END IF;
 		
-		-- Loop through every required functionality tested to determine if all are present
-		FOREACH v_required_functionality_tested_id IN ARRAY v_required_functionality_tested_ids LOOP
-			-- Check if the cert result has the required functionality tested
-			SELECT EXISTS (
-				SELECT 1 
-				FROM openchpl.certification_result_functionality_tested
-				WHERE functionality_tested_id = v_required_functionality_tested_id
-				AND certification_result_id = cert_result_id
-				AND deleted = false
-			) INTO v_exists;
-
-			-- Break early and return FALSE if a code set is missing
-			IF NOT v_exists THEN
-				RETURN FALSE;
-			END IF;
-		END LOOP;
-
-		RETURN TRUE;
+		-- Check if all of the required functionality tested ids exist on the cert result
+		SELECT COALESCE(cert_result_functionality_tested_ids, ARRAY[]::bigint[]) @> COALESCE(v_required_functionality_tested_ids, ARRAY[]::bigint[]) INTO v_exists;
+		RETURN v_exists;
 	END;
     $$ LANGUAGE plpgsql
 stable;
 
-CREATE OR REPLACE FUNCTION openchpl.get_baseline_standards_up_to_date(cert_result_id bigint, as_of_date date) 
+CREATE OR REPLACE FUNCTION openchpl.get_baseline_standards_up_to_date(v_certification_criterion_id bigint, cert_result_standard_ids bigint[], as_of_date date) 
   RETURNS BOOLEAN AS $$
 	DECLARE
-		v_certification_criteria_id bigint;
 		v_required_baseline_standard_ids bigint[];
-		v_required_baseline_standard_id bigint; 
 		v_exists BOOLEAN;
 	BEGIN
-		SELECT certification_criterion_id INTO v_certification_criteria_id
-		FROM openchpl.certification_result
-		WHERE certification_result_id = cert_result_id;
 
 		 -- Get all required baseline standards for this criteria as of the date provided
 		SELECT DISTINCT ARRAY_AGG(scm.standard_id)
 		INTO v_required_baseline_standard_ids
 		FROM openchpl.standard_criteria_map scm 
 		JOIN openchpl.standard s ON s.id = scm.standard_id
-		WHERE scm.certification_criterion_id = v_certification_criteria_id 
+		WHERE scm.certification_criterion_id = v_certification_criterion_id 
 		AND s.deleted = false
 		AND scm.deleted = false
 		AND s.group_name IS NULL
@@ -234,48 +187,28 @@ CREATE OR REPLACE FUNCTION openchpl.get_baseline_standards_up_to_date(cert_resul
 			RETURN TRUE;
 		END IF;
 
-		-- Loop through every required baseline standard to determine if all are present
-		FOREACH v_required_baseline_standard_id IN ARRAY v_required_baseline_standard_ids LOOP
-			-- Check if the cert result has the required standard
-			SELECT EXISTS (
-				SELECT 1 
-				FROM openchpl.certification_result_standard
-				WHERE standard_id = v_required_baseline_standard_id
-				AND certification_result_id = cert_result_id
-				AND deleted = false
-			) INTO v_exists;
-
-			-- Break early and return FALSE if a code set is missing
-			IF NOT v_exists THEN
-				RETURN FALSE;
-			END IF;
-		END LOOP;
-
-		RETURN TRUE;
+		-- Check if all of the baseline standard ids exist on the cert result
+		SELECT COALESCE(cert_result_standard_ids, ARRAY[]::bigint[]) @> COALESCE(v_required_baseline_standard_ids, ARRAY[]::bigint[]) INTO v_exists;
+		RETURN v_exists;
 	END;
     $$ LANGUAGE plpgsql
 stable;
 
-CREATE OR REPLACE FUNCTION openchpl.get_grouped_standards_up_to_date(cert_result_id bigint, as_of_date date) 
+CREATE OR REPLACE FUNCTION openchpl.get_grouped_standards_up_to_date(v_certification_criterion_id bigint, cert_result_standard_ids bigint[], as_of_date date) 
   RETURNS BOOLEAN AS $$
 	DECLARE
-		v_certification_criteria_id bigint;
 		v_standard_group_names text[];
 		v_standard_group_name text;
 		v_standards_in_group_ids bigint[];
-		v_standard_in_group_id bigint; 
 		v_exists BOOLEAN;
 	BEGIN
-		SELECT certification_criterion_id INTO v_certification_criteria_id
-		FROM openchpl.certification_result
-		WHERE certification_result_id = cert_result_id;
 
 		-- Get the set of standard group names that could be applicable to this criterion
 		SELECT DISTINCT ARRAY_AGG(s.group_name)
 		INTO v_standard_group_names
 		FROM openchpl.standard_criteria_map scm 
 		JOIN openchpl.standard s ON s.id = scm.standard_id
-		WHERE scm.certification_criterion_id = v_certification_criteria_id 
+		WHERE scm.certification_criterion_id = v_certification_criterion_id 
 		AND s.group_name IS NOT NULL
 		AND s.deleted = false
 		AND scm.deleted = false;
@@ -290,7 +223,7 @@ CREATE OR REPLACE FUNCTION openchpl.get_grouped_standards_up_to_date(cert_result
 			INTO v_standards_in_group_ids
 			FROM openchpl.standard_criteria_map scm 
 			JOIN openchpl.standard s ON s.id = scm.standard_id
-			WHERE scm.certification_criterion_id = v_certification_criteria_id 
+			WHERE scm.certification_criterion_id = v_certification_criterion_id 
 			AND s.group_name = v_standard_group_name
 			AND s.deleted = false
 			and scm.deleted = false
@@ -303,21 +236,15 @@ CREATE OR REPLACE FUNCTION openchpl.get_grouped_standards_up_to_date(cert_result
 				RETURN TRUE;
 			END IF;
 			
-			-- Check if any of the standard ids exist on the cert result
-			SELECT EXISTS (
-				SELECT 1 
-				FROM openchpl.certification_result_standard
-				WHERE standard_id = ANY(v_standards_in_group_ids)
-				AND certification_result_id = cert_result_id
-				AND deleted = false
-			) INTO v_exists;
+			-- Check if any of the standard ids from the group exist on the cert result
+			SELECT COALESCE(v_standards_in_group_ids, ARRAY[]::bigint[]) && COALESCE(cert_result_standard_ids,ARRAY[]::bigint[]) INTO v_exists;
 
-			-- Break early and return FALSE if a match is missing
+			-- Break early and return FALSE if there is no standard from this group
 			IF NOT v_exists THEN
 				RETURN FALSE;
 			END IF;
 		END LOOP;
-		
+
 		RETURN TRUE;
 	END;
     $$ LANGUAGE plpgsql
@@ -326,12 +253,53 @@ stable;
 CREATE OR REPLACE FUNCTION openchpl.is_up_to_date(cert_result_id bigint, as_of_date date) 
   RETURNS BOOLEAN AS $$
 	  DECLARE
+	  	v_certification_criterion_id bigint;
+		v_cert_result_standard_ids bigint[];
+		v_cert_result_functionality_tested_ids bigint[];
+		v_cert_result_code_set_ids bigint[];
+	BEGIN
+		SELECT certification_criterion_id INTO v_certification_criterion_id
+		FROM openchpl.certification_result
+		WHERE certification_result_id = cert_result_id;
+		
+		SELECT array_agg(standard_id)::bigint[] INTO v_cert_result_standard_ids
+		FROM openchpl.certification_result_standard
+		WHERE certification_result_id = cert_result_id
+		AND deleted = false;
+		
+		SELECT array_agg(functionality_tested_id)::bigint[] INTO v_cert_result_functionality_tested_ids
+		FROM openchpl.certification_result_functionality_tested
+		WHERE certification_result_id = cert_result_id
+		AND deleted = false;
+		
+		SELECT array_agg(code_set_id)::bigint[] INTO v_cert_result_code_set_ids
+		FROM openchpl.certification_result_code_set 
+		WHERE certification_result_id = cert_result_id
+		AND deleted = false;
+				
+		RETURN openchpl.is_up_to_date(v_certification_criterion_id, 
+			v_cert_result_standard_ids, 
+			v_cert_result_functionality_tested_ids, 
+			v_cert_result_code_set_ids, 
+			as_of_date);
+	END;
+    $$ LANGUAGE plpgsql
+stable;
+
+CREATE OR REPLACE FUNCTION openchpl.is_up_to_date(
+	v_certification_criterion_id bigint, 
+	v_cert_result_standard_ids bigint[], 
+	v_cert_result_functionality_tested_ids bigint[], 
+	v_cert_result_code_set_ids bigint[], 
+	as_of_date date) 
+  RETURNS BOOLEAN AS $$
+	DECLARE
 		v_result BOOLEAN;
 	BEGIN
-		SELECT openchpl.get_grouped_standards_up_to_date(cert_result_id, as_of_date) 
-		   AND openchpl.get_baseline_standards_up_to_date(cert_result_id, as_of_date) 
-		   AND openchpl.get_functionality_tested_up_to_date(cert_result_id, as_of_date)
-		   AND openchpl.get_code_sets_up_to_date(cert_result_id, as_of_date)
+		SELECT openchpl.get_grouped_standards_up_to_date(v_certification_criterion_id, v_cert_result_standard_ids, as_of_date) 
+		   AND openchpl.get_baseline_standards_up_to_date(v_certification_criterion_id, v_cert_result_standard_ids, as_of_date) 
+		   AND openchpl.get_functionality_tested_up_to_date(v_certification_criterion_id, v_cert_result_functionality_tested_ids, as_of_date)
+		   AND openchpl.get_code_sets_up_to_date(v_certification_criterion_id, v_cert_result_code_set_ids, as_of_date)
 		INTO v_result;
 
 		RETURN v_result;
@@ -433,7 +401,8 @@ SELECT
 	a.risk_management_summary_information,
     a.privacy_security_framework,
     b.number,
-    b.title
+    b.title,
+	openchpl.is_up_to_date(a.certification_result_id, CURRENT_DATE) as is_up_to_date_today
 FROM openchpl.certification_result a
     LEFT JOIN (SELECT certification_criterion_id, number, title FROM openchpl.certification_criterion) b
     ON a.certification_criterion_id = b.certification_criterion_id;
