@@ -1,3 +1,6 @@
+-- Deployment file for version 28.8.2
+--     as of 2026-08-31
+-- ./changes/ocd-5345.sql
 --
 -- Add the Compliance Dashboard Direct Review report
 -- This will fall under the onc-dashboard group which we can use later to query only those charts
@@ -129,4 +132,8 @@ WHERE NOT EXISTS (
         SELECT * FROM openchpl.report_metadata_role_map 
 		WHERE report_metadata_id = (SELECT id FROM openchpl.report_metadata WHERE environment = 'PROD' AND title = 'Direct Review Non-conformities' AND report_group = 'onc-dashboard') 
 		AND role_name = 'chpl-onc' 
-);
+);;
+insert into openchpl.data_model_version (version, deploy_date, last_modified_user) values ('28.8.2', '2026-08-31', -1);
+\i dev/openchpl_soft-delete.sql
+\i dev/openchpl_views.sql
+\i dev/openchpl_grant-all.sql

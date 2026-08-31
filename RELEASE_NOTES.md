@@ -1,5 +1,13 @@
 # Release Notes
 
+## Version 28.8.2
+_31 August 2026_
+
+### Data Changes
+* Add metadata for Compliance Dashboard Direct Review report
+
+---
+
 ## Version 28.8.1
 _20 July 2026_
 
