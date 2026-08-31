@@ -1117,7 +1117,9 @@ CREATE VIEW openchpl.certified_product_summary AS
     cp.sed_testing_end,
     cp.acb_certification_id,
     cp.practice_type_id,
+	pt.name as practice_type_name,
     cp.product_classification_type_id,
+	pc.name as product_classification_name,
     cp.product_additional_software,
     cp.other_acb,
     cp.mandatory_disclosures,
@@ -1157,6 +1159,8 @@ CREATE VIEW openchpl.certified_product_summary AS
     cb.website AS certification_body_website
    FROM openchpl.certified_product cp
      LEFT JOIN openchpl.certification_edition ce ON cp.certification_edition_id = ce.certification_edition_id
+	 LEFT JOIN openchpl.practice_type pt ON cp.practice_type_id = pt.practice_type_id 
+	 LEFT JOIN openchpl.product_classification_type pc ON cp.product_classification_type_id = pc.product_classification_type_id
 	 LEFT JOIN ( SELECT min(certification_status_event.event_date) AS certification_date,
             certification_status_event.certified_product_id
            FROM openchpl.certification_status_event
