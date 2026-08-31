@@ -111,7 +111,7 @@ CREATE OR REPLACE FUNCTION openchpl.get_code_sets_up_to_date(v_certification_cri
 		v_exists BOOLEAN;
 	BEGIN
 		 -- Get all required code sets for this criteria as of the date provided
-		SELECT DISTINCT ARRAY_AGG(csm.code_set_id)
+		SELECT ARRAY_AGG(DISTINCT csm.code_set_id)
 		INTO v_required_code_set_ids
 		FROM openchpl.code_set_criteria_map csm 
 		JOIN openchpl.code_set cs ON cs.id = csm.code_set_id
@@ -139,7 +139,7 @@ CREATE OR REPLACE FUNCTION openchpl.get_functionality_tested_up_to_date(v_certif
 		v_exists BOOLEAN;
 	BEGIN
 		 -- Get all required functionality tested for this criteria as of the date provided
-		SELECT DISTINCT ARRAY_AGG(ftm.functionality_tested_id)
+		SELECT ARRAY_AGG(DISTINCT ftm.functionality_tested_id)
 		INTO v_required_functionality_tested_ids
 		FROM openchpl.functionality_tested_criteria_map ftm 
 		JOIN openchpl.functionality_tested ft ON ft.id = ftm.functionality_tested_id
@@ -170,7 +170,7 @@ CREATE OR REPLACE FUNCTION openchpl.get_baseline_standards_up_to_date(v_certific
 	BEGIN
 
 		 -- Get all required baseline standards for this criteria as of the date provided
-		SELECT DISTINCT ARRAY_AGG(scm.standard_id)
+		SELECT ARRAY_AGG(DISTINCT scm.standard_id)
 		INTO v_required_baseline_standard_ids
 		FROM openchpl.standard_criteria_map scm 
 		JOIN openchpl.standard s ON s.id = scm.standard_id
@@ -204,7 +204,7 @@ CREATE OR REPLACE FUNCTION openchpl.get_grouped_standards_up_to_date(v_certifica
 	BEGIN
 
 		-- Get the set of standard group names that could be applicable to this criterion
-		SELECT DISTINCT ARRAY_AGG(s.group_name)
+		SELECT ARRAY_AGG(DISTINCT s.group_name)
 		INTO v_standard_group_names
 		FROM openchpl.standard_criteria_map scm 
 		JOIN openchpl.standard s ON s.id = scm.standard_id
@@ -219,7 +219,7 @@ CREATE OR REPLACE FUNCTION openchpl.get_grouped_standards_up_to_date(v_certifica
 		
 		FOREACH v_standard_group_name IN ARRAY v_standard_group_names LOOP
 			-- Get all active standards in this group as of the date provided
-			SELECT DISTINCT ARRAY_AGG(scm.standard_id)
+			SELECT ARRAY_AGG(DISTINCT scm.standard_id)
 			INTO v_standards_in_group_ids
 			FROM openchpl.standard_criteria_map scm 
 			JOIN openchpl.standard s ON s.id = scm.standard_id
