@@ -1,6 +1,6 @@
 INSERT INTO openchpl.cqm_version (version, last_modified_user)
 SELECT 'v16', -1
-WHERE NOT EXISTS (SELECT version FROM openchpl.cqm_version WHERE version = 'v15');
+WHERE NOT EXISTS (SELECT version FROM openchpl.cqm_version WHERE version = 'v16');
 
 drop function if exists openchpl.add_version_to_cqm;
 
@@ -90,10 +90,9 @@ SELECT openchpl.add_version_to_cqm('CMS1154', 'v2', 'v1');
 
 drop function openchpl.add_version_to_cqm;
 
--- title has "\&"; is that right?
 INSERT INTO openchpl.cqm_criterion (cms_id, title, description, cqm_domain, last_modified_sso_user, cqm_version_id, cqm_criterion_type_id, retired)
   SELECT 'CMS1244FHIR',
-	'Emergency Care Access \& Timeliness (HOQR)FHIR',
+	'Emergency Care Access & Timeliness (HOQR) FHIR',
 	'This measure assesses the variation in access and timeliness of emergency care to support hospital quality improvement for patients requiring emergency care in an emergency department (ED). This measure is designed to align with incentives to promote improved care both in EDs and the broader health system to help identify where patients do not receive timely access to emergency care. Emergency care access and timeliness gaps are inclusive of several concepts pertaining to boarding and crowding in an ED, including significantly longer ED wait times, higher left without being seen rates, longer boarding times, and longer total length of stay in the ED.',
 	'Outcome',
 	'6498c4f8-b0f1-70b5-55de-d84faae73402',
@@ -102,11 +101,10 @@ INSERT INTO openchpl.cqm_criterion (cms_id, title, description, cqm_domain, last
 	false
   WHERE NOT EXISTS (select * from openchpl.cqm_criterion where cms_ID = 'CMS1244FHIR');
 
--- no description in document; is that right?
 INSERT INTO openchpl.cqm_criterion (cms_id, title, description, cqm_domain, last_modified_sso_user, cqm_version_id, cqm_criterion_type_id, retired)
   SELECT 'CMS1244',
 	'Emergency Care Access & Timeliness (HOQR)',
-	'',
+	'This measure assesses the proportion of ED encounters for patients who experience at least one emergency care access or timeliness gap. Emergency care access and timeliness gaps are inclusive of several concepts pertaining to boarding and crowding in an ED, including significantly longer ED wait times, higher left without being seen rates, longer boarding times, and longer total length of stay in the ED.',
 	'Outcome',
 	'6498c4f8-b0f1-70b5-55de-d84faae73402',
 	(SELECT cqm_version_id FROM openchpl.cqm_version WHERE version = 'v2'),
@@ -114,11 +112,9 @@ INSERT INTO openchpl.cqm_criterion (cms_id, title, description, cqm_domain, last
 	false
   WHERE NOT EXISTS (select * from openchpl.cqm_criterion where cms_ID = 'CMS1244');
 
--- title has "\&"; is that right?
--- does "FHIR" have one "I" or two?
 INSERT INTO openchpl.cqm_criterion (cms_id, title, description, cqm_domain, last_modified_sso_user, cqm_version_id, cqm_criterion_type_id, retired)
-  SELECT 'CMS1264FHIIR',
-	'Emergency Care Access \& Timeliness (REHQR)FHIR',
+  SELECT 'CMS1264FHIR',
+	'Emergency Care Access & Timeliness (REHQR) FHIR',
 	'This measure assesses the variation in access and timeliness of emergency care to support rural emergency hospital (REH) quality improvement for patients requiring emergency care in an emergency department (ED). This measure is designed to align with incentives to promote improved care both in EDs and the broader health system to help identify where patients do not receive timely access to emergency care. Emergency care access and timeliness gaps are inclusive of several concepts pertaining to boarding and crowding in an ED, including significantly longer ED wait times, higher left without being seen rates, longer boarding times, and longer total length of stay in the ED.',
 	'Immediate Outcome',
 	'6498c4f8-b0f1-70b5-55de-d84faae73402',
@@ -127,49 +123,25 @@ INSERT INTO openchpl.cqm_criterion (cms_id, title, description, cqm_domain, last
 	false
   WHERE NOT EXISTS (select * from openchpl.cqm_criterion where cms_ID = 'CMS1264FHIIR');
 
--- title has "\&"; is that right?
 INSERT INTO openchpl.cqm_criterion (cms_id, title, description, cqm_domain, last_modified_sso_user, cqm_version_id, cqm_criterion_type_id, retired)
   SELECT 'CMS1264',
-	'Emergency Care Access \& Timeliness (REHQR)FHIR',
+	'Emergency Care Access & Timeliness (REHQR)',
 	'This measure assesses the variation in access and timeliness of emergency care to support rural emergency hospital (REH) quality improvement for patients requiring emergency care in an emergency department (ED). This measure is designed to align with incentives to promote improved care both in EDs and the broader health system to help identify where patients do not receive timely access to emergency care. Emergency care access and timeliness gaps are inclusive of several concepts pertaining to boarding and crowding in an ED, including significantly longer ED wait times, higher left without being seen rates, longer boarding times, and longer total length of stay in the ED.',
 	'Immediate Outcome',
 	'6498c4f8-b0f1-70b5-55de-d84faae73402',
-	(SELECT cqm_version_id FROM openchpl.cqm_version WHERE version = 'v1'),
+	(SELECT cqm_version_id FROM openchpl.cqm_version WHERE version = 'v2'),
 	(select cqm_criterion_type_id from openchpl.cqm_criterion_type where name = 'Ambulatory'),
 	false
   WHERE NOT EXISTS (select * from openchpl.cqm_criterion where cms_ID = 'CMS1264');
 
--- no criterion type (ambulatory vs. inpatient)
---INSERT INTO openchpl.cqm_criterion (cms_id, title, description, cqm_domain, last_modified_sso_user, cqm_version_id, retired)
---  SELECT 'CMS1154',
---	'Screening for Abnormal Glucose Metabolism in Patients at Risk of Developing Diabetes',
---	'Percentage of adult patients with risk factors for type 2 diabetes who are due for glycemic screening for whom the screening process was completed during the measurement period.',
---	'Process',
---	'6498c4f8-b0f1-70b5-55de-d84faae73402',
---	(SELECT cqm_version_id FROM openchpl.cqm_version WHERE version = 'v2'),
---	false
---  WHERE NOT EXISTS (select * from openchpl.cqm_criterion where cms_ID = 'CMS1154' AND cqm_version_id = (SELECT cqm_version_id FROM openchpl.cqm_version WHERE version = 'v2'));
 
--- no criterion type (ambulatory vs. inpatient)
--- already exists?
---INSERT INTO openchpl.cqm_criterion (cms_id, title, description, cqm_domain, last_modified_sso_user, cqm_version_id, retired)
---  SELECT 'CMS1154',
---	'Screening for Abnormal Glucose Metabolism in Patients at Risk of Developing Diabetes',
---	'Percentage of adult patients with risk factors for type 2 diabetes who are due for glycemic screening for whom the screening process was completed during the measurement period.',
---	'Process',
---	'6498c4f8-b0f1-70b5-55de-d84faae73402',
---	(SELECT cqm_version_id FROM openchpl.cqm_version WHERE version = 'v1'),
---	false
---  WHERE NOT EXISTS (select * from openchpl.cqm_criterion where cms_ID = 'CMS1154' AND cqm_version_id = (SELECT cqm_version_id FROM openchpl.cqm_version WHERE version = 'v1'));
-
--- no criterion type (ambulatory vs. inpatient)
--- title looks odd with "FHIR" appended to the end
-INSERT INTO openchpl.cqm_criterion (cms_id, title, description, cqm_domain, last_modified_sso_user, cqm_version_id, retired)
+INSERT INTO openchpl.cqm_criterion (cms_id, title, description, cqm_domain, last_modified_sso_user, cqm_version_id, cqm_criterion_type_id, retired)
   SELECT 'CMS1154FHIR',
-	'Screening for Abnormal Glucose Metabolism in Patients at Risk of Developing DiabetesFHIR',
+	'Screening for Abnormal Glucose Metabolism in Patients at Risk of Developing Diabetes FHIR',
 	'Percentage of adult patients with risk factors for type 2 diabetes who are due for glycemic screening for whom the screening process was completed during the measurement period.',
 	'Process',
 	'6498c4f8-b0f1-70b5-55de-d84faae73402',
 	(SELECT cqm_version_id FROM openchpl.cqm_version WHERE version = 'v1'),
+	(select cqm_criterion_type_id from openchpl.cqm_criterion_type where name = 'Ambulatory'),
 	false
   WHERE NOT EXISTS (select * from openchpl.cqm_criterion where cms_ID = 'CMS1154FHIR');
