@@ -204,7 +204,7 @@ CREATE OR REPLACE FUNCTION openchpl.get_grouped_standards_up_to_date(v_certifica
 	BEGIN
 
 		-- Get the set of standard group names that could be applicable to this criterion
-		SELECT ARRAY_AGG(DISTINCT s.group_name)
+		SELECT NULLIF(ARRAY_AGG(DISTINCT s.group_name), ARRAY[''])
 		INTO v_standard_group_names
 		FROM openchpl.standard_criteria_map scm 
 		JOIN openchpl.standard s ON s.id = scm.standard_id
@@ -228,8 +228,6 @@ CREATE OR REPLACE FUNCTION openchpl.get_grouped_standards_up_to_date(v_certifica
 			AND s.deleted = false
 			and scm.deleted = false
 			AND s.start_day <= as_of_date
-			AND s.required_day IS NOT null
-			AND s.required_day < as_of_date
 			AND (s.end_day IS NULL OR s.end_day > as_of_date);
 			
 			IF v_standards_in_group_ids IS NULL THEN 
@@ -401,8 +399,7 @@ SELECT
 	a.risk_management_summary_information,
     a.privacy_security_framework,
     b.number,
-    b.title,
-	openchpl.is_up_to_date(a.certification_result_id, CURRENT_DATE) as is_up_to_date_today
+    b.title
 FROM openchpl.certification_result a
     LEFT JOIN (SELECT certification_criterion_id, number, title FROM openchpl.certification_criterion) b
     ON a.certification_criterion_id = b.certification_criterion_id;
