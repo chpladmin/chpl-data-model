@@ -126,7 +126,7 @@ INSERT INTO openchpl.cqm_criterion (cms_id, title, description, cqm_domain, last
 INSERT INTO openchpl.cqm_criterion (cms_id, title, description, cqm_domain, last_modified_sso_user, cqm_version_id, cqm_criterion_type_id, retired)
   SELECT 'CMS1264',
 	'Emergency Care Access & Timeliness (REHQR)',
-	'This measure assesses the variation in access and timeliness of emergency care to support rural emergency hospital (REH) quality improvement for patients requiring emergency care in an emergency department (ED). This measure is designed to align with incentives to promote improved care both in EDs and the broader health system to help identify where patients do not receive timely access to emergency care. Emergency care access and timeliness gaps are inclusive of several concepts pertaining to boarding and crowding in an ED, including significantly longer ED wait times, higher left without being seen rates, longer boarding times, and longer total length of stay in the ED.',
+	'This measure assesses the proportion of ED encounters for patients who experience at least one emergency care access or timeliness gap. Emergency care access and timeliness gaps are inclusive of several concepts pertaining to boarding and crowding in an ED, including significantly longer ED wait times, higher left without being seen rates, longer boarding times, and longer total length of stay in the ED.',
 	'Immediate Outcome',
 	'6498c4f8-b0f1-70b5-55de-d84faae73402',
 	(SELECT cqm_version_id FROM openchpl.cqm_version WHERE version = 'v2'),
