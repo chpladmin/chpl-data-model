@@ -24,7 +24,7 @@ SELECT openchpl.add_version_to_cqm('CMS22', 'v15', 'v14');
 SELECT openchpl.add_version_to_cqm('CMS50', 'v15', 'v14');
 SELECT openchpl.add_version_to_cqm('CMS56', 'v15', 'v14');
 SELECT openchpl.add_version_to_cqm('CMS68', 'v16', 'v15');
-SELECT openchpl.add_version_to_cqm('CMS69', 'v15', 'v16');
+SELECT openchpl.add_version_to_cqm('CMS69', 'v15', 'v14');
 SELECT openchpl.add_version_to_cqm('CMS74', 'v16', 'v15');
 SELECT openchpl.add_version_to_cqm('CMS75', 'v15', 'v14');
 SELECT openchpl.add_version_to_cqm('CMS90', 'v16', 'v15');
