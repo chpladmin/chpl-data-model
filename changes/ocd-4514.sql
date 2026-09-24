@@ -7,7 +7,7 @@ SELECT 'DEV',
         'Questionable Activity',
         'onc-dashboard', 
 		'https://app.powerbi.com/view?r=eyJrIjoiMjEzNTIxYWYtY2YzMC00NjIxLWE0NTktZDllNTczNDg0MzgzIiwidCI6IjMwN2QyMTJhLWZiODYtNDgwNy04NGRkLTg2Nzc2OWI4MDQyYSIsImMiOjF9',
-        '600px',
+        '685px',
         '6498c4f8-b0f1-70b5-55de-d84faae73402'
 WHERE NOT EXISTS (
         SELECT * FROM openchpl.report_metadata WHERE environment = 'DEV' AND title = 'Questionable Activity' AND report_group = 'onc-dashboard' 
@@ -18,7 +18,7 @@ SELECT 'QA',
         'Questionable Activity',
         'onc-dashboard', 
 		'https://app.powerbi.com/view?r=eyJrIjoiYzc1MTQxOWQtYWU0MS00NzNiLTgyZDAtYTlhYmNiNWY4MmJhIiwidCI6IjMwN2QyMTJhLWZiODYtNDgwNy04NGRkLTg2Nzc2OWI4MDQyYSIsImMiOjF9', 
-        '600px',
+        '685px',
         '6498c4f8-b0f1-70b5-55de-d84faae73402'
 WHERE NOT EXISTS (
         SELECT * FROM openchpl.report_metadata WHERE environment = 'QA' AND title = 'Questionable Activity' AND report_group = 'onc-dashboard' 
@@ -29,7 +29,7 @@ SELECT 'STG',
         'Questionable Activity',
         'onc-dashboard', 
 		'https://app.powerbi.com/view?r=eyJrIjoiOGVkNTBjZTQtZDgzYS00NzM1LThjY2YtNTgxNzhhMDZiNWM2IiwidCI6IjMwN2QyMTJhLWZiODYtNDgwNy04NGRkLTg2Nzc2OWI4MDQyYSIsImMiOjF9', 
-        '600px',
+        '685px',
         '6498c4f8-b0f1-70b5-55de-d84faae73402'
 WHERE NOT EXISTS (
         SELECT * FROM openchpl.report_metadata WHERE environment = 'STG' AND title = 'Questionable Activity' AND report_group = 'onc-dashboard' 
@@ -40,7 +40,7 @@ SELECT 'PROD',
         'Questionable Activity',
         'onc-dashboard', 
 		'https://app.powerbi.com/view?r=eyJrIjoiZDBkYWI3NTctYTMwNy00MDA4LTgxYjUtOGJhOGY3OWM2MmMxIiwidCI6IjMwN2QyMTJhLWZiODYtNDgwNy04NGRkLTg2Nzc2OWI4MDQyYSIsImMiOjF9',
-        '600px',
+        '685px',
         '6498c4f8-b0f1-70b5-55de-d84faae73402'
 WHERE NOT EXISTS (
         SELECT * FROM openchpl.report_metadata WHERE environment = 'PROD' AND title = 'Questionable Activity' AND report_group = 'onc-dashboard' 
