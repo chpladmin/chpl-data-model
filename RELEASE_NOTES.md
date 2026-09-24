@@ -1,5 +1,16 @@
 # Release Notes
 
+## Version 28.9.0
+_14 September 2026_
+
+### Features
+* Add functions for up-to-date attribute determination
+
+### Data Changes
+* Rename Non-conformities report on Compliance Dashboard
+
+---
+
 ## Version 28.8.2
 _31 August 2026_
 
