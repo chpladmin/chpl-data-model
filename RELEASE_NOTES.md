@@ -1,5 +1,13 @@
 # Release Notes
 
+## Version 28.9.1
+_28 September 2026_
+
+### Data Changes
+* Add CY2027 CQM data
+
+---
+
 ## Version 28.9.0
 _14 September 2026_
 
