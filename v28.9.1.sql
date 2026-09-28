@@ -1,3 +1,6 @@
+-- Deployment file for version 28.9.1
+--     as of 2026-09-28
+-- ./changes/ocd-5362.sql
 INSERT INTO openchpl.cqm_version (version, last_modified_user)
 SELECT 'v16', -1
 WHERE NOT EXISTS (SELECT version FROM openchpl.cqm_version WHERE version = 'v16');
@@ -145,3 +148,8 @@ INSERT INTO openchpl.cqm_criterion (cms_id, title, description, cqm_domain, last
 	(select cqm_criterion_type_id from openchpl.cqm_criterion_type where name = 'Ambulatory'),
 	false
   WHERE NOT EXISTS (select * from openchpl.cqm_criterion where cms_ID = 'CMS1154FHIR');
+;
+insert into openchpl.data_model_version (version, deploy_date, last_modified_user) values ('28.9.1', '2026-09-28', -1);
+\i dev/openchpl_soft-delete.sql
+\i dev/openchpl_views.sql
+\i dev/openchpl_grant-all.sql
