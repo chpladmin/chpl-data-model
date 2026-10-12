@@ -1,5 +1,14 @@
 # Release Notes
 
+## Version 28.9.2
+_12 October 2026_
+
+### Data Changes
+* Add report metadata for ONC Questionable Activities report
+* Update height of ONC Surveillance Activities report
+
+---
+
 ## Version 28.9.1
 _28 September 2026_
 
