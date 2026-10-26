@@ -1,6 +1,6 @@
 -- update height of RWT chart because of Plans removal
 UPDATE openchpl.report_metadata
-SET height = '475px'
+SET height = '550px'
 WHERE title = 'Real World Testing'
 AND report_group = 'charts';
 
