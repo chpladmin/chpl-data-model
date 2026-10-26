@@ -42,7 +42,7 @@ BEGIN
 		EXECUTE 'DROP TRIGGER IF EXISTS real_world_testing_results_summary_by_developer_report_timestamp ON openchpl.real_world_testing_results_summary_by_developer_report_pre_hti5';
 		EXECUTE 'CREATE OR REPLACE TRIGGER rwt_results_summary_by_developer_report_pre_hti5_timestamp BEFORE UPDATE on openchpl.real_world_testing_results_summary_by_developer_report_pre_hti5 FOR EACH ROW EXECUTE PROCEDURE openchpl.update_last_modified_date_column()';
 		EXECUTE 'DROP TRIGGER IF EXISTS real_world_testing_results_summary_by_developer_report_last_modified_user_constraint ON openchpl.real_world_testing_results_summary_by_developer_report_pre_hti5';
-		EXECUTE 'CREATE CONSTRAINT TRIGGER real_world_testing_results_summary_by_developer_report_pre_hti5_last_modified_user_constraint AFTER INSERT OR UPDATE ON openchpl.real_world_testing_results_summary_by_developer_report_pre_hti5 DEFERRABLE INITIALLY DEFERRED FOR EACH ROW EXECUTE PROCEDURE openchpl.last_modified_user_constraint()';
+		EXECUTE 'CREATE CONSTRAINT TRIGGER rwt_results_summary_by_developer_report_pre_hti5_last_modified_user_constraint AFTER INSERT OR UPDATE ON openchpl.real_world_testing_results_summary_by_developer_report_pre_hti5 DEFERRABLE INITIALLY DEFERRED FOR EACH ROW EXECUTE PROCEDURE openchpl.last_modified_user_constraint()';
     END IF;
 END $$;
 
