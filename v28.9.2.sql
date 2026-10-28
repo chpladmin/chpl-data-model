@@ -1,3 +1,6 @@
+-- Deployment file for version 28.9.2
+--     as of 2026-10-12
+-- ./changes/ocd-4514.sql
 --
 -- Add the Compliance Dashboard Questionable Activity report
 --
@@ -128,4 +131,14 @@ WHERE NOT EXISTS (
         SELECT * FROM openchpl.report_metadata_role_map 
 		WHERE report_metadata_id = (SELECT id FROM openchpl.report_metadata WHERE environment = 'PROD' AND title = 'Questionable Activity' AND report_group = 'onc-dashboard') 
 		AND role_name = 'chpl-onc' 
-);
+);;
+-- ./changes/ocd-5429.sql
+UPDATE openchpl.report_metadata
+SET height = '1560px'
+WHERE title = 'Surveillance Activities'
+AND report_group = 'onc-dashboard';
+;
+insert into openchpl.data_model_version (version, deploy_date, last_modified_user) values ('28.9.2', '2026-10-12', -1);
+\i dev/openchpl_soft-delete.sql
+\i dev/openchpl_views.sql
+\i dev/openchpl_grant-all.sql
