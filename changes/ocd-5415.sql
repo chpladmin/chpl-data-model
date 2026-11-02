@@ -141,7 +141,7 @@ SELECT (SELECT id FROM openchpl.report_metadata WHERE environment = 'DEV' AND ti
 WHERE NOT EXISTS (
         SELECT * FROM openchpl.report_metadata_role_map 
 		WHERE report_metadata_id = (SELECT id FROM openchpl.report_metadata WHERE environment = 'DEV' AND title = 'Real World Testing Results' AND report_group = 'charts') 
-		AND role_name = 'chpl-onc' 
+		AND role_name = 'chpl-onc-acb' 
 );
 
 INSERT INTO openchpl.report_metadata_role_map (report_metadata_id, role_name, last_modified_sso_user)
@@ -151,7 +151,7 @@ SELECT (SELECT id FROM openchpl.report_metadata WHERE environment = 'QA' AND tit
 WHERE NOT EXISTS (
         SELECT * FROM openchpl.report_metadata_role_map 
 		WHERE report_metadata_id = (SELECT id FROM openchpl.report_metadata WHERE environment = 'QA' AND title = 'Real World Testing Results' AND report_group = 'charts') 
-		AND role_name = 'chpl-onc' 
+		AND role_name = 'chpl-onc-acb' 
 );
 
 INSERT INTO openchpl.report_metadata_role_map (report_metadata_id, role_name, last_modified_sso_user)
@@ -161,7 +161,7 @@ SELECT (SELECT id FROM openchpl.report_metadata WHERE environment = 'STG' AND ti
 WHERE NOT EXISTS (
         SELECT * FROM openchpl.report_metadata_role_map 
 		WHERE report_metadata_id = (SELECT id FROM openchpl.report_metadata WHERE environment = 'STG' AND title = 'Real World Testing Results' AND report_group = 'charts') 
-		AND role_name = 'chpl-onc' 
+		AND role_name = 'chpl-onc-acb' 
 );
 
 INSERT INTO openchpl.report_metadata_role_map (report_metadata_id, role_name, last_modified_sso_user)
@@ -171,7 +171,7 @@ SELECT (SELECT id FROM openchpl.report_metadata WHERE environment = 'PROD' AND t
 WHERE NOT EXISTS (
         SELECT * FROM openchpl.report_metadata_role_map 
 		WHERE report_metadata_id = (SELECT id FROM openchpl.report_metadata WHERE environment = 'PROD' AND title = 'Real World Testing Results' AND report_group = 'charts') 
-		AND role_name = 'chpl-onc' 
+		AND role_name = 'chpl-onc-acb' 
 );
 
 -- Removal of RWT Plans Summaries
