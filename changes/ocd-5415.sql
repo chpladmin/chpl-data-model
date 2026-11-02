@@ -4,6 +4,176 @@ SET height = '550px'
 WHERE title = 'Real World Testing'
 AND report_group = 'charts';
 
+-- Add metadata for the new RWT Results chart 
+
+INSERT INTO openchpl.report_metadata (environment, title, report_group, url, height, last_modified_sso_user)
+SELECT 'DEV', 
+        'Real World Testing Results',
+        'charts', 
+        'https://app.powerbi.com/view?r=eyJrIjoiOWQwMjk3NGUtNzg1Ni00ZmYwLTlhZjQtMDI0MzVkMDE4MDRmIiwidCI6IjMwN2QyMTJhLWZiODYtNDgwNy04NGRkLTg2Nzc2OWI4MDQyYSIsImMiOjF9',
+        '875px',
+        '6498c4f8-b0f1-70b5-55de-d84faae73402'
+WHERE NOT EXISTS (
+        SELECT * FROM openchpl.report_metadata WHERE environment = 'DEV' AND title = 'Real World Testing Results' AND report_group = 'charts' 
+);
+
+INSERT INTO openchpl.report_metadata (environment, title, report_group, url, height, last_modified_sso_user)
+SELECT 'QA', 
+        'Real World Testing Results',
+        'charts', 
+        'https://app.powerbi.com/view?r=eyJrIjoiMTIzNDljNWEtN2E5OC00NDM0LWI5Y2UtNzIxNjVkZDdiZmM4IiwidCI6IjMwN2QyMTJhLWZiODYtNDgwNy04NGRkLTg2Nzc2OWI4MDQyYSIsImMiOjF9',
+        '875px',
+        '6498c4f8-b0f1-70b5-55de-d84faae73402'
+WHERE NOT EXISTS (
+        SELECT * FROM openchpl.report_metadata WHERE environment = 'QA' AND title = 'Real World Testing Results' AND report_group = 'charts' 
+);
+
+INSERT INTO openchpl.report_metadata (environment, title, report_group, url, height, last_modified_sso_user)
+SELECT 'STG', 
+        'Real World Testing Results',
+        'charts', 
+        'https://app.powerbi.com/view?r=eyJrIjoiMGVlNDEzNzUtZmQ0ZS00YTMyLTk5NmQtZmY1YWUwZTllZTNhIiwidCI6IjMwN2QyMTJhLWZiODYtNDgwNy04NGRkLTg2Nzc2OWI4MDQyYSIsImMiOjF9',
+        '875px',
+        '6498c4f8-b0f1-70b5-55de-d84faae73402'
+WHERE NOT EXISTS (
+        SELECT * FROM openchpl.report_metadata WHERE environment = 'STG' AND title = 'Real World Testing Results' AND report_group = 'charts' 
+);
+
+INSERT INTO openchpl.report_metadata (environment, title, report_group, url, height, last_modified_sso_user)
+SELECT 'PROD', 
+        'Real World Testing Results',
+        'charts', 
+        'https://app.powerbi.com/view?r=eyJrIjoiMjI4ZWI2ZjYtMDI2OC00N2U0LWI0NmMtMzk1NDlhZmI0MzIwIiwidCI6IjMwN2QyMTJhLWZiODYtNDgwNy04NGRkLTg2Nzc2OWI4MDQyYSIsImMiOjF9',
+        '875px',
+        '6498c4f8-b0f1-70b5-55de-d84faae73402'
+WHERE NOT EXISTS (
+        SELECT * FROM openchpl.report_metadata WHERE environment = 'PROD' AND title = 'Real World Testing Results' AND report_group = 'charts' 
+);
+
+--
+-- Add role mappings for the new report
+-- ADMIN, ONC, and ONC-ACB should have access
+--
+INSERT INTO openchpl.report_metadata_role_map (report_metadata_id, role_name, last_modified_sso_user)
+SELECT (SELECT id FROM openchpl.report_metadata WHERE environment = 'DEV' AND title = 'Real World Testing Results' AND report_group = 'charts'), 
+        'chpl-admin',
+        '6498c4f8-b0f1-70b5-55de-d84faae73402'
+WHERE NOT EXISTS (
+        SELECT * FROM openchpl.report_metadata_role_map 
+		WHERE report_metadata_id = (SELECT id FROM openchpl.report_metadata WHERE environment = 'DEV' AND title = 'Real World Testing Results' AND report_group = 'charts') 
+		AND role_name = 'chpl-admin' 
+);
+
+INSERT INTO openchpl.report_metadata_role_map (report_metadata_id, role_name, last_modified_sso_user)
+SELECT (SELECT id FROM openchpl.report_metadata WHERE environment = 'QA' AND title = 'Real World Testing Results' AND report_group = 'charts'), 
+        'chpl-admin',
+        '6498c4f8-b0f1-70b5-55de-d84faae73402'
+WHERE NOT EXISTS (
+        SELECT * FROM openchpl.report_metadata_role_map 
+		WHERE report_metadata_id = (SELECT id FROM openchpl.report_metadata WHERE environment = 'QA' AND title = 'Real World Testing Results' AND report_group = 'charts') 
+		AND role_name = 'chpl-admin' 
+);
+
+INSERT INTO openchpl.report_metadata_role_map (report_metadata_id, role_name, last_modified_sso_user)
+SELECT (SELECT id FROM openchpl.report_metadata WHERE environment = 'STG' AND title = 'Real World Testing Results' AND report_group = 'charts'), 
+        'chpl-admin',
+        '6498c4f8-b0f1-70b5-55de-d84faae73402'
+WHERE NOT EXISTS (
+        SELECT * FROM openchpl.report_metadata_role_map 
+		WHERE report_metadata_id = (SELECT id FROM openchpl.report_metadata WHERE environment = 'STG' AND title = 'Real World Testing Results' AND report_group = 'charts') 
+		AND role_name = 'chpl-admin' 
+);
+
+INSERT INTO openchpl.report_metadata_role_map (report_metadata_id, role_name, last_modified_sso_user)
+SELECT (SELECT id FROM openchpl.report_metadata WHERE environment = 'PROD' AND title = 'Real World Testing Results' AND report_group = 'charts'), 
+        'chpl-admin',
+        '6498c4f8-b0f1-70b5-55de-d84faae73402'
+WHERE NOT EXISTS (
+        SELECT * FROM openchpl.report_metadata_role_map 
+		WHERE report_metadata_id = (SELECT id FROM openchpl.report_metadata WHERE environment = 'PROD' AND title = 'Real World Testing Results' AND report_group = 'charts') 
+		AND role_name = 'chpl-admin' 
+);
+
+INSERT INTO openchpl.report_metadata_role_map (report_metadata_id, role_name, last_modified_sso_user)
+SELECT (SELECT id FROM openchpl.report_metadata WHERE environment = 'DEV' AND title = 'Real World Testing Results' AND report_group = 'charts'), 
+        'chpl-onc',
+        '6498c4f8-b0f1-70b5-55de-d84faae73402'
+WHERE NOT EXISTS (
+        SELECT * FROM openchpl.report_metadata_role_map 
+		WHERE report_metadata_id = (SELECT id FROM openchpl.report_metadata WHERE environment = 'DEV' AND title = 'Real World Testing Results' AND report_group = 'charts') 
+		AND role_name = 'chpl-onc' 
+);
+
+INSERT INTO openchpl.report_metadata_role_map (report_metadata_id, role_name, last_modified_sso_user)
+SELECT (SELECT id FROM openchpl.report_metadata WHERE environment = 'QA' AND title = 'Real World Testing Results' AND report_group = 'charts'), 
+        'chpl-onc',
+        '6498c4f8-b0f1-70b5-55de-d84faae73402'
+WHERE NOT EXISTS (
+        SELECT * FROM openchpl.report_metadata_role_map 
+		WHERE report_metadata_id = (SELECT id FROM openchpl.report_metadata WHERE environment = 'QA' AND title = 'Real World Testing Results' AND report_group = 'charts') 
+		AND role_name = 'chpl-onc' 
+);
+
+INSERT INTO openchpl.report_metadata_role_map (report_metadata_id, role_name, last_modified_sso_user)
+SELECT (SELECT id FROM openchpl.report_metadata WHERE environment = 'STG' AND title = 'Real World Testing Results' AND report_group = 'charts'), 
+        'chpl-onc',
+        '6498c4f8-b0f1-70b5-55de-d84faae73402'
+WHERE NOT EXISTS (
+        SELECT * FROM openchpl.report_metadata_role_map 
+		WHERE report_metadata_id = (SELECT id FROM openchpl.report_metadata WHERE environment = 'STG' AND title = 'Real World Testing Results' AND report_group = 'charts') 
+		AND role_name = 'chpl-onc' 
+);
+
+INSERT INTO openchpl.report_metadata_role_map (report_metadata_id, role_name, last_modified_sso_user)
+SELECT (SELECT id FROM openchpl.report_metadata WHERE environment = 'PROD' AND title = 'Real World Testing Results' AND report_group = 'charts'), 
+        'chpl-onc',
+        '6498c4f8-b0f1-70b5-55de-d84faae73402'
+WHERE NOT EXISTS (
+        SELECT * FROM openchpl.report_metadata_role_map 
+		WHERE report_metadata_id = (SELECT id FROM openchpl.report_metadata WHERE environment = 'PROD' AND title = 'Real World Testing Results' AND report_group = 'charts') 
+		AND role_name = 'chpl-onc' 
+);
+
+INSERT INTO openchpl.report_metadata_role_map (report_metadata_id, role_name, last_modified_sso_user)
+SELECT (SELECT id FROM openchpl.report_metadata WHERE environment = 'DEV' AND title = 'Real World Testing Results' AND report_group = 'charts'), 
+        'chpl-onc-acb',
+        '6498c4f8-b0f1-70b5-55de-d84faae73402'
+WHERE NOT EXISTS (
+        SELECT * FROM openchpl.report_metadata_role_map 
+		WHERE report_metadata_id = (SELECT id FROM openchpl.report_metadata WHERE environment = 'DEV' AND title = 'Real World Testing Results' AND report_group = 'charts') 
+		AND role_name = 'chpl-onc' 
+);
+
+INSERT INTO openchpl.report_metadata_role_map (report_metadata_id, role_name, last_modified_sso_user)
+SELECT (SELECT id FROM openchpl.report_metadata WHERE environment = 'QA' AND title = 'Real World Testing Results' AND report_group = 'charts'), 
+        'chpl-onc-acb',
+        '6498c4f8-b0f1-70b5-55de-d84faae73402'
+WHERE NOT EXISTS (
+        SELECT * FROM openchpl.report_metadata_role_map 
+		WHERE report_metadata_id = (SELECT id FROM openchpl.report_metadata WHERE environment = 'QA' AND title = 'Real World Testing Results' AND report_group = 'charts') 
+		AND role_name = 'chpl-onc' 
+);
+
+INSERT INTO openchpl.report_metadata_role_map (report_metadata_id, role_name, last_modified_sso_user)
+SELECT (SELECT id FROM openchpl.report_metadata WHERE environment = 'STG' AND title = 'Real World Testing Results' AND report_group = 'charts'), 
+        'chpl-onc-acb',
+        '6498c4f8-b0f1-70b5-55de-d84faae73402'
+WHERE NOT EXISTS (
+        SELECT * FROM openchpl.report_metadata_role_map 
+		WHERE report_metadata_id = (SELECT id FROM openchpl.report_metadata WHERE environment = 'STG' AND title = 'Real World Testing Results' AND report_group = 'charts') 
+		AND role_name = 'chpl-onc' 
+);
+
+INSERT INTO openchpl.report_metadata_role_map (report_metadata_id, role_name, last_modified_sso_user)
+SELECT (SELECT id FROM openchpl.report_metadata WHERE environment = 'PROD' AND title = 'Real World Testing Results' AND report_group = 'charts'), 
+        'chpl-onc-acb',
+        '6498c4f8-b0f1-70b5-55de-d84faae73402'
+WHERE NOT EXISTS (
+        SELECT * FROM openchpl.report_metadata_role_map 
+		WHERE report_metadata_id = (SELECT id FROM openchpl.report_metadata WHERE environment = 'PROD' AND title = 'Real World Testing Results' AND report_group = 'charts') 
+		AND role_name = 'chpl-onc' 
+);
+
 -- Removal of RWT Plans Summaries
 DROP TABLE IF EXISTS openchpl.real_world_testing_plan_summary_by_acb_report;
 
