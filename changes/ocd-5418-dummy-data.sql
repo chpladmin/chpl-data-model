@@ -37,35 +37,35 @@ WHERE certification_criterion_id = 60;
 
 -- a12
 UPDATE openchpl.certification_criterion
-SET end_day = '2026-11-03'
+SET end_day = '2026-11-05'
 WHERE certification_criterion_id = 12;
 
 -- c4
 UPDATE openchpl.certification_criterion
-SET end_day = '2026-11-03'
+SET end_day = '2026-11-05'
 WHERE certification_criterion_id = 28;
 
 -- e3
 UPDATE openchpl.certification_criterion
-SET end_day = '2026-11-03'
+SET end_day = '2026-11-05'
 WHERE certification_criterion_id = 42;
 
 -- g1
 UPDATE openchpl.certification_criterion
-SET end_day = '2026-11-03'
+SET end_day = '2026-11-05'
 WHERE certification_criterion_id = 50;
 
 -- g2
 UPDATE openchpl.certification_criterion
-SET end_day = '2026-11-03'
+SET end_day = '2026-11-05'
 WHERE certification_criterion_id = 51;
 
 -- g7
 UPDATE openchpl.certification_criterion
-SET end_day = '2026-11-03'
+SET end_day = '2026-11-05'
 WHERE certification_criterion_id = 56;
 
 -- g9
 UPDATE openchpl.certification_criterion
-SET end_day = '2026-11-03'
+SET end_day = '2026-11-05'
 WHERE certification_criterion_id = 181;
