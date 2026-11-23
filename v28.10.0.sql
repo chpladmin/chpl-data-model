@@ -1,3 +1,13 @@
+-- Deployment file for version 28.10.0
+--     as of 2026-11-23
+-- ./changes/ocd-5354.sql
+-- update height of Listing Attributes because of measures removal
+UPDATE openchpl.report_metadata
+SET height = '750px'
+WHERE title = 'Listing Attributes'
+AND report_group = 'charts';
+;
+-- ./changes/ocd-5415.sql
 -- update height of RWT chart because of Plans removal
 UPDATE openchpl.report_metadata
 SET height = '550px'
@@ -289,4 +299,14 @@ DROP TRIGGER IF EXISTS rwt_results_summary_by_developer_report_last_modified_use
 CREATE CONSTRAINT TRIGGER rwt_results_summary_by_developer_report_last_modified_user_constraint AFTER INSERT OR UPDATE ON openchpl.real_world_testing_results_summary_by_developer_report DEFERRABLE INITIALLY DEFERRED FOR EACH ROW EXECUTE PROCEDURE openchpl.last_modified_user_constraint();
 
 -- TODO
--- Add report_metadata for the new RWT Results Chart
+-- Add report_metadata for the new RWT Results Chart;
+-- ./changes/ocd-5511.sql
+UPDATE openchpl.report_metadata
+SET title = 'Direct Review Activities', height = '350px'
+WHERE title = 'Direct Review Non-conformities'
+AND report_group = 'onc-dashboard';
+;
+insert into openchpl.data_model_version (version, deploy_date, last_modified_user) values ('28.10.0', '2026-11-23', -1);
+\i dev/openchpl_soft-delete.sql
+\i dev/openchpl_views.sql
+\i dev/openchpl_grant-all.sql

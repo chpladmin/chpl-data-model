@@ -1,5 +1,19 @@
 # Release Notes
 
+## Version 28.10.0
+_23 November 2026_
+
+### Features
+* Adjust RWT reporting tables for HTI-5 requirements
+
+### Data Changes
+* Update height of Listing Attributes chart
+* Update height of Real World Testing chart
+* Update height and name of Direct Review Activities chart
+* Add report metadata for Real World Testing Results chart post HTI-5
+
+---
+
 ## Version 28.9.2
 _12 October 2026_
 
